@@ -26,37 +26,34 @@ jobs:
           echo "${{ secrets.OVH_HOST_KEY }}" >> ~/.ssh/known_hosts
 
       - name: Deploy via rsync
+        env:
+          SSH_CMD: ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=yes -p 22
+          REMOTE: ${{ secrets.OVH_USER }}@${{ secrets.OVH_HOST }}
         run: |
-          rsync -avz --delete \
-            --exclude='wp-config.php' \
-            --exclude='.htaccess' \
-            --exclude='.user.ini' \
-            --exclude='wp-content/cache/' \
-            --exclude='wp-content/uploads/' \
-            --exclude='wp-content/ai1wm-backups/' \
-            --exclude='wp-content/upgrade/' \
-            --exclude='wp-content/upgrade-temp-backup/' \
-            --exclude='wp-content/w3tc-config/' \
-            --exclude='wp-content/jetpack-waf/' \
-            -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=yes -p 22" \
+          # Themes — sync sans --delete pour ne pas casser les fichiers serveur
+          rsync -avz \
+            -e "$SSH_CMD" \
             app/public/wp-content/themes/ \
-            ${{ secrets.OVH_USER }}@${{ secrets.OVH_HOST }}:~/www/wp-content/themes/
+            ${REMOTE}:~/www/wp-content/themes/
 
-          rsync -avz --delete \
+          # Plugins — sync sans --delete (le serveur peut avoir des plugins hors repo)
+          rsync -avz \
             --exclude='google-listings-and-ads/' \
-            -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=yes -p 22" \
+            -e "$SSH_CMD" \
             app/public/wp-content/plugins/ \
-            ${{ secrets.OVH_USER }}@${{ secrets.OVH_HOST }}:~/www/wp-content/plugins/
+            ${REMOTE}:~/www/wp-content/plugins/
 
+          # Langues
           rsync -avz \
-            -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=yes -p 22" \
+            -e "$SSH_CMD" \
             app/public/wp-content/languages/ \
-            ${{ secrets.OVH_USER }}@${{ secrets.OVH_HOST }}:~/www/wp-content/languages/
+            ${REMOTE}:~/www/wp-content/languages/
 
+          # MU-plugins
           rsync -avz \
-            -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=yes -p 22" \
+            -e "$SSH_CMD" \
             app/public/wp-content/mu-plugins/ \
-            ${{ secrets.OVH_USER }}@${{ secrets.OVH_HOST }}:~/www/wp-content/mu-plugins/
+            ${REMOTE}:~/www/wp-content/mu-plugins/
 
       - name: Clear cache
         run: |
