@@ -1,0 +1,99 @@
+name: Deploy to OVH
+
+on:
+  push:
+    branches: [main, preprod, v2]
+    paths:
+      - 'app/public/wp-content/themes/**'
+      - 'app/public/wp-content/plugins/**'
+      - 'app/public/wp-content/languages/**'
+      - 'app/public/wp-content/mu-plugins/**'
+      - 'public/**'
+
+jobs:
+  deploy:
+    name: Deploy to OVH (${{ github.ref_name == 'main' && 'PROD' || github.ref_name == 'preprod' && 'PREPROD' || 'V2' }})
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Set deploy target
+        id: target
+        run: |
+          case "${{ github.ref_name }}" in
+            main)
+              echo "path=www" >> $GITHUB_OUTPUT
+              echo "env=production" >> $GITHUB_OUTPUT
+              echo "source=app/public/wp-content" >> $GITHUB_OUTPUT
+              ;;
+            preprod)
+              echo "path=preprod" >> $GITHUB_OUTPUT
+              echo "env=preprod" >> $GITHUB_OUTPUT
+              echo "source=app/public/wp-content" >> $GITHUB_OUTPUT
+              ;;
+            v2)
+              echo "path=v2" >> $GITHUB_OUTPUT
+              echo "env=v2" >> $GITHUB_OUTPUT
+              echo "source=public" >> $GITHUB_OUTPUT
+              ;;
+          esac
+
+      - name: Install SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.OVH_SSH_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          echo "${{ secrets.OVH_HOST_KEY }}" >> ~/.ssh/known_hosts
+
+      - name: Deploy via rsync (${{ steps.target.outputs.env }})
+        env:
+          SSH_CMD: ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=yes -p 22
+          REMOTE: ${{ secrets.OVH_USER }}@${{ secrets.OVH_HOST }}
+          TARGET: ${{ steps.target.outputs.path }}
+          SOURCE: ${{ steps.target.outputs.source }}
+        run: |
+          echo "Deploying ${SOURCE} to ~/${TARGET}/"
+
+          if [ "${{ github.ref_name }}" = "v2" ]; then
+            # V2 — deploy tout le dossier public/
+            if [ -d "${SOURCE}" ]; then
+              rsync -avz \
+                -e "$SSH_CMD" \
+                ${SOURCE}/ \
+                ${REMOTE}:~/${TARGET}/
+            else
+              echo "No public/ directory found, skipping"
+            fi
+          else
+            # Prod/Preprod — deploy wp-content
+            rsync -avz \
+              -e "$SSH_CMD" \
+              ${SOURCE}/themes/ \
+              ${REMOTE}:~/${TARGET}/wp-content/themes/
+
+            rsync -avz \
+              --exclude='google-listings-and-ads/' \
+              -e "$SSH_CMD" \
+              ${SOURCE}/plugins/ \
+              ${REMOTE}:~/${TARGET}/wp-content/plugins/
+
+            rsync -avz \
+              -e "$SSH_CMD" \
+              ${SOURCE}/languages/ \
+              ${REMOTE}:~/${TARGET}/wp-content/languages/
+
+            rsync -avz \
+              -e "$SSH_CMD" \
+              ${SOURCE}/mu-plugins/ \
+              ${REMOTE}:~/${TARGET}/wp-content/mu-plugins/
+          fi
+
+      - name: Clear cache
+        env:
+          TARGET: ${{ steps.target.outputs.path }}
+        run: |
+          ssh -i ~/.ssh/deploy_key -p 22 \
+            ${{ secrets.OVH_USER }}@${{ secrets.OVH_HOST }} \
+            "rm -rf ~/${TARGET}/wp-content/cache/all/* 2>/dev/null; echo '${TARGET} cache cleared'"
