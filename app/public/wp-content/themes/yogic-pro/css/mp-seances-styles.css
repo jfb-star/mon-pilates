@@ -1,0 +1,930 @@
+/**
+ * Mon Pilates - Styles pages Séances (Individuelles & Petit Groupe)
+ * Design system premium, calme et bienveillant
+ *
+ * @package Yogic Pro / Mon Pilates
+ */
+
+/* ==========================================================================
+   VARIABLES & BASE
+   ========================================================================== */
+
+.mp-seances-page {
+    --mp-blue: #7FA8B6;
+    --mp-blue-dark: #5d8a9a;
+    --mp-blue-light: #a8c5cf;
+    --mp-rose: #CF317C;
+    --mp-rose-light: #e8a5c4;
+    --mp-rose-soft: rgba(207, 49, 124, 0.08);
+    --mp-warm: #d4a574;
+    --mp-warm-light: #e8d4c0;
+
+    --mp-text: #2d3748;
+    --mp-text-light: #5a6978;
+    --mp-text-muted: #718096;
+
+    --mp-bg-white: #ffffff;
+    --mp-bg-cream: #fdfcfa;
+    --mp-bg-soft: #f8f9fa;
+    --mp-bg-blue-soft: rgba(127, 168, 182, 0.06);
+
+    --mp-radius-sm: 8px;
+    --mp-radius-md: 16px;
+    --mp-radius-lg: 24px;
+    --mp-radius-xl: 32px;
+
+    --mp-shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.04);
+    --mp-shadow-card: 0 8px 30px rgba(0, 0, 0, 0.06);
+    --mp-shadow-blue: 0 4px 20px rgba(127, 168, 182, 0.15);
+
+    --mp-transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    font-family: 'Manrope', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--mp-bg-white);
+}
+
+/* ==========================================================================
+   MASQUER LA BANNIÈRE SUR CES PAGES
+   ========================================================================== */
+
+body.page-template-template-parts-template-seance-individuelle-php .innerbanner,
+body.page-template-template-seance-individuelle .innerbanner,
+body[class*="template-seance-individuelle"] .innerbanner,
+body.page-seances-individuelles .innerbanner,
+body[class*="seances-individuelles"] .innerbanner,
+body.page-template-template-parts-template-seance-groupe-php .innerbanner,
+body.page-template-template-seance-groupe .innerbanner,
+body[class*="template-seance-groupe"] .innerbanner,
+body.page-seances-petit-groupe .innerbanner,
+body[class*="seances-petit-groupe"] .innerbanner,
+body[class*="petit-groupe"] .innerbanner {
+    display: none !important;
+}
+
+/* ==========================================================================
+   PAGE CONTAINER
+   ========================================================================== */
+
+.mp-seances-page {
+    margin-top: 85px;
+    overflow-x: hidden;
+}
+
+/* ==========================================================================
+   HERO SECTION
+   ========================================================================== */
+
+.mp-seances-page .mp-hero {
+    padding: 100px 24px 80px;
+    text-align: center;
+    background: linear-gradient(180deg, var(--mp-bg-soft) 0%, var(--mp-bg-white) 100%);
+}
+
+.mp-hero-inner {
+    max-width: 720px;
+    margin: 0 auto;
+}
+
+.mp-hero-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 80px;
+    background: white;
+    border-radius: 50%;
+    margin-bottom: 32px;
+    box-shadow: var(--mp-shadow-blue);
+}
+
+.mp-hero-title {
+    font-size: clamp(32px, 5vw, 48px);
+    font-weight: 600;
+    color: var(--mp-text);
+    margin: 0 0 24px;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+}
+
+.mp-hero-subtitle {
+    font-size: clamp(17px, 2.5vw, 20px);
+    line-height: 1.7;
+    color: var(--mp-text-light);
+    margin: 0;
+    max-width: 620px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Phrase de guidance discrète */
+.mp-hero-hint {
+    font-size: 14px;
+    color: var(--mp-text-muted);
+    margin-top: 28px;
+    opacity: 0.8;
+    font-style: italic;
+}
+
+/* Badge dans le hero */
+.mp-hero-badge {
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--mp-blue-dark);
+    background: rgba(127, 168, 182, 0.15);
+    padding: 8px 18px;
+    border-radius: 50px;
+    margin-top: 24px;
+    border: 1px solid rgba(127, 168, 182, 0.25);
+}
+
+/* CTA discret dans le hero */
+.mp-hero-cta {
+    margin-top: 28px;
+}
+
+/* Bouton outline */
+.mp-btn-outline {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 24px;
+    font-size: 15px;
+    font-weight: 500;
+    text-decoration: none;
+    border-radius: 50px;
+    background: transparent;
+    color: var(--mp-blue-dark);
+    border: 2px solid rgba(127, 168, 182, 0.4);
+    transition: all var(--mp-transition);
+}
+
+.mp-btn-outline:hover {
+    border-color: var(--mp-blue);
+    background: rgba(127, 168, 182, 0.08);
+    color: var(--mp-blue-dark);
+}
+
+/* Variante Hero Individuel */
+.mp-hero-individuel {
+    background: linear-gradient(180deg, rgba(127, 168, 182, 0.08) 0%, var(--mp-bg-white) 100%);
+}
+
+/* Variante Hero Groupe */
+.mp-hero-groupe {
+    background: linear-gradient(180deg, rgba(207, 49, 124, 0.04) 0%, rgba(127, 168, 182, 0.06) 50%, var(--mp-bg-white) 100%);
+}
+
+/* ==========================================================================
+   CONTENT CONTAINER
+   ========================================================================== */
+
+.mp-content-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* ==========================================================================
+   SECTIONS - BASE
+   ========================================================================== */
+
+.mp-section {
+    padding: 80px 24px;
+}
+
+.mp-section-alt {
+    background: var(--mp-bg-soft);
+}
+
+.mp-section-inner {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.mp-section-header {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.mp-section-title {
+    font-size: clamp(26px, 4vw, 36px);
+    font-weight: 600;
+    color: var(--mp-text);
+    margin: 0 0 20px;
+    letter-spacing: -0.02em;
+}
+
+.mp-section-title-centered {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.mp-section-intro {
+    font-size: 18px;
+    line-height: 1.7;
+    color: var(--mp-text-light);
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+/* Phrase anti-objection directe */
+.mp-direct-reassurance {
+    text-align: center;
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--mp-blue-dark);
+    background: rgba(127, 168, 182, 0.1);
+    padding: 16px 24px;
+    border-radius: var(--mp-radius-md);
+    max-width: 600px;
+    margin: 0 auto 40px;
+    border-left: 4px solid var(--mp-blue);
+}
+
+/* ==========================================================================
+   PROFILES GRID (À qui s'adresse)
+   ========================================================================== */
+
+.mp-profiles-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+}
+
+.mp-profile-card {
+    background: white;
+    border-radius: var(--mp-radius-lg);
+    padding: 32px 28px;
+    box-shadow: var(--mp-shadow-soft);
+    transition: transform var(--mp-transition), box-shadow var(--mp-transition);
+}
+
+.mp-profile-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--mp-shadow-card);
+}
+
+.mp-profile-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    margin-bottom: 20px;
+}
+
+.mp-profile-card .mp-profile-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--mp-text);
+    margin: 0 0 14px;
+    line-height: 1.4;
+}
+
+.mp-profile-card p {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--mp-text-light);
+    margin: 0;
+}
+
+/* Variantes couleurs profils - Individuel */
+.mp-profile-blue-light {
+    border-top: 3px solid var(--mp-blue);
+}
+.mp-profile-blue-light .mp-profile-icon {
+    background: rgba(127, 168, 182, 0.12);
+    color: var(--mp-blue-dark);
+}
+
+.mp-profile-rose-light {
+    border-top: 3px solid var(--mp-rose);
+}
+.mp-profile-rose-light .mp-profile-icon {
+    background: rgba(207, 49, 124, 0.1);
+    color: var(--mp-rose);
+}
+
+.mp-profile-warm-light {
+    border-top: 3px solid var(--mp-warm);
+}
+.mp-profile-warm-light .mp-profile-icon {
+    background: rgba(212, 165, 116, 0.15);
+    color: #b8875a;
+}
+
+/* Variantes couleurs profils - Groupe */
+.mp-profile-blue-soft {
+    background: linear-gradient(135deg, rgba(127, 168, 182, 0.08) 0%, white 100%);
+    border-left: 4px solid var(--mp-blue);
+}
+.mp-profile-blue-soft .mp-profile-icon {
+    background: rgba(127, 168, 182, 0.15);
+    color: var(--mp-blue-dark);
+}
+
+.mp-profile-rose-soft {
+    background: linear-gradient(135deg, rgba(207, 49, 124, 0.05) 0%, white 100%);
+    border-left: 4px solid var(--mp-rose);
+}
+.mp-profile-rose-soft .mp-profile-icon {
+    background: rgba(207, 49, 124, 0.1);
+    color: var(--mp-rose);
+}
+
+.mp-profile-warm-soft {
+    background: linear-gradient(135deg, rgba(212, 165, 116, 0.08) 0%, white 100%);
+    border-left: 4px solid var(--mp-warm);
+}
+.mp-profile-warm-soft .mp-profile-icon {
+    background: rgba(212, 165, 116, 0.15);
+    color: #b8875a;
+}
+
+/* ==========================================================================
+   TIMELINE STEPS (Individuel)
+   ========================================================================== */
+
+.mp-steps-timeline {
+    max-width: 650px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.mp-steps-timeline::before {
+    content: '';
+    position: absolute;
+    left: 20px;
+    top: 40px;
+    bottom: 40px;
+    width: 2px;
+    background: linear-gradient(180deg, var(--mp-blue) 0%, var(--mp-blue-light) 100%);
+    opacity: 0.3;
+}
+
+.mp-timeline-step {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 40px;
+    position: relative;
+}
+
+.mp-timeline-step:last-child {
+    margin-bottom: 0;
+}
+
+.mp-timeline-marker {
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+}
+
+.mp-timeline-number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    background: linear-gradient(135deg, var(--mp-blue) 0%, var(--mp-blue-dark) 100%);
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 50%;
+    box-shadow: var(--mp-shadow-blue);
+}
+
+.mp-timeline-content {
+    flex: 1;
+    padding-top: 6px;
+}
+
+.mp-timeline-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--mp-text);
+    margin: 0 0 10px;
+}
+
+.mp-timeline-content p {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--mp-text-light);
+    margin: 0;
+}
+
+/* ==========================================================================
+   VALUES GRID (Esprit groupe)
+   ========================================================================== */
+
+.mp-values-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 28px;
+}
+
+.mp-value-card {
+    text-align: center;
+    padding: 36px 28px;
+    background: white;
+    border-radius: var(--mp-radius-lg);
+    box-shadow: var(--mp-shadow-soft);
+    transition: transform var(--mp-transition);
+}
+
+.mp-value-card:hover {
+    transform: translateY(-4px);
+}
+
+.mp-value-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    background: var(--mp-bg-soft);
+    border-radius: 50%;
+    margin-bottom: 20px;
+    color: var(--mp-blue);
+}
+
+.mp-value-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--mp-text);
+    margin: 0 0 12px;
+}
+
+.mp-value-card p {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--mp-text-light);
+    margin: 0;
+}
+
+/* ==========================================================================
+   BENEFITS GRID (Pourquoi individuel)
+   ========================================================================== */
+
+.mp-benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 32px;
+}
+
+.mp-benefit-card {
+    text-align: center;
+    padding: 40px 24px;
+}
+
+.mp-benefit-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 70px;
+    height: 70px;
+    background: rgba(127, 168, 182, 0.1);
+    border-radius: 50%;
+    margin-bottom: 24px;
+}
+
+.mp-benefit-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--mp-text);
+    margin: 0 0 14px;
+}
+
+.mp-benefit-card p {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--mp-text-light);
+    margin: 0;
+}
+
+/* ==========================================================================
+   DÉROULEMENT GRID (Groupe)
+   ========================================================================== */
+
+.mp-deroulement-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 24px;
+}
+
+.mp-deroulement-card {
+    background: white;
+    border-radius: var(--mp-radius-lg);
+    padding: 32px 24px;
+    box-shadow: var(--mp-shadow-soft);
+    text-align: center;
+    transition: transform var(--mp-transition);
+}
+
+.mp-deroulement-card:hover {
+    transform: translateY(-4px);
+}
+
+.mp-deroulement-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, var(--mp-blue) 0%, var(--mp-blue-dark) 100%);
+    color: white;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 50%;
+    margin-bottom: 20px;
+    box-shadow: var(--mp-shadow-blue);
+}
+
+.mp-deroulement-title {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--mp-text);
+    margin: 0 0 12px;
+    line-height: 1.4;
+}
+
+.mp-deroulement-card p {
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--mp-text-light);
+    margin: 0;
+}
+
+/* ==========================================================================
+   IMAGE SECTIONS
+   ========================================================================== */
+
+.mp-section-image-full {
+    padding: 0;
+}
+
+.mp-full-image {
+    margin: 0;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+.mp-full-image img {
+    width: 100%;
+    height: auto;
+    border-radius: var(--mp-radius-xl);
+    box-shadow: var(--mp-shadow-card);
+    max-height: 500px;
+    object-fit: cover;
+}
+
+.mp-section-image-ambiance {
+    padding: 40px 24px;
+    background: var(--mp-bg-soft);
+}
+
+.mp-ambiance-image {
+    margin: 0;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.mp-ambiance-image img {
+    width: 100%;
+    height: auto;
+    border-radius: var(--mp-radius-xl);
+    box-shadow: var(--mp-shadow-card);
+    max-height: 450px;
+    object-fit: cover;
+}
+
+/* ==========================================================================
+   QUOTE SECTION
+   ========================================================================== */
+
+.mp-quote-section {
+    padding: 80px 24px;
+    background: linear-gradient(135deg, var(--mp-blue) 0%, var(--mp-blue-dark) 100%);
+    text-align: center;
+}
+
+.mp-quote-groupe {
+    background: linear-gradient(135deg, var(--mp-blue-dark) 0%, #4a7585 50%, rgba(207, 49, 124, 0.3) 100%);
+}
+
+.mp-quote-box {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 40px;
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: var(--mp-radius-xl);
+    backdrop-filter: blur(10px);
+    position: relative;
+}
+
+.mp-quote-box::before {
+    content: '"';
+    position: absolute;
+    top: 15px;
+    left: 25px;
+    font-size: 100px;
+    font-family: Georgia, serif;
+    color: rgba(255, 255, 255, 0.2);
+    line-height: 1;
+}
+
+.mp-quote-box p {
+    font-size: clamp(20px, 3vw, 26px);
+    font-weight: 500;
+    font-style: italic;
+    color: white;
+    line-height: 1.5;
+    margin: 0;
+    position: relative;
+    z-index: 1;
+}
+
+/* ==========================================================================
+   CTA SECTION
+   ========================================================================== */
+
+.mp-cta-section {
+    padding: 100px 24px 120px;
+    background: var(--mp-bg-white);
+    border-top: 1px solid rgba(127, 168, 182, 0.1);
+}
+
+.mp-cta-inner {
+    max-width: 700px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.mp-cta-title {
+    font-size: clamp(28px, 4vw, 38px);
+    font-weight: 600;
+    color: var(--mp-text);
+    margin: 0 0 20px;
+    letter-spacing: -0.02em;
+}
+
+.mp-cta-text {
+    font-size: 18px;
+    line-height: 1.8;
+    color: var(--mp-text-light);
+    margin: 0 0 20px;
+}
+
+.mp-cta-reassurance {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--mp-blue-dark);
+    background: rgba(127, 168, 182, 0.1);
+    padding: 10px 20px;
+    border-radius: 50px;
+    margin: 0 0 32px;
+    border: 1px solid rgba(127, 168, 182, 0.2);
+}
+
+.mp-cta-reassurance::before {
+    content: '✓';
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    background: var(--mp-blue);
+    color: white;
+    border-radius: 50%;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.mp-cta-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+}
+
+@media (min-width: 500px) {
+    .mp-cta-buttons {
+        flex-direction: row;
+        justify-content: center;
+    }
+}
+
+/* Lien alternatif vers autre type de séance */
+.mp-cta-alternative {
+    margin-top: 32px;
+    font-size: 14px;
+}
+
+.mp-cta-alternative a {
+    color: var(--mp-text-muted);
+    text-decoration: none;
+    border-bottom: 1px dashed var(--mp-text-muted);
+    transition: all var(--mp-transition);
+}
+
+.mp-cta-alternative a:hover {
+    color: var(--mp-blue-dark);
+    border-bottom-color: var(--mp-blue);
+}
+
+/* ==========================================================================
+   BUTTONS
+   ========================================================================== */
+
+.mp-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 16px 32px;
+    font-size: 16px;
+    font-weight: 500;
+    text-decoration: none;
+    border-radius: 50px;
+    transition: all var(--mp-transition);
+    cursor: pointer;
+    border: none;
+}
+
+.mp-btn-primary {
+    background: linear-gradient(135deg, var(--mp-blue) 0%, var(--mp-blue-dark) 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(127, 168, 182, 0.3);
+}
+
+.mp-btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(127, 168, 182, 0.4);
+    color: white;
+}
+
+.mp-btn-secondary {
+    background: white;
+    color: var(--mp-text);
+    border: 2px solid rgba(127, 168, 182, 0.3);
+}
+
+.mp-btn-secondary:hover {
+    border-color: var(--mp-blue);
+    color: var(--mp-blue-dark);
+    transform: translateY(-2px);
+}
+
+.mp-btn svg {
+    flex-shrink: 0;
+}
+
+/* ==========================================================================
+   RESPONSIVE
+   ========================================================================== */
+
+@media (max-width: 768px) {
+    .mp-seances-page {
+        margin-top: 70px;
+    }
+
+    .mp-seances-page .mp-hero {
+        padding: 70px 20px 60px;
+    }
+
+    .mp-hero-icon {
+        width: 64px;
+        height: 64px;
+        margin-bottom: 24px;
+    }
+
+    .mp-hero-icon svg {
+        width: 44px;
+        height: 44px;
+    }
+
+    .mp-section {
+        padding: 60px 20px;
+    }
+
+    .mp-section-header {
+        margin-bottom: 40px;
+    }
+
+    .mp-profiles-grid,
+    .mp-values-grid,
+    .mp-benefits-grid,
+    .mp-deroulement-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .mp-profile-card,
+    .mp-value-card,
+    .mp-deroulement-card {
+        padding: 28px 24px;
+    }
+
+    /* Timeline mobile */
+    .mp-steps-timeline::before {
+        left: 18px;
+    }
+
+    .mp-timeline-step {
+        gap: 18px;
+    }
+
+    .mp-timeline-number {
+        width: 36px;
+        height: 36px;
+        font-size: 14px;
+    }
+
+    .mp-timeline-title {
+        font-size: 18px;
+    }
+
+    .mp-timeline-content p {
+        font-size: 15px;
+    }
+
+    /* Images mobile */
+    .mp-full-image,
+    .mp-ambiance-image {
+        padding: 0 16px;
+    }
+
+    .mp-full-image img,
+    .mp-ambiance-image img {
+        border-radius: var(--mp-radius-lg);
+        max-height: 350px;
+    }
+
+    /* Quote mobile */
+    .mp-quote-section {
+        padding: 60px 20px;
+    }
+
+    .mp-quote-box {
+        padding: 32px 24px;
+    }
+
+    .mp-quote-box::before {
+        font-size: 70px;
+        top: 10px;
+        left: 15px;
+    }
+
+    /* CTA mobile */
+    .mp-cta-section {
+        padding: 60px 20px 80px;
+    }
+
+    .mp-cta-text {
+        font-size: 16px;
+    }
+
+    .mp-cta-reassurance {
+        font-size: 12px;
+        padding: 8px 16px;
+    }
+
+    .mp-cta-buttons {
+        width: 100%;
+    }
+
+    .mp-btn {
+        width: 100%;
+        padding: 14px 24px;
+        font-size: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .mp-hero-title {
+        font-size: 28px;
+    }
+
+    .mp-hero-subtitle {
+        font-size: 16px;
+    }
+
+    .mp-section-title {
+        font-size: 24px;
+    }
+
+    .mp-profile-card .mp-profile-title,
+    .mp-value-title,
+    .mp-benefit-title {
+        font-size: 17px;
+    }
+
+    .mp-quote-box p {
+        font-size: 18px;
+    }
+}

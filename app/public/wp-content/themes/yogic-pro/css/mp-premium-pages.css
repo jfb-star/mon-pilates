@@ -1,0 +1,1054 @@
+/**
+ * Styles communs pour les pages premium Mon Pilates
+ * - Le studio & l'accompagnement
+ * - Pour qui ?
+ *
+ * Design: UX premium, calme, bienveillant, inclusif
+ * Mobile-first, transitions douces
+ */
+
+/* ==========================================================================
+   VARIABLES CSS - Design System Mon Pilates
+   ========================================================================== */
+
+.mp-premium-page {
+    --mp-blue: #7fa8b6;
+    --mp-blue-dark: #5a8a9a;
+    --mp-blue-light: #a8c9d4;
+    --mp-rose: #cf317c;
+    --mp-rose-light: #e85a9c;
+    --mp-rose-soft: #f8e8ef;
+    --mp-ink: #2c2c2c;
+    --mp-text: #4a4a4a;
+    --mp-text-muted: #6b7280;
+    --mp-bg-white: #ffffff;
+    --mp-bg-soft: #f7f9fb;
+    --mp-bg-warm: #fdfaf7;
+    --mp-border: #e8e8e8;
+
+    --mp-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+    --mp-shadow-md: 0 4px 20px rgba(0, 0, 0, 0.06);
+    --mp-shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.08);
+    --mp-shadow-blue: 0 8px 30px rgba(127, 168, 182, 0.25);
+    --mp-shadow-rose: 0 8px 30px rgba(207, 49, 124, 0.15);
+
+    --mp-radius-sm: 12px;
+    --mp-radius-md: 16px;
+    --mp-radius-lg: 20px;
+    --mp-radius-xl: 24px;
+
+    --mp-transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --mp-transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+
+    font-family: 'Manrope', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--mp-bg-white);
+}
+
+/* ==========================================================================
+   MASQUER LA BANNIÈRE SUR CES PAGES
+   ========================================================================== */
+
+body[class*="template-studio"] .innerbanner,
+body[class*="template-pour-qui"] .innerbanner,
+body.page-le-studio .innerbanner,
+body.page-pour-qui .innerbanner {
+    display: none !important;
+}
+
+/* ==========================================================================
+   BASE - Page container
+   ========================================================================== */
+
+.mp-premium-page {
+   /* margin-top: 85px; */
+    overflow-x: hidden;
+}
+
+.mp-content-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* ==========================================================================
+   HERO SECTION
+   ========================================================================== */
+
+.mp-hero {
+    padding: 70px 20px 90px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.mp-hero-soft {
+    background: linear-gradient(180deg, #ffffff 0%, #f7fafc 50%, #eef5f7 100%);
+}
+
+.mp-hero-warm {
+    background: linear-gradient(180deg, #ffffff 0%, #fdfaf7 50%, #f8f5f2 100%);
+}
+
+.mp-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='30' cy='30' r='20' stroke='%237fa8b6' stroke-width='0.5' fill='none' opacity='0.05'/%3E%3C/svg%3E");
+    background-size: 100px 100px;
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.mp-hero-inner {
+    position: relative;
+    z-index: 1;
+    max-width: 750px;
+    margin: 0 auto;
+}
+
+.mp-hero-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 90px;
+    height: 90px;
+    background: var(--mp-bg-white);
+    border-radius: 50%;
+    box-shadow: var(--mp-shadow-md);
+    margin-bottom: 36px;
+    animation: fadeInDown 0.6s ease-out;
+}
+
+.mp-hero-title {
+    font-size: clamp(34px, 5vw, 52px);
+    font-weight: 600;
+    color: var(--mp-ink);
+    line-height: 1.15;
+    margin: 0 0 28px;
+    letter-spacing: -0.02em;
+    animation: fadeInUp 0.6s ease-out 0.1s both;
+}
+
+.mp-hero-subtitle {
+    font-size: clamp(17px, 2.5vw, 20px);
+    font-weight: 400;
+    color: var(--mp-text);
+    line-height: 1.8;
+    margin: 0;
+    animation: fadeInUp 0.6s ease-out 0.2s both;
+}
+
+/* ==========================================================================
+   SECTIONS AVEC IMAGE
+   ========================================================================== */
+
+.mp-section {
+    padding: 80px 0;
+}
+
+.mp-section-alt {
+    background: var(--mp-bg-soft);
+}
+
+.mp-section-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.mp-section-with-image .mp-section-inner {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 50px;
+    align-items: center;
+}
+
+@media (min-width: 769px) {
+    .mp-section-with-image .mp-section-inner {
+        grid-template-columns: 1fr 1fr;
+        gap: 70px;
+    }
+
+    .mp-section-reverse .mp-section-visual {
+        order: -1;
+    }
+}
+
+/* ==========================================================================
+   SECTION TEXT
+   ========================================================================== */
+
+.mp-section-title {
+    font-size: clamp(26px, 4vw, 36px);
+    font-weight: 600;
+    color: var(--mp-ink);
+    margin: 0 0 24px;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+}
+
+.mp-section-text p {
+    font-size: 17px;
+    line-height: 1.8;
+    color: var(--mp-text);
+    margin: 0 0 18px;
+}
+
+.mp-section-text p:last-child {
+    margin-bottom: 0;
+}
+
+.mp-text-emphasis {
+    background: linear-gradient(90deg, rgba(127, 168, 182, 0.1) 0%, transparent 100%);
+    border-left: 3px solid var(--mp-blue);
+    padding: 18px 22px;
+    border-radius: 0 var(--mp-radius-sm) var(--mp-radius-sm) 0;
+    font-style: normal;
+    margin-top: 24px !important;
+}
+
+/* ==========================================================================
+   SECTION CENTRÉE (TEXTE SEUL)
+   ========================================================================== */
+
+.mp-section-centered {
+    max-width: 700px;
+    text-align: center;
+}
+
+.mp-section-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
+    background: var(--mp-bg-white);
+    border-radius: 50%;
+    box-shadow: var(--mp-shadow-sm);
+    margin-bottom: 28px;
+}
+
+/* ==========================================================================
+   IMAGES
+   ========================================================================== */
+
+.mp-section-image {
+    margin: 0;
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--mp-radius-lg);
+    box-shadow: var(--mp-shadow-lg);
+    transition: transform var(--mp-transition), box-shadow var(--mp-transition);
+}
+
+.mp-section-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    transition: transform var(--mp-transition-slow);
+}
+
+.mp-image-portrait img {
+    aspect-ratio: 3 / 4;
+}
+
+.mp-section-image:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--mp-shadow-lg), 0 20px 50px rgba(127, 168, 182, 0.15);
+}
+
+.mp-section-image:hover img {
+    transform: scale(1.02);
+}
+
+/* ==========================================================================
+   SECTION INTRO (POUR QUI)
+   ========================================================================== */
+
+.mp-section-intro {
+    padding: 60px 0 40px;
+    background: var(--mp-bg-white);
+}
+
+.mp-intro-text {
+    font-size: clamp(17px, 2.5vw, 19px);
+    line-height: 1.85;
+    color: var(--mp-text);
+    margin: 0 0 20px;
+}
+
+.mp-intro-text:last-child {
+    margin-bottom: 0;
+}
+
+/* ==========================================================================
+   PROFILE CARDS (POUR QUI)
+   ========================================================================== */
+
+.mp-profile-section {
+    padding: 30px 0;
+}
+
+.mp-profile-card {
+    max-width: 900px;
+    margin: 0 auto;
+    background: var(--mp-bg-white);
+    border-radius: var(--mp-radius-xl);
+    padding: 40px;
+    box-shadow: var(--mp-shadow-md);
+    border-left: 5px solid var(--mp-blue);
+    transition: transform var(--mp-transition), box-shadow var(--mp-transition);
+}
+
+.mp-profile-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--mp-shadow-lg);
+}
+
+.mp-profile-blue {
+    border-left-color: var(--mp-blue);
+}
+
+.mp-profile-rose {
+    border-left-color: var(--mp-rose);
+    background: linear-gradient(135deg, #ffffff 0%, #fef9fb 100%);
+}
+
+.mp-profile-dark {
+    border-left-color: var(--mp-blue-dark);
+    background: linear-gradient(135deg, #ffffff 0%, #f5f8fa 100%);
+}
+
+.mp-profile-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 28px;
+}
+
+.mp-profile-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    background: var(--mp-bg-soft);
+    border-radius: 50%;
+    color: var(--mp-blue);
+    flex-shrink: 0;
+}
+
+.mp-profile-rose .mp-profile-icon {
+    background: var(--mp-rose-soft);
+    color: var(--mp-rose);
+}
+
+.mp-profile-dark .mp-profile-icon {
+    background: rgba(90, 138, 154, 0.1);
+    color: var(--mp-blue-dark);
+}
+
+.mp-profile-title {
+    font-size: clamp(22px, 3vw, 28px);
+    font-weight: 600;
+    color: var(--mp-ink);
+    margin: 0;
+    line-height: 1.3;
+}
+
+.mp-profile-content {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* Feelings */
+.mp-feelings-label,
+.mp-experience-label {
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--mp-text-muted);
+    margin: 0 0 12px;
+}
+
+.mp-feelings-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.mp-feelings-list li {
+    font-size: 15px;
+    color: var(--mp-text);
+    font-style: italic;
+    padding-left: 20px;
+    position: relative;
+}
+
+.mp-feelings-list li::before {
+    content: '"';
+    position: absolute;
+    left: 0;
+    color: var(--mp-blue);
+    font-size: 20px;
+    line-height: 1;
+}
+
+.mp-profile-rose .mp-feelings-list li::before {
+    color: var(--mp-rose);
+}
+
+/* Experience */
+.mp-profile-experience p {
+    font-size: 16px;
+    line-height: 1.75;
+    color: var(--mp-text);
+    margin: 0;
+}
+
+/* Reassurance */
+.mp-profile-reassurance {
+    background: var(--mp-bg-soft);
+    padding: 18px 22px;
+    border-radius: var(--mp-radius-md);
+}
+
+.mp-profile-reassurance p {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--mp-ink);
+    margin: 0;
+}
+
+.mp-profile-reassurance strong {
+    color: var(--mp-blue-dark);
+}
+
+.mp-profile-rose .mp-profile-reassurance {
+    background: rgba(207, 49, 124, 0.05);
+}
+
+.mp-profile-rose .mp-profile-reassurance strong {
+    color: var(--mp-rose);
+}
+
+/* ==========================================================================
+   QUOTE SECTION
+   ========================================================================== */
+
+.mp-quote-section {
+    padding: 80px 20px;
+    background: var(--mp-bg-white);
+}
+
+.mp-quote-box {
+    max-width: 800px;
+    margin: 0 auto;
+    background: linear-gradient(135deg, var(--mp-blue) 0%, var(--mp-blue-dark) 100%);
+    padding: 50px 45px;
+    border-radius: var(--mp-radius-xl);
+    box-shadow: var(--mp-shadow-blue), 0 20px 60px rgba(127, 168, 182, 0.3);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.mp-quote-box::before {
+    content: '"';
+    position: absolute;
+    top: 15px;
+    left: 25px;
+    font-size: 100px;
+    font-family: Georgia, serif;
+    color: rgba(255, 255, 255, 0.1);
+    line-height: 1;
+    pointer-events: none;
+}
+
+.mp-quote-box p {
+    font-size: clamp(20px, 3vw, 26px);
+    font-weight: 500;
+    color: white;
+    line-height: 1.6;
+    margin: 0;
+    position: relative;
+    z-index: 1;
+}
+
+.mp-quote-secondary {
+    font-size: clamp(16px, 2vw, 18px) !important;
+    font-weight: 400 !important;
+    opacity: 0.9;
+    margin-top: 16px !important;
+}
+
+/* Gradient variant */
+.mp-quote-gradient .mp-quote-box {
+    background: linear-gradient(135deg, var(--mp-blue) 0%, #8a7fb6 50%, var(--mp-rose) 100%);
+}
+
+/* Large quote variant */
+.mp-quote-large {
+    padding: 60px 50px;
+}
+
+/* ==========================================================================
+   CTA SECTION
+   ========================================================================== */
+
+.mp-cta-section {
+    padding: 100px 20px 120px;
+    background: var(--mp-bg-soft);
+    border-top: 1px solid rgba(127, 168, 182, 0.1);
+}
+
+.mp-cta-inner {
+    max-width: 700px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.mp-cta-title {
+    font-size: clamp(28px, 4vw, 40px);
+    font-weight: 600;
+    color: var(--mp-ink);
+    margin: 0 0 20px;
+    letter-spacing: -0.02em;
+}
+
+.mp-cta-text {
+    font-size: 18px;
+    line-height: 1.8;
+    color: var(--mp-text);
+    margin: 0 0 20px;
+}
+
+.mp-cta-reassurance {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--mp-blue-dark);
+    background: rgba(127, 168, 182, 0.1);
+    padding: 10px 20px;
+    border-radius: 50px;
+    margin: 0 0 36px;
+    border: 1px solid rgba(127, 168, 182, 0.2);
+}
+
+.mp-cta-reassurance::before {
+    content: '✓';
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    background: var(--mp-blue);
+    color: white;
+    border-radius: 50%;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.mp-cta-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+}
+
+@media (min-width: 500px) {
+    .mp-cta-buttons {
+        flex-direction: row;
+        justify-content: center;
+    }
+}
+
+/* ==========================================================================
+   BUTTONS
+   ========================================================================== */
+
+.mp-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 16px 32px;
+    font-size: 16px;
+    font-weight: 600;
+    font-family: inherit;
+    text-decoration: none;
+    border-radius: var(--mp-radius-md);
+    cursor: pointer;
+    transition: all var(--mp-transition);
+    border: 2px solid transparent;
+    position: relative;
+    overflow: hidden;
+}
+
+.mp-btn svg {
+    flex-shrink: 0;
+    transition: transform var(--mp-transition);
+}
+
+.mp-btn-primary {
+    background: linear-gradient(135deg, var(--mp-blue) 0%, var(--mp-blue-dark) 100%);
+    color: white;
+    box-shadow: var(--mp-shadow-blue);
+}
+
+.mp-btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.mp-btn-primary:hover {
+    background: linear-gradient(135deg, var(--mp-blue-dark) 0%, #4a7a8a 100%);
+    transform: translateY(-2px);
+    box-shadow: var(--mp-shadow-blue), 0 15px 40px rgba(127, 168, 182, 0.35);
+}
+
+.mp-btn-primary:hover::before {
+    left: 100%;
+}
+
+.mp-btn-primary:hover svg {
+    transform: translateX(2px);
+}
+
+.mp-btn-secondary {
+    background: transparent;
+    color: var(--mp-rose);
+    border-color: var(--mp-rose);
+}
+
+.mp-btn-secondary:hover {
+    background: var(--mp-rose);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: var(--mp-shadow-rose);
+}
+
+.mp-btn-secondary:hover svg {
+    transform: scale(1.1);
+}
+
+/* ==========================================================================
+   ANIMATIONS
+   ========================================================================== */
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ==========================================================================
+   RESPONSIVE - Tablette
+   ========================================================================== */
+
+@media (max-width: 768px) {
+    .mp-hero {
+        padding: 50px 20px 70px;
+    }
+
+    .mp-hero-icon {
+        width: 75px;
+        height: 75px;
+        margin-bottom: 28px;
+    }
+
+    .mp-section {
+        padding: 60px 0;
+    }
+
+    .mp-section-with-image .mp-section-inner {
+        gap: 40px;
+    }
+
+    .mp-profile-card {
+        padding: 32px 28px;
+    }
+
+    .mp-quote-box {
+        padding: 40px 30px;
+    }
+
+    .mp-cta-section {
+        padding: 70px 20px 90px;
+    }
+}
+
+/* ==========================================================================
+   RESPONSIVE - Mobile
+   ========================================================================== */
+
+@media (max-width: 500px) {
+    /*.mp-premium-page {
+        margin-top: 85px;
+    }*/
+
+    .mp-hero {
+        padding: 40px 16px 60px;
+    }
+
+    .mp-hero-icon {
+        width: 65px;
+        height: 65px;
+        margin-bottom: 24px;
+    }
+
+    .mp-hero-icon svg {
+        width: 36px;
+        height: 36px;
+    }
+
+    .mp-hero-title {
+        margin-bottom: 20px;
+    }
+
+    .mp-section {
+        padding: 50px 0;
+    }
+
+    .mp-section-inner {
+        padding: 0 16px;
+    }
+
+    .mp-section-title {
+        font-size: 24px;
+        margin-bottom: 18px;
+    }
+
+    .mp-section-text p {
+        font-size: 16px;
+        line-height: 1.75;
+    }
+
+    .mp-section-image img {
+        max-height: 60vh;
+    }
+
+    .mp-profile-section {
+        padding: 20px 16px;
+    }
+
+    .mp-profile-card {
+        padding: 28px 22px;
+        border-radius: var(--mp-radius-lg);
+    }
+
+    .mp-profile-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .mp-profile-icon {
+        width: 42px;
+        height: 42px;
+    }
+
+    .mp-profile-title {
+        font-size: 22px;
+    }
+
+    .mp-feelings-list li {
+        font-size: 14px;
+    }
+
+    .mp-profile-experience p {
+        font-size: 15px;
+    }
+
+    .mp-profile-reassurance {
+        padding: 14px 18px;
+    }
+
+    .mp-profile-reassurance p {
+        font-size: 14px;
+    }
+
+    .mp-quote-section {
+        padding: 50px 16px;
+    }
+
+    .mp-quote-box {
+        padding: 32px 24px;
+        border-radius: var(--mp-radius-lg);
+    }
+
+    .mp-quote-box::before {
+        font-size: 70px;
+        top: 8px;
+        left: 15px;
+    }
+
+    .mp-cta-section {
+        padding: 60px 16px 80px;
+    }
+
+    .mp-cta-text {
+        font-size: 16px;
+    }
+
+    .mp-cta-reassurance {
+        font-size: 12px;
+        padding: 8px 16px;
+        margin-bottom: 28px;
+    }
+
+    .mp-cta-reassurance::before {
+        width: 18px;
+        height: 18px;
+        font-size: 10px;
+    }
+
+    .mp-cta-buttons {
+        width: 100%;
+    }
+
+    .mp-btn {
+        width: 100%;
+        padding: 14px 24px;
+        font-size: 15px;
+    }
+}
+
+/* ==========================================================================
+   ACCESSIBILITÉ
+   ========================================================================== */
+
+.mp-btn:focus-visible {
+    outline: 3px solid var(--mp-blue);
+    outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .mp-hero-icon,
+    .mp-hero-title,
+    .mp-hero-subtitle {
+        animation: none;
+    }
+
+    .mp-section-image,
+    .mp-section-image img,
+    .mp-profile-card,
+    .mp-btn {
+        transition: none;
+    }
+
+    .mp-btn-primary::before {
+        display: none;
+    }
+
+    .mp-section-image:hover,
+    .mp-profile-card:hover,
+    .mp-btn:hover {
+        transform: none;
+    }
+}
+
+/* ==========================================================================
+   PRINT
+   ========================================================================== */
+
+@media print {
+    .mp-premium-page {
+        margin-top: 0;
+    }
+
+    .mp-hero::before {
+        display: none;
+    }
+
+    .mp-section-image,
+    .mp-profile-card {
+        box-shadow: none;
+        border: 1px solid #ccc;
+    }
+
+    .mp-quote-box {
+        background: #f5f5f5 !important;
+        color: #000 !important;
+        box-shadow: none;
+    }
+
+    .mp-quote-box p {
+        color: #000 !important;
+    }
+
+    .mp-cta-section {
+        display: none;
+    }
+}
+
+/* ==========================================================================
+   FAQ SECTIONS – Pages locales SEO
+   ========================================================================== */
+
+.mp-section-faq {
+    padding: 60px 0;
+}
+
+.mp-faq-list {
+    max-width: 760px;
+    margin: 40px auto 0;
+}
+
+.mp-faq-item {
+    border-bottom: 1px solid var(--mp-border);
+    overflow: hidden;
+}
+
+.mp-faq-item:first-child {
+    border-top: 1px solid var(--mp-border);
+}
+
+.mp-faq-question {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 8px;
+    cursor: pointer;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--mp-ink);
+    line-height: 1.5;
+    list-style: none;
+    transition: color var(--mp-transition);
+}
+
+.mp-faq-question::-webkit-details-marker {
+    display: none;
+}
+
+.mp-faq-question::after {
+    content: '+';
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 16px;
+    font-size: 1.3rem;
+    font-weight: 300;
+    color: var(--mp-blue);
+    border: 1.5px solid var(--mp-blue);
+    border-radius: 50%;
+    transition: all var(--mp-transition);
+}
+
+.mp-faq-item[open] .mp-faq-question::after {
+    content: '−';
+    background: var(--mp-blue);
+    color: #fff;
+}
+
+.mp-faq-question:hover {
+    color: var(--mp-blue-dark);
+}
+
+.mp-faq-answer {
+    padding: 0 8px 24px;
+    color: var(--mp-text);
+    font-size: 0.95rem;
+    line-height: 1.7;
+}
+
+.mp-faq-answer p {
+    margin: 0 0 12px;
+}
+
+.mp-faq-answer p:last-child {
+    margin-bottom: 0;
+}
+
+.mp-faq-answer a {
+    color: var(--mp-blue-dark);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.mp-faq-answer a:hover {
+    color: var(--mp-rose);
+}
+
+/* Profile price / link styles for local pages */
+.mp-profile-price {
+    margin-top: 12px;
+    font-weight: 600;
+    color: var(--mp-blue-dark);
+    font-size: 0.95rem;
+}
+
+.mp-profile-link {
+    display: inline-block;
+    margin-top: 12px;
+    color: var(--mp-blue-dark);
+    font-weight: 500;
+    font-size: 0.9rem;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: color var(--mp-transition);
+}
+
+.mp-profile-link:hover {
+    color: var(--mp-rose);
+}
+
+/* ==========================================================================
+   FAQ – Responsive
+   ========================================================================== */
+
+@media (max-width: 768px) {
+    .mp-faq-question {
+        font-size: 0.95rem;
+        padding: 16px 4px;
+    }
+
+    .mp-faq-answer {
+        padding: 0 4px 20px;
+        font-size: 0.9rem;
+    }
+
+    .mp-faq-question::after {
+        width: 24px;
+        height: 24px;
+        font-size: 1.1rem;
+    }
+}

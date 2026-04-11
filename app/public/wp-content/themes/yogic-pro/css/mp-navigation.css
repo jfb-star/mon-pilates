@@ -1,0 +1,1630 @@
+/**
+ * Mon Pilates - Navigation Premium
+ * Menu signature inspiré de l'océan et du bien-être
+ *
+ * Philosophie : "Un menu qui respire"
+ * - Transitions lentes et organiques (0.5-0.8s)
+ * - Mouvements fluides comme une vague
+ * - Minimalisme expressif
+ */
+
+/* ==========================================================================
+   VARIABLES CSS - Palette "Pilates face à la mer"
+   ========================================================================== */
+
+:root {
+    /* Identité Mon Pilates */
+    --mp-ocean: #7fa8b6;
+    --mp-ocean-deep: #5a8a9a;
+    --mp-ocean-light: #a8c5cf;
+    --mp-rose: #cf317c;
+    --mp-rose-light: #e85a9c;
+
+    /* Neutres */
+    --mp-white: #ffffff;
+    --mp-white-soft: rgba(255, 255, 255, 0.98);
+    --mp-dark: #2c3e50;
+    --mp-dark-soft: #3d5166;
+    --mp-gray: #64748b;
+    --mp-gray-light: #f1f5f9;
+
+    /* Timings "respiration" - Plus lents que la normale */
+    --mp-ease-breath: cubic-bezier(0.4, 0, 0.1, 1);
+    --mp-ease-smooth: cubic-bezier(0.25, 0.1, 0.25, 1);
+    --mp-ease-out-soft: cubic-bezier(0, 0, 0.2, 1);
+
+    --mp-duration-breath: 3s;
+    --mp-duration-slow: 0.6s;
+    --mp-duration-normal: 0.4s;
+    --mp-duration-fast: 0.25s;
+
+    /* Dimensions */
+    --mp-header-height: 100px;
+    --mp-header-height-scrolled: 70px;
+    --mp-logo-height: 60px;
+    --mp-logo-height-scrolled: 45px;
+
+    /* Z-index (en dessous de la barre admin WP qui est à 99999) */
+    --mp-z-header: 9990;
+    --mp-z-dropdown: 9991;
+    --mp-z-mobile-menu: 9992;
+    --mp-z-mobile-toggle: 9993;
+}
+
+/* ==========================================================================
+   NEUTRALISATION ANCIEN SYSTÈME (Max Mega Menu + ancien header)
+   Ces règles écrasent les styles de custom-monpilates-style.css
+   ========================================================================== */
+
+/* Masquer complètement l'ancien header */
+.header:not(.mp-header) {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    overflow: hidden !important;
+    pointer-events: none !important;
+}
+
+/* Neutraliser l'ancien système de navigation */
+.ppmenubg,
+.sitenav,
+.logo,
+.pp_topstrip,
+.toggleMenu {
+    display: none !important;
+    visibility: hidden !important;
+}
+
+/* Neutraliser Max Mega Menu s'il est présent */
+#mega-menu-wrap-primary,
+.mega-menu-toggle,
+.mega-toggle-block {
+    display: none !important;
+    visibility: hidden !important;
+}
+
+/* Réinitialiser les box-sizing pour le nouveau menu */
+.mp-header,
+.mp-header *,
+.mp-mobile-menu,
+.mp-mobile-menu * {
+    box-sizing: border-box;
+}
+
+/* Reset spécifique pour les éléments de navigation (évite conflits avec ancien CSS) */
+.mp-nav ul,
+.mp-nav .menu,
+.mp-nav__list,
+.mp-mobile-menu__nav ul,
+.mp-mobile-menu__nav .menu {
+    margin: 0 !important;
+    padding: 0 !important;
+    list-style: none !important;
+    background: transparent !important;
+    border: none !important;
+    float: none !important;
+}
+
+.mp-nav li,
+.mp-nav .menu-item,
+.mp-mobile-menu__nav li {
+    margin: 0 !important;
+    padding: 0 !important;
+    float: none !important;
+    background: transparent !important;
+    border: none !important;
+}
+
+.mp-nav a,
+.mp-mobile-menu__nav a {
+    text-decoration: none !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+}
+
+/* IMPORTANT: Le dernier item du menu NE DOIT PAS prendre les styles CTA de l'ancien système */
+.mp-nav li:last-child > a,
+.mp-nav .menu > li:last-child > a {
+    background: transparent !important;
+    border-radius: 0 !important;
+    margin-left: 0 !important;
+    box-shadow: none !important;
+}
+
+/* ==========================================================================
+   HEADER - Structure principale
+   ========================================================================== */
+
+.mp-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--mp-header-height);
+    z-index: var(--mp-z-header);
+    transition:
+        height var(--mp-duration-slow) var(--mp-ease-breath),
+        background-color var(--mp-duration-slow) var(--mp-ease-breath),
+        box-shadow var(--mp-duration-slow) var(--mp-ease-breath),
+        top var(--mp-duration-slow) var(--mp-ease-breath);
+}
+
+/* Support barre admin WordPress (32px desktop, 46px mobile) */
+body.admin-bar .mp-header {
+    top: 32px;
+}
+
+@media screen and (max-width: 782px) {
+    body.admin-bar .mp-header {
+        top: 46px;
+    }
+}
+
+/* État par défaut (pages internes) */
+.mp-header {
+    background-color: var(--mp-white-soft);
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04);
+}
+
+/* 4️⃣ ÉTAT SCROLLED - Transition fluide et élégante (desktop amélioré) */
+.mp-header[data-state="scrolled"] {
+    height: var(--mp-header-height-scrolled);
+    background-color: var(--mp-white);
+    box-shadow:
+        0 4px 20px rgba(0, 0, 0, 0.06),
+        0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+/* Desktop : transition plus douce et ombre plus raffinée au scroll */
+@media (min-width: 1024px) {
+    .mp-header[data-state="scrolled"] {
+        background-color: rgba(255, 255, 255, 0.98);
+        box-shadow:
+            0 1px 0 rgba(0, 0, 0, 0.03),
+            0 4px 12px rgba(0, 0, 0, 0.05),
+            0 8px 24px rgba(0, 0, 0, 0.04);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+    }
+
+    /* Liens passent en couleur sombre au scroll */
+    .mp-header[data-state="scrolled"] .mp-nav a {
+        color: var(--mp-dark) !important;
+        text-shadow: none !important;
+    }
+
+    .mp-header[data-state="scrolled"] .mp-nav a:hover {
+        color: var(--mp-ocean-deep) !important;
+    }
+
+    .mp-header[data-state="scrolled"] .mp-nav a::after {
+        background-color: var(--mp-ocean) !important;
+        box-shadow: none;
+    }
+
+    /* Transition fluide pour les couleurs de texte */
+    .mp-nav a {
+        transition:
+            color var(--mp-duration-slow) var(--mp-ease-breath),
+            text-shadow var(--mp-duration-slow) var(--mp-ease-breath),
+            opacity var(--mp-duration-normal) var(--mp-ease-smooth);
+    }
+}
+
+/* Page d'accueil - Header transparent */
+body.home .mp-header[data-state="top"],
+body.front-page .mp-header[data-state="top"] {
+    background-color: transparent;
+    box-shadow: none;
+}
+
+/* 1️⃣ LISIBILITÉ - Dégradé subtil pour contraste sur image hero (desktop uniquement) */
+@media (min-width: 1024px) {
+    body.home .mp-header[data-state="top"]::before,
+    body.front-page .mp-header[data-state="top"]::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+            180deg,
+            rgba(0, 0, 0, 0.40) 0%,
+            rgba(0, 0, 0, 0.25) 40%,
+            rgba(0, 0, 0, 0.08) 70%,
+            transparent 100%
+        );
+        pointer-events: none;
+        transition: opacity var(--mp-duration-slow) var(--mp-ease-breath);
+    }
+}
+
+/* Mobile : PAS de gradient overlay (modifications desktop-only) */
+@media (max-width: 1023px) {
+    body.home .mp-header[data-state="top"]::before,
+    body.front-page .mp-header[data-state="top"]::before {
+        display: none !important;
+        content: none !important;
+    }
+}
+
+body.home .mp-header[data-state="scrolled"]::before,
+body.front-page .mp-header[data-state="scrolled"]::before {
+    opacity: 0;
+}
+
+/* Inner container */
+.mp-header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 40px;
+}
+
+@media (max-width: 768px) {
+    .mp-header__inner {
+        padding: 0 20px;
+    }
+}
+
+/* ==========================================================================
+   LOGO - Avec animation respiration au hover
+   ========================================================================== */
+
+.mp-logo {
+    position: relative !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-decoration: none !important;
+    flex-shrink: 0 !important;
+    z-index: 1;
+    background: transparent !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.mp-logo__image {
+    height: var(--mp-logo-height) !important;
+    width: auto !important;
+    max-height: var(--mp-logo-height) !important;
+    transition:
+        height var(--mp-duration-slow) var(--mp-ease-breath),
+        filter var(--mp-duration-slow) var(--mp-ease-breath),
+        transform var(--mp-duration-normal) var(--mp-ease-smooth);
+}
+
+/* Logo réduit au scroll */
+.mp-header[data-state="scrolled"] .mp-logo__image {
+    height: var(--mp-logo-height-scrolled) !important;
+    max-height: var(--mp-logo-height-scrolled) !important;
+}
+
+/* Logo blanc sur header transparent (accueil) */
+body.home .mp-header[data-state="top"] .mp-logo__image,
+body.front-page .mp-header[data-state="top"] .mp-logo__image {
+    filter: brightness(0) invert(1) !important;
+}
+
+/* Hover logo - léger scale */
+.mp-logo:hover .mp-logo__image {
+    transform: scale(1.02);
+}
+
+/* Cercle animé "respiration" */
+.mp-logo__breath {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+}
+
+.mp-logo__breath::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 120%;
+    height: 120%;
+    border-radius: 50%;
+    background: radial-gradient(
+        circle,
+        var(--mp-ocean-light) 0%,
+        transparent 70%
+    );
+    transform: translate(-50%, -50%) scale(0.8);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+/* Animation déclenchée au hover */
+.mp-logo:hover .mp-logo__breath::before {
+    animation: mp-breath var(--mp-duration-breath) var(--mp-ease-smooth) infinite;
+}
+
+/* Sur header transparent, cercle plus clair */
+body.home .mp-header[data-state="top"] .mp-logo__breath::before,
+body.front-page .mp-header[data-state="top"] .mp-logo__breath::before {
+    background: radial-gradient(
+        circle,
+        rgba(255, 255, 255, 0.3) 0%,
+        transparent 70%
+    );
+}
+
+@keyframes mp-breath {
+    0%, 100% {
+        transform: translate(-50%, -50%) scale(0.8);
+        opacity: 0;
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.15);
+        opacity: 0.6;
+    }
+}
+
+/* Mobile : désactiver l'effet respiration */
+@media (max-width: 768px) {
+    .mp-logo__breath,
+    .mp-logo__breath::before {
+        display: none !important;
+        opacity: 0 !important;
+    }
+}
+
+/* ==========================================================================
+   NAVIGATION PRINCIPALE - Desktop
+   ========================================================================== */
+
+.mp-nav {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    justify-content: center;
+    padding: 0 40px;
+}
+
+.mp-nav__list,
+.mp-nav ul.menu {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+/* Items du menu */
+.mp-nav__item,
+.mp-nav li {
+    position: relative;
+    margin: 0;
+    padding: 0;
+}
+
+/* Liens du menu */
+.mp-nav__link,
+.mp-nav a {
+    display: flex !important;
+    align-items: center !important;
+    padding: 12px 16px !important;
+    color: var(--mp-dark) !important;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    letter-spacing: 0.3px;
+    text-decoration: none;
+    position: relative;
+    white-space: nowrap !important; /* Empêche le retour à la ligne */
+    transition: color var(--mp-duration-normal) var(--mp-ease-smooth);
+}
+
+/* Underline animation - depuis le centre */
+.mp-nav__link::after,
+.mp-nav > ul > li > a::after,
+.mp-nav > .menu > li > a::after {
+    content: '';
+    position: absolute;
+    bottom: 8px;
+    left: 20px;
+    right: 20px;
+    height: 2px;
+    background-color: var(--mp-ocean);
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform var(--mp-duration-normal) var(--mp-ease-smooth);
+}
+
+.mp-nav__link:hover,
+.mp-nav a:hover,
+.mp-nav li.current-menu-item > a,
+.mp-nav li.current-menu-ancestor > a {
+    color: var(--mp-ocean-deep) !important;
+}
+
+.mp-nav__link:hover::after,
+.mp-nav > ul > li > a:hover::after,
+.mp-nav > .menu > li > a:hover::after,
+.mp-nav li.current-menu-item > a::after,
+.mp-nav li.current-menu-ancestor > a::after {
+    transform: scaleX(1);
+}
+
+/* Texte blanc sur header transparent (desktop uniquement) */
+@media (min-width: 1024px) {
+    body.home .mp-header[data-state="top"] .mp-nav a,
+    body.front-page .mp-header[data-state="top"] .mp-nav a {
+        color: var(--mp-white) !important;
+        /* 1️⃣ LISIBILITÉ - Text-shadow renforcée pour meilleur contraste */
+        text-shadow:
+            0 1px 2px rgba(0, 0, 0, 0.4),
+            0 2px 8px rgba(0, 0, 0, 0.25) !important;
+    }
+
+    body.home .mp-header[data-state="top"] .mp-nav a::after,
+    body.front-page .mp-header[data-state="top"] .mp-nav a::after {
+        background-color: var(--mp-white) !important;
+        box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+    }
+
+    body.home .mp-header[data-state="top"] .mp-nav a:hover,
+    body.front-page .mp-header[data-state="top"] .mp-nav a:hover {
+        color: var(--mp-white) !important;
+        text-shadow:
+            0 1px 2px rgba(0, 0, 0, 0.5),
+            0 2px 12px rgba(0, 0, 0, 0.35) !important;
+    }
+}
+
+/* Mobile : conserve le comportement existant */
+@media (max-width: 1023px) {
+    body.home .mp-header[data-state="top"] .mp-nav a,
+    body.front-page .mp-header[data-state="top"] .mp-nav a {
+        color: var(--mp-white) !important;
+        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+    }
+
+    body.home .mp-header[data-state="top"] .mp-nav a::after,
+    body.front-page .mp-header[data-state="top"] .mp-nav a::after {
+        background-color: var(--mp-white) !important;
+    }
+
+    body.home .mp-header[data-state="top"] .mp-nav a:hover,
+    body.front-page .mp-header[data-state="top"] .mp-nav a:hover {
+        color: rgba(255, 255, 255, 0.85) !important;
+    }
+}
+
+/* ==========================================================================
+   2️⃣ HIÉRARCHIE VISUELLE - Desktop uniquement (≥1024px)
+   Items principaux accentués, items secondaires allégés
+   ========================================================================== */
+
+@media (min-width: 1024px) {
+    /*
+     * Structure du menu attendue :
+     * 1. Accueil (allégé)
+     * 2. Découvrir le Pilates (accentué)
+     * 3. Les séances (accentué)
+     * 4. Planning & réservation (accentué)
+     * 5. Contact (allégé)
+     */
+
+    /* Items ACCENTUÉS : Découvrir le Pilates, Les séances, Planning & réservation */
+    .mp-nav > ul > li:nth-child(2) > a,
+    .mp-nav > ul > li:nth-child(3) > a,
+    .mp-nav > ul > li:nth-child(4) > a,
+    .mp-nav > .menu > li:nth-child(2) > a,
+    .mp-nav > .menu > li:nth-child(3) > a,
+    .mp-nav > .menu > li:nth-child(4) > a {
+        font-weight: 600 !important;
+        letter-spacing: 0.4px;
+    }
+
+    /* Items ALLÉGÉS : Accueil, Contact */
+    .mp-nav > ul > li:nth-child(1) > a,
+    .mp-nav > ul > li:nth-child(5) > a,
+    .mp-nav > .menu > li:nth-child(1) > a,
+    .mp-nav > .menu > li:nth-child(5) > a {
+        font-weight: 400 !important;
+        opacity: 0.85;
+        letter-spacing: 0.2px;
+    }
+
+    /* Hover sur items allégés : retrouve l'opacité pleine */
+    .mp-nav > ul > li:nth-child(1) > a:hover,
+    .mp-nav > ul > li:nth-child(5) > a:hover,
+    .mp-nav > .menu > li:nth-child(1) > a:hover,
+    .mp-nav > .menu > li:nth-child(5) > a:hover {
+        opacity: 1;
+    }
+
+    /* Items accentués avec sous-menu : indicateur plus visible */
+    .mp-nav > ul > li:nth-child(2).menu-item-has-children > a::before,
+    .mp-nav > ul > li:nth-child(3).menu-item-has-children > a::before,
+    .mp-nav > ul > li:nth-child(4).menu-item-has-children > a::before,
+    .mp-nav > .menu > li:nth-child(2).menu-item-has-children > a::before,
+    .mp-nav > .menu > li:nth-child(3).menu-item-has-children > a::before,
+    .mp-nav > .menu > li:nth-child(4).menu-item-has-children > a::before {
+        opacity: 0.8;
+    }
+
+    /* Underline plus prononcé sur items accentués */
+    .mp-nav > ul > li:nth-child(2) > a::after,
+    .mp-nav > ul > li:nth-child(3) > a::after,
+    .mp-nav > ul > li:nth-child(4) > a::after,
+    .mp-nav > .menu > li:nth-child(2) > a::after,
+    .mp-nav > .menu > li:nth-child(3) > a::after,
+    .mp-nav > .menu > li:nth-child(4) > a::after {
+        height: 2.5px;
+    }
+
+    /* Item actif/current : toujours pleine opacité + underline */
+    .mp-nav li.current-menu-item > a,
+    .mp-nav li.current-menu-ancestor > a,
+    .mp-nav li.current-menu-parent > a {
+        opacity: 1 !important;
+        font-weight: 600 !important;
+    }
+
+    .mp-nav li.current-menu-item > a::after,
+    .mp-nav li.current-menu-ancestor > a::after {
+        transform: scaleX(0.6);
+    }
+}
+
+/* ==========================================================================
+   SOUS-MENUS - Dropdowns élégants
+   ========================================================================== */
+
+/* 3️⃣ SOUS-MENUS AMÉLIORÉS - Desktop uniquement */
+@media (min-width: 1024px) {
+    .mp-nav li ul,
+    .mp-nav .sub-menu {
+        position: absolute !important;
+        top: 100% !important;
+        left: 50% !important;
+        transform: translateX(-50%) translateY(8px) !important;
+        min-width: 280px !important; /* Plus large pour éviter les retours à la ligne */
+        background-color: #ffffff !important;
+        border-radius: 12px !important;
+        box-shadow:
+            0 4px 20px rgba(0, 0, 0, 0.12),
+            0 0 1px rgba(0, 0, 0, 0.08) !important;
+        padding: 8px 0 !important;
+        list-style: none !important;
+        margin: 0 !important;
+        opacity: 0;
+        visibility: hidden;
+        transition:
+            opacity 0.2s ease,
+            transform 0.2s ease,
+            visibility 0.2s;
+        z-index: var(--mp-z-dropdown);
+    }
+
+    /* Triangle indicateur */
+    .mp-nav > ul > li > ul::before,
+    .mp-nav > .menu > li > .sub-menu::before {
+        content: '';
+        position: absolute;
+        top: -6px;
+        left: 50%;
+        width: 12px;
+        height: 12px;
+        background: #ffffff;
+        border-radius: 2px;
+        transform: translateX(-50%) rotate(45deg);
+        box-shadow: -1px -1px 3px rgba(0, 0, 0, 0.06);
+    }
+
+    /* Affichage au hover */
+    .mp-nav li:hover > ul,
+    .mp-nav li:hover > .sub-menu {
+        opacity: 1;
+        visibility: visible;
+        transform: translateX(-50%) translateY(0);
+    }
+
+    /* Zone de sécurité pour éviter le gap */
+    .mp-nav > ul > li.menu-item-has-children,
+    .mp-nav > .menu > li.menu-item-has-children {
+        position: relative;
+    }
+
+    .mp-nav > ul > li.menu-item-has-children::after,
+    .mp-nav > .menu > li.menu-item-has-children::after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 0;
+        right: 0;
+        height: 15px;
+        background: transparent;
+    }
+}
+
+/* Tablettes (769px - 1023px) : style simplifié sans blur */
+@media (min-width: 769px) and (max-width: 1023px) {
+    .mp-nav li ul,
+    .mp-nav .sub-menu {
+        position: absolute !important;
+        top: 100% !important;
+        left: 50% !important;
+        transform: translateX(-50%) translateY(8px) !important;
+        min-width: 220px !important;
+        background-color: var(--mp-white) !important;
+        /* Pas de backdrop-filter pour éviter les artefacts visuels */
+        border-radius: 12px !important;
+        box-shadow:
+            0 10px 40px rgba(0, 0, 0, 0.12),
+            0 2px 10px rgba(0, 0, 0, 0.06) !important;
+        padding: 12px 0 !important;
+        list-style: none !important;
+        margin: 0 !important;
+        opacity: 0;
+        visibility: hidden;
+        transition:
+            opacity var(--mp-duration-fast) var(--mp-ease-out-soft),
+            transform var(--mp-duration-fast) var(--mp-ease-out-soft),
+            visibility var(--mp-duration-fast);
+        z-index: var(--mp-z-dropdown);
+    }
+
+    /* Petit triangle indicateur */
+    .mp-nav li ul::before,
+    .mp-nav .sub-menu::before {
+        content: '';
+        position: absolute;
+        top: -6px;
+        left: 50%;
+        transform: translateX(-50%);
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        border-bottom: 6px solid var(--mp-white);
+    }
+
+    /* Affichage au hover */
+    .mp-nav li:hover > ul,
+    .mp-nav li:hover > .sub-menu {
+        opacity: 1;
+        visibility: visible;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+/* Mobile (≤768px) : masquer complètement les sous-menus desktop */
+@media (max-width: 768px) {
+    .mp-nav li ul,
+    .mp-nav .sub-menu {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+    }
+}
+
+/* Items des sous-menus - Desktop amélioré */
+@media (min-width: 1024px) {
+    .mp-nav li ul li,
+    .mp-nav .sub-menu li {
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    /* IMPORTANT: Forcer couleur sombre dans les sous-menus (même sur header transparent) */
+    .mp-nav li ul a,
+    .mp-nav .sub-menu a,
+    body.home .mp-header[data-state="top"] .mp-nav .sub-menu a,
+    body.front-page .mp-header[data-state="top"] .mp-nav .sub-menu a,
+    body.home .mp-header .mp-nav li ul a,
+    body.front-page .mp-header .mp-nav li ul a {
+        display: block !important;
+        padding: 10px 20px !important;
+        color: #2c3e50 !important; /* Couleur sombre forcée */
+        font-size: 14px !important;
+        font-weight: 400 !important;
+        white-space: nowrap !important; /* Une seule ligne */
+        line-height: 1.4;
+        text-shadow: none !important;
+        background: transparent !important;
+        transition:
+            background-color 0.15s ease,
+            color 0.15s ease;
+    }
+
+    /* Reset des pseudo-éléments sur les liens de sous-menu */
+    .mp-nav li ul a::after,
+    .mp-nav .sub-menu a::after,
+    .mp-nav li ul a::before,
+    .mp-nav .sub-menu a::before {
+        display: none !important;
+        content: none !important;
+    }
+
+    /* Hover simple et propre */
+    .mp-nav li ul a:hover,
+    .mp-nav .sub-menu a:hover,
+    body.home .mp-header .mp-nav .sub-menu a:hover,
+    body.front-page .mp-header .mp-nav .sub-menu a:hover {
+        background-color: rgba(127, 168, 182, 0.15) !important;
+        color: #5a8a9a !important; /* Ocean deep */
+    }
+
+    /* Item actif dans le sous-menu */
+    .mp-nav .sub-menu li.current-menu-item > a {
+        color: #5a8a9a !important;
+        font-weight: 500 !important;
+        background-color: rgba(127, 168, 182, 0.08) !important;
+    }
+}
+
+/* Mobile : conserver comportement existant */
+@media (max-width: 1023px) {
+    .mp-nav li ul li,
+    .mp-nav .sub-menu li {
+        margin: 0;
+    }
+
+    .mp-nav li ul a,
+    .mp-nav .sub-menu a {
+        display: block;
+        padding: 12px 24px;
+        color: var(--mp-dark-soft);
+        font-size: 14px;
+        font-weight: 400;
+        white-space: nowrap;
+        transition:
+            background-color var(--mp-duration-fast) ease,
+            color var(--mp-duration-fast) ease,
+            padding-left var(--mp-duration-fast) ease;
+    }
+
+    .mp-nav li ul a::after,
+    .mp-nav .sub-menu a::after {
+        display: none;
+    }
+
+    .mp-nav li ul a:hover,
+    .mp-nav .sub-menu a:hover {
+        background-color: var(--mp-gray-light);
+        color: var(--mp-ocean-deep);
+        padding-left: 28px;
+    }
+}
+
+/* Sous-sous-menus (niveau 3) - Desktop */
+@media (min-width: 1024px) {
+    .mp-nav li ul li ul,
+    .mp-nav .sub-menu .sub-menu {
+        top: -14px !important;
+        left: 100% !important;
+        transform: translateX(6px) translateY(0) !important;
+    }
+
+    .mp-nav li ul li ul::before,
+    .mp-nav .sub-menu .sub-menu::before {
+        display: none !important;
+    }
+
+    .mp-nav li ul li:hover > ul,
+    .mp-nav .sub-menu li:hover > .sub-menu {
+        transform: translateX(0) translateY(0) !important;
+    }
+}
+
+/* Mobile : conserver comportement existant */
+@media (max-width: 1023px) {
+    .mp-nav li ul li ul,
+    .mp-nav .sub-menu .sub-menu {
+        top: 0;
+        left: 100%;
+        transform: translateX(8px) translateY(0);
+    }
+
+    .mp-nav li ul li ul::before,
+    .mp-nav .sub-menu .sub-menu::before {
+        display: none;
+    }
+
+    .mp-nav li ul li:hover > ul,
+    .mp-nav .sub-menu li:hover > .sub-menu {
+        transform: translateX(0) translateY(0);
+    }
+}
+
+/* Indicateur de sous-menu (flèche) - Desktop amélioré */
+@media (min-width: 1024px) {
+    .mp-nav > ul > li.menu-item-has-children > a,
+    .mp-nav > .menu > li.menu-item-has-children > a {
+        display: inline-flex !important;
+        align-items: center !important;
+        flex-wrap: nowrap !important;
+        gap: 4px;
+    }
+
+    /* Flèche dropdown via ::before avec order pour la placer à la fin */
+    .mp-nav > ul > li.menu-item-has-children > a::before,
+    .mp-nav > .menu > li.menu-item-has-children > a::before {
+        content: '';
+        display: inline-block;
+        width: 5px;
+        height: 5px;
+        border-right: 1.5px solid currentColor;
+        border-bottom: 1.5px solid currentColor;
+        transform: rotate(45deg);
+        flex-shrink: 0;
+        opacity: 0.5;
+        order: 1; /* Place la flèche après le texte */
+        margin-top: -2px;
+        transition:
+            transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+            opacity 0.2s ease;
+    }
+
+    .mp-nav > ul > li.menu-item-has-children:hover > a::before,
+    .mp-nav > .menu > li.menu-item-has-children:hover > a::before {
+        transform: rotate(-135deg);
+        opacity: 1;
+    }
+}
+
+/* Mobile : pas de flèche sur la nav desktop cachée */
+@media (max-width: 1023px) {
+    .mp-nav li.menu-item-has-children > a::before {
+        display: none !important;
+    }
+}
+
+/* ==========================================================================
+   CTA "CARTES CADEAUX" - Bouton isolé à droite
+   ========================================================================== */
+
+.mp-cta {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    padding: 12px 24px !important;
+    background: var(--mp-rose) !important;
+    color: var(--mp-white) !important;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.3px !important;
+    text-decoration: none !important;
+    border-radius: 50px !important;
+    flex-shrink: 0;
+    box-shadow:
+        0 4px 15px rgba(207, 49, 124, 0.3),
+        0 2px 6px rgba(207, 49, 124, 0.2) !important;
+    transition:
+        transform var(--mp-duration-normal) var(--mp-ease-smooth),
+        box-shadow var(--mp-duration-normal) var(--mp-ease-smooth),
+        background-color var(--mp-duration-normal) var(--mp-ease-smooth);
+}
+
+.mp-cta:hover {
+    transform: translateY(-2px) !important;
+    background: var(--mp-rose-light) !important;
+    color: var(--mp-white) !important;
+    box-shadow:
+        0 8px 25px rgba(207, 49, 124, 0.35),
+        0 4px 10px rgba(207, 49, 124, 0.25) !important;
+}
+
+.mp-cta:active {
+    transform: translateY(0);
+}
+
+.mp-cta__icon {
+    width: 16px;
+    height: 16px;
+    transition: transform var(--mp-duration-fast) ease;
+}
+
+.mp-cta:hover .mp-cta__icon {
+    transform: translateX(3px);
+}
+
+/* Le CTA reste toujours visible, même sur header transparent */
+body.home .mp-header[data-state="top"] .mp-cta,
+body.front-page .mp-header[data-state="top"] .mp-cta {
+    background: var(--mp-rose);
+    color: var(--mp-white);
+}
+
+/* ==========================================================================
+   CTA SECONDAIRE - "Cartes cadeaux" (discret)
+   ========================================================================== */
+
+.mp-cta-secondary {
+    display: inline-flex !important;
+    align-items: center !important;
+    padding: 8px 16px !important;
+    margin-right: 12px;
+    color: var(--mp-dark) !important;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    text-decoration: none !important;
+    border: 1px solid var(--mp-gray-light) !important;
+    border-radius: 50px !important;
+    background: transparent !important;
+    transition:
+        color var(--mp-duration-fast) ease,
+        border-color var(--mp-duration-fast) ease,
+        background-color var(--mp-duration-fast) ease;
+}
+
+.mp-cta-secondary:hover {
+    color: var(--mp-rose) !important;
+    border-color: var(--mp-rose) !important;
+    background: rgba(207, 49, 124, 0.05) !important;
+}
+
+/* Sur header transparent (accueil) */
+body.home .mp-header[data-state="top"] .mp-cta-secondary,
+body.front-page .mp-header[data-state="top"] .mp-cta-secondary {
+    color: var(--mp-white) !important;
+    border-color: rgba(255, 255, 255, 0.4) !important;
+}
+
+body.home .mp-header[data-state="top"] .mp-cta-secondary:hover,
+body.front-page .mp-header[data-state="top"] .mp-cta-secondary:hover {
+    color: var(--mp-white) !important;
+    border-color: var(--mp-white) !important;
+    background: rgba(255, 255, 255, 0.15) !important;
+}
+
+/* Masquer sur écrans intermédiaires et mobile (pas assez de place) */
+@media (max-width: 1023px) {
+    .mp-cta-secondary {
+        display: none !important;
+    }
+}
+
+/* ==========================================================================
+   TOGGLE MOBILE - Burger élégant 2 lignes
+   ========================================================================== */
+
+.mp-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: var(--mp-z-mobile-toggle);
+    gap: 6px;
+}
+
+.mp-toggle__line {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background-color: var(--mp-dark);
+    border-radius: 2px;
+    transition:
+        transform var(--mp-duration-normal) var(--mp-ease-smooth),
+        opacity var(--mp-duration-normal) var(--mp-ease-smooth);
+}
+
+/* Burger blanc sur header transparent */
+body.home .mp-header[data-state="top"] .mp-toggle__line,
+body.front-page .mp-header[data-state="top"] .mp-toggle__line {
+    background-color: var(--mp-white);
+}
+
+/* État ouvert - X élégant */
+.mp-toggle[aria-expanded="true"] .mp-toggle__line:first-child {
+    transform: translateY(4px) rotate(45deg);
+}
+
+.mp-toggle[aria-expanded="true"] .mp-toggle__line:last-child {
+    transform: translateY(-4px) rotate(-45deg);
+}
+
+@media (max-width: 768px) {
+    .mp-toggle {
+        display: flex;
+    }
+}
+
+/* ==========================================================================
+   MENU MOBILE - Overlay depuis la droite
+   ========================================================================== */
+
+.mp-mobile-menu {
+    position: fixed;
+    inset: 0;
+    z-index: var(--mp-z-mobile-menu);
+    pointer-events: none;
+    visibility: hidden;
+}
+
+/* Menu mobile ajusté pour barre admin */
+body.admin-bar .mp-mobile-menu {
+    top: 32px;
+}
+
+@media screen and (max-width: 782px) {
+    body.admin-bar .mp-mobile-menu {
+        top: 46px;
+    }
+}
+
+.mp-mobile-menu[aria-hidden="false"] {
+    pointer-events: auto;
+    visibility: visible;
+}
+
+/* Backdrop avec blur */
+.mp-mobile-menu__backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(44, 62, 80, 0.3);
+    backdrop-filter: blur(4px);
+    opacity: 0;
+    transition: opacity var(--mp-duration-slow) var(--mp-ease-breath);
+}
+
+.mp-mobile-menu[aria-hidden="false"] .mp-mobile-menu__backdrop {
+    opacity: 1;
+}
+
+/* Panel principal */
+.mp-mobile-menu__panel {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 85%;
+    max-width: 380px;
+    height: 100%;
+    background: var(--mp-white);
+    box-shadow: -10px 0 40px rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+    transform: translateX(100%);
+    transition: transform var(--mp-duration-slow) var(--mp-ease-breath);
+}
+
+.mp-mobile-menu[aria-hidden="false"] .mp-mobile-menu__panel {
+    transform: translateX(0);
+}
+
+/* Bouton fermer (X) en haut à droite */
+.mp-mobile-menu__close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 10;
+    padding: 0;
+}
+
+.mp-mobile-menu__close::before,
+.mp-mobile-menu__close::after {
+    content: '';
+    position: absolute;
+    width: 24px;
+    height: 2px;
+    background-color: var(--mp-dark);
+    border-radius: 2px;
+    transition: background-color var(--mp-duration-fast) ease;
+}
+
+.mp-mobile-menu__close::before {
+    transform: rotate(45deg);
+}
+
+.mp-mobile-menu__close::after {
+    transform: rotate(-45deg);
+}
+
+.mp-mobile-menu__close:hover::before,
+.mp-mobile-menu__close:hover::after {
+    background-color: var(--mp-rose);
+}
+
+/* Navigation dans le panel */
+.mp-mobile-menu__nav {
+    flex: 1;
+   /*  overflow-y: auto;*/
+    padding: 18px 30px 30px;
+}
+
+.mp-mobile-menu__nav ul,
+.mp-mobile-menu__nav .menu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.mp-mobile-menu__nav li {
+    margin: 0;
+    opacity: 0;
+    transform: translateX(20px);
+    transition:
+        opacity var(--mp-duration-normal) var(--mp-ease-out-soft),
+        transform var(--mp-duration-normal) var(--mp-ease-out-soft);
+}
+
+/* Animation cascade des items */
+.mp-mobile-menu[aria-hidden="false"] .mp-mobile-menu__nav li {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.mp-mobile-menu[aria-hidden="false"] .mp-mobile-menu__nav li:nth-child(1) { transition-delay: 0.1s; }
+.mp-mobile-menu[aria-hidden="false"] .mp-mobile-menu__nav li:nth-child(2) { transition-delay: 0.15s; }
+.mp-mobile-menu[aria-hidden="false"] .mp-mobile-menu__nav li:nth-child(3) { transition-delay: 0.2s; }
+.mp-mobile-menu[aria-hidden="false"] .mp-mobile-menu__nav li:nth-child(4) { transition-delay: 0.25s; }
+.mp-mobile-menu[aria-hidden="false"] .mp-mobile-menu__nav li:nth-child(5) { transition-delay: 0.3s; }
+.mp-mobile-menu[aria-hidden="false"] .mp-mobile-menu__nav li:nth-child(6) { transition-delay: 0.35s; }
+.mp-mobile-menu[aria-hidden="false"] .mp-mobile-menu__nav li:nth-child(7) { transition-delay: 0.4s; }
+.mp-mobile-menu[aria-hidden="false"] .mp-mobile-menu__nav li:nth-child(8) { transition-delay: 0.45s; }
+
+/* Liens mobile */
+.mp-mobile-menu__nav a {
+    display: block;
+    padding: 16px 0;
+    color: var(--mp-dark);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    text-decoration: none;
+    border-bottom: 1px solid var(--mp-gray-light);
+    transition: color var(--mp-duration-fast) ease;
+}
+
+.mp-mobile-menu__nav a:hover,
+.mp-mobile-menu__nav li.current-menu-item > a {
+    color: var(--mp-ocean);
+}
+
+/* Sous-menus mobile */
+.mp-mobile-menu__nav .sub-menu {
+    padding-left: 20px;
+    display: none;
+}
+
+.mp-mobile-menu__nav li.submenu-open > .sub-menu {
+    display: block;
+}
+
+.mp-mobile-menu__nav .sub-menu a {
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--mp-gray);
+    padding: 12px 0;
+}
+
+/* Indicateur sous-menu mobile */
+.mp-mobile-menu__nav .menu-item-has-children > a {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.mp-mobile-menu__nav .menu-item-has-children > a::after {
+    content: '+';
+    font-size: 20px;
+    font-weight: 300;
+    color: var(--mp-gray);
+    transition: transform var(--mp-duration-fast) ease;
+}
+
+.mp-mobile-menu__nav .menu-item-has-children.submenu-open > a::after {
+    transform: rotate(45deg);
+}
+
+/* CTA principal dans le menu mobile - "Voir le planning" */
+.mp-mobile-menu__cta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px 30px 15px;
+    padding: 16px 24px;
+    background: var(--mp-rose);
+    color: var(--mp-white);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 50px;
+    box-shadow: 0 4px 15px rgba(207, 49, 124, 0.3);
+    opacity: 0;
+    transform: translateY(10px);
+    transition:
+        opacity var(--mp-duration-normal) var(--mp-ease-out-soft) 0.5s,
+        transform var(--mp-duration-normal) var(--mp-ease-out-soft) 0.5s,
+        background-color var(--mp-duration-fast) ease;
+}
+
+.mp-mobile-menu[aria-hidden="false"] .mp-mobile-menu__cta {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.mp-mobile-menu__cta:hover {
+    background: var(--mp-rose-light);
+}
+
+/* CTA secondaire dans le menu mobile - "Cartes cadeaux" */
+.mp-mobile-menu__cta-secondary {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 30px 100px; /* Marge en bas pour éviter le bouton téléphone flottant */
+    padding: 12px 20px;
+    background: transparent;
+    color: var(--mp-dark);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    border: 1px solid var(--mp-gray-light);
+    border-radius: 50px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition:
+        opacity var(--mp-duration-normal) var(--mp-ease-out-soft) 0.55s,
+        transform var(--mp-duration-normal) var(--mp-ease-out-soft) 0.55s,
+        color var(--mp-duration-fast) ease,
+        border-color var(--mp-duration-fast) ease;
+}
+
+.mp-mobile-menu[aria-hidden="false"] .mp-mobile-menu__cta-secondary {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.mp-mobile-menu__cta-secondary:hover {
+    color: var(--mp-rose);
+    border-color: var(--mp-rose);
+}
+
+/* ==========================================================================
+   RESPONSIVE - Adaptations écrans intermédiaires et mobiles
+   ========================================================================== */
+
+/* Très petits écrans intermédiaires (769px - 899px) */
+@media (min-width: 769px) and (max-width: 899px) {
+    .mp-header__inner {
+        padding: 0 15px;
+    }
+
+    .mp-nav {
+        padding: 0 8px;
+    }
+
+    .mp-nav__list,
+    .mp-nav ul.menu {
+        gap: 0;
+    }
+
+    .mp-nav__link,
+    .mp-nav a {
+        padding: 10px 6px !important;
+        font-size: 12px !important;
+    }
+
+    .mp-cta {
+        padding: 8px 12px !important;
+        font-size: 12px !important;
+    }
+
+    /* Bouton membre plus compact */
+    .mp-member-btn {
+        padding: 8px;
+        margin-right: 8px;
+    }
+}
+
+/* Écrans intermédiaires moyens (900px - 1023px) */
+@media (min-width: 900px) and (max-width: 1023px) {
+    .mp-header__inner {
+        padding: 0 20px;
+    }
+
+    .mp-nav {
+        padding: 0 10px;
+    }
+
+    .mp-nav__list,
+    .mp-nav ul.menu {
+        gap: 2px;
+    }
+
+    .mp-nav__link,
+    .mp-nav a {
+        padding: 10px 8px !important;
+        font-size: 13px !important;
+    }
+
+    .mp-cta {
+        padding: 10px 16px !important;
+        font-size: 13px !important;
+    }
+
+    .mp-member-btn {
+        padding: 8px;
+        margin-right: 10px;
+    }
+}
+
+/* Écrans intermédiaires larges (1024px - 1200px) */
+@media (min-width: 1024px) and (max-width: 1200px) {
+    .mp-nav {
+        padding: 0 15px;
+    }
+
+    .mp-nav__list,
+    .mp-nav ul.menu {
+        gap: 2px;
+    }
+
+    .mp-nav__link,
+    .mp-nav a {
+        padding: 12px 10px !important;
+        font-size: 13px !important;
+    }
+
+    .mp-cta {
+        padding: 10px 18px !important;
+        font-size: 13px !important;
+    }
+}
+
+/* Grands écrans desktop */
+@media (min-width: 1201px) {
+    .mp-nav {
+        padding: 0 30px;
+    }
+
+    .mp-nav__list,
+    .mp-nav ul.menu {
+        gap: 6px;
+    }
+
+    .mp-nav__link,
+    .mp-nav a {
+        padding: 12px 18px !important;
+        font-size: 15px !important;
+    }
+}
+
+@media (max-width: 768px) {
+    :root {
+        --mp-header-height: 80px;
+        --mp-header-height-scrolled: 65px;
+        --mp-logo-height: 50px;
+        --mp-logo-height-scrolled: 40px;
+    }
+
+    /* Header transparent sur la page d'accueil (mobile) */
+    body.home .mp-header[data-state="top"],
+    body.front-page .mp-header[data-state="top"] {
+        background-color: transparent !important;
+        box-shadow: none !important;
+    }
+
+    /* Cacher la nav desktop et le CTA */
+    .mp-nav,
+    .mp-cta {
+        display: none;
+    }
+
+    .mp-header__inner {
+        justify-content: space-between;
+    }
+}
+
+/* ==========================================================================
+   ACCESSIBILITÉ - Préférence mouvement réduit
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+
+    .mp-logo:hover .mp-logo__breath::before {
+        animation: none;
+    }
+}
+
+/* ==========================================================================
+   FOCUS VISIBLE - Accessibilité clavier
+   ========================================================================== */
+
+.mp-nav a:focus-visible,
+.mp-cta:focus-visible,
+.mp-toggle:focus-visible,
+.mp-logo:focus-visible,
+.mp-mobile-menu__nav a:focus-visible {
+    outline: 2px solid var(--mp-ocean);
+    outline-offset: 4px;
+    border-radius: 4px;
+}
+
+/* ==========================================================================
+   UTILITAIRES - Classes helper
+   ========================================================================== */
+
+/* Empêcher le scroll quand menu mobile ouvert */
+body.mp-menu-open {
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+}
+
+/* Spacer pour le contenu sous le header fixe */
+.mp-header-spacer {
+    height: var(--mp-header-height);
+    transition: height var(--mp-duration-slow) var(--mp-ease-breath);
+}
+
+body.mp-scrolled .mp-header-spacer {
+    height: var(--mp-header-height-scrolled);
+}
+
+/* Spacer ajusté pour barre admin */
+body.admin-bar .mp-header-spacer {
+    height: calc(var(--mp-header-height) + 32px);
+}
+
+body.admin-bar.mp-scrolled .mp-header-spacer {
+    height: calc(var(--mp-header-height-scrolled) + 32px);
+}
+
+@media screen and (max-width: 782px) {
+    body.admin-bar .mp-header-spacer {
+        height: calc(var(--mp-header-height) + 46px);
+    }
+
+    body.admin-bar.mp-scrolled .mp-header-spacer {
+        height: calc(var(--mp-header-height-scrolled) + 46px);
+    }
+}
+
+/* Pas de spacer sur la page d'accueil (slider plein écran) */
+body.home .mp-header-spacer,
+body.front-page .mp-header-spacer {
+    display: none;
+}
+
+/* ==========================================================================
+   ESPACE MEMBRE - Bouton personnalisé "Mon compte"
+   ========================================================================== */
+
+.mp-member-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    margin-right: 12px;
+    background: transparent;
+    color: var(--mp-dark);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+    border: 1px solid var(--mp-gray-light);
+    border-radius: 50px;
+    cursor: pointer;
+    transition:
+        color var(--mp-duration-fast) ease,
+        border-color var(--mp-duration-fast) ease,
+        background-color var(--mp-duration-fast) ease;
+}
+
+.mp-member-btn:hover {
+    color: var(--mp-ocean-deep);
+    border-color: var(--mp-ocean);
+    background: rgba(127, 168, 182, 0.08);
+}
+
+.mp-member-btn svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+
+/* Sur header transparent (accueil) - Desktop */
+@media (min-width: 1024px) {
+    body.home .mp-header[data-state="top"] .mp-member-btn,
+    body.front-page .mp-header[data-state="top"] .mp-member-btn {
+        color: var(--mp-white);
+        border-color: rgba(255, 255, 255, 0.4);
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    }
+
+    body.home .mp-header[data-state="top"] .mp-member-btn:hover,
+    body.front-page .mp-header[data-state="top"] .mp-member-btn:hover {
+        color: var(--mp-white);
+        border-color: var(--mp-white);
+        background: rgba(255, 255, 255, 0.15);
+    }
+}
+
+/* Masquer le texte sur desktop, garder juste l'icône */
+.mp-member-btn span {
+    display: none;
+}
+
+@media (min-width: 1024px) {
+    .mp-member-btn {
+        padding: 10px;
+    }
+}
+
+/* Masquer sur mobile (sera dans le menu mobile) */
+@media (max-width: 768px) {
+    .mp-member-btn:not(.mp-member-btn--mobile) {
+        display: none !important;
+    }
+}
+
+/* ==========================================================================
+   ESPACE MEMBRE MOBILE - Bouton dans le menu déroulant
+   ========================================================================== */
+
+.mp-member-btn--mobile {
+    display: none;
+    width: calc(100% - 60px);
+    margin: 15px 30px 30px;
+    padding: 14px 20px;
+    justify-content: center;
+    background: var(--mp-ocean-light);
+    color: var(--mp-dark);
+    font-size: 15px;
+    border: none;
+    opacity: 0;
+    transform: translateY(10px);
+    transition:
+        opacity var(--mp-duration-normal) var(--mp-ease-out-soft) 0.6s,
+        transform var(--mp-duration-normal) var(--mp-ease-out-soft) 0.6s,
+        background-color var(--mp-duration-fast) ease;
+}
+
+.mp-member-btn--mobile span {
+    display: inline;
+}
+
+.mp-member-btn--mobile:hover {
+    background: var(--mp-ocean);
+    color: var(--mp-white);
+    border-color: transparent;
+}
+
+/* Afficher et animer dans le menu mobile ouvert */
+.mp-mobile-menu__panel .mp-member-btn--mobile {
+    display: flex;
+}
+
+.mp-mobile-menu[aria-hidden="false"] .mp-member-btn--mobile {
+    opacity: 1;
+    transform: translateY(0);
+}

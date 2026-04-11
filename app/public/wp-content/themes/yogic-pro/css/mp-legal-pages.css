@@ -1,0 +1,241 @@
+/**
+ * Mon Pilates - Pages légales
+ * Mentions légales, Politique de confidentialité, CGV
+ * Style cohérent avec l'univers bord de mer / bien-être
+ */
+
+/* ==========================================================================
+   HERO
+   ========================================================================== */
+
+.mp-legal-hero {
+    background: linear-gradient(135deg, #f8fafb 0%, var(--mp-ocean-light, #e8f1f4) 100%);
+    padding: 80px 20px 50px;
+    text-align: center;
+}
+
+.mp-legal-hero-inner {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.mp-legal-title {
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--mp-dark, #2c3e50);
+    margin: 0 0 12px;
+    letter-spacing: -0.5px;
+}
+
+.mp-legal-subtitle {
+    font-size: 15px;
+    color: var(--mp-dark-light, #4a6274);
+    margin: 0;
+    font-style: italic;
+}
+
+/* ==========================================================================
+   CONTAINER
+   ========================================================================== */
+
+.mp-legal-container {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 50px 30px 80px;
+}
+
+.mp-legal-content {
+    background: #fff;
+    border-radius: var(--mp-radius-lg, 24px);
+    padding: 50px 45px;
+    box-shadow: var(--mp-shadow, 0 8px 40px rgba(0, 0, 0, 0.06));
+}
+
+.mp-legal-intro {
+    font-size: 17px;
+    line-height: 1.7;
+    color: var(--mp-dark-light, #4a6274);
+    margin: 0 0 40px;
+    padding-bottom: 30px;
+    border-bottom: 1px solid var(--mp-border, #e8e8e8);
+}
+
+/* ==========================================================================
+   SECTIONS
+   ========================================================================== */
+
+.mp-legal-section {
+    margin-bottom: 40px;
+    padding-bottom: 35px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.mp-legal-section:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.mp-legal-section h2 {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--mp-dark, #2c3e50);
+    margin: 0 0 18px;
+    letter-spacing: -0.3px;
+}
+
+.mp-legal-section h3 {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--mp-dark, #2c3e50);
+    margin: 25px 0 12px;
+}
+
+.mp-legal-section p {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--mp-dark-light, #4a6274);
+    margin: 0 0 14px;
+}
+
+.mp-legal-section p:last-child {
+    margin-bottom: 0;
+}
+
+.mp-legal-section ul,
+.mp-legal-section ol {
+    margin: 0 0 16px;
+    padding-left: 22px;
+}
+
+.mp-legal-section li {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--mp-dark-light, #4a6274);
+    margin-bottom: 6px;
+}
+
+.mp-legal-section li strong {
+    color: var(--mp-dark, #2c3e50);
+}
+
+.mp-legal-section a {
+    color: var(--mp-ocean, #7FA8B6);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    transition: color 0.2s ease;
+}
+
+.mp-legal-section a:hover {
+    color: var(--mp-ocean-dark, #5a8a9a);
+}
+
+/* ==========================================================================
+   TABLES
+   ========================================================================== */
+
+.mp-legal-table-wrapper {
+    overflow-x: auto;
+    margin: 16px 0;
+    -webkit-overflow-scrolling: touch;
+}
+
+.mp-legal-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    min-width: 480px;
+}
+
+.mp-legal-table thead th {
+    background: var(--mp-sable, #f5f0eb);
+    padding: 14px 18px;
+    text-align: left;
+    font-weight: 600;
+    color: var(--mp-dark, #2c3e50);
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid var(--mp-border, #e8e8e8);
+}
+
+.mp-legal-table thead th:first-child {
+    border-radius: 10px 0 0 0;
+}
+
+.mp-legal-table thead th:last-child {
+    border-radius: 0 10px 0 0;
+}
+
+.mp-legal-table tbody td {
+    padding: 14px 18px;
+    color: var(--mp-dark-light, #4a6274);
+    border-bottom: 1px solid #f0f0f0;
+    line-height: 1.5;
+}
+
+.mp-legal-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.mp-legal-table tbody tr:hover {
+    background: #fafbfc;
+}
+
+.mp-legal-table tbody td strong {
+    color: var(--mp-dark, #2c3e50);
+}
+
+/* ==========================================================================
+   RESPONSIVE
+   ========================================================================== */
+
+@media (max-width: 768px) {
+    .mp-legal-hero {
+        padding: 70px 20px 40px;
+    }
+
+    .mp-legal-title {
+        font-size: 28px;
+    }
+
+    .mp-legal-container {
+        padding: 30px 15px 60px;
+    }
+
+    .mp-legal-content {
+        padding: 30px 22px;
+        border-radius: var(--mp-radius, 16px);
+    }
+
+    .mp-legal-section h2 {
+        font-size: 19px;
+    }
+
+    .mp-legal-table {
+        font-size: 13px;
+    }
+
+    .mp-legal-table thead th,
+    .mp-legal-table tbody td {
+        padding: 10px 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .mp-legal-hero {
+        padding: 60px 15px 35px;
+    }
+
+    .mp-legal-title {
+        font-size: 24px;
+    }
+
+    .mp-legal-content {
+        padding: 25px 18px;
+    }
+
+    .mp-legal-intro {
+        font-size: 15px;
+    }
+}

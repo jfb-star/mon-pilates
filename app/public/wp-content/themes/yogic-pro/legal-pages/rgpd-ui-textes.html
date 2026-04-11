@@ -1,0 +1,124 @@
+<!--
+  TEXTES RGPD POUR L'INTERFACE — Mon Pilates
+  Copier-coller ces textes aux emplacements indiqués.
+-->
+
+
+<!-- ═══════════════════════════════════════════════════════
+     A) TEXTE SOUS LES FORMULAIRES DE CONTACT
+     (à placer sous le formulaire WPForms ou tout formulaire de contact)
+     ═══════════════════════════════════════════════════════ -->
+
+<p class="mp-rgpd-notice" style="font-size: 0.85em; color: #666; margin-top: 12px;">
+  Les informations recueillies via ce formulaire sont enregistrées par Mon Pilates pour répondre à votre demande. Elles sont conservées pendant 1 an et sont destinées uniquement à Violette, responsable du studio. Conformément au RGPD, vous pouvez exercer vos droits d'accès, de rectification ou de suppression en écrivant à <a href="mailto:contact@mon-pilates.bzh">contact@mon-pilates.bzh</a>. <a href="/politique-de-confidentialite/">En savoir plus</a>.
+</p>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     B) CASE À COCHER OBLIGATOIRE — FORMULAIRE DE CONTACT
+     (à ajouter dans WPForms ou dans le HTML du formulaire)
+     ═══════════════════════════════════════════════════════ -->
+
+<!--
+  Version WPForms : ajouter un champ "Checkbox" avec ce libellé.
+  Version HTML : utiliser le code ci-dessous.
+-->
+
+<label class="mp-rgpd-checkbox">
+  <input type="checkbox" name="rgpd_consent" required>
+  J'accepte que mes données soient utilisées pour traiter ma demande, conformément à la <a href="/politique-de-confidentialite/" target="_blank">politique de confidentialité</a>.
+</label>
+
+<!--
+  Texte court alternatif (si l'espace est limité) :
+  "J'ai lu et j'accepte la politique de confidentialité."
+-->
+
+
+<!-- ═══════════════════════════════════════════════════════
+     C) CASE À COCHER — NEWSLETTER / INSCRIPTION KLAVIYO
+     ═══════════════════════════════════════════════════════ -->
+
+<label class="mp-rgpd-checkbox">
+  <input type="checkbox" name="newsletter_consent">
+  J'accepte de recevoir les actualités et offres de Mon Pilates par email. Je peux me désinscrire à tout moment.
+</label>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     D) TEXTE AU CHECKOUT — AVANT LE BOUTON DE PAIEMENT
+     (Ce texte est ajouté automatiquement via functions.php,
+      voir les modifications de code fournies séparément)
+     ═══════════════════════════════════════════════════════ -->
+
+<div class="mp-checkout-rgpd">
+  <p style="font-size: 0.85em; color: #666; margin-bottom: 12px;">
+    Vos données sont utilisées pour traiter votre commande, générer votre carte cadeau et vous envoyer la confirmation par email. Le paiement est sécurisé par Stripe. Consultez notre <a href="/politique-de-confidentialite/" target="_blank">politique de confidentialité</a>.
+  </p>
+  <label class="mp-rgpd-checkbox">
+    <input type="checkbox" name="rgpd_checkout_consent" required>
+    J'ai lu et j'accepte la <a href="/politique-de-confidentialite/" target="_blank">politique de confidentialité</a> et les conditions de vente.
+  </label>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     E) MENTION SOUS LE FORMULAIRE DE CARTE CADEAU
+     (bénéficiaire — panel 2 du checkout wizard)
+     ═══════════════════════════════════════════════════════ -->
+
+<p class="mp-rgpd-notice" style="font-size: 0.85em; color: #666; margin-top: 12px;">
+  L'email du bénéficiaire est utilisé uniquement pour lui envoyer la carte cadeau au format PDF. Il ne sera ni conservé à d'autres fins, ni transmis à des tiers.
+</p>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     F) CSS RECOMMANDÉ (à ajouter dans mp-woocommerce.css
+        ou dans le Customizer WordPress)
+     ═══════════════════════════════════════════════════════ -->
+
+<!--
+.mp-rgpd-notice {
+  font-size: 0.85em;
+  color: #888;
+  line-height: 1.5;
+  margin-top: 12px;
+}
+
+.mp-rgpd-notice a {
+  color: #6b8f71;
+  text-decoration: underline;
+}
+
+.mp-rgpd-checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.9em;
+  color: #555;
+  line-height: 1.5;
+  cursor: pointer;
+  margin: 16px 0;
+}
+
+.mp-rgpd-checkbox input[type="checkbox"] {
+  margin-top: 3px;
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  accent-color: #6b8f71;
+}
+
+.mp-rgpd-checkbox a {
+  color: #6b8f71;
+  text-decoration: underline;
+}
+
+.mp-checkout-rgpd {
+  background: #f9f9f7;
+  border: 1px solid #e8e8e4;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 24px 0;
+}
+-->

@@ -1,0 +1,759 @@
+/* =============================================================================
+   PAGE CONTACT — Premium "Must du Must"
+   Version 4.0 — Mon Pilates
+
+   Style : Calme, lumineux, face à la mer
+   ============================================================================= */
+
+/* -----------------------------------------------------------------------------
+   VARIABLES CSS — Signature visuelle unifiée
+   ----------------------------------------------------------------------------- */
+:root {
+    /* Couleurs */
+    --mp-ink: #1a2b3c;
+    --mp-muted: rgba(26, 43, 60, 0.68);
+    --mp-muted-2: rgba(26, 43, 60, 0.50);
+
+    --mp-ocean: #8FB8C7;           /* Plus doux, moins saturé */
+    --mp-ocean-dark: #6A9BAD;
+    --mp-rose: #D4729A;            /* Rose moins saturé, plus premium */
+
+    --mp-bg: #ffffff;
+    --mp-soft: #f7f9fb;
+    --mp-card: rgba(255, 255, 255, 0.95);
+
+    /* Arrondis uniformes */
+    --mp-radius: 20px;             /* Standard partout */
+    --mp-radius-sm: 12px;          /* Petits éléments */
+
+    /* Ombres uniformes — Signature unique */
+    --mp-shadow: 0 12px 40px rgba(127, 168, 182, 0.12);
+    --mp-shadow-hover: 0 16px 50px rgba(127, 168, 182, 0.16);
+
+    /* Transitions */
+    --mp-ease: cubic-bezier(0.4, 0, 0.2, 1);
+    --mp-t: 0.3s var(--mp-ease);
+}
+
+/* -----------------------------------------------------------------------------
+   FONT & BASE
+   ----------------------------------------------------------------------------- */
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap');
+
+/* -----------------------------------------------------------------------------
+   MASQUER LA BANNIÈRE DU THÈME
+   ----------------------------------------------------------------------------- */
+.page-contact .innerbanner,
+.page-id-1972 .innerbanner {
+    display: none !important;
+}
+
+.mp-contact-page {
+    font-family: 'Manrope', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif !important;
+    background: var(--mp-bg) !important;
+    color: var(--mp-ink);
+}
+
+.mp-contact-page * {
+    font-family: inherit;
+    box-sizing: border-box;
+}
+
+/* Masquer bannière thème */
+.mp-contact-page .innerbanner {
+    display: none !important;
+}
+
+/* -----------------------------------------------------------------------------
+   1) HERO — Ambiance océan, sensation de calme
+   ----------------------------------------------------------------------------- */
+.mp-contact-hero {
+    position: relative;
+    padding: 70px 24px 40px;               /* Réduit : plus signature */
+    text-align: center;
+    overflow: hidden;
+    /* Fond évocateur : blanc pur en haut → reflet aquatique en bas */
+    background:
+        linear-gradient(
+            180deg,
+            #ffffff 0%,
+            rgba(143, 184, 199, 0.08) 60%,
+            rgba(143, 184, 199, 0.12) 100%
+        );
+}
+
+/* Accent rosé subtil dans le coin supérieur droit */
+.mp-contact-hero::before {
+    content: "";
+    position: absolute;
+    top: -50px;
+    right: -100px;
+    width: 350px;
+    height: 350px;
+    background: radial-gradient(
+        ellipse at center,
+        rgba(212, 114, 154, 0.06) 0%,
+        transparent 65%
+    );
+    filter: blur(60px);
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* Accent océan dans le coin inférieur gauche */
+.mp-contact-hero::after {
+    content: "";
+    position: absolute;
+    bottom: -80px;
+    left: -100px;
+    width: 400px;
+    height: 300px;
+    background: radial-gradient(
+        ellipse at center,
+        rgba(143, 184, 199, 0.10) 0%,
+        transparent 60%
+    );
+    filter: blur(70px);
+    z-index: 0;
+    pointer-events: none;
+}
+
+.mp-contact-hero-inner {
+    position: relative;
+    z-index: 1;
+    max-width: 650px;
+    margin: 0 auto;
+}
+
+/* -----------------------------------------------------------------------------
+   2) TITRE + SOUS-TITRE — Chaleureux, premium, humain
+   ----------------------------------------------------------------------------- */
+.mp-contact-title {
+    font-size: clamp(1.8rem, 4vw, 2.5rem) !important;
+    font-weight: 500 !important;           /* Léger, élégant */
+    line-height: 1.2 !important;
+    letter-spacing: -0.02em !important;
+    color: var(--mp-ink) !important;
+    margin: 0 0 18px !important;
+    text-shadow: none !important;
+    text-transform: none !important;
+}
+
+.mp-contact-subtitle {
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: var(--mp-muted);
+    line-height: 1.75;
+    margin: 0;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+    letter-spacing: 0.01em;
+}
+
+/* -----------------------------------------------------------------------------
+   CONTAINER
+   ----------------------------------------------------------------------------- */
+.mp-contact-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 24px 70px;
+}
+
+/* -----------------------------------------------------------------------------
+   3) GRILLE — Gap resserré, alignement parfait
+   ----------------------------------------------------------------------------- */
+.mp-contact-grid {
+    display: grid;
+    grid-template-columns: 340px 1fr;      /* Colonne infos légèrement plus étroite */
+    gap: 24px;                             /* Resserré (était 32px) */
+    align-items: start;                    /* Alignement haut parfait */
+}
+
+@media (max-width: 960px) {
+    .mp-contact-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    /* Pleine largeur sur mobile */
+    .mp-contact-form-wrapper,
+    .mp-contact-infos {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box;
+    }
+
+    /* Ordre mobile : formulaire d'abord */
+    .mp-contact-form-wrapper { order: 1; }
+    .mp-contact-infos { order: 2; }
+}
+
+/* -----------------------------------------------------------------------------
+   CARD INFOS — Icônes discrètes, titres plus légers
+   ----------------------------------------------------------------------------- */
+.mp-contact-infos {
+    background: var(--mp-card);
+    border: 1px solid rgba(143, 184, 199, 0.12);
+    border-radius: var(--mp-radius);
+    box-shadow: var(--mp-shadow);
+    padding: 28px 24px;
+}
+
+.mp-infos-title {
+    font-size: 1rem !important;
+    font-weight: 600 !important;
+    color: var(--mp-ink) !important;
+    margin: 0 0 20px !important;
+    padding-bottom: 14px;
+    border-bottom: 1px solid rgba(143, 184, 199, 0.12);
+    position: relative;
+}
+
+.mp-infos-title::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 40px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--mp-ocean) 0%, var(--mp-rose) 100%);
+    border-radius: 2px;
+}
+
+/* Info cards — Plus compact */
+.mp-info-card {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(143, 184, 199, 0.06);
+}
+
+.mp-info-card:last-of-type {
+    border-bottom: none;
+}
+
+/* Icônes avec accent rose/prune — Unité visuelle avec le logo */
+.mp-info-icon {
+    font-size: 1rem;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* Dégradé subtil océan → rose pour rappeler la charte */
+    background: linear-gradient(135deg, rgba(143, 184, 199, 0.12) 0%, rgba(212, 114, 154, 0.10) 100%);
+    border: 1px solid rgba(212, 114, 154, 0.08);
+    border-radius: 10px;
+    flex-shrink: 0;
+    transition: background var(--mp-t), transform var(--mp-t);
+}
+
+.mp-info-card:hover .mp-info-icon {
+    background: linear-gradient(135deg, rgba(143, 184, 199, 0.18) 0%, rgba(212, 114, 154, 0.15) 100%);
+    transform: scale(1.05);
+}
+
+/* Labels infos — Lisibles mais discrets (accessibilité améliorée) */
+.mp-info-content strong {
+    display: block;
+    font-size: 0.72rem;                    /* Plus grand pour meilleure lisibilité */
+    font-weight: 600;                      /* Plus affirmé */
+    color: var(--mp-muted);                /* Gris plus foncé pour accessibilité */
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    margin-bottom: 5px;
+}
+
+.mp-info-content p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--mp-ink);
+    line-height: 1.45;
+}
+
+.mp-info-content a {
+    color: var(--mp-ink);
+    text-decoration: none;
+    transition: color var(--mp-t);
+}
+
+.mp-info-content a:hover {
+    color: var(--mp-rose);
+}
+
+/* Adresse cliquable — Discret mais pratique */
+.mp-address-link {
+    display: block;
+    text-decoration: none !important;
+    color: inherit !important;
+    transition: color var(--mp-t);
+}
+
+.mp-address-link p {
+    transition: color var(--mp-t);
+}
+
+.mp-address-link:hover p {
+    color: var(--mp-ocean-dark);
+}
+
+.mp-itineraire {
+    display: inline-block;
+    margin-top: 6px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--mp-muted-2);
+    letter-spacing: 0.02em;
+    transition: color var(--mp-t), transform var(--mp-t);
+}
+
+.mp-address-link:hover .mp-itineraire {
+    color: var(--mp-rose);
+    transform: translateX(3px);
+}
+
+/* Badge réponse */
+.mp-response-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 20px;
+    padding: 12px 14px;
+    background: rgba(143, 184, 199, 0.06);
+    border-radius: var(--mp-radius-sm);
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--mp-muted);
+}
+
+.mp-badge-icon {
+    font-size: 0.95rem;
+    opacity: 0.8;
+}
+
+/* -----------------------------------------------------------------------------
+   4) FORMULAIRE — Champs plus hauts, plus d'espace, RGPD avec fond
+   ----------------------------------------------------------------------------- */
+.mp-contact-form-wrapper {
+    background: var(--mp-card);
+    border: 1px solid rgba(143, 184, 199, 0.12);
+    border-radius: var(--mp-radius);
+    box-shadow: var(--mp-shadow);
+    padding: 32px 28px;
+    transition: box-shadow var(--mp-t);
+}
+
+.mp-contact-form-wrapper:hover {
+    box-shadow: var(--mp-shadow-hover);
+}
+
+.mp-form-title {
+    font-size: 1.1rem !important;
+    font-weight: 600 !important;
+    color: var(--mp-ink) !important;
+    margin: 0 0 26px !important;
+}
+
+/* Form layout */
+.mp-contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;                             /* Resserré pour rythme rapide */
+}
+
+.mp-form-row-2col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+@media (max-width: 500px) {
+    .mp-form-row-2col {
+        grid-template-columns: 1fr;
+        gap: 22px;
+    }
+}
+
+.mp-form-field {
+    display: flex;
+    flex-direction: column;
+}
+
+.mp-form-field label {
+    font-size: 0.9rem;                     /* Légèrement plus grand */
+    font-weight: 600;
+    color: var(--mp-ink);                  /* Déjà foncé, on garde */
+    margin-bottom: 8px;
+}
+
+.mp-form-field label .required {
+    color: var(--mp-rose);
+    font-weight: 400;
+}
+
+/* Champs — Plus hauts, plus confortables */
+.mp-form-field input[type="text"],
+.mp-form-field input[type="email"],
+.mp-form-field input[type="tel"],
+.mp-form-field textarea {
+    width: 100%;
+    padding: 15px 16px;                    /* Plus haut (était 14px) */
+    font-size: 0.95rem;
+    font-family: inherit;
+    color: var(--mp-ink);
+    background: var(--mp-soft);
+    border: 1.5px solid rgba(143, 184, 199, 0.15);
+    border-radius: var(--mp-radius-sm);
+    outline: none;
+    transition: border-color var(--mp-t), box-shadow var(--mp-t), background-color var(--mp-t);
+}
+
+.mp-form-field input::placeholder,
+.mp-form-field textarea::placeholder {
+    color: rgba(26, 43, 60, 0.35);
+}
+
+.mp-form-field textarea {
+    min-height: 130px;
+    resize: vertical;
+    line-height: 1.6;
+}
+
+/* Focus */
+.mp-form-field input:focus,
+.mp-form-field textarea:focus {
+    border-color: var(--mp-ocean);
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba(143, 184, 199, 0.12);
+}
+
+/* Focus visible (accessibilité) */
+.mp-form-field input:focus-visible,
+.mp-form-field textarea:focus-visible {
+    outline: 2px solid var(--mp-ocean);
+    outline-offset: 2px;
+}
+
+/* RGPD — Fond doux comme une note */
+.mp-form-rgpd {
+    margin-top: 2px;                       /* Rapproché du champ précédent */
+    padding: 14px 16px;
+    background: rgba(143, 184, 199, 0.05);
+    border: 1px solid rgba(143, 184, 199, 0.08);
+    border-radius: var(--mp-radius-sm);
+}
+
+.mp-checkbox-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    cursor: pointer;
+}
+
+.mp-checkbox-label input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    min-width: 18px;
+    margin-top: 2px;
+    accent-color: var(--mp-ocean);
+    cursor: pointer;
+}
+
+.mp-checkbox-text {
+    font-size: 0.78rem;
+    color: var(--mp-muted-2);
+    line-height: 1.55;
+}
+
+.mp-checkbox-text a {
+    color: var(--mp-ocean-dark);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.mp-checkbox-text a:hover {
+    color: var(--mp-rose);
+}
+
+/* -----------------------------------------------------------------------------
+   5) BOUTON — Hover subtil, dégradé moins saturé
+   ----------------------------------------------------------------------------- */
+.mp-form-submit {
+    margin-top: 4px;                       /* Rapproché de RGPD */
+}
+
+.mp-submit-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: auto;
+    min-width: 200px;
+    height: 52px;
+    padding: 0 30px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    font-family: inherit;
+    color: #fff;
+    /* Dégradé moins saturé, plus premium */
+    background: linear-gradient(135deg, var(--mp-ocean) 0%, var(--mp-rose) 100%);
+    border: none;
+    border-radius: 999px;
+    cursor: pointer;
+    box-shadow: var(--mp-shadow);
+
+    /* Transition sur état normal */
+    transition: transform var(--mp-t), box-shadow var(--mp-t);
+    transform: translateY(0);
+    will-change: transform, box-shadow;
+}
+
+.mp-submit-btn svg {
+    width: 18px;
+    height: 18px;
+    transition: transform var(--mp-t);
+}
+
+/* Hover — Léger mouvement + ombre diffuse, PAS de scale */
+.mp-submit-btn:hover {
+    transform: translateY(-2px);           /* Juste un léger lift */
+    box-shadow: 0 18px 45px rgba(143, 184, 199, 0.22);  /* Plus diffuse */
+}
+
+.mp-submit-btn:hover svg {
+    transform: translateX(2px);
+}
+
+.mp-submit-btn:active {
+    transform: translateY(0);
+}
+
+.mp-submit-btn:focus-visible {
+    outline: 3px solid var(--mp-ocean);
+    outline-offset: 3px;
+}
+
+@media (max-width: 500px) {
+    .mp-submit-btn {
+        width: 100%;
+        min-width: unset;
+    }
+}
+
+/* -----------------------------------------------------------------------------
+   MESSAGES SUCCÈS/ERREUR
+   ----------------------------------------------------------------------------- */
+.mp-form-success {
+    margin-top: 20px;
+    padding: 16px 18px;
+    background: rgba(16, 185, 129, 0.08);
+    border: 1px solid rgba(16, 185, 129, 0.15);
+    border-radius: var(--mp-radius-sm);
+    color: #059669;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-align: center;
+}
+
+.mp-form-error {
+    margin-top: 20px;
+    padding: 16px 18px;
+    background: rgba(239, 68, 68, 0.08);
+    border: 1px solid rgba(239, 68, 68, 0.15);
+    border-radius: var(--mp-radius-sm);
+    color: #DC2626;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-align: center;
+}
+
+/* -----------------------------------------------------------------------------
+   6) GOOGLE MAPS — Discret mais présent, avec contexte
+   ----------------------------------------------------------------------------- */
+.mp-contact-map {
+    margin-top: 18px;                      /* Resserré : photo = intro de cette section */
+    padding-top: 8px;
+}
+
+/* En-tête carte */
+.mp-map-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.mp-map-title {
+    font-size: 1.15rem !important;
+    font-weight: 500 !important;
+    color: var(--mp-ink) !important;
+    margin: 0 0 6px !important;
+    letter-spacing: 0.01em;
+}
+
+.mp-map-subtitle {
+    font-size: 0.95rem;
+    color: var(--mp-muted-2);
+    margin: 0;
+    font-style: italic;
+}
+
+/* Wrapper carte */
+.mp-map-wrapper {
+    border-radius: 24px;                   /* Coins très arrondis = douceur */
+    overflow: hidden;
+    box-shadow: 0 8px 30px rgba(143, 184, 199, 0.10);  /* Ombre plus douce */
+    background: var(--mp-soft);            /* Fond neutre derrière */
+}
+
+.mp-contact-map iframe {
+    display: block;
+    width: 100%;
+    height: 300px;                         /* Réduit : complément, pas destination */
+    border: none;
+    filter: saturate(0.85) contrast(0.95); /* Calmer les couleurs Google */
+    transition: filter 0.3s ease;
+}
+
+.mp-contact-map:hover iframe {
+    filter: saturate(1) contrast(1);       /* Couleurs normales au hover */
+}
+
+@media (max-width: 768px) {
+    .mp-contact-map {
+        margin-top: 14px;          /* Resserré aussi */
+        padding-top: 6px;
+    }
+
+    .mp-map-header {
+        margin-bottom: 14px;
+    }
+
+    .mp-map-title {
+        font-size: 1.05rem !important;
+    }
+
+    .mp-map-wrapper {
+        border-radius: 20px;
+    }
+
+    .mp-contact-map iframe {
+        height: 250px;                     /* Compact sur mobile */
+    }
+}
+
+/* -----------------------------------------------------------------------------
+   7) ACCESSIBILITÉ — prefers-reduced-motion
+   ----------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+    .mp-submit-btn,
+    .mp-form-field input,
+    .mp-form-field textarea,
+    .mp-contact-form-wrapper {
+        transition: none !important;
+        transform: none !important;
+    }
+
+    .mp-submit-btn:hover {
+        transform: none !important;
+    }
+
+    .mp-contact-hero::before,
+    .mp-contact-hero::after {
+        display: none;
+    }
+
+    .mp-contact-map iframe {
+        filter: none !important;
+    }
+}
+
+/* -----------------------------------------------------------------------------
+   RESPONSIVE — Vérification ordre mobile
+   ----------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+    .mp-contact-hero {
+        padding: 60px 16px 32px;           /* Mobile : encore plus compact */
+    }
+
+    .mp-contact-container {
+        padding: 0 16px 50px;
+    }
+
+    .mp-contact-infos,
+    .mp-contact-form-wrapper {
+        padding: 24px 20px;
+    }
+
+    .mp-contact-title {
+        font-size: 1.5rem !important;
+    }
+
+    .mp-contact-subtitle {
+        font-size: 1rem;
+    }
+}
+
+/* -----------------------------------------------------------------------------
+   PHOTO FONDATRICE — Bandeau de transition calme vers la carte
+   ----------------------------------------------------------------------------- */
+.mp-contact-photo {
+    margin: 60px 0 0;              /* Plus d'air au-dessus = fin du formulaire */
+    padding: 0;
+    text-align: center;
+}
+
+.mp-contact-photo img {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    /* Format bandeau : hauteur limitée, image recadrée */
+    height: 35vh;
+    min-height: 220px;
+    max-height: 400px;
+    object-fit: cover;
+    object-position: center 50%;
+    margin: 0 auto;
+    /* Coins arrondis cohérents avec la carte en dessous */
+    border-radius: 24px 24px 0 0;
+    /* Pas d'ombre — fusion douce avec la carte */
+    box-shadow: none;
+    /* Atténuée : ambiance, pas contenu principal */
+    filter: saturate(0.88) contrast(0.94) brightness(1.02);
+    opacity: 0.95;
+}
+
+/* Phrase de transition humaine */
+.mp-contact-photo figcaption {
+    padding: 12px 20px 4px;        /* Très resserré en bas = fusion avec "Nous situer" */
+    background: linear-gradient(180deg, rgba(143, 184, 199, 0.06) 0%, transparent 100%);
+    font-size: 0.95rem;
+    font-style: italic;
+    color: var(--mp-muted);
+    letter-spacing: 0.01em;
+    line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+    .mp-contact-photo {
+        margin: 45px 0 0;          /* Proportionnel au desktop */
+    }
+
+    .mp-contact-photo img {
+        height: 28vh;
+        min-height: 180px;
+        max-height: 260px;
+        border-radius: 20px 20px 0 0;
+    }
+
+    .mp-contact-photo figcaption {
+        font-size: 0.9rem;
+        padding: 10px 16px 2px;    /* Très resserré aussi */
+    }
+}
+
+
+/* =============================================================================
+   FIN STYLES — PAGE CONTACT PREMIUM
+   ============================================================================= */

@@ -1,0 +1,789 @@
+/*
+Theme Name: Yogic Pro
+Theme URI: https://gracethemes.com/themes/meditation-wordpress-theme/
+Author: Grace Themes
+Author URI: https://www.gracethemes.com/
+Description: Yogic is a meditation WordPress theme specially designed to create professional and elegant website for yoga, meditation, pilates, wellness center, personal coach and health related websites. This multipurpose theme can also be used for charity, NGO, church, gym, sports club, beauty and spa websites.  The design of Yogic theme is crafted to perfectly fit for meditation and yoga websites and it comes with lots of features. This flexible theme gives you plenty of options for website customizations. Demo: http://gracethemesdemo.com/yogic/
+
+Version: pro 1.2
+License: GNU General Public License version 3
+License URI: license.txt
+Text Domain: yogic-pro
+Tags:one-column,two-columns,left-sidebar,right-sidebar,custom-background,custom-header,custom-menu,featured-images,theme-options,full-width-template,sticky-post,threaded-comments,translation-ready
+
+Yogic Pro WordPress Theme has been created by Grace Themes(gracethemes.com), 2019.
+Yogic Pro WordPress Theme is released under the terms of GNU GPL
+*/
+@import url('https://fonts.googleapis.com/css?family=Assistant:300,400,700,800&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Playfair+Display:400,700,900&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Merriweather:400,700,900&display=swap');
+
+
+*{ margin:0; padding:0; outline:none; box-sizing:border-box; -moz-box-sizing:border-box;-webkit-box-sizing:border-box;}
+body{ margin:0; padding:0; box-sizing:border-box; -ms-word-wrap:break-word; word-wrap:break-word; line-height:26px; margin:0; padding:0; color:#717171; font-size:16px; background-color:#ffffff; }
+img{ margin:0; padding:0; border:none; max-width:100%;}
+section img, img{max-width:100%; height:auto;}
+h1,h2,h3,h4,h5,h6{ margin:0 0 20px; padding:0; line-height:1; font-weight:400; /*font-family: 'Playfair Display', serif;*/ }
+h1{ font-size:36px; }
+h2{ font-size:30px;}
+h3{ font-size:18px; }
+h4{ font-size:22px;}
+h5{ font-size:20px; }
+h6{ font-size:14px;}
+.left{float:left;}
+.right{float:right;}
+blockquote{ background:url(images/icon_quote.png) no-repeat 20px 22px; padding:15px 15px 15px 60px !important; font-style:italic; color:#888; font-size:14px; line-height:1.5;}
+.hr{border-bottom:1px solid #333; height:15px; clear:both;}
+p{ margin:0; padding:0;}
+a{ text-decoration:none; outline:none;}
+a:hover{ text-decoration:none; outline:none;}
+ul{ list-style:none; margin:0; padding:0;}
+article ul, article ol{ margin:0 0 15px 15px;}
+article ul li{ list-style: disc;}
+.custom-height{ min-height:20px;}
+.clear{ clear:both;}
+.textwidget select{ width:100%;}
+table{ width:100%}
+.middle-align{ margin:0 auto; padding:0;}
+.wp-caption{ margin:0; padding:0; font-size:13px; max-width:100% !important;}
+.wp-caption-text{ margin:0; padding:0;}
+.sticky{ margin:0; padding:0;}
+.gallery-caption{ margin:0; padding:0;}
+.alignleft, img.alignleft {display: inline; float: left; margin-right:25px; margin-top:4px; margin-bottom:6px; padding:0; height:auto;}
+.alignright, img.alignright { display: inline; float: right; margin-left:25px; height:auto;}
+.aligncenter, img.aligncenter { clear: both; display: block; margin-left: auto; margin-right: auto; margin-top:0;  height:auto;}
+.comments-area{ margin-bottom:15px;}
+.comment-list .comment-content ul { list-style:none; margin-left:15px;}
+.comment-list .comment-content ul li{margin:5px;}
+.main-container ol{list-style-position:outside; margin-left:20px;}
+.main-container ol li{margin:5px 0;}
+.lastcols{ margin-right:0 !important;}
+.toggleMenu{display:none;}
+section{ padding:80px 0;}
+h2.section_title{font-weight:900; font-size:40px; text-align:center; margin-bottom:50px; padding-bottom:25px; position:relative; }
+h2.section_title::after {
+    border-bottom: 1px solid #111;
+    bottom: 0;
+    content: "";
+    left: 0;
+	right:0;	
+    margin: auto;
+    position: absolute;
+    width:70px;
+}
+
+
+.sec_content_main_title{ color:#fff; font-weight:800; font-size:44px; line-height:44px; text-align:left; margin-bottom:30px; padding-bottom:20px; position:relative; position:relative;}
+.sec_content_main_title::after {
+    border-bottom: 1px solid #fff;
+    bottom: 0;
+    content: "";
+    left: 0;	
+    margin: auto;
+    position: absolute;
+    width:60px;
+}
+
+.container{ width:1170px; margin:0 auto; position:relative;}
+
+/* = top stip css
+------------------------------------------- */
+.pp_topstrip{ background-color:#fff; color:#1d1d1d;}
+.pp_topstrip .left{ width:50%;}
+.infobox{ display:inline-block; margin:0 5% 0 0; text-align:left; color:#fff; font-size:16px;}
+.pp_topstrip .infobox a{ color:#fff;}
+.infobox i{ margin:0 15px 0 0; line-height:32px; text-align:center; font-size:18px; }
+
+/* = social icons css
+------------------------------------------- */
+.social-icons a{ width:35px; height:40px; line-height:40px; text-align:center;  vertical-align:middle; display:inline-block; padding:0 5px 0; transition:0.6s; -moz-transition:0.6s; -webkit-transition:0.6s; -o-transition:0.6s; font-size:16px; color:#000000; }
+.social-icons br{ display:none;}
+
+/* fix header css*/
+.sitewrapper .header.fixed{ width:100%; }
+.boxlayout{ width:1210px; margin:0 auto; box-shadow:0 5px 10px #000; position:relative; }
+.boxlayout .container{ padding:0 20px;}
+.boxlayout .footer{ padding:40px 20px;}
+.boxlayout .header.fixed{ width:auto;}
+.boxlayout .vid_galle_left .videobox{ width:630px; height: 455px;}
+.boxlayout .mission_box{ min-height:155px;}
+.boxlayout #section1 .container{ padding:0;}
+h5.headwidjet{ display:none;}
+/*Header Info Bar CSS*/
+.headerinfo { font:600 14px/22px 'Assistant'; padding:10px 0; }
+#slider{ width:100%; margin:0; padding:0; position:relative;}
+.logo{ background-color:#cf317c; text-align:center; width:20%; margin:0 auto; padding:10px 15px; position: absolute; top:-40px; left:0; right:0; z-index:9999;  }
+.logo h1{font-weight:600; margin:0px; }
+.logo a{color:#000;}
+.tagline{ font-size:14px; color:#fff; display:block;}
+
+/*header menu css*/
+.toggle{display: block;}
+.toggle a{width:auto; color:#ffffff; background:url(images/mobilenav.png) no-repeat right center #3e3e3e; padding:18px 25px; margin-top:5px; font-size:16px; text-align:left;}
+.toggle a:hover{color:#ffffff !important;}
+.header.fixed{ position: fixed; top:0; z-index:999999; width:auto;}
+
+.header.fixed .pp_topstrip { display:none;}
+.header.fixed .logo { display:none;}
+.header.fixed .sitenav { padding-top:0; }
+.header.fixed .sitenav ul li ul li a{ padding-top:7px; padding-bottom:7px; }
+.header{width:100%; box-sizing:border-box; position: absolute; z-index:999; }
+.ppmenubg{ background-color:#fff; padding:0;}
+.header.fixed .ppmenubg{ box-shadow:0 0 10px #555;}
+
+.sitenav{ padding:0; z-index:9999; text-align:center; display: block; padding-top:25px; }
+.sitenav ul {margin:0; padding:0; font-family:'Assistant', sans-serif; font-size:16px; font-weight:600; }
+.sitenav ul li{display:inline-block; position:relative;}
+.sitenav ul li:last-child{border-right:none;}
+.sitenav ul li a{ padding:30px 20px; display:block; text-align:center; }
+.sitenav ul li ul li{ display:block; position:relative; float:none; top:1px; border-bottom:1px #404040 solid;}
+.sitenav ul li ul li a{ display:block; padding-top:7px; padding-bottom:7px; position:relative; top:1px; text-align:left;}
+.sitenav ul li ul{display:none; z-index:9999999; position:relative;}
+.sitenav ul li:hover > ul{display:block; width:200px; position:absolute; left:0; text-align:left; background-color:#303030; }
+.sitenav ul li:hover ul li ul{display:none; position:relative;}
+.sitenav ul li:hover ul li:hover > ul{display:block; position:absolute; left:200px; top:0;}
+
+/* = innerbanner css 
+-------------------------------------------------------------- */
+.innerbanner{ text-align:center; }
+.innerbanner img{ position: relative; background-size:cover; width:100%; height:auto;}
+
+/*search form css*/
+.searchbox{position:relative; min-width:35px; width:0%; height:40px; float:right; overflow:hidden;padding-left:20px; -webkit-transition: width 0.3s;    -moz-transition: width 0.3s; -ms-transition: width 0.3s; -o-transition: width 0.3s; transition: width 0.3s;}
+.searchbox-input{top:0; right:0; border:0;outline:0;background:#ece8e8;width:100%;height:40px;margin:0;padding:0px 55px 0px 20px;font-size:13px;color:#7f7f7f;}
+.searchbox-input::-webkit-input-placeholder{color:#7f7f7f;}
+.searchbox-input:-moz-placeholder{color:#7f7f7f;}
+.searchbox-input::-moz-placeholder{color:#7f7f7f;}
+.searchbox-input:-ms-input-placeholder{color:#7f7f7f;}
+.searchbox-icon, .searchbox-submit{width:35px;height:40px;display:block;position:absolute;top:0;font-size:22px;right:0;padding:0 !important;margin:0 !important;border:0 !important;outline:0;line-height:40px;text-align:center;cursor:pointer;color:#dcddd8;background:url(images/search-icon.png) no-repeat center center #34c6f6;}
+.searchbox-open{ width:40%;}
+
+/* = All button styles css
+-------------------------------------------------------------- */
+/*green_button*/
+.green_button{ background-color:#98cc4d; color:#fff ; padding:12px 35px; font-weight:600; display:inline-block; border-radius:25px; text-transform:uppercase; font-size:16px;}
+.green_button:hover{ background-color:#eb6e01; color:#fff; }
+
+/*pink_button*/
+.pink_button{ background-color:#eb6e01; color:#fff ; padding:12px 35px; font-weight:600; display:inline-block; border-radius:25px; text-transform:uppercase; font-size:16px;}
+.pink_button:hover{ background-color:#98cc4d; color:#fff; }
+
+/*black button*/
+.black_button{ background-color:#282828; color:#fff ; padding:12px 35px; font-weight:600; display:inline-block; border-radius:25px; text-transform:uppercase; font-size:16px;}
+.black_button:hover{ background-color:#cf317c; color:#fff; }
+
+/*border_button*/
+.border_button{ border:1px solid #fff; color:#fff ; padding:12px 35px; display:inline-block; border-radius:25px; text-transform:uppercase; font-size:16px;}
+.border_button:hover{ border-color:#eb6e01; color:#eb6e01; }
+
+/*shortcode button*/
+.custombtn{ margin-top:30px;}
+a.morebutton{ background-color:#98cc4d; color:#fff ; padding:12px 35px; font-weight:600; display:inline-block; border-radius:25px; text-transform:uppercase;}
+a.morebutton:hover{ background-color:#eb6e01; color:#fff; }
+
+
+a.borderbutton{ border:1px solid #fff; color:#fff ; padding:12px 25px; display:inline-block; border-radius:25px; text-transform:uppercase;}
+a.borderbutton:hover{ border-color:#eb6e01; color:#eb6e01; }
+
+a.buttonstyle1{ background-color:#865628; color:#fff ; padding:10px 25px; display:inline-block; border-radius:6px; -moz-border-radius:6px;-webkit-border-radius:6px;}
+a.buttonstyle1:hover{ background-color:#381305; color:#fff; }
+
+.buttonstyle2{ background-color:#555; color:#fff ; padding:6px 15px; font-size:14px; line-height:20px; display:inline-block; border-radius:20px;-moz-border-radius:20px; -webkit-border-radius:20px;}
+.buttonstyle2:hover{ background-color:#fff; color:#555; }
+
+/* = Services Section CSS
+-------------------------------------------------------------- */
+
+#pagearea{ background-color:#f4f4f4;  z-index:9999; position:relative; }
+.services_3box{  width:30%; float:left; margin:0 5% 0 0; position:relative; box-sizing:border-box; text-align:center; }
+.services_3box p{ margin-bottom:30px; }
+.services_3box h3{ font-size:22px; font-weight:600; color:#121212; margin:25px 0 25px; line-height:24px;}
+.services_3box h3 a{ color:#121212;}
+.services_3box .thumbbx{ background-color:#cf317c; margin:0 auto; overflow:hidden; height:255px; position:relative; }
+.services_3box .thumbbx img { height:auto; width:auto; min-height:255px; /*opacity: 1;-webkit-transition: .3s ease-in-out;transition: .3s ease-in-out;*/ }
+.services_3box:hover .thumbbx img {opacity:.3;}
+.pagecontent{ position:relative; }
+.one_column{ float:none;}
+.one_column.services_3box{ margin:0 auto !important;}
+
+
+.services_3box .thumbbx::before {
+	position: absolute;
+	top: 0;
+	left: -75%;
+	z-index: 2;
+	display: block;
+	content: '';
+	width: 50%;
+	height: 100%;
+	background: -webkit-linear-gradient(left, rgba(255,255,255,0) 0%, rgba(255,255,255,.3) 100%);
+	background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,.3) 100%);
+	-webkit-transform: skewX(-25deg);
+	transform: skewX(-25deg);
+}
+.services_3box .thumbbx:hover::before {
+	-webkit-animation: shine .75s;
+	animation: shine .75s;
+}
+@-webkit-keyframes shine {
+	100% {
+		left: 125%;
+	}
+}
+@keyframes shine {
+	100% {
+		left: 125%;
+	}
+}
+
+.one_column{ float:none;}
+.one_column.threebox{ margin:0 auto !important;}
+
+
+
+.two_column{ width:47.5%;}
+.two_column.threebox .thumbbx a{ display:block;}
+
+.four_column { width:21.2%;}
+.four_column .thumbbx{ height:200px;}
+.four_column .thumbbx img{ min-height:200px;}
+
+.five_column{ width:18.3%; margin-right:2%;}
+.five_column .thumbbx{ height:180px;}
+.five_column .thumbbx img{ min-height:180px;}
+
+.six_column{ width:15.8%; margin-right:1%;}
+.six_column .thumbbx{ height:150px;}
+.six_column .thumbbx img{ min-height:150px;}
+
+
+/* = About Yoga sections 1 css
+-------------------------------------------------------------- */
+#section1{ padding:0;}
+#section1 .container{ width:100%; position:relative; }
+#section1 .sec_content_main_title{ color:#fff;}
+.vid_galle_left{ width:52.1%; float:left;}
+.videobox{ position:relative; width:700px; height:500px; overflow:hidden; background-color:#111;}
+.videobox img{ display:block;}
+.videobox i{ font-size:30px; position:absolute; text-align:center; color:#ffffff; background-color:#98cc4d; width:64px; height:64px; line-height:64px; left:0; right:0; margin:0 auto; top:42%;  -webkit-border-radius:100%; -moz-border-radius:100%;border-radius:100%;}
+.videobox:hover i{ color:#575757; background:#ffffff;}
+
+
+.vid_galle_right{ width:47.9%; float:right; margin:0;}
+
+.aboutyoga_box{ padding:25px 75px 77px; color:#fff; }
+
+/*our mission css*/
+.mission_box{ background-color:#fff; padding:0 75px 75px; min-height:200px; position:relative;}
+.mission_desc{ position:absolute;  top:-70px;}
+.msndesc{ padding:20px 30px; position:relative; background-color:#cf317c; color:#ffffff; font-style:italic; margin-bottom:30px;width:85%;}
+.msndesc:after{top: 100%;left:10%;border: solid transparent;content: " ";height: 0;width: 0; position: absolute;pointer-events: none;	border-color: rgba(136, 183, 213, 0);border-top-color: #cf317c;border-width:15px;margin-left:0;}
+.mission_desc h4{ font-size:16px; text-transform:uppercase; margin-bottom:10px; color:#111; font-weight:600;}
+.mission_desc span{ display:block;}
+
+/* = What We Offer sections 2 CSS
+-------------------------------------------------------------- */
+.welcome_leftbox{ width:30%; float:left; margin-right:5%}
+.welcome_leftbox img{ display:block;}
+.welcome_righbox{ width:65%; float:right;}
+.welcome_leftbox h3{ font-size:32px; font-weight:700; color:#121212; padding-bottom:20px; margin-bottom:20px; position:relative;}
+.welcome_leftbox h3::after {
+    border-bottom: 1px solid #121212;
+    bottom: 0;
+    content: "";
+    left: 0;
+    margin: auto;
+    position: absolute;
+    width:50px;
+}
+.welcome_leftbox h5{ font-size:17px; font-weight:600; margin-bottom:10px; color:#98cc4d; }
+.wel3box_services{ width:47.5%;float:left;margin:0 4% 25px 0;background-color:#fff;box-shadow:0 0 20px #eeeeee; -webkit-transition: .3s ease-in-out;transition: .3s ease-in-out;}
+.wel3box_services:hover{ box-shadow:0 0 20px #b0b0b0; background-color:#cf317c; color:#fff;}
+.welcome_thumb{ float:left; margin:0 20px 0 0; height:68px; overflow:hidden;}
+.welcome_thumb img{ min-height:68px; height:68px; }
+.wel3box_desc{ padding:25px;}
+.wel3box_desc h4{ font-size:20px; font-weight:600; margin-bottom:15px; color:#353535;}
+.wel3box_desc p{ display: table; line-height:24px;}
+.wel3box_services:hover .wel3box_desc h4{ color:#fff;}
+
+/* = Benefits of yoga Section 3 CSS
+-------------------------------------------------------------- */
+#section3 h2.section_title{ color:#fff;}
+#section3 h2.section_title::after { border-color: #fff;}
+.benifit_column{ width:15.66%; float:left; margin:0 1% 0 0; text-align:center;}
+.benefit_iconbx{ background-color:#98cc4d; width:130px; height:130px; line-height:130px; overflow:hidden; padding:20px 0; box-sizing:border-box; margin:0 auto; border-radius:50%}
+.benifit_column:hover .benefit_iconbx{ background-color:#cf317c; box-shadow:0 0 0 10px rgba(255,255,255,0.1)}
+.benifit_column img{ width:78px; height:auto;}
+.benifit_column h4{ font-size:20px; font-weight:600; margin-top:35px; color:#fff;}
+.benifit_column h4 a{ color:#fff;}
+.benifit_column:hover h4 a{ color:#cf317c;}
+
+/* = Teaching to Serve Section 5 CSS
+-------------------------------------------------------------- */
+.features_videobox{ width:30%; float:left; margin-right:4%; color:#fff;}
+.features_videobox .videobox{ width:340px; height:340px; border-radius:50%; border:8px solid #60656b;}
+.features_videobox .videobox img{ width:100%; min-height:340px; }
+.features_infobox{ width:30%; float:left;  margin-right:4%; color:#fff; }
+.features_servicesbx{ width:32%; float:left; color:#fff;}
+.features_videobox iframe{ border-radius:7px;}
+
+#section5 .sec_content_main_title{ padding-bottom:20px; text-transform:none; margin-bottom:30px; font-weight:400; color:#fff;}
+#section5 .custombtn{ margin-top:30px;}
+
+
+
+.ftr_srv_list{margin:0 0 35px 0; -webkit-transition: .3s ease-in-out;transition: .3s ease-in-out;}
+.ftr_srv_list .ftr_icons{ float:left; margin:0 20px 0 0; width:75px; height:auto; overflow:hidden;}
+.ftr_srv_list .ftr_icons img{ height:auto; width:100%;}
+.ftr_srv_list h4{ font-size:22px; margin-bottom:10px; color:#fff;}
+.ftr_srv_list p{ display: table; line-height:24px;}
+
+
+/* = Latesr news section css
+-------------------------------------------------------------- */
+.news-box{ background-color:#fff; padding:20px; width:31.5%; float:left; margin:0 2.5% 0 0;  position:relative;}
+.news-box.last { border-bottom:0 ; margin:0;}
+.news-box .news-thumb{ background-color:#eb6e01; height:215px; overflow:hidden; position:relative;}
+.news-box .news-thumb img{ width:100%; height:auto; min-height:215px;}
+.news-box:hover img{ opacity:0.6;}
+.news-box p{ margin-bottom:15px;}
+.news-box h6{ margin:0 0 10px; color:#4b4a4a; font-size:18px; line-height:24px; }
+.news-box h6 a{ color:#515151;}
+.news-box h6 a:hover{color:#dc403b; }
+.news-box .PostMeta{ font-size:13px; color:#8a8989; padding-bottom:20px; margin-bottom:20px; border-bottom:1px solid #eaeaea; padding-left:100px;}
+.news-box .PostMeta span{ margin-right:10px;}
+.newsdesc{ position:relative; padding-top:10px;}
+.news-box .postdt{ font-size:13px; text-transform:uppercase; position:absolute; width:70px; height:70px; background-color: #eb6e01; color:#fff; top:-30px; left:10px;  text-align:center; border-radius:5px;}
+.news-box .postdt span{ font-size:20px; font-weight:600; display:block; padding:8px 0 0; }
+.news-box .poststyle{ font-size:13px; padding:0; text-transform:uppercase; color:#6e6d6d; font-weight:bold}
+.blogpostwrap .subtitle{ border:none; padding:0;}
+
+h2.heading{ padding-bottom:15px;}
+.underline{ border-bottom:1px solid #efeded;}
+.last{ margin-right:0 !important;}
+
+/* = Team Member and Skills Section css
+-------------------------------------------------------------- */
+.teammember-list{ width:23.4%; margin:0 2% 30px 0; float:left; position:relative; box-sizing:border-box; text-align:center; border-radius:10px;}
+.teammember-list .thumnailbx{ width:240px; height:240px; overflow:hidden; background-color:#eb6e01; border-radius:50%; border:15px solid #fff; margin:0 auto}
+.teammember-list img{ width:100%; height:100%; min-height:240px;}
+.teammember-list span.title{ font-weight:600; color:#222; font-size:22px; position:relative; }
+.teammember-list cite{ display:block; font-style:normal; margin:10px 0; color:#222; }
+.teammember-list .titledesbox{ text-align:center; padding-top:30px;}
+.member-social-icon{ text-align:center;}
+.member-social-icon a{ background-color:#fff; border:1px solid #eaead6; margin:0 5px 0 0; text-align:center; display:inline-block; color:#555; width:45px; height:45px; line-height:40px; border-radius:50%;}
+.member-social-icon i{ font-size:14px;}
+.member-social-icon a:hover{ color:#222;}
+.teammember-list:hover .thumnailbx img{ opacity:0.2;}
+
+/* = Section7  Pricing table css
+-------------------------------------------------------------- */
+.pricing_table{ position:relative;}
+.price_col{ transition: left 0.5s; float:left; text-align:center; background-color:rgba(51,54,62,0.9); color:#4c4c4c; margin:10px 1.5% 20px 1%; z-index:0; -moz-border-radius:5px; -webkit-border-radius:5px; border-radius:5px; padding:0 0 30px 0;  position:relative;}
+.pricing_table .th{ color:#242424; padding:0; margin-bottom:30px; min-height:260px; position:relative;}
+.pricttlbx{ position:absolute; bottom:25px; color:#fff; z-index:99; width:100%;}
+.pricttlbx .ptitle{ font-size:28px;  display:inline-block; text-align:left;}
+.pricttlbx .pricesubtitle{ font-size:18px; display:inline-block; text-align:right;}
+.pricttlbx .pricesubtitle span{ font-size:40px;  display:block; text-align:right; margin:10px 0;}
+
+.pricing_table .th::after {
+  display: block;
+  position: relative;
+  background-image: linear-gradient(to bottom, transparent 0%, #98cc4d 100%); 
+  height: 260px;
+  width: 100%;
+  content: '';
+}
+
+.pricing_table .highlight .th::after{
+ display: block;
+  position: relative;
+  background-image: linear-gradient(to bottom, transparent 0%, #cf317c 100%); 
+  height: 260px;
+  width: 100%;
+  content: ''; }
+
+.pricing_table .highlight{background:#2684e5; z-index:1; }
+.pricing_table .highlight .th{ color:#fff; }
+.pricing_table .td, .pricing_table .tf{padding:6px 0; }
+.pricing_table .tf a{ background-color:#2684e5; color:#fff; padding:12px 30px; border-radius:25px; -moz-border-radius:25px; -webkit-border-radius:25px; -o-border-radius:25px; font-weight:600; position: absolute; bottom:-20px; left:0; right:0; margin:0 auto; width:215px; text-transform:uppercase;}
+.pricing_table .tf a:hover{ background-color:#22252b; color:#fff;}
+.pricing_table.pcol3 .price_col{width:30.6%;}
+.pricing_table .price_col.highlight .tf a{ background-color:#242424; color:#fff;}
+.pricing_table .price_col.highlight .tf a:hover{ background-color:#000000; color:#fff;}
+.faicon .fa, .faicon .far, .faicon .fab, .faicon .fal, .faicon .fas{ font-size:40px; color:#fff;}
+.price_col .price{ background-color:#22252b; font-size:64px; line-height:60px; color:#242424; font-weight:bold; padding:30px 0; margin-top:30px; margin-bottom:30px;}
+.price_col.highlight .price{ color:#fff;}
+.pricing_table .tf{padding:35px 0 0; }
+.price_col .price span{ font-size:13px; display:block; text-transform:uppercase; font-weight:400; margin-top:10px;}
+.pricing_table.pcol4 .price_col{width:22.5%;}
+.pricing_table .td.none{ text-decoration:line-through }
+
+/* = Our Causes Section10 css
+-------------------------------------------------------------- */
+.classes_column{ width:30%; float:left; margin:0 4.5% 0 0; }
+.classes_column .classimg_bx{ background-color:#cf317c; height:250px; margin:0 auto; overflow:hidden; border-radius:6px; position:relative; clip-path: circle(100% at 50% -25%);}
+.classes_column .classimg_bx img{ width:100%; height:auto; min-height:250px; }
+.classes_column:hover img{opacity:0.5;}
+.classes_column .date_time{ padding-right:15px;}
+.classes_column .date_time i{ margin-right:8px;}
+.classes_column .titlebox{ width:100%; margin:0 auto; text-align:center; display:inline-block;}
+.classes_column .titlebox h4{ margin:30px 0 20px; color:#262626; font-size:20px; font-weight:600;}
+.classes_column .titlebox h4 a{ color:#262626;}
+.classes_column .titlebox p{ margin:15px 0 0; font-size:15px; color:#706f6f; }
+.classes_column:hover .titlebox h4 a{ color:#cf317c;}
+
+/* = Testimonials Section css
+-------------------------------------------------------------- */
+#section8{ color:#fff;}
+#section8 .sec_content_main_title{ color:#fff;}
+#section8 .subtitle{ width:100%; color:#fff; border-left:4px solid #fff; padding:0 0 0 30px; margin-bottom:40px; line-height:22px; font-style:italic;}
+#clienttestiminials{box-sizing:border-box; position:relative; }
+#clienttestiminials .item{ margin:0 auto; position:relative;}
+#clienttestiminials h6{ margin:0; font-size:18px; color:#242424; position:relative;}
+#clienttestiminials span{ font-size:14px; color:#717171; padding-left:15px;}
+#clienttestiminials .tmthumb{ width:80px; height:80px; float:left; margin:0 30px 0 0; overflow:hidden; border-radius:100%; }
+#clienttestiminials .tmthumb img{ width:100%; height:auto; min-height:80px; }
+.arrow_box{ padding:50px 30px 40px; position:relative; background-color:#fff; border-radius:5px; margin-bottom:30px;}
+.arrow_box p{ padding-left:60px;}
+#clienttestiminials .leftttl{ padding-top:25px; text-align:right;}
+
+/*testimonials listing*/
+.tmnllisting{ margin-bottom:35px; min-height:120px; background-color:#f2f2f2; padding:25px;}
+.tmnllisting .tmnlthumb{ float:left; width:120px; height:120px; margin:0 5% 0 0; overflow:hidden;}
+.tmnllisting .tmnlthumb img{ width:100%; height:100%; }
+.tmnllisting h6{ margin-bottom:5px; text-transform:uppercase; font-size:20px;}
+.tmnllisting span{ display:block; margin-bottom:15px;}
+.tmnllisting p{ margin-bottom:0;}
+#testimonials-widget h6{ margin-bottom:5px; text-transform:uppercase;}
+#testimonials-widget p{ margin-bottom:15px;}
+
+/* = FAQ Section9 css
+-------------------------------------------------------------- */
+#section9{ padding:0;}
+.boxlayout #section9 .container{ overflow:hidden;}
+#section9 .sec_content_main_title{ padding:0; color:#fff; margin:0 0 10px; font-size:36px; font-weight:600; }
+#section9 .sec_content_main_title:after{ display:none;}
+#section9 .subtitle{ width:100%; }
+.faq_left{ width:45%; float:left; margin:0; background-color:#cf317c; position:relative; padding:100px 50px 100px 0;}
+.faq_right{ width:57%; float:left; margin:100px 0 0 -40px; padding:50px 40px 50px 75px; background-color:#f6f6ec; position:relative; z-index:999;}
+.faq_left::after {
+    left: -99999px;
+    position: absolute;
+    width: 99999px;
+	bottom: 0;
+    content: "";
+    top: 0;
+	background-color:#cf317c;
+}
+
+
+.findbx{ font-style:italic;  color:#fff; padding:20px 0 0 20px; }
+.findbx a{ color:#fff; font-weight:bold;}
+
+/* = counter section css
+-------------------------------------------------------------- */
+.counterlist{ width:47%; float:left; display:block; margin:0; padding:0 0 20px; box-sizing:border-box;}
+.counterlist:nth-of-type(2n){ margin-left:5%}
+.circle_countr{ height:auto; color:#353535; margin:0; padding:0; }
+.counterlist .counter{display:block; font-size:50px; font-weight:400; line-height:100%;}
+.counterlist .counter-icon{ float:left; width:73px; height:74px; margin:0 35px 0 0; }
+.counterlist h6{ font-size:20px; font-weight:600; margin:17px 0 7px 0;}
+
+/* = Practice Theory section10 CSS
+-------------------------------------------------------------- */
+#section10{ color:#fff;}
+#section10 .sec_content_main_title{ color:#fff; font-weight:600; }
+.practice_theory{ width:35%; position:relative;}
+
+/* = Client logo CSS
+-------------------------------------------------------------- */
+#section11{ color:#fff; padding:40px 0;}
+#section11 .sec_content_main_title{ padding-bottom:0; margin-bottom:15px; color:#fff;}
+#section11 .sec_content_main_title:after{ display:none;}
+#clientlogo{ margin:0; padding:0;}
+#clientlogo li{ list-style:none; width:21%;  display:inline-block; margin:0 0 20px 25px; padding:0; text-align:center; position:relative;}
+#clientlogo li:hover::after{    
+    position: absolute;   
+	bottom: -60px;
+	left:0;
+	right:0;
+    content: "";    
+	border-bottom:7px solid #fff;
+ }
+#clientlogo li span{ display:block; margin:5px 0 0 0; color:#fff; text-transform:uppercase;}
+.partner_left{ width:32%; float:left; margin:0 5% 0 0;}
+.partner_right{ width:63%; float:right; margin:0;}
+
+
+/* --------- Pages ------- */
+.content-area{ padding:30px 20px !important;}
+.site-main{ width:780px; margin:0; padding:0; float:left;}
+.sitefull{ width:100% !important;}
+#sidebar{ width:300px; float:right;}
+.sidebar-left{ float:left !important;}
+.flotRight{ float:right !important;}
+.nosidebar{ float:none !important; margin:0 auto;}
+
+/*sidebar css*/
+aside.widget{ background-color:#fff; margin-bottom:30px; padding:20px; box-shadow:0 0 10px #ddd;}
+aside.widget ul{ list-style:disc inside; }
+h3.widget-title{ font-weight:400; padding:15px; margin:-20px -20px 15px; color:#fff; font-size:22px; position:relative; background-color:#eb6e01; }
+
+#sidebar #contactform_main input[type=text], #sidebar #contactform_main input[type=email], #sidebar #contactform_main input[type=tel],#sidebar #contactform_main input[type=url], #sidebar #contactform_main textarea{width:90%; }
+#sidebar #contactform_main p{ margin-bottom:10px;}
+#sidebar ul li{ border-bottom:1px solid #ddd; list-style:none; margin-bottom:2px; padding:7px 10px 7px 0; -webkit-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    -ms-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out; }
+	
+#sidebar ul li:hover{padding-left:5px;}	
+#sidebar ul li a{ color:#3b3b3b; }
+#sidebar ul li a:hover{ color:#34c6f6;}
+#sidebar ul li:last-child{ border:none;}
+#sidebar .search-form input.search-field{ background-color:#fff; width:80%; padding: 11px 15px; box-sizing:border-box;}
+#sidebar .search-form input.search-submit{ background:url(images/search-icon.png) no-repeat center center #f56c6d; padding: 12px 0 12px 0; font-size:0; width:20%; height:41px; float:right;}
+
+/* = Footer css
+-------------------------------------------------------------- */
+#footer-wrapper{ background-color:#0d0f10; position:relative; color:#fff; }
+.footer{ padding:70px 0 50px;}
+.footer h5{ font-size:30px; margin-bottom:40px;  position:relative; }
+.footer a.readmore span{ color:#fff;}
+.footer ul li{ list-style:inside none; margin-bottom:10px; }
+.footer ul li:last-child{ border:none;}
+.footer ul li a{ padding:3px 0 3px 0; display:inline; color:#fff;  }
+.footer ul li a:hover, .footer ul li.current_page_item a{ color:#98cc4d;}
+.footer ul li:last-child a{ border-bottom:none;}
+/*footer recent post*/
+ul.recent-post{ margin:0px; padding:0px; list-style:none;}
+ul.recent-post li{ display:block; margin-bottom:20px; padding-bottom:20px; min-height:55px; list-style:none; border-bottom:1px dashed #342b26;}
+ul.recent-post li::before { display:none;}
+ul.recent-post .footerthumb{ width:70px; height:90px; overflow:hidden; float:left; margin:0 15px 0 0;}
+ul.recent-post li img { width:100%; height:auto; margin-top:4px;}
+ul.recent-post li span {font-size:11px;}
+ul.recent-post li a {text-decoration:none; padding:0; border:none; display:block;}
+ul.recent-post li a:hover { text-decoration:none;}
+ul.recent-post li:last-child { border-bottom:0; padding-bottom:0; margin-bottom:0;}
+ul.recent-post li strong { margin-bottom:10px; display:block; line-height:22px;}
+ul.recent-post li .footerdate{ color:#555; display:block; }
+.contactdetail{ line-height:22px; margin-top:25px; } 
+.contactdetail i{ margin-right:20px; font-size:16px;}
+.contactdetail p{ margin-bottom:10px;}
+.ftraddbox{ margin-bottom:25px;}
+
+/* = Footer Column CSS
+---------------------------------------------------- */
+.cols-1 .widget-column-1{ width:100%; float:none; text-align:center;}
+.cols-1 .widget-column-1 ul li{ display:inline-block; border:none;}
+.cols-1 .widget-column-1 ul li::before { display:none;}
+.cols-1 .widget-column-1 ul li a{ padding:0 15px; height:12px; line-height:10px; display:block; border-right:1px solid}
+.cols-1 .widget-column-1 ul li:last-child a{border:none;}
+
+/* footer 2 column css*/
+.cols-2 .widget-column-1{width:45%; float:left; margin:0 10% 0% 0; box-sizing:border-box; }
+.cols-2 .widget-column-2{width:45%; float:left; margin-right:0px; box-sizing:border-box;}
+
+/* footer 3 column css*/
+.cols-3 .widget-column-1{width:29%; float:left; margin:0 6% 0 0; box-sizing:border-box; }
+.cols-3 .widget-column-2{width:29%; float:left; margin:0 6% 0 0; box-sizing:border-box;}
+.cols-3 .widget-column-3{width:29%; float:left; margin-right:0px; box-sizing:border-box;}
+
+/* footer 4 column css*/
+.cols-4 .widget-column-1{ width:30%;  float:left; margin:0 4% 0 0; box-sizing:border-box; }
+.cols-4 .widget-column-2{ width:16%;  float:left; margin:0 4% 0 0; box-sizing:border-box;}
+.cols-4 .widget-column-3{ width:16%;  float:left; margin:0 4% 0 0; box-sizing:border-box;}
+.cols-4 .widget-column-4{ width:26%;  float:left; margin-right:0; box-sizing:border-box;}
+
+.copyright-wrapper { color:#fff; position:relative; padding:25px 0;}
+.designby{ text-align:center;}
+
+.footer .social-icons{ margin:25px 0 10px;}
+.footer .social-icons a{ float:left; border:1px solid #fff; border-radius:50%; box-sizing:border-box; color:#fff; width:40px; height:40px; line-height:40px; margin:0 6px 0 0; padding:0; color:#717171; font-size:16px; }
+.footer .social-icons a:hover{ background-color:#98cc4d; color:#fff; }
+
+/* = Contact Form css
+-------------------------------------------------------------- */
+.wpcf7{ margin:0; padding:0; }
+.wpcf7 form{ margin:0; padding:0;}
+.wpcf7 form span.last{ float:none !important;}
+.wpcf7 form input[type="url"], .wpcf7 form input[type="date"], .wpcf7 form select{ background-color:#f1f1f1; border:1px solid #eed2bb; padding:5px 3px; margin-top:10px; font:13px arial; color:#777777;}
+.wpcf7 form input[type="checkbox"], .wpcf7 form input[type="radio"], .wpcf7 form input[type="file"]{ margin-top:10px; padding:0;}
+span.wpcf7-list-item{ margin:0 15px 0 0 !important;}
+.wpcf7 form input[type="text"], .wpcf7 form input[type="email"], .wpcf7 form input[type="tel"], .wpcf7 form textarea{ border:1px solid #e8e8e8;padding:15px; margin:0 8px 8px 0; }
+.wpcf7 form textarea{ margin-right:0; height:130px;} 
+.wpcf7 form input[type="text"], .wpcf7 form input[type="email"], .wpcf7 form input[type="tel"], .wpcf7 form textarea{ width:100%; background-color:#fff; color:#a0a0a0; padding:10px 15px; }
+.wpcf7 form{ margin-bottom:6px;}
+
+#contactform_main{ padding-bottom:25px;}
+#contactform_main input[type=text], #contactform_main input[type=email], #contactform_main input[type=tel], #contactform_main input[type=url], #contactform_main textarea{width:100%; border:1px solid #E8E8E8; padding:15px; margin:0 0 8px 0; box-sizing:border-box;}   
+#contactform_main textarea{ width:100%; margin-right:0; height:130px;} 
+#contactform_main span.capcode{ float:left; padding:13px; padding:13px; margin:0 8px 8px 0;}  
+#contactform_main input[type=submit], .wpcf7 form input[type="submit"] { text-transform:uppercase; cursor:pointer; border-radius:5px; padding:12px 35px; font-size:16px; font-weight:bold; border:none; }
+
+
+/**/
+iframe{ width:100%;}
+.contact_left{ float:left; width:65%; }
+.contact_right{ box-shadow:0 0 5px #ddd; padding:35px; box-sizing:border-box; float:right; width:30%;}
+.contact_right h3{ margin-bottom:20px; font-size:24px; font-weight:600;}
+h3.post-title{ margin-bottom:0px; font-weight:400; font-size:22px; clear:both; display:block;}
+.post-title a{ color:#3d3d3d;}
+.blog-post-repeat .postmeta{ border-bottom:1px solid #e8e8e8; margin-bottom:20px; font-size:15px;}
+p.read-more a{ background-color:#ff6565; color:#fff; text-align:center; padding:5px 15px;  display:inline-block; border-radius:2px; -moz-border-radius:2px; -webkit-border-radius:2px;}
+p.read-more a:hover { background-color:#34c6f6;}
+
+/*Blog Post Layouts CSS*/
+.blog-post-repeat{ margin-bottom:50px;}
+.blog-post-repeat .post-thumb{ width:35%; height:240px; overflow:hidden; float:left; margin:0px 30px 0 0; }
+.blog-post-repeat .post-thumb img{ margin:10px 0 0 0; height:auto; width:100%;}
+
+/*Blog Grid Layout CSS*/
+.bloggridlayout{ position:relative; width:100% !important; float:none;}
+.bloggridlayout .blog-post-repeat{ padding:15px; width:31.2%; float:left; display:inline-block; margin:0 3% 35px 0;  vertical-align:top; box-shadow:0 0 5px #ddd;}
+.bloggridlayout .post-thumb{ width:100%; float: none; margin:0; height:230px; overflow:hidden;}
+.bloggridlayout .post-thumb img{ width:100%; height:auto; margin:0;}
+.bloggridlayout .blogfooter{ display:block;}
+.bloggridlayout .blog-post-repeat .postmeta{ margin-bottom:0;}
+.bloggridlayout h3.post-title a{ color:#555; font-weight:400;}
+.bloggridlayout .entry-header{ padding:20px 0;}
+
+/*default css*/
+.error_msg{padding:10px; background:#ffd3ce; color:#e00; border:1px #e00 solid; margin:15px 0;}
+.success_msg{padding:10px; background:#dcffc5; color:#070; border:1px #070 solid; margin:15px 0;}
+.spacer20{height:20px; clear:both;}
+.pagination{display:table; clear:both;}
+.pagination ul{list-style:none; margin:20px 0;}
+.pagination ul li{display:inline; float:left; margin-right:5px;}
+.pagination ul li span, .pagination ul li a{background:#303441; color:#fff; padding:5px 10px; display:inline-block;}
+.pagination ul li .current, .pagination ul li a:hover{background:#34c6f6;}
+article.tag-sticky-2{background:#f6f6f6; padding:10px;}
+
+h1.entry-title{font-weight:600; font-size:30px; text-transform:uppercase; margin-bottom:30px; position:relative; line-height:36px;}
+article p{margin:0 0 20px 0;}
+.post-date{display:inline;}
+.post-comment{display:inline;}
+.post-categories{display:inline;}
+.post-tags{display:inline;}
+form.search-form{margin-bottom:20px;}
+input.search-field, .post-password-form input[type=password]{border:1px #eee solid; padding:7px 15px;}
+input.search-submit, .post-password-form input[type=submit]{border:none; color:#ffffff; padding:7px 15px; cursor:pointer; }
+#contactform_main p{ margin-bottom:0;}
+.nav-previous{float:left; margin-top:10px; margin-bottom:10px;}
+.nav-next{float:right; margin-top:10px; margin-bottom:10px;}
+nav.post-navigation{padding:10px 0 20px;}
+.comment-list, ol.comment-list{list-style:none; margin-left:0; margin-top:20px; margin-bottom:20px;}
+.comment-list ul, ol.comment-list ul{list-style:none;}
+.comment-list li.comment{margin-top:20px;}
+.comment-list .comment-content h1, .comment-list .comment-content h2, .comment-list .comment-content h3, .comment-list .comment-content h4, .comment-list .comment-content h5, .comment-list .comment-content h6{margin-top:15px;}
+
+
+/* Buttons */
+.button{ background-color:#eb6e01; color:#fff; padding:12px 25px; display:inline-block;}
+.button:hover{background-color:#202020; border-color:#1898c2; color:#fff;}
+
+/* Text meant only for screen readers. */
+.screen-reader-text {clip: rect(1px, 1px, 1px, 1px);position: absolute !important;	height: 1px;width: 1px;	overflow: hidden;}
+.screen-reader-text:focus {	background-color: #f1f1f1;	border-radius: 3px;	box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.6);	clip: auto !important;	color: #21759b;	display: block;
+	font-size: 14px;font-size: 0.875rem;font-weight: bold;	height: auto;left: 5px;	line-height: normal;padding: 15px 23px 14px;text-decoration: none;	top: 5px;	width: auto;
+	z-index: 100000; /* Above WP toolbar. */
+}
+
+
+/* woocommerce CSS
+================================================*/
+a.added_to_cart{background:#e1472f; padding:5px; display:inline-block; color:#fff; line-height:1;}
+a.added_to_cart:hover{background:#000000;}
+a.button.added:before{content:'' !important;}
+#bbpress-forums ul li{padding:0;}
+#subscription-toggle a.subscription-toggle{padding:5px 10px; display:inline-block; color:#e1472f; margin-top:4px;}
+textarea.wp-editor-area{border:1px #ccc solid;}
+.woocommerce input[type=text], .woocommerce textarea{border:1px #ccc solid; padding:4px;}
+form.woocommerce-ordering select{ padding:5px; color:#777777;}
+.woocommerce table.shop_table th, .woocommerce-page table.shop_table th{ color:#ff8a00;}
+.woocommerce ul.products li.product .price, .woocommerce-page ul.products li.product .price{ color:inherit !important; font-size:15px;}
+h1.product_title, p.price{ margin-bottom:10px;}
+.woocommerce table.shop_table th, .woocommerce-page table.shop_table th{ color:#ff6d84;}
+.woocommerce ul.products li, #payment ul.payment_methods li{ list-style:none !important; text-align:center; border-bottom:2px solid #eee; padding-bottom:25px !important;}
+.woocommerce table.shop_table th, .woocommerce table.shop_table td{ border-bottom:0px !important}
+.woocommerce ul.products li.product .price del{ display:inline-block;}
+.woocommerce ul.products li.product h3{ font-size:18px; position:relative; padding-bottom:15px; margin-bottom:10px;}
+.woocommerce ul.products li.product h3::after{
+ content:"";
+ position:absolute;
+ width:50px;
+ height:1px;
+ background-color:#555;
+ bottom:0;
+ left:0;
+ right:0;
+ margin:auto;
+}
+
+.woocommerce .quantity .qty{ padding:7px; border:1px solid #ccc;}
+.woocommerce-Price-amount.amount{font-size:14px !important;}
+.woocommerce div.product .product_title{ padding-bottom:20px !important;}
+.woocommerce div.product form.cart{ margin-top:15px !important;}
+
+
+.woocommerceright{float:left;}
+.woocommerceleft{float:right;}
+.woocommercesitefull{ width:100%;}
+.woocommerce .panel{ height:auto}
+.subtitle{ text-align:center; padding-bottom:25px; margin:0 auto; width:70%;}
+
+/*post nav css*/
+.post-nav{ clear:left; margin-top:40px;}
+.prev-page, .next-page{ margin:0; padding:0;}
+.prev-page a{ float:left;}
+.next-page a{ float:right;}
+.prev-page a, .next-page a{background-color:#515151; padding:5px 10px; color:#ffffff; }
+.prev-page a:hover, .next-page a:hover{ color:#ffffff; background-color:#34c6f6;}
+.singleright { float:left; }
+.singleleft { float:right; }
+.space{ clear:both; min-height:10px;}
+.skills-wrap{ width:60%; margin:0 auto; text-align:center;}
+/*back to top css*/
+#top{ position:relative;}
+#back-top {	position: fixed; bottom: 15px; right:27px;}
+#back-top a {width:45px;display: block;	text-align: center;	text-transform: uppercase;	text-decoration: none;color: #bbb;
+	-webkit-transition: 1s;
+	-moz-transition: 1s;
+	transition: 1s;
+}
+#back-top span {width:45px;height:47px;	display: block;	margin-bottom: 7px;	background: url(images/up-arrow.png) no-repeat center center;
+	-webkit-transition: 1s;
+	-moz-transition: 1s;
+	transition: 1s;opacity:0.5;
+}
+.sitefull .fourcol .entry{ width:24%;}
+.slider-main{ min-height:200px; overflow:hidden; position:relative; background:url(images/loading.gif) no-repeat center center #fff;}
+/*gallery image same size*/
+.holderwrap{ height:250px; overflow:hidden;}
+.holderwrap img{ min-height:250px; height:auto;}
+
+#section1 .classes_column {
+    width: 47%;
+	margin-left: 0.5%;
+}
+
+#section2 .welcome_leftbox {
+	width: 45%;
+}
+#section2 .welcome_righbox {
+	width: 42%;
+}
+
+
+#section2 .wel3box_services {
+	width: 100%;
+}
+
+.sitenav ul li {
+    float: left;
+}
+
+.innerbanner img {
+    max-height: 500px;
+}
