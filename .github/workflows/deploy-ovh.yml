@@ -1,0 +1,65 @@
+name: Deploy to OVH
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'app/public/wp-content/themes/**'
+      - 'app/public/wp-content/plugins/**'
+      - 'app/public/wp-content/languages/**'
+      - 'app/public/wp-content/mu-plugins/**'
+
+jobs:
+  deploy:
+    name: Deploy to OVH
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.OVH_SSH_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          echo "${{ secrets.OVH_HOST_KEY }}" >> ~/.ssh/known_hosts
+
+      - name: Deploy via rsync
+        run: |
+          rsync -avz --delete \
+            --exclude='wp-config.php' \
+            --exclude='.htaccess' \
+            --exclude='.user.ini' \
+            --exclude='wp-content/cache/' \
+            --exclude='wp-content/uploads/' \
+            --exclude='wp-content/ai1wm-backups/' \
+            --exclude='wp-content/upgrade/' \
+            --exclude='wp-content/upgrade-temp-backup/' \
+            --exclude='wp-content/w3tc-config/' \
+            --exclude='wp-content/jetpack-waf/' \
+            -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=yes -p 22" \
+            app/public/wp-content/themes/ \
+            ${{ secrets.OVH_USER }}@${{ secrets.OVH_HOST }}:~/www/wp-content/themes/
+
+          rsync -avz --delete \
+            --exclude='google-listings-and-ads/' \
+            -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=yes -p 22" \
+            app/public/wp-content/plugins/ \
+            ${{ secrets.OVH_USER }}@${{ secrets.OVH_HOST }}:~/www/wp-content/plugins/
+
+          rsync -avz \
+            -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=yes -p 22" \
+            app/public/wp-content/languages/ \
+            ${{ secrets.OVH_USER }}@${{ secrets.OVH_HOST }}:~/www/wp-content/languages/
+
+          rsync -avz \
+            -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=yes -p 22" \
+            app/public/wp-content/mu-plugins/ \
+            ${{ secrets.OVH_USER }}@${{ secrets.OVH_HOST }}:~/www/wp-content/mu-plugins/
+
+      - name: Clear cache
+        run: |
+          ssh -i ~/.ssh/deploy_key -p 22 \
+            ${{ secrets.OVH_USER }}@${{ secrets.OVH_HOST }} \
+            "rm -rf ~/www/wp-content/cache/all/* 2>/dev/null; echo 'Cache cleared'"
