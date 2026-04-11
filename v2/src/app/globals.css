@@ -1,0 +1,192 @@
+@import "tailwindcss";
+
+/* ============================================================
+   DESIGN SYSTEM — Mon Pilates V2
+   Palette: Sable/beige + bleu océan + vert sauge + touches dorées
+   Typo: Outfit (titres) + Lora (corps)
+   ============================================================ */
+
+:root {
+  /* Couleurs principales */
+  --mp-sand: #f5f0eb;
+  --mp-sand-dark: #e8dfd6;
+  --mp-ocean: #6b9fad;
+  --mp-ocean-dark: #4d8292;
+  --mp-ocean-light: #a3c9d3;
+  --mp-sage: #8faa8b;
+  --mp-sage-light: #c2d4bf;
+  --mp-gold: #c9a96e;
+  --mp-gold-light: #e0d0a8;
+  --mp-white: #fefdfb;
+  --mp-cream: #faf7f3;
+  --mp-charcoal: #2c2c2c;
+  --mp-text: #3d3d3d;
+  --mp-text-light: #6b6b6b;
+  --mp-rose: #d4a0a0;
+  --mp-rose-light: #f0dede;
+
+  /* Spacing scale */
+  --mp-section-y: clamp(4rem, 8vw, 7rem);
+
+  /* Transitions */
+  --mp-transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@theme inline {
+  --color-mp-sand: var(--mp-sand);
+  --color-mp-sand-dark: var(--mp-sand-dark);
+  --color-mp-ocean: var(--mp-ocean);
+  --color-mp-ocean-dark: var(--mp-ocean-dark);
+  --color-mp-ocean-light: var(--mp-ocean-light);
+  --color-mp-sage: var(--mp-sage);
+  --color-mp-sage-light: var(--mp-sage-light);
+  --color-mp-gold: var(--mp-gold);
+  --color-mp-gold-light: var(--mp-gold-light);
+  --color-mp-white: var(--mp-white);
+  --color-mp-cream: var(--mp-cream);
+  --color-mp-charcoal: var(--mp-charcoal);
+  --color-mp-text: var(--mp-text);
+  --color-mp-text-light: var(--mp-text-light);
+  --color-mp-rose: var(--mp-rose);
+  --color-mp-rose-light: var(--mp-rose-light);
+  --font-heading: var(--font-outfit);
+  --font-body: var(--font-lora);
+}
+
+/* ============================================================
+   BASE STYLES
+   ============================================================ */
+
+body {
+  background: var(--mp-white);
+  color: var(--mp-text);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--mp-charcoal);
+}
+
+/* ============================================================
+   COMPONENT UTILITIES
+   ============================================================ */
+
+/* Section padding */
+.mp-section {
+  padding-top: var(--mp-section-y);
+  padding-bottom: var(--mp-section-y);
+}
+
+/* Container */
+.mp-container {
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+/* Primary button */
+.mp-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.875rem 2rem;
+  border-radius: 9999px;
+  font-family: var(--font-outfit);
+  font-weight: 600;
+  font-size: 0.9375rem;
+  letter-spacing: 0.01em;
+  transition: all var(--mp-transition);
+  cursor: pointer;
+  border: none;
+  text-decoration: none;
+}
+
+.mp-btn-primary {
+  background: var(--mp-ocean);
+  color: white;
+  box-shadow: 0 4px 15px rgba(107, 159, 173, 0.3);
+}
+.mp-btn-primary:hover {
+  background: var(--mp-ocean-dark);
+  box-shadow: 0 6px 25px rgba(107, 159, 173, 0.4);
+  transform: translateY(-2px);
+}
+
+.mp-btn-secondary {
+  background: transparent;
+  color: var(--mp-ocean);
+  border: 2px solid var(--mp-ocean);
+}
+.mp-btn-secondary:hover {
+  background: var(--mp-ocean);
+  color: white;
+  transform: translateY(-2px);
+}
+
+.mp-btn-gold {
+  background: var(--mp-gold);
+  color: white;
+  box-shadow: 0 4px 15px rgba(201, 169, 110, 0.3);
+}
+.mp-btn-gold:hover {
+  background: #b89558;
+  box-shadow: 0 6px 25px rgba(201, 169, 110, 0.4);
+  transform: translateY(-2px);
+}
+
+/* Card */
+.mp-card {
+  background: white;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.04);
+  transition: all var(--mp-transition);
+}
+.mp-card:hover {
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.08);
+  transform: translateY(-4px);
+}
+
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Focus visible for accessibility */
+*:focus-visible {
+  outline: 2px solid var(--mp-ocean);
+  outline-offset: 2px;
+}
+
+/* Selection color */
+::selection {
+  background: var(--mp-ocean-light);
+  color: var(--mp-charcoal);
+}
+
+/* ============================================================
+   ANIMATIONS
+   ============================================================ */
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Scrollbar hide utility */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
