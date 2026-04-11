@@ -2,7 +2,7 @@ name: Deploy to OVH
 
 on:
   push:
-    branches: [main]
+    branches: [main, preprod]
     paths:
       - 'app/public/wp-content/themes/**'
       - 'app/public/wp-content/plugins/**'
@@ -11,12 +11,23 @@ on:
 
 jobs:
   deploy:
-    name: Deploy to OVH
+    name: Deploy to OVH (${{ github.ref_name == 'main' && 'PROD' || 'PREPROD' }})
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Set deploy target
+        id: target
+        run: |
+          if [ "${{ github.ref_name }}" = "main" ]; then
+            echo "path=www" >> $GITHUB_OUTPUT
+            echo "env=production" >> $GITHUB_OUTPUT
+          else
+            echo "path=preprod" >> $GITHUB_OUTPUT
+            echo "env=preprod" >> $GITHUB_OUTPUT
+          fi
 
       - name: Install SSH key
         run: |
@@ -25,38 +36,43 @@ jobs:
           chmod 600 ~/.ssh/deploy_key
           echo "${{ secrets.OVH_HOST_KEY }}" >> ~/.ssh/known_hosts
 
-      - name: Deploy via rsync
+      - name: Deploy via rsync (${{ steps.target.outputs.env }})
         env:
           SSH_CMD: ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=yes -p 22
           REMOTE: ${{ secrets.OVH_USER }}@${{ secrets.OVH_HOST }}
+          TARGET: ${{ steps.target.outputs.path }}
         run: |
-          # Themes — sync sans --delete pour ne pas casser les fichiers serveur
+          echo "Deploying to ~/${TARGET}/wp-content/"
+
+          # Themes
           rsync -avz \
             -e "$SSH_CMD" \
             app/public/wp-content/themes/ \
-            ${REMOTE}:~/www/wp-content/themes/
+            ${REMOTE}:~/${TARGET}/wp-content/themes/
 
-          # Plugins — sync sans --delete (le serveur peut avoir des plugins hors repo)
+          # Plugins
           rsync -avz \
             --exclude='google-listings-and-ads/' \
             -e "$SSH_CMD" \
             app/public/wp-content/plugins/ \
-            ${REMOTE}:~/www/wp-content/plugins/
+            ${REMOTE}:~/${TARGET}/wp-content/plugins/
 
           # Langues
           rsync -avz \
             -e "$SSH_CMD" \
             app/public/wp-content/languages/ \
-            ${REMOTE}:~/www/wp-content/languages/
+            ${REMOTE}:~/${TARGET}/wp-content/languages/
 
           # MU-plugins
           rsync -avz \
             -e "$SSH_CMD" \
             app/public/wp-content/mu-plugins/ \
-            ${REMOTE}:~/www/wp-content/mu-plugins/
+            ${REMOTE}:~/${TARGET}/wp-content/mu-plugins/
 
       - name: Clear cache
+        env:
+          TARGET: ${{ steps.target.outputs.path }}
         run: |
           ssh -i ~/.ssh/deploy_key -p 22 \
             ${{ secrets.OVH_USER }}@${{ secrets.OVH_HOST }} \
-            "rm -rf ~/www/wp-content/cache/all/* 2>/dev/null; echo 'Cache cleared'"
+            "rm -rf ~/${TARGET}/wp-content/cache/all/* 2>/dev/null; echo '${TARGET} cache cleared'"
