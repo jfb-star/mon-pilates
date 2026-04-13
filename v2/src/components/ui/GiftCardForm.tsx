@@ -3,8 +3,6 @@
 import { useState } from "react";
 import { Gift, Sparkles } from "lucide-react";
 
-type GiftType = "sessions" | "amount";
-
 const sessionOptions = [
   { sessions: 1, price: 18 },
   { sessions: 5, price: 80 },
@@ -12,7 +10,7 @@ const sessionOptions = [
 ];
 
 export function GiftCardForm() {
-  const [giftType, setGiftType] = useState<GiftType>("sessions");
+  const [giftType, setGiftType] = useState<"sessions" | "amount">("sessions");
   const [selectedSessions, setSelectedSessions] = useState(5);
   const [freeAmount, setFreeAmount] = useState(50);
   const [recipientName, setRecipientName] = useState("");
@@ -20,6 +18,8 @@ export function GiftCardForm() {
   const [personalMessage, setPersonalMessage] = useState("");
   const [senderName, setSenderName] = useState("");
   const [senderEmail, setSenderEmail] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const currentPrice =
     giftType === "sessions"
@@ -29,11 +29,11 @@ export function GiftCardForm() {
   const currentLabel =
     giftType === "sessions"
       ? `${selectedSessions} cours de Pilates`
-      : `Carte cadeau de ${currentPrice}€`;
+      : `Carte cadeau de ${currentPrice}\u20AC`;
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14">
-      {/* Form */}
+      {/* Left: Form */}
       <div className="space-y-8">
         {/* Gift type toggle */}
         <div>
@@ -44,29 +44,21 @@ export function GiftCardForm() {
             <button
               onClick={() => setGiftType("sessions")}
               type="button"
-              className={`flex-1 py-3 px-4 rounded-xl font-heading text-sm font-medium transition-all cursor-pointer ${
-                giftType === "sessions"
-                  ? "bg-mp-gold text-white shadow-md"
-                  : "bg-mp-sand border border-mp-sand-dark/30 text-mp-text hover:bg-mp-sand-dark/30"
-              }`}
+              className={`flex-1 py-3 px-4 rounded-xl font-heading text-sm font-medium transition-all cursor-pointer ${giftType === "sessions" ? "bg-mp-gold text-white shadow-md" : "bg-mp-sand border border-mp-sand-dark/30 text-mp-text hover:bg-mp-sand-dark/30"}`}
             >
               Nombre de cours
             </button>
             <button
               onClick={() => setGiftType("amount")}
               type="button"
-              className={`flex-1 py-3 px-4 rounded-xl font-heading text-sm font-medium transition-all cursor-pointer ${
-                giftType === "amount"
-                  ? "bg-mp-gold text-white shadow-md"
-                  : "bg-mp-sand border border-mp-sand-dark/30 text-mp-text hover:bg-mp-sand-dark/30"
-              }`}
+              className={`flex-1 py-3 px-4 rounded-xl font-heading text-sm font-medium transition-all cursor-pointer ${giftType === "amount" ? "bg-mp-gold text-white shadow-md" : "bg-mp-sand border border-mp-sand-dark/30 text-mp-text hover:bg-mp-sand-dark/30"}`}
             >
               Montant libre
             </button>
           </div>
         </div>
 
-        {/* Sessions or Amount */}
+        {/* Sessions or amount */}
         {giftType === "sessions" ? (
           <div>
             <h3 className="font-heading text-sm font-medium text-mp-charcoal mb-3">
@@ -78,17 +70,13 @@ export function GiftCardForm() {
                   key={opt.sessions}
                   onClick={() => setSelectedSessions(opt.sessions)}
                   type="button"
-                  className={`flex-1 py-4 rounded-xl text-center transition-all cursor-pointer border-2 ${
-                    selectedSessions === opt.sessions
-                      ? "border-mp-gold bg-mp-gold-light/30 shadow-md"
-                      : "border-mp-sand-dark/30 hover:border-mp-gold/50"
-                  }`}
+                  className={`flex-1 py-4 rounded-xl text-center transition-all cursor-pointer border-2 ${selectedSessions === opt.sessions ? "border-mp-gold bg-mp-gold-light/30 shadow-md" : "border-mp-sand-dark/30 hover:border-mp-gold/50"}`}
                 >
                   <span className="block font-heading text-2xl font-bold text-mp-charcoal">
                     {opt.sessions}
                   </span>
                   <span className="block font-body text-xs text-mp-text-light mt-1">
-                    {opt.sessions > 1 ? "cours" : "cours"} — {opt.price}€
+                    cours &mdash; {opt.price}&euro;
                   </span>
                 </button>
               ))}
@@ -100,7 +88,7 @@ export function GiftCardForm() {
               htmlFor="freeAmount"
               className="block font-heading text-sm font-medium text-mp-charcoal mb-1.5"
             >
-              Montant (de 10€ a 500€)
+              Montant (de 10&euro; a 500&euro;)
             </label>
             <div className="relative">
               <input
@@ -110,10 +98,10 @@ export function GiftCardForm() {
                 max={500}
                 value={freeAmount}
                 onChange={(e) => setFreeAmount(Number(e.target.value))}
-                className="w-full px-4 py-3 rounded-xl border border-mp-sand-dark/50 font-heading text-2xl font-bold text-mp-charcoal bg-mp-white focus:outline-none focus:ring-2 focus:ring-mp-gold/40"
+                className="w-full px-4 py-3 rounded-xl border border-mp-sand-dark/50 font-heading text-2xl font-bold text-mp-charcoal bg-mp-white focus:outline-none focus-visible:outline-2 focus-visible:outline-mp-ocean focus-visible:outline-offset-2"
               />
               <span className="absolute right-4 top-1/2 -translate-y-1/2 font-heading text-xl text-mp-text-light">
-                €
+                &euro;
               </span>
             </div>
           </div>
@@ -135,7 +123,7 @@ export function GiftCardForm() {
                 value={recipientName}
                 onChange={(e) => setRecipientName(e.target.value)}
                 placeholder="Nom du destinataire"
-                className="w-full px-4 py-3 rounded-xl border border-mp-sand-dark/50 font-body text-sm text-mp-text bg-mp-white focus:outline-none focus:ring-2 focus:ring-mp-gold/40"
+                className="w-full px-4 py-3 rounded-xl border border-mp-sand-dark/50 font-body text-sm text-mp-text bg-mp-white focus:outline-none focus-visible:outline-2 focus-visible:outline-mp-ocean focus-visible:outline-offset-2"
               />
             </div>
             <div>
@@ -148,13 +136,13 @@ export function GiftCardForm() {
                 value={recipientEmail}
                 onChange={(e) => setRecipientEmail(e.target.value)}
                 placeholder="Email du destinataire"
-                className="w-full px-4 py-3 rounded-xl border border-mp-sand-dark/50 font-body text-sm text-mp-text bg-mp-white focus:outline-none focus:ring-2 focus:ring-mp-gold/40"
+                className="w-full px-4 py-3 rounded-xl border border-mp-sand-dark/50 font-body text-sm text-mp-text bg-mp-white focus:outline-none focus-visible:outline-2 focus-visible:outline-mp-ocean focus-visible:outline-offset-2"
               />
             </div>
           </div>
         </div>
 
-        {/* Message */}
+        {/* Personal message */}
         <div>
           <label
             htmlFor="personalMessage"
@@ -172,11 +160,11 @@ export function GiftCardForm() {
             value={personalMessage}
             onChange={(e) => setPersonalMessage(e.target.value)}
             placeholder="Un petit mot pour accompagner votre cadeau..."
-            className="w-full px-4 py-3 rounded-xl border border-mp-sand-dark/50 font-body text-sm text-mp-text bg-mp-white focus:outline-none focus:ring-2 focus:ring-mp-gold/40 resize-none"
+            className="w-full px-4 py-3 rounded-xl border border-mp-sand-dark/50 font-body text-sm text-mp-text bg-mp-white focus:outline-none focus-visible:outline-2 focus-visible:outline-mp-ocean focus-visible:outline-offset-2 resize-none"
           />
         </div>
 
-        {/* Sender */}
+        {/* Sender info */}
         <div className="space-y-4">
           <h3 className="font-heading text-sm font-medium text-mp-charcoal">
             Vos informations
@@ -192,7 +180,7 @@ export function GiftCardForm() {
                 value={senderName}
                 onChange={(e) => setSenderName(e.target.value)}
                 placeholder="Votre nom"
-                className="w-full px-4 py-3 rounded-xl border border-mp-sand-dark/50 font-body text-sm text-mp-text bg-mp-white focus:outline-none focus:ring-2 focus:ring-mp-gold/40"
+                className="w-full px-4 py-3 rounded-xl border border-mp-sand-dark/50 font-body text-sm text-mp-text bg-mp-white focus:outline-none focus-visible:outline-2 focus-visible:outline-mp-ocean focus-visible:outline-offset-2"
               />
             </div>
             <div>
@@ -205,34 +193,80 @@ export function GiftCardForm() {
                 value={senderEmail}
                 onChange={(e) => setSenderEmail(e.target.value)}
                 placeholder="Votre email"
-                className="w-full px-4 py-3 rounded-xl border border-mp-sand-dark/50 font-body text-sm text-mp-text bg-mp-white focus:outline-none focus:ring-2 focus:ring-mp-gold/40"
+                className="w-full px-4 py-3 rounded-xl border border-mp-sand-dark/50 font-body text-sm text-mp-text bg-mp-white focus:outline-none focus-visible:outline-2 focus-visible:outline-mp-ocean focus-visible:outline-offset-2"
               />
             </div>
           </div>
         </div>
 
-        {/* CTA */}
+        {/* Submit */}
+        {error && (
+          <p className="text-mp-rose text-sm font-body">{error}</p>
+        )}
         <button
           type="button"
+          disabled={loading}
+          onClick={async () => {
+            if (!recipientName || !recipientEmail || !senderName || !senderEmail) {
+              setError("Veuillez remplir tous les champs obligatoires.");
+              return;
+            }
+            setError("");
+            setLoading(true);
+            try {
+              const res = await fetch("/api/checkout", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  mode: "gift-card",
+                  items: [
+                    {
+                      name: `Carte cadeau Mon Pilates — ${currentLabel}`,
+                      price: currentPrice,
+                      quantity: 1,
+                    },
+                  ],
+                  metadata: {
+                    recipientName,
+                    recipientEmail,
+                    senderName,
+                    senderEmail,
+                    personalMessage,
+                    giftType,
+                    label: currentLabel,
+                  },
+                }),
+              });
+              const data = await res.json();
+              if (data.url) {
+                window.location.href = data.url;
+              } else {
+                setError(data.error || "Erreur lors de la cr\u00e9ation du paiement.");
+              }
+            } catch {
+              setError("Erreur de connexion. Veuillez r\u00e9essayer.");
+            } finally {
+              setLoading(false);
+            }
+          }}
           className="mp-btn mp-btn-gold w-full text-lg cursor-pointer"
         >
           <Sparkles className="w-5 h-5" />
-          Offrir cette carte — {currentPrice}€
+          {loading ? "Redirection\u2026" : <>Offrir cette carte &mdash; {currentPrice}&euro;</>}
         </button>
       </div>
 
-      {/* Preview Card */}
+      {/* Right: Preview card */}
       <div className="flex items-start justify-center lg:sticky lg:top-32">
         <div className="w-full max-w-md">
           <h2 className="font-heading text-xl font-semibold text-mp-charcoal mb-4">
             Apercu de la carte
           </h2>
           <div className="relative rounded-2xl border-2 border-mp-gold overflow-hidden shadow-[0_8px_40px_rgba(201,169,110,0.2)] bg-gradient-to-br from-white via-mp-cream to-mp-gold-light/30">
-            {/* Gold accent bar */}
+            {/* Gold bar */}
             <div className="h-2 bg-gradient-to-r from-mp-gold to-mp-gold-light" />
-
             <div className="p-8 space-y-6">
-              {/* Branding */}
+              {/* Header */}
               <div className="flex items-center justify-between">
                 <span className="font-heading text-xl font-bold text-mp-charcoal">
                   Mon <span className="text-mp-ocean">Pilates</span>
@@ -240,7 +274,7 @@ export function GiftCardForm() {
                 <Gift className="w-8 h-8 text-mp-gold" />
               </div>
 
-              {/* Title */}
+              {/* Label */}
               <div className="text-center py-4">
                 <p className="font-heading text-xs uppercase tracking-[0.2em] text-mp-gold mb-2">
                   Carte Cadeau
@@ -250,7 +284,7 @@ export function GiftCardForm() {
                 </p>
               </div>
 
-              {/* Recipient */}
+              {/* Details */}
               <div className="border-t border-mp-gold/20 pt-4 space-y-3">
                 <div>
                   <p className="font-heading text-xs uppercase tracking-wider text-mp-text-light">
@@ -266,7 +300,7 @@ export function GiftCardForm() {
                       Message
                     </p>
                     <p className="font-body text-sm text-mp-text italic leading-relaxed">
-                      &laquo; {personalMessage} &raquo;
+                      &laquo; {personalMessage}&raquo;
                     </p>
                   </div>
                 )}
@@ -280,16 +314,15 @@ export function GiftCardForm() {
                 </div>
               </div>
 
-              {/* Value */}
+              {/* Price */}
               <div className="bg-mp-gold/10 rounded-xl p-4 text-center">
                 <p className="font-heading text-2xl font-bold text-mp-gold">
-                  {currentPrice}€
+                  {currentPrice}&euro;
                 </p>
               </div>
 
-              {/* Footer */}
               <p className="text-center font-body text-xs text-mp-text-light">
-                mon-pilates.bzh — Larmor-Plage
+                mon-pilates.bzh &mdash; Larmor-Plage
               </p>
             </div>
           </div>

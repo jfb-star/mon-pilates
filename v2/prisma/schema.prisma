@@ -1,97 +1,14 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+// Dev schema for SQLite (local development)
+// For production (Vercel/Neon), use schema.postgresql.prisma
 
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
 }
-
-// ─── Enums ───────────────────────────────────────────────────────────────────
-
-enum Role {
-  USER
-  ADMIN
-  INSTRUCTOR
-}
-
-enum CourseLevel {
-  BEGINNER
-  INTERMEDIATE
-  ADVANCED
-  ALL_LEVELS
-}
-
-enum SessionStatus {
-  SCHEDULED
-  CANCELLED
-  COMPLETED
-}
-
-enum BookingStatus {
-  CONFIRMED
-  CANCELLED
-  WAITLISTED
-  COMPLETED
-  NO_SHOW
-}
-
-enum PaymentMethodType {
-  UNIT
-  CARD_5
-  CARD_10
-  CARD_20
-  SUBSCRIPTION
-  TRIAL
-  GIFT_CARD
-}
-
-enum PaymentStatus {
-  PENDING
-  SUCCEEDED
-  FAILED
-  REFUNDED
-}
-
-enum PaymentType {
-  UNIT
-  CARD_5
-  CARD_10
-  CARD_20
-  SUBSCRIPTION
-  GIFT_CARD
-}
-
-enum CardType {
-  CARD_5
-  CARD_10
-  CARD_20
-}
-
-enum SubscriptionStatus {
-  ACTIVE
-  PAST_DUE
-  CANCELLED
-  PAUSED
-}
-
-enum GiftCardStatus {
-  ACTIVE
-  REDEEMED
-  EXPIRED
-  CANCELLED
-}
-
-enum ContactMessageStatus {
-  NEW
-  READ
-  REPLIED
-}
-
-// ─── Models ──────────────────────────────────────────────────────────────────
 
 model User {
   id           String   @id @default(cuid())
@@ -99,145 +16,123 @@ model User {
   passwordHash String
   name         String
   phone        String?
-  role         Role     @default(USER)
+  role         String   @default("USER")
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
   instructor        Instructor?
   bookings          Booking[]
   payments          Payment[]
-  courseCards       CourseCard[]
+  courseCards        CourseCard[]
   subscriptions     Subscription[]
   blogPosts         BlogPost[]
   redeemedGiftCards GiftCard[]     @relation("RedeemedBy")
-
-  @@index([email])
 }
 
 model Instructor {
-  id             String   @id @default(cuid())
-  userId         String   @unique
+  id             String  @id @default(cuid())
+  userId         String  @unique
   bio            String?
   photo          String?
   certifications String?
-  specialties    String[]
-  slug           String   @unique
+  specialties    String  @default("[]")
+  slug           String  @unique
 
   user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   schedules Schedule[]
   sessions  Session[]
-
-  @@index([slug])
 }
 
 model CourseType {
-  id               String      @id @default(cuid())
+  id               String  @id @default(cuid())
   name             String
-  slug             String      @unique
+  slug             String  @unique
   description      String?
   shortDescription String?
-  duration         Int // duration in minutes
-  level            CourseLevel @default(ALL_LEVELS)
-  intensity        Int         @default(3) // 1-5
+  duration         Int
+  level            String  @default("ALL_LEVELS")
+  intensity        Int     @default(3)
   maxParticipants  Int
   image            String?
-  color            String? // hex color
-  icon             String? // icon name
-  benefits         String[]
-  equipment        String[]
+  color            String?
+  icon             String?
+  benefits         String  @default("[]")
+  equipment        String  @default("[]")
 
   schedules Schedule[]
   sessions  Session[]
-
-  @@index([slug])
 }
 
 model Schedule {
   id              String    @id @default(cuid())
-  courseTypeId    String
+  courseTypeId     String
   instructorId    String
-  dayOfWeek       Int // 0 = Sunday, 6 = Saturday
-  startTime       String // "HH:mm"
-  endTime         String // "HH:mm"
+  dayOfWeek       Int
+  startTime       String
+  endTime         String
   isRecurring     Boolean   @default(true)
   startDate       DateTime
   endDate         DateTime?
-  maxParticipants Int? // override CourseType default
+  maxParticipants Int?
 
-  courseType CourseType @relation(fields: [courseTypeId], references: [id], onDelete: Cascade)
+  courseType  CourseType @relation(fields: [courseTypeId], references: [id], onDelete: Cascade)
   instructor Instructor @relation(fields: [instructorId], references: [id], onDelete: Cascade)
   sessions   Session[]
-
-  @@index([courseTypeId])
-  @@index([instructorId])
-  @@index([dayOfWeek])
 }
 
 model Session {
-  id                  String        @id @default(cuid())
+  id                  String @id @default(cuid())
   scheduleId          String
-  courseTypeId        String
+  courseTypeId         String
   instructorId        String
   date                DateTime
-  startTime           String // "HH:mm"
-  endTime             String // "HH:mm"
-  status              SessionStatus @default(SCHEDULED)
+  startTime           String
+  endTime             String
+  status              String @default("SCHEDULED")
   maxParticipants     Int
-  currentParticipants Int           @default(0)
+  currentParticipants Int    @default(0)
   notes               String?
 
   schedule   Schedule   @relation(fields: [scheduleId], references: [id], onDelete: Cascade)
   courseType CourseType @relation(fields: [courseTypeId], references: [id], onDelete: Cascade)
   instructor Instructor @relation(fields: [instructorId], references: [id], onDelete: Cascade)
   bookings   Booking[]
-
-  @@index([date])
-  @@index([status])
-  @@index([courseTypeId])
-  @@index([instructorId])
 }
 
 model Booking {
-  id            String            @id @default(cuid())
+  id            String    @id @default(cuid())
   userId        String
   sessionId     String
-  status        BookingStatus     @default(CONFIRMED)
-  paymentMethod PaymentMethodType
-  createdAt     DateTime          @default(now())
+  status        String    @default("CONFIRMED")
+  paymentMethod String    @default("UNIT")
+  createdAt     DateTime  @default(now())
   cancelledAt   DateTime?
 
   user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   session Session @relation(fields: [sessionId], references: [id], onDelete: Cascade)
-
-  @@index([userId])
-  @@index([sessionId])
-  @@index([status])
 }
 
 model Payment {
-  id                      String        @id @default(cuid())
+  id                      String   @id @default(cuid())
   userId                  String
   stripePaymentIntentId   String?
   stripeCheckoutSessionId String?
-  amount                  Int // amount in cents
-  currency                String        @default("eur")
-  status                  PaymentStatus @default(PENDING)
-  type                    PaymentType
-  metadata                Json?
-  createdAt               DateTime      @default(now())
+  amount                  Int
+  currency                String   @default("eur")
+  status                  String   @default("PENDING")
+  type                    String
+  metadata                String?
+  createdAt               DateTime @default(now())
 
-  user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   courseCard CourseCard?
-
-  @@index([userId])
-  @@index([status])
 }
 
 model CourseCard {
   id                String   @id @default(cuid())
   userId            String
   paymentId         String   @unique
-  type              CardType
+  type              String
   totalSessions     Int
   remainingSessions Int
   purchasedAt       DateTime @default(now())
@@ -245,48 +140,40 @@ model CourseCard {
 
   user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   payment Payment @relation(fields: [paymentId], references: [id], onDelete: Cascade)
-
-  @@index([userId])
 }
 
 model Subscription {
-  id                   String             @id @default(cuid())
+  id                   String   @id @default(cuid())
   userId               String
   stripeSubscriptionId String?
   stripePriceId        String?
-  status               SubscriptionStatus @default(ACTIVE)
+  status               String   @default("ACTIVE")
   currentPeriodStart   DateTime
   currentPeriodEnd     DateTime
-  cancelAtPeriodEnd    Boolean            @default(false)
+  cancelAtPeriodEnd    Boolean  @default(false)
   maxSessionsPerMonth  Int?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@index([userId])
-  @@index([status])
 }
 
 model GiftCard {
-  id                String         @id @default(cuid())
-  code              String         @unique
+  id                String    @id @default(cuid())
+  code              String    @unique
   purchaserEmail    String
   recipientEmail    String
   recipientName     String?
   message           String?
-  amount            Int? // in cents
+  amount            Int?
   sessions          Int?
   remainingAmount   Int?
   remainingSessions Int?
-  status            GiftCardStatus @default(ACTIVE)
-  purchasedAt       DateTime       @default(now())
+  status            String    @default("ACTIVE")
+  purchasedAt       DateTime  @default(now())
   expiresAt         DateTime
   redeemedAt        DateTime?
   redeemedByUserId  String?
 
   redeemedBy User? @relation("RedeemedBy", fields: [redeemedByUserId], references: [id], onDelete: SetNull)
-
-  @@index([code])
-  @@index([status])
 }
 
 model BlogPost {
@@ -294,30 +181,24 @@ model BlogPost {
   title       String
   slug        String    @unique
   excerpt     String?
-  content     String    @db.Text
+  content     String
   coverImage  String?
   published   Boolean   @default(false)
   publishedAt DateTime?
   authorId    String
-  tags        String[]
+  tags        String    @default("[]")
 
   author User @relation(fields: [authorId], references: [id], onDelete: Cascade)
-
-  @@index([slug])
-  @@index([published])
 }
 
 model ContactMessage {
-  id        String               @id @default(cuid())
+  id        String   @id @default(cuid())
   firstName String
   lastName  String
   email     String
   phone     String?
   subject   String
-  message   String               @db.Text
-  status    ContactMessageStatus @default(NEW)
-  createdAt DateTime             @default(now())
-
-  @@index([status])
-  @@index([email])
+  message   String
+  status    String   @default("NEW")
+  createdAt DateTime @default(now())
 }
