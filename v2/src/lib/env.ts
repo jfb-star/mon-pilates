@@ -18,15 +18,17 @@ function optionalEnv(name: string): string | undefined {
 export const env = {
   // Database
   DATABASE_URL: requireEnv("DATABASE_URL"),
+  DIRECT_URL: optionalEnv("DIRECT_URL"),
 
   // Auth
   AUTH_SECRET: requireEnv("AUTH_SECRET"),
-  NEXTAUTH_URL: requireEnv("NEXTAUTH_URL"),
+  NEXTAUTH_URL: optionalEnv("NEXTAUTH_URL"),
 
-  // Stripe
-  STRIPE_SECRET_KEY: requireEnv("STRIPE_SECRET_KEY"),
-  STRIPE_WEBHOOK_SECRET: requireEnv("STRIPE_WEBHOOK_SECRET"),
-  NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: requireEnv("NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY"),
+  // Stripe — optional at boot so first deploy doesn't crash before webhook is configured.
+  // Runtime code that actually needs these must check and fail gracefully.
+  STRIPE_SECRET_KEY: optionalEnv("STRIPE_SECRET_KEY"),
+  STRIPE_WEBHOOK_SECRET: optionalEnv("STRIPE_WEBHOOK_SECRET"),
+  NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: optionalEnv("NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY"),
 
   // OAuth providers (optional)
   GOOGLE_CLIENT_ID: optionalEnv("GOOGLE_CLIENT_ID"),

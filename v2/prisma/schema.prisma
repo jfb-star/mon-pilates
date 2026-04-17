@@ -1,13 +1,11 @@
-// Dev schema for SQLite (local development)
-// For production (Vercel/Neon), use schema.postgresql.prisma
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model User {
@@ -31,6 +29,7 @@ model User {
   redeemedGiftCards GiftCard[]     @relation("RedeemedBy")
   notifications     Notification[]
   reviews           Review[]
+  subscriber        Subscriber?
 }
 
 model Instructor {
@@ -233,4 +232,77 @@ model Review {
   createdAt    DateTime   @default(now())
 
   @@unique([userId, courseTypeId])
+}
+
+// Transactional email templates (booking confirm, reset password, etc.)
+// htmlCompiled is generated from mjmlSource on save; variables is a JSON array
+// of variable names usable in {{mustache}} substitution.
+model EmailTemplate {
+  id            String   @id @default(cuid())
+  key           String   @unique // e.g. "booking_confirm", "reset_password"
+  name          String
+  subject       String
+  mjmlSource    String   // editable source (MJML or HTML)
+  htmlCompiled  String   // rendered HTML cached at save time
+  variables     String   @default("[]") // JSON array of variable names
+  updatedAt     DateTime @updatedAt
+  updatedBy     String?  // userId of last admin editor
+  createdAt     DateTime @default(now())
+
+  logs EmailLog[]
+}
+
+// Marketing campaigns — orchestrated via Brevo API.
+// audienceFilter is a JSON object describing segment criteria (tags, etc).
+// stats is a JSON snapshot of Brevo stats (opens, clicks, bounces).
+model EmailCampaign {
+  id               String    @id @default(cuid())
+  name             String
+  subject          String
+  mjmlSource       String
+  htmlCompiled     String
+  status           String    @default("DRAFT") // DRAFT | SCHEDULED | SENDING | SENT | FAILED
+  brevoCampaignId  String?   @unique
+  audienceFilter   String    @default("{}") // JSON
+  scheduledAt      DateTime?
+  sentAt           DateTime?
+  stats            String    @default("{}") // JSON
+  createdBy        String?   // userId
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+}
+
+// Marketing subscribers (RGPD: explicit consent required).
+// Linked to User when the subscriber has an account; email is the source of truth
+// for unauthenticated newsletter signups. brevoContactId mirrors the Brevo contact.
+model Subscriber {
+  id              String    @id @default(cuid())
+  email           String    @unique
+  userId          String?   @unique
+  consentAt       DateTime  @default(now())
+  unsubscribedAt  DateTime?
+  brevoContactId  String?
+  tags            String    @default("[]") // JSON array
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+}
+
+// Transactional send log — every Resend call leaves a trace here for debugging
+// and the /admin/emails/logs UI.
+model EmailLog {
+  id           String   @id @default(cuid())
+  templateKey  String?
+  toEmail      String
+  subject      String
+  providerId   String?  // Resend message id
+  status       String   @default("SENT") // SENT | FAILED | BOUNCED
+  error        String?
+  sentAt       DateTime @default(now())
+
+  template EmailTemplate? @relation(fields: [templateKey], references: [key], onDelete: SetNull)
+
+  @@index([toEmail])
+  @@index([sentAt])
 }
