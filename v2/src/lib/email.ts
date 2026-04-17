@@ -4,7 +4,9 @@ const resend = process.env.RESEND_API_KEY
   ? new Resend(process.env.RESEND_API_KEY)
   : null
 
-const FROM = "Mon Pilates <noreply@mon-pilates.bzh>"
+// FROM address — configurable via env so we can use `onboarding@resend.dev`
+// (Resend sandbox) before the domain mon-pilates.bzh is DNS-verified.
+const FROM = process.env.RESEND_FROM || "Mon Pilates <onboarding@resend.dev>"
 const SITE_URL = process.env.NEXTAUTH_URL || "https://mon-pilates.bzh"
 
 // ---------------------------------------------------------------------------
