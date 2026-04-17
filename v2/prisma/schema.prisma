@@ -252,39 +252,41 @@ model EmailTemplate {
   logs EmailLog[]
 }
 
-// Marketing campaigns — orchestrated via Brevo API.
+// Marketing campaigns — orchestrated via Resend Broadcasts API.
 // audienceFilter is a JSON object describing segment criteria (tags, etc).
-// stats is a JSON snapshot of Brevo stats (opens, clicks, bounces).
+// stats is a JSON snapshot of Resend stats (opens, clicks, bounces).
 model EmailCampaign {
-  id               String    @id @default(cuid())
-  name             String
-  subject          String
-  mjmlSource       String
-  htmlCompiled     String
-  status           String    @default("DRAFT") // DRAFT | SCHEDULED | SENDING | SENT | FAILED
-  brevoCampaignId  String?   @unique
-  audienceFilter   String    @default("{}") // JSON
-  scheduledAt      DateTime?
-  sentAt           DateTime?
-  stats            String    @default("{}") // JSON
-  createdBy        String?   // userId
-  createdAt        DateTime  @default(now())
-  updatedAt        DateTime  @updatedAt
+  id                 String    @id @default(cuid())
+  name               String
+  subject            String
+  mjmlSource         String
+  htmlCompiled       String
+  status             String    @default("DRAFT") // DRAFT | SCHEDULED | SENDING | SENT | FAILED
+  resendBroadcastId  String?   @unique
+  resendAudienceId   String?   // target audience id in Resend
+  audienceFilter     String    @default("{}") // JSON — reserved for in-app segment refinement
+  scheduledAt        DateTime?
+  sentAt             DateTime?
+  stats              String    @default("{}") // JSON
+  createdBy          String?   // userId
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
 }
 
 // Marketing subscribers (RGPD: explicit consent required).
 // Linked to User when the subscriber has an account; email is the source of truth
-// for unauthenticated newsletter signups. brevoContactId mirrors the Brevo contact.
+// for unauthenticated newsletter signups. resendContactId mirrors the Resend Audience contact.
 model Subscriber {
-  id              String    @id @default(cuid())
-  email           String    @unique
-  userId          String?   @unique
-  consentAt       DateTime  @default(now())
-  unsubscribedAt  DateTime?
-  brevoContactId  String?
-  tags            String    @default("[]") // JSON array
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
+  id                String    @id @default(cuid())
+  email             String    @unique
+  userId            String?   @unique
+  consentAt         DateTime  @default(now())
+  unsubscribedAt    DateTime?
+  resendContactId   String?
+  resendAudienceId  String?   // audience the contact was pushed to
+  tags              String    @default("[]") // JSON array
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
 
   user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
 }
