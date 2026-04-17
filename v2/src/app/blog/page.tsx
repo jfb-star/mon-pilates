@@ -1,15 +1,23 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, Clock, Tag } from "lucide-react";
-import type { Metadata } from "next";
+import { NewsletterForm } from "@/components/ui/NewsletterForm";
 
-export const metadata: Metadata = {
-  title: "Blog",
-  description:
-    "Conseils Pilates, bien-être, actualités du studio Mon Pilates à Larmor-Plage.",
-};
+interface BlogPost {
+  slug: string;
+  title: string;
+  excerpt: string;
+  date: string;
+  readTime: string;
+  category: string;
+  image: string;
+  featured: boolean;
+}
 
-const posts = [
+const hardcodedPosts: BlogPost[] = [
   {
     slug: "5-exercices-pilates-mal-de-dos",
     title: "5 exercices de Pilates pour soulager le mal de dos",
@@ -78,7 +86,7 @@ const posts = [
   },
 ];
 
-const categories = ["Tous", "Conseils", "Guide", "Prénatal", "Senior", "Actualités"];
+const defaultCategories = ["Tous", "Conseils", "Guide", "Prénatal", "Senior", "Actualités"];
 
 function formatDate(dateStr: string): string {
   return new Date(dateStr).toLocaleDateString("fr-FR", {
@@ -88,19 +96,24 @@ function formatDate(dateStr: string): string {
   });
 }
 
-function FeaturedPost({ post }: { post: (typeof posts)[0] }) {
+function FeaturedPost({ post }: { post: BlogPost }) {
   return (
     <Link href={`/blog/${post.slug}`} className="block group">
-      <article className="mp-card overflow-hidden grid grid-cols-1 lg:grid-cols-2">
+      <article aria-label={`Article à la une : ${post.title}`} className="mp-card overflow-hidden grid grid-cols-1 lg:grid-cols-2">
         {/* Image */}
         <div className="relative h-64 lg:h-auto overflow-hidden rounded-t-2xl lg:rounded-l-2xl lg:rounded-tr-none">
           <Image
             src={post.image || "/images/illustration-pilates-artistique.png"}
-            alt={post.title}
+            alt={`Illustration de l'article : ${post.title}`}
             fill
-            className="object-cover"
+            loading="lazy"
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
             sizes="(max-width: 1024px) 100vw, 50vw"
           />
+          <div className="absolute inset-0 bg-gradient-to-t from-mp-charcoal/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+          <span className="absolute top-4 left-4 px-3 py-1 rounded-full bg-mp-gold text-white text-xs font-heading font-semibold shadow-sm">
+            &Agrave; la une
+          </span>
         </div>
 
         <div className="p-8 lg:p-10 flex flex-col justify-center">
@@ -108,9 +121,9 @@ function FeaturedPost({ post }: { post: (typeof posts)[0] }) {
             <span className="px-3 py-1 rounded-full bg-mp-ocean/10 text-mp-ocean text-xs font-heading font-semibold">
               {post.category}
             </span>
-            <span className="text-xs text-mp-text-light">
+            <time dateTime={post.date} className="text-xs text-mp-text-light">
               {formatDate(post.date)}
-            </span>
+            </time>
           </div>
           <h2 className="font-heading text-2xl font-bold text-mp-charcoal mb-3 group-hover:text-mp-ocean transition-colors">
             {post.title}
@@ -120,7 +133,7 @@ function FeaturedPost({ post }: { post: (typeof posts)[0] }) {
           </p>
           <div className="flex items-center gap-4 text-sm text-mp-text-light">
             <span className="flex items-center gap-1">
-              <Clock className="w-4 h-4" />
+              <Clock className="w-4 h-4" aria-hidden="true" />
               {post.readTime} de lecture
             </span>
           </div>
@@ -130,17 +143,18 @@ function FeaturedPost({ post }: { post: (typeof posts)[0] }) {
   );
 }
 
-function PostCard({ post }: { post: (typeof posts)[0] }) {
+function PostCard({ post }: { post: BlogPost }) {
   return (
     <Link href={`/blog/${post.slug}`} className="block group">
-      <article className="mp-card h-full flex flex-col">
+      <article className="mp-card h-full flex flex-col hover:shadow-lg transition-shadow">
         {/* Image */}
         <div className="relative h-48 overflow-hidden rounded-t-2xl">
           <Image
             src={post.image || "/images/illustration-pilates-artistique.png"}
-            alt={post.title}
+            alt={`Illustration de l'article : ${post.title}`}
             fill
-            className="object-cover"
+            loading="lazy"
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
             sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
           />
         </div>
@@ -150,9 +164,9 @@ function PostCard({ post }: { post: (typeof posts)[0] }) {
             <span className="px-2.5 py-0.5 rounded-full bg-mp-ocean/10 text-mp-ocean text-xs font-heading font-medium">
               {post.category}
             </span>
-            <span className="text-xs text-mp-text-light">
+            <time dateTime={post.date} className="text-xs text-mp-text-light">
               {formatDate(post.date)}
-            </span>
+            </time>
           </div>
           <h3 className="font-heading text-lg font-semibold text-mp-charcoal mb-2 group-hover:text-mp-ocean transition-colors">
             {post.title}
@@ -162,12 +176,12 @@ function PostCard({ post }: { post: (typeof posts)[0] }) {
           </p>
           <div className="flex items-center justify-between text-sm">
             <span className="flex items-center gap-1 text-mp-text-light">
-              <Clock className="w-3.5 h-3.5" />
+              <Clock className="w-3.5 h-3.5" aria-hidden="true" />
               {post.readTime}
             </span>
             <span className="flex items-center gap-1 text-mp-ocean font-heading font-medium group-hover:gap-2 transition-all">
               Lire
-              <ArrowRight className="w-3.5 h-3.5" />
+              <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
             </span>
           </div>
         </div>
@@ -176,19 +190,85 @@ function PostCard({ post }: { post: (typeof posts)[0] }) {
   );
 }
 
+function mapApiPost(p: Record<string, unknown>): BlogPost {
+  const tags = (p.tags as string[]) || [];
+  const publishedAt = p.publishedAt as string | null;
+  const content = (p.content as { type: string; text: string }[]) || [];
+  const wordCount = content
+    .filter((b) => b.type === "paragraph")
+    .reduce((acc, b) => acc + (b.text?.split(/\s+/).length || 0), 0);
+  const readTime = `${Math.max(1, Math.round(wordCount / 200))} min`;
+  return {
+    slug: p.slug as string,
+    title: p.title as string,
+    excerpt: (p.excerpt as string) || "",
+    date: publishedAt || (p.createdAt as string) || "",
+    readTime,
+    category: tags[0] || "Conseils",
+    image: (p.coverImage as string) || "/images/illustration-pilates-artistique.png",
+    featured: false,
+  };
+}
+
 export default function BlogPage() {
-  const featured = posts.find((p) => p.featured);
-  const others = posts.filter((p) => !p.featured);
+  const [posts, setPosts] = useState<BlogPost[]>(hardcodedPosts);
+  const [activeCategory, setActiveCategory] = useState("Tous");
+
+  useEffect(() => {
+    fetch("/api/blog")
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.posts && data.posts.length > 0) {
+          const mapped = data.posts.map(mapApiPost);
+          // Mark first as featured
+          if (mapped.length > 0) mapped[0].featured = true;
+          setPosts(mapped);
+        }
+      })
+      .catch(() => {
+        // Keep hardcoded fallback
+      });
+  }, []);
+
+  // Derive categories from posts
+  const postCategories = Array.from(new Set(posts.map((p) => p.category)));
+  const categories = ["Tous", ...postCategories.filter((c) => c !== "Tous")];
+  // Fallback to defaults if no API categories
+  const displayCategories = categories.length > 1 ? categories : defaultCategories;
+
+  const filtered = activeCategory === "Tous"
+    ? posts
+    : posts.filter((p) => p.category === activeCategory);
+
+  const featured = filtered.find((p) => p.featured);
+  const others = filtered.filter((p) => !p.featured);
+
+  const blogItemListJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Blog — Mon Pilates",
+    numberOfItems: posts.length,
+    itemListElement: posts.map((post, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      url: `https://mon-pilates.bzh/blog/${post.slug}`,
+      name: post.title,
+    })),
+  };
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(blogItemListJsonLd) }}
+      />
       {/* Hero */}
       <section className="pt-32 pb-12 bg-mp-cream">
         <div className="mp-container">
           <p className="font-heading text-sm font-semibold text-mp-ocean uppercase tracking-[0.2em] mb-3">
             Blog
           </p>
-          <h1 className="font-heading text-4xl sm:text-5xl font-bold text-mp-charcoal mb-4">
+          <h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-bold text-mp-charcoal mb-4">
             Conseils & actualités
           </h1>
           <p className="font-body text-lg text-mp-text-light max-w-xl">
@@ -199,14 +279,17 @@ export default function BlogPage() {
       </section>
 
       {/* Categories */}
-      <section className="border-b border-mp-sand-dark/30 bg-mp-white sticky top-20 z-30">
+      <section className="border-b border-mp-sand-dark/30 bg-mp-white sticky top-[72px] z-30">
         <div className="mp-container">
-          <div className="flex gap-2 overflow-x-auto py-4 scrollbar-hide">
-            {categories.map((cat) => (
+          <div className="flex gap-2 overflow-x-auto py-4 scrollbar-hide" role="tablist" aria-label="Filtrer par catégorie">
+            {displayCategories.map((cat) => (
               <button
                 key={cat}
+                role="tab"
+                aria-selected={activeCategory === cat}
+                onClick={() => setActiveCategory(cat)}
                 className={`px-4 py-2 rounded-full text-sm font-heading font-medium whitespace-nowrap transition-colors ${
-                  cat === "Tous"
+                  activeCategory === cat
                     ? "bg-mp-ocean text-white"
                     : "bg-mp-sand/50 text-mp-text-light hover:bg-mp-ocean/10 hover:text-mp-ocean"
                 }`}
@@ -217,6 +300,17 @@ export default function BlogPage() {
           </div>
         </div>
       </section>
+
+      {/* Results count */}
+      {activeCategory !== "Tous" && (
+        <div className="bg-mp-white border-b border-mp-sand-dark/20">
+          <div className="mp-container py-3">
+            <p className="text-sm font-body text-mp-text-light" role="status" aria-live="polite">
+              {filtered.length} article{filtered.length > 1 ? "s" : ""} dans la catégorie <strong className="text-mp-charcoal">{activeCategory}</strong>
+            </p>
+          </div>
+        </div>
+      )}
 
       {/* Featured */}
       {featured && (
@@ -230,36 +324,32 @@ export default function BlogPage() {
       {/* Grid */}
       <section className="mp-section bg-mp-cream">
         <div className="mp-container">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {others.map((post) => (
-              <PostCard key={post.slug} post={post} />
-            ))}
-          </div>
+          {others.length === 0 && !featured ? (
+            <p className="text-center font-body text-mp-text-light py-12">
+              Aucun article dans cette catégorie pour le moment.
+            </p>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {others.map((post) => (
+                <PostCard key={post.slug} post={post} />
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
       {/* Newsletter CTA */}
-      <section className="mp-section bg-mp-ocean/5">
+      <section className="mp-section bg-mp-cream">
         <div className="mp-container text-center max-w-lg mx-auto">
-          <Tag className="w-8 h-8 text-mp-ocean mx-auto mb-4" />
+          <Tag className="w-8 h-8 text-mp-ocean mx-auto mb-4" aria-hidden="true" />
           <h2 className="font-heading text-2xl font-bold text-mp-charcoal mb-3">
             Restez informé(e)
           </h2>
           <p className="font-body text-mp-text-light mb-6">
-            Recevez nos conseils Pilates et les actualités du studio directement
-            dans votre boîte mail.
+            Recevez notre guide gratuit : 7 exercices Pilates à faire chez soi,
+            et les actualités du studio directement dans votre boîte mail.
           </p>
-          <div className="flex gap-2">
-            <input
-              type="email"
-              placeholder="votre@email.com"
-              className="flex-1 px-4 py-3 rounded-full border border-mp-sand-dark bg-mp-white text-mp-text font-body text-sm focus:outline-none focus:border-mp-ocean focus:ring-2 focus:ring-mp-ocean/20"
-              aria-label="Adresse email pour la newsletter"
-            />
-            <button className="mp-btn mp-btn-primary text-sm whitespace-nowrap">
-              S&apos;abonner
-            </button>
-          </div>
+          <NewsletterForm />
           <p className="text-xs text-mp-text-light mt-3">
             Pas de spam. Désinscription en un clic.
           </p>

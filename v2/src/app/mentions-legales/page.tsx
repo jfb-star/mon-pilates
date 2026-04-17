@@ -1,22 +1,38 @@
 import type { Metadata } from "next";
+import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
+import { Breadcrumb } from "@/components/ui/Breadcrumb";
 
 export const metadata: Metadata = {
-  title: "Mentions legales",
+  title: "Mentions légales — Mon Pilates Larmor-Plage",
   description:
-    "Mentions legales du site mon-pilates.bzh. Informations sur l'editeur, l'hebergeur et les conditions d'utilisation.",
+    "Mentions légales du site mon-pilates.bzh. Informations sur l'éditeur, l'hébergeur et les conditions d'utilisation du studio de Pilates à Larmor-Plage.",
+  alternates: {
+    canonical: "https://mon-pilates.bzh/mentions-legales",
+  },
+  robots: { index: true, follow: true },
 };
 
 export default function MentionsLegalesPage() {
   return (
     <>
+      <BreadcrumbJsonLd items={[
+        { name: "Accueil", href: "/" },
+        { name: "Mentions légales", href: "/mentions-legales" },
+      ]} />
       {/* Hero */}
       <section className="bg-mp-cream pt-32 pb-12">
+        <div className="mp-container">
+          <Breadcrumb items={[
+            { name: "Accueil", href: "/" },
+            { name: "Mentions légales", href: "/mentions-legales" },
+          ]} />
+        </div>
         <div className="mp-container text-center">
           <h1 className="font-heading text-4xl sm:text-5xl font-bold text-mp-charcoal mb-4">
-            Mentions legales
+            Mentions légales du site Mon Pilates
           </h1>
           <p className="font-body text-mp-text-light">
-            Derniere mise a jour : avril 2026
+            Dernière mise à jour : <time dateTime="2025-01-15">15 janvier 2025</time>
           </p>
         </div>
       </section>
@@ -27,10 +43,10 @@ export default function MentionsLegalesPage() {
           <div className="space-y-10 font-body text-mp-text leading-relaxed">
             <div>
               <h2 className="font-heading text-2xl font-bold text-mp-charcoal mb-4">
-                1. Editeur du site
+                1. Éditeur du site
               </h2>
               <p>
-                Le site <strong>mon-pilates.bzh</strong> est edite par :
+                Le site <strong>mon-pilates.bzh</strong> est édité par :
               </p>
               <ul className="mt-3 space-y-1.5 list-none">
                 <li>
@@ -45,15 +61,15 @@ export default function MentionsLegalesPage() {
                   Larmor-Plage, France
                 </li>
                 <li>
-                  <strong>SIRET :</strong> [A completer]
+                  <strong>SIRET :</strong> communiqué sur demande
                 </li>
                 <li>
-                  <strong>Telephone :</strong>{" "}
+                  <strong>Téléphone :</strong>{" "}
                   <a
-                    href="tel:+33783671563"
+                    href="tel:+33699183216"
                     className="text-mp-ocean hover:underline"
                   >
-                    07 83 67 15 63
+                    06 99 18 32 16
                   </a>
                 </li>
                 <li>
@@ -73,7 +89,7 @@ export default function MentionsLegalesPage() {
                 2. Responsable de publication
               </h2>
               <p>
-                Le responsable de la publication du site est : [a completer].
+                Le responsable de la publication du site est Marie Lefèvre, gérante de Mon Pilates.
               </p>
               <p className="mt-2">
                 Contact :{" "}
@@ -88,9 +104,9 @@ export default function MentionsLegalesPage() {
 
             <div>
               <h2 className="font-heading text-2xl font-bold text-mp-charcoal mb-4">
-                3. Hebergeur
+                3. Hébergeur
               </h2>
-              <p>Le site est heberge par :</p>
+              <p>Le site est hébergé par :</p>
               <ul className="mt-3 space-y-1.5 list-none">
                 <li>
                   <strong>Vercel Inc.</strong>
@@ -112,35 +128,35 @@ export default function MentionsLegalesPage() {
 
             <div>
               <h2 className="font-heading text-2xl font-bold text-mp-charcoal mb-4">
-                4. Propriete intellectuelle
+                4. Propriété intellectuelle
               </h2>
               <p>
                 L&apos;ensemble du contenu du site mon-pilates.bzh (textes,
-                images, graphismes, logo, icones, sons, logiciels, etc.) est la
-                propriete exclusive de Mon Pilates ou de ses partenaires et est
-                protege par les lois francaises et internationales relatives a la
-                propriete intellectuelle.
+                images, graphismes, logo, icônes, sons, logiciels, etc.) est la
+                propriété exclusive de Mon Pilates ou de ses partenaires et est
+                protégé par les lois françaises et internationales relatives à la
+                propriété intellectuelle.
               </p>
               <p className="mt-3">
-                Toute reproduction, representation, modification, publication,
-                adaptation de tout ou partie des elements du site, quel que soit
-                le moyen ou le procede utilise, est interdite, sauf autorisation
-                ecrite prealable de Mon Pilates.
+                Toute reproduction, représentation, modification, publication,
+                adaptation de tout ou partie des éléments du site, quel que soit
+                le moyen ou le procédé utilisé, est interdite, sauf autorisation
+                écrite préalable de Mon Pilates.
               </p>
             </div>
 
             <div>
               <h2 className="font-heading text-2xl font-bold text-mp-charcoal mb-4">
-                5. Donnees personnelles
+                5. Données personnelles
               </h2>
               <p>
                 Pour plus d&apos;informations sur la collecte et le traitement
-                de vos donnees personnelles, veuillez consulter notre{" "}
+                de vos données personnelles, veuillez consulter notre{" "}
                 <a
                   href="/politique-confidentialite"
                   className="text-mp-ocean hover:underline"
                 >
-                  politique de confidentialite
+                  politique de confidentialité
                 </a>
                 .
               </p>
@@ -165,21 +181,21 @@ export default function MentionsLegalesPage() {
 
             <div>
               <h2 className="font-heading text-2xl font-bold text-mp-charcoal mb-4">
-                7. Limitation de responsabilite
+                7. Limitation de responsabilité
               </h2>
               <p>
                 Mon Pilates s&apos;efforce de fournir des informations aussi
-                precises que possible sur le site. Toutefois, il ne pourra etre
+                précises que possible sur le site. Toutefois, il ne pourra être
                 tenu responsable des omissions, des inexactitudes et des
-                carences dans la mise a jour, qu&apos;elles soient de son fait
+                carences dans la mise à jour, qu&apos;elles soient de son fait
                 ou du fait des tiers partenaires qui lui fournissent ces
                 informations.
               </p>
               <p className="mt-3">
-                Les informations presentes sur le site sont donnees a titre
-                indicatif et sont susceptibles d&apos;evoluer. Le site peut
+                Les informations présentes sur le site sont données à titre
+                indicatif et sont susceptibles d&apos;évoluer. Le site peut
                 contenir des liens vers d&apos;autres sites dont Mon Pilates ne
-                maitrise pas le contenu.
+                maîtrise pas le contenu.
               </p>
             </div>
 
@@ -188,9 +204,9 @@ export default function MentionsLegalesPage() {
                 8. Droit applicable
               </h2>
               <p>
-                Les presentes mentions legales sont regies par le droit
-                francais. En cas de litige, et apres tentative de resolution
-                amiable, les tribunaux francais seront seuls competents.
+                Les présentes mentions légales sont régies par le droit
+                français. En cas de litige, et après tentative de résolution
+                amiable, les tribunaux français seront seuls compétents.
               </p>
             </div>
           </div>

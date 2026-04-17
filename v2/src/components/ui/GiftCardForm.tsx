@@ -20,6 +20,7 @@ export function GiftCardForm() {
   const [senderEmail, setSenderEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
 
   const currentPrice =
     giftType === "sessions"
@@ -88,14 +89,16 @@ export function GiftCardForm() {
               htmlFor="freeAmount"
               className="block font-heading text-sm font-medium text-mp-charcoal mb-1.5"
             >
-              Montant (de 10&euro; a 500&euro;)
+              Montant (de 10&euro; à 500&euro;)
             </label>
             <div className="relative">
               <input
                 id="freeAmount"
                 type="number"
+                inputMode="numeric"
                 min={10}
                 max={500}
+                enterKeyHint="next"
                 value={freeAmount}
                 onChange={(e) => setFreeAmount(Number(e.target.value))}
                 className="w-full px-4 py-3 rounded-xl border border-mp-sand-dark/50 font-heading text-2xl font-bold text-mp-charcoal bg-mp-white focus:outline-none focus-visible:outline-2 focus-visible:outline-mp-ocean focus-visible:outline-offset-2"
@@ -120,11 +123,18 @@ export function GiftCardForm() {
               <input
                 id="recipientName"
                 type="text"
+                required
+                aria-required="true"
+                aria-invalid={!!fieldErrors.recipientName}
+                aria-describedby={fieldErrors.recipientName ? "recipientName-error" : undefined}
+                autoComplete="off"
+                enterKeyHint="next"
                 value={recipientName}
-                onChange={(e) => setRecipientName(e.target.value)}
-                placeholder="Nom du destinataire"
-                className="w-full px-4 py-3 rounded-xl border border-mp-sand-dark/50 font-body text-sm text-mp-text bg-mp-white focus:outline-none focus-visible:outline-2 focus-visible:outline-mp-ocean focus-visible:outline-offset-2"
+                onChange={(e) => { setRecipientName(e.target.value); setFieldErrors((p) => { const n = { ...p }; delete n.recipientName; return n; }); }}
+                placeholder="Nom du destinataire *"
+                className={`w-full px-4 py-3 rounded-xl border font-body text-sm text-mp-text bg-mp-white focus:outline-none focus-visible:outline-2 focus-visible:outline-mp-ocean focus-visible:outline-offset-2 ${fieldErrors.recipientName ? "border-red-400" : "border-mp-sand-dark/50"}`}
               />
+              {fieldErrors.recipientName && <p id="recipientName-error" role="alert" className="text-xs text-red-600 mt-1">{fieldErrors.recipientName}</p>}
             </div>
             <div>
               <label htmlFor="recipientEmail" className="sr-only">
@@ -133,11 +143,19 @@ export function GiftCardForm() {
               <input
                 id="recipientEmail"
                 type="email"
+                required
+                inputMode="email"
+                aria-required="true"
+                aria-invalid={!!fieldErrors.recipientEmail}
+                aria-describedby={fieldErrors.recipientEmail ? "recipientEmail-error" : undefined}
+                autoComplete="off"
+                enterKeyHint="next"
                 value={recipientEmail}
-                onChange={(e) => setRecipientEmail(e.target.value)}
-                placeholder="Email du destinataire"
-                className="w-full px-4 py-3 rounded-xl border border-mp-sand-dark/50 font-body text-sm text-mp-text bg-mp-white focus:outline-none focus-visible:outline-2 focus-visible:outline-mp-ocean focus-visible:outline-offset-2"
+                onChange={(e) => { setRecipientEmail(e.target.value); setFieldErrors((p) => { const n = { ...p }; delete n.recipientEmail; return n; }); }}
+                placeholder="Email du destinataire *"
+                className={`w-full px-4 py-3 rounded-xl border font-body text-sm text-mp-text bg-mp-white focus:outline-none focus-visible:outline-2 focus-visible:outline-mp-ocean focus-visible:outline-offset-2 ${fieldErrors.recipientEmail ? "border-red-400" : "border-mp-sand-dark/50"}`}
               />
+              {fieldErrors.recipientEmail && <p id="recipientEmail-error" role="alert" className="text-xs text-red-600 mt-1">{fieldErrors.recipientEmail}</p>}
             </div>
           </div>
         </div>
@@ -157,6 +175,7 @@ export function GiftCardForm() {
             id="personalMessage"
             rows={3}
             maxLength={200}
+            enterKeyHint="next"
             value={personalMessage}
             onChange={(e) => setPersonalMessage(e.target.value)}
             placeholder="Un petit mot pour accompagner votre cadeau..."
@@ -177,11 +196,18 @@ export function GiftCardForm() {
               <input
                 id="senderName"
                 type="text"
+                required
+                aria-required="true"
+                aria-invalid={!!fieldErrors.senderName}
+                aria-describedby={fieldErrors.senderName ? "senderName-error" : undefined}
+                autoComplete="name"
+                enterKeyHint="next"
                 value={senderName}
-                onChange={(e) => setSenderName(e.target.value)}
-                placeholder="Votre nom"
-                className="w-full px-4 py-3 rounded-xl border border-mp-sand-dark/50 font-body text-sm text-mp-text bg-mp-white focus:outline-none focus-visible:outline-2 focus-visible:outline-mp-ocean focus-visible:outline-offset-2"
+                onChange={(e) => { setSenderName(e.target.value); setFieldErrors((p) => { const n = { ...p }; delete n.senderName; return n; }); }}
+                placeholder="Votre nom *"
+                className={`w-full px-4 py-3 rounded-xl border font-body text-sm text-mp-text bg-mp-white focus:outline-none focus-visible:outline-2 focus-visible:outline-mp-ocean focus-visible:outline-offset-2 ${fieldErrors.senderName ? "border-red-400" : "border-mp-sand-dark/50"}`}
               />
+              {fieldErrors.senderName && <p id="senderName-error" role="alert" className="text-xs text-red-600 mt-1">{fieldErrors.senderName}</p>}
             </div>
             <div>
               <label htmlFor="senderEmail" className="sr-only">
@@ -190,25 +216,49 @@ export function GiftCardForm() {
               <input
                 id="senderEmail"
                 type="email"
+                required
+                inputMode="email"
+                aria-required="true"
+                aria-invalid={!!fieldErrors.senderEmail}
+                aria-describedby={fieldErrors.senderEmail ? "senderEmail-error" : undefined}
+                autoComplete="email"
+                enterKeyHint="send"
                 value={senderEmail}
-                onChange={(e) => setSenderEmail(e.target.value)}
-                placeholder="Votre email"
-                className="w-full px-4 py-3 rounded-xl border border-mp-sand-dark/50 font-body text-sm text-mp-text bg-mp-white focus:outline-none focus-visible:outline-2 focus-visible:outline-mp-ocean focus-visible:outline-offset-2"
+                onChange={(e) => { setSenderEmail(e.target.value); setFieldErrors((p) => { const n = { ...p }; delete n.senderEmail; return n; }); }}
+                placeholder="Votre email *"
+                className={`w-full px-4 py-3 rounded-xl border font-body text-sm text-mp-text bg-mp-white focus:outline-none focus-visible:outline-2 focus-visible:outline-mp-ocean focus-visible:outline-offset-2 ${fieldErrors.senderEmail ? "border-red-400" : "border-mp-sand-dark/50"}`}
               />
+              {fieldErrors.senderEmail && <p id="senderEmail-error" role="alert" className="text-xs text-red-600 mt-1">{fieldErrors.senderEmail}</p>}
             </div>
           </div>
         </div>
 
         {/* Submit */}
         {error && (
-          <p className="text-mp-rose text-sm font-body">{error}</p>
+          <p role="alert" className="text-red-600 text-sm font-body">{error}</p>
         )}
         <button
           type="button"
           disabled={loading}
           onClick={async () => {
-            if (!recipientName || !recipientEmail || !senderName || !senderEmail) {
-              setError("Veuillez remplir tous les champs obligatoires.");
+            const errs: Record<string, string> = {};
+            if (!recipientName.trim()) errs.recipientName = "Le nom du destinataire est requis.";
+            if (!recipientEmail.trim()) {
+              errs.recipientEmail = "L'email du destinataire est requis.";
+            } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(recipientEmail)) {
+              errs.recipientEmail = "L'email du destinataire n'est pas valide.";
+            }
+            if (!senderName.trim()) errs.senderName = "Votre nom est requis.";
+            if (!senderEmail.trim()) {
+              errs.senderEmail = "Votre email est requis.";
+            } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(senderEmail)) {
+              errs.senderEmail = "Votre email n'est pas valide.";
+            }
+            setFieldErrors(errs);
+            if (Object.keys(errs).length > 0) {
+              const firstField = Object.keys(errs)[0];
+              const el = document.getElementById(firstField);
+              if (el) requestAnimationFrame(() => el.focus());
               return;
             }
             setError("");
@@ -251,7 +301,7 @@ export function GiftCardForm() {
           }}
           className="mp-btn mp-btn-gold w-full text-lg cursor-pointer"
         >
-          <Sparkles className="w-5 h-5" />
+          <Sparkles className="w-5 h-5" aria-hidden="true" />
           {loading ? "Redirection\u2026" : <>Offrir cette carte &mdash; {currentPrice}&euro;</>}
         </button>
       </div>
@@ -260,7 +310,7 @@ export function GiftCardForm() {
       <div className="flex items-start justify-center lg:sticky lg:top-32">
         <div className="w-full max-w-md">
           <h2 className="font-heading text-xl font-semibold text-mp-charcoal mb-4">
-            Apercu de la carte
+            Aperçu de la carte
           </h2>
           <div className="relative rounded-2xl border-2 border-mp-gold overflow-hidden shadow-[0_8px_40px_rgba(201,169,110,0.2)] bg-gradient-to-br from-white via-mp-cream to-mp-gold-light/30">
             {/* Gold bar */}
@@ -271,7 +321,7 @@ export function GiftCardForm() {
                 <span className="font-heading text-xl font-bold text-mp-charcoal">
                   Mon <span className="text-mp-ocean">Pilates</span>
                 </span>
-                <Gift className="w-8 h-8 text-mp-gold" />
+                <Gift className="w-8 h-8 text-mp-gold" aria-hidden="true" />
               </div>
 
               {/* Label */}
@@ -315,7 +365,7 @@ export function GiftCardForm() {
               </div>
 
               {/* Price */}
-              <div className="bg-mp-gold/10 rounded-xl p-4 text-center">
+              <div className="bg-mp-gold/10 rounded-xl p-4 text-center" aria-live="polite">
                 <p className="font-heading text-2xl font-bold text-mp-gold">
                   {currentPrice}&euro;
                 </p>

@@ -1,0 +1,21 @@
+{
+  "name": "Mon Pilates — Studio Larmor-Plage",
+  "short_name": "Mon Pilates",
+  "description": "Réservez vos cours de Pilates face à l'océan",
+  "start_url": "/planning",
+  "display": "standalone",
+  "background_color": "#faf7f3",
+  "theme_color": "#6b9fad",
+  "orientation": "portrait",
+  "categories": ["health", "fitness", "lifestyle"],
+  "lang": "fr",
+  "dir": "ltr",
+  "scope": "/",
+  "prefer_related_applications": false,
+  "icons": [
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" },
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ],
+  "screenshots": []
+}

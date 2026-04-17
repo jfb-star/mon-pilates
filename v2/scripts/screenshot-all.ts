@@ -16,31 +16,82 @@ const pages = [
   { name: "blog-article", path: "/blog/5-exercices-pilates-mal-de-dos" },
   { name: "contact", path: "/contact" },
   { name: "carte-cadeau", path: "/carte-cadeau" },
-  { name: "compte", path: "/compte" },
   { name: "mentions-legales", path: "/mentions-legales" },
+  { name: "connexion", path: "/connexion" },
+  { name: "premiere-visite", path: "/premiere-visite" },
 ];
 
 async function main() {
   fs.mkdirSync(OUT_DIR, { recursive: true });
-  const browser = await puppeteer.launch({ headless: true });
-  const page = await browser.newPage();
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: ["--no-sandbox", "--disable-setuid-sandbox", "--disable-dev-shm-usage"],
+  });
 
   for (const { name, path: pagePath } of pages) {
-    // Desktop
-    await page.setViewport({ width: 1440, height: 900 });
-    await page.goto(`${BASE_URL}${pagePath}`, { waitUntil: "networkidle0", timeout: 20000 });
-    await page.screenshot({ path: path.join(OUT_DIR, `${name}-desktop.png`), fullPage: true });
-    console.log(`✓ ${name}-desktop.png`);
+    const page = await browser.newPage();
 
-    // Mobile
-    await page.setViewport({ width: 390, height: 844 });
-    await page.goto(`${BASE_URL}${pagePath}`, { waitUntil: "networkidle0", timeout: 20000 });
-    await page.screenshot({ path: path.join(OUT_DIR, `${name}-mobile.png`), fullPage: true });
-    console.log(`✓ ${name}-mobile.png`);
+    try {
+      // Desktop
+      await page.setViewport({ width: 1440, height: 900 });
+      const response = await page.goto(`${BASE_URL}${pagePath}`, {
+        waitUntil: "networkidle0",
+        timeout: 60000,
+      });
+      if (!response || !response.ok()) {
+        console.log(`✗ ${name} - HTTP ${response?.status()}`);
+        await page.close();
+        continue;
+      }
+      await new Promise((r) => setTimeout(r, 2000));
+      // Scroll to trigger IntersectionObserver reveals
+      await page.evaluate(async () => {
+        const step = window.innerHeight;
+        const max = document.body.scrollHeight;
+        for (let y = 0; y < max; y += step) {
+          window.scrollTo(0, y);
+          await new Promise(r => setTimeout(r, 200));
+        }
+        window.scrollTo(0, 0);
+        await new Promise(r => setTimeout(r, 300));
+      });
+      await page.screenshot({
+        path: path.join(OUT_DIR, `${name}-desktop.png`),
+        fullPage: true,
+      });
+      console.log(`✓ ${name}-desktop.png`);
+
+      // Mobile
+      await page.setViewport({ width: 390, height: 844 });
+      await page.goto(`${BASE_URL}${pagePath}`, {
+        waitUntil: "networkidle0",
+        timeout: 60000,
+      });
+      await new Promise((r) => setTimeout(r, 2000));
+      await page.evaluate(async () => {
+        const step = window.innerHeight;
+        const max = document.body.scrollHeight;
+        for (let y = 0; y < max; y += step) {
+          window.scrollTo(0, y);
+          await new Promise(r => setTimeout(r, 200));
+        }
+        window.scrollTo(0, 0);
+        await new Promise(r => setTimeout(r, 300));
+      });
+      await page.screenshot({
+        path: path.join(OUT_DIR, `${name}-mobile.png`),
+        fullPage: true,
+      });
+      console.log(`✓ ${name}-mobile.png`);
+    } catch (e: any) {
+      console.log(`✗ ${name} failed: ${e.message}`);
+    }
+
+    await page.close();
   }
 
   await browser.close();
-  console.log(`\nDone! ${pages.length * 2} screenshots saved to ./screenshots/`);
+  console.log(`\nDone! Screenshots saved to ./screenshots/`);
 }
 
 main().catch(console.error);

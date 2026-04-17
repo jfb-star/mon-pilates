@@ -1,22 +1,38 @@
 import type { Metadata } from "next";
+import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
+import { Breadcrumb } from "@/components/ui/Breadcrumb";
 
 export const metadata: Metadata = {
-  title: "Politique de confidentialite",
+  title: "Politique de confidentialité — Mon Pilates Larmor-Plage",
   description:
-    "Politique de confidentialite et protection des donnees personnelles du site mon-pilates.bzh, conforme au RGPD.",
+    "Politique de confidentialité et protection des données personnelles du site mon-pilates.bzh. Traitement RGPD, droits des utilisateurs et cookies.",
+  alternates: {
+    canonical: "https://mon-pilates.bzh/politique-confidentialite",
+  },
+  robots: { index: true, follow: true },
 };
 
 export default function PolitiqueConfidentialitePage() {
   return (
     <>
+      <BreadcrumbJsonLd items={[
+        { name: "Accueil", href: "/" },
+        { name: "Politique de confidentialité", href: "/politique-confidentialite" },
+      ]} />
       {/* Hero */}
       <section className="bg-mp-cream pt-32 pb-12">
+        <div className="mp-container">
+          <Breadcrumb items={[
+            { name: "Accueil", href: "/" },
+            { name: "Politique de confidentialité", href: "/politique-confidentialite" },
+          ]} />
+        </div>
         <div className="mp-container text-center">
           <h1 className="font-heading text-4xl sm:text-5xl font-bold text-mp-charcoal mb-4">
-            Politique de confidentialite
+            Politique de confidentialité — Mon Pilates
           </h1>
           <p className="font-body text-mp-text-light">
-            Derniere mise a jour : avril 2026
+            Dernière mise à jour : <time dateTime="2025-01-15">15 janvier 2025</time>
           </p>
         </div>
       </section>
@@ -26,19 +42,19 @@ export default function PolitiqueConfidentialitePage() {
         <div className="mp-container max-w-3xl">
           <div className="space-y-10 font-body text-mp-text leading-relaxed">
             <p>
-              Mon Pilates s&apos;engage a proteger la vie privee de ses
-              utilisateurs et clients. La presente politique de confidentialite
-              decrit comment nous collectons, utilisons et protegeons vos
-              donnees personnelles, conformement au Reglement General sur la
-              Protection des Donnees (RGPD - UE 2016/679) et a la loi
-              Informatique et Libertes.
+              Mon Pilates s&apos;engage à protéger la vie privée de ses
+              utilisateurs et clients. La présente politique de confidentialité
+              décrit comment nous collectons, utilisons et protégeons vos
+              données personnelles, conformément au Règlement Général sur la
+              Protection des Données (RGPD - UE 2016/679) et à la loi
+              Informatique et Libertés.
             </p>
 
             <div>
               <h2 className="font-heading text-2xl font-bold text-mp-charcoal mb-4">
                 1. Responsable du traitement
               </h2>
-              <p>Le responsable du traitement des donnees est :</p>
+              <p>Le responsable du traitement des données est :</p>
               <ul className="mt-3 space-y-1.5 list-none">
                 <li>
                   <strong>Mon Pilates</strong>
@@ -54,9 +70,9 @@ export default function PolitiqueConfidentialitePage() {
                   </a>
                 </li>
                 <li>
-                  Telephone :{" "}
+                  Téléphone :{" "}
                   <a
-                    href="tel:+33783671563"
+                    href="tel:+33699183216"
                     className="text-mp-ocean hover:underline"
                   >
                     07 83 67 15 63
@@ -67,47 +83,47 @@ export default function PolitiqueConfidentialitePage() {
 
             <div>
               <h2 className="font-heading text-2xl font-bold text-mp-charcoal mb-4">
-                2. Donnees collectees
+                2. Données collectées
               </h2>
               <p>
-                Nous collectons les categories de donnees suivantes :
+                Nous collectons les catégories de données suivantes :
               </p>
 
               <h3 className="font-heading text-lg font-semibold text-mp-charcoal mt-4 mb-2">
                 2.1 Formulaire de contact
               </h3>
               <ul className="space-y-1 list-disc list-inside">
-                <li>Nom et prenom</li>
+                <li>Nom et prénom</li>
                 <li>Adresse email</li>
-                <li>Numero de telephone</li>
+                <li>Numéro de téléphone</li>
                 <li>Contenu du message</li>
               </ul>
 
               <h3 className="font-heading text-lg font-semibold text-mp-charcoal mt-4 mb-2">
-                2.2 Reservation de cours
+                2.2 Réservation de cours
               </h3>
               <ul className="space-y-1 list-disc list-inside">
-                <li>Nom et prenom</li>
+                <li>Nom et prénom</li>
                 <li>Adresse email</li>
-                <li>Numero de telephone</li>
-                <li>Historique des reservations et participations</li>
+                <li>Numéro de téléphone</li>
+                <li>Historique des réservations et participations</li>
               </ul>
 
               <h3 className="font-heading text-lg font-semibold text-mp-charcoal mt-4 mb-2">
                 2.3 Paiement
               </h3>
               <p>
-                Les paiements en ligne sont traites par{" "}
+                Les paiements en ligne sont traités par{" "}
                 <strong>Stripe Inc.</strong> en tant que sous-traitant. Mon
-                Pilates ne collecte ni ne stocke les donnees de carte bancaire.
-                Stripe traite ces donnees conformement a sa propre{" "}
+                Pilates ne collecte ni ne stocke les données de carte bancaire.
+                Stripe traite ces données conformément à sa propre{" "}
                 <a
                   href="https://stripe.com/fr/privacy"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-mp-ocean hover:underline"
                 >
-                  politique de confidentialite
+                  politique de confidentialité
                 </a>
                 .
               </p>
@@ -115,94 +131,94 @@ export default function PolitiqueConfidentialitePage() {
 
             <div>
               <h2 className="font-heading text-2xl font-bold text-mp-charcoal mb-4">
-                3. Bases legales du traitement
+                3. Bases légales du traitement
               </h2>
               <ul className="space-y-1.5 list-disc list-inside">
                 <li>
-                  <strong>Execution du contrat :</strong> gestion des
-                  reservations, des paiements et de votre compte client.
+                  <strong>Exécution du contrat :</strong> gestion des
+                  réservations, des paiements et de votre compte client.
                 </li>
                 <li>
-                  <strong>Interet legitime :</strong> amelioration de nos
-                  services, securite du site.
+                  <strong>Intérêt légitime :</strong> amélioration de nos
+                  services, sécurité du site.
                 </li>
                 <li>
                   <strong>Consentement :</strong> envoi de communications
-                  commerciales (le cas echeant).
+                  commerciales (le cas échéant).
                 </li>
                 <li>
-                  <strong>Obligation legale :</strong> facturation, comptabilite.
+                  <strong>Obligation légale :</strong> facturation, comptabilité.
                 </li>
               </ul>
             </div>
 
             <div>
               <h2 className="font-heading text-2xl font-bold text-mp-charcoal mb-4">
-                4. Finalites du traitement
+                4. Finalités du traitement
               </h2>
               <p>
-                Vos donnees personnelles sont collectees pour les finalites
+                Vos données personnelles sont collectées pour les finalités
                 suivantes :
               </p>
               <ul className="mt-3 space-y-1.5 list-disc list-inside">
                 <li>
-                  Repondre a vos demandes de contact et d&apos;information
+                  Répondre à vos demandes de contact et d&apos;information
                 </li>
-                <li>Gerer vos reservations de cours</li>
+                <li>Gérer vos réservations de cours</li>
                 <li>
                   Traiter vos achats (cartes de cours, abonnements, cartes
                   cadeaux)
                 </li>
                 <li>Vous envoyer des confirmations et rappels de cours</li>
                 <li>
-                  Gerer la relation commerciale et le suivi clientele
+                  Gérer la relation commerciale et le suivi clientèle
                 </li>
               </ul>
             </div>
 
             <div>
               <h2 className="font-heading text-2xl font-bold text-mp-charcoal mb-4">
-                5. Duree de conservation
+                5. Durée de conservation
               </h2>
               <p>
-                Vos donnees personnelles sont conservees pendant la duree
-                necessaire a la realisation des finalites pour lesquelles elles
-                ont ete collectees :
+                Vos données personnelles sont conservées pendant la durée
+                nécessaire à la réalisation des finalités pour lesquelles elles
+                ont été collectées :
               </p>
               <ul className="mt-3 space-y-1.5 list-disc list-inside">
                 <li>
-                  <strong>Donnees de contact :</strong> 3 ans apres le dernier
-                  echange.
+                  <strong>Données de contact :</strong> 3 ans après le dernier
+                  échange.
                 </li>
                 <li>
-                  <strong>Donnees de reservation :</strong> 3 ans apres la
-                  derniere participation.
+                  <strong>Données de réservation :</strong> 3 ans après la
+                  dernière participation.
                 </li>
                 <li>
-                  <strong>Donnees de facturation :</strong> 10 ans (obligation
-                  legale comptable).
+                  <strong>Données de facturation :</strong> 10 ans (obligation
+                  légale comptable).
                 </li>
               </ul>
             </div>
 
             <div>
               <h2 className="font-heading text-2xl font-bold text-mp-charcoal mb-4">
-                6. Destinataires des donnees
+                6. Destinataires des données
               </h2>
               <p>
-                Vos donnees peuvent etre transmises aux destinataires suivants :
+                Vos données peuvent être transmises aux destinataires suivants :
               </p>
               <ul className="mt-3 space-y-1.5 list-disc list-inside">
                 <li>
-                  <strong>Stripe Inc.</strong> : traitement securise des
+                  <strong>Stripe Inc.</strong> : traitement sécurisé des
                   paiements en ligne
                 </li>
                 <li>
-                  <strong>Vercel Inc.</strong> : hebergement du site web
+                  <strong>Vercel Inc.</strong> : hébergement du site web
                 </li>
               </ul>
               <p className="mt-3">
-                Aucune donnee n&apos;est vendue ou cedee a des tiers a des fins
+                Aucune donnée n&apos;est vendue ou cédée à des tiers à des fins
                 commerciales.
               </p>
             </div>
@@ -213,9 +229,9 @@ export default function PolitiqueConfidentialitePage() {
               </h2>
               <p>
                 Notre site utilise uniquement des cookies essentiels au bon
-                fonctionnement du site (cookies de session, preferences
+                fonctionnement du site (cookies de session, préférences
                 d&apos;affichage). Aucun cookie de suivi, d&apos;analyse ou
-                publicitaire n&apos;est utilise.
+                publicitaire n&apos;est utilisé.
               </p>
               <p className="mt-3">
                 Pour plus d&apos;informations, consultez notre{" "}
@@ -234,49 +250,49 @@ export default function PolitiqueConfidentialitePage() {
                 8. Vos droits
               </h2>
               <p>
-                Conformement au RGPD, vous disposez des droits suivants
-                concernant vos donnees personnelles :
+                Conformément au RGPD, vous disposez des droits suivants
+                concernant vos données personnelles :
               </p>
               <ul className="mt-3 space-y-1.5 list-disc list-inside">
                 <li>
-                  <strong>Droit d&apos;acces :</strong> obtenir la confirmation
-                  que vos donnees sont traitees et en obtenir une copie.
+                  <strong>Droit d&apos;accès :</strong> obtenir la confirmation
+                  que vos données sont traitées et en obtenir une copie.
                 </li>
                 <li>
                   <strong>Droit de rectification :</strong> faire corriger des
-                  donnees inexactes ou incompletes.
+                  données inexactes ou incomplètes.
                 </li>
                 <li>
-                  <strong>Droit a l&apos;effacement :</strong> demander la
-                  suppression de vos donnees, sous reserve des obligations
-                  legales de conservation.
+                  <strong>Droit à l&apos;effacement :</strong> demander la
+                  suppression de vos données, sous réserve des obligations
+                  légales de conservation.
                 </li>
                 <li>
-                  <strong>Droit a la portabilite :</strong> recevoir vos donnees
-                  dans un format structure et lisible par machine.
+                  <strong>Droit à la portabilité :</strong> recevoir vos données
+                  dans un format structuré et lisible par machine.
                 </li>
                 <li>
                   <strong>Droit d&apos;opposition :</strong> vous opposer au
-                  traitement de vos donnees pour des motifs legitimes.
+                  traitement de vos données pour des motifs légitimes.
                 </li>
                 <li>
-                  <strong>Droit a la limitation :</strong> demander la
+                  <strong>Droit à la limitation :</strong> demander la
                   limitation du traitement dans certains cas.
                 </li>
               </ul>
               <p className="mt-3">
-                Pour exercer ces droits, contactez-nous a l&apos;adresse{" "}
+                Pour exercer ces droits, contactez-nous à l&apos;adresse{" "}
                 <a
                   href="mailto:contact@mon-pilates.bzh"
                   className="text-mp-ocean hover:underline"
                 >
                   contact@mon-pilates.bzh
                 </a>
-                . Nous repondrons dans un delai de 30 jours.
+                . Nous répondrons dans un délai de 30 jours.
               </p>
               <p className="mt-3">
-                Vous disposez egalement du droit d&apos;introduire une
-                reclamation aupres de la CNIL (
+                Vous disposez également du droit d&apos;introduire une
+                réclamation auprès de la CNIL (
                 <a
                   href="https://www.cnil.fr"
                   target="_blank"
@@ -291,13 +307,13 @@ export default function PolitiqueConfidentialitePage() {
 
             <div>
               <h2 className="font-heading text-2xl font-bold text-mp-charcoal mb-4">
-                9. Securite des donnees
+                9. Sécurité des données
               </h2>
               <p>
                 Nous mettons en oeuvre les mesures techniques et
-                organisationnelles appropriees pour proteger vos donnees
-                personnelles contre tout acces non autorise, modification,
-                divulgation ou destruction. Le site est securise par le
+                organisationnelles appropriées pour protéger vos données
+                personnelles contre tout accès non autorisé, modification,
+                divulgation ou destruction. Le site est sécurisé par le
                 protocole HTTPS.
               </p>
             </div>
@@ -305,10 +321,10 @@ export default function PolitiqueConfidentialitePage() {
             {/* Contact DPO */}
             <div className="p-6 bg-mp-cream rounded-xl">
               <h2 className="font-heading text-lg font-semibold text-mp-charcoal mb-2">
-                Contact — Protection des donnees
+                Contact — Protection des données
               </h2>
               <p className="text-sm">
-                Pour toute question relative a la protection de vos donnees
+                Pour toute question relative à la protection de vos données
                 personnelles :
               </p>
               <ul className="mt-2 space-y-1 text-sm">
@@ -322,7 +338,7 @@ export default function PolitiqueConfidentialitePage() {
                   </a>
                 </li>
                 <li>
-                  Courrier : Mon Pilates — Protection des donnees, 14 Boulevard
+                  Courrier : Mon Pilates — Protection des données, 14 Boulevard
                   des Dunes, 56260 Larmor-Plage
                 </li>
               </ul>

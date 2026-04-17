@@ -15,6 +15,16 @@ import {
   Baby,
   Leaf,
 } from "lucide-react";
+import { ScrollReveal } from "@/components/ui/ScrollReveal";
+import { TrustBar } from "@/components/ui/TrustBar";
+import { StudioStats } from "@/components/ui/StudioStats";
+import { OpenStatus } from "@/components/ui/OpenStatus";
+import { CourseQuiz } from "@/components/ui/CourseQuiz";
+import { MoodBooking } from "@/components/ui/MoodBooking";
+import { OceanParticles } from "@/components/ui/OceanParticles";
+import { OrganicBlob } from "@/components/ui/OrganicBlob";
+import { ActivityFeed } from "@/components/ui/ActivityFeed";
+import { FirstTimerOnly, TrialCtaLink } from "@/components/ui/TrialGate";
 
 /* ============================================================
    HERO SECTION
@@ -29,53 +39,77 @@ function Hero() {
         fill
         className="object-cover"
         priority
+        fetchPriority="high"
         quality={85}
+        sizes="100vw"
+        placeholder="blur"
+        blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAoHBwgHBgoICAgLCgoLDhgQDg0NDh0VFhEYIx8lJCIfIiEmKzcvJik0KSEiMEExNDk7Pj4+JS5ESUM8SDc9Pjv/2wBDAQoLCw4NDhwQEBw7KCIoOzs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozv/wAARCAAIABADASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAABgUH/8QAIhAAAgIBAwQDAAAAAAAAAAAAAQIDBAAFBhESITFBE2Fx/8QAFQEBAQAAAAAAAAAAAAAAAAAAAwT/xAAaEQACAwEBAAAAAAAAAAAAAAABAgADESEx/9oADAMBAAIRAxEAPwCbq26tLpbMtKzVkuKjdBFLTmSYj1xrr2t7a6lJJDT0iy8bFVZ5nVSR9ADIe67U0WrSiWOhDVcKFLRscZplXMiGhYVSZ//9k="
       />
-      {/* Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-r from-mp-charcoal/75 via-mp-charcoal/50 to-transparent" />
-      <div className="absolute inset-0 bg-gradient-to-t from-mp-charcoal/40 to-transparent" />
+      {/* Overlay — stronger for text readability */}
+      <div className="absolute inset-0 bg-gradient-to-r from-mp-charcoal/90 via-mp-charcoal/70 to-mp-charcoal/30" />
+      <div className="absolute inset-0 bg-gradient-to-b from-mp-charcoal/70 via-mp-charcoal/20 to-mp-charcoal/50" />
+      {/* Radial scrim specifically behind the H1 block (top-left) to guarantee contrast over any background */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(ellipse 900px 620px at 18% 40%, rgba(32,40,45,0.65) 0%, rgba(32,40,45,0.35) 45%, rgba(32,40,45,0) 75%)",
+        }}
+      />
+
+      {/* Floating ocean particles */}
+      <OceanParticles />
 
       <div className="mp-container relative z-10 pt-32 pb-20">
         <div className="max-w-2xl">
           <p className="font-heading text-sm font-semibold text-mp-ocean-light uppercase tracking-[0.25em] mb-5 animate-[fadeUp_0.6s_ease_forwards] opacity-0 [animation-delay:0.2s]">
             Studio Pilates — Larmor-Plage
           </p>
-          <h1 className="font-heading text-5xl sm:text-6xl lg:text-7xl font-bold text-white leading-[1.08] mb-6 animate-[fadeUp_0.6s_ease_forwards] opacity-0 [animation-delay:0.35s]">
-            Bougez avec
+          <h1
+            className="font-heading text-5xl sm:text-6xl lg:text-7xl font-bold text-white leading-[1.08] mb-6 animate-[fadeUp_0.6s_ease_forwards] opacity-0 [animation-delay:0.35s]"
+            style={{
+              textShadow:
+                "0 0 18px rgba(0,0,0,0.85), 0 2px 10px rgba(0,0,0,0.9), 0 4px 24px rgba(0,0,0,0.55)",
+            }}
+          >
+            Le Pilates,
             <br />
-            <span className="text-mp-ocean-light">intention</span>
+            <span className="text-mp-ocean-light">face à l&apos;océan</span>
           </h1>
           <p className="font-body text-lg sm:text-xl text-white/85 leading-relaxed mb-10 max-w-lg animate-[fadeUp_0.6s_ease_forwards] opacity-0 [animation-delay:0.5s]">
             Un studio lumineux face à l&apos;océan, des cours adaptés à chaque
             corps, une pratique qui vous transforme en profondeur.
           </p>
           <div className="flex flex-wrap gap-4 animate-[fadeUp_0.6s_ease_forwards] opacity-0 [animation-delay:0.65s]">
-            <Link href="/planning" className="mp-btn mp-btn-primary text-base !shadow-lg !shadow-mp-ocean/40">
-              <Calendar className="w-5 h-5" />
-              Réserver un cours
-            </Link>
-            <Link href="/cours" className="mp-btn !border-white/40 !text-white hover:!bg-white hover:!text-mp-charcoal text-base">
+            <TrialCtaLink
+              href="/planning"
+              className="mp-btn mp-btn-primary mp-pulse-glow !text-base !py-4 !px-8"
+              icon={<Calendar className="w-5 h-5" aria-hidden="true" />}
+              trialLabel={"Cours d'essai — 10€"}
+              returningLabel="Réserver un cours"
+            />
+            <Link href="/cours" className="mp-btn !border-white/30 !text-white hover:!bg-white hover:!text-mp-charcoal !text-base !py-4 !px-8 backdrop-blur-sm !bg-white/10">
               Découvrir nos cours
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight className="w-4 h-4" aria-hidden="true" />
             </Link>
           </div>
 
           {/* Social proof */}
           <div className="flex items-center gap-5 mt-14 pt-8 border-t border-white/15 animate-[fadeUp_0.6s_ease_forwards] opacity-0 [animation-delay:0.8s]">
-            <div className="flex gap-0.5 text-mp-gold">
+            <div className="flex gap-0.5 text-mp-gold" role="img" aria-label="Note : 4.9 sur 5">
               {[1, 2, 3, 4, 5].map((i) => (
-                <Star key={i} className="w-5 h-5 fill-current" />
+                <Star key={i} className="w-5 h-5 fill-current" aria-hidden="true" />
               ))}
             </div>
             <p className="text-sm text-white/70 font-body">
-              <span className="text-white font-heading font-semibold">4.9/5</span> — Plus de 200 élèves satisfaits
+              <span className="text-white font-heading font-semibold">4.9/5</span> — Plus de 200 élèves satisfaits sur Google
             </p>
           </div>
         </div>
       </div>
 
       {/* Scroll hint */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 animate-bounce">
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 animate-bounce" aria-hidden="true">
         <div className="w-6 h-10 rounded-full border-2 border-white/30 flex items-start justify-center pt-2">
           <div className="w-1 h-2.5 rounded-full bg-white/60" />
         </div>
@@ -83,6 +117,11 @@ function Hero() {
     </section>
   );
 }
+
+/* ============================================================
+   TRUST BAR — Social proof
+   ============================================================ */
+/* TrustBar moved to @/components/ui/TrustBar (client component for animated counters) */
 
 /* ============================================================
    TYPES DE COURS
@@ -140,11 +179,81 @@ const courseTypes = [
   },
 ];
 
+/* ============================================================
+   WHY MON PILATES
+   ============================================================ */
+const differentiators = [
+  {
+    icon: Users,
+    stat: "10 max",
+    title: "Petits groupes",
+    description: "Maximum 10 personnes par cours pour un suivi individuel et des corrections personnalisées.",
+  },
+  {
+    icon: Star,
+    stat: "Face à l'océan",
+    title: "Cadre unique",
+    description: "Un studio lumineux avec vue sur la mer. Pratiquez dans un environnement inspirant et apaisant.",
+  },
+  {
+    icon: Heart,
+    stat: "10+ ans",
+    title: "Expertise certifiée",
+    description: "Des instructrices formées aux meilleures écoles internationales, en formation continue.",
+  },
+  {
+    icon: Clock,
+    stat: "6 types",
+    title: "Cours variés",
+    description: "Mat, Reformer, Prénatal, Senior, Doux, Intensif — un cours adapté à chaque objectif.",
+  },
+];
+
+function WhyMonPilates() {
+  return (
+    <section className="mp-section bg-mp-cream relative overflow-hidden" aria-label="Pourquoi nous choisir">
+      <OrganicBlob className="top-[-100px] right-[-100px] opacity-60" color="mp-ocean" size={500} />
+      <div className="mp-container relative z-10">
+        <ScrollReveal className="text-center max-w-2xl mx-auto mb-14">
+          <p className="font-heading text-sm font-semibold text-mp-ocean uppercase tracking-[0.2em] mb-3">
+            Pourquoi nous choisir
+          </p>
+          <h2 className="font-heading text-3xl sm:text-4xl font-bold text-mp-charcoal mb-4">
+            Ce qui nous différencie
+          </h2>
+          <p className="font-body text-mp-text-light leading-relaxed">
+            Un studio pas comme les autres, pensé pour votre bien-être et votre progression.
+          </p>
+        </ScrollReveal>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {differentiators.map((item, i) => (
+            <ScrollReveal key={item.title} delay={(i % 4) as 0 | 1 | 2 | 3}>
+              <div className="text-center p-6 rounded-2xl bg-mp-white border border-mp-sand-dark/20 hover:border-mp-ocean/20 hover:shadow-lg transition-all duration-300 h-full">
+                <div className="w-14 h-14 rounded-2xl bg-mp-ocean/10 flex items-center justify-center mx-auto mb-4">
+                  <item.icon className="w-7 h-7 text-mp-ocean" aria-hidden="true" />
+                </div>
+                <p className="font-heading text-lg font-bold text-mp-ocean mb-1">{item.stat}</p>
+                <h3 className="font-heading text-base font-semibold text-mp-charcoal mb-2">
+                  {item.title}
+                </h3>
+                <p className="font-body text-sm text-mp-text-light leading-relaxed">
+                  {item.description}
+                </p>
+              </div>
+            </ScrollReveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function CourseTypes() {
   return (
-    <section className="mp-section bg-mp-white">
+    <section className="mp-section bg-mp-white" aria-label="Nos cours populaires">
       <div className="mp-container">
-        <div className="text-center max-w-2xl mx-auto mb-16">
+        <ScrollReveal className="text-center max-w-2xl mx-auto mb-16">
           <p className="font-heading text-sm font-semibold text-mp-ocean uppercase tracking-[0.2em] mb-3">
             Nos cours
           </p>
@@ -154,7 +263,7 @@ function CourseTypes() {
           <p className="font-body text-mp-text-light leading-relaxed">
             Que vous soyez débutant ou confirmé, enceinte ou senior, découvrez le cours qui vous correspond.
           </p>
-        </div>
+        </ScrollReveal>
 
         {/* Top 2 cards with images — larger */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
@@ -165,9 +274,11 @@ function CourseTypes() {
                   <div className="relative h-52 overflow-hidden">
                     <Image
                       src={course.image}
-                      alt={course.name}
+                      alt={`Illustration du cours ${course.name} au studio Mon Pilates`}
                       fill
+                      loading="lazy"
                       className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
                   </div>
@@ -175,7 +286,7 @@ function CourseTypes() {
                 <div className="p-7">
                   <div className="flex items-center gap-3 mb-3">
                     <div className={`w-10 h-10 rounded-xl ${course.bg} ${course.color} flex items-center justify-center`}>
-                      <course.icon className="w-5 h-5" />
+                      <course.icon className="w-5 h-5" aria-hidden="true" />
                     </div>
                     <h3 className="font-heading text-lg font-semibold text-mp-charcoal group-hover:text-mp-ocean transition-colors">
                       {course.name}
@@ -185,7 +296,7 @@ function CourseTypes() {
                     {course.description}
                   </p>
                   <span className="inline-flex items-center gap-1 mt-4 text-sm font-heading font-medium text-mp-ocean group-hover:gap-2 transition-all">
-                    Découvrir <ArrowRight className="w-3.5 h-3.5" />
+                    Découvrir <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
                   </span>
                 </div>
               </div>
@@ -193,20 +304,26 @@ function CourseTypes() {
           ))}
         </div>
 
-        {/* Bottom 3 cards — smaller */}
+        {/* Bottom 3 cards — with gradient accent */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
           {courseTypes.slice(2).map((course) => (
             <Link key={course.slug} href={`/cours/${course.slug}`} className="block group">
-              <div className={`mp-card p-7 border border-mp-sand-dark/20 ${course.border} transition-all h-full`}>
-                <div className={`w-12 h-12 rounded-xl ${course.bg} ${course.color} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}>
-                  <course.icon className="w-6 h-6" />
+              <div className={`mp-card border border-mp-sand-dark/20 ${course.border} transition-all h-full overflow-hidden`}>
+                <div className={`h-2 w-full ${course.bg}`} />
+                <div className="p-7">
+                  <div className={`w-12 h-12 rounded-xl ${course.bg} ${course.color} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}>
+                    <course.icon className="w-6 h-6" aria-hidden="true" />
+                  </div>
+                  <h3 className="font-heading text-base font-semibold text-mp-charcoal mb-2 group-hover:text-mp-ocean transition-colors">
+                    {course.name}
+                  </h3>
+                  <p className="font-body text-sm text-mp-text-light leading-relaxed mb-3">
+                    {course.description}
+                  </p>
+                  <span className="inline-flex items-center gap-1 text-sm font-heading font-medium text-mp-ocean group-hover:gap-2 transition-all">
+                    Découvrir <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
+                  </span>
                 </div>
-                <h3 className="font-heading text-base font-semibold text-mp-charcoal mb-2 group-hover:text-mp-ocean transition-colors">
-                  {course.name}
-                </h3>
-                <p className="font-body text-sm text-mp-text-light leading-relaxed">
-                  {course.description}
-                </p>
               </div>
             </Link>
           ))}
@@ -215,7 +332,7 @@ function CourseTypes() {
         <div className="text-center mt-10">
           <Link href="/cours" className="mp-btn mp-btn-secondary inline-flex items-center">
             Voir tous nos cours
-            <ChevronRight className="w-4 h-4" />
+            <ChevronRight className="w-4 h-4" aria-hidden="true" />
           </Link>
         </div>
       </div>
@@ -228,7 +345,7 @@ function CourseTypes() {
    ============================================================ */
 function StudioAmbiance() {
   return (
-    <section className="mp-section bg-mp-cream">
+    <section className="mp-section bg-mp-cream" aria-label="Le studio">
       <div className="mp-container">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           {/* Images grid */}
@@ -237,17 +354,21 @@ function StudioAmbiance() {
               <div className="relative rounded-2xl overflow-hidden aspect-[3/4]">
                 <Image
                   src="/images/reformer-closeup.jpg"
-                  alt="Reformer Balanced Body — équipement professionnel du studio"
+                  alt="Gros plan sur un Reformer Balanced Body, équipement professionnel du studio Mon Pilates"
                   fill
+                  loading="lazy"
                   className="object-cover"
+                  sizes="(max-width: 1024px) 50vw, 25vw"
                 />
               </div>
               <div className="relative rounded-2xl overflow-hidden aspect-square">
                 <Image
                   src="/images/mat-piscine-ocean.jpg"
-                  alt="Tapis de Pilates au bord de la piscine face à l'océan"
+                  alt="Tapis de Pilates disposé au bord de la piscine avec vue sur l'océan à Larmor-Plage"
                   fill
+                  loading="lazy"
                   className="object-cover"
+                  sizes="(max-width: 1024px) 50vw, 25vw"
                 />
               </div>
             </div>
@@ -255,24 +376,28 @@ function StudioAmbiance() {
               <div className="relative rounded-2xl overflow-hidden aspect-square">
                 <Image
                   src="/images/cours-exterieur-toulhars.jpg"
-                  alt="Cours de Pilates en plein air à Toulhars, Larmor-Plage"
+                  alt="Cours de Pilates en plein air sur la plage de Toulhars à Larmor-Plage"
                   fill
+                  loading="lazy"
                   className="object-cover"
+                  sizes="(max-width: 1024px) 50vw, 25vw"
                 />
               </div>
               <div className="relative rounded-2xl overflow-hidden aspect-[3/4]">
                 <Image
                   src="/images/studio-cours-particulier.jpg"
-                  alt="Studio Mon Pilates — vue intérieure avec Reformer et vue océan"
+                  alt="Vue intérieure du studio Mon Pilates avec Reformers et panorama sur l'océan"
                   fill
+                  loading="lazy"
                   className="object-cover"
+                  sizes="(max-width: 1024px) 50vw, 25vw"
                 />
               </div>
             </div>
           </div>
 
           {/* Text */}
-          <div>
+          <ScrollReveal>
             <p className="font-heading text-sm font-semibold text-mp-ocean uppercase tracking-[0.2em] mb-3">
               Le studio
             </p>
@@ -287,29 +412,12 @@ function StudioAmbiance() {
               équipement Balanced Body de dernière génération et vue sur la mer
               créent un cocon idéal pour votre pratique.
             </p>
-            <div className="grid grid-cols-2 gap-6 mb-8">
-              <div>
-                <p className="font-heading text-3xl font-bold text-mp-ocean">6</p>
-                <p className="font-body text-sm text-mp-text-light">Reformer professionnels</p>
-              </div>
-              <div>
-                <p className="font-heading text-3xl font-bold text-mp-ocean">120m²</p>
-                <p className="font-body text-sm text-mp-text-light">d&apos;espace lumineux</p>
-              </div>
-              <div>
-                <p className="font-heading text-3xl font-bold text-mp-ocean">10</p>
-                <p className="font-body text-sm text-mp-text-light">places max par cours</p>
-              </div>
-              <div>
-                <p className="font-heading text-3xl font-bold text-mp-ocean">2</p>
-                <p className="font-body text-sm text-mp-text-light">instructrices certifiées</p>
-              </div>
-            </div>
+            <StudioStats />
             <Link href="/equipe" className="mp-btn mp-btn-secondary text-sm">
               Rencontrer l&apos;équipe
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight className="w-4 h-4" aria-hidden="true" />
             </Link>
-          </div>
+          </ScrollReveal>
         </div>
       </div>
     </section>
@@ -320,43 +428,43 @@ function StudioAmbiance() {
    PROCHAINES SEANCES
    ============================================================ */
 const upcomingSessions = [
-  { time: "09:00", name: "Pilates Mat", level: "Tous niveaux", prof: "Marie", spots: 4, duration: "55 min", color: "bg-mp-ocean" },
-  { time: "10:15", name: "Pilates Reformer", level: "Intermédiaire", prof: "Sophie", spots: 2, duration: "50 min", color: "bg-mp-sage" },
-  { time: "11:30", name: "Pilates Senior", level: "Débutant", prof: "Marie", spots: 6, duration: "45 min", color: "bg-mp-gold" },
-  { time: "18:00", name: "Pilates Mat", level: "Avancé", prof: "Sophie", spots: 1, duration: "55 min", color: "bg-mp-ocean" },
-  { time: "19:15", name: "Pilates Prénatal", level: "Tous niveaux", prof: "Marie", spots: 5, duration: "50 min", color: "bg-mp-rose" },
+  { time: "09:00", name: "Pilates Mat", level: "Tous niveaux", prof: "Marie", spots: 4, duration: 55, color: "bg-mp-ocean" },
+  { time: "10:15", name: "Pilates Reformer", level: "Intermédiaire", prof: "Sophie", spots: 2, duration: 50, color: "bg-mp-sage" },
+  { time: "11:30", name: "Pilates Senior", level: "Débutant", prof: "Marie", spots: 6, duration: 45, color: "bg-mp-gold" },
+  { time: "18:00", name: "Pilates Mat", level: "Avancé", prof: "Sophie", spots: 1, duration: 55, color: "bg-mp-ocean" },
+  { time: "19:15", name: "Pilates Prénatal", level: "Tous niveaux", prof: "Marie", spots: 5, duration: 50, color: "bg-mp-rose" },
 ];
 
 function UpcomingSessions() {
   return (
-    <section className="mp-section bg-mp-white">
+    <section className="mp-section bg-mp-white" aria-label="Planning type">
       <div className="mp-container">
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 mb-10">
+        <ScrollReveal className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 mb-10">
           <div>
             <p className="font-heading text-sm font-semibold text-mp-ocean uppercase tracking-[0.2em] mb-3">
-              Prochaines séances
+              Planning type
             </p>
             <h2 className="font-heading text-3xl sm:text-4xl font-bold text-mp-charcoal">
-              Aujourd&apos;hui au studio
+              Une journée type au studio
             </h2>
           </div>
           <Link href="/planning" className="mp-btn mp-btn-secondary text-sm">
             Planning complet
-            <ArrowRight className="w-4 h-4" />
+            <ArrowRight className="w-4 h-4" aria-hidden="true" />
           </Link>
-        </div>
+        </ScrollReveal>
 
         <div className="space-y-3">
           {upcomingSessions.map((session, i) => (
+            <ScrollReveal key={i} delay={Math.min(i, 4) as 0 | 1 | 2 | 3 | 4}>
             <div
-              key={i}
               className="group flex flex-col sm:flex-row items-start sm:items-center justify-between p-5 rounded-xl bg-mp-cream/60 hover:bg-mp-cream border border-transparent hover:border-mp-sand-dark/30 transition-all gap-4"
             >
               <div className="flex items-center gap-5">
                 <div className="text-center min-w-[56px]">
-                  <span className="font-heading text-xl font-bold text-mp-charcoal">
+                  <time className="font-heading text-xl font-bold text-mp-charcoal">
                     {session.time}
-                  </span>
+                  </time>
                 </div>
                 <div className={`w-1.5 h-10 rounded-full ${session.color} opacity-60`} />
                 <div>
@@ -365,16 +473,22 @@ function UpcomingSessions() {
                     <span className="text-mp-text-light font-normal text-sm ml-2">{session.level}</span>
                   </h3>
                   <p className="text-sm text-mp-text-light">
-                    avec {session.prof} · {session.duration}
+                    avec {session.prof} · {session.duration}&nbsp;<abbr title="minutes">min</abbr>
                   </p>
                 </div>
               </div>
               <div className="flex items-center gap-4 w-full sm:w-auto">
                 <span
-                  className={`text-sm font-heading font-medium ${
+                  className={`inline-flex items-center gap-1.5 text-sm font-heading font-medium ${
                     session.spots <= 2 ? "text-mp-rose" : "text-mp-sage"
                   }`}
                 >
+                  {session.spots <= 2 && (
+                    <span className="relative flex h-2 w-2">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-mp-rose opacity-75" />
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-mp-rose" />
+                    </span>
+                  )}
                   {session.spots} place{session.spots > 1 ? "s" : ""}
                 </span>
                 <Link
@@ -385,6 +499,7 @@ function UpcomingSessions() {
                 </Link>
               </div>
             </div>
+            </ScrollReveal>
           ))}
         </div>
       </div>
@@ -414,48 +529,160 @@ const testimonials = [
     role: "Cours Senior",
     rating: 5,
   },
+  {
+    name: "Camille B.",
+    text: "Enceinte de 7 mois, le cours prénatal avec Marie est mon moment de sérénité. Elle adapte tout à mon stade de grossesse et j'en ressors ressourcée. Mon bébé adore aussi visiblement !",
+    role: "Cours Prénatal",
+    rating: 5,
+  },
+  {
+    name: "Thomas R.",
+    text: "Sportif depuis toujours, le Pilates Intensif de Sophie m'a bluffé. On transpire, on se concentre, et les résultats sur ma posture sont visibles en quelques semaines.",
+    role: "Cours Intensif",
+    rating: 5,
+  },
+  {
+    name: "Anne-Sophie G.",
+    text: "J'ai essayé beaucoup de studios et rien ne se compare. La vue sur l'océan, les petits groupes, l'attention portée à chaque élève… On est aux antipodes des usines à cours.",
+    role: "Membre depuis 2024",
+    rating: 5,
+  },
 ];
 
 function Testimonials() {
   return (
-    <section className="mp-section bg-mp-cream">
-      <div className="mp-container">
-        <div className="text-center max-w-2xl mx-auto mb-16">
+    <section className="mp-section bg-mp-cream cv-auto relative overflow-hidden" aria-label="Témoignages">
+      <OrganicBlob className="bottom-[-80px] left-[-120px] opacity-50" color="mp-sage" size={400} />
+      <div className="mp-container relative z-10">
+        <ScrollReveal className="text-center max-w-2xl mx-auto mb-16">
           <p className="font-heading text-sm font-semibold text-mp-ocean uppercase tracking-[0.2em] mb-3">
             Témoignages
           </p>
           <h2 className="font-heading text-3xl sm:text-4xl font-bold text-mp-charcoal mb-4">
             Ce qu&apos;en disent nos élèves
           </h2>
-          <div className="flex justify-center gap-0.5 text-mp-gold mt-3">
+          <div className="flex justify-center gap-0.5 text-mp-gold mt-3" role="img" aria-label="Note : 4.9 sur 5 sur Google">
             {[1, 2, 3, 4, 5].map((i) => (
-              <Star key={i} className="w-5 h-5 fill-current" />
+              <Star key={i} className="w-5 h-5 fill-current" aria-hidden="true" />
             ))}
-            <span className="ml-2 text-sm text-mp-text-light font-body">4.9/5 sur Google</span>
+            <span className="ml-2 text-sm text-mp-text-light font-body">4.9/5 sur Google (47 avis)</span>
           </div>
-        </div>
+        </ScrollReveal>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" role="list" aria-label="Avis de nos élèves">
           {testimonials.map((t, i) => (
-            <div key={i} className="relative bg-mp-white rounded-2xl p-8 shadow-[0_2px_20px_rgba(0,0,0,0.04)]">
-              <Quote className="w-8 h-8 text-mp-ocean/15 mb-4" />
-              <blockquote className="font-body text-mp-text leading-[1.8] mb-6">
+            <ScrollReveal key={i} delay={((i % 3) + 1) as 1 | 2 | 3}>
+            <div className="relative bg-mp-white rounded-2xl p-8 shadow-[0_2px_20px_rgba(0,0,0,0.04)] h-full flex flex-col hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] hover:-translate-y-1 transition-all duration-300">
+              <div className="flex items-center justify-between mb-4">
+                <Quote className="w-8 h-8 text-mp-ocean/15" aria-hidden="true" />
+                <div className="flex gap-0.5 text-mp-gold" aria-hidden="true">
+                  {Array.from({ length: t.rating }, (_, j) => (
+                    <Star key={j} className="w-3.5 h-3.5 fill-current" />
+                  ))}
+                </div>
+              </div>
+              <blockquote className="font-body text-mp-text leading-[1.8] mb-6 flex-1">
                 {t.text}
               </blockquote>
-              <div className="flex items-center gap-3 pt-4 border-t border-mp-sand">
+              <footer className="flex items-center gap-3 pt-4 border-t border-mp-sand">
                 <div className="w-10 h-10 rounded-full bg-mp-ocean/10 flex items-center justify-center">
                   <span className="font-heading text-sm font-bold text-mp-ocean">
                     {t.name.split(" ").map(n => n[0]).join("")}
                   </span>
                 </div>
                 <div>
-                  <p className="font-heading text-sm font-semibold text-mp-charcoal">{t.name}</p>
+                  <cite className="font-heading text-sm font-semibold text-mp-charcoal not-italic block">{t.name}</cite>
                   <p className="text-xs text-mp-text-light">{t.role}</p>
                 </div>
-              </div>
+              </footer>
             </div>
+            </ScrollReveal>
           ))}
         </div>
+
+        <ScrollReveal className="text-center mt-10">
+          <a
+            href="https://g.page/r/monpilates/review"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mp-btn mp-btn-secondary text-sm"
+          >
+            <Star className="w-4 h-4" aria-hidden="true" />
+            Laisser un avis sur Google
+          </a>
+        </ScrollReveal>
+      </div>
+    </section>
+  );
+}
+
+/* ============================================================
+   INSTAGRAM FEED TEASER
+   ============================================================ */
+const instagramPosts = [
+  { src: "/images/studio-reformer-ocean.jpg", alt: "Reformer avec vue océan" },
+  { src: "/images/illustration-cours-collectif.png", alt: "Cours collectif au studio" },
+  { src: "/images/illustration-studio-ocean.png", alt: "Notre studio face à la mer" },
+  { src: "/images/studio-cours-particulier.jpg", alt: "Cours particulier Pilates" },
+  { src: "/images/illustration-pilates-artistique.png", alt: "Pilates artistique" },
+  { src: "/images/illustration-cours-collectif.png", alt: "Ambiance cours collectif" },
+];
+
+function InstagramFeed() {
+  return (
+    <section className="mp-section bg-mp-sand/40 cv-auto" aria-label="Instagram">
+      <div className="mp-container">
+        <ScrollReveal className="text-center mb-10">
+          <p className="font-heading text-sm font-semibold text-mp-ocean uppercase tracking-[0.2em] mb-3">
+            @monpilates.bzh
+          </p>
+          <h2 className="font-heading text-3xl sm:text-4xl font-bold text-mp-charcoal mb-4">
+            Suivez-nous sur Instagram
+          </h2>
+          <p className="font-body text-mp-text-light max-w-md mx-auto">
+            Coulisses du studio, exercices inspirants et moments de bien-être au quotidien.
+          </p>
+        </ScrollReveal>
+
+        <div className="grid grid-cols-3 sm:grid-cols-6 gap-2 sm:gap-3">
+          {instagramPosts.map((post, i) => (
+            <ScrollReveal key={i} delay={i < 4 ? (i as 0 | 1 | 2 | 3) : undefined}>
+              <a
+                href="https://www.instagram.com/monpilates.bzh"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group relative block aspect-square rounded-xl overflow-hidden"
+                aria-label={`Voir sur Instagram : ${post.alt}`}
+              >
+                <Image
+                  src={post.src}
+                  alt={post.alt}
+                  fill
+                  loading="lazy"
+                  className="object-cover transition-transform duration-500 group-hover:scale-110"
+                  sizes="(max-width: 640px) 33vw, 16vw"
+                />
+                <div className="absolute inset-0 bg-mp-charcoal/0 group-hover:bg-mp-charcoal/40 transition-colors duration-300 flex items-center justify-center">
+                  <Heart className="w-6 h-6 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300" aria-hidden="true" />
+                </div>
+              </a>
+            </ScrollReveal>
+          ))}
+        </div>
+
+        <ScrollReveal className="text-center mt-8">
+          <a
+            href="https://www.instagram.com/monpilates.bzh"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mp-btn mp-btn-secondary text-sm"
+          >
+            <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+            </svg>
+            Voir plus sur Instagram
+          </a>
+        </ScrollReveal>
       </div>
     </section>
   );
@@ -466,35 +693,45 @@ function Testimonials() {
    ============================================================ */
 function CtaSection() {
   return (
-    <section className="relative mp-section overflow-hidden">
+    <section className="relative mp-section overflow-hidden cv-auto">
       <Image
         src="/images/illustration-pilates-artistique.png"
-        alt="Illustration Pilates artistique"
+        alt="Illustration artistique d'une silhouette pratiquant le Pilates face à l'océan"
         fill
+        loading="lazy"
         className="object-cover"
+        sizes="100vw"
       />
-      <div className="absolute inset-0 bg-mp-charcoal/70" />
+      <div className="absolute inset-0 bg-gradient-to-br from-mp-charcoal/80 via-mp-ocean-dark/60 to-mp-charcoal/70" />
       <div className="mp-container relative z-10 text-center">
-        <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4 leading-tight">
-          Prêt(e) à commencer ?
-        </h2>
-        <p className="font-body text-lg text-white/80 max-w-md mx-auto mb-10">
-          Votre premier cours d&apos;essai à seulement 10€.
-          Découvrez le Pilates dans un cadre exceptionnel face à l&apos;océan.
-        </p>
-        <div className="flex flex-wrap justify-center gap-4">
-          <Link
-            href="/planning"
-            className="mp-btn bg-white text-mp-charcoal hover:bg-mp-cream font-semibold shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all"
-          >
-            <Calendar className="w-5 h-5" />
-            Réserver mon essai — 10€
-          </Link>
-          <Link href="/carte-cadeau" className="mp-btn mp-btn-gold">
-            <Sparkles className="w-5 h-5" />
-            Offrir une carte cadeau
-          </Link>
-        </div>
+        <ScrollReveal>
+          <p className="font-heading text-sm font-semibold text-mp-ocean-light uppercase tracking-[0.2em] mb-4">
+            Première séance
+          </p>
+          <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-5 leading-tight">
+            Prêt(e) à commencer ?
+          </h2>
+          <p className="font-body text-lg text-white/85 max-w-lg mx-auto mb-3">
+            Votre premier cours d&apos;essai à seulement 10&euro;.
+            Découvrez le Pilates dans un cadre exceptionnel face à l&apos;océan.
+          </p>
+          <p className="font-body text-sm text-white/60 mb-10">
+            Satisfait(e) ou remboursé(e), sans condition.
+          </p>
+          <div className="flex flex-wrap justify-center gap-4">
+            <Link
+              href="/planning"
+              className="mp-btn bg-white text-mp-charcoal hover:bg-mp-cream font-semibold shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all !py-4 !px-8 !text-base"
+            >
+              <Calendar className="w-5 h-5" aria-hidden="true" />
+              Réserver mon essai — 10€
+            </Link>
+            <Link href="/carte-cadeau" className="mp-btn mp-btn-gold !py-4 !px-8 !text-base">
+              <Sparkles className="w-5 h-5" aria-hidden="true" />
+              Offrir une carte cadeau
+            </Link>
+          </div>
+        </ScrollReveal>
       </div>
     </section>
   );
@@ -505,10 +742,10 @@ function CtaSection() {
    ============================================================ */
 function Location() {
   return (
-    <section className="mp-section bg-mp-white">
+    <section className="mp-section bg-mp-white cv-auto" aria-label="Localisation">
       <div className="mp-container">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          <div>
+          <ScrollReveal>
             <p className="font-heading text-sm font-semibold text-mp-ocean uppercase tracking-[0.2em] mb-3">
               Nous trouver
             </p>
@@ -517,13 +754,14 @@ function Location() {
             </h2>
             <p className="font-body text-mp-text-light leading-relaxed mb-8">
               Niché sur le boulevard des Dunes à Larmor-Plage, notre studio vous
-              accueille dans un espace lumineux et apaisant. Parking gratuit à
+              accueille dans un espace lumineux et apaisant. À 10 minutes de
+              Lorient, 15 minutes de Ploemeur et Guidel. Parking gratuit à
               proximité, accessible en bus (ligne P5).
             </p>
-            <div className="space-y-5 mb-8">
+            <address className="not-italic space-y-5 mb-8">
               <div className="flex items-start gap-4">
                 <div className="w-10 h-10 rounded-xl bg-mp-ocean/8 flex items-center justify-center flex-shrink-0">
-                  <MapPin className="w-5 h-5 text-mp-ocean" />
+                  <MapPin className="w-5 h-5 text-mp-ocean" aria-hidden="true" />
                 </div>
                 <div>
                   <p className="font-heading font-semibold text-mp-charcoal">14 Boulevard des Dunes</p>
@@ -532,28 +770,29 @@ function Location() {
               </div>
               <div className="flex items-start gap-4">
                 <div className="w-10 h-10 rounded-xl bg-mp-ocean/8 flex items-center justify-center flex-shrink-0">
-                  <Clock className="w-5 h-5 text-mp-ocean" />
+                  <Clock className="w-5 h-5 text-mp-ocean" aria-hidden="true" />
                 </div>
                 <div>
                   <p className="font-heading font-semibold text-mp-charcoal">Horaires</p>
                   <p className="text-sm text-mp-text-light">Lun-Ven : 9h — 20h · Sam : 9h — 14h</p>
+                  <OpenStatus />
                 </div>
               </div>
               <div className="flex items-start gap-4">
                 <div className="w-10 h-10 rounded-xl bg-mp-ocean/8 flex items-center justify-center flex-shrink-0">
-                  <Phone className="w-5 h-5 text-mp-ocean" />
+                  <Phone className="w-5 h-5 text-mp-ocean" aria-hidden="true" />
                 </div>
                 <div>
                   <p className="font-heading font-semibold text-mp-charcoal">Contact</p>
-                  <p className="text-sm text-mp-text-light">07 83 67 15 63 · contact@mon-pilates.bzh</p>
+                  <p className="text-sm text-mp-text-light">06 99 18 32 16 · contact@mon-pilates.bzh</p>
                 </div>
               </div>
-            </div>
+            </address>
             <Link href="/contact" className="mp-btn mp-btn-primary text-sm">
               Nous contacter
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight className="w-4 h-4" aria-hidden="true" />
             </Link>
-          </div>
+          </ScrollReveal>
 
           {/* Google Maps embed */}
           <div className="rounded-2xl overflow-hidden shadow-lg h-80 lg:h-[460px]">
@@ -575,18 +814,204 @@ function Location() {
 }
 
 /* ============================================================
+   FAQ — SEO Rich Results
+   ============================================================ */
+const faqs = [
+  {
+    q: "Faut-il avoir fait du Pilates avant ?",
+    a: "Non ! Nos cours sont adaptés à tous les niveaux. Les débutants sont les bienvenus et nos instructrices vous guident pas à pas.",
+  },
+  {
+    q: "Comment se passe le premier cours ?",
+    a: "Arrivez 10 minutes avant en tenue confortable. L'instructrice vous accueille, évalue votre condition physique et adapte les exercices. Consultez notre page Première visite pour tous les détails.",
+  },
+  {
+    q: "Quelle est la taille des groupes ?",
+    a: "10 personnes maximum par cours. C'est notre engagement pour un suivi personnalisé et des corrections individuelles.",
+  },
+  {
+    q: "Puis-je annuler une réservation ?",
+    a: "Oui, jusqu'à 12h avant le cours. Au-delà, la séance est décomptée de votre carte ou abonnement.",
+  },
+  {
+    q: "Y a-t-il un parking ?",
+    a: "Oui, parking gratuit à 50m du studio sur le boulevard des Dunes. Le studio est aussi accessible en bus (ligne P5).",
+  },
+]
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map((faq) => ({
+    "@type": "Question",
+    name: faq.q,
+    acceptedAnswer: { "@type": "Answer", text: faq.a },
+  })),
+}
+
+function HomeFaq() {
+  return (
+    <section className="mp-section bg-mp-cream cv-auto" aria-label="Questions fréquentes">
+      <div className="mp-container">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+        />
+        <ScrollReveal className="text-center max-w-2xl mx-auto mb-12">
+          <p className="font-heading text-sm font-semibold text-mp-ocean uppercase tracking-[0.2em] mb-3">
+            Questions fréquentes
+          </p>
+          <h2 className="font-heading text-3xl sm:text-4xl font-bold text-mp-charcoal">
+            Tout savoir avant votre premier cours
+          </h2>
+        </ScrollReveal>
+
+        <div className="max-w-3xl mx-auto space-y-4">
+          {faqs.map((faq, i) => (
+            <ScrollReveal key={i} delay={i < 3 ? ((i + 1) as 1 | 2 | 3) : undefined}>
+              <details className="group bg-mp-white rounded-xl border border-mp-sand-dark/20 overflow-hidden scroll-mt-28">
+                <summary className="flex items-center justify-between gap-4 p-6 cursor-pointer font-heading font-semibold text-mp-charcoal hover:text-mp-ocean transition-colors list-none [&::-webkit-details-marker]:hidden">
+                  {faq.q}
+                  <ChevronRight className="w-5 h-5 text-mp-text-light group-open:rotate-90 transition-transform flex-shrink-0" aria-hidden="true" />
+                </summary>
+                <div className="px-6 pb-6 pt-0">
+                  <p className="font-body text-mp-text-light leading-relaxed">{faq.a}</p>
+                </div>
+              </details>
+            </ScrollReveal>
+          ))}
+        </div>
+
+        <FirstTimerOnly>
+          <ScrollReveal className="text-center mt-10">
+            <Link href="/premiere-visite" className="mp-btn mp-btn-secondary text-sm">
+              En savoir plus sur la première visite
+              <ArrowRight className="w-4 h-4" aria-hidden="true" />
+            </Link>
+          </ScrollReveal>
+        </FirstTimerOnly>
+      </div>
+    </section>
+  )
+}
+
+/* ============================================================
    PAGE D'ACCUEIL
    ============================================================ */
 export default function HomePage() {
   return (
     <>
       <Hero />
+      <TrustBar />
+
+      <WhyMonPilates />
       <CourseTypes />
       <StudioAmbiance />
       <UpcomingSessions />
+
+      {/* Studio pulse — live activity feed */}
+      <section className="mp-section bg-mp-cream cv-auto" aria-label="Le studio en direct">
+        <div className="mp-container">
+          <ScrollReveal className="text-center max-w-2xl mx-auto mb-14">
+            <p className="font-heading text-sm font-semibold text-mp-ocean uppercase tracking-[0.2em] mb-3">
+              En direct
+            </p>
+            <h2 className="font-heading text-3xl sm:text-4xl font-bold text-mp-charcoal mb-4">
+              Le studio en direct
+            </h2>
+            <p className="font-body text-mp-text-light leading-relaxed">
+              Rejoignez une communauté active de passionnés de Pilates
+            </p>
+          </ScrollReveal>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+            {/* Activity feed sidebar */}
+            <ScrollReveal>
+              <div className="mp-card p-6 border border-mp-sand-dark/20 bg-mp-white">
+                <ActivityFeed mode="sidebar" />
+              </div>
+            </ScrollReveal>
+
+            {/* CTA card */}
+            <ScrollReveal delay={1}>
+              <div className="mp-card p-8 border border-mp-sand-dark/20 bg-mp-white text-center flex flex-col items-center justify-center h-full">
+                <div className="w-16 h-16 rounded-full bg-mp-ocean/10 flex items-center justify-center mx-auto mb-5">
+                  <Users className="w-8 h-8 text-mp-ocean" aria-hidden="true" />
+                </div>
+                <h3 className="font-heading text-2xl font-bold text-mp-charcoal mb-2">
+                  Rejoignez-nous
+                </h3>
+                <p className="font-body text-mp-text-light leading-relaxed mb-6 max-w-sm">
+                  Plus de 200 élèves nous font confiance. Découvrez le Pilates dans un cadre exceptionnel face à l&apos;océan.
+                </p>
+                <TrialCtaLink
+                  href="/planning"
+                  className="mp-btn mp-btn-primary !py-3.5 !px-7"
+                  icon={<Calendar className="w-5 h-5" aria-hidden="true" />}
+                  trialLabel="Réserver mon cours d'essai"
+                  returningLabel="Réserver mon prochain cours"
+                />
+              </div>
+            </ScrollReveal>
+          </div>
+        </div>
+      </section>
+
       <Testimonials />
-      <CtaSection />
+
+      {/* Quiz recommendation */}
+      <section className="mp-section bg-mp-cream cv-auto" aria-label="Quiz de recommandation">
+        <div className="mp-container max-w-xl">
+          <ScrollReveal className="text-center mb-8">
+            <p className="font-heading text-sm font-semibold text-mp-ocean uppercase tracking-[0.2em] mb-3">
+              Quiz rapide
+            </p>
+            <h2 className="font-heading text-3xl sm:text-4xl font-bold text-mp-charcoal mb-4">
+              Quel cours est fait pour vous ?
+            </h2>
+            <p className="font-body text-mp-text-light max-w-md mx-auto">
+              Répondez à 3 questions pour trouver votre cours idéal.
+            </p>
+          </ScrollReveal>
+          <ScrollReveal delay={1}>
+            <div className="mp-card p-6 sm:p-8 border border-mp-sand-dark/30 bg-mp-white">
+              <CourseQuiz />
+            </div>
+          </ScrollReveal>
+        </div>
+      </section>
+
+      {/* Mood-based booking */}
+      <section className="mp-section bg-mp-white cv-auto" aria-label="Recommandation selon votre humeur">
+        <div className="mp-container max-w-4xl">
+          <ScrollReveal className="text-center mb-10">
+            <p className="font-heading text-sm font-semibold text-mp-ocean uppercase tracking-[0.2em] mb-3">
+              Votre humeur, votre cours
+            </p>
+            <h2 className="font-heading text-3xl sm:text-4xl font-bold text-mp-charcoal mb-4">
+              Comment vous sentez-vous aujourd&apos;hui ?
+            </h2>
+            <p className="font-body text-mp-text-light max-w-md mx-auto">
+              Trouvez le cours parfait pour votre humeur du moment
+            </p>
+          </ScrollReveal>
+          <ScrollReveal delay={1}>
+            <div className="mp-card p-6 sm:p-8 border border-mp-sand-dark/30 bg-mp-white">
+              <MoodBooking />
+            </div>
+          </ScrollReveal>
+        </div>
+      </section>
+
+      <InstagramFeed />
+      <FirstTimerOnly>
+        <CtaSection />
+      </FirstTimerOnly>
+      <HomeFaq />
       <Location />
+
+      {/* Floating activity toast */}
+      <ActivityFeed mode="toast" />
     </>
   );
 }

@@ -17,6 +17,8 @@ model User {
   name         String
   phone        String?
   role         String   @default("USER")
+  referralCode String?  @unique
+  referredBy   String?  // userId of referrer
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
@@ -27,6 +29,8 @@ model User {
   subscriptions     Subscription[]
   blogPosts         BlogPost[]
   redeemedGiftCards GiftCard[]     @relation("RedeemedBy")
+  notifications     Notification[]
+  reviews           Review[]
 }
 
 model Instructor {
@@ -61,6 +65,7 @@ model CourseType {
 
   schedules Schedule[]
   sessions  Session[]
+  reviews   Review[]
 }
 
 model Schedule {
@@ -105,8 +110,10 @@ model Booking {
   sessionId     String
   status        String    @default("CONFIRMED")
   paymentMethod String    @default("UNIT")
+  paymentStatus String    @default("PAID")
   createdAt     DateTime  @default(now())
   cancelledAt   DateTime?
+  paidAt        DateTime?
 
   user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   session Session @relation(fields: [sessionId], references: [id], onDelete: Cascade)
@@ -191,6 +198,18 @@ model BlogPost {
   author User @relation(fields: [authorId], references: [id], onDelete: Cascade)
 }
 
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type      String   // "BOOKING_CONFIRMED", "WAITLIST_PROMOTED", "CARD_EXPIRING", "REFERRAL_CREDIT", "SYSTEM"
+  title     String
+  message   String
+  read      Boolean  @default(false)
+  data      String?  // JSON metadata (link, etc.)
+  createdAt DateTime @default(now())
+}
+
 model ContactMessage {
   id        String   @id @default(cuid())
   firstName String
@@ -201,4 +220,17 @@ model ContactMessage {
   message   String
   status    String   @default("NEW")
   createdAt DateTime @default(now())
+}
+
+model Review {
+  id           String     @id @default(cuid())
+  userId       String
+  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  courseTypeId  String
+  courseType    CourseType @relation(fields: [courseTypeId], references: [id], onDelete: Cascade)
+  rating       Int
+  comment      String?
+  createdAt    DateTime   @default(now())
+
+  @@unique([userId, courseTypeId])
 }

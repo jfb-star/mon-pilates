@@ -1,12 +1,18 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import Link from "next/link"
 import Image from "next/image"
-import { Menu, X, Calendar } from "lucide-react"
+import Link from "next/link"
+import { usePathname } from "next/navigation"
+import { useSession } from "next-auth/react"
+import { Menu, X, Calendar, User, Shield, BookOpen, Flame } from "lucide-react"
 import { clsx } from "clsx"
+import { useFocusTrap } from "@/hooks/useFocusTrap"
+import { useIsFirstTimer } from "@/hooks/useIsFirstTimer"
+import { NotificationBell } from "@/components/ui/NotificationBell"
+import { ThemeToggle } from "@/components/ui/ThemeToggle"
 
-const navigation = [
+const baseNavigation = [
   { name: "Nos cours", href: "/cours" },
   { name: "Planning", href: "/planning" },
   { name: "Tarifs", href: "/tarifs" },
@@ -14,10 +20,17 @@ const navigation = [
   { name: "Blog", href: "/blog" },
   { name: "Contact", href: "/contact" },
 ]
+const firstTimerEntry = { name: "Première visite", href: "/premiere-visite" }
 
 export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const pathname = usePathname()
+  const { data: session } = useSession()
+  const isLoggedIn = !!session?.user
+  const userRole = (session?.user as { role?: string } | undefined)?.role
+  const isAdmin = userRole === "ADMIN" || userRole === "INSTRUCTOR"
+  const isInstructor = userRole === "INSTRUCTOR" || userRole === "ADMIN"
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50)
@@ -30,29 +43,36 @@ export function Header() {
   useEffect(() => {
     if (mobileOpen) {
       document.body.style.overflow = "hidden"
+      const handleEscape = (e: KeyboardEvent) => {
+        if (e.key === "Escape") setMobileOpen(false)
+      }
+      document.addEventListener("keydown", handleEscape)
+      return () => {
+        document.body.style.overflow = ""
+        document.removeEventListener("keydown", handleEscape)
+      }
     } else {
       document.body.style.overflow = ""
     }
     return () => { document.body.style.overflow = "" }
   }, [mobileOpen])
 
+  const mobileMenuRef = useFocusTrap(mobileOpen)
   const headerSolid = scrolled || mobileOpen
+  const isFirstTimer = useIsFirstTimer()
+  // While loading, show the trial entries to avoid layout flash
+  const showTrial = isFirstTimer !== false
+  const navigation = showTrial ? [firstTimerEntry, ...baseNavigation] : baseNavigation
 
   return (
     <>
-      <a
-        href="#main-content"
-        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[60] focus:mp-btn focus:mp-btn-primary"
-      >
-        Aller au contenu principal
-      </a>
-
       {/* Top bar */}
       <header
+        role="banner"
         className={clsx(
           "fixed top-0 left-0 right-0 z-50 transition-all duration-500",
           headerSolid
-            ? "bg-white/95 backdrop-blur-xl shadow-[0_1px_20px_rgba(0,0,0,0.06)]"
+            ? "bg-mp-white/95 backdrop-blur-xl shadow-[0_1px_20px_rgba(0,0,0,0.06)]"
             : "bg-gradient-to-b from-black/30 to-transparent"
         )}
       >
@@ -63,67 +83,132 @@ export function Header() {
           )}
         >
           {/* Logo */}
-          <Link href="/" className="relative flex items-center group">
+          <Link href="/" className="relative flex items-center group" aria-label="Mon Pilates — Accueil">
             <Image
-              src="/images/logo.png"
+              src="/logo.png"
               alt="Mon Pilates"
-              width={160}
-              height={60}
-              className={clsx(
-                "h-12 w-auto transition-all duration-500 object-contain",
-                headerSolid ? "" : "brightness-0 invert"
-              )}
+              width={240}
+              height={144}
               priority
+              sizes="(max-width: 1024px) 120px, 160px"
+              className={clsx(
+                "transition-all duration-500 object-contain",
+                headerSolid ? "h-11 w-auto" : "h-14 w-auto",
+                !headerSolid && "brightness-0 invert"
+              )}
             />
           </Link>
 
           {/* Desktop navigation */}
           <nav
-            className="hidden lg:flex items-center gap-1"
+            className="hidden lg:flex items-center gap-0.5"
             aria-label="Navigation principale"
           >
-            {navigation.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={clsx(
-                  "font-heading text-[13px] font-medium px-4 py-2 rounded-full transition-all duration-300",
-                  "relative after:absolute after:bottom-0.5 after:left-1/2 after:-translate-x-1/2 after:w-0 after:h-[2px] after:rounded-full after:transition-all after:duration-300 hover:after:w-5",
-                  scrolled
-                    ? "text-mp-charcoal-light hover:text-mp-ocean after:bg-mp-ocean"
-                    : "text-white/85 hover:text-white after:bg-white"
-                )}
-              >
-                {item.name}
-              </Link>
-            ))}
+            {navigation.map((item) => {
+              const isActive = pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href))
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={clsx(
+                    "font-heading text-[13px] font-medium px-3 py-2 rounded-full whitespace-nowrap transition-all duration-300",
+                    "relative after:absolute after:bottom-0.5 after:left-1/2 after:-translate-x-1/2 after:h-[2px] after:rounded-full after:transition-all after:duration-300",
+                    isActive ? "after:w-5" : "after:w-0 hover:after:w-5",
+                    scrolled
+                      ? clsx(
+                          "after:bg-mp-ocean",
+                          isActive ? "text-mp-ocean" : "text-mp-charcoal-light hover:text-mp-ocean"
+                        )
+                      : clsx(
+                          "after:bg-white",
+                          isActive ? "text-white" : "text-white/85 hover:text-white"
+                        )
+                  )}
+                  aria-current={isActive ? "page" : undefined}
+                >
+                  {item.name}
+                </Link>
+              )
+            })}
           </nav>
 
           {/* Actions */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-1.5">
+            {isInstructor && (
+              <Link
+                href="/instructeur"
+                className={clsx(
+                  "hidden xl:flex items-center gap-1.5 font-heading text-[13px] font-medium px-2.5 py-2 rounded-full whitespace-nowrap transition-all",
+                  scrolled
+                    ? "text-mp-ocean hover:text-mp-ocean-dark hover:bg-mp-ocean/5"
+                    : "text-white/80 hover:text-white"
+                )}
+              >
+                <BookOpen className="w-4 h-4" aria-hidden="true" />
+                Espace pro
+              </Link>
+            )}
+            {isAdmin && (
+              <Link
+                href="/admin"
+                className={clsx(
+                  "hidden xl:flex items-center gap-1.5 font-heading text-[13px] font-medium px-2.5 py-2 rounded-full whitespace-nowrap transition-all",
+                  scrolled
+                    ? "text-purple-600 hover:text-purple-700 hover:bg-purple-50"
+                    : "text-white/80 hover:text-white"
+                )}
+              >
+                <Shield className="w-4 h-4" aria-hidden="true" />
+                Admin
+              </Link>
+            )}
+            <div className="hidden sm:block">
+              <ThemeToggle scrolled={scrolled} />
+            </div>
+            {isLoggedIn && (
+              <div className="hidden sm:block">
+                <NotificationBell scrolled={scrolled} />
+              </div>
+            )}
+            {isLoggedIn && (
+              <Link
+                href="/defis"
+                className={clsx(
+                  "hidden xl:flex items-center gap-1.5 font-heading text-[13px] font-medium px-2.5 py-2 rounded-full whitespace-nowrap transition-all",
+                  scrolled
+                    ? "text-orange-500 hover:text-orange-600 hover:bg-orange-50"
+                    : "text-white/80 hover:text-white"
+                )}
+              >
+                <Flame className="w-4 h-4" aria-hidden="true" />
+                Défis
+              </Link>
+            )}
             <Link
-              href="/connexion"
+              href={isLoggedIn ? "/compte" : "/connexion"}
               className={clsx(
-                "hidden sm:flex items-center gap-1.5 font-heading text-[13px] font-medium px-3 py-2 rounded-full transition-all",
+                "hidden sm:flex items-center gap-1.5 font-heading text-[13px] font-medium px-2.5 py-2 rounded-full whitespace-nowrap transition-all",
                 scrolled
                   ? "text-mp-charcoal-light hover:text-mp-ocean"
                   : "text-white/80 hover:text-white"
               )}
+              aria-label={isLoggedIn ? "Mon compte" : "Se connecter"}
             >
-              Connexion
+              <User className="w-4 h-4" aria-hidden="true" />
+              <span className="hidden xl:inline">{isLoggedIn ? "Mon compte" : "Connexion"}</span>
             </Link>
 
             <Link
               href="/planning"
               className={clsx(
-                "mp-btn hidden sm:inline-flex text-[13px] !py-2.5 !px-5",
+                "mp-btn hidden sm:inline-flex text-[13px] !py-2.5 !px-6",
                 scrolled
                   ? "mp-btn-primary"
-                  : "!bg-white/15 !text-white !border-white/30 backdrop-blur-sm hover:!bg-white hover:!text-mp-ocean"
+                  : "!bg-white !text-mp-charcoal hover:!bg-mp-ocean-light hover:!text-white !shadow-lg"
               )}
             >
-              <Calendar className="w-4 h-4" />
-              R&eacute;server
+              <Calendar className="w-4 h-4" aria-hidden="true" />
+              {showTrial ? "Cours d'essai — 10€" : "R\u00e9server"}
             </Link>
 
             {/* Mobile menu button */}
@@ -140,9 +225,9 @@ export function Header() {
               aria-label={mobileOpen ? "Fermer le menu" : "Ouvrir le menu"}
             >
               {mobileOpen ? (
-                <X className="w-6 h-6" />
+                <X className="w-6 h-6" aria-hidden="true" />
               ) : (
-                <Menu className="w-6 h-6" />
+                <Menu className="w-6 h-6" aria-hidden="true" />
               )}
             </button>
           </div>
@@ -150,48 +235,117 @@ export function Header() {
       </header>
 
       {/* Mobile full-screen overlay menu */}
-      {mobileOpen && (
-        <div className="fixed inset-0 z-[55] lg:hidden">
-          {/* Backdrop */}
-          <div
-            className="absolute inset-0 bg-black/40"
-            onClick={() => setMobileOpen(false)}
-          />
-          {/* Panel */}
-          <nav
-            className="absolute top-[72px] left-0 right-0 bg-white shadow-2xl border-t border-mp-sand/40 animate-[slideDown_0.25s_ease-out]"
-            aria-label="Navigation mobile"
-          >
-            <div className="mp-container py-6 flex flex-col gap-1">
-              {navigation.map((item) => (
+      <div
+        ref={mobileMenuRef}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Menu de navigation"
+        className={clsx(
+          "fixed inset-0 z-[55] lg:hidden transition-visibility duration-300",
+          mobileOpen ? "visible" : "invisible pointer-events-none"
+        )}
+      >
+        {/* Backdrop */}
+        <div
+          className={clsx(
+            "absolute inset-0 bg-black/40 transition-opacity duration-300",
+            mobileOpen ? "opacity-100" : "opacity-0"
+          )}
+          aria-hidden="true"
+          onClick={() => setMobileOpen(false)}
+        />
+        {/* Panel */}
+        <nav
+          className={clsx(
+            "absolute top-[72px] left-0 right-0 bg-mp-white shadow-2xl border-t border-mp-sand/40 transition-all duration-300",
+            mobileOpen ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-4"
+          )}
+          aria-label="Navigation mobile"
+        >
+          <div className="mp-container py-6 flex flex-col gap-1">
+            {navigation.map((item) => {
+              const isActive = pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href))
+              return (
                 <Link
                   key={item.href}
                   href={item.href}
                   onClick={() => setMobileOpen(false)}
-                  className="font-heading text-base font-medium text-mp-charcoal-light hover:text-mp-ocean hover:bg-mp-cream px-4 py-3.5 rounded-xl transition-all"
+                  className={clsx(
+                    "font-heading text-base font-medium px-4 py-3.5 rounded-xl transition-all",
+                    isActive
+                      ? "text-mp-ocean bg-mp-ocean/5 border-l-2 border-mp-ocean"
+                      : "text-mp-charcoal-light hover:text-mp-ocean hover:bg-mp-cream"
+                  )}
+                  aria-current={isActive ? "page" : undefined}
                 >
                   {item.name}
                 </Link>
-              ))}
+              )
+            })}
+            {isInstructor && (
               <Link
-                href="/connexion"
+                href="/instructeur"
                 onClick={() => setMobileOpen(false)}
-                className="font-heading text-base font-medium text-mp-charcoal-light hover:text-mp-ocean hover:bg-mp-cream px-4 py-3.5 rounded-xl transition-all"
+                className="font-heading text-base font-medium text-mp-ocean hover:text-mp-ocean-dark hover:bg-mp-ocean/5 px-4 py-3.5 rounded-xl transition-all flex items-center gap-2"
               >
-                Connexion
+                <BookOpen className="w-4 h-4" aria-hidden="true" />
+                Mon espace
               </Link>
+            )}
+            {isAdmin && (
               <Link
-                href="/planning"
+                href="/admin"
                 onClick={() => setMobileOpen(false)}
-                className="mp-btn mp-btn-primary mt-4 text-center justify-center"
+                className="font-heading text-base font-medium text-purple-600 hover:text-purple-700 hover:bg-purple-50 px-4 py-3.5 rounded-xl transition-all flex items-center gap-2"
               >
-                <Calendar className="w-4 h-4" />
-                R&eacute;server un cours
+                <Shield className="w-4 h-4" aria-hidden="true" />
+                Administration
               </Link>
+            )}
+            <div className="px-4 py-2 flex items-center gap-2">
+              <ThemeToggle scrolled={true} />
+              <span className="font-heading text-sm text-mp-text-light">Apparence</span>
             </div>
-          </nav>
-        </div>
-      )}
+            {isLoggedIn && (
+              <div className="px-4 py-2">
+                <NotificationBell scrolled={true} />
+              </div>
+            )}
+            {isLoggedIn && (
+              <Link
+                href="/defis"
+                onClick={() => setMobileOpen(false)}
+                className="font-heading text-base font-medium text-orange-500 hover:text-orange-600 hover:bg-orange-50 px-4 py-3.5 rounded-xl transition-all flex items-center gap-2"
+              >
+                <Flame className="w-4 h-4" aria-hidden="true" />
+                Défis & Streaks
+              </Link>
+            )}
+            <Link
+              href={isLoggedIn ? "/compte" : "/connexion"}
+              onClick={() => setMobileOpen(false)}
+              className="font-heading text-base font-medium text-mp-charcoal-light hover:text-mp-ocean hover:bg-mp-cream px-4 py-3.5 rounded-xl transition-all flex items-center gap-2"
+            >
+              {isLoggedIn ? (
+                <>
+                  <User className="w-4 h-4" aria-hidden="true" />
+                  Mon compte
+                </>
+              ) : (
+                "Connexion"
+              )}
+            </Link>
+            <Link
+              href="/planning"
+              onClick={() => setMobileOpen(false)}
+              className="mp-btn mp-btn-primary mt-4 text-center justify-center"
+            >
+              <Calendar className="w-4 h-4" aria-hidden="true" />
+              R&eacute;server un cours
+            </Link>
+          </div>
+        </nav>
+      </div>
     </>
   )
 }

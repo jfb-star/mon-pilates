@@ -1,22 +1,38 @@
 import type { Metadata } from "next";
+import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
+import { Breadcrumb } from "@/components/ui/Breadcrumb";
 
 export const metadata: Metadata = {
-  title: "Politique de cookies",
+  title: "Politique de cookies — Mon Pilates Larmor-Plage",
   description:
-    "Politique de cookies du site mon-pilates.bzh. Types de cookies utilises, finalites et gestion de vos preferences.",
+    "Politique de cookies du site mon-pilates.bzh. Types de cookies utilisés, finalités et gestion de vos préférences de navigation.",
+  alternates: {
+    canonical: "https://mon-pilates.bzh/politique-cookies",
+  },
+  robots: { index: true, follow: true },
 };
 
 export default function PolitiqueCookiesPage() {
   return (
     <>
+      <BreadcrumbJsonLd items={[
+        { name: "Accueil", href: "/" },
+        { name: "Politique cookies", href: "/politique-cookies" },
+      ]} />
       {/* Hero */}
       <section className="bg-mp-cream pt-32 pb-12">
+        <div className="mp-container">
+          <Breadcrumb items={[
+            { name: "Accueil", href: "/" },
+            { name: "Politique cookies", href: "/politique-cookies" },
+          ]} />
+        </div>
         <div className="mp-container text-center">
           <h1 className="font-heading text-4xl sm:text-5xl font-bold text-mp-charcoal mb-4">
-            Politique de cookies
+            Politique de cookies — Mon Pilates
           </h1>
           <p className="font-body text-mp-text-light">
-            Derniere mise a jour : avril 2026
+            Dernière mise à jour : <time dateTime="2025-01-15">15 janvier 2025</time>
           </p>
         </div>
       </section>
@@ -30,10 +46,10 @@ export default function PolitiqueCookiesPage() {
                 1. Qu&apos;est-ce qu&apos;un cookie ?
               </h2>
               <p>
-                Un cookie est un petit fichier texte depose sur votre terminal
+                Un cookie est un petit fichier texte déposé sur votre terminal
                 (ordinateur, tablette, smartphone) lors de votre visite sur
-                notre site. Il permet de stocker des informations relatives a
-                votre navigation afin de faciliter votre experience ulterieure
+                notre site. Il permet de stocker des informations relatives à
+                votre navigation afin de faciliter votre expérience ultérieure
                 et de rendre le site plus fonctionnel.
               </p>
             </div>
@@ -46,15 +62,15 @@ export default function PolitiqueCookiesPage() {
                 Le site mon-pilates.bzh utilise{" "}
                 <strong>uniquement des cookies essentiels et fonctionnels</strong>{" "}
                 au bon fonctionnement du site. Nous n&apos;utilisons aucun
-                cookie de suivi, d&apos;analyse ou de publicite.
+                cookie de suivi, d&apos;analyse ou de publicité.
               </p>
 
               <h3 className="font-heading text-lg font-semibold text-mp-charcoal mt-6 mb-3">
-                Cookies essentiels (strictement necessaires)
+                Cookies essentiels (strictement nécessaires)
               </h3>
               <p>
                 Ces cookies sont indispensables au fonctionnement du site. Ils
-                ne peuvent pas etre desactives.
+                ne peuvent pas être désactivés.
               </p>
               <div className="mt-4 overflow-x-auto">
                 <table className="w-full text-sm border-collapse">
@@ -64,10 +80,10 @@ export default function PolitiqueCookiesPage() {
                         Cookie
                       </th>
                       <th className="font-heading font-semibold text-mp-charcoal text-left py-3 pr-4">
-                        Finalite
+                        Finalité
                       </th>
                       <th className="font-heading font-semibold text-mp-charcoal text-left py-3">
-                        Duree
+                        Durée
                       </th>
                     </tr>
                   </thead>
@@ -86,7 +102,7 @@ export default function PolitiqueCookiesPage() {
                         cookie_consent
                       </td>
                       <td className="py-3 pr-4">
-                        Memorisation de vos preferences cookies
+                        Mémorisation de vos préférences cookies
                       </td>
                       <td className="py-3">12 mois</td>
                     </tr>
@@ -98,8 +114,8 @@ export default function PolitiqueCookiesPage() {
                 Cookies fonctionnels
               </h3>
               <p>
-                Ces cookies permettent de sauvegarder vos preferences
-                d&apos;affichage pour ameliorer votre experience.
+                Ces cookies permettent de sauvegarder vos préférences
+                d&apos;affichage pour améliorer votre expérience.
               </p>
               <div className="mt-4 overflow-x-auto">
                 <table className="w-full text-sm border-collapse">
@@ -109,10 +125,10 @@ export default function PolitiqueCookiesPage() {
                         Cookie
                       </th>
                       <th className="font-heading font-semibold text-mp-charcoal text-left py-3 pr-4">
-                        Finalite
+                        Finalité
                       </th>
                       <th className="font-heading font-semibold text-mp-charcoal text-left py-3">
-                        Duree
+                        Durée
                       </th>
                     </tr>
                   </thead>
@@ -122,7 +138,7 @@ export default function PolitiqueCookiesPage() {
                         user_preferences
                       </td>
                       <td className="py-3 pr-4">
-                        Sauvegarde de vos preferences (theme, langue)
+                        Sauvegarde de vos préférences (thème, langue)
                       </td>
                       <td className="py-3">6 mois</td>
                     </tr>
@@ -137,43 +153,43 @@ export default function PolitiqueCookiesPage() {
               </h2>
               <p>
                 Nous n&apos;utilisons actuellement aucun cookie tiers
-                (analytics, reseaux sociaux, publicite). Si cela devait
-                evoluer, cette politique sera mise a jour et votre consentement
-                sera recueilli prealablement.
+                (analytics, réseaux sociaux, publicité). Si cela devait
+                évoluer, cette politique sera mise à jour et votre consentement
+                sera recueilli préalablement.
               </p>
             </div>
 
             <div>
               <h2 className="font-heading text-2xl font-bold text-mp-charcoal mb-4">
-                4. Gerer vos cookies
+                4. Gérer vos cookies
               </h2>
               <p>
-                Vous pouvez a tout moment configurer votre navigateur pour
-                accepter ou refuser les cookies. Voici comment proceder selon
+                Vous pouvez à tout moment configurer votre navigateur pour
+                accepter ou refuser les cookies. Voici comment procéder selon
                 votre navigateur :
               </p>
               <ul className="mt-3 space-y-1.5 list-disc list-inside">
                 <li>
-                  <strong>Chrome :</strong> Parametres &gt; Confidentialite et
-                  securite &gt; Cookies
+                  <strong>Chrome :</strong> Paramètres &gt; Confidentialité et
+                  sécurité &gt; Cookies
                 </li>
                 <li>
-                  <strong>Firefox :</strong> Parametres &gt; Vie privee et
-                  securite &gt; Cookies
+                  <strong>Firefox :</strong> Paramètres &gt; Vie privée et
+                  sécurité &gt; Cookies
                 </li>
                 <li>
-                  <strong>Safari :</strong> Preferences &gt; Confidentialite
+                  <strong>Safari :</strong> Préférences &gt; Confidentialité
                   &gt; Cookies
                 </li>
                 <li>
-                  <strong>Edge :</strong> Parametres &gt; Cookies et
+                  <strong>Edge :</strong> Paramètres &gt; Cookies et
                   autorisations de site
                 </li>
               </ul>
               <p className="mt-3 text-sm text-mp-text-light">
-                Attention : la desactivation des cookies essentiels peut
+                Attention : la désactivation des cookies essentiels peut
                 affecter le bon fonctionnement du site et limiter certaines
-                fonctionnalites.
+                fonctionnalités.
               </p>
             </div>
 
@@ -202,7 +218,7 @@ export default function PolitiqueCookiesPage() {
                 Contact
               </h2>
               <p className="text-sm">
-                Pour toute question relative a l&apos;utilisation des cookies
+                Pour toute question relative à l&apos;utilisation des cookies
                 sur ce site :
               </p>
               <ul className="mt-2 space-y-1 text-sm">

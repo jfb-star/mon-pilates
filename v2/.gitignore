@@ -42,6 +42,14 @@ next-env.d.ts
 
 # screenshots (dev tooling)
 /screenshots/
+/screenshots-sections/
+
+# local audit / test artifacts
+/cookies.txt
+
+# local sqlite dev database
+/prisma/dev.db
+/prisma/dev.db-journal
 
 # claude
 .claude/

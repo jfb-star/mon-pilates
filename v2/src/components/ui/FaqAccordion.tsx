@@ -38,19 +38,23 @@ export function FaqAccordion({ items }: FaqAccordionProps) {
                 className={`w-5 h-5 text-mp-ocean flex-shrink-0 transition-transform duration-300 ${
                   isOpen ? "rotate-180" : ""
                 }`}
+                aria-hidden="true"
               />
             </button>
             <div
               id={`faq-panel-${index}`}
               role="region"
               aria-labelledby={`faq-heading-${index}`}
-              className={`overflow-hidden transition-all duration-300 ${
-                isOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+              hidden={!isOpen}
+              className={`grid transition-all duration-300 ease-in-out ${
+                isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
               }`}
             >
-              <p className="px-5 sm:px-6 pb-5 sm:pb-6 font-body text-mp-text-light leading-relaxed">
-                {item.answer}
-              </p>
+              <div className="overflow-hidden">
+                <p className="px-5 sm:px-6 pb-5 sm:pb-6 font-body text-mp-text-light leading-relaxed">
+                  {item.answer}
+                </p>
+              </div>
             </div>
           </div>
         );

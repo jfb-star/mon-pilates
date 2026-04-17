@@ -11,11 +11,14 @@ import {
   Flame,
   CheckCircle,
   Users,
-  ArrowLeft,
   ArrowRight,
   CalendarDays,
 } from "lucide-react";
 import { clsx } from "clsx";
+import { ChevronRight } from "lucide-react";
+import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
+import { Breadcrumb } from "@/components/ui/Breadcrumb";
+import { ReviewSection } from "@/components/ui/ReviewSection";
 import {
   courses,
   courseTypeColors,
@@ -25,6 +28,37 @@ import {
   type CourseInfo,
   type CourseType,
 } from "@/lib/mock-data";
+
+const courseFaqs: Record<string, { q: string; a: string }[]> = {
+  mat: [
+    { q: "Faut-il être souple pour faire du Pilates Mat ?", a: "Non, la souplesse n'est pas un prérequis. Le Pilates Mat s'adapte à tous les niveaux et la souplesse s'améliore naturellement avec la pratique." },
+    { q: "Quelle est la différence avec le yoga ?", a: "Le Pilates se concentre sur le renforcement du centre (abdominaux profonds, dos, plancher pelvien) avec des mouvements précis et contrôlés, tandis que le yoga met davantage l'accent sur la méditation et les postures statiques." },
+    { q: "À quelle fréquence pratiquer ?", a: "Idéalement 2 à 3 fois par semaine pour des résultats optimaux. Une fois par semaine suffit pour maintenir les bienfaits." },
+  ],
+  reformer: [
+    { q: "Le Reformer est-il adapté aux débutants ?", a: "Oui ! Nous recommandons toutefois de commencer par quelques séances de Mat Pilates pour acquérir les bases avant de passer au Reformer." },
+    { q: "Les ressorts sont-ils dangereux ?", a: "Non, les Reformer Balanced Body sont conçus avec des systèmes de sécurité. L'instructrice règle les résistances en fonction de votre niveau." },
+    { q: "Combien de Reformer avez-vous ?", a: "Notre studio dispose de 6 Reformer Balanced Body de dernière génération, ce qui garantit un espace confortable pour chaque participant." },
+  ],
+  prenatal: [
+    { q: "À partir de quel mois de grossesse puis-je commencer ?", a: "Le Pilates prénatal est accessible dès le 2e trimestre (à partir de 14 semaines), avec un avis médical favorable." },
+    { q: "Y a-t-il des contre-indications ?", a: "Le Pilates prénatal est contre-indiqué en cas de grossesse à risque, de menace d'accouchement prématuré ou sur avis médical contraire. Consultez votre sage-femme ou gynécologue." },
+    { q: "Puis-je continuer jusqu'au terme ?", a: "Oui, nos exercices sont adaptés à chaque stade de la grossesse. Marie ajuste chaque séance individuellement jusqu'au 8e mois environ." },
+  ],
+  senior: [
+    { q: "Y a-t-il une limite d'âge ?", a: "Non, aucune limite d'âge ! Nous accueillons des élèves de 60 à 85 ans. Les exercices sont entièrement adaptés à vos capacités." },
+    { q: "Faut-il pouvoir se mettre au sol ?", a: "Pas nécessairement. Nos cours Senior incluent des exercices debout, assis sur chaise et au sol. Marie propose toujours des alternatives." },
+    { q: "Le Pilates aide-t-il contre l'arthrose ?", a: "Oui, le Pilates est recommandé par les rhumatologues. Les mouvements doux et contrôlés améliorent la mobilité articulaire sans impact." },
+  ],
+  doux: [
+    { q: "Quelle est la différence avec le Pilates Mat classique ?", a: "Le Pilates Doux propose un rythme plus lent, des mouvements plus accessibles et un accent sur la respiration et le relâchement. Idéal en récupération ou pour les débutants." },
+    { q: "Ce cours est-il adapté après une blessure ?", a: "Oui, le Pilates Doux est particulièrement indiqué en phase de récupération. Informez l'instructrice de votre situation pour des adaptations personnalisées." },
+  ],
+  intensif: [
+    { q: "Quel niveau faut-il pour le cours Intensif ?", a: "Ce cours s'adresse aux pratiquants ayant au moins 3 mois d'expérience en Pilates. Il est déconseillé aux grands débutants." },
+    { q: "Va-t-on transpirer ?", a: "Oui ! Le Pilates Intensif combine enchaînements dynamiques, séries longues et temps de repos courts. C'est un vrai challenge physique." },
+  ],
+}
 
 const courseHeroImages: Partial<Record<CourseType, string>> = {
   mat: "/images/illustration-cours-collectif.png",
@@ -56,8 +90,15 @@ export async function generateMetadata({
     return { title: "Cours introuvable" };
   }
   return {
-    title: course.name,
-    description: course.shortDescription,
+    title: `${course.name} — Cours à Larmor-Plage`,
+    description: `${course.shortDescription} Réservez votre cours d'essai à 10\u20ac au studio Mon Pilates.`,
+    openGraph: {
+      title: `${course.name} | Mon Pilates`,
+      description: course.shortDescription,
+    },
+    alternates: {
+      canonical: `https://mon-pilates.bzh/cours/${slug}`,
+    },
   };
 }
 
@@ -91,19 +132,80 @@ export default async function CourseDetailPage({
 
   const heroImage = courseHeroImages[course.slug as CourseType];
 
+  const courseJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    name: course.name,
+    description: course.shortDescription,
+    courseMode: "onsite",
+    inLanguage: "fr",
+    provider: {
+      "@type": "Organization",
+      name: "Mon Pilates",
+      url: "https://mon-pilates.bzh",
+      sameAs: [
+        "https://www.instagram.com/monpilates.bzh",
+        "https://www.facebook.com/MonPilatesBZH",
+      ],
+    },
+    locationCreated: {
+      "@type": "PostalAddress",
+      streetAddress: "14 Boulevard des Dunes",
+      addressLocality: "Larmor-Plage",
+      postalCode: "56260",
+      addressRegion: "Morbihan",
+      addressCountry: "FR",
+    },
+    hasCourseInstance: sessions.map((s) => ({
+      "@type": "CourseInstance",
+      courseMode: "onsite",
+      instructor: {
+        "@type": "Person",
+        name: s.instructor,
+      },
+      location: {
+        "@type": "Place",
+        name: "Studio Mon Pilates",
+        address: {
+          "@type": "PostalAddress",
+          streetAddress: "14 Boulevard des Dunes",
+          addressLocality: "Larmor-Plage",
+          postalCode: "56260",
+          addressCountry: "FR",
+        },
+      },
+    })),
+    offers: {
+      "@type": "Offer",
+      price: "10",
+      priceCurrency: "EUR",
+      availability: "https://schema.org/InStock",
+      url: `https://mon-pilates.bzh/cours/${course.slug}`,
+      description: "Cours d'essai",
+    },
+  };
+
   return (
     <div className="pt-20">
+      <BreadcrumbJsonLd items={[
+        { name: "Accueil", href: "/" },
+        { name: "Cours", href: "/cours" },
+        { name: course.name, href: `/cours/${course.slug}` },
+      ]} />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(courseJsonLd) }}
+      />
       {/* Hero */}
       <section className="relative bg-gradient-to-br from-mp-sand via-mp-cream to-mp-ocean-light/10 py-16 sm:py-20 overflow-hidden">
         <div className="mp-container">
-          {/* Breadcrumb */}
-          <Link
-            href="/cours"
-            className="inline-flex items-center gap-1 text-sm font-heading text-mp-text-light hover:text-mp-ocean transition-colors mb-6 relative z-10"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            Tous les cours
-          </Link>
+          <div className="relative z-10">
+            <Breadcrumb items={[
+              { name: "Accueil", href: "/" },
+              { name: "Cours", href: "/cours" },
+              { name: course.name, href: `/cours/${course.slug}` },
+            ]} />
+          </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
             <div>
@@ -115,7 +217,7 @@ export default async function CourseDetailPage({
                     colors.text
                   )}
                 >
-                  <Icon className="w-7 h-7" />
+                  <Icon className="w-7 h-7" aria-hidden="true" />
                 </div>
                 <div>
                   <h1 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-mp-charcoal">
@@ -159,10 +261,12 @@ export default async function CourseDetailPage({
                 <Image
                   src={heroImage}
                   alt={`Illustration du cours ${course.name}`}
+                  title={course.name}
                   fill
                   className="object-cover"
-                  sizes="50vw"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
                   priority
+                  fetchPriority="high"
                 />
               </div>
             )}
@@ -198,6 +302,7 @@ export default async function CourseDetailPage({
                     <li key={i} className="flex items-start gap-3">
                       <CheckCircle
                         className={clsx("w-5 h-5 mt-0.5 shrink-0", colors.text)}
+                        aria-hidden="true"
                       />
                       <span className="font-body text-mp-text">{b}</span>
                     </li>
@@ -215,6 +320,7 @@ export default async function CourseDetailPage({
                     <li key={i} className="flex items-start gap-3">
                       <Users
                         className="w-5 h-5 mt-0.5 text-mp-ocean shrink-0"
+                        aria-hidden="true"
                       />
                       <span className="font-body text-mp-text">{t}</span>
                     </li>
@@ -247,11 +353,11 @@ export default async function CourseDetailPage({
             </div>
 
             {/* Sidebar */}
-            <div className="space-y-6">
+            <div className="space-y-6 lg:sticky lg:top-28 lg:self-start">
               {/* Upcoming sessions */}
               <div className="bg-mp-cream rounded-2xl p-6">
                 <h3 className="font-heading text-lg font-bold text-mp-charcoal mb-4 flex items-center gap-2">
-                  <CalendarDays className="w-5 h-5 text-mp-ocean" />
+                  <CalendarDays className="w-5 h-5 text-mp-ocean" aria-hidden="true" />
                   Prochaines séances
                 </h3>
 
@@ -296,7 +402,7 @@ export default async function CourseDetailPage({
                   className="mp-btn mp-btn-primary w-full mt-4 text-sm"
                 >
                   Voir le planning complet
-                  <ArrowRight className="w-4 h-4" />
+                  <ArrowRight className="w-4 h-4" aria-hidden="true" />
                 </Link>
               </div>
 
@@ -310,9 +416,11 @@ export default async function CourseDetailPage({
                 <h3 className="font-heading text-xl font-bold mb-2">
                   Envie d&apos;essayer ?
                 </h3>
-                <p className="text-white/80 text-sm font-body mb-4">
-                  Votre première séance d&apos;essai est à tarif réduit.
-                  Réservez dès maintenant !
+                <p className="text-white/80 text-sm font-body mb-2">
+                  Votre première séance d&apos;essai à seulement
+                </p>
+                <p className="font-heading text-3xl font-bold mb-3">
+                  10&euro;
                 </p>
                 <Link
                   href="/planning"
@@ -323,6 +431,54 @@ export default async function CourseDetailPage({
               </div>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* FAQ du cours */}
+      {courseFaqs[course.slug] && courseFaqs[course.slug].length > 0 && (
+        <>
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              mainEntity: courseFaqs[course.slug].map((faq) => ({
+                "@type": "Question",
+                name: faq.q,
+                acceptedAnswer: { "@type": "Answer", text: faq.a },
+              })),
+            }) }}
+          />
+          <section className="mp-section bg-mp-sand/30">
+            <div className="mp-container max-w-3xl">
+              <h2 className="font-heading text-2xl sm:text-3xl font-bold text-mp-charcoal mb-8 text-center">
+                Questions fréquentes — {course.name}
+              </h2>
+              <div className="space-y-3">
+                {courseFaqs[course.slug].map((faq, i) => (
+                  <details key={i} className="group scroll-mt-28 bg-mp-white rounded-xl border border-mp-sand-dark/20 overflow-hidden">
+                    <summary className="flex items-center justify-between gap-4 p-5 cursor-pointer font-heading font-semibold text-sm text-mp-charcoal hover:text-mp-ocean transition-colors list-none [&::-webkit-details-marker]:hidden">
+                      {faq.q}
+                      <ChevronRight className="w-4 h-4 text-mp-text-light group-open:rotate-90 transition-transform flex-shrink-0" aria-hidden="true" />
+                    </summary>
+                    <div className="px-5 pb-5 pt-0">
+                      <p className="font-body text-sm text-mp-text-light leading-relaxed">{faq.a}</p>
+                    </div>
+                  </details>
+                ))}
+              </div>
+            </div>
+          </section>
+        </>
+      )}
+
+      {/* Avis des participants */}
+      <section className="mp-section bg-mp-white">
+        <div className="mp-container max-w-3xl">
+          <h2 className="font-heading text-2xl sm:text-3xl font-bold text-mp-charcoal mb-8 text-center">
+            Avis des participants
+          </h2>
+          <ReviewSection courseTypeSlug={slug} />
         </div>
       </section>
 
@@ -358,7 +514,7 @@ export default async function CourseDetailPage({
                               otherColors.text
                             )}
                           >
-                            <OtherIcon className="w-5 h-5" />
+                            <OtherIcon className="w-5 h-5" aria-hidden="true" />
                           </div>
                           <h3 className="font-heading text-lg font-semibold text-mp-charcoal group-hover:text-mp-ocean transition-colors">
                             {other.name}
@@ -390,7 +546,7 @@ export default async function CourseDetailPage({
           <div className="text-center mt-8">
             <Link href="/cours" className="mp-btn mp-btn-secondary text-sm">
               Voir tous les cours
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight className="w-4 h-4" aria-hidden="true" />
             </Link>
           </div>
         </div>

@@ -1,11 +1,44 @@
 import { clsx, type ClassValue } from "clsx";
-import { twMerge } from "tailwind-merge";
 
 /**
- * Merge class names with Tailwind CSS conflict resolution.
+ * Merge class names (simplified without tailwind-merge).
  */
 export function cn(...inputs: ClassValue[]): string {
-  return twMerge(clsx(inputs));
+  return clsx(inputs);
+}
+
+/**
+ * Sanitize a user-provided string: trim and enforce max length.
+ */
+export function sanitizeString(value: string, maxLength: number): string {
+  return value.trim().slice(0, maxLength);
+}
+
+/**
+ * Allowed origins for CSRF-like origin checking on sensitive routes.
+ */
+const ALLOWED_ORIGINS = [
+  "https://mon-pilates.bzh",
+  "https://www.mon-pilates.bzh",
+];
+
+/**
+ * Check whether the request origin is allowed.
+ * Permits localhost/127.0.0.1 in development.
+ */
+export function isAllowedOrigin(origin: string | null): boolean {
+  if (!origin) return false;
+  if (ALLOWED_ORIGINS.includes(origin)) return true;
+  // Allow localhost and 127.0.0.1 in development or local testing
+  try {
+    const url = new URL(origin);
+    if (url.hostname === "localhost" || url.hostname === "127.0.0.1") {
+      return true;
+    }
+  } catch {
+    return false;
+  }
+  return false;
 }
 
 /**

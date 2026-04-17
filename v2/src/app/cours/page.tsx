@@ -9,9 +9,14 @@ import {
   Leaf,
   Flame,
   ArrowRight,
+  Users,
 } from "lucide-react";
 import { clsx } from "clsx";
 import { courses, courseTypeColors, type CourseInfo, type CourseType } from "@/lib/mock-data";
+import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
+import { Breadcrumb } from "@/components/ui/Breadcrumb";
+import { ScrollReveal } from "@/components/ui/ScrollReveal";
+import { BodyMap } from "@/components/ui/BodyMap";
 
 const courseImages: Partial<Record<CourseType, string>> = {
   mat: "/images/illustration-cours-collectif.png",
@@ -22,6 +27,22 @@ export const metadata: Metadata = {
   title: "Nos cours de Pilates",
   description:
     "Découvrez nos 6 types de cours : Mat, Reformer, Prénatal, Senior, Doux et Intensif. Trouvez le Pilates qui vous correspond.",
+  openGraph: {
+    title: "Nos cours | Mon Pilates",
+    description:
+      "Mat, Reformer, Prénatal, Senior, Doux, Intensif — 6 types de cours pour tous les niveaux à Larmor-Plage.",
+    images: [
+      {
+        url: "/images/studio-reformer-ocean.jpg",
+        width: 1920,
+        height: 1080,
+        alt: "Studio de Pilates Mon Pilates avec Reformers et vue sur l'océan à Larmor-Plage",
+      },
+    ],
+  },
+  alternates: {
+    canonical: "https://mon-pilates.bzh/cours",
+  },
 };
 
 const courseIcons: Record<string, React.ElementType> = {
@@ -33,19 +54,81 @@ const courseIcons: Record<string, React.ElementType> = {
   intensif: Flame,
 };
 
+const coursesItemListJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  name: "Cours de Pilates — Mon Pilates",
+  numberOfItems: courses.length,
+  itemListElement: courses.map((course, i) => ({
+    "@type": "ListItem",
+    position: i + 1,
+    name: course.name,
+    url: `https://mon-pilates.bzh/cours/${course.slug}`,
+  })),
+};
+
+const sportsActivityLocationJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "SportsActivityLocation",
+  name: "Mon Pilates",
+  url: "https://mon-pilates.bzh",
+  description:
+    "Studio de Pilates à Larmor-Plage proposant 6 types de cours : Mat, Reformer, Prénatal, Senior, Doux et Intensif.",
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Larmor-Plage",
+    addressCountry: "FR",
+  },
+  makesOffer: courses.map((course) => ({
+    "@type": "Offer",
+    itemOffered: {
+      "@type": "Course",
+      name: course.name,
+      description: course.shortDescription,
+      url: `https://mon-pilates.bzh/cours/${course.slug}`,
+      provider: {
+        "@type": "SportsActivityLocation",
+        name: "Mon Pilates",
+      },
+    },
+  })),
+};
+
 export default function CoursPage() {
   return (
     <div className="pt-20">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(coursesItemListJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(sportsActivityLocationJsonLd) }}
+      />
+      <BreadcrumbJsonLd items={[
+        { name: "Accueil", href: "/" },
+        { name: "Nos cours", href: "/cours" },
+      ]} />
       {/* Hero */}
       <section className="relative bg-gradient-to-br from-mp-sand via-mp-cream to-mp-sage-light/20 py-16 sm:py-24 overflow-hidden">
+        <div className="mp-container relative z-10 mb-4">
+          <Breadcrumb items={[
+            { name: "Accueil", href: "/" },
+            { name: "Nos cours", href: "/cours" },
+          ]} />
+        </div>
         {/* Background image */}
         <div className="absolute inset-0 opacity-10">
           <Image
             src="/images/studio-reformer-ocean.jpg"
-            alt="Studio de Pilates avec vue sur l'ocean"
+            alt="Studio de Pilates avec vue sur l'océan"
             fill
             className="object-cover"
             priority
+            fetchPriority="high"
+            sizes="100vw"
+            placeholder="blur"
+            blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAoHBwgHBgoICAgLCgoLDhgQDg0NDh0VFhEYIx8lJCIfIiEmKzcvJik0KSEiMEExNDk7Pj4+JS5ESUM8SDc9Pjv/2wBDAQoLCw4NDhwQEBw7KCIoOzs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozv/wAARCAAIABADASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAABgUH/8QAIhAAAgIBAwQDAAAAAAAAAAAAAQIDBAAFBhESITFBE2Fx/8QAFQEBAQAAAAAAAAAAAAAAAAAAAwT/xAAaEQACAwEBAAAAAAAAAAAAAAABAgADESEx/9oADAMBAAIRAxEAPwCbq26tLpbMtKzVkuKjdBFLTmSYj1xrr2t7a6lJJDT0iy8bFVZ5nVSR9ADIe67U0WrSiWOhDVcKFLRscZplXMiGhYVSZ//9k="
           />
         </div>
         <div className="mp-container text-center relative z-10">
@@ -63,12 +146,58 @@ export default function CoursPage() {
         </div>
       </section>
 
+      {/* Quick filter chips */}
+      <section className="py-6 bg-mp-white border-b border-mp-sand-dark/10">
+        <div className="mp-container">
+          <div className="flex flex-wrap justify-center gap-2">
+            {courses.map((course) => {
+              const colors = courseTypeColors[course.slug]
+              const Icon = courseIcons[course.slug] || Heart
+              return (
+                <a
+                  key={course.slug}
+                  href={`#${course.slug}`}
+                  className={clsx(
+                    "inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-heading font-medium transition-all hover:shadow-md",
+                    colors.bg, colors.text
+                  )}
+                >
+                  <Icon className="w-4 h-4" aria-hidden="true" />
+                  {course.name}
+                </a>
+              )
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* Body map */}
+      <section className="mp-section bg-mp-cream/50">
+        <div className="mp-container">
+          <ScrollReveal>
+            <div className="text-center mb-10">
+              <h2 className="font-heading text-3xl sm:text-4xl font-bold text-mp-charcoal mb-3">
+                Trouvez le cours adapt&eacute; &agrave; vos besoins
+              </h2>
+              <p className="font-body text-mp-text-light text-lg max-w-xl mx-auto">
+                Cliquez sur une zone du corps pour d&eacute;couvrir les exercices et cours qui la ciblent.
+              </p>
+            </div>
+          </ScrollReveal>
+          <ScrollReveal delay={1}>
+            <BodyMap />
+          </ScrollReveal>
+        </div>
+      </section>
+
       {/* Course grid */}
       <section className="mp-section bg-mp-white">
         <div className="mp-container">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {courses.map((course) => (
-              <CourseCard key={course.slug} course={course} />
+            {courses.map((course, i) => (
+              <ScrollReveal key={course.slug} delay={((i % 3) + 1) as 1 | 2 | 3}>
+                <CourseCard course={course} />
+              </ScrollReveal>
             ))}
           </div>
         </div>
@@ -86,7 +215,7 @@ export default function CoursPage() {
           </p>
           <Link href="/planning" className="mp-btn mp-btn-primary text-base">
             Voir le planning
-            <ArrowRight className="w-5 h-5" />
+            <ArrowRight className="w-5 h-5" aria-hidden="true" />
           </Link>
         </div>
       </section>
@@ -103,15 +232,16 @@ function CourseCard({ course }: { course: CourseInfo }) {
   const image = courseImages[course.slug as CourseType];
 
   return (
-    <Link href={`/cours/${course.slug}`} className="group block">
+    <Link id={course.slug} href={`/cours/${course.slug}`} className="group block scroll-mt-32">
       <div className="mp-card flex flex-col h-full border border-mp-sand-dark/30 hover:border-mp-ocean/20">
         {/* Visual header */}
         {image ? (
           <div className="relative w-full aspect-[16/10] overflow-hidden rounded-t-2xl">
             <Image
               src={image}
-              alt={`Illustration du cours ${course.name}`}
+              alt={`Illustration du cours ${course.name} — séance en petit groupe au studio`}
               fill
+              loading="lazy"
               className="object-cover transition-transform duration-500 group-hover:scale-105"
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             />
@@ -123,7 +253,7 @@ function CourseCard({ course }: { course: CourseInfo }) {
             "bg-gradient-to-br",
             colors.bg
           )}>
-            <Icon className={clsx("w-16 h-16 opacity-40", colors.text)} />
+            <Icon className={clsx("w-16 h-16 opacity-40", colors.text)} aria-hidden="true" />
             <div className={clsx("absolute bottom-0 left-0 right-0 h-1", colors.dot)} />
           </div>
         )}
@@ -138,7 +268,7 @@ function CourseCard({ course }: { course: CourseInfo }) {
                 colors.text
               )}
             >
-              <Icon className="w-6 h-6" />
+              <Icon className="w-6 h-6" aria-hidden="true" />
             </div>
             <div>
               <h3 className="font-heading text-lg font-semibold text-mp-charcoal">
@@ -168,20 +298,26 @@ function CourseCard({ course }: { course: CourseInfo }) {
             </span>
           </div>
 
-          {/* Intensity dots */}
-          <div className="flex items-center gap-1.5">
-            <span className="text-xs font-heading text-mp-text-light mr-1">
-              Intensité
+          {/* Intensity dots + group size */}
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-1.5">
+              <span className="text-xs font-heading text-mp-text-light mr-1">
+                Intensité
+              </span>
+              {[1, 2, 3, 4, 5].map((dot) => (
+                <span
+                  key={dot}
+                  className={clsx(
+                    "w-2.5 h-2.5 rounded-full transition-colors",
+                    dot <= course.intensity ? colors.dot : "bg-mp-sand-dark/40"
+                  )}
+                />
+              ))}
+            </div>
+            <span className="flex items-center gap-1 text-xs text-mp-text-muted font-heading">
+              <Users className="w-3 h-3" aria-hidden="true" />
+              Petit groupe
             </span>
-            {[1, 2, 3, 4, 5].map((dot) => (
-              <span
-                key={dot}
-                className={clsx(
-                  "w-2.5 h-2.5 rounded-full transition-colors",
-                  dot <= course.intensity ? colors.dot : "bg-mp-sand-dark/40"
-                )}
-              />
-            ))}
           </div>
         </div>
       </div>

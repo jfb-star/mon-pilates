@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowLeft, ArrowRight, Calendar, Clock, Tag, Share2, Globe, MessageCircle } from "lucide-react";
+import { ArrowLeft, ArrowRight, Calendar, Clock, Tag, List } from "lucide-react";
+import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
+import { ShareButtons } from "@/components/ui/ShareButtons";
+import { prisma } from "@/lib/prisma";
 
 /* ----------------------------------------------------------
    BLOG POSTS DATA (with full article content)
@@ -294,6 +297,15 @@ export const posts = [
 /* ----------------------------------------------------------
    HELPERS
    ---------------------------------------------------------- */
+function slugify(text: string): string {
+  return text
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+}
+
 function formatDate(dateStr: string): string {
   return new Date(dateStr).toLocaleDateString("fr-FR", {
     day: "numeric",
@@ -314,6 +326,37 @@ function getRelatedPosts(currentSlug: string, category: string) {
 }
 
 /* ----------------------------------------------------------
+   DB FETCH HELPER
+   ---------------------------------------------------------- */
+async function getPostFromDb(slug: string) {
+  try {
+    const dbPost = await prisma.blogPost.findUnique({
+      where: { slug, published: true },
+      include: { author: { select: { name: true } } },
+    });
+    if (!dbPost) return null;
+    const tags = JSON.parse(dbPost.tags) as string[];
+    const content = JSON.parse(dbPost.content) as { type: string; text: string }[];
+    const wordCount = content
+      .filter((b) => b.type === "paragraph")
+      .reduce((acc, b) => acc + (b.text?.split(/\s+/).length || 0), 0);
+    return {
+      slug: dbPost.slug,
+      title: dbPost.title,
+      excerpt: dbPost.excerpt || "",
+      date: dbPost.publishedAt?.toISOString().split("T")[0] || "",
+      readTime: `${Math.max(1, Math.round(wordCount / 200))} min`,
+      category: tags[0] || "Conseils",
+      image: dbPost.coverImage || "/images/illustration-pilates-artistique.png",
+      featured: false,
+      content,
+    };
+  } catch {
+    return null;
+  }
+}
+
+/* ----------------------------------------------------------
    STATIC PARAMS
    ---------------------------------------------------------- */
 export function generateStaticParams() {
@@ -329,13 +372,23 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const post = posts.find((p) => p.slug === slug);
+  const post = (await getPostFromDb(slug)) || posts.find((p) => p.slug === slug);
   if (!post) {
     return { title: "Article introuvable" };
   }
   return {
     title: post.title,
     description: post.excerpt,
+    openGraph: {
+      title: `${post.title} | Mon Pilates`,
+      description: post.excerpt,
+      type: "article",
+      publishedTime: post.date,
+      images: post.image ? [{ url: post.image }] : undefined,
+    },
+    alternates: {
+      canonical: `https://mon-pilates.bzh/blog/${slug}`,
+    },
   };
 }
 
@@ -348,7 +401,7 @@ export default async function BlogArticlePage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const post = posts.find((p) => p.slug === slug);
+  const post = (await getPostFromDb(slug)) || posts.find((p) => p.slug === slug);
 
   if (!post) {
     return (
@@ -367,9 +420,54 @@ export default async function BlogArticlePage({
   }
 
   const related = getRelatedPosts(post.slug, post.category);
+  const headings = post.content
+    .filter((b) => b.type === "heading")
+    .map((b) => ({ text: b.text, id: slugify(b.text) }));
+
+  const wordCount = post.content
+    .filter((b) => b.type === "paragraph")
+    .reduce((acc, b) => acc + b.text.split(/\s+/).length, 0);
+
+  const readingTimeMinutes = Math.max(1, Math.round(wordCount / 200));
+
+  const articleJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    description: post.excerpt,
+    datePublished: post.date,
+    dateModified: post.date,
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `https://mon-pilates.bzh/blog/${post.slug}`,
+    },
+    author: {
+      "@type": "Person",
+      name: "Mon Pilates",
+      url: "https://mon-pilates.bzh",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "Mon Pilates",
+      logo: { "@type": "ImageObject", url: "https://mon-pilates.bzh/images/logo.png" },
+    },
+    image: post.image ? `https://mon-pilates.bzh${post.image}` : undefined,
+    articleSection: post.category,
+    wordCount,
+    inLanguage: "fr-FR",
+  };
 
   return (
     <div className="pt-20">
+      <BreadcrumbJsonLd items={[
+        { name: "Accueil", href: "/" },
+        { name: "Blog", href: "/blog" },
+        { name: post.title, href: `/blog/${post.slug}` },
+      ]} />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
+      />
       {/* Hero */}
       <section className="bg-gradient-to-br from-mp-sand via-mp-cream to-mp-ocean-light/10 py-16 sm:py-20">
         <div className="mp-container max-w-4xl mx-auto">
@@ -382,14 +480,18 @@ export default async function BlogArticlePage({
             Retour au blog
           </Link>
 
-          {/* Category badge + date */}
-          <div className="flex items-center gap-3 mb-4">
+          {/* Category badge + date + reading time */}
+          <div className="flex flex-wrap items-center gap-3 mb-4">
             <span className="px-3 py-1 rounded-full bg-mp-ocean/10 text-mp-ocean text-xs font-heading font-semibold">
               {post.category}
             </span>
-            <span className="flex items-center gap-1 text-sm text-mp-text-light">
+            <time dateTime={post.date} className="flex items-center gap-1 text-sm text-mp-text-light">
               <Calendar className="w-4 h-4" />
               {formatDate(post.date)}
+            </time>
+            <span className="flex items-center gap-1 text-sm text-mp-text-light">
+              <Clock className="w-4 h-4" />
+              {readingTimeMinutes} min de lecture
             </span>
           </div>
 
@@ -408,11 +510,12 @@ export default async function BlogArticlePage({
             <div className="relative w-full h-64 sm:h-80 lg:h-96 mt-8 rounded-2xl overflow-hidden">
               <Image
                 src={post.image}
-                alt={post.title}
+                alt={`Illustration de l'article : ${post.title}`}
                 fill
                 className="object-cover"
                 sizes="(max-width: 896px) 100vw, 896px"
                 priority
+                fetchPriority="high"
               />
             </div>
           )}
@@ -430,7 +533,8 @@ export default async function BlogArticlePage({
                   return (
                     <h2
                       key={i}
-                      className="font-heading text-2xl font-bold text-mp-charcoal mt-10 mb-4"
+                      id={slugify(block.text)}
+                      className="font-heading text-2xl font-bold text-mp-charcoal mt-10 mb-4 scroll-mt-28"
                     >
                       {block.text}
                     </h2>
@@ -450,6 +554,28 @@ export default async function BlogArticlePage({
             {/* Sidebar */}
             <aside className="lg:col-span-4">
               <div className="sticky top-28 space-y-6">
+                {/* Table of contents */}
+                {headings.length > 0 && (
+                  <nav className="bg-mp-cream rounded-2xl p-6" aria-label="Table des matières">
+                    <h3 className="font-heading text-sm font-bold text-mp-charcoal uppercase tracking-wider mb-4 flex items-center gap-2">
+                      <List className="w-4 h-4 text-mp-ocean" />
+                      Sommaire
+                    </h3>
+                    <ol className="space-y-2">
+                      {headings.map((h) => (
+                        <li key={h.id}>
+                          <a
+                            href={`#${h.id}`}
+                            className="font-body text-sm text-mp-text-light hover:text-mp-ocean transition-colors leading-snug block"
+                          >
+                            {h.text}
+                          </a>
+                        </li>
+                      ))}
+                    </ol>
+                  </nav>
+                )}
+
                 {/* Article info */}
                 <div className="bg-mp-cream rounded-2xl p-6">
                   <h3 className="font-heading text-sm font-bold text-mp-charcoal uppercase tracking-wider mb-4">
@@ -468,9 +594,9 @@ export default async function BlogArticlePage({
                     </div>
                     <div className="flex items-center gap-3 text-sm text-mp-text">
                       <Calendar className="w-4 h-4 text-mp-ocean shrink-0" />
-                      <span className="font-body">
+                      <time dateTime={post.date} className="font-body">
                         {formatDate(post.date)}
-                      </span>
+                      </time>
                     </div>
                   </div>
                 </div>
@@ -480,30 +606,53 @@ export default async function BlogArticlePage({
                   <h3 className="font-heading text-sm font-bold text-mp-charcoal uppercase tracking-wider mb-4">
                     Partager
                   </h3>
-                  <div className="flex gap-2">
+                  <ShareButtons title={post.title} slug={post.slug} />
+                </div>
+
+                {/* Newsletter CTA */}
+                <div className="bg-gradient-to-br from-mp-ocean to-mp-ocean-dark rounded-2xl p-6 text-white">
+                  <h3 className="font-heading text-sm font-bold uppercase tracking-wider mb-2">
+                    Newsletter
+                  </h3>
+                  <p className="text-white/80 text-sm font-body mb-4">
+                    Recevez nos conseils Pilates et offres exclusives.
+                  </p>
+                  <form action="/api/newsletter" method="POST" className="space-y-2">
+                    <input
+                      type="email"
+                      name="email"
+                      required
+                      placeholder="votre@email.com"
+                      className="w-full px-4 py-2.5 rounded-full bg-white/15 border border-white/20 text-sm text-white placeholder:text-white/50 font-body focus:outline-none focus:ring-2 focus:ring-white/40"
+                      aria-label="Votre adresse email"
+                    />
                     <button
-                      className="flex items-center justify-center w-10 h-10 rounded-full bg-mp-ocean/10 text-mp-ocean hover:bg-mp-ocean hover:text-white transition-colors"
-                      aria-label="Partager sur Facebook"
+                      type="submit"
+                      className="w-full px-4 py-2.5 rounded-full bg-white text-mp-ocean text-sm font-heading font-semibold hover:bg-mp-cream transition-colors"
                     >
-                      <Globe className="w-4 h-4" />
+                      S&apos;inscrire
                     </button>
-                    <button
-                      className="flex items-center justify-center w-10 h-10 rounded-full bg-mp-ocean/10 text-mp-ocean hover:bg-mp-ocean hover:text-white transition-colors"
-                      aria-label="Partager sur Twitter"
-                    >
-                      <MessageCircle className="w-4 h-4" />
-                    </button>
-                    <button
-                      className="flex items-center justify-center w-10 h-10 rounded-full bg-mp-ocean/10 text-mp-ocean hover:bg-mp-ocean hover:text-white transition-colors"
-                      aria-label="Copier le lien"
-                    >
-                      <Share2 className="w-4 h-4" />
-                    </button>
-                  </div>
+                  </form>
                 </div>
               </div>
             </aside>
           </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="py-12 bg-gradient-to-r from-mp-ocean to-mp-ocean-dark">
+        <div className="mp-container text-center">
+          <h2 className="font-heading text-2xl sm:text-3xl font-bold text-white mb-3">
+            Envie de passer à la pratique ?
+          </h2>
+          <p className="font-body text-white/80 mb-6 max-w-lg mx-auto">
+            Réservez votre cours d&apos;essai à 10€ et venez découvrir le Pilates face à l&apos;océan.
+          </p>
+          <Link href="/planning" className="mp-btn bg-white text-mp-ocean hover:bg-mp-cream font-semibold shadow-lg">
+            Réserver mon cours d&apos;essai
+            <ArrowRight className="w-4 h-4" />
+          </Link>
         </div>
       </section>
 
@@ -515,15 +664,16 @@ export default async function BlogArticlePage({
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {related.map((rp) => (
-              <Link key={rp.slug} href={`/blog/${rp.slug}`} className="block group">
+              <Link key={rp.slug} href={`/blog/${rp.slug}`} className="block group" aria-label={`Lire l'article : ${rp.title}`}>
                 <article className="mp-card h-full flex flex-col">
                   {/* Image */}
                   <div className="relative h-44 overflow-hidden rounded-t-2xl">
                     {rp.image ? (
                       <Image
                         src={rp.image}
-                        alt={rp.title}
+                        alt={`Illustration de l'article : ${rp.title}`}
                         fill
+                        loading="lazy"
                         className="object-cover"
                         sizes="(max-width: 768px) 100vw, 33vw"
                       />
@@ -537,9 +687,9 @@ export default async function BlogArticlePage({
                       <span className="px-2.5 py-0.5 rounded-full bg-mp-ocean/10 text-mp-ocean text-xs font-heading font-medium">
                         {rp.category}
                       </span>
-                      <span className="text-xs text-mp-text-light">
+                      <time dateTime={rp.date} className="text-xs text-mp-text-light">
                         {formatDate(rp.date)}
-                      </span>
+                      </time>
                     </div>
                     <h3 className="font-heading text-base font-semibold text-mp-charcoal mb-2 group-hover:text-mp-ocean transition-colors">
                       {rp.title}
