@@ -51,7 +51,7 @@ jobs:
           DATABASE_URL: ${{ secrets.NEON_DATABASE_URL_PROD }}
           DUMP_FILE: ${{ steps.names.outputs.dump }}
         run: |
-          docker run --rm -v "$PWD:/backup" -w /backup postgres:16-alpine \
+          docker run --rm -v "$PWD:/backup" -w /backup postgres:17-alpine \
             pg_dump \
               --format=custom \
               --compress=9 \
