@@ -89,8 +89,9 @@ export default function MentionsLegalesPage() {
               <h2 className="font-heading text-2xl font-bold text-mp-charcoal mb-4">
                 2. Responsable de publication
               </h2>
+              {/* TODO owner : renseigner le nom complet de la gérante (prénom + nom + éventuellement mention "gérante"). */}
               <p>
-                Le responsable de la publication du site est Marie Lefèvre, gérante de Mon Pilates.
+                Le responsable de la publication du site est Violette, fondatrice et gérante de Mon Pilates.
               </p>
               <p className="mt-2">
                 Contact :{" "}

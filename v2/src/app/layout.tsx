@@ -135,7 +135,8 @@ const jsonLd = {
       closes: "14:00",
     },
   ],
-  hasMap: "https://www.google.com/maps?cid=0",
+  hasMap:
+    "https://www.google.com/maps/search/?api=1&query=Mon+Pilates+Larmor-Plage",
   potentialAction: {
     "@type": "ReserveAction",
     target: `${SITE_URL}/planning`,
@@ -145,50 +146,26 @@ const jsonLd = {
     "https://www.instagram.com/monpilates.bzh",
     "https://www.facebook.com/MonPilatesBZH",
   ],
-  aggregateRating: {
-    "@type": "AggregateRating",
-    ratingValue: "4.9",
-    reviewCount: 47,
-    bestRating: "5",
+  founder: {
+    "@type": "Person",
+    name: "Violette",
+    jobTitle: "Instructrice certifiée Pilates",
+    hasCredential: {
+      "@type": "EducationalOccupationalCredential",
+      credentialCategory: "certification",
+      name: "FPMP — Fédération des Professionnels de la Méthode Pilates",
+    },
   },
-  review: [
-    {
-      "@type": "Review",
-      author: { "@type": "Person", name: "Isabelle M." },
-      datePublished: "2025-06-01",
-      reviewBody:
-        "Après 6 mois de cours, mon dos ne me fait plus souffrir. Marie est exceptionnelle, bienveillante et exigeante à la fois. Le studio est un vrai havre de paix.",
-      reviewRating: {
-        "@type": "Rating",
-        ratingValue: "5",
-        bestRating: "5",
-      },
-    },
-    {
-      "@type": "Review",
-      author: { "@type": "Person", name: "Claire D." },
-      datePublished: "2025-05-15",
-      reviewBody:
-        "Le studio est magnifique, lumineux, face à l'océan. L'ambiance est chaleureuse, on se sent chez soi. Le Reformer avec Sophie est devenu mon rendez-vous préféré de la semaine.",
-      reviewRating: {
-        "@type": "Rating",
-        ratingValue: "5",
-        bestRating: "5",
-      },
-    },
-    {
-      "@type": "Review",
-      author: { "@type": "Person", name: "Jean-Pierre L." },
-      datePublished: "2025-04-20",
-      reviewBody:
-        "À 68 ans, j'ai retrouvé une souplesse que je pensais perdue. Les cours seniors sont parfaitement adaptés, Marie connaît chacun de nous par son prénom. Je recommande les yeux fermés.",
-      reviewRating: {
-        "@type": "Rating",
-        ratingValue: "5",
-        bestRating: "5",
-      },
-    },
+  knowsAbout: [
+    "Pilates Mat",
+    "Pilates Reformer",
+    "Pilates Prénatal",
+    "Pilates Senior",
+    "Posture",
+    "Rééducation posturale",
   ],
+  slogan: "Le Pilates face à l'océan, à Larmor-Plage.",
+  availableLanguage: ["fr", "fr-FR"],
 }
 
 export default function RootLayout({

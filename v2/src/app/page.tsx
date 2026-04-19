@@ -11,7 +11,6 @@ import {
   ChevronRight,
   MapPin,
   Phone,
-  Quote,
   Baby,
   Leaf,
 } from "lucide-react";
@@ -94,15 +93,10 @@ function Hero() {
             </Link>
           </div>
 
-          {/* Social proof */}
-          <div className="flex items-center gap-5 mt-14 pt-8 border-t border-white/15 animate-[fadeUp_0.6s_ease_forwards] opacity-0 [animation-delay:0.8s]">
-            <div className="flex gap-0.5 text-mp-gold" role="img" aria-label="Note : 4.9 sur 5">
-              {[1, 2, 3, 4, 5].map((i) => (
-                <Star key={i} className="w-5 h-5 fill-current" aria-hidden="true" />
-              ))}
-            </div>
-            <p className="text-sm text-white/70 font-body">
-              <span className="text-white font-heading font-semibold">4.9/5</span> — Plus de 200 élèves satisfaits sur Google
+          {/* Trust signal — facts only, no fake ratings until real reviews exist */}
+          <div className="flex flex-wrap items-center gap-5 mt-14 pt-8 border-t border-white/15 animate-[fadeUp_0.6s_ease_forwards] opacity-0 [animation-delay:0.8s]">
+            <p className="text-sm text-white/75 font-body">
+              Studio à Larmor-Plage · Instructrice certifiée FPMP · Cours en petits groupes (5 max)
             </p>
           </div>
         </div>
@@ -510,102 +504,28 @@ function UpcomingSessions() {
 /* ============================================================
    TEMOIGNAGES
    ============================================================ */
-const testimonials = [
-  {
-    name: "Isabelle M.",
-    text: "Après 6 mois de cours, mon dos ne me fait plus souffrir. Marie est exceptionnelle, bienveillante et exigeante à la fois. Le studio est un vrai havre de paix.",
-    role: "Membre depuis 2025",
-    rating: 5,
-  },
-  {
-    name: "Claire D.",
-    text: "Le studio est magnifique, lumineux, face à l'océan. L'ambiance est chaleureuse, on se sent chez soi. Le Reformer avec Sophie est devenu mon rendez-vous préféré de la semaine.",
-    role: "Cours Reformer",
-    rating: 5,
-  },
-  {
-    name: "Jean-Pierre L.",
-    text: "À 68 ans, j'ai retrouvé une souplesse que je pensais perdue. Les cours seniors sont parfaitement adaptés, Marie connaît chacun de nous par son prénom. Je recommande les yeux fermés.",
-    role: "Cours Senior",
-    rating: 5,
-  },
-  {
-    name: "Camille B.",
-    text: "Enceinte de 7 mois, le cours prénatal avec Marie est mon moment de sérénité. Elle adapte tout à mon stade de grossesse et j'en ressors ressourcée. Mon bébé adore aussi visiblement !",
-    role: "Cours Prénatal",
-    rating: 5,
-  },
-  {
-    name: "Thomas R.",
-    text: "Sportif depuis toujours, le Pilates Intensif de Sophie m'a bluffé. On transpire, on se concentre, et les résultats sur ma posture sont visibles en quelques semaines.",
-    role: "Cours Intensif",
-    rating: 5,
-  },
-  {
-    name: "Anne-Sophie G.",
-    text: "J'ai essayé beaucoup de studios et rien ne se compare. La vue sur l'océan, les petits groupes, l'attention portée à chaque élève… On est aux antipodes des usines à cours.",
-    role: "Membre depuis 2024",
-    rating: 5,
-  },
-];
-
 function Testimonials() {
   return (
-    <section className="mp-section bg-mp-cream cv-auto relative overflow-hidden" aria-label="Témoignages">
+    <section className="mp-section bg-mp-cream cv-auto relative overflow-hidden" aria-label="Avis">
       <OrganicBlob className="bottom-[-80px] left-[-120px] opacity-50" color="mp-sage" size={400} />
       <div className="mp-container relative z-10">
-        <ScrollReveal className="text-center max-w-2xl mx-auto mb-16">
+        <ScrollReveal className="text-center max-w-2xl mx-auto">
           <p className="font-heading text-sm font-semibold text-mp-ocean uppercase tracking-[0.2em] mb-3">
-            Témoignages
+            Avis
           </p>
           <h2 className="font-heading text-3xl sm:text-4xl font-bold text-mp-charcoal mb-4">
-            Ce qu&apos;en disent nos élèves
+            Le studio vient d&apos;ouvrir ses portes
           </h2>
-          <div className="flex justify-center gap-0.5 text-mp-gold mt-3" role="img" aria-label="Note : 4.9 sur 5 sur Google">
-            {[1, 2, 3, 4, 5].map((i) => (
-              <Star key={i} className="w-5 h-5 fill-current" aria-hidden="true" />
-            ))}
-            <span className="ml-2 text-sm text-mp-text-light font-body">4.9/5 sur Google (47 avis)</span>
-          </div>
-        </ScrollReveal>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" role="list" aria-label="Avis de nos élèves">
-          {testimonials.map((t, i) => (
-            <ScrollReveal key={i} delay={((i % 3) + 1) as 1 | 2 | 3}>
-            <div className="relative bg-mp-white rounded-2xl p-8 shadow-[0_2px_20px_rgba(0,0,0,0.04)] h-full flex flex-col hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] hover:-translate-y-1 transition-all duration-300">
-              <div className="flex items-center justify-between mb-4">
-                <Quote className="w-8 h-8 text-mp-ocean/15" aria-hidden="true" />
-                <div className="flex gap-0.5 text-mp-gold" aria-hidden="true">
-                  {Array.from({ length: t.rating }, (_, j) => (
-                    <Star key={j} className="w-3.5 h-3.5 fill-current" />
-                  ))}
-                </div>
-              </div>
-              <blockquote className="font-body text-mp-text leading-[1.8] mb-6 flex-1">
-                {t.text}
-              </blockquote>
-              <footer className="flex items-center gap-3 pt-4 border-t border-mp-sand">
-                <div className="w-10 h-10 rounded-full bg-mp-ocean/10 flex items-center justify-center">
-                  <span className="font-heading text-sm font-bold text-mp-ocean">
-                    {t.name.split(" ").map(n => n[0]).join("")}
-                  </span>
-                </div>
-                <div>
-                  <cite className="font-heading text-sm font-semibold text-mp-charcoal not-italic block">{t.name}</cite>
-                  <p className="text-xs text-mp-text-light">{t.role}</p>
-                </div>
-              </footer>
-            </div>
-            </ScrollReveal>
-          ))}
-        </div>
-
-        <ScrollReveal className="text-center mt-10">
+          <p className="font-body text-mp-text leading-[1.8] mb-8">
+            Les premiers avis arrivent bientôt. Vous avez suivi un cours ?
+            Partagez votre expérience sur Google — chaque retour compte et
+            aide d&apos;autres élèves à franchir le pas.
+          </p>
           <a
             href="https://g.page/r/monpilates/review"
             target="_blank"
             rel="noopener noreferrer"
-            className="mp-btn mp-btn-secondary text-sm"
+            className="mp-btn mp-btn-primary text-sm"
           >
             <Star className="w-4 h-4" aria-hidden="true" />
             Laisser un avis sur Google
