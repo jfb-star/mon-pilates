@@ -1,0 +1,106 @@
+name: Neon DB backup
+
+on:
+  schedule:
+    # Every Monday at 03:00 UTC (= 04:00 Paris hiver / 05:00 été)
+    - cron: '0 3 * * 1'
+  workflow_dispatch:
+    inputs:
+      label:
+        description: 'Optional label (e.g. pre-migration-v2.1)'
+        required: false
+        default: 'manual'
+
+concurrency:
+  group: neon-backup
+  cancel-in-progress: false
+
+jobs:
+  backup:
+    name: pg_dump + GPG + artifact
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Validate secrets
+        env:
+          DATABASE_URL: ${{ secrets.NEON_DATABASE_URL_PROD }}
+          GPG_PASSPHRASE: ${{ secrets.BACKUP_GPG_PASSPHRASE }}
+        run: |
+          if [ -z "$DATABASE_URL" ]; then
+            echo "::error::NEON_DATABASE_URL_PROD secret is missing"
+            exit 1
+          fi
+          if [ -z "$GPG_PASSPHRASE" ]; then
+            echo "::error::BACKUP_GPG_PASSPHRASE secret is missing"
+            exit 1
+          fi
+
+      - name: Compute filenames
+        id: names
+        run: |
+          TIMESTAMP=$(date -u +%Y%m%d-%H%M%S)
+          LABEL="${{ github.event.inputs.label || 'weekly' }}"
+          BASE="neon-${LABEL}-${TIMESTAMP}"
+          echo "base=${BASE}" >> $GITHUB_OUTPUT
+          echo "dump=${BASE}.dump" >> $GITHUB_OUTPUT
+          echo "encrypted=${BASE}.dump.gpg" >> $GITHUB_OUTPUT
+
+      - name: Dump database (pg_dump custom format, compression 9)
+        env:
+          DATABASE_URL: ${{ secrets.NEON_DATABASE_URL_PROD }}
+          DUMP_FILE: ${{ steps.names.outputs.dump }}
+        run: |
+          docker run --rm -v "$PWD:/backup" -w /backup postgres:16-alpine \
+            pg_dump \
+              --format=custom \
+              --compress=9 \
+              --no-owner \
+              --no-privileges \
+              --file="/backup/${DUMP_FILE}" \
+              "${DATABASE_URL}"
+
+          SIZE_BYTES=$(stat -c%s "${DUMP_FILE}")
+          SIZE_HUMAN=$(du -h "${DUMP_FILE}" | cut -f1)
+          echo "### Backup created" >> $GITHUB_STEP_SUMMARY
+          echo "- File: \`${DUMP_FILE}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- Size: ${SIZE_HUMAN} (${SIZE_BYTES} bytes)" >> $GITHUB_STEP_SUMMARY
+
+          if [ "$SIZE_BYTES" -lt 1024 ]; then
+            echo "::error::Dump suspiciously small (<1KB). Aborting."
+            exit 1
+          fi
+
+      - name: Encrypt dump (AES-256 symmetric)
+        env:
+          GPG_PASSPHRASE: ${{ secrets.BACKUP_GPG_PASSPHRASE }}
+          DUMP_FILE: ${{ steps.names.outputs.dump }}
+        run: |
+          gpg --batch --yes \
+              --passphrase "$GPG_PASSPHRASE" \
+              --symmetric --cipher-algo AES256 \
+              --s2k-digest-algo SHA512 \
+              --s2k-count 65011712 \
+              "${DUMP_FILE}"
+          rm -f "${DUMP_FILE}"
+          ls -lh "${DUMP_FILE}.gpg"
+
+      - name: Upload artifact (retention 90d)
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.names.outputs.base }}
+          path: ${{ steps.names.outputs.encrypted }}
+          retention-days: 90
+          if-no-files-found: error
+          compression-level: 0  # Already compressed by pg_dump + gpg
+
+      - name: Summary
+        run: |
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Restore procedure" >> $GITHUB_STEP_SUMMARY
+          echo '```bash' >> $GITHUB_STEP_SUMMARY
+          echo "# 1. Download artifact from this run, then:" >> $GITHUB_STEP_SUMMARY
+          echo "gpg --decrypt ${{ steps.names.outputs.encrypted }} > restored.dump" >> $GITHUB_STEP_SUMMARY
+          echo "pg_restore --clean --if-exists --no-owner --no-privileges \\" >> $GITHUB_STEP_SUMMARY
+          echo "  --dbname=\"\$TARGET_DATABASE_URL\" restored.dump" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
