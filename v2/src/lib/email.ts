@@ -9,6 +9,7 @@ import {
   buildResetPasswordHtml,
   buildWelcomeHtml,
 } from "@/lib/email-templates"
+import { SITE_URL as DEFAULT_SITE_URL } from "@/lib/env"
 
 // Re-export so existing imports of these helpers from "@/lib/email" keep
 // working, and so the prisma seed can pull them through one stable entry.
@@ -32,7 +33,9 @@ const resend = process.env.RESEND_API_KEY
   : null
 
 const FROM = process.env.RESEND_FROM || "Mon Pilates <onboarding@resend.dev>"
-const SITE_URL = process.env.NEXTAUTH_URL || "https://mon-pilates.bzh"
+// Keep the NEXTAUTH_URL priority (matches auth redirect origin) but fall back
+// to the shared SITE_URL constant instead of the hardcoded apex.
+const SITE_URL = process.env.NEXTAUTH_URL || DEFAULT_SITE_URL
 
 // ---------------------------------------------------------------------------
 // Fallback: raw-Resend send using the hardcoded HTML, used only when no DB

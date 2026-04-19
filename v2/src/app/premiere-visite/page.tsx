@@ -18,6 +18,7 @@ import { StickyCta } from "@/components/ui/StickyCta"
 import { CourseQuiz } from "@/components/ui/CourseQuiz"
 import { ScrollReveal } from "@/components/ui/ScrollReveal"
 import { FirstTimerRedirect } from "@/components/ui/FirstTimerRedirect"
+import { SITE_URL } from "@/lib/env"
 
 export const metadata: Metadata = {
   title: "Première visite — Ce qu'il faut savoir",
@@ -37,7 +38,7 @@ export const metadata: Metadata = {
     ],
   },
   alternates: {
-    canonical: "https://mon-pilates.bzh/premiere-visite",
+    canonical: `${SITE_URL}/premiere-visite`,
   },
 }
 

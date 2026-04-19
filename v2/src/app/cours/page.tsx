@@ -17,6 +17,7 @@ import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { BodyMap } from "@/components/ui/BodyMap";
+import { SITE_URL } from "@/lib/env";
 
 const courseImages: Partial<Record<CourseType, string>> = {
   mat: "/images/illustration-cours-collectif.png",
@@ -41,7 +42,7 @@ export const metadata: Metadata = {
     ],
   },
   alternates: {
-    canonical: "https://mon-pilates.bzh/cours",
+    canonical: `${SITE_URL}/cours`,
   },
 };
 
@@ -63,7 +64,7 @@ const coursesItemListJsonLd = {
     "@type": "ListItem",
     position: i + 1,
     name: course.name,
-    url: `https://mon-pilates.bzh/cours/${course.slug}`,
+    url: `${SITE_URL}/cours/${course.slug}`,
   })),
 };
 
@@ -71,7 +72,7 @@ const sportsActivityLocationJsonLd = {
   "@context": "https://schema.org",
   "@type": "SportsActivityLocation",
   name: "Mon Pilates",
-  url: "https://mon-pilates.bzh",
+  url: SITE_URL,
   description:
     "Studio de Pilates à Larmor-Plage proposant 6 types de cours : Mat, Reformer, Prénatal, Senior, Doux et Intensif.",
   address: {
@@ -85,7 +86,7 @@ const sportsActivityLocationJsonLd = {
       "@type": "Course",
       name: course.name,
       description: course.shortDescription,
-      url: `https://mon-pilates.bzh/cours/${course.slug}`,
+      url: `${SITE_URL}/cours/${course.slug}`,
       provider: {
         "@type": "SportsActivityLocation",
         name: "Mon Pilates",

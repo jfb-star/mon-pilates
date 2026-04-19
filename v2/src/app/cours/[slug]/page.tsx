@@ -19,6 +19,7 @@ import { ChevronRight } from "lucide-react";
 import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { ReviewSection } from "@/components/ui/ReviewSection";
+import { SITE_URL } from "@/lib/env";
 import {
   courses,
   courseTypeColors,
@@ -97,7 +98,7 @@ export async function generateMetadata({
       description: course.shortDescription,
     },
     alternates: {
-      canonical: `https://mon-pilates.bzh/cours/${slug}`,
+      canonical: `${SITE_URL}/cours/${slug}`,
     },
   };
 }
@@ -142,7 +143,7 @@ export default async function CourseDetailPage({
     provider: {
       "@type": "Organization",
       name: "Mon Pilates",
-      url: "https://mon-pilates.bzh",
+      url: SITE_URL,
       sameAs: [
         "https://www.instagram.com/monpilates.bzh",
         "https://www.facebook.com/MonPilatesBZH",
@@ -180,7 +181,7 @@ export default async function CourseDetailPage({
       price: "10",
       priceCurrency: "EUR",
       availability: "https://schema.org/InStock",
-      url: `https://mon-pilates.bzh/cours/${course.slug}`,
+      url: `${SITE_URL}/cours/${course.slug}`,
       description: "Cours d'essai",
     },
   };

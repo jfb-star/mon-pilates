@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
+import { SITE_URL } from "@/lib/env";
 
-const BASE_URL = "https://mon-pilates.bzh";
+const BASE_URL = SITE_URL;
 
 const coursesSlugs = ["mat", "reformer", "prenatal", "senior", "doux", "intensif"];
 const blogSlugs = [

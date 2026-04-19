@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { SITE_URL } from "@/lib/env";
 
 export default function robots(): MetadataRoute.Robots {
   return {
@@ -7,6 +8,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: "/",
       disallow: ["/api/", "/admin/", "/compte/", "/connexion/", "/reservation/", "/reset-password/", "/bienvenue/"],
     },
-    sitemap: "https://mon-pilates.bzh/sitemap.xml",
+    sitemap: `${SITE_URL}/sitemap.xml`,
   };
 }

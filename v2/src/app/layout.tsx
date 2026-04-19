@@ -13,6 +13,7 @@ import { ScrollProgress } from "@/components/ui/ScrollProgress"
 import { GoogleAnalytics } from "@/components/seo/GoogleAnalytics"
 import { WebVitals } from "@/components/ui/WebVitals"
 import { ToastProvider } from "@/components/ui/Toast"
+import { SITE_URL } from "@/lib/env"
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -42,7 +43,7 @@ export const metadata: Metadata = {
   },
   description:
     "Studio de Pilates face à l'océan à Larmor-Plage (Lorient). Cours Mat, Reformer, Prénatal & Senior en petits groupes (10 max). Cours d'essai à 10\u20ac. Réservez en ligne.",
-  metadataBase: new URL("https://mon-pilates.bzh"),
+  metadataBase: new URL(SITE_URL),
   icons: {
     icon: [
       { url: "/favicon.svg", type: "image/svg+xml" },
@@ -58,7 +59,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: "fr_FR",
     siteName: "Mon Pilates",
-    url: "https://mon-pilates.bzh",
+    url: SITE_URL,
     images: [
       {
         url: "/images/studio-reformer-ocean.jpg",
@@ -85,7 +86,7 @@ export const metadata: Metadata = {
     follow: true,
   },
   alternates: {
-    canonical: "https://mon-pilates.bzh",
+    canonical: SITE_URL,
   },
 }
 
@@ -95,10 +96,10 @@ const jsonLd = {
   name: "Mon Pilates",
   description:
     "Studio de Pilates \u00e0 Larmor-Plage, Bretagne. Cours Mat, Reformer, Pr\u00e9natal et Senior face \u00e0 l'oc\u00e9an.",
-  url: "https://mon-pilates.bzh",
+  url: SITE_URL,
   telephone: "+33699183216",
   email: "contact@mon-pilates.bzh",
-  image: "https://mon-pilates.bzh/images/studio-reformer-ocean.jpg",
+  image: `${SITE_URL}/images/studio-reformer-ocean.jpg`,
   priceRange: "\u20ac\u20ac",
   currenciesAccepted: "EUR",
   paymentAccepted: "Cash, Credit Card",
@@ -137,7 +138,7 @@ const jsonLd = {
   hasMap: "https://www.google.com/maps?cid=0",
   potentialAction: {
     "@type": "ReserveAction",
-    target: "https://mon-pilates.bzh/planning",
+    target: `${SITE_URL}/planning`,
     name: "Réserver un cours de Pilates",
   },
   sameAs: [
@@ -234,14 +235,14 @@ export default function RootLayout({
             "@context": "https://schema.org",
             "@type": "WebSite",
             name: "Mon Pilates",
-            url: "https://mon-pilates.bzh",
+            url: SITE_URL,
             inLanguage: "fr-FR",
             description: "Studio de Pilates face à l'océan à Larmor-Plage. Cours Mat, Reformer, Prénatal et Senior.",
             publisher: {
               "@type": "Organization",
               name: "Mon Pilates",
-              url: "https://mon-pilates.bzh",
-              logo: { "@type": "ImageObject", url: "https://mon-pilates.bzh/images/logo.png" },
+              url: SITE_URL,
+              logo: { "@type": "ImageObject", url: `${SITE_URL}/images/logo.png` },
             },
           }) }}
         />

@@ -5,6 +5,7 @@ import { GiftCardForm } from "@/components/ui/GiftCardForm";
 import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
+import { SITE_URL } from "@/lib/env";
 
 export const metadata: Metadata = {
   title: "Carte Cadeau",
@@ -17,7 +18,7 @@ export const metadata: Metadata = {
     images: [{ url: "/images/illustration-carte-cadeau.png", width: 480, height: 480, alt: "Carte cadeau Mon Pilates" }],
   },
   alternates: {
-    canonical: "https://mon-pilates.bzh/carte-cadeau",
+    canonical: `${SITE_URL}/carte-cadeau`,
   },
 };
 
@@ -51,9 +52,9 @@ const giftCardJsonLd = {
     highPrice: "500",
     priceCurrency: "EUR",
     availability: "https://schema.org/InStock",
-    url: "https://mon-pilates.bzh/carte-cadeau",
+    url: `${SITE_URL}/carte-cadeau`,
   },
-  image: "https://mon-pilates.bzh/images/illustration-carte-cadeau.png",
+  image: `${SITE_URL}/images/illustration-carte-cadeau.png`,
 };
 
 export default function CartesCadeauPage() {

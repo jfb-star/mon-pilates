@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { Share2, Check, Link2 } from "lucide-react"
+import { SITE_URL } from "@/lib/env"
 
 function FacebookIcon({ className }: { className?: string }) {
   return (
@@ -26,7 +27,7 @@ interface ShareButtonsProps {
 
 export function ShareButtons({ title, slug }: ShareButtonsProps) {
   const [copied, setCopied] = useState(false)
-  const url = `https://mon-pilates.bzh/blog/${slug}`
+  const url = `${SITE_URL}/blog/${slug}`
   const encodedUrl = encodeURIComponent(url)
   const encodedTitle = encodeURIComponent(title)
 

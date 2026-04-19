@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
 import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
+import { SITE_URL } from "@/lib/env";
 
 export const metadata: Metadata = {
   title: "Politique de cookies — Mon Pilates Larmor-Plage",
   description:
     "Politique de cookies du site mon-pilates.bzh. Types de cookies utilisés, finalités et gestion de vos préférences de navigation.",
   alternates: {
-    canonical: "https://mon-pilates.bzh/politique-cookies",
+    canonical: `${SITE_URL}/politique-cookies`,
   },
   robots: { index: true, follow: true },
 };

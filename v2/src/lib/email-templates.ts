@@ -6,8 +6,11 @@
 // re-exports the same builders for app code.
 // ---------------------------------------------------------------------------
 
-export const EMAIL_SITE_URL =
-  process.env.NEXTAUTH_URL || "https://mon-pilates.bzh"
+import { SITE_URL } from "@/lib/env"
+
+// Keep the NEXTAUTH_URL priority so email links match the auth redirect
+// origin, but fall back to the shared SITE_URL constant instead of the apex.
+export const EMAIL_SITE_URL = process.env.NEXTAUTH_URL || SITE_URL
 
 export function layout(title: string, body: string): string {
   return `<!DOCTYPE html>

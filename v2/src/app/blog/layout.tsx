@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
+import { SITE_URL } from "@/lib/env";
 
 export const metadata: Metadata = {
   title: "Blog — Conseils & Actualités Pilates",
@@ -19,7 +20,7 @@ export const metadata: Metadata = {
     ],
   },
   alternates: {
-    canonical: "https://mon-pilates.bzh/blog",
+    canonical: `${SITE_URL}/blog`,
   },
 };
 

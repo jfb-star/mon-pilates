@@ -8,6 +8,7 @@ import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { FaqAccordion } from "@/components/ui/FaqAccordion";
+import { SITE_URL } from "@/lib/env";
 
 const instructorPhotos: Record<string, string> = {
   marie: "/images/cours-reformer-instructrice.jpg",
@@ -44,7 +45,7 @@ export const metadata: Metadata = {
     images: [{ url: "/images/cours-reformer-instructrice.jpg", width: 1200, height: 630, alt: "Marie, instructrice Pilates au studio Mon Pilates" }],
   },
   alternates: {
-    canonical: "https://mon-pilates.bzh/equipe",
+    canonical: `${SITE_URL}/equipe`,
   },
 };
 
@@ -115,12 +116,12 @@ const personsJsonLd = instructors.map((instructor) => ({
   jobTitle: instructor.role,
   description: instructor.bio,
   ...(instructorPhotos[instructor.id] && {
-    image: `https://mon-pilates.bzh${instructorPhotos[instructor.id]}`,
+    image: `${SITE_URL}${instructorPhotos[instructor.id]}`,
   }),
   worksFor: {
     "@type": "SportsActivityLocation",
     name: "Mon Pilates",
-    url: "https://mon-pilates.bzh",
+    url: SITE_URL,
   },
 }));
 

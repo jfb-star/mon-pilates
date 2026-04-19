@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { SITE_URL } from "@/lib/env";
 
 export const metadata: Metadata = {
   title: "Planning des cours — Réservation en ligne",
@@ -18,7 +19,7 @@ export const metadata: Metadata = {
     ],
   },
   alternates: {
-    canonical: "https://mon-pilates.bzh/planning",
+    canonical: `${SITE_URL}/planning`,
   },
 };
 

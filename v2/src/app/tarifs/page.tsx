@@ -8,6 +8,7 @@ import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { PricingGrid } from "./PricingGrid";
 import { ProfileRecommendations } from "./ProfileRecommendations";
+import { SITE_URL } from "@/lib/env";
 
 export const metadata: Metadata = {
   title: "Tarifs",
@@ -27,7 +28,7 @@ export const metadata: Metadata = {
     ],
   },
   alternates: {
-    canonical: "https://mon-pilates.bzh/tarifs",
+    canonical: `${SITE_URL}/tarifs`,
   },
 };
 
@@ -232,7 +233,7 @@ const offersJsonLd = {
     price: plan.price,
     priceCurrency: "EUR",
     availability: "https://schema.org/InStock",
-    url: "https://mon-pilates.bzh/tarifs",
+    url: `${SITE_URL}/tarifs`,
   })),
 };
 

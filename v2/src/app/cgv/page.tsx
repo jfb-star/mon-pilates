@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
 import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
+import { SITE_URL } from "@/lib/env";
 
 export const metadata: Metadata = {
   title: "Conditions générales de vente — Mon Pilates Larmor-Plage",
   description:
     "Conditions générales de vente du studio Mon Pilates à Larmor-Plage. Réservations, tarifs, annulations, abonnements et cartes cadeaux.",
   alternates: {
-    canonical: "https://mon-pilates.bzh/cgv",
+    canonical: `${SITE_URL}/cgv`,
   },
   robots: { index: true, follow: true },
 };

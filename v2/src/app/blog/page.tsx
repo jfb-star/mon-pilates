@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, Clock, Tag } from "lucide-react";
 import { NewsletterForm } from "@/components/ui/NewsletterForm";
+import { SITE_URL } from "@/lib/env";
 
 interface BlogPost {
   slug: string;
@@ -251,7 +252,7 @@ export default function BlogPage() {
     itemListElement: posts.map((post, i) => ({
       "@type": "ListItem",
       position: i + 1,
-      url: `https://mon-pilates.bzh/blog/${post.slug}`,
+      url: `${SITE_URL}/blog/${post.slug}`,
       name: post.title,
     })),
   };

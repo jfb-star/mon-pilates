@@ -5,6 +5,7 @@ import { ArrowLeft, ArrowRight, Calendar, Clock, Tag, List } from "lucide-react"
 import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
 import { ShareButtons } from "@/components/ui/ShareButtons";
 import { prisma } from "@/lib/prisma";
+import { SITE_URL } from "@/lib/env";
 
 /* ----------------------------------------------------------
    BLOG POSTS DATA (with full article content)
@@ -387,7 +388,7 @@ export async function generateMetadata({
       images: post.image ? [{ url: post.image }] : undefined,
     },
     alternates: {
-      canonical: `https://mon-pilates.bzh/blog/${slug}`,
+      canonical: `${SITE_URL}/blog/${slug}`,
     },
   };
 }
@@ -439,19 +440,19 @@ export default async function BlogArticlePage({
     dateModified: post.date,
     mainEntityOfPage: {
       "@type": "WebPage",
-      "@id": `https://mon-pilates.bzh/blog/${post.slug}`,
+      "@id": `${SITE_URL}/blog/${post.slug}`,
     },
     author: {
       "@type": "Person",
       name: "Mon Pilates",
-      url: "https://mon-pilates.bzh",
+      url: SITE_URL,
     },
     publisher: {
       "@type": "Organization",
       name: "Mon Pilates",
-      logo: { "@type": "ImageObject", url: "https://mon-pilates.bzh/images/logo.png" },
+      logo: { "@type": "ImageObject", url: `${SITE_URL}/images/logo.png` },
     },
-    image: post.image ? `https://mon-pilates.bzh${post.image}` : undefined,
+    image: post.image ? `${SITE_URL}${post.image}` : undefined,
     articleSection: post.category,
     wordCount,
     inLanguage: "fr-FR",

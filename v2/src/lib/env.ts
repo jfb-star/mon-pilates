@@ -15,6 +15,15 @@ function optionalEnv(name: string): string | undefined {
   return process.env[name] || undefined
 }
 
+/**
+ * Canonical site URL — drives metadataBase, sitemap, robots, OG tags, email
+ * links, and structured-data. Reads NEXT_PUBLIC_SITE_URL (inlined at build).
+ * Falls back to the current prod URL to avoid a hard failure if unset.
+ */
+export const SITE_URL: string = (
+  process.env.NEXT_PUBLIC_SITE_URL || "https://v2.mon-pilates.bzh"
+).replace(/\/$/, "")
+
 export const env = {
   // Database
   DATABASE_URL: requireEnv("DATABASE_URL"),

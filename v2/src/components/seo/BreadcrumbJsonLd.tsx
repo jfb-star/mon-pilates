@@ -1,3 +1,5 @@
+import { SITE_URL } from "@/lib/env"
+
 interface BreadcrumbItem {
   name: string
   href: string
@@ -11,7 +13,7 @@ export function BreadcrumbJsonLd({ items }: { items: BreadcrumbItem[] }) {
       "@type": "ListItem",
       position: index + 1,
       name: item.name,
-      item: `https://mon-pilates.bzh${item.href}`,
+      item: `${SITE_URL}${item.href}`,
     })),
   }
 

@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
 import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
+import { SITE_URL } from "@/lib/env";
 
 export const metadata: Metadata = {
   title: "Politique de confidentialité — Mon Pilates Larmor-Plage",
   description:
     "Politique de confidentialité et protection des données personnelles du site mon-pilates.bzh. Traitement RGPD, droits des utilisateurs et cookies.",
   alternates: {
-    canonical: "https://mon-pilates.bzh/politique-confidentialite",
+    canonical: `${SITE_URL}/politique-confidentialite`,
   },
   robots: { index: true, follow: true },
 };

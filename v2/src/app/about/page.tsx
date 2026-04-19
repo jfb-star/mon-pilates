@@ -12,6 +12,7 @@ import {
 } from "lucide-react"
 import { Breadcrumb } from "@/components/ui/Breadcrumb"
 import { ScrollReveal } from "@/components/ui/ScrollReveal"
+import { SITE_URL } from "@/lib/env"
 
 export const metadata: Metadata = {
   title: "Notre studio — Histoire et valeurs",
@@ -31,7 +32,7 @@ export const metadata: Metadata = {
     ],
   },
   alternates: {
-    canonical: "https://mon-pilates.bzh/about",
+    canonical: `${SITE_URL}/about`,
   },
 }
 

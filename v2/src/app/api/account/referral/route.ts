@@ -2,6 +2,7 @@ import { NextResponse } from "next/server"
 import { randomInt } from "crypto"
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
+import { SITE_URL } from "@/lib/env"
 
 /** Generate a referral code: MP-XXX-YYYY */
 function generateReferralCode(name: string): string {
@@ -76,8 +77,7 @@ export async function GET() {
     },
   })
 
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://mon-pilates.bzh"
-  const referralLink = `${baseUrl}/connexion?ref=${code}`
+  const referralLink = `${SITE_URL}/connexion?ref=${code}`
 
   return NextResponse.json({
     code,
@@ -119,8 +119,7 @@ export async function POST() {
     data: { referralCode: code },
   })
 
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://mon-pilates.bzh"
-  const referralLink = `${baseUrl}/connexion?ref=${code}`
+  const referralLink = `${SITE_URL}/connexion?ref=${code}`
 
   return NextResponse.json({
     code,

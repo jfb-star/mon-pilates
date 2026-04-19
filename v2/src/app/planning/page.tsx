@@ -30,6 +30,7 @@ import {
   dayNames,
 } from "@/lib/mock-data"
 import { SmartRecommendations } from "@/components/ui/SmartRecommendations"
+import { SITE_URL } from "@/lib/env"
 
 const courseTypes = ["mat", "reformer", "prenatal", "senior", "doux"] as const
 const instructorNames = ["Marie Lefèvre", "Sophie Martin"]
@@ -176,7 +177,7 @@ function buildPlanningJsonLd(weeklySessions: SessionData[]) {
   const organizerJsonLd = {
     "@type": "Organization",
     name: "Mon Pilates",
-    url: "https://mon-pilates.bzh",
+    url: SITE_URL,
   }
 
   const events = weeklySessions.map((session) => ({
@@ -204,7 +205,7 @@ function buildPlanningJsonLd(weeklySessions: SessionData[]) {
       "@type": "Offer",
       price: "18",
       priceCurrency: "EUR",
-      url: "https://mon-pilates.bzh/planning",
+      url: `${SITE_URL}/planning`,
       availability:
         session.spotsRemaining > 0
           ? "https://schema.org/InStock"

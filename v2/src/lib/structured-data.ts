@@ -1,4 +1,6 @@
-const BASE_URL = "https://mon-pilates.bzh";
+import { SITE_URL } from "@/lib/env";
+
+const BASE_URL = SITE_URL;
 
 export function getFAQSchema(items: { question: string; answer: string }[]) {
   return {

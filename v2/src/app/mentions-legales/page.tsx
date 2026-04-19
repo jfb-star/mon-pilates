@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
 import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
+import { SITE_URL } from "@/lib/env";
 
 export const metadata: Metadata = {
   title: "Mentions légales — Mon Pilates Larmor-Plage",
   description:
     "Mentions légales du site mon-pilates.bzh. Informations sur l'éditeur, l'hébergeur et les conditions d'utilisation du studio de Pilates à Larmor-Plage.",
   alternates: {
-    canonical: "https://mon-pilates.bzh/mentions-legales",
+    canonical: `${SITE_URL}/mentions-legales`,
   },
   robots: { index: true, follow: true },
 };

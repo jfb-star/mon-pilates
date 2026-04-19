@@ -5,6 +5,7 @@ import { ContactForm } from "@/components/ui/ContactForm";
 import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { OpenStatus } from "@/components/ui/OpenStatus";
+import { SITE_URL } from "@/lib/env";
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -24,7 +25,7 @@ export const metadata: Metadata = {
     ],
   },
   alternates: {
-    canonical: "https://mon-pilates.bzh/contact",
+    canonical: `${SITE_URL}/contact`,
   },
 };
 
@@ -50,11 +51,11 @@ const contactPageJsonLd = {
   name: "Contact — Mon Pilates",
   description:
     "Contactez le studio Mon Pilates à Larmor-Plage. Formulaire de contact, téléphone, email et plan d'accès.",
-  url: "https://mon-pilates.bzh/contact",
+  url: `${SITE_URL}/contact`,
   mainEntity: {
     "@type": "SportsActivityLocation",
     name: "Mon Pilates",
-    url: "https://mon-pilates.bzh",
+    url: SITE_URL,
     telephone: "+33699183216",
     email: "contact@mon-pilates.bzh",
     address: {

@@ -1,4 +1,5 @@
 import { clsx, type ClassValue } from "clsx";
+import { SITE_URL } from "./env";
 
 /**
  * Merge class names (simplified without tailwind-merge).
@@ -16,10 +17,13 @@ export function sanitizeString(value: string, maxLength: number): string {
 
 /**
  * Allowed origins for CSRF-like origin checking on sensitive routes.
+ * Includes the apex and www aliases (kept hardcoded so legacy requests still
+ * pass even if SITE_URL points at the v2 subdomain) plus the current SITE_URL.
  */
 const ALLOWED_ORIGINS = [
   "https://mon-pilates.bzh",
   "https://www.mon-pilates.bzh",
+  SITE_URL,
 ];
 
 /**
