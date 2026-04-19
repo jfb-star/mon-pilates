@@ -25,12 +25,30 @@ const NewsletterSchema = z.object({
 const RATE_OPTS = { maxRequests: 5, windowMs: 15 * 60_000 }
 
 export async function POST(request: NextRequest): Promise<Response> {
+  const contentType = request.headers.get("content-type") ?? ""
+  const wantsHtml = !contentType.includes("application/json")
+
+  const respond = (
+    payload: { success: true } | { error: string },
+    init: { status: number } = { status: 200 }
+  ): Response => {
+    if (wantsHtml) {
+      const origin = new URL(request.url).origin
+      const target =
+        "success" in payload
+          ? `${origin}/?newsletter=success`
+          : `${origin}/?newsletter=error&reason=${encodeURIComponent(payload.error)}`
+      return NextResponse.redirect(target, { status: 303 })
+    }
+    return NextResponse.json(payload, init)
+  }
+
   const ip =
     request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown"
 
   const ipLimit = rateLimit(`newsletter:ip:${ip}`, RATE_OPTS)
   if (!ipLimit.allowed) {
-    return NextResponse.json(
+    return respond(
       { error: "Veuillez patienter avant de réessayer." },
       { status: 429 }
     )
@@ -38,10 +56,17 @@ export async function POST(request: NextRequest): Promise<Response> {
 
   let parsed: z.infer<typeof NewsletterSchema>
   try {
-    const body = (await request.json()) as unknown
-    parsed = NewsletterSchema.parse(body)
+    let raw: unknown
+    if (contentType.includes("application/json")) {
+      raw = await request.json()
+    } else {
+      // HTML <form> default: application/x-www-form-urlencoded (also multipart).
+      const form = await request.formData()
+      raw = Object.fromEntries(form.entries())
+    }
+    parsed = NewsletterSchema.parse(raw)
   } catch {
-    return NextResponse.json({ error: "Email invalide." }, { status: 400 })
+    return respond({ error: "Email invalide." }, { status: 400 })
   }
 
   const email = parsed.email.toLowerCase()
@@ -49,7 +74,7 @@ export async function POST(request: NextRequest): Promise<Response> {
   // Per-email rate limit — defence against a spammer rotating IPs.
   const emailLimit = rateLimit(`newsletter:email:${email}`, RATE_OPTS)
   if (!emailLimit.allowed) {
-    return NextResponse.json(
+    return respond(
       { error: "Veuillez patienter avant de réessayer." },
       { status: 429 }
     )
@@ -107,17 +132,11 @@ export async function POST(request: NextRequest): Promise<Response> {
       )
     }
 
-    return NextResponse.json({
-      success: true,
-      message: "Inscription confirmée !",
-    })
+    return respond({ success: true })
   } catch (err) {
     console.error("[newsletter] signup failed:", err)
     // Generic 200-ish response is fine but we should signal an internal
     // problem distinctly from "already subscribed".  Use 500 here.
-    return NextResponse.json(
-      { error: "Une erreur est survenue." },
-      { status: 500 }
-    )
+    return respond({ error: "Une erreur est survenue." }, { status: 500 })
   }
 }
