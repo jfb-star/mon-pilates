@@ -1,7 +1,15 @@
 import { NextResponse } from "next/server"
 import type { NextRequest } from "next/server"
+import { z } from "zod"
 import { requireAdmin } from "@/lib/admin"
 import { prisma } from "@/lib/prisma"
+
+// Validate pagination params if provided. This route currently lists one week at a time,
+// so limit/offset are optional — but we still reject malformed values.
+const paginationSchema = z.object({
+  limit: z.coerce.number().int().min(1).max(100).optional(),
+  offset: z.coerce.number().int().min(0).optional(),
+})
 
 // GET: List sessions with filters
 export async function GET(request: NextRequest) {
@@ -11,6 +19,16 @@ export async function GET(request: NextRequest) {
   }
 
   const { searchParams } = new URL(request.url)
+  const parsed = paginationSchema.safeParse({
+    limit: searchParams.get("limit") ?? undefined,
+    offset: searchParams.get("offset") ?? undefined,
+  })
+  if (!parsed.success) {
+    return NextResponse.json(
+      { error: "Paramètres de pagination invalides." },
+      { status: 400 }
+    )
+  }
   const weekStart = searchParams.get("weekStart")
   const courseType = searchParams.get("courseType")
   const instructor = searchParams.get("instructor")

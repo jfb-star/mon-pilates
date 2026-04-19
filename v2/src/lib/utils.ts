@@ -77,10 +77,10 @@ export function formatTime(time: string): string {
  * Generate a unique gift card code (e.g. "GIFT-A1B2-C3D4-E5F6").
  */
 export function generateGiftCardCode(): string {
+  // Lazy require to keep this module usable on edge runtimes that import other helpers.
+  const { randomInt } = require("crypto") as typeof import("crypto");
   const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"; // no ambiguous chars (0/O, 1/I)
   const segment = () =>
-    Array.from({ length: 4 }, () =>
-      chars.charAt(Math.floor(Math.random() * chars.length))
-    ).join("");
+    Array.from({ length: 4 }, () => chars.charAt(randomInt(chars.length))).join("");
   return `GIFT-${segment()}-${segment()}-${segment()}`;
 }

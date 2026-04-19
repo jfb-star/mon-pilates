@@ -16,6 +16,7 @@ const baseNavigation = [
   { name: "Nos cours", href: "/cours" },
   { name: "Planning", href: "/planning" },
   { name: "Tarifs", href: "/tarifs" },
+  { name: "Notre studio", href: "/about" },
   { name: "L'\u00e9quipe", href: "/equipe" },
   { name: "Blog", href: "/blog" },
   { name: "Contact", href: "/contact" },

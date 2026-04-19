@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
+import { randomInt } from "crypto"
 import { stripe } from "@/lib/stripe"
 import { prisma } from "@/lib/prisma"
 import Stripe from "stripe"
@@ -314,7 +315,7 @@ function generateGiftCardCode(): string {
   const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"
   let code = "MP-"
   for (let i = 0; i < 8; i++) {
-    code += chars[Math.floor(Math.random() * chars.length)]
+    code += chars[randomInt(chars.length)]
     if (i === 3) code += "-"
   }
   return code

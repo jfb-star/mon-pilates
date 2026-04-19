@@ -16,7 +16,9 @@ import {
   Check,
   CalendarPlus,
   Repeat,
+  CalendarX,
 } from "lucide-react"
+import { BookingStepper } from "@/components/BookingStepper"
 import { clsx } from "clsx"
 import { useFocusTrap } from "@/hooks/useFocusTrap"
 import { useIsFirstTimer } from "@/hooks/useIsFirstTimer"
@@ -675,15 +677,45 @@ export default function PlanningPage() {
           )}
 
           {/* Results count when filtering */}
-          {hasFilters && (
+          {hasFilters && filteredSessions.length > 0 && (
             <p className="text-sm font-body text-mp-text-light mb-4" aria-live="polite" role="status">
               {filteredSessions.length} séance{filteredSessions.length > 1 ? "s" : ""} trouvée{filteredSessions.length > 1 ? "s" : ""}
-              {filteredSessions.length === 0 && (
-                <button onClick={clearFilters} className="ml-2 text-mp-ocean hover:underline font-heading font-semibold">
+            </p>
+          )}
+
+          {/* Friendly global empty state when filters return nothing */}
+          {hasFilters && filteredSessions.length === 0 && !sessionsLoading && (
+            <div
+              className="mp-card p-10 sm:p-12 text-center border border-mp-sand-dark/20 mb-6"
+              role="status"
+              aria-live="polite"
+            >
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-mp-ocean/10 mb-5">
+                <CalendarX className="w-8 h-8 text-mp-ocean" aria-hidden="true" />
+              </div>
+              <h2 className="font-heading text-xl sm:text-2xl font-bold text-mp-charcoal mb-2">
+                Aucune séance ne correspond
+              </h2>
+              <p className="font-body text-sm text-mp-text-light leading-relaxed max-w-md mx-auto mb-6">
+                Essayez d&apos;effacer vos filtres ou de consulter la semaine suivante —
+                de nouveaux cours sont ajoutés régulièrement.
+              </p>
+              <div className="flex flex-wrap items-center justify-center gap-3">
+                <button
+                  onClick={clearFilters}
+                  className="mp-btn mp-btn-primary text-sm"
+                >
                   Effacer les filtres
                 </button>
-              )}
-            </p>
+                <button
+                  onClick={() => setWeekOffset((w) => w + 1)}
+                  className="mp-btn mp-btn-secondary text-sm"
+                >
+                  Semaine suivante
+                  <ChevronRight className="w-4 h-4" aria-hidden="true" />
+                </button>
+              </div>
+            </div>
           )}
 
           {/* Mobile day selector */}
@@ -953,6 +985,11 @@ export default function PlanningPage() {
             >
               <X className="w-5 h-5 text-mp-charcoal" aria-hidden="true" />
             </button>
+
+            {/* Booking journey step indicator */}
+            <div className="mb-6 pr-8">
+              <BookingStepper currentStep={bookingSuccess ? 4 : 2} />
+            </div>
 
             {/* Session summary header */}
             <div className="flex items-start gap-3 mb-4">

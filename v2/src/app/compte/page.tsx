@@ -1081,16 +1081,19 @@ function UpcomingBookingsSection({
 
       {remaining.length === 0 && bookings.length <= 1 ? (
         <div className="text-center py-10 mp-card !rounded-2xl hover:!transform-none">
-          <Calendar
-            className="w-12 h-12 text-mp-text-light/20 mx-auto mb-3"
-            aria-hidden="true"
-          />
-          <p className="font-body text-sm text-mp-text-light mb-4">
+          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-mp-ocean/10 mb-4">
+            <Calendar className="w-7 h-7 text-mp-ocean" aria-hidden="true" />
+          </div>
+          <h3 className="font-heading text-base font-semibold text-mp-charcoal mb-1">
             {bookings.length === 1
-              ? "Aucune autre r\u00e9servation \u00e0 venir"
-              : "Pas de cours pr\u00e9vu"}
+              ? "Aucune autre s\u00e9ance r\u00e9serv\u00e9e"
+              : "Aucune s\u00e9ance r\u00e9serv\u00e9e"}
+          </h3>
+          <p className="font-body text-sm text-mp-text-light mb-5 max-w-xs mx-auto">
+            Trouvez un cr\u00e9neau qui vous convient et r\u00e9servez votre prochain cours.
           </p>
           <Link href="/planning" className="mp-btn mp-btn-primary text-sm">
+            <Calendar className="w-3.5 h-3.5" aria-hidden="true" />
             R&eacute;server un cours
           </Link>
         </div>
@@ -1347,7 +1350,23 @@ function PastClassesSection({
   const [open, setOpen] = useState(false);
   const attendedCount = bookings.filter((b) => b.status === "ATTENDED").length;
 
-  if (bookings.length === 0) return null;
+  if (bookings.length === 0) {
+    return (
+      <div className="mp-card !rounded-2xl p-5 hover:!transform-none">
+        <div className="flex items-center gap-3">
+          <Clock className="w-5 h-5 text-mp-text-light/60 flex-shrink-0" aria-hidden="true" />
+          <div>
+            <p className="font-heading font-semibold text-mp-charcoal text-sm">
+              Historique
+            </p>
+            <p className="text-xs text-mp-text-light mt-0.5">
+              Aucun historique pour le moment.
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="mp-card !rounded-2xl overflow-hidden hover:!transform-none">

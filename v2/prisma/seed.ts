@@ -1,5 +1,12 @@
 import { PrismaClient } from "@prisma/client";
 import { hash } from "bcryptjs";
+import {
+  buildBookingConfirmHtml,
+  buildBookingReminderHtml,
+  buildBookingCancelledHtml,
+  buildResetPasswordHtml,
+  buildWelcomeHtml,
+} from "../src/lib/email-templates";
 
 const prisma = new PrismaClient();
 
@@ -634,6 +641,70 @@ async function main() {
   });
 
   console.log("✓ 7 notifications");
+
+  // ── Email templates ────────────────────────────────────
+  // Upsert only on create: admin edits in /admin/emails/templates must NOT
+  // be overwritten when the seed is re-run.
+  const emailTemplates: Array<{
+    key: string;
+    name: string;
+    subject: string;
+    html: string;
+    variables: string[];
+  }> = [
+    {
+      key: "booking_confirm",
+      name: "Confirmation de réservation",
+      subject: "Réservation confirmée — {{courseName}}",
+      html: buildBookingConfirmHtml(),
+      variables: ["courseName", "date", "time", "instructor"],
+    },
+    {
+      key: "booking_reminder",
+      name: "Rappel de cours J-1",
+      subject: "Rappel : {{courseName}} demain",
+      html: buildBookingReminderHtml(),
+      variables: ["courseName", "date", "time", "instructor"],
+    },
+    {
+      key: "booking_cancelled",
+      name: "Annulation de séance",
+      subject: "Annulation — {{courseName}}",
+      html: buildBookingCancelledHtml(),
+      variables: ["userName", "courseName", "date", "time"],
+    },
+    {
+      key: "reset_password",
+      name: "Réinitialisation de mot de passe",
+      subject: "Réinitialisation de votre mot de passe",
+      html: buildResetPasswordHtml(),
+      variables: ["name", "resetUrl"],
+    },
+    {
+      key: "welcome",
+      name: "Bienvenue après inscription",
+      subject: "Bienvenue chez Mon Pilates !",
+      html: buildWelcomeHtml(),
+      variables: ["name"],
+    },
+  ];
+
+  for (const t of emailTemplates) {
+    await prisma.emailTemplate.upsert({
+      where: { key: t.key },
+      create: {
+        key: t.key,
+        name: t.name,
+        subject: t.subject,
+        mjmlSource: t.html,
+        htmlCompiled: t.html,
+        variables: JSON.stringify(t.variables),
+      },
+      update: {},
+    });
+  }
+
+  console.log(`✓ ${emailTemplates.length} templates d'email`);
 
   // ── Summary ────────────────────────────────────────────
   console.log("\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");

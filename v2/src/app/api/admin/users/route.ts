@@ -1,7 +1,13 @@
 import { NextResponse } from "next/server"
 import type { NextRequest } from "next/server"
+import { z } from "zod"
 import { requireAdmin } from "@/lib/admin"
 import { prisma } from "@/lib/prisma"
+
+const paginationSchema = z.object({
+  limit: z.coerce.number().int().min(1).max(100).default(50),
+  offset: z.coerce.number().int().min(0).default(0),
+})
 
 // GET: List users with search
 export async function GET(request: NextRequest) {
@@ -11,10 +17,19 @@ export async function GET(request: NextRequest) {
   }
 
   const { searchParams } = new URL(request.url)
+  const parsed = paginationSchema.safeParse({
+    limit: searchParams.get("limit") ?? undefined,
+    offset: searchParams.get("offset") ?? undefined,
+  })
+  if (!parsed.success) {
+    return NextResponse.json(
+      { error: "Paramètres de pagination invalides." },
+      { status: 400 }
+    )
+  }
+  const { limit, offset } = parsed.data
   const search = searchParams.get("search")
   const role = searchParams.get("role")
-  const limit = parseInt(searchParams.get("limit") ?? "50", 10)
-  const offset = parseInt(searchParams.get("offset") ?? "0", 10)
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const where: any = {}

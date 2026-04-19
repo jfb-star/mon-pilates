@@ -31,6 +31,7 @@ import {
   CalendarPlus,
   Download,
   Mail,
+  Megaphone,
   Send,
   Banknote,
   BadgeCheck,
@@ -616,6 +617,59 @@ export default function AdminPage() {
             />
           </div>
         )}
+
+        {/* Admin CRUD shortcuts */}
+        <div className="flex flex-wrap gap-2 mb-6">
+          <Link
+            href="/admin/instructors"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-lg text-sm text-mp-charcoal hover:border-mp-ocean hover:text-mp-ocean transition-colors"
+          >
+            <UserCheck className="w-4 h-4" />
+            Coachs
+          </Link>
+          <Link
+            href="/admin/course-types"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-lg text-sm text-mp-charcoal hover:border-mp-ocean hover:text-mp-ocean transition-colors"
+          >
+            <BadgeCheck className="w-4 h-4" />
+            Types de cours
+          </Link>
+          <Link
+            href="/admin/schedules"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-lg text-sm text-mp-charcoal hover:border-mp-ocean hover:text-mp-ocean transition-colors"
+          >
+            <Clock className="w-4 h-4" />
+            Plannings
+          </Link>
+          <Link
+            href="/admin/contact"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-lg text-sm text-mp-charcoal hover:border-mp-ocean hover:text-mp-ocean transition-colors"
+          >
+            <Phone className="w-4 h-4" />
+            Contact
+          </Link>
+          <Link
+            href="/admin/emails/templates"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-lg text-sm text-mp-charcoal hover:border-mp-ocean hover:text-mp-ocean transition-colors"
+          >
+            <Mail className="w-4 h-4" />
+            Templates
+          </Link>
+          <Link
+            href="/admin/emails/campaigns"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-lg text-sm text-mp-charcoal hover:border-mp-ocean hover:text-mp-ocean transition-colors"
+          >
+            <Megaphone className="w-4 h-4" />
+            Campagnes
+          </Link>
+          <Link
+            href="/admin/emails/logs"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-lg text-sm text-mp-charcoal hover:border-mp-ocean hover:text-mp-ocean transition-colors"
+          >
+            <FileText className="w-4 h-4" />
+            Logs emails
+          </Link>
+        </div>
 
         {/* Tabs */}
         <div className="border-b border-gray-200 mb-6">

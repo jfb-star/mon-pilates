@@ -71,11 +71,12 @@ export default function PolitiqueConfidentialitePage() {
                 </li>
                 <li>
                   Téléphone :{" "}
+                  {/* TODO owner: vérifier numéro — remplacé "07 83 67 15 63" par le numéro utilisé partout ailleurs sur le site */}
                   <a
                     href="tel:+33699183216"
                     className="text-mp-ocean hover:underline"
                   >
-                    07 83 67 15 63
+                    06 99 18 32 16
                   </a>
                 </li>
               </ul>

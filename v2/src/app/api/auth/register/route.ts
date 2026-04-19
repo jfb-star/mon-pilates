@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server"
+import { randomInt } from "crypto"
 import { hash } from "bcryptjs"
 import { prisma } from "@/lib/prisma"
 import { rateLimit } from "@/lib/rate-limit"
@@ -15,7 +16,7 @@ function generateReferralCode(name: string): string {
   const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"
   let suffix = ""
   for (let i = 0; i < 4; i++) {
-    suffix += chars[Math.floor(Math.random() * chars.length)]
+    suffix += chars[randomInt(chars.length)]
   }
   return `MP-${prefix}-${suffix}`
 }

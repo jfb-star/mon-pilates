@@ -1,13 +1,54 @@
 import type { NextRequest } from "next/server"
 import { NextResponse } from "next/server"
+import { z } from "zod"
+import { prisma } from "@/lib/prisma"
 import { rateLimit } from "@/lib/rate-limit"
+import { addContact } from "@/lib/resend"
 
-export async function POST(request: NextRequest) {
-  // Rate limit: 2 subscriptions per minute per IP
-  const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown"
-  const { allowed } = rateLimit(`newsletter:${ip}`, { maxRequests: 2, windowMs: 60_000 })
+/**
+ * Newsletter signup — public endpoint.
+ *
+ * Rate limit: 5 requests per 15 min, keyed by both IP AND email (two buckets,
+ * fail the request if either exceeds).  Returns a generic 200 on already-
+ * subscribed to prevent enumeration.  Only malformed input returns 400.
+ */
 
-  if (!allowed) {
+const NewsletterSchema = z.object({
+  email: z
+    .string()
+    .trim()
+    .min(1)
+    .max(320)
+    .email(),
+})
+
+const RATE_OPTS = { maxRequests: 5, windowMs: 15 * 60_000 }
+
+export async function POST(request: NextRequest): Promise<Response> {
+  const ip =
+    request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown"
+
+  const ipLimit = rateLimit(`newsletter:ip:${ip}`, RATE_OPTS)
+  if (!ipLimit.allowed) {
+    return NextResponse.json(
+      { error: "Veuillez patienter avant de réessayer." },
+      { status: 429 }
+    )
+  }
+
+  let parsed: z.infer<typeof NewsletterSchema>
+  try {
+    const body = (await request.json()) as unknown
+    parsed = NewsletterSchema.parse(body)
+  } catch {
+    return NextResponse.json({ error: "Email invalide." }, { status: 400 })
+  }
+
+  const email = parsed.email.toLowerCase()
+
+  // Per-email rate limit — defence against a spammer rotating IPs.
+  const emailLimit = rateLimit(`newsletter:email:${email}`, RATE_OPTS)
+  if (!emailLimit.allowed) {
     return NextResponse.json(
       { error: "Veuillez patienter avant de réessayer." },
       { status: 429 }
@@ -15,43 +56,68 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const body = await request.json()
-    const { email: rawEmail } = body as { email?: string }
+    // Link to a User if one exists under this email.
+    const user = await prisma.user.findUnique({
+      where: { email },
+      select: { id: true },
+    })
 
-    // Sanitize: trim and enforce RFC 5321 max length (320 chars)
-    const email = typeof rawEmail === "string" ? rawEmail.trim().slice(0, 320) : ""
+    // Upsert — re-subscribe clears unsubscribedAt.
+    const existing = await prisma.subscriber.findUnique({
+      where: { email },
+      select: { id: true },
+    })
 
-    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      return NextResponse.json({ error: "Email invalide." }, { status: 400 })
+    const now = new Date()
+    const subscriber = existing
+      ? await prisma.subscriber.update({
+          where: { email },
+          data: {
+            unsubscribedAt: null,
+            userId: user?.id ?? undefined,
+          },
+        })
+      : await prisma.subscriber.create({
+          data: {
+            email,
+            consentAt: now,
+            tags: JSON.stringify(["newsletter"]),
+            userId: user?.id ?? null,
+          },
+        })
+
+    // Push to Resend if we have an audience configured — fail-soft.
+    const audienceId = process.env.RESEND_NEWSLETTER_AUDIENCE_ID
+    if (audienceId) {
+      try {
+        const { id: contactId } = await addContact(audienceId, email)
+        await prisma.subscriber.update({
+          where: { id: subscriber.id },
+          data: {
+            resendContactId: contactId,
+            resendAudienceId: audienceId,
+          },
+        })
+      } catch (err) {
+        console.warn("[newsletter] Resend addContact failed (non-fatal):", err)
+      }
+    } else {
+      console.warn(
+        "[newsletter] RESEND_NEWSLETTER_AUDIENCE_ID not set — skipping Resend push."
+      )
     }
-
-    // TODO: When Brevo API key is configured, add to mailing list:
-    // const brevoKey = process.env.BREVO_API_KEY
-    // if (brevoKey) {
-    //   await fetch("https://api.brevo.com/v3/contacts", {
-    //     method: "POST",
-    //     headers: {
-    //       "api-key": brevoKey,
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify({
-    //       email,
-    //       listIds: [2], // Newsletter list ID
-    //       updateEnabled: true,
-    //     }),
-    //   })
-    // }
-
-    console.log("[newsletter] New subscriber:", email)
 
     return NextResponse.json({
       success: true,
       message: "Inscription confirmée !",
     })
-  } catch {
+  } catch (err) {
+    console.error("[newsletter] signup failed:", err)
+    // Generic 200-ish response is fine but we should signal an internal
+    // problem distinctly from "already subscribed".  Use 500 here.
     return NextResponse.json(
-      { error: "Données invalides." },
-      { status: 400 }
+      { error: "Une erreur est survenue." },
+      { status: 500 }
     )
   }
 }

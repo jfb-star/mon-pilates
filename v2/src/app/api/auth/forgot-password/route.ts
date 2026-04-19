@@ -30,6 +30,20 @@ export async function POST(request: Request) {
       )
     }
 
+    // Additional rate limit: 3 per 15 minutes per email address.
+    // Prevents account-specific spam even if the attacker rotates IPs.
+    const { allowed: emailAllowed } = rateLimit(`forgot-password:email:${email}`, {
+      maxRequests: 3,
+      windowMs: 15 * 60 * 1000,
+    })
+    if (!emailAllowed) {
+      // Return the same generic 200 body we'd send for non-existent users,
+      // so a probing attacker can't distinguish throttled from real responses.
+      return NextResponse.json({
+        message: "Si un compte existe avec cet email, vous recevrez un lien de réinitialisation.",
+      })
+    }
+
     // Always return 200 to not reveal if email exists
     const user = await prisma.user.findUnique({
       where: { email },

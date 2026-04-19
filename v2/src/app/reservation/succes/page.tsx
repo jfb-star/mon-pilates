@@ -2,6 +2,7 @@ import Link from "next/link"
 import { CheckCircle, Calendar, CreditCard, Heart } from "lucide-react"
 import type { Metadata } from "next"
 import { ConfirmBooking } from "./ConfirmBooking"
+import { BookingStepper } from "@/components/BookingStepper"
 
 export const metadata: Metadata = {
   title: "Paiement confirmé",
@@ -61,6 +62,10 @@ export default async function SuccessPage({
   return (
     <section className="mp-section bg-mp-cream min-h-[70vh] flex items-center">
       <div className="mp-container max-w-lg text-center" role="status" aria-live="polite">
+        {/* Booking journey step indicator */}
+        <div className="mb-8">
+          <BookingStepper currentStep={4} />
+        </div>
         <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-mp-sage/10 mb-6 animate-[fadeUp_0.6s_ease_forwards]">
           <CheckCircle className="w-10 h-10 text-mp-sage" aria-hidden="true" />
         </div>

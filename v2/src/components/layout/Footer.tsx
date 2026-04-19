@@ -26,6 +26,7 @@ const footerLinks = {
     { name: "Nos cours", href: "/cours" },
     { name: "Planning", href: "/planning" },
     { name: "Tarifs", href: "/tarifs" },
+    { name: "Notre studio", href: "/about" },
     { name: "L'équipe", href: "/equipe" },
     { name: "Carte cadeau", href: "/carte-cadeau" },
   ],
