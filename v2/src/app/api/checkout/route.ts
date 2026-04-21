@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
 import { stripe, SESSION_PRICE_CENTS } from "@/lib/stripe"
-import { rateLimit } from "@/lib/rate-limit"
+import { checkRateLimit } from "@/lib/rate-limit"
 import { sanitizeString, isAllowedOrigin } from "@/lib/utils"
 import { auth } from "@/lib/auth"
 
@@ -36,7 +36,7 @@ export async function POST(req: NextRequest) {
 
   // Rate limit: 10 checkout attempts per minute per IP
   const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown"
-  const { allowed } = rateLimit(`checkout:${ip}`, { maxRequests: 10, windowMs: 60_000 })
+  const { allowed } = await checkRateLimit(`checkout:${ip}`, { maxRequests: 10, windowMs: 60_000 })
   if (!allowed) {
     return NextResponse.json(
       { error: "Trop de tentatives. Veuillez patienter." },

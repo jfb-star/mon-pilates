@@ -2,7 +2,7 @@ import { NextResponse } from "next/server"
 import { randomInt } from "crypto"
 import { hash } from "bcryptjs"
 import { prisma } from "@/lib/prisma"
-import { rateLimit } from "@/lib/rate-limit"
+import { checkRateLimit } from "@/lib/rate-limit"
 import { sanitizeString } from "@/lib/utils"
 import { sendWelcome } from "@/lib/email"
 
@@ -24,7 +24,7 @@ function generateReferralCode(name: string): string {
 export async function POST(request: Request) {
   // Rate limit: 5 registrations per IP per 15 minutes
   const ip = request.headers.get("x-forwarded-for") ?? "unknown"
-  const { allowed } = rateLimit(`register:${ip}`, {
+  const { allowed } = await checkRateLimit(`register:${ip}`, {
     maxRequests: 5,
     windowMs: 15 * 60 * 1000,
   })

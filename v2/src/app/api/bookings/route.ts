@@ -2,7 +2,7 @@ import { NextResponse } from "next/server"
 import type { NextRequest } from "next/server"
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
-import { rateLimit } from "@/lib/rate-limit"
+import { checkRateLimit } from "@/lib/rate-limit"
 import { sendBookingConfirmation } from "@/lib/email"
 
 // GET: List current user's bookings
@@ -54,7 +54,7 @@ export async function POST(request: NextRequest) {
   const userId = session.user.id!
 
   // Rate limit: 10 bookings per minute per user
-  const { allowed } = rateLimit(`booking:${userId}`, {
+  const { allowed } = await checkRateLimit(`booking:${userId}`, {
     maxRequests: 10,
     windowMs: 60_000,
   })

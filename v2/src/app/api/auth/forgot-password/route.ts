@@ -1,14 +1,14 @@
 import { NextResponse } from "next/server"
 import { randomUUID } from "crypto"
 import { prisma } from "@/lib/prisma"
-import { rateLimit } from "@/lib/rate-limit"
+import { checkRateLimit } from "@/lib/rate-limit"
 import { storeResetToken } from "@/lib/password-reset"
 import { sendPasswordReset } from "@/lib/email"
 
 export async function POST(request: Request) {
   // Rate limit: 3 per 15 minutes per IP
   const ip = request.headers.get("x-forwarded-for") ?? "unknown"
-  const { allowed } = rateLimit(`forgot-password:${ip}`, {
+  const { allowed } = await checkRateLimit(`forgot-password:${ip}`, {
     maxRequests: 3,
     windowMs: 15 * 60 * 1000,
   })
@@ -32,7 +32,7 @@ export async function POST(request: Request) {
 
     // Additional rate limit: 3 per 15 minutes per email address.
     // Prevents account-specific spam even if the attacker rotates IPs.
-    const { allowed: emailAllowed } = rateLimit(`forgot-password:email:${email}`, {
+    const { allowed: emailAllowed } = await checkRateLimit(`forgot-password:email:${email}`, {
       maxRequests: 3,
       windowMs: 15 * 60 * 1000,
     })

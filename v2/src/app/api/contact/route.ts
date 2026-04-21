@@ -1,6 +1,6 @@
 import type { NextRequest } from "next/server"
 import { NextResponse } from "next/server"
-import { rateLimit } from "@/lib/rate-limit"
+import { checkRateLimit } from "@/lib/rate-limit"
 import { sanitizeString } from "@/lib/utils"
 
 const VALID_SUBJECTS = [
@@ -24,7 +24,7 @@ const MAX_MESSAGE = 5000
 export async function POST(request: NextRequest) {
   // Rate limit: 3 submissions per minute per IP
   const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown"
-  const { allowed, remaining } = rateLimit(`contact:${ip}`, { maxRequests: 3, windowMs: 60_000 })
+  const { allowed, remaining } = await checkRateLimit(`contact:${ip}`, { maxRequests: 3, windowMs: 60_000 })
 
   if (!allowed) {
     return NextResponse.json(

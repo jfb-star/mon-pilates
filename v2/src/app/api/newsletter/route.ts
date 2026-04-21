@@ -2,7 +2,7 @@ import type { NextRequest } from "next/server"
 import { NextResponse } from "next/server"
 import { z } from "zod"
 import { prisma } from "@/lib/prisma"
-import { rateLimit } from "@/lib/rate-limit"
+import { checkRateLimit } from "@/lib/rate-limit"
 import { addContact } from "@/lib/resend"
 
 /**
@@ -46,7 +46,7 @@ export async function POST(request: NextRequest): Promise<Response> {
   const ip =
     request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown"
 
-  const ipLimit = rateLimit(`newsletter:ip:${ip}`, RATE_OPTS)
+  const ipLimit = await checkRateLimit(`newsletter:ip:${ip}`, RATE_OPTS)
   if (!ipLimit.allowed) {
     return respond(
       { error: "Veuillez patienter avant de réessayer." },
@@ -72,7 +72,7 @@ export async function POST(request: NextRequest): Promise<Response> {
   const email = parsed.email.toLowerCase()
 
   // Per-email rate limit — defence against a spammer rotating IPs.
-  const emailLimit = rateLimit(`newsletter:email:${email}`, RATE_OPTS)
+  const emailLimit = await checkRateLimit(`newsletter:email:${email}`, RATE_OPTS)
   if (!emailLimit.allowed) {
     return respond(
       { error: "Veuillez patienter avant de réessayer." },
