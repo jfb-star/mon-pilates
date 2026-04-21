@@ -24,4 +24,20 @@ jobs:
         run: sleep 60
 
       - name: Run Lighthouse CI
-        run: npx @lhci/cli@0.13.x autorun
+        # On failure, dump the last 150 lines of lhci output to the job
+        # summary so we can read the assertion failures and public report
+        # URLs without auth-gated artifacts.
+        run: |
+          set +e
+          npx @lhci/cli@0.13.x autorun 2>&1 | tee lhci.log
+          code=${PIPESTATUS[0]}
+          if [ $code -ne 0 ]; then
+            {
+              echo "## Lighthouse CI failed (exit $code)"
+              echo ""
+              echo '```'
+              tail -n 150 lhci.log
+              echo '```'
+            } >> "$GITHUB_STEP_SUMMARY"
+          fi
+          exit $code
