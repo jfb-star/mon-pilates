@@ -57,11 +57,25 @@ jobs:
 
       - name: Next build
         # Bypass the npm "build" script so we skip `prisma db push` entirely.
-        # Capture stdout+stderr to build.log and preserve next's real exit code.
+        # On failure, dump the last 200 lines of the log to the job summary
+        # (publicly readable) and as an error annotation so we can diagnose
+        # without needing the auth-gated artifact.
         run: |
           set +e
           npx next build 2>&1 | tee build.log
-          exit ${PIPESTATUS[0]}
+          code=${PIPESTATUS[0]}
+          if [ $code -ne 0 ]; then
+            {
+              echo "## Next build failed (exit $code)"
+              echo ""
+              echo '```'
+              tail -n 200 build.log
+              echo '```'
+            } >> "$GITHUB_STEP_SUMMARY"
+            tail_encoded=$(tail -n 50 build.log | sed ':a;N;$!ba;s/%/%25/g;s/\n/%0A/g;s/\r/%0D/g')
+            echo "::error title=Next build failed::$tail_encoded"
+          fi
+          exit $code
 
       - name: Upload build log
         if: always()
