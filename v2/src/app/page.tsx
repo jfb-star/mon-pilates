@@ -421,12 +421,12 @@ function StudioAmbiance() {
 /* ============================================================
    PROCHAINES SEANCES
    ============================================================ */
+// TODO owner: remplacer par les vrais créneaux exacts du planning hebdomadaire
 const upcomingSessions = [
-  { time: "09:00", name: "Pilates Mat", level: "Tous niveaux", prof: "Marie", spots: 4, duration: 55, color: "bg-mp-ocean" },
-  { time: "10:15", name: "Pilates Reformer", level: "Intermédiaire", prof: "Sophie", spots: 2, duration: 50, color: "bg-mp-sage" },
-  { time: "11:30", name: "Pilates Senior", level: "Débutant", prof: "Marie", spots: 6, duration: 45, color: "bg-mp-gold" },
-  { time: "18:00", name: "Pilates Mat", level: "Avancé", prof: "Sophie", spots: 1, duration: 55, color: "bg-mp-ocean" },
-  { time: "19:15", name: "Pilates Prénatal", level: "Tous niveaux", prof: "Marie", spots: 5, duration: 50, color: "bg-mp-rose" },
+  { time: "09:00", name: "Pilates Mat (groupe)", level: "Tous niveaux", prof: "Violette", spots: 4, duration: 55, color: "bg-mp-ocean" },
+  { time: "12:15", name: "Pilates Mat (groupe)", level: "Tous niveaux", prof: "Violette", spots: 3, duration: 55, color: "bg-mp-ocean" },
+  { time: "18:30", name: "Pilates Mat (groupe)", level: "Tous niveaux", prof: "Violette", spots: 2, duration: 55, color: "bg-mp-ocean" },
+  { time: "10:00", name: "Cours privé (équipement)", level: "Sur mesure", prof: "Violette", spots: 1, duration: 55, color: "bg-mp-sage" },
 ];
 
 function UpcomingSessions() {
@@ -504,23 +504,69 @@ function UpcomingSessions() {
 /* ============================================================
    TEMOIGNAGES
    ============================================================ */
+// Verbatim Google Reviews. Do NOT add to structured data (no aggregateRating).
+const googleReviews = [
+  {
+    name: "Agathe",
+    stars: 5,
+    text: "Un pur moment de bonheur ! La séance était parfaitement guidée par une prof au top, très attentive à notre posture. Le cadre est incroyable, c'est magique.",
+  },
+  {
+    name: "Marine",
+    stars: 5,
+    text: "Une séance exceptionnelle ! La professeure est à la fois bienveillante, professionnelle et très à l'écoute. Dans une ambiance détendue.",
+  },
+  {
+    name: "Flavie",
+    stars: 5,
+    text: "Excellent professeur, très motivante et à l'écoute ! Mon corps et moi sommes en harmonie. Merci Violette !",
+  },
+];
+
 function Testimonials() {
   return (
-    <section className="mp-section bg-mp-cream cv-auto relative overflow-hidden" aria-label="Avis">
+    <section className="mp-section bg-mp-cream cv-auto relative overflow-hidden" aria-label="Avis Google">
       <OrganicBlob className="bottom-[-80px] left-[-120px] opacity-50" color="mp-sage" size={400} />
       <div className="mp-container relative z-10">
-        <ScrollReveal className="text-center max-w-2xl mx-auto">
+        <ScrollReveal className="text-center max-w-2xl mx-auto mb-12">
           <p className="font-heading text-sm font-semibold text-mp-ocean uppercase tracking-[0.2em] mb-3">
-            Avis
+            Avis Google
           </p>
           <h2 className="font-heading text-3xl sm:text-4xl font-bold text-mp-charcoal mb-4">
-            Le studio vient d&apos;ouvrir ses portes
+            Ce qu&apos;en disent nos élèves
           </h2>
-          <p className="font-body text-mp-text leading-[1.8] mb-8">
-            Les premiers avis arrivent bientôt. Vous avez suivi un cours ?
-            Partagez votre expérience sur Google — chaque retour compte et
-            aide d&apos;autres élèves à franchir le pas.
+          <p className="font-body text-mp-text leading-[1.8]">
+            Quelques retours laissés sur Google par celles et ceux qui sont
+            déjà venus pratiquer au studio.
           </p>
+        </ScrollReveal>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+          {googleReviews.map((review, i) => (
+            <ScrollReveal key={review.name} delay={Math.min(i, 3) as 0 | 1 | 2 | 3}>
+              <figure className="mp-card h-full p-6 border border-mp-sand-dark/20 bg-mp-white flex flex-col">
+                <div className="flex items-center gap-1 mb-3" aria-label={`Note ${review.stars} sur 5`}>
+                  {Array.from({ length: review.stars }).map((_, idx) => (
+                    <Star key={idx} className="w-4 h-4 text-mp-gold fill-mp-gold" aria-hidden="true" />
+                  ))}
+                </div>
+                <blockquote className="font-body text-sm text-mp-text leading-relaxed italic flex-1">
+                  &laquo;&nbsp;{review.text}&nbsp;&raquo;
+                </blockquote>
+                <figcaption className="mt-4 pt-4 border-t border-mp-sand-dark/20 flex items-center justify-between">
+                  <cite className="not-italic font-heading text-sm font-semibold text-mp-charcoal">
+                    {review.name}
+                  </cite>
+                  <span className="font-heading text-[11px] font-medium text-mp-text-light uppercase tracking-wider">
+                    Avis Google
+                  </span>
+                </figcaption>
+              </figure>
+            </ScrollReveal>
+          ))}
+        </div>
+
+        <ScrollReveal className="text-center">
           <a
             href="https://g.page/r/monpilates/review"
             target="_blank"
@@ -747,7 +793,7 @@ const faqs = [
   },
   {
     q: "Quelle est la taille des groupes ?",
-    a: "10 personnes maximum par cours. C'est notre engagement pour un suivi personnalisé et des corrections individuelles.",
+    a: "5 personnes maximum par cours. C'est notre engagement pour un suivi personnalisé et des corrections individuelles.",
   },
   {
     q: "Puis-je annuler une réservation ?",
@@ -862,7 +908,7 @@ export default function HomePage() {
                   Rejoignez-nous
                 </h3>
                 <p className="font-body text-mp-text-light leading-relaxed mb-6 max-w-sm">
-                  Plus de 200 élèves nous font confiance. Découvrez le Pilates dans un cadre exceptionnel face à l&apos;océan.
+                  Rejoignez notre communauté d&apos;élèves et découvrez le Pilates dans un cadre exceptionnel face à l&apos;océan.
                 </p>
                 <TrialCtaLink
                   href="/planning"

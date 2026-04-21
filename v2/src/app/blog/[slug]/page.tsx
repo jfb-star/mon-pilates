@@ -85,7 +85,7 @@ export const posts = [
     content: [
       {
         type: "paragraph" as const,
-        text: "La grossesse transforme profondément le corps de la femme. Le Pilates prénatal, pratiqué sous la supervision d'une instructrice certifiée, est l'un des meilleurs alliés pour traverser ces neuf mois en forme et en confiance. Chez Mon Pilates, Marie accompagne les futures mamans avec douceur et expertise depuis plus de 10 ans.",
+        text: "La grossesse transforme profondément le corps de la femme. Le Pilates prénatal, pratiqué sous la supervision d'une instructrice certifiée, est l'un des meilleurs alliés pour traverser ces neuf mois en forme et en confiance. Chez Mon Pilates, Violette accompagne les futures mamans avec douceur et expertise.",
       },
       {
         type: "heading" as const,
@@ -199,7 +199,7 @@ export const posts = [
       },
       {
         type: "paragraph" as const,
-        text: "Le studio est ouvert du lundi au samedi. N'hésitez pas à passer nous voir pour découvrir les lieux, rencontrer Marie et Sophie, et pourquoi pas, réserver votre première séance d'essai. Nous vous accueillons avec un thé chaud et le sourire — c'est la tradition bretonne !",
+        text: "Le studio est ouvert du lundi au vendredi (et le samedi ponctuellement). N'hésitez pas à passer nous voir pour découvrir les lieux, rencontrer Violette, et pourquoi pas, réserver votre première séance Découverte. Nous vous accueillons avec le sourire — c'est la tradition bretonne !",
       },
     ],
   },
@@ -236,11 +236,12 @@ export const posts = [
       },
       {
         type: "heading" as const,
-        text: "Témoignage : Jacqueline, 72 ans",
+        text: "Un accompagnement individualisé",
       },
       {
         type: "paragraph" as const,
-        text: "« Je pratique au studio Mon Pilates depuis l'ouverture. Au début, j'avais peur de ne pas y arriver, mais Marie m'a mise en confiance dès la première séance. Aujourd'hui, je marche plus droite, je monte les escaliers sans essoufflement, et surtout, j'ai retrouvé confiance en mon corps. Le Pilates a changé mon quotidien. » Comme Jacqueline, de nombreux seniors découvrent les bienfaits du Pilates au studio. Les groupes sont petits (8 personnes maximum), ce qui permet à Marie d'adapter chaque exercice.",
+        // TODO owner : remplacer ce paragraphe par un témoignage réel (avec accord de la personne concernée) si disponible.
+        text: "Au studio, les cours Pilates Mat sont limités à 5 personnes. Ce format en petit groupe permet à Violette de corriger chaque posture, d'adapter les exercices au rythme et aux besoins de chacun·e, et de proposer des variantes plus douces si nécessaire. C'est particulièrement précieux après 60 ans, quand chaque corps a son histoire : opérations, raideurs, sensibilités articulaires, récupération après une chute.",
       },
       {
         type: "paragraph" as const,

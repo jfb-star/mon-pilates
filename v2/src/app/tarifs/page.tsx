@@ -13,11 +13,11 @@ import { SITE_URL } from "@/lib/env";
 export const metadata: Metadata = {
   title: "Tarifs",
   description:
-    "Découvrez nos formules de Pilates : cours d'essai, cartes de cours, abonnement illimité. Des tarifs adaptés à votre pratique, à Larmor-Plage.",
+    "Découvrez nos formules de Pilates : cours d'essai Mat à 10€, cartes de 5, 10 ou 20 cours, séances privées sur équipement. Tarifs Mon Pilates à Larmor-Plage.",
   openGraph: {
     title: "Tarifs | Mon Pilates",
     description:
-      "Cours d'essai à 10€, cartes de 5 à 20 cours, abonnement illimité. Trouvez la formule qui vous convient.",
+      "Découverte Mat 10€, cartes de 5 à 20 cours dès 17€/séance, séances privées sur équipement. Trouvez la formule qui vous convient.",
     images: [
       {
         url: "/images/studio-reformer-ocean.jpg",
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
 
 const pricingPlans = [
   {
-    name: "Cours d'essai",
+    name: "Découverte Mat",
     price: 10,
     priceLabel: "10\u20ac",
     perSession: null,
@@ -47,16 +47,16 @@ const pricingPlans = [
     href: "/planning",
     isTrial: true,
     features: [
-      "1 cours au choix",
-      "Tous types de cours",
+      "1 cours Pilates Mat au choix",
+      "Réservé aux nouveaux élèves",
       "Matériel fourni",
-      "Satisfait(e) ou remboursé(e)",
+      "Petit groupe (5 max)",
     ],
   },
   {
-    name: "Séance à l'unité",
-    price: 18,
-    priceLabel: "18\u20ac",
+    name: "Séance Mat à l'unité",
+    price: 20,
+    priceLabel: "20\u20ac",
     perSession: null,
     validity: null,
     badge: null,
@@ -66,93 +66,129 @@ const pricingPlans = [
     savings: null,
     href: "/planning",
     features: [
-      "1 cours au choix",
-      "Tous types de cours",
+      "1 cours Pilates Mat au choix",
+      "Sans engagement",
       "Matériel fourni",
-      "Valable sans limite",
+      "Petit groupe (5 max)",
     ],
   },
   {
-    name: "Carte 5 cours",
-    price: 80,
-    priceLabel: "80\u20ac",
-    perSession: "16\u20ac/cours",
-    validity: "Valable 2 mois",
+    name: "Carte 5 cours Mat",
+    price: 95,
+    priceLabel: "95\u20ac",
+    perSession: "19\u20ac/séance",
+    validity: "Valable 3 mois",
     badge: null,
     badgeColor: "",
     highlighted: false,
     cta: "Acheter 5 cours",
-    savings: "Économisez 10\u20ac",
+    savings: "Économisez 5\u20ac",
     checkoutMode: "course-card" as const,
     cardType: "5" as const,
     features: [
-      "5 cours au choix",
-      "Tous types de cours",
+      "5 cours Pilates Mat",
+      "Valable 3 mois",
       "Matériel fourni",
-      "Valable 2 mois",
+      "Petit groupe (5 max)",
     ],
   },
   {
-    name: "Carte 10 cours",
-    price: 150,
-    priceLabel: "150\u20ac",
-    perSession: "15\u20ac/cours",
-    validity: "Valable 4 mois",
+    name: "Carte 10 cours Mat",
+    price: 180,
+    priceLabel: "180\u20ac",
+    perSession: "18\u20ac/séance",
+    validity: "Valable 6 mois",
     badge: "Populaire",
     badgeColor: "bg-mp-ocean text-white",
     highlighted: true,
     cta: "Choisir la populaire",
-    savings: "Économisez 30\u20ac",
+    savings: "Économisez 20\u20ac",
     checkoutMode: "course-card" as const,
     cardType: "10" as const,
     features: [
-      "10 cours au choix",
-      "Tous types de cours",
+      "10 cours Pilates Mat",
+      "Valable 6 mois",
       "Matériel fourni",
-      "Valable 4 mois",
+      "Petit groupe (5 max)",
       "Le meilleur rapport qualité-prix",
     ],
   },
   {
-    name: "Carte 20 cours",
-    price: 260,
-    priceLabel: "260\u20ac",
-    perSession: "13\u20ac/cours",
-    validity: "Valable 6 mois",
+    name: "Carte 20 cours Mat",
+    price: 340,
+    priceLabel: "340\u20ac",
+    perSession: "17\u20ac/séance",
+    validity: "Valable 12 mois",
     badge: "Meilleure offre",
     badgeColor: "bg-mp-gold text-white",
     highlighted: false,
     cta: "Meilleure offre — acheter",
-    savings: "Économisez 100\u20ac",
+    savings: "Économisez 60\u20ac",
     checkoutMode: "course-card" as const,
     cardType: "20" as const,
     features: [
-      "20 cours au choix",
-      "Tous types de cours",
+      "20 cours Pilates Mat",
+      "Valable 12 mois",
       "Matériel fourni",
-      "Valable 6 mois",
+      "Petit groupe (5 max)",
       "Le tarif le plus avantageux",
     ],
   },
   {
-    name: "Abonnement mensuel illimité",
-    price: 89,
-    priceLabel: "89\u20ac",
+    name: "Découverte Privé sur équipement",
+    price: 50,
+    priceLabel: "50\u20ac",
     perSession: null,
     validity: null,
-    badge: "Sans engagement",
+    badge: "Première fois",
+    badgeColor: "bg-mp-sage text-white",
+    highlighted: false,
+    cta: "Réserver une découverte",
+    savings: null,
+    href: "/contact",
+    features: [
+      "1 séance privée sur équipement",
+      "Reformer, Cadillac ou Chair",
+      "Accompagnement individuel",
+      "Réservé aux nouveaux élèves",
+    ],
+  },
+  {
+    name: "Privé sur équipement",
+    price: 65,
+    priceLabel: "65\u20ac",
+    perSession: null,
+    validity: null,
+    badge: null,
+    badgeColor: "",
+    highlighted: false,
+    cta: "Prendre rendez-vous",
+    savings: null,
+    href: "/contact",
+    features: [
+      "1 séance privée sur équipement",
+      "Coaching individuel sur-mesure",
+      "Reformer, Cadillac ou Chair",
+      "Matériel professionnel",
+    ],
+  },
+  {
+    name: "Carte 10 privés équipement",
+    price: 550,
+    priceLabel: "550\u20ac",
+    perSession: "55\u20ac/séance",
+    validity: "Valable 8 mois", // TODO owner: confirmer la durée de validité exacte
+    badge: "Suivi sur-mesure",
     badgeColor: "bg-mp-rose text-white",
     highlighted: false,
-    priceUnit: "/mois",
-    cta: "Démarrer l'illimité",
-    savings: null,
-    checkoutMode: "subscription" as const,
+    cta: "Acheter 10 privés",
+    savings: "Économisez 100\u20ac",
+    href: "/contact",
     features: [
-      "Cours illimités",
-      "Tous types de cours",
-      "Matériel fourni",
-      "Résiliable à tout moment",
-      "Prélèvement mensuel",
+      "10 séances privées sur équipement",
+      "Coaching individuel régulier",
+      "Reformer, Cadillac ou Chair",
+      "Matériel professionnel",
     ],
   },
 ];
@@ -161,7 +197,7 @@ const faqItems = [
   {
     question: "Les cartes de cours expirent-elles ?",
     answer:
-      "Oui, chaque carte a une durée de validité : 2 mois pour la carte 5 cours, 4 mois pour la carte 10 cours et 6 mois pour la carte 20 cours. La validité démarre à la date d'achat.",
+      "Oui, chaque carte Pilates Mat a une durée de validité : 3 mois pour la carte 5 cours, 6 mois pour la carte 10 cours et 12 mois pour la carte 20 cours. La validité démarre à la date d'achat.",
   },
   {
     question: "Puis-je annuler une réservation ?",
@@ -169,14 +205,19 @@ const faqItems = [
       "Oui, vous pouvez annuler jusqu'à 12h avant le début du cours via votre espace en ligne. Au-delà de ce délai, la séance est décomptée de votre carte.",
   },
   {
-    question: "Le cours d'essai est-il sans engagement ?",
+    question: "Le cours Découverte est-il sans engagement ?",
     answer:
-      "Absolument ! Le cours d'essai à 10€ est sans aucun engagement. Si vous n'êtes pas satisfait(e), vous êtes remboursé(e).",
+      "Absolument ! Le cours Découverte Mat à 10€ est réservé aux nouveaux élèves et sans aucun engagement. C'est la meilleure façon de faire connaissance avec le studio et la méthode.",
   },
   {
-    question: "Comment fonctionne l'abonnement mensuel ?",
+    question: "Proposez-vous un abonnement mensuel illimité ?",
     answer:
-      "L'abonnement à 89€/mois vous donne un accès illimité à tous les cours. Le prélèvement est mensuel et vous pouvez résilier à tout moment, sans frais ni justificatif.",
+      "Non. Nous proposons uniquement des séances à l'unité et des cartes de 5, 10 ou 20 cours. Ce format vous laisse totalement libre de votre rythme, sans prélèvement récurrent.",
+  },
+  {
+    question: "Quelle est la différence entre les cours Mat et les séances privées sur équipement ?",
+    answer:
+      "Les cours Pilates Mat se pratiquent au sol en petit groupe (5 personnes max). Les séances privées se déroulent en individuel sur des équipements professionnels (Reformer, Cadillac, Chair) pour un suivi entièrement sur-mesure.",
   },
   {
     question: "Les cartes cadeaux sont-elles remboursables ?",
@@ -186,27 +227,27 @@ const faqItems = [
   {
     question: "Faut-il apporter son tapis ?",
     answer:
-      "Non, tout le matériel est fourni au studio (tapis, petits équipements, accessoires Reformer). Venez simplement en tenue confortable.",
+      "Non, tout le matériel est fourni au studio (tapis, petits équipements, accessoires). Venez simplement en tenue confortable.",
   },
   {
     question: "Combien de personnes par cours ?",
     answer:
-      "Nos cours accueillent 10 personnes maximum. Ce petit effectif permet à l'instructrice de corriger chaque posture et d'adapter les exercices individuellement.",
+      "Les cours Pilates Mat accueillent 5 personnes maximum. Ce petit effectif permet à Violette de corriger chaque posture et d'adapter les exercices individuellement. Les séances sur équipement se déroulent en privé (1 personne).",
   },
   {
     question: "Quel cours choisir pour débuter ?",
     answer:
-      "Le cours Pilates Mat Fondamental ou le Pilates Doux sont idéaux pour commencer. L'instructrice adapte les exercices à votre niveau. N'hésitez pas à réserver un cours d'essai pour découvrir.",
+      "Le cours Découverte Mat à 10€ est idéal pour commencer : Violette adapte les exercices à votre niveau et prend le temps de présenter la méthode. Vous pouvez ensuite choisir la carte qui correspond à votre rythme.",
   },
   {
     question: "Puis-je venir si je suis enceinte ?",
     answer:
-      "Oui ! Nous proposons des cours de Pilates Prénatal spécialement conçus pour les femmes enceintes, à partir du 2e trimestre et avec accord médical. Les exercices sont adaptés à chaque stade de la grossesse.",
+      "Oui, Violette propose des adaptations spécifiques pour les femmes enceintes à partir du 2e trimestre et avec accord médical. Contactez-nous en amont pour choisir le format le plus adapté à votre grossesse.",
   },
   {
     question: "Où se trouve le studio ?",
     answer:
-      "Le studio Mon Pilates est situé à Larmor-Plage, face à l'océan. Nous sommes à 10 minutes de Lorient, 15 minutes de Ploemeur et Guidel. Un parking gratuit est disponible à proximité.",
+      "Le studio Mon Pilates est situé au 14 Boulevard des Dunes à Larmor-Plage (quartier Toulhars), dans la Villa « les mouettes », face à l'océan. Nous sommes à quelques minutes de Lorient, Ploemeur et Guidel.",
   },
   {
     question: "Puis-je partager ma carte de cours ?",
@@ -282,8 +323,8 @@ export default function TarifsPage() {
           </h1>
           <p className="font-body text-lg sm:text-xl text-mp-text-light leading-relaxed max-w-2xl mx-auto">
             Des formules flexibles pour s&apos;adapter à votre rythme et à vos
-            envies. Cours d&apos;essai, cartes multi-séances ou abonnement
-            illimité : trouvez ce qui vous convient.
+            envies. Cours Mat en petit groupe, cartes multi-séances ou séances
+            privées sur équipement : trouvez ce qui vous convient.
           </p>
         </div>
       </section>
@@ -303,8 +344,8 @@ export default function TarifsPage() {
               <div className="w-12 h-12 rounded-full bg-mp-sage/10 flex items-center justify-center">
                 <ShieldCheck className="w-6 h-6 text-mp-sage" aria-hidden="true" />
               </div>
-              <h3 className="font-heading text-sm font-semibold text-mp-charcoal">Satisfait(e) ou remboursé(e)</h3>
-              <p className="font-body text-xs text-mp-text-light max-w-xs">Votre cours d&apos;essai ne vous a pas plu ? On vous rembourse, sans condition.</p>
+              <h3 className="font-heading text-sm font-semibold text-mp-charcoal">Certifiée FPMP</h3>
+              <p className="font-body text-xs text-mp-text-light max-w-xs">Violette est diplômée de la Fédération Professionnelle des Métiers du Pilates.</p>
             </ScrollReveal>
             <ScrollReveal delay={1} className="flex flex-col items-center gap-3">
               <div className="w-12 h-12 rounded-full bg-mp-ocean/10 flex items-center justify-center">
@@ -339,21 +380,21 @@ export default function TarifsPage() {
             items={[
               {
                 profile: "Je d\u00e9couvre le Pilates",
-                recommendation: "Cours d\u2019essai \u00e0 10\u20ac",
-                detail: "Testez un cours sans engagement. Satisfait(e) ou rembours\u00e9(e).",
+                recommendation: "D\u00e9couverte Mat \u00e0 10\u20ac",
+                detail: "Testez un cours en petit groupe (5 max), r\u00e9serv\u00e9 aux nouveaux \u00e9l\u00e8ves.",
                 color: "border-mp-sage bg-mp-sage/5",
                 isTrial: true,
               },
               {
                 profile: "Je veux pratiquer 1\u00e0 2\u00d7/semaine",
-                recommendation: "Carte 10 cours",
-                detail: "Le meilleur rapport qualit\u00e9-prix. Id\u00e9al pour une pratique r\u00e9guli\u00e8re sur 4 mois.",
+                recommendation: "Carte 10 cours Mat",
+                detail: "Le meilleur rapport qualit\u00e9-prix : 18\u20ac/s\u00e9ance. Valable 6 mois.",
                 color: "border-mp-ocean bg-mp-ocean/5",
               },
               {
-                profile: "Je suis mordu(e) de Pilates",
-                recommendation: "Abonnement illimit\u00e9",
-                detail: "D\u00e8s 3 cours/semaine, l\u2019abonnement devient plus avantageux que les cartes.",
+                profile: "Je veux un suivi sur-mesure",
+                recommendation: "Priv\u00e9 sur \u00e9quipement",
+                detail: "S\u00e9ances individuelles sur Reformer, Cadillac ou Chair : 65\u20ac la s\u00e9ance.",
                 color: "border-mp-rose bg-mp-rose/5",
               },
               {

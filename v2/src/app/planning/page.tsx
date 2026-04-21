@@ -10,7 +10,6 @@ import {
   Users,
   X,
   Filter,
-  Star,
   ShieldCheck,
   Flame,
   Check,
@@ -33,7 +32,7 @@ import { SmartRecommendations } from "@/components/ui/SmartRecommendations"
 import { SITE_URL } from "@/lib/env"
 
 const courseTypes = ["mat", "reformer", "prenatal", "senior", "doux"] as const
-const instructorNames = ["Marie Lefèvre", "Sophie Martin"]
+const instructorNames = ["Violette"]
 const levels = ["Tous niveaux", "Débutant", "Intermédiaire", "Avancé"]
 
 /** One-line descriptions per course type */
@@ -48,8 +47,7 @@ const courseTypeDescriptions: Record<string, string> = {
 
 /** Instructor avatar colors based on name */
 const instructorAvatarColors: Record<string, string> = {
-  "Marie Lefèvre": "bg-mp-ocean",
-  "Sophie Martin": "bg-mp-sage",
+  "Violette": "bg-mp-ocean",
 }
 
 /** Get initials from a full name */
@@ -203,7 +201,7 @@ function buildPlanningJsonLd(weeklySessions: SessionData[]) {
     },
     offers: {
       "@type": "Offer",
-      price: "18",
+      price: "20",
       priceCurrency: "EUR",
       url: `${SITE_URL}/planning`,
       availability:
@@ -489,11 +487,9 @@ export default function PlanningPage() {
             Consultez les disponibilit&eacute;s et r&eacute;servez votre place en un clic.
           </p>
           <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-5 text-xs text-white/60">
-            <span className="flex items-center gap-1"><Star className="w-3.5 h-3.5 text-mp-gold fill-mp-gold" aria-hidden="true" />4.9/5 sur Google</span>
+            <span className="flex items-center gap-1"><Users className="w-3.5 h-3.5" aria-hidden="true" />5 max par cours</span>
             <span className="hidden sm:inline text-white/30">&middot;</span>
-            <span className="flex items-center gap-1"><Users className="w-3.5 h-3.5" aria-hidden="true" />10 max par cours</span>
-            <span className="hidden sm:inline text-white/30">&middot;</span>
-            <span className="flex items-center gap-1"><ShieldCheck className="w-3.5 h-3.5" aria-hidden="true" />Satisfait(e) ou rembours&eacute;(e)</span>
+            <span className="flex items-center gap-1"><ShieldCheck className="w-3.5 h-3.5" aria-hidden="true" />Annulation jusqu&apos;&agrave; 12h avant</span>
           </div>
         </div>
       </section>
@@ -1182,7 +1178,7 @@ export default function PlanningPage() {
                     </label>
                     {isTrial && (
                       <p className="text-sm text-mp-sage font-heading font-medium bg-mp-sage/10 px-4 py-2 rounded-xl">
-                        Votre cours d&apos;essai &agrave; seulement <strong>10&euro;</strong> au lieu de 18&euro; !
+                        Votre cours d&eacute;couverte Mat &agrave; seulement <strong>10&euro;</strong> au lieu de 20&euro; !
                       </p>
                     )}
                   </>
@@ -1194,7 +1190,7 @@ export default function PlanningPage() {
                   onClick={async () => {
                     setBookingLoading(true)
                     setBookingError("")
-                    const price = isTrial ? 10 : 18
+                    const price = isTrial ? 10 : 20
                     try {
                       const res = await fetch("/api/checkout", {
                         method: "POST",
@@ -1240,7 +1236,7 @@ export default function PlanningPage() {
                       : "mp-btn mp-btn-primary"
                   )}
                 >
-                  {bookingLoading ? "Redirection\u2026" : <>Payer &agrave; l&apos;unit&eacute; &mdash; {isTrial ? "10" : "18"}&euro;</>}
+                  {bookingLoading ? "Redirection\u2026" : <>Payer &agrave; l&apos;unit&eacute; &mdash; {isTrial ? "10" : "20"}&euro;</>}
                 </button>
 
                 {/* Upsell banner for non-card users */}
@@ -1249,7 +1245,7 @@ export default function PlanningPage() {
                     <span className="text-base leading-none mt-0.5" aria-hidden="true">💡</span>
                     <div>
                       <p className="text-mp-charcoal font-body">
-                        Avec une carte 10 cours, ce cours reviendrait à <strong className="text-mp-ocean">15&euro;</strong> au lieu de 18&euro;
+                        Avec la carte 10 cours, ce cours reviendrait à <strong className="text-mp-ocean">18&euro;</strong> au lieu de 20&euro;
                       </p>
                       <a href="/tarifs" className="text-mp-ocean font-heading font-semibold text-xs hover:underline mt-1 inline-block">
                         Voir les cartes &rarr;

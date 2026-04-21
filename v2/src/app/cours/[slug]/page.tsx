@@ -44,11 +44,11 @@ const courseFaqs: Record<string, { q: string; a: string }[]> = {
   prenatal: [
     { q: "À partir de quel mois de grossesse puis-je commencer ?", a: "Le Pilates prénatal est accessible dès le 2e trimestre (à partir de 14 semaines), avec un avis médical favorable." },
     { q: "Y a-t-il des contre-indications ?", a: "Le Pilates prénatal est contre-indiqué en cas de grossesse à risque, de menace d'accouchement prématuré ou sur avis médical contraire. Consultez votre sage-femme ou gynécologue." },
-    { q: "Puis-je continuer jusqu'au terme ?", a: "Oui, nos exercices sont adaptés à chaque stade de la grossesse. Marie ajuste chaque séance individuellement jusqu'au 8e mois environ." },
+    { q: "Puis-je continuer jusqu'au terme ?", a: "Oui, nos exercices sont adaptés à chaque stade de la grossesse. Violette ajuste chaque séance individuellement jusqu'au 8e mois environ." },
   ],
   senior: [
     { q: "Y a-t-il une limite d'âge ?", a: "Non, aucune limite d'âge ! Nous accueillons des élèves de 60 à 85 ans. Les exercices sont entièrement adaptés à vos capacités." },
-    { q: "Faut-il pouvoir se mettre au sol ?", a: "Pas nécessairement. Nos cours Senior incluent des exercices debout, assis sur chaise et au sol. Marie propose toujours des alternatives." },
+    { q: "Faut-il pouvoir se mettre au sol ?", a: "Pas nécessairement. Nos cours Senior incluent des exercices debout, assis sur chaise et au sol. Violette propose toujours des alternatives." },
     { q: "Le Pilates aide-t-il contre l'arthrose ?", a: "Oui, le Pilates est recommandé par les rhumatologues. Les mouvements doux et contrôlés améliorent la mobilité articulaire sans impact." },
   ],
   doux: [

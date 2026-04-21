@@ -10,20 +10,17 @@ import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { FaqAccordion } from "@/components/ui/FaqAccordion";
 import { SITE_URL } from "@/lib/env";
 
+// TODO owner: remplacer par une vraie photo portrait de Violette
 const instructorPhotos: Record<string, string> = {
-  marie: "/images/cours-reformer-instructrice.jpg",
+  violette: "/images/cours-reformer-instructrice.jpg",
 };
 
-const instructorExtras: Record<string, { quote: string; experience: string; funFact: string }> = {
-  marie: {
-    quote: "Le Pilates, c'est apprendre à écouter son corps pour mieux le comprendre et l'accompagner.",
-    experience: "Plus de 10 ans d'enseignement, +3000 cours donnés",
-    funFact: "Quand elle ne donne pas de cours, Marie pratique le surf sur les plages de Larmor-Plage.",
-  },
-  sophie: {
-    quote: "Chaque élève a un potentiel unique. Mon rôle est de l'aider à le révéler, pas à pas.",
-    experience: "5 ans d'enseignement, spécialiste Reformer",
-    funFact: "Sophie est passionnée de cuisine bretonne et prépare les meilleurs kouign-amann du studio.",
+const instructorExtras: Record<string, { quote: string; experience: string; funFact?: string }> = {
+  violette: {
+    quote:
+      "Aujourd'hui, j'accompagne chaque personne avec attention, en adaptant chaque séance à son corps, son histoire et ses besoins, dans un cadre bienveillant, lumineux et apaisé, face à l'océan.",
+    experience: "Certifiée FPMP — Fédération des Professionnels de la Méthode Pilates",
+    // TODO owner: ajouter un \"fun fact\" personnel si Violette souhaite en partager un
   },
 };
 
@@ -37,12 +34,12 @@ const studioPhotos = [
 export const metadata: Metadata = {
   title: "Notre équipe",
   description:
-    "Rencontrez Marie et Sophie, nos instructrices certifiées. Passion, bienveillance et expertise au service de votre pratique.",
+    "Rencontrez Violette, instructrice certifiée FPMP au studio Mon Pilates à Larmor-Plage. Bienveillance, écoute et séances adaptées à chaque corps.",
   openGraph: {
     title: "Notre équipe | Mon Pilates",
     description:
-      "Marie et Sophie, instructrices certifiées, vous accompagnent dans votre pratique du Pilates.",
-    images: [{ url: "/images/cours-reformer-instructrice.jpg", width: 1200, height: 630, alt: "Marie, instructrice Pilates au studio Mon Pilates" }],
+      "Violette, instructrice certifiée FPMP, vous accompagne dans votre pratique du Pilates à Larmor-Plage.",
+    images: [{ url: "/images/cours-reformer-instructrice.jpg", width: 1200, height: 630, alt: "Violette, instructrice Pilates au studio Mon Pilates" }],
   },
   alternates: {
     canonical: `${SITE_URL}/equipe`,
@@ -60,42 +57,42 @@ const values = [
     icon: Award,
     title: "Excellence",
     description:
-      "Formées aux meilleures écoles internationales, nous nous formons en continu pour vous offrir un enseignement de qualité.",
+      "Formée auprès de la FPMP et en formation continue, Violette s'engage à vous offrir un enseignement rigoureux et à jour.",
   },
   {
     icon: Users,
     title: "Proximité",
     description:
-      "Des petits groupes de 6 à 12 personnes maximum pour un suivi personnalisé et des corrections individuelles.",
+      "Des petits groupes de 5 personnes maximum pour un suivi personnalisé et des corrections individuelles.",
   },
   {
     icon: Star,
     title: "Passion",
     description:
-      "Le Pilates a transformé nos vies. Nous mettons toute notre énergie à partager cette passion avec vous.",
+      "Le Pilates a transformé sa vie. Violette met toute son énergie à partager cette pratique avec vous.",
   },
 ];
 
 const faq = [
   {
-    question: "Comment sont formées vos instructrices ?",
+    question: "Comment est formée votre instructrice ?",
     answer:
-      "Nos instructrices sont diplômées des meilleures écoles internationales de Pilates (Stott Pilates, Balanced Body). Elles suivent régulièrement des formations continues pour enrichir leur pratique et vous proposer un enseignement toujours à la pointe.",
+      "Violette est certifiée par la FPMP (Fédération des Professionnels de la Méthode Pilates). Elle suit régulièrement des formations continues pour enrichir sa pratique et vous proposer un enseignement à jour.",
   },
   {
-    question: "Peut-on choisir son instructrice ?",
+    question: "Qui anime les cours au studio ?",
     answer:
-      "Oui, bien sûr ! Au moment de réserver votre cours sur le planning, vous pouvez voir quelle instructrice anime chaque séance et choisir en fonction de vos préférences. Chacune a son style et ses spécialités.",
+      "Tous les cours du studio sont animés par Violette. Vous retrouvez ainsi la même instructrice, le même suivi et la même exigence à chaque séance.",
   },
   {
-    question: "Quel est le parcours de vos instructrices ?",
+    question: "Quel est le parcours de Violette ?",
     answer:
-      "Marie et Sophie ont chacune un parcours unique alliant formation internationale, pratique personnelle approfondie et expérience d'enseignement. Vous pouvez découvrir leurs certifications et spécialités sur cette page.",
+      "Ancienne éducatrice en gymnastique et en sport, Violette s'est reconvertie au Pilates après un parcours personnel marqué par des blessures. Le Pilates lui a permis de retrouver un corps sans douleur et un mouvement plus juste — une expérience qu'elle met aujourd'hui au service de ses élèves.",
   },
   {
-    question: "Les instructrices peuvent-elles adapter les exercices ?",
+    question: "Violette peut-elle adapter les exercices ?",
     answer:
-      "Absolument. Nos instructrices sont formées pour adapter chaque exercice à votre niveau, vos éventuelles douleurs ou pathologies. N'hésitez pas à les prévenir avant le cours de toute particularité.",
+      "Absolument. Chaque séance est adaptée à votre corps, votre histoire et vos besoins : niveau, douleurs, grossesse, seniors… N'hésitez pas à la prévenir avant le cours de toute particularité.",
   },
 ];
 
@@ -172,15 +169,14 @@ export default function EquipePage() {
             Notre équipe
           </h1>
           <p className="font-body text-lg sm:text-xl text-mp-text-light leading-relaxed max-w-2xl mx-auto">
-            Des instructrices passionnées et certifiées, dédiées à votre
-            bien-être et votre progression. Découvrez les visages derrière Mon
-            Pilates.
+            Une instructrice passionnée et certifiée, dédiée à votre bien-être
+            et à votre progression. Découvrez le visage derrière Mon Pilates.
           </p>
         </div>
       </section>
 
       {/* Instructor Cards */}
-      <section className="mp-section bg-mp-white" aria-label="Nos instructrices">
+      <section className="mp-section bg-mp-white" aria-label="Notre instructrice">
         <div className="mp-container space-y-16">
           {instructors.map((instructor, idx) => (
             <div
@@ -446,7 +442,7 @@ export default function EquipePage() {
               Questions fréquentes
             </p>
             <h2 className="font-heading text-3xl sm:text-4xl font-bold text-mp-charcoal mb-4">
-              À propos de notre équipe
+              À propos de votre instructrice
             </h2>
           </div>
           <FaqAccordion items={faq} />

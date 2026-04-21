@@ -52,13 +52,13 @@ const values = [
     icon: Sparkles,
     title: "Exigence",
     description:
-      "Une technique précise, des instructrices en formation continue, du matériel professionnel Balanced Body.",
+      "Une technique précise, une instructrice en formation continue (certifiée FPMP) et du matériel professionnel Balanced Body.",
   },
   {
     icon: Heart,
     title: "Proximité",
     description:
-      "Des groupes de 10 personnes maximum pour que chaque élève soit vu, corrigé et guidé individuellement.",
+      "Des groupes de 5 personnes maximum pour que chaque élève soit vu, corrigé et guidé individuellement.",
   },
   {
     icon: Leaf,
@@ -120,27 +120,29 @@ export default function AboutPage() {
                 <span className="text-mp-ocean">pas comme les autres</span>
               </h2>
 
-              {/* TODO owner: remplacer par le vrai récit de création du studio (date, déclic, parcours) */}
+              {/* TODO owner: affiner le récit de création (date d'ouverture, anecdotes du déclic) */}
               <div className="space-y-4 font-body text-mp-text leading-relaxed">
                 <p>
                   Tout a commencé par une évidence&nbsp;: faire du Pilates
-                  autrement, dans un cadre qui respire. Après des années
-                  d&apos;enseignement dans des salles classiques, la fondatrice
-                  a voulu créer un studio à l&apos;image de sa pratique —
-                  exigeant, humain et résolument tourné vers la mer.
+                  autrement, dans un cadre qui respire. Ancienne éducatrice en
+                  gymnastique et en sport, Violette s&apos;est reconvertie au
+                  Pilates après un parcours personnel marqué par des blessures.
+                  Le Pilates a été pour elle une vraie révélation — retrouver
+                  un corps sans douleur et un mouvement plus juste.
                 </p>
                 <p>
-                  Installé au 14 Boulevard des Dunes, à Larmor-Plage, Mon
+                  Installé à la Villa «&nbsp;les mouettes&nbsp;», quartier
+                  Toulhars, au 14 Boulevard des Dunes à Larmor-Plage, Mon
                   Pilates a ouvert ses portes avec une idée simple&nbsp;:
                   offrir à chaque élève l&apos;attention qu&apos;il mérite, dans
-                  un espace baigné de lumière naturelle et rythmé par le va-et-vient
-                  de l&apos;océan.
+                  un espace baigné de lumière naturelle et rythmé par le
+                  va-et-vient de l&apos;océan.
                 </p>
                 <p>
-                  Aujourd&apos;hui, plus de 200 élèves franchissent régulièrement
-                  nos portes. Débutants, sportifs, femmes enceintes, seniors —
-                  chacun y trouve un cours adapté, une écoute sincère et une
-                  progression mesurable.
+                  Aujourd&apos;hui, chaque séance accueille jusqu&apos;à 5
+                  personnes pour garantir un vrai suivi. Débutants, sportifs,
+                  futures mamans, seniors&nbsp;— chacun y trouve un cours
+                  adapté à son corps, son histoire et ses besoins.
                 </p>
               </div>
             </ScrollReveal>
@@ -284,28 +286,28 @@ export default function AboutPage() {
                 Notre équipe
               </p>
               <h2 className="font-heading text-3xl sm:text-4xl font-bold text-mp-charcoal mb-6 leading-tight">
-                Des instructrices formées,
+                Une instructrice formée,
                 <br />
-                <span className="text-mp-ocean">passionnées et à l&apos;écoute</span>
+                <span className="text-mp-ocean">passionnée et à l&apos;écoute</span>
               </h2>
-              {/* TODO owner: remplacer par la vraie présentation de Marie et Sophie (diplômes, expérience, spécialités) */}
               <p className="font-body text-mp-text-light leading-relaxed mb-4">
-                Marie et Sophie forment le cœur du studio. Toutes deux
-                certifiées auprès d&apos;écoles internationales reconnues, elles
-                cumulent plus de dix années d&apos;expérience et se forment en
-                continu pour faire évoluer leur pratique&nbsp;: Pilates
-                prénatal, Reformer avancé, adaptation aux pathologies du dos…
+                Violette anime tous les cours du studio. Certifiée par la FPMP
+                (Fédération des Professionnels de la Méthode Pilates), elle
+                adapte chaque séance à son corps, son histoire et ses besoins —
+                débutants, sportifs, futures mamans, seniors. Les niveaux sont
+                mélangés dans les petits groupes&nbsp;: c&apos;est
+                l&apos;individualisation qui prime.
               </p>
               <p className="font-body text-mp-text-light leading-relaxed mb-8">
-                Elles vous connaissent par votre prénom, adaptent chaque
-                exercice à votre corps du jour, et célèbrent vos progrès —
-                parce qu&apos;un cours, ça se vit à deux.
+                Elle vous connaît par votre prénom, ajuste chaque exercice à
+                votre corps du jour et célèbre vos progrès — parce qu&apos;un
+                cours, ça se construit ensemble.
               </p>
               <Link
                 href="/equipe"
                 className="mp-btn mp-btn-secondary text-sm"
               >
-                Rencontrer l&apos;équipe
+                Rencontrer Violette
                 <ArrowRight className="w-4 h-4" aria-hidden="true" />
               </Link>
             </ScrollReveal>

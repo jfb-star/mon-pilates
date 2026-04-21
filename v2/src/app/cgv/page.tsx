@@ -64,17 +64,20 @@ export default function CgvPage() {
                 Article 2 — Prestations et tarifs
               </h2>
               <p>
-                Mon Pilates propose des cours collectifs et individuels de
-                Pilates (Mat, Reformer, Prénatal, Senior, Doux, Intensif) sous
+                Mon Pilates propose des cours collectifs de Pilates Mat en petit
+                groupe (5 personnes maximum) ainsi que des séances privées
+                individuelles sur équipement (Reformer, Cadillac, Chair) sous
                 forme de :
               </p>
               <ul className="mt-3 space-y-1.5 list-disc list-inside">
-                <li>Cours d&apos;essai : 10&euro;</li>
-                <li>Séance à l&apos;unité : 18&euro;</li>
-                <li>Carte 5 cours : 80&euro; (validité 2 mois)</li>
-                <li>Carte 10 cours : 150&euro; (validité 4 mois)</li>
-                <li>Carte 20 cours : 260&euro; (validité 6 mois)</li>
-                <li>Abonnement mensuel illimité : 89&euro;/mois</li>
+                <li>Cours Découverte Mat : 10&euro; (réservé aux nouveaux élèves)</li>
+                <li>Séance Mat à l&apos;unité : 20&euro;</li>
+                <li>Carte 5 cours Mat : 95&euro; (validité 3 mois)</li>
+                <li>Carte 10 cours Mat : 180&euro; (validité 6 mois)</li>
+                <li>Carte 20 cours Mat : 340&euro; (validité 12 mois)</li>
+                <li>Séance Découverte Privé sur équipement : 50&euro; (réservé aux nouveaux élèves)</li>
+                <li>Séance Privé sur équipement : 65&euro;</li>
+                <li>Carte 10 séances Privé sur équipement : 550&euro;</li>
               </ul>
               <p className="mt-3">
                 Les tarifs en vigueur sont affichés sur le site mon-pilates.bzh
@@ -126,16 +129,20 @@ export default function CgvPage() {
               <p>Les cartes de cours sont soumises aux conditions suivantes :</p>
               <ul className="mt-3 space-y-1.5 list-disc list-inside">
                 <li>
-                  <strong>Carte 5 cours :</strong> valable 2 mois à compter de
-                  la date d&apos;achat.
+                  <strong>Carte 5 cours Mat :</strong> valable 3 mois à compter
+                  de la date d&apos;achat.
                 </li>
                 <li>
-                  <strong>Carte 10 cours :</strong> valable 4 mois à compter de
-                  la date d&apos;achat.
+                  <strong>Carte 10 cours Mat :</strong> valable 6 mois à compter
+                  de la date d&apos;achat.
                 </li>
                 <li>
-                  <strong>Carte 20 cours :</strong> valable 6 mois à compter de
-                  la date d&apos;achat.
+                  <strong>Carte 20 cours Mat :</strong> valable 12 mois à
+                  compter de la date d&apos;achat.
+                </li>
+                <li>
+                  <strong>Carte 10 séances Privé sur équipement :</strong>{" "}
+                  validité communiquée au moment de l&apos;achat.
                 </li>
               </ul>
               <p className="mt-3">
@@ -149,31 +156,21 @@ export default function CgvPage() {
 
             <div>
               <h2 className="font-heading text-2xl font-bold text-mp-charcoal mb-4">
-                Article 5 — Abonnement mensuel
+                Article 5 — Séances privées sur équipement
               </h2>
               <p>
-                L&apos;abonnement mensuel illimité donne accès à l&apos;ensemble
-                des cours collectifs du planning, sans limitation du nombre de
-                séances.
+                Les séances privées (Reformer, Cadillac, Chair) se déroulent en
+                individuel avec l&apos;instructrice. Elles sont réservables sur
+                rendez-vous, en fonction des disponibilités du studio.
               </p>
               <ul className="mt-3 space-y-1.5 list-disc list-inside">
                 <li>
-                  Le prélèvement est effectué chaque mois à la date
-                  anniversaire de la souscription.
+                  La séance Découverte Privé est réservée aux personnes
+                  n&apos;ayant jamais pratiqué sur équipement au studio.
                 </li>
                 <li>
-                  L&apos;abonnement est <strong>sans engagement</strong> et
-                  résiliable à tout moment avec un préavis de 15 jours avant la
-                  prochaine échéance.
-                </li>
-                <li>
-                  La résiliation peut être effectuée par email à
-                  contact@mon-pilates.bzh ou depuis l&apos;espace client en
-                  ligne.
-                </li>
-                <li>
-                  Aucun remboursement au prorata ne sera effectué en cas de
-                  résiliation en cours de période.
+                  Les séances privées ne peuvent être remplacées par un cours
+                  collectif, et inversement.
                 </li>
               </ul>
             </div>

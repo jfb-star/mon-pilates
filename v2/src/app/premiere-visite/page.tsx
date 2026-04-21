@@ -188,18 +188,17 @@ export default function PremiereVisitePage() {
         <div className="mp-container py-5 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8 text-center">
           <div className="flex items-center gap-2">
             <Star className="w-4 h-4 text-mp-gold fill-current" aria-hidden="true" />
-            <span className="font-heading text-sm font-semibold text-mp-charcoal">4.9/5</span>
-            <span className="text-sm text-mp-text-light font-body">sur Google</span>
+            <span className="font-heading text-sm font-semibold text-mp-charcoal">Certifi&eacute;e FPMP</span>
           </div>
           <span className="hidden sm:inline text-mp-sand-dark" aria-hidden="true">|</span>
           <div className="flex items-center gap-2">
             <CheckCircle className="w-4 h-4 text-mp-sage" aria-hidden="true" />
-            <span className="text-sm text-mp-text-light font-body">Satisfait(e) ou rembours&eacute;(e)</span>
+            <span className="text-sm text-mp-text-light font-body">Annulation jusqu&apos;&agrave; 12h avant</span>
           </div>
           <span className="hidden sm:inline text-mp-sand-dark" aria-hidden="true">|</span>
           <div className="flex items-center gap-2">
             <Heart className="w-4 h-4 text-mp-rose" aria-hidden="true" />
-            <span className="text-sm text-mp-text-light font-body">+200 &eacute;l&egrave;ves satisfaits</span>
+            <span className="text-sm text-mp-text-light font-body">5 &eacute;l&egrave;ves max par cours</span>
           </div>
         </div>
       </div>
@@ -428,21 +427,20 @@ export default function PremiereVisitePage() {
         </div>
       </section>
 
-      {/* Testimonial */}
+      {/* Testimonial — verbatim Google review */}
       <section className="mp-section bg-mp-white">
         <div className="mp-container max-w-2xl text-center">
           <Star className="w-8 h-8 text-mp-gold mx-auto mb-4" aria-hidden="true" />
           <blockquote className="font-body text-lg sm:text-xl text-mp-text italic leading-relaxed mb-6">
-            &laquo; J&apos;avais peur de ne pas être au niveau, mais Marie m&apos;a
-            mise à l&apos;aise dès les premières minutes. Le cadre est magnifique
-            et les exercices parfaitement adaptés. J&apos;y retourne chaque
-            semaine depuis ! &raquo;
+            &laquo; Un pur moment de bonheur&nbsp;! La séance était parfaitement
+            guidée par une prof au top, très attentive à notre posture. Le
+            cadre est incroyable, c&apos;est magique. &raquo;
             <footer className="mt-6 not-italic">
               <cite className="font-heading font-semibold text-mp-charcoal not-italic">
-                Isabelle D.
+                Agathe
               </cite>
               <p className="text-sm text-mp-text-light">
-                Élève depuis 6 mois
+                Avis Google
               </p>
             </footer>
           </blockquote>

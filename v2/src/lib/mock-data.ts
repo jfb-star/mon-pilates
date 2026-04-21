@@ -73,34 +73,17 @@ export const courseTypeLabels: Record<CourseType, string> = {
    ---------------------------------------------------------- */
 export const instructors: Instructor[] = [
   {
-    id: "marie",
-    name: "Marie Lefèvre",
-    initials: "ML",
-    role: "Fondatrice & Instructrice principale",
-    bio: "Passionnée de Pilates depuis plus de 15 ans, Marie a fondé Mon Pilates avec la vision d'offrir un espace où chacun peut se reconnecter à son corps. Formée à la méthode classique à New York, elle s'est ensuite spécialisée en Pilates prénatal et adapté aux seniors. Son approche bienveillante et rigoureuse a fait la réputation du studio. Chaque séance avec Marie est une invitation à explorer ses capacités avec douceur et précision.",
+    id: "violette",
+    name: "Violette",
+    initials: "V",
+    role: "Instructrice Pilates — FPMP",
+    bio: "Ancienne éducatrice en gymnastique et en sport, Violette s'est reconvertie au Pilates après un parcours personnel marqué par des blessures. « Le Pilates a été une vraie révélation : retrouver un corps sans douleur et un mouvement plus juste. » Aujourd'hui, elle accompagne chaque personne avec attention, en adaptant chaque séance à son corps, son histoire et ses besoins, dans un cadre bienveillant, lumineux et apaisé, face à l'océan.",
     certifications: [
-      "Certification STOTT Pilates (Toronto)",
-      "Formation Pilates Prénatal & Postnatal",
-      "Diplôme d'État en kinésithérapie",
-      "Formation Pilates Senior — Méthode Blandine Calais-Germain",
+      "Certifiée FPMP — Fédération des Professionnels de la Méthode Pilates",
+      // TODO owner: ajouter les éventuelles autres certifications / formations de Violette
     ],
-    specialties: ["mat", "prenatal", "senior"],
+    specialties: ["mat", "reformer", "prenatal", "senior", "doux", "intensif"],
     color: "bg-mp-ocean",
-  },
-  {
-    id: "sophie",
-    name: "Sophie Martin",
-    initials: "SM",
-    role: "Instructrice Reformer & Intensif",
-    bio: "Ancienne danseuse professionnelle, Sophie a découvert le Pilates lors de sa reconversion et n'a plus jamais regardé en arrière. Spécialiste du Reformer, elle excelle dans les cours dynamiques et techniques. Son énergie communicative et son oeil expert pour l'alignement en font une enseignante recherchée. Sophie croit fermement que le Pilates est un outil de transformation profonde, autant physique que mental.",
-    certifications: [
-      "Certification Balanced Body Reformer (Niv. I, II, III)",
-      "Formation Pilates Intensif & Athlétique",
-      "Diplôme de danse contemporaine (CNSMD Lyon)",
-      "Formation anatomie du mouvement",
-    ],
-    specialties: ["reformer", "intensif"],
-    color: "bg-mp-sage",
   },
 ];
 
@@ -165,7 +148,7 @@ export const courses: CourseInfo[] = [
     name: "Pilates Prénatal",
     shortDescription: "Adapté à chaque trimestre de grossesse. Maintenez votre forme en toute sécurité.",
     longDescription:
-      "Le Pilates Prénatal est spécialement conçu pour accompagner les futures mamans tout au long de leur grossesse. Chaque séance est adaptée au trimestre et aux besoins spécifiques de chaque participante. On y travaille le renforcement du plancher pelvien, le soulagement des douleurs lombaires, et la préparation du corps à l'accouchement. Marie, instructrice certifiée en prénatal, crée un environnement chaleureux et rassurant où les futures mamans peuvent pratiquer en toute confiance.",
+      "Le Pilates Prénatal est spécialement conçu pour accompagner les futures mamans tout au long de leur grossesse. Chaque séance est adaptée au trimestre et aux besoins spécifiques de chaque participante. On y travaille le renforcement du plancher pelvien, le soulagement des douleurs lombaires, et la préparation du corps à l'accouchement. Violette crée un environnement chaleureux et rassurant où les futures mamans peuvent pratiquer en toute confiance.",
     benefits: [
       "Renforcement du plancher pelvien",
       "Soulagement des douleurs de dos liées à la grossesse",
@@ -190,7 +173,7 @@ export const courses: CourseInfo[] = [
     name: "Pilates Senior",
     shortDescription: "Des séances douces pour maintenir mobilité, équilibre et force en toute sécurité.",
     longDescription:
-      "Le Pilates Senior est une pratique adaptée aux personnes de plus de 60 ans, axée sur le maintien de la mobilité, de l'équilibre et de la force musculaire. Les exercices sont réalisés à un rythme doux, avec des options assises ou debout selon les besoins. Marie porte une attention particulière à chaque participant, ajustant les mouvements pour respecter les éventuelles limitations. Ce cours est aussi un moment de convivialité et de partage dans un petit groupe bienveillant.",
+      "Le Pilates Senior est une pratique adaptée aux personnes de plus de 60 ans, axée sur le maintien de la mobilité, de l'équilibre et de la force musculaire. Les exercices sont réalisés à un rythme doux, avec des options assises ou debout selon les besoins. Violette porte une attention particulière à chaque participant, ajustant les mouvements pour respecter les éventuelles limitations. Ce cours est aussi un moment de convivialité et de partage dans un petit groupe bienveillant.",
     benefits: [
       "Maintien de l'équilibre et prévention des chutes",
       "Préservation de la mobilité articulaire",
@@ -241,7 +224,7 @@ export const courses: CourseInfo[] = [
     name: "Pilates Intensif",
     shortDescription: "Un cours dynamique et exigeant pour les pratiquants confirmés en quête de dépassement.",
     longDescription:
-      "Le Pilates Intensif est conçu pour les pratiquants expérimentés qui cherchent à repousser leurs limites. Sophie guide ce cours exigeant qui combine les exercices avancés du répertoire classique avec des enchaînements dynamiques. Le rythme soutenu, les transitions fluides et les séries complexes demandent concentration et engagement total. Un cours qui fait transpirer tout en respectant les principes fondamentaux du Pilates : contrôle, précision et fluidité.",
+      "Le Pilates Intensif est conçu pour les pratiquants expérimentés qui cherchent à repousser leurs limites. Violette guide ce cours exigeant qui combine les exercices avancés du répertoire classique avec des enchaînements dynamiques. Le rythme soutenu, les transitions fluides et les séries complexes demandent concentration et engagement total. Un cours qui fait transpirer tout en respectant les principes fondamentaux du Pilates : contrôle, précision et fluidité.",
     benefits: [
       "Développement de la force et de l'endurance",
       "Maîtrise des exercices avancés du répertoire",
@@ -269,46 +252,46 @@ export const courses: CourseInfo[] = [
    ---------------------------------------------------------- */
 export const weeklySessions: Session[] = [
   // LUNDI
-  { id: "l1", courseType: "mat", courseName: "Pilates Mat", instructor: "Marie Lefèvre", time: "09:00", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 10, spotsRemaining: 4, dayOffset: 0, description: "Séance complète de Pilates au sol pour tous niveaux." },
-  { id: "l2", courseType: "reformer", courseName: "Pilates Reformer", instructor: "Sophie Martin", time: "10:15", duration: "50 min", durationMinutes: 50, level: "Intermédiaire", spotsTotal: 6, spotsRemaining: 2, dayOffset: 0, description: "Travail sur Reformer avec résistance progressive." },
-  { id: "l3", courseType: "senior", courseName: "Pilates Senior", instructor: "Marie Lefèvre", time: "11:30", duration: "45 min", durationMinutes: 45, level: "Débutant", spotsTotal: 8, spotsRemaining: 5, dayOffset: 0, description: "Séance douce adaptée aux seniors." },
-  { id: "l4", courseType: "mat", courseName: "Pilates Mat", instructor: "Sophie Martin", time: "18:00", duration: "55 min", durationMinutes: 55, level: "Avancé", spotsTotal: 10, spotsRemaining: 1, dayOffset: 0, description: "Séance avancée pour pratiquants confirmés." },
-  { id: "l5", courseType: "prenatal", courseName: "Pilates Prénatal", instructor: "Marie Lefèvre", time: "19:15", duration: "50 min", durationMinutes: 50, level: "Tous niveaux", spotsTotal: 6, spotsRemaining: 3, dayOffset: 0, description: "Cours adapté aux futures mamans." },
+  { id: "l1", courseType: "mat", courseName: "Pilates Mat", instructor: "Violette", time: "09:00", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 10, spotsRemaining: 4, dayOffset: 0, description: "Séance complète de Pilates au sol pour tous niveaux." },
+  { id: "l2", courseType: "reformer", courseName: "Pilates Reformer", instructor: "Violette", time: "10:15", duration: "50 min", durationMinutes: 50, level: "Intermédiaire", spotsTotal: 6, spotsRemaining: 2, dayOffset: 0, description: "Travail sur Reformer avec résistance progressive." },
+  { id: "l3", courseType: "senior", courseName: "Pilates Senior", instructor: "Violette", time: "11:30", duration: "45 min", durationMinutes: 45, level: "Débutant", spotsTotal: 8, spotsRemaining: 5, dayOffset: 0, description: "Séance douce adaptée aux seniors." },
+  { id: "l4", courseType: "mat", courseName: "Pilates Mat", instructor: "Violette", time: "18:00", duration: "55 min", durationMinutes: 55, level: "Avancé", spotsTotal: 10, spotsRemaining: 1, dayOffset: 0, description: "Séance avancée pour pratiquants confirmés." },
+  { id: "l5", courseType: "prenatal", courseName: "Pilates Prénatal", instructor: "Violette", time: "19:15", duration: "50 min", durationMinutes: 50, level: "Tous niveaux", spotsTotal: 6, spotsRemaining: 3, dayOffset: 0, description: "Cours adapté aux futures mamans." },
 
   // MARDI
-  { id: "m1", courseType: "reformer", courseName: "Pilates Reformer", instructor: "Sophie Martin", time: "09:00", duration: "50 min", durationMinutes: 50, level: "Tous niveaux", spotsTotal: 6, spotsRemaining: 3, dayOffset: 1, description: "Initiation au Reformer, tous niveaux bienvenus." },
-  { id: "m2", courseType: "doux", courseName: "Pilates Doux", instructor: "Marie Lefèvre", time: "10:15", duration: "50 min", durationMinutes: 50, level: "Tous niveaux", spotsTotal: 10, spotsRemaining: 7, dayOffset: 1, description: "Séance douce et méditative, idéale pour la récupération." },
-  { id: "m3", courseType: "mat", courseName: "Pilates Mat", instructor: "Marie Lefèvre", time: "12:15", duration: "55 min", durationMinutes: 55, level: "Intermédiaire", spotsTotal: 10, spotsRemaining: 5, dayOffset: 1, description: "Séance intermédiaire avec focus sur le centre." },
-  { id: "m4", courseType: "intensif", courseName: "Pilates Intensif", instructor: "Sophie Martin", time: "18:00", duration: "55 min", durationMinutes: 55, level: "Avancé", spotsTotal: 8, spotsRemaining: 2, dayOffset: 1, description: "Cours dynamique et exigeant." },
-  { id: "m5", courseType: "mat", courseName: "Pilates Mat", instructor: "Sophie Martin", time: "19:15", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 10, spotsRemaining: 6, dayOffset: 1, description: "Séance du soir, tous niveaux." },
+  { id: "m1", courseType: "reformer", courseName: "Pilates Reformer", instructor: "Violette", time: "09:00", duration: "50 min", durationMinutes: 50, level: "Tous niveaux", spotsTotal: 6, spotsRemaining: 3, dayOffset: 1, description: "Initiation au Reformer, tous niveaux bienvenus." },
+  { id: "m2", courseType: "doux", courseName: "Pilates Doux", instructor: "Violette", time: "10:15", duration: "50 min", durationMinutes: 50, level: "Tous niveaux", spotsTotal: 10, spotsRemaining: 7, dayOffset: 1, description: "Séance douce et méditative, idéale pour la récupération." },
+  { id: "m3", courseType: "mat", courseName: "Pilates Mat", instructor: "Violette", time: "12:15", duration: "55 min", durationMinutes: 55, level: "Intermédiaire", spotsTotal: 10, spotsRemaining: 5, dayOffset: 1, description: "Séance intermédiaire avec focus sur le centre." },
+  { id: "m4", courseType: "intensif", courseName: "Pilates Intensif", instructor: "Violette", time: "18:00", duration: "55 min", durationMinutes: 55, level: "Avancé", spotsTotal: 8, spotsRemaining: 2, dayOffset: 1, description: "Cours dynamique et exigeant." },
+  { id: "m5", courseType: "mat", courseName: "Pilates Mat", instructor: "Violette", time: "19:15", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 10, spotsRemaining: 6, dayOffset: 1, description: "Séance du soir, tous niveaux." },
 
   // MERCREDI
-  { id: "w1", courseType: "mat", courseName: "Pilates Mat", instructor: "Marie Lefèvre", time: "09:00", duration: "55 min", durationMinutes: 55, level: "Débutant", spotsTotal: 10, spotsRemaining: 8, dayOffset: 2, description: "Séance débutants, idéale pour découvrir le Pilates." },
-  { id: "w2", courseType: "reformer", courseName: "Pilates Reformer", instructor: "Sophie Martin", time: "10:15", duration: "50 min", durationMinutes: 50, level: "Avancé", spotsTotal: 6, spotsRemaining: 1, dayOffset: 2, description: "Reformer avancé, exercices complexes." },
-  { id: "w3", courseType: "prenatal", courseName: "Pilates Prénatal", instructor: "Marie Lefèvre", time: "11:30", duration: "50 min", durationMinutes: 50, level: "Tous niveaux", spotsTotal: 6, spotsRemaining: 4, dayOffset: 2, description: "Cours spécial futures mamans." },
-  { id: "w4", courseType: "mat", courseName: "Pilates Mat", instructor: "Marie Lefèvre", time: "14:00", duration: "55 min", durationMinutes: 55, level: "Intermédiaire", spotsTotal: 10, spotsRemaining: 3, dayOffset: 2, description: "Séance de l'après-midi, niveau intermédiaire." },
-  { id: "w5", courseType: "doux", courseName: "Pilates Doux", instructor: "Marie Lefèvre", time: "18:00", duration: "50 min", durationMinutes: 50, level: "Tous niveaux", spotsTotal: 10, spotsRemaining: 6, dayOffset: 2, description: "Pilates doux en fin de journée." },
-  { id: "w6", courseType: "reformer", courseName: "Pilates Reformer", instructor: "Sophie Martin", time: "19:15", duration: "50 min", durationMinutes: 50, level: "Intermédiaire", spotsTotal: 6, spotsRemaining: 4, dayOffset: 2, description: "Reformer intermédiaire en soirée." },
+  { id: "w1", courseType: "mat", courseName: "Pilates Mat", instructor: "Violette", time: "09:00", duration: "55 min", durationMinutes: 55, level: "Débutant", spotsTotal: 10, spotsRemaining: 8, dayOffset: 2, description: "Séance débutants, idéale pour découvrir le Pilates." },
+  { id: "w2", courseType: "reformer", courseName: "Pilates Reformer", instructor: "Violette", time: "10:15", duration: "50 min", durationMinutes: 50, level: "Avancé", spotsTotal: 6, spotsRemaining: 1, dayOffset: 2, description: "Reformer avancé, exercices complexes." },
+  { id: "w3", courseType: "prenatal", courseName: "Pilates Prénatal", instructor: "Violette", time: "11:30", duration: "50 min", durationMinutes: 50, level: "Tous niveaux", spotsTotal: 6, spotsRemaining: 4, dayOffset: 2, description: "Cours spécial futures mamans." },
+  { id: "w4", courseType: "mat", courseName: "Pilates Mat", instructor: "Violette", time: "14:00", duration: "55 min", durationMinutes: 55, level: "Intermédiaire", spotsTotal: 10, spotsRemaining: 3, dayOffset: 2, description: "Séance de l'après-midi, niveau intermédiaire." },
+  { id: "w5", courseType: "doux", courseName: "Pilates Doux", instructor: "Violette", time: "18:00", duration: "50 min", durationMinutes: 50, level: "Tous niveaux", spotsTotal: 10, spotsRemaining: 6, dayOffset: 2, description: "Pilates doux en fin de journée." },
+  { id: "w6", courseType: "reformer", courseName: "Pilates Reformer", instructor: "Violette", time: "19:15", duration: "50 min", durationMinutes: 50, level: "Intermédiaire", spotsTotal: 6, spotsRemaining: 4, dayOffset: 2, description: "Reformer intermédiaire en soirée." },
 
   // JEUDI
-  { id: "j1", courseType: "senior", courseName: "Pilates Senior", instructor: "Marie Lefèvre", time: "09:00", duration: "45 min", durationMinutes: 45, level: "Débutant", spotsTotal: 8, spotsRemaining: 6, dayOffset: 3, description: "Séance douce pour les seniors." },
-  { id: "j2", courseType: "reformer", courseName: "Pilates Reformer", instructor: "Sophie Martin", time: "10:15", duration: "50 min", durationMinutes: 50, level: "Intermédiaire", spotsTotal: 6, spotsRemaining: 2, dayOffset: 3, description: "Reformer avec focus bras et épaules." },
-  { id: "j3", courseType: "mat", courseName: "Pilates Mat", instructor: "Marie Lefèvre", time: "12:15", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 10, spotsRemaining: 5, dayOffset: 3, description: "Séance du midi, tous niveaux." },
-  { id: "j4", courseType: "mat", courseName: "Pilates Mat", instructor: "Sophie Martin", time: "18:00", duration: "55 min", durationMinutes: 55, level: "Intermédiaire", spotsTotal: 10, spotsRemaining: 0, dayOffset: 3, description: "Séance complète — liste d'attente possible." },
-  { id: "j5", courseType: "intensif", courseName: "Pilates Intensif", instructor: "Sophie Martin", time: "19:15", duration: "55 min", durationMinutes: 55, level: "Avancé", spotsTotal: 8, spotsRemaining: 3, dayOffset: 3, description: "Cours intensif en soirée." },
+  { id: "j1", courseType: "senior", courseName: "Pilates Senior", instructor: "Violette", time: "09:00", duration: "45 min", durationMinutes: 45, level: "Débutant", spotsTotal: 8, spotsRemaining: 6, dayOffset: 3, description: "Séance douce pour les seniors." },
+  { id: "j2", courseType: "reformer", courseName: "Pilates Reformer", instructor: "Violette", time: "10:15", duration: "50 min", durationMinutes: 50, level: "Intermédiaire", spotsTotal: 6, spotsRemaining: 2, dayOffset: 3, description: "Reformer avec focus bras et épaules." },
+  { id: "j3", courseType: "mat", courseName: "Pilates Mat", instructor: "Violette", time: "12:15", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 10, spotsRemaining: 5, dayOffset: 3, description: "Séance du midi, tous niveaux." },
+  { id: "j4", courseType: "mat", courseName: "Pilates Mat", instructor: "Violette", time: "18:00", duration: "55 min", durationMinutes: 55, level: "Intermédiaire", spotsTotal: 10, spotsRemaining: 0, dayOffset: 3, description: "Séance complète — liste d'attente possible." },
+  { id: "j5", courseType: "intensif", courseName: "Pilates Intensif", instructor: "Violette", time: "19:15", duration: "55 min", durationMinutes: 55, level: "Avancé", spotsTotal: 8, spotsRemaining: 3, dayOffset: 3, description: "Cours intensif en soirée." },
 
   // VENDREDI
-  { id: "v1", courseType: "mat", courseName: "Pilates Mat", instructor: "Marie Lefèvre", time: "09:00", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 10, spotsRemaining: 7, dayOffset: 4, description: "Séance du vendredi matin, bonne énergie." },
-  { id: "v2", courseType: "doux", courseName: "Pilates Doux", instructor: "Marie Lefèvre", time: "10:15", duration: "50 min", durationMinutes: 50, level: "Tous niveaux", spotsTotal: 10, spotsRemaining: 8, dayOffset: 4, description: "Séance douce pour bien finir la semaine." },
-  { id: "v3", courseType: "reformer", courseName: "Pilates Reformer", instructor: "Sophie Martin", time: "11:30", duration: "50 min", durationMinutes: 50, level: "Tous niveaux", spotsTotal: 6, spotsRemaining: 4, dayOffset: 4, description: "Reformer tous niveaux, vendredi." },
-  { id: "v4", courseType: "prenatal", courseName: "Pilates Prénatal", instructor: "Marie Lefèvre", time: "14:00", duration: "50 min", durationMinutes: 50, level: "Tous niveaux", spotsTotal: 6, spotsRemaining: 5, dayOffset: 4, description: "Prénatal de l'après-midi." },
-  { id: "v5", courseType: "mat", courseName: "Pilates Mat", instructor: "Sophie Martin", time: "18:00", duration: "55 min", durationMinutes: 55, level: "Avancé", spotsTotal: 10, spotsRemaining: 2, dayOffset: 4, description: "Mat avancé, fin de semaine." },
+  { id: "v1", courseType: "mat", courseName: "Pilates Mat", instructor: "Violette", time: "09:00", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 10, spotsRemaining: 7, dayOffset: 4, description: "Séance du vendredi matin, bonne énergie." },
+  { id: "v2", courseType: "doux", courseName: "Pilates Doux", instructor: "Violette", time: "10:15", duration: "50 min", durationMinutes: 50, level: "Tous niveaux", spotsTotal: 10, spotsRemaining: 8, dayOffset: 4, description: "Séance douce pour bien finir la semaine." },
+  { id: "v3", courseType: "reformer", courseName: "Pilates Reformer", instructor: "Violette", time: "11:30", duration: "50 min", durationMinutes: 50, level: "Tous niveaux", spotsTotal: 6, spotsRemaining: 4, dayOffset: 4, description: "Reformer tous niveaux, vendredi." },
+  { id: "v4", courseType: "prenatal", courseName: "Pilates Prénatal", instructor: "Violette", time: "14:00", duration: "50 min", durationMinutes: 50, level: "Tous niveaux", spotsTotal: 6, spotsRemaining: 5, dayOffset: 4, description: "Prénatal de l'après-midi." },
+  { id: "v5", courseType: "mat", courseName: "Pilates Mat", instructor: "Violette", time: "18:00", duration: "55 min", durationMinutes: 55, level: "Avancé", spotsTotal: 10, spotsRemaining: 2, dayOffset: 4, description: "Mat avancé, fin de semaine." },
 
   // SAMEDI
-  { id: "s1", courseType: "mat", courseName: "Pilates Mat", instructor: "Marie Lefèvre", time: "09:00", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 12, spotsRemaining: 5, dayOffset: 5, description: "Grande séance du samedi matin." },
-  { id: "s2", courseType: "reformer", courseName: "Pilates Reformer", instructor: "Sophie Martin", time: "10:15", duration: "50 min", durationMinutes: 50, level: "Intermédiaire", spotsTotal: 6, spotsRemaining: 1, dayOffset: 5, description: "Reformer du week-end, places limitées." },
-  { id: "s3", courseType: "intensif", courseName: "Pilates Intensif", instructor: "Sophie Martin", time: "11:30", duration: "55 min", durationMinutes: 55, level: "Avancé", spotsTotal: 8, spotsRemaining: 4, dayOffset: 5, description: "Intensif du samedi, terminez la semaine en force." },
-  { id: "s4", courseType: "doux", courseName: "Pilates Doux", instructor: "Marie Lefèvre", time: "12:45", duration: "50 min", durationMinutes: 50, level: "Tous niveaux", spotsTotal: 10, spotsRemaining: 9, dayOffset: 5, description: "Séance douce pour clôturer la semaine." },
+  { id: "s1", courseType: "mat", courseName: "Pilates Mat", instructor: "Violette", time: "09:00", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 12, spotsRemaining: 5, dayOffset: 5, description: "Grande séance du samedi matin." },
+  { id: "s2", courseType: "reformer", courseName: "Pilates Reformer", instructor: "Violette", time: "10:15", duration: "50 min", durationMinutes: 50, level: "Intermédiaire", spotsTotal: 6, spotsRemaining: 1, dayOffset: 5, description: "Reformer du week-end, places limitées." },
+  { id: "s3", courseType: "intensif", courseName: "Pilates Intensif", instructor: "Violette", time: "11:30", duration: "55 min", durationMinutes: 55, level: "Avancé", spotsTotal: 8, spotsRemaining: 4, dayOffset: 5, description: "Intensif du samedi, terminez la semaine en force." },
+  { id: "s4", courseType: "doux", courseName: "Pilates Doux", instructor: "Violette", time: "12:45", duration: "50 min", durationMinutes: 50, level: "Tous niveaux", spotsTotal: 10, spotsRemaining: 9, dayOffset: 5, description: "Séance douce pour clôturer la semaine." },
 ];
 
 /* ----------------------------------------------------------
