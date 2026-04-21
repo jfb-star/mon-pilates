@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { withSentryConfig } from "@sentry/nextjs";
 
 const isDev = process.env.NODE_ENV === "development";
 
@@ -77,7 +78,7 @@ const nextConfig: NextConfig = {
               "style-src 'self' 'unsafe-inline'",
               "img-src 'self' data: https: blob:",
               "font-src 'self' https://fonts.gstatic.com",
-              "connect-src 'self' api.stripe.com https://maps.googleapis.com https://www.google-analytics.com https://analytics.google.com https://region1.google-analytics.com",
+              "connect-src 'self' api.stripe.com https://maps.googleapis.com https://www.google-analytics.com https://analytics.google.com https://region1.google-analytics.com https://*.sentry.io",
               "frame-src js.stripe.com https://www.google.com https://maps.google.com",
               "object-src 'none'",
               "base-uri 'self'",
@@ -90,4 +91,15 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+export default withSentryConfig(nextConfig, {
+  // CLI / CI will populate these via env (SENTRY_ORG, SENTRY_PROJECT, SENTRY_AUTH_TOKEN).
+  // withSentryConfig handles missing values gracefully (source maps upload skipped).
+  silent: !process.env.CI,
+  widenClientFileUpload: true,
+  // Proxy Sentry ingestion through the app to avoid ad-blockers + to bypass CSP
+  // complexity. Sentry creates /monitoring route internally.
+  tunnelRoute: "/monitoring",
+  disableLogger: true,
+  automaticVercelMonitors: true,
+});
+
