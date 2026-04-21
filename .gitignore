@@ -79,3 +79,4 @@ app/public/wp-content/plugins/google-listings-and-ads/
 # CLAUDE CODE (config locale)
 # =============================================================================
 .claude/
+.lighthouseci/

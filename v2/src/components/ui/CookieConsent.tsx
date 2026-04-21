@@ -49,14 +49,14 @@ export function CookieConsent() {
               Aucun cookie publicitaire ou de suivi.{" "}
               <Link
                 href="/politique-cookies"
-                className="text-mp-ocean hover:underline"
+                className="text-mp-ocean underline"
               >
                 Politique cookies
               </Link>
               {" · "}
               <Link
                 href="/politique-confidentialite"
-                className="text-mp-ocean hover:underline"
+                className="text-mp-ocean underline"
               >
                 Confidentialité
               </Link>

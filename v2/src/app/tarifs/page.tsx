@@ -330,8 +330,11 @@ export default function TarifsPage() {
       </section>
 
       {/* Pricing Grid */}
-      <section className="mp-section bg-mp-white">
+      <section className="mp-section bg-mp-white" aria-labelledby="pricing-grid-heading">
         <div className="mp-container">
+          <h2 id="pricing-grid-heading" className="sr-only">
+            Formules et cartes
+          </h2>
           <PricingGrid plans={pricingPlans} />
         </div>
       </section>

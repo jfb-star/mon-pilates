@@ -10,12 +10,15 @@
   /* Couleurs principales */
   --mp-sand: #f5f0eb;
   --mp-sand-dark: #e8dfd6;
-  --mp-ocean: #6b9fad;
-  --mp-ocean-dark: #4d8292;
-  --mp-ocean-light: #a3c9d3;
-  --mp-sage: #8faa8b;
+  /* Interactive tokens meet WCAG AA (≥4.5:1 on white). The previous
+     values (#6b9fad, #8faa8b, #c9a96e) landed at 2.2–2.9:1 and tripped
+     Lighthouse color-contrast. Decorative `-light` shades are unchanged. */
+  --mp-ocean: #3e7787;        /* 5.0:1 on white */
+  --mp-ocean-dark: #2a5d6e;   /* darker hover */
+  --mp-ocean-light: #a3c9d3;  /* decorative only */
+  --mp-sage: #5a7856;         /* 5.0:1 on white */
   --mp-sage-light: #c2d4bf;
-  --mp-gold: #c9a96e;
+  --mp-gold: #8b6518;         /* 5.3:1 on white */
   --mp-gold-light: #e0d0a8;
   --mp-white: #fefdfb;
   --mp-cream: #faf7f3;
