@@ -22,9 +22,9 @@ import { StudioStats } from "@/components/ui/StudioStats";
 import { OpenStatus } from "@/components/ui/OpenStatus";
 import { CourseQuiz } from "@/components/ui/CourseQuiz";
 import { MoodBooking } from "@/components/ui/MoodBooking";
-import { OceanParticles } from "@/components/ui/OceanParticles";
+import { OceanParticles } from "@/components/ui/OceanParticlesLazy";
 import { OrganicBlob } from "@/components/ui/OrganicBlob";
-import { ActivityFeed } from "@/components/ui/ActivityFeed";
+import { ActivityFeed } from "@/components/ui/ActivityFeedLazy";
 import { FirstTimerOnly, TrialCtaLink } from "@/components/ui/TrialGate";
 
 /* ============================================================
