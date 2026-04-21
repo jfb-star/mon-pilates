@@ -10,9 +10,8 @@ import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { FaqAccordion } from "@/components/ui/FaqAccordion";
 import { SITE_URL } from "@/lib/env";
 
-// TODO owner: remplacer par une vraie photo portrait de Violette
 const instructorPhotos: Record<string, string> = {
-  violette: "/images/cours-reformer-instructrice.jpg",
+  violette: "/images/violette-portrait.jpg",
 };
 
 const instructorExtras: Record<string, { quote: string; experience: string; funFact?: string }> = {
@@ -39,7 +38,7 @@ export const metadata: Metadata = {
     title: "Notre équipe | Mon Pilates",
     description:
       "Violette, instructrice certifiée FPMP, vous accompagne dans votre pratique du Pilates à Larmor-Plage.",
-    images: [{ url: "/images/cours-reformer-instructrice.jpg", width: 1200, height: 630, alt: "Violette, instructrice Pilates au studio Mon Pilates" }],
+    images: [{ url: "/images/cours-reformer-instructrice.jpg", width: 1200, height: 630, alt: "Studio Mon Pilates à Larmor-Plage — séance Reformer face à l'océan" }],
   },
   alternates: {
     canonical: `${SITE_URL}/equipe`,
