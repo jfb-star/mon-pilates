@@ -148,7 +148,7 @@ const jsonLd = {
   ],
   founder: {
     "@type": "Person",
-    name: "Violette",
+    name: "Violette Derumigny",
     jobTitle: "Instructrice certifiée Pilates",
     hasCredential: {
       "@type": "EducationalOccupationalCredential",

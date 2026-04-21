@@ -51,18 +51,25 @@ export default function MentionsLegalesPage() {
               </p>
               <ul className="mt-3 space-y-1.5 list-none">
                 <li>
-                  <strong>Raison sociale :</strong> Mon Pilates
+                  <strong>Nom commercial :</strong> Mon Pilates
                 </li>
                 <li>
-                  <strong>Forme juridique :</strong> Micro-entreprise /
-                  Entreprise individuelle
+                  <strong>Exploitante :</strong> Violette Derumigny
+                </li>
+                <li>
+                  <strong>Forme juridique :</strong> Entreprise individuelle
+                  (micro-entreprise)
                 </li>
                 <li>
                   <strong>Adresse :</strong> 14 Boulevard des Dunes, 56260
                   Larmor-Plage, France
                 </li>
                 <li>
-                  <strong>SIRET :</strong> communiqué sur demande
+                  <strong>SIRET :</strong> 948 461 686 00024
+                </li>
+                <li>
+                  <strong>TVA :</strong> non applicable, article 293 B du Code
+                  général des impôts
                 </li>
                 <li>
                   <strong>Téléphone :</strong>{" "}
@@ -89,9 +96,8 @@ export default function MentionsLegalesPage() {
               <h2 className="font-heading text-2xl font-bold text-mp-charcoal mb-4">
                 2. Responsable de publication
               </h2>
-              {/* TODO owner : renseigner le nom complet de la gérante (prénom + nom + éventuellement mention "gérante"). */}
               <p>
-                Le responsable de la publication du site est Violette, fondatrice et gérante de Mon Pilates.
+                Le responsable de la publication du site est Violette Derumigny, fondatrice et exploitante de Mon Pilates.
               </p>
               <p className="mt-2">
                 Contact :{" "}
