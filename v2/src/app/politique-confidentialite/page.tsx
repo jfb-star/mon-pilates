@@ -33,7 +33,7 @@ export default function PolitiqueConfidentialitePage() {
             Politique de confidentialité — Mon Pilates
           </h1>
           <p className="font-body text-mp-text-light">
-            Dernière mise à jour : <time dateTime="2025-01-15">15 janvier 2025</time>
+            Dernière mise à jour : <time dateTime="2026-04-21">21 avril 2026</time>
           </p>
         </div>
       </section>
@@ -129,6 +129,41 @@ export default function PolitiqueConfidentialitePage() {
                 </a>
                 .
               </p>
+
+              <h3 className="font-heading text-lg font-semibold text-mp-charcoal mt-4 mb-2">
+                2.4 Surveillance technique et détection d&apos;erreurs
+              </h3>
+              <p>
+                Pour assurer la fiabilité du site et détecter les erreurs
+                techniques, nous utilisons l&apos;outil{" "}
+                <strong>Sentry</strong> (Functional Software Inc.). Lorsqu&apos;une
+                erreur survient pendant votre navigation, Sentry peut collecter
+                automatiquement&nbsp;:
+              </p>
+              <ul className="mt-2 space-y-1 list-disc list-inside">
+                <li>
+                  votre adresse IP, votre agent utilisateur (navigateur, OS) et
+                  la page concernée,
+                </li>
+                <li>
+                  si vous êtes connecté·e, votre identifiant de compte ou votre
+                  email (option <em>sendDefaultPii</em> activée) afin de
+                  relier l&apos;erreur à votre session et de la résoudre plus
+                  rapidement,
+                </li>
+                <li>
+                  une trace technique de l&apos;erreur (fichier, ligne, appels
+                  précédents).
+                </li>
+              </ul>
+              <p className="mt-2">
+                Ces données sont utilisées exclusivement pour le diagnostic et
+                la correction de bugs. Base légale&nbsp;:{" "}
+                <strong>intérêt légitime</strong> (sécurité et bon
+                fonctionnement du service). Conservation&nbsp;: 90 jours
+                maximum. Vous pouvez demander la suppression anticipée en
+                nous contactant.
+              </p>
             </div>
 
             <div>
@@ -212,16 +247,37 @@ export default function PolitiqueConfidentialitePage() {
               </p>
               <ul className="mt-3 space-y-1.5 list-disc list-inside">
                 <li>
-                  <strong>Stripe Inc.</strong> : traitement sécurisé des
-                  paiements en ligne
+                  <strong>Stripe Inc.</strong> (USA) : traitement sécurisé des
+                  paiements en ligne.
                 </li>
                 <li>
-                  <strong>Vercel Inc.</strong> : hébergement du site web
+                  <strong>Vercel Inc.</strong> (USA) : hébergement du site web
+                  (serveurs UE pour les requêtes européennes).
+                </li>
+                <li>
+                  <strong>Neon Inc.</strong> (USA) : hébergement de la base de
+                  données PostgreSQL (région UE).
+                </li>
+                <li>
+                  <strong>Resend Inc.</strong> (USA) : envoi des emails
+                  transactionnels (confirmations, rappels, newsletter).
+                </li>
+                <li>
+                  <strong>Functional Software Inc. (Sentry)</strong> (USA,
+                  infrastructure DE) : surveillance technique et détection
+                  d&apos;erreurs (cf. section 2.4).
+                </li>
+                <li>
+                  <strong>Google LLC</strong> (USA) : si activé, mesure
+                  d&apos;audience via Google Analytics 4 et Google Maps pour
+                  l&apos;affichage de la carte du studio.
                 </li>
               </ul>
               <p className="mt-3">
-                Aucune donnée n&apos;est vendue ou cédée à des tiers à des fins
-                commerciales.
+                Les transferts vers les États-Unis sont encadrés par le{" "}
+                <em>Data Privacy Framework</em> ou des clauses contractuelles
+                types (CCT) de la Commission européenne. Aucune donnée
+                n&apos;est vendue ou cédée à des tiers à des fins commerciales.
               </p>
             </div>
 
@@ -230,10 +286,13 @@ export default function PolitiqueConfidentialitePage() {
                 7. Cookies
               </h2>
               <p>
-                Notre site utilise uniquement des cookies essentiels au bon
-                fonctionnement du site (cookies de session, préférences
-                d&apos;affichage). Aucun cookie de suivi, d&apos;analyse ou
-                publicitaire n&apos;est utilisé.
+                Notre site utilise des cookies essentiels au bon
+                fonctionnement (cookies de session, préférences
+                d&apos;affichage, authentification). Si la mesure d&apos;audience
+                Google Analytics est activée, elle dépose également des
+                cookies statistiques (<code>_ga</code>, <code>_ga_*</code>)
+                dont vous pouvez refuser le dépôt. Aucun cookie publicitaire
+                n&apos;est utilisé.
               </p>
               <p className="mt-3">
                 Pour plus d&apos;informations, consultez notre{" "}

@@ -13,6 +13,8 @@ import {
   Phone,
   Baby,
   Leaf,
+  Flame,
+  Award,
 } from "lucide-react";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { TrustBar } from "@/components/ui/TrustBar";
@@ -123,9 +125,9 @@ function Hero() {
 const courseTypes = [
   {
     icon: Heart,
-    name: "Pilates Mat",
+    name: "Pilates classique — Tapis",
     slug: "mat",
-    description: "Le Pilates au sol, accessible à tous. Renforcez votre centre et améliorez votre posture.",
+    description: "Séance complète au tapis, en petit groupe de 5. Renforcez votre centre et améliorez votre posture.",
     color: "text-mp-ocean",
     bg: "bg-mp-ocean/8",
     border: "group-hover:border-mp-ocean/30",
@@ -133,42 +135,42 @@ const courseTypes = [
   },
   {
     icon: Sparkles,
-    name: "Pilates Reformer",
+    name: "Cours privé sur appareils",
     slug: "reformer",
-    description: "Sur machine Reformer, un travail en profondeur avec résistance pour sculpter votre silhouette.",
+    description: "Séance individuelle sur Reformer, Cadillac ou Chair. Accompagnement sur mesure, sans jamais partager la machine.",
     color: "text-mp-sage",
     bg: "bg-mp-sage/8",
     border: "group-hover:border-mp-sage/30",
     image: "/images/illustration-cours-machine.png",
   },
   {
-    icon: Baby,
-    name: "Pilates Prénatal",
-    slug: "prenatal",
-    description: "Adapté à chaque trimestre. Maintenez votre forme et préparez votre corps en toute sécurité.",
-    color: "text-mp-rose",
-    bg: "bg-mp-rose/8",
-    border: "group-hover:border-mp-rose/30",
-    image: null,
-  },
-  {
-    icon: Clock,
-    name: "Pilates Senior",
-    slug: "senior",
-    description: "Des séances douces pour maintenir mobilité, équilibre et force. À votre rythme.",
-    color: "text-mp-gold",
-    bg: "bg-mp-gold/8",
-    border: "group-hover:border-mp-gold/30",
-    image: null,
-  },
-  {
     icon: Leaf,
-    name: "Pilates Doux",
+    name: "Pilates doux — Tapis",
     slug: "doux",
-    description: "Une pratique lente et méditative, idéale pour la récupération et la relaxation profonde.",
+    description: "Une pratique lente et accessible, idéale pour débuter, récupérer ou se réconcilier avec son corps.",
     color: "text-mp-ocean-light",
     bg: "bg-mp-ocean-light/10",
     border: "group-hover:border-mp-ocean-light/30",
+    image: null,
+  },
+  {
+    icon: Flame,
+    name: "Pilates avancé",
+    slug: "intensif",
+    description: "Enchaînements soutenus et exercices complexes pour pratiquants confirmés. Contrôle, précision, fluidité.",
+    color: "text-mp-charcoal",
+    bg: "bg-mp-charcoal/8",
+    border: "group-hover:border-mp-charcoal/30",
+    image: null,
+  },
+  {
+    icon: Baby,
+    name: "Pilates femmes enceintes",
+    slug: "prenatal",
+    description: "Adapté à chaque trimestre. Maintenez votre forme, soulagez votre dos et préparez votre corps en toute sécurité.",
+    color: "text-mp-rose",
+    bg: "bg-mp-rose/8",
+    border: "group-hover:border-mp-rose/30",
     image: null,
   },
 ];
@@ -179,9 +181,9 @@ const courseTypes = [
 const differentiators = [
   {
     icon: Users,
-    stat: "10 max",
+    stat: "5 max",
     title: "Petits groupes",
-    description: "Maximum 10 personnes par cours pour un suivi individuel et des corrections personnalisées.",
+    description: "Cours Tapis limités à 5 personnes pour un suivi individuel et des corrections personnalisées.",
   },
   {
     icon: Star,
@@ -190,16 +192,16 @@ const differentiators = [
     description: "Un studio lumineux avec vue sur la mer. Pratiquez dans un environnement inspirant et apaisant.",
   },
   {
-    icon: Heart,
-    stat: "10+ ans",
-    title: "Expertise certifiée",
-    description: "Des instructrices formées aux meilleures écoles internationales, en formation continue.",
+    icon: Award,
+    stat: "FPMP",
+    title: "Instructrice certifiée",
+    description: "Violette est certifiée par la Fédération des Professionnels de la Méthode Pilates et en formation continue.",
   },
   {
     icon: Clock,
-    stat: "6 types",
+    stat: "5 formats",
     title: "Cours variés",
-    description: "Mat, Reformer, Prénatal, Senior, Doux, Intensif — un cours adapté à chaque objectif.",
+    description: "Classique, Doux, Avancé, Femmes enceintes et Privé sur appareils — un format adapté à chaque objectif.",
   },
 ];
 
@@ -255,7 +257,7 @@ function CourseTypes() {
             Un Pilates pour chaque besoin
           </h2>
           <p className="font-body text-mp-text-light leading-relaxed">
-            Que vous soyez débutant ou confirmé, enceinte ou senior, découvrez le cours qui vous correspond.
+            Que vous soyez débutant, confirmé·e ou en attente d&apos;un enfant, découvrez le format qui vous correspond — en groupe au tapis ou en privé sur appareils.
           </p>
         </ScrollReveal>
 
