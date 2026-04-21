@@ -31,18 +31,18 @@ import {
 import { SmartRecommendations } from "@/components/ui/SmartRecommendations"
 import { SITE_URL } from "@/lib/env"
 
-const courseTypes = ["mat", "reformer", "prenatal", "senior", "doux"] as const
+const courseTypes = ["mat", "doux", "intensif", "prenatal", "reformer"] as const
 const instructorNames = ["Violette"]
 const levels = ["Tous niveaux", "Débutant", "Intermédiaire", "Avancé"]
 
 /** One-line descriptions per course type */
 const courseTypeDescriptions: Record<string, string> = {
-  mat: "Renforcement postural au sol",
-  reformer: "Travail sur machine Reformer",
+  mat: "Séance complète au tapis",
+  reformer: "Privé sur Reformer / Cadillac / Chair",
   prenatal: "Adapté à la grossesse",
   senior: "Doux et accessible",
-  doux: "Mobilité et bien-être",
-  intensif: "Cardio et renforcement avancé",
+  doux: "Accessible, idéal pour débuter",
+  intensif: "Enchaînements soutenus, niveau avancé",
 }
 
 /** Instructor avatar colors based on name */

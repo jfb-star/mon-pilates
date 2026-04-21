@@ -210,9 +210,13 @@ export function Footer() {
               <div className="flex items-start gap-3 text-sm">
                 <Clock className="w-4 h-4 mt-0.5 text-mp-ocean-light flex-shrink-0" aria-hidden="true" />
                 <span>
-                  Lun-Ven : 9h — 20h
+                  Lun : 17h — 20h30
                   <br />
-                  Sam : 9h — 14h
+                  Mar, Mer, Ven : 8h — 20h30
+                  <br />
+                  Sam : 9h — 12h30
+                  <br />
+                  Jeu &amp; Dim : fermé
                 </span>
               </div>
             </address>

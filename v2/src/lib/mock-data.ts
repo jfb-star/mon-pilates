@@ -60,12 +60,12 @@ export const courseTypeColors: Record<CourseType, { dot: string; bg: string; tex
 };
 
 export const courseTypeLabels: Record<CourseType, string> = {
-  mat: "Mat",
-  reformer: "Reformer",
-  prenatal: "Prénatal",
+  mat: "Classique",
+  reformer: "Privé",
+  prenatal: "Femmes enceintes",
   senior: "Senior",
   doux: "Doux",
-  intensif: "Intensif",
+  intensif: "Avancé",
 };
 
 /* ----------------------------------------------------------
@@ -247,51 +247,53 @@ export const courses: CourseInfo[] = [
 ];
 
 /* ----------------------------------------------------------
-   WEEKLY SESSIONS (mock data)
-   dayOffset: 0=Lun, 1=Mar, 2=Mer, 3=Jeu, 4=Ven, 5=Sam
+   WEEKLY SESSIONS (fallback data)
+   Source: Bsport live calendar (mars-mai 2026) + Mer/Sam additions.
+   dayOffset: 0=Lun, 1=Mar, 2=Mer, 3=Jeu, 4=Ven, 5=Sam, 6=Dim
+   Jeudi + Dimanche fermés.
+   Groupes Tapis : 5 max. Privé sur appareils : 1 max.
    ---------------------------------------------------------- */
 export const weeklySessions: Session[] = [
   // LUNDI
-  { id: "l1", courseType: "mat", courseName: "Pilates Mat", instructor: "Violette", time: "09:00", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 10, spotsRemaining: 4, dayOffset: 0, description: "Séance complète de Pilates au sol pour tous niveaux." },
-  { id: "l2", courseType: "reformer", courseName: "Pilates Reformer", instructor: "Violette", time: "10:15", duration: "50 min", durationMinutes: 50, level: "Intermédiaire", spotsTotal: 6, spotsRemaining: 2, dayOffset: 0, description: "Travail sur Reformer avec résistance progressive." },
-  { id: "l3", courseType: "senior", courseName: "Pilates Senior", instructor: "Violette", time: "11:30", duration: "45 min", durationMinutes: 45, level: "Débutant", spotsTotal: 8, spotsRemaining: 5, dayOffset: 0, description: "Séance douce adaptée aux seniors." },
-  { id: "l4", courseType: "mat", courseName: "Pilates Mat", instructor: "Violette", time: "18:00", duration: "55 min", durationMinutes: 55, level: "Avancé", spotsTotal: 10, spotsRemaining: 1, dayOffset: 0, description: "Séance avancée pour pratiquants confirmés." },
-  { id: "l5", courseType: "prenatal", courseName: "Pilates Prénatal", instructor: "Violette", time: "19:15", duration: "50 min", durationMinutes: 50, level: "Tous niveaux", spotsTotal: 6, spotsRemaining: 3, dayOffset: 0, description: "Cours adapté aux futures mamans." },
+  { id: "l1", courseType: "reformer", courseName: "Cours privé sur appareils", instructor: "Violette", time: "17:00", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 1, spotsRemaining: 1, dayOffset: 0, description: "Séance individuelle sur Reformer / Cadillac / Chair." },
+  { id: "l2", courseType: "intensif", courseName: "Pilates avancé", instructor: "Violette", time: "18:15", duration: "55 min", durationMinutes: 55, level: "Intermédiaire", spotsTotal: 5, spotsRemaining: 3, dayOffset: 0, description: "Enchaînements soutenus pour pratiquants confirmés." },
+  { id: "l3", courseType: "mat", courseName: "Pilates classique — Tapis", instructor: "Violette", time: "19:30", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 5, spotsRemaining: 2, dayOffset: 0, description: "Séance complète au tapis, tous niveaux." },
 
   // MARDI
-  { id: "m1", courseType: "reformer", courseName: "Pilates Reformer", instructor: "Violette", time: "09:00", duration: "50 min", durationMinutes: 50, level: "Tous niveaux", spotsTotal: 6, spotsRemaining: 3, dayOffset: 1, description: "Initiation au Reformer, tous niveaux bienvenus." },
-  { id: "m2", courseType: "doux", courseName: "Pilates Doux", instructor: "Violette", time: "10:15", duration: "50 min", durationMinutes: 50, level: "Tous niveaux", spotsTotal: 10, spotsRemaining: 7, dayOffset: 1, description: "Séance douce et méditative, idéale pour la récupération." },
-  { id: "m3", courseType: "mat", courseName: "Pilates Mat", instructor: "Violette", time: "12:15", duration: "55 min", durationMinutes: 55, level: "Intermédiaire", spotsTotal: 10, spotsRemaining: 5, dayOffset: 1, description: "Séance intermédiaire avec focus sur le centre." },
-  { id: "m4", courseType: "intensif", courseName: "Pilates Intensif", instructor: "Violette", time: "18:00", duration: "55 min", durationMinutes: 55, level: "Avancé", spotsTotal: 8, spotsRemaining: 2, dayOffset: 1, description: "Cours dynamique et exigeant." },
-  { id: "m5", courseType: "mat", courseName: "Pilates Mat", instructor: "Violette", time: "19:15", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 10, spotsRemaining: 6, dayOffset: 1, description: "Séance du soir, tous niveaux." },
+  { id: "m1", courseType: "reformer", courseName: "Cours privé sur appareils", instructor: "Violette", time: "08:00", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 1, spotsRemaining: 1, dayOffset: 1, description: "Séance individuelle sur Reformer / Cadillac / Chair." },
+  { id: "m2", courseType: "mat", courseName: "Pilates classique — Tapis", instructor: "Violette", time: "09:15", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 5, spotsRemaining: 4, dayOffset: 1, description: "Séance complète au tapis, tous niveaux." },
+  { id: "m3", courseType: "doux", courseName: "Pilates doux — Tapis", instructor: "Violette", time: "10:30", duration: "55 min", durationMinutes: 55, level: "Débutant", spotsTotal: 5, spotsRemaining: 5, dayOffset: 1, description: "Séance douce et accessible, idéale pour débuter." },
+  { id: "m4", courseType: "doux", courseName: "Pilates doux — Tapis", instructor: "Violette", time: "12:30", duration: "55 min", durationMinutes: 55, level: "Débutant", spotsTotal: 5, spotsRemaining: 5, dayOffset: 1, description: "Séance douce du midi, idéale pour débuter." },
+  { id: "m5", courseType: "doux", courseName: "Pilates doux — Tapis", instructor: "Violette", time: "17:00", duration: "55 min", durationMinutes: 55, level: "Débutant", spotsTotal: 5, spotsRemaining: 5, dayOffset: 1, description: "Séance douce de fin de journée." },
+  { id: "m6", courseType: "mat", courseName: "Pilates classique — Tapis", instructor: "Violette", time: "18:15", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 5, spotsRemaining: 3, dayOffset: 1, description: "Séance du soir, tous niveaux." },
+  { id: "m7", courseType: "mat", courseName: "Pilates classique — Tapis", instructor: "Violette", time: "19:30", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 5, spotsRemaining: 4, dayOffset: 1, description: "Séance du soir, tous niveaux." },
 
   // MERCREDI
-  { id: "w1", courseType: "mat", courseName: "Pilates Mat", instructor: "Violette", time: "09:00", duration: "55 min", durationMinutes: 55, level: "Débutant", spotsTotal: 10, spotsRemaining: 8, dayOffset: 2, description: "Séance débutants, idéale pour découvrir le Pilates." },
-  { id: "w2", courseType: "reformer", courseName: "Pilates Reformer", instructor: "Violette", time: "10:15", duration: "50 min", durationMinutes: 50, level: "Avancé", spotsTotal: 6, spotsRemaining: 1, dayOffset: 2, description: "Reformer avancé, exercices complexes." },
-  { id: "w3", courseType: "prenatal", courseName: "Pilates Prénatal", instructor: "Violette", time: "11:30", duration: "50 min", durationMinutes: 50, level: "Tous niveaux", spotsTotal: 6, spotsRemaining: 4, dayOffset: 2, description: "Cours spécial futures mamans." },
-  { id: "w4", courseType: "mat", courseName: "Pilates Mat", instructor: "Violette", time: "14:00", duration: "55 min", durationMinutes: 55, level: "Intermédiaire", spotsTotal: 10, spotsRemaining: 3, dayOffset: 2, description: "Séance de l'après-midi, niveau intermédiaire." },
-  { id: "w5", courseType: "doux", courseName: "Pilates Doux", instructor: "Violette", time: "18:00", duration: "50 min", durationMinutes: 50, level: "Tous niveaux", spotsTotal: 10, spotsRemaining: 6, dayOffset: 2, description: "Pilates doux en fin de journée." },
-  { id: "w6", courseType: "reformer", courseName: "Pilates Reformer", instructor: "Violette", time: "19:15", duration: "50 min", durationMinutes: 50, level: "Intermédiaire", spotsTotal: 6, spotsRemaining: 4, dayOffset: 2, description: "Reformer intermédiaire en soirée." },
+  { id: "w1", courseType: "mat", courseName: "Pilates classique — Tapis", instructor: "Violette", time: "09:15", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 5, spotsRemaining: 5, dayOffset: 2, description: "Séance complète au tapis, tous niveaux." },
+  { id: "w2", courseType: "doux", courseName: "Pilates doux — Tapis", instructor: "Violette", time: "10:30", duration: "55 min", durationMinutes: 55, level: "Débutant", spotsTotal: 5, spotsRemaining: 5, dayOffset: 2, description: "Séance douce et accessible, idéale pour débuter." },
+  { id: "w3", courseType: "mat", courseName: "Pilates classique — Tapis", instructor: "Violette", time: "12:30", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 5, spotsRemaining: 5, dayOffset: 2, description: "Séance du midi, tous niveaux." },
+  { id: "w4", courseType: "mat", courseName: "Pilates classique — Tapis", instructor: "Violette", time: "18:15", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 5, spotsRemaining: 5, dayOffset: 2, description: "Séance du soir, tous niveaux." },
+  { id: "w5", courseType: "intensif", courseName: "Pilates avancé", instructor: "Violette", time: "19:30", duration: "55 min", durationMinutes: 55, level: "Intermédiaire", spotsTotal: 5, spotsRemaining: 5, dayOffset: 2, description: "Enchaînements soutenus pour pratiquants confirmés." },
 
-  // JEUDI
-  { id: "j1", courseType: "senior", courseName: "Pilates Senior", instructor: "Violette", time: "09:00", duration: "45 min", durationMinutes: 45, level: "Débutant", spotsTotal: 8, spotsRemaining: 6, dayOffset: 3, description: "Séance douce pour les seniors." },
-  { id: "j2", courseType: "reformer", courseName: "Pilates Reformer", instructor: "Violette", time: "10:15", duration: "50 min", durationMinutes: 50, level: "Intermédiaire", spotsTotal: 6, spotsRemaining: 2, dayOffset: 3, description: "Reformer avec focus bras et épaules." },
-  { id: "j3", courseType: "mat", courseName: "Pilates Mat", instructor: "Violette", time: "12:15", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 10, spotsRemaining: 5, dayOffset: 3, description: "Séance du midi, tous niveaux." },
-  { id: "j4", courseType: "mat", courseName: "Pilates Mat", instructor: "Violette", time: "18:00", duration: "55 min", durationMinutes: 55, level: "Intermédiaire", spotsTotal: 10, spotsRemaining: 0, dayOffset: 3, description: "Séance complète — liste d'attente possible." },
-  { id: "j5", courseType: "intensif", courseName: "Pilates Intensif", instructor: "Violette", time: "19:15", duration: "55 min", durationMinutes: 55, level: "Avancé", spotsTotal: 8, spotsRemaining: 3, dayOffset: 3, description: "Cours intensif en soirée." },
+  // JEUDI — fermé
 
   // VENDREDI
-  { id: "v1", courseType: "mat", courseName: "Pilates Mat", instructor: "Violette", time: "09:00", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 10, spotsRemaining: 7, dayOffset: 4, description: "Séance du vendredi matin, bonne énergie." },
-  { id: "v2", courseType: "doux", courseName: "Pilates Doux", instructor: "Violette", time: "10:15", duration: "50 min", durationMinutes: 50, level: "Tous niveaux", spotsTotal: 10, spotsRemaining: 8, dayOffset: 4, description: "Séance douce pour bien finir la semaine." },
-  { id: "v3", courseType: "reformer", courseName: "Pilates Reformer", instructor: "Violette", time: "11:30", duration: "50 min", durationMinutes: 50, level: "Tous niveaux", spotsTotal: 6, spotsRemaining: 4, dayOffset: 4, description: "Reformer tous niveaux, vendredi." },
-  { id: "v4", courseType: "prenatal", courseName: "Pilates Prénatal", instructor: "Violette", time: "14:00", duration: "50 min", durationMinutes: 50, level: "Tous niveaux", spotsTotal: 6, spotsRemaining: 5, dayOffset: 4, description: "Prénatal de l'après-midi." },
-  { id: "v5", courseType: "mat", courseName: "Pilates Mat", instructor: "Violette", time: "18:00", duration: "55 min", durationMinutes: 55, level: "Avancé", spotsTotal: 10, spotsRemaining: 2, dayOffset: 4, description: "Mat avancé, fin de semaine." },
+  { id: "v1", courseType: "reformer", courseName: "Cours privé sur appareils", instructor: "Violette", time: "08:00", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 1, spotsRemaining: 1, dayOffset: 4, description: "Séance individuelle sur Reformer / Cadillac / Chair." },
+  { id: "v2", courseType: "doux", courseName: "Pilates doux — Tapis", instructor: "Violette", time: "09:15", duration: "55 min", durationMinutes: 55, level: "Débutant", spotsTotal: 5, spotsRemaining: 5, dayOffset: 4, description: "Séance douce et accessible, idéale pour débuter." },
+  { id: "v3", courseType: "intensif", courseName: "Pilates avancé", instructor: "Violette", time: "10:30", duration: "55 min", durationMinutes: 55, level: "Intermédiaire", spotsTotal: 5, spotsRemaining: 4, dayOffset: 4, description: "Enchaînements soutenus pour pratiquants confirmés." },
+  { id: "v4", courseType: "mat", courseName: "Pilates classique — Tapis", instructor: "Violette", time: "12:30", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 5, spotsRemaining: 5, dayOffset: 4, description: "Séance du midi, tous niveaux." },
+  { id: "v5", courseType: "reformer", courseName: "Cours privé sur appareils", instructor: "Violette", time: "14:00", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 1, spotsRemaining: 1, dayOffset: 4, description: "Séance individuelle sur Reformer / Cadillac / Chair." },
+  { id: "v6", courseType: "reformer", courseName: "Cours privé sur appareils", instructor: "Violette", time: "15:15", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 1, spotsRemaining: 1, dayOffset: 4, description: "Séance individuelle sur Reformer / Cadillac / Chair." },
+  { id: "v7", courseType: "prenatal", courseName: "Pilates femmes enceintes", instructor: "Violette", time: "17:00", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 5, spotsRemaining: 5, dayOffset: 4, description: "Cours adapté à chaque trimestre de la grossesse." },
+  { id: "v8", courseType: "mat", courseName: "Pilates classique — Tapis", instructor: "Violette", time: "18:15", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 5, spotsRemaining: 3, dayOffset: 4, description: "Séance du soir, tous niveaux." },
+  { id: "v9", courseType: "mat", courseName: "Pilates classique — Tapis", instructor: "Violette", time: "19:30", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 5, spotsRemaining: 4, dayOffset: 4, description: "Séance du soir, tous niveaux." },
 
-  // SAMEDI
-  { id: "s1", courseType: "mat", courseName: "Pilates Mat", instructor: "Violette", time: "09:00", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 12, spotsRemaining: 5, dayOffset: 5, description: "Grande séance du samedi matin." },
-  { id: "s2", courseType: "reformer", courseName: "Pilates Reformer", instructor: "Violette", time: "10:15", duration: "50 min", durationMinutes: 50, level: "Intermédiaire", spotsTotal: 6, spotsRemaining: 1, dayOffset: 5, description: "Reformer du week-end, places limitées." },
-  { id: "s3", courseType: "intensif", courseName: "Pilates Intensif", instructor: "Violette", time: "11:30", duration: "55 min", durationMinutes: 55, level: "Avancé", spotsTotal: 8, spotsRemaining: 4, dayOffset: 5, description: "Intensif du samedi, terminez la semaine en force." },
-  { id: "s4", courseType: "doux", courseName: "Pilates Doux", instructor: "Violette", time: "12:45", duration: "50 min", durationMinutes: 50, level: "Tous niveaux", spotsTotal: 10, spotsRemaining: 9, dayOffset: 5, description: "Séance douce pour clôturer la semaine." },
+  // SAMEDI (matin uniquement)
+  { id: "s1", courseType: "mat", courseName: "Pilates classique — Tapis", instructor: "Violette", time: "09:00", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 5, spotsRemaining: 5, dayOffset: 5, description: "Séance du samedi matin, tous niveaux." },
+  { id: "s2", courseType: "doux", courseName: "Pilates doux — Tapis", instructor: "Violette", time: "10:15", duration: "55 min", durationMinutes: 55, level: "Débutant", spotsTotal: 5, spotsRemaining: 5, dayOffset: 5, description: "Séance douce et accessible, idéale pour débuter." },
+  { id: "s3", courseType: "reformer", courseName: "Cours privé sur appareils", instructor: "Violette", time: "11:30", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 1, spotsRemaining: 1, dayOffset: 5, description: "Séance individuelle sur Reformer / Cadillac / Chair." },
+
+  // DIMANCHE — fermé
 ];
 
 /* ----------------------------------------------------------

@@ -421,12 +421,11 @@ function StudioAmbiance() {
 /* ============================================================
    PROCHAINES SEANCES
    ============================================================ */
-// TODO owner: remplacer par les vrais créneaux exacts du planning hebdomadaire
 const upcomingSessions = [
-  { time: "09:00", name: "Pilates Mat (groupe)", level: "Tous niveaux", prof: "Violette", spots: 4, duration: 55, color: "bg-mp-ocean" },
-  { time: "12:15", name: "Pilates Mat (groupe)", level: "Tous niveaux", prof: "Violette", spots: 3, duration: 55, color: "bg-mp-ocean" },
-  { time: "18:30", name: "Pilates Mat (groupe)", level: "Tous niveaux", prof: "Violette", spots: 2, duration: 55, color: "bg-mp-ocean" },
-  { time: "10:00", name: "Cours privé (équipement)", level: "Sur mesure", prof: "Violette", spots: 1, duration: 55, color: "bg-mp-sage" },
+  { time: "09:15", name: "Pilates classique — Tapis", level: "Tous niveaux", prof: "Violette", spots: 4, duration: 55, color: "bg-mp-ocean" },
+  { time: "10:30", name: "Pilates doux — Tapis", level: "Débutant", prof: "Violette", spots: 3, duration: 55, color: "bg-mp-ocean-light" },
+  { time: "18:15", name: "Pilates classique — Tapis", level: "Tous niveaux", prof: "Violette", spots: 2, duration: 55, color: "bg-mp-ocean" },
+  { time: "19:30", name: "Pilates avancé", level: "Intermédiaire", prof: "Violette", spots: 3, duration: 55, color: "bg-mp-charcoal" },
 ];
 
 function UpcomingSessions() {
