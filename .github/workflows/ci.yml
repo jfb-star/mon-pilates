@@ -29,6 +29,9 @@ jobs:
       DIRECT_URL: postgresql://ci:ci@localhost:5432/ci
       AUTH_SECRET: ci-dummy-auth-secret-not-used-at-runtime
       NEXTAUTH_URL: http://localhost:3457
+      # AuthJS refuses to serve /api/auth/* unless trustHost is set.
+      # On Vercel it's auto-detected; on a bare CI runner we must opt in.
+      AUTH_TRUST_HOST: "true"
       RESEND_FROM: "CI <ci@example.test>"
       STRIPE_SECRET_KEY: sk_test_ci_dummy
       STRIPE_WEBHOOK_SECRET: whsec_ci_dummy
