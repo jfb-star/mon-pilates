@@ -57,7 +57,20 @@ jobs:
 
       - name: Next build
         # Bypass the npm "build" script so we skip `prisma db push` entirely.
-        run: npx next build
+        # Capture stdout+stderr to build.log and preserve next's real exit code.
+        run: |
+          set +e
+          npx next build 2>&1 | tee build.log
+          exit ${PIPESTATUS[0]}
+
+      - name: Upload build log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: next-build-log
+          path: v2/build.log
+          retention-days: 7
+          if-no-files-found: ignore
 
       - name: Get Playwright version
         id: pw
