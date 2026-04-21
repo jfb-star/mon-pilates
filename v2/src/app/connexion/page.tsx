@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type FormEvent, Suspense } from "react";
+import { useEffect, useRef, useState, type FormEvent, Suspense } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
@@ -37,6 +37,14 @@ function ConnexionContent() {
   const [showPassword, setShowPassword] = useState(false);
   const [forgotSuccess, setForgotSuccess] = useState(false);
   const [referralCode] = useState(refCode || "");
+  const errorRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (error && errorRef.current) {
+      errorRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+      errorRef.current.focus();
+    }
+  }, [error]);
 
   // Login fields
   const [email, setEmail] = useState("");
@@ -212,7 +220,12 @@ function ConnexionContent() {
           )}
 
           {error && (
-            <div role="alert" className="mb-4 p-3 rounded-xl bg-mp-rose/10 border border-mp-rose/20">
+            <div
+              ref={errorRef}
+              role="alert"
+              tabIndex={-1}
+              className="mb-4 p-3 rounded-xl bg-mp-rose/10 border border-mp-rose/20 scroll-mt-20 focus:outline-none"
+            >
               <p className="text-sm text-mp-rose font-body">{error}</p>
             </div>
           )}
