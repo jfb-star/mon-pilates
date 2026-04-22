@@ -5,6 +5,13 @@ import Apple from "next-auth/providers/apple"
 import { compare } from "bcryptjs"
 import { prisma } from "@/lib/prisma"
 
+// Pre-computed bcrypt hash of the string "dummy" with cost factor 12. Used to
+// normalise the response time of the credentials provider when the supplied
+// email does not exist in the database — otherwise a measurable timing gap
+// would let an attacker enumerate valid email addresses.
+const DUMMY_BCRYPT_HASH =
+  "$2a$12$C6UzMDM.H6dfI/f/IKxGhuwDeIxXobuaMg/7vaKd.4xhK9jR9bO.S"
+
 export const { handlers, auth, signIn, signOut } = NextAuth({
   pages: {
     signIn: "/connexion",
@@ -41,6 +48,17 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         })
 
         if (!user) {
+          // Burn the same time as a real compare so the response time does
+          // not leak whether the email exists in the DB.
+          await compare(password, DUMMY_BCRYPT_HASH)
+          return null
+        }
+
+        // OAuth-only accounts have an empty passwordHash — treat them the same
+        // as a missing account (still compare against the dummy hash to keep
+        // timing constant).
+        if (!user.passwordHash) {
+          await compare(password, DUMMY_BCRYPT_HASH)
           return null
         }
 

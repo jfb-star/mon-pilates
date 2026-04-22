@@ -58,3 +58,16 @@ export const env = {
   get RESEND_API_KEY() { return optionalEnv("RESEND_API_KEY") },
   get CONTACT_EMAIL() { return optionalEnv("CONTACT_EMAIL") || "contact@mon-pilates.bzh" },
 }
+
+/**
+ * Sentry DSN (server/edge runtimes).
+ *
+ * Lazy getter — reads `SENTRY_DSN` at access time. Returns `null` when unset
+ * so callers can skip `Sentry.init` without throwing (Sentry is optional).
+ *
+ * Valeur prod attendue:
+ *   https://fe851ac1067a062079c9035b1b739cdf@o4511053436157952.ingest.de.sentry.io/4511256558764112
+ */
+export function getSentryDsn(): string | null {
+  return process.env.SENTRY_DSN || null
+}

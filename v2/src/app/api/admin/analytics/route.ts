@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server"
-import { requireAdmin } from "@/lib/admin"
+import { requireStaff } from "@/lib/admin"
 import { prisma } from "@/lib/prisma"
 
 /**
@@ -16,7 +16,7 @@ function isoWeek(d: Date): string {
 const dayNames = ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"]
 
 export async function GET() {
-  const session = await requireAdmin()
+  const session = await requireStaff()
   if (!session) {
     return NextResponse.json({ error: "Non autorisé" }, { status: 403 })
   }

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server"
 import type { NextRequest } from "next/server"
-import { requireAdmin } from "@/lib/admin"
+import { requireStaff } from "@/lib/admin"
 import { prisma } from "@/lib/prisma"
 
 /**
@@ -15,7 +15,7 @@ async function authorize(request: NextRequest): Promise<boolean> {
   const authHeader = request.headers.get("authorization")
   const cronSecret = process.env.CRON_SECRET
   if (cronSecret && authHeader === `Bearer ${cronSecret}`) return true
-  const session = await requireAdmin()
+  const session = await requireStaff()
   return session !== null
 }
 

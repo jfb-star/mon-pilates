@@ -1,12 +1,12 @@
 import { NextResponse } from "next/server"
 import type { NextRequest } from "next/server"
-import { requireAdmin } from "@/lib/admin"
+import { requireStaff } from "@/lib/admin"
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
 
 // GET: All blog posts (admin)
 export async function GET() {
-  const session = await requireAdmin()
+  const session = await requireStaff()
   if (!session) {
     return NextResponse.json({ error: "Non autorisé" }, { status: 403 })
   }
@@ -34,7 +34,7 @@ export async function GET() {
 
 // POST: Create blog post
 export async function POST(request: NextRequest) {
-  const session = await requireAdmin(request)
+  const session = await requireStaff(request)
   if (!session) {
     return NextResponse.json({ error: "Non autorisé" }, { status: 403 })
   }
@@ -81,7 +81,7 @@ export async function POST(request: NextRequest) {
 
 // PATCH: Update blog post
 export async function PATCH(request: NextRequest) {
-  const session = await requireAdmin(request)
+  const session = await requireStaff(request)
   if (!session) {
     return NextResponse.json({ error: "Non autorisé" }, { status: 403 })
   }
@@ -129,7 +129,7 @@ export async function PATCH(request: NextRequest) {
 
 // DELETE: Delete blog post
 export async function DELETE(request: NextRequest) {
-  const session = await requireAdmin(request)
+  const session = await requireStaff(request)
   if (!session) {
     return NextResponse.json({ error: "Non autorisé" }, { status: 403 })
   }

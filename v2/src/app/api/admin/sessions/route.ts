@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server"
 import type { NextRequest } from "next/server"
 import { z } from "zod"
-import { requireAdmin } from "@/lib/admin"
+import { requireStaff } from "@/lib/admin"
 import { prisma } from "@/lib/prisma"
 import { sendBookingCancelled } from "@/lib/email"
 
@@ -14,7 +14,7 @@ const paginationSchema = z.object({
 
 // GET: List sessions with filters
 export async function GET(request: NextRequest) {
-  const session = await requireAdmin(request)
+  const session = await requireStaff(request)
   if (!session) {
     return NextResponse.json({ error: "Non autorisé" }, { status: 403 })
   }
@@ -95,7 +95,7 @@ export async function GET(request: NextRequest) {
 
 // POST: Create a new session
 export async function POST(request: NextRequest) {
-  const session = await requireAdmin(request)
+  const session = await requireStaff(request)
   if (!session) {
     return NextResponse.json({ error: "Non autorisé" }, { status: 403 })
   }
@@ -159,7 +159,7 @@ export async function POST(request: NextRequest) {
 
 // PATCH: Update a session
 export async function PATCH(request: NextRequest) {
-  const session = await requireAdmin(request)
+  const session = await requireStaff(request)
   if (!session) {
     return NextResponse.json({ error: "Non autorisé" }, { status: 403 })
   }
@@ -199,7 +199,7 @@ export async function PATCH(request: NextRequest) {
 
 // DELETE: Cancel a session and all its bookings
 export async function DELETE(request: NextRequest) {
-  const session = await requireAdmin(request)
+  const session = await requireStaff(request)
   if (!session) {
     return NextResponse.json({ error: "Non autorisé" }, { status: 403 })
   }

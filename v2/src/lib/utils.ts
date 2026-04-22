@@ -28,12 +28,17 @@ const ALLOWED_ORIGINS = [
 
 /**
  * Check whether the request origin is allowed.
- * Permits localhost/127.0.0.1 in development.
+ * Permits localhost/127.0.0.1 only when NOT running on Vercel production
+ * (i.e. allowed in preview and local dev, refused in prod).
  */
 export function isAllowedOrigin(origin: string | null): boolean {
   if (!origin) return false;
   if (ALLOWED_ORIGINS.includes(origin)) return true;
-  // Allow localhost and 127.0.0.1 in development or local testing
+  // Allow localhost and 127.0.0.1 outside of Vercel production — preview
+  // deployments and local dev still need to work from a dev machine.
+  if (process.env.VERCEL_ENV === "production") {
+    return false;
+  }
   try {
     const url = new URL(origin);
     if (url.hostname === "localhost" || url.hostname === "127.0.0.1") {

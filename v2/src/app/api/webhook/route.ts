@@ -1,9 +1,32 @@
 import { NextRequest, NextResponse } from "next/server"
 import { randomInt } from "crypto"
+import { z } from "zod"
+import * as Sentry from "@sentry/nextjs"
 import { stripe } from "@/lib/stripe"
 import { prisma } from "@/lib/prisma"
 import Stripe from "stripe"
 import { sendBookingConfirmation, sendGiftCard } from "@/lib/email"
+
+// Zod schema for Stripe checkout metadata. All metadata fields are strings (Stripe
+// coerces everything to string). Unknown metadata keys are allowed but typed values
+// we rely on must match these shapes.
+const checkoutMetadataSchema = z
+  .object({
+    type: z.enum(["booking", "course-card", "subscription", "settle-unpaid", "gift-card"]),
+    userId: z.string().min(1).max(64).optional(),
+    sessionId: z.string().min(1).max(64).optional(),
+    bookingIds: z.string().max(2048).optional(), // comma-separated ids
+    isTrial: z.enum(["true", "false"]).optional(),
+    cardType: z.enum(["5", "10", "20"]).optional(),
+    recipientEmail: z.string().email().max(254).optional(),
+    recipientName: z.string().max(120).optional(),
+    senderName: z.string().max(120).optional(),
+    senderEmail: z.string().email().max(254).optional(),
+    personalMessage: z.string().max(2000).optional(),
+    giftType: z.enum(["amount", "sessions"]).optional(),
+    label: z.string().max(120).optional(),
+  })
+  .passthrough()
 
 export async function POST(req: NextRequest) {
   const body = await req.text()
@@ -28,21 +51,68 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Invalid signature" }, { status: 400 })
   }
 
-  // Idempotency: record event.id before processing. Stripe retries at-least-once,
-  // so a duplicate event would otherwise double-create bookings/gift cards.
+  // Idempotency: composite key (eventId + event.created). Stripe retries at-least-once
+  // with the same (id, created) tuple. If we see the same eventId but a DIFFERENT
+  // created timestamp, it's not a Stripe retry — it's a replay attempt. Reject 409.
   try {
     await prisma.stripeWebhookEvent.create({
-      data: { eventId: event.id, type: event.type },
+      data: { eventId: event.id, type: event.type, stripeCreated: event.created },
     })
   } catch {
-    // Unique constraint = already processed. Ack so Stripe stops retrying.
+    // Unique constraint hit. Fetch the stored record and verify the created timestamp.
+    const existing = await prisma.stripeWebhookEvent.findUnique({
+      where: { eventId: event.id },
+      select: { stripeCreated: true },
+    })
+    if (existing?.stripeCreated != null && existing.stripeCreated !== event.created) {
+      console.error("[webhook] Duplicate event id with divergent timestamp — possible replay", {
+        eventId: event.id,
+        storedCreated: existing.stripeCreated,
+        incomingCreated: event.created,
+      })
+      Sentry.captureMessage("stripe.webhook.replay_detected", {
+        level: "warning",
+        extra: {
+          eventId: event.id,
+          storedCreated: existing.stripeCreated,
+          incomingCreated: event.created,
+        },
+      })
+      return NextResponse.json(
+        { error: "duplicate event id with divergent timestamp" },
+        { status: 409 }
+      )
+    }
+    // Legitimate at-least-once retry. Ack so Stripe stops retrying.
     return NextResponse.json({ received: true, duplicate: true })
   }
 
   switch (event.type) {
     case "checkout.session.completed": {
       const session = event.data.object as Stripe.Checkout.Session
-      const type = session.metadata?.type
+
+      // Validate metadata shape before trusting any field. Stripe metadata is caller-
+      // controlled — an attacker who can craft a checkout session could otherwise
+      // inject arbitrary userId/bookingIds.
+      const parsedMeta = checkoutMetadataSchema.safeParse(session.metadata ?? {})
+      if (!parsedMeta.success) {
+        console.error("[webhook] Invalid checkout session metadata", {
+          eventId: event.id,
+          issues: parsedMeta.error.issues,
+        })
+        Sentry.captureMessage("stripe.webhook.invalid_metadata", {
+          level: "error",
+          extra: {
+            eventId: event.id,
+            issues: parsedMeta.error.issues,
+          },
+        })
+        return NextResponse.json(
+          { error: "Invalid checkout session metadata" },
+          { status: 400 }
+        )
+      }
+      const type = parsedMeta.data.type
 
       if (type === "booking") {
         const sessionId = session.metadata?.sessionId

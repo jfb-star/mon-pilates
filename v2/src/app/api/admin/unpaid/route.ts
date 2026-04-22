@@ -1,13 +1,13 @@
 import { NextResponse } from "next/server"
 import type { NextRequest } from "next/server"
-import { requireAdmin } from "@/lib/admin"
+import { requireStaff } from "@/lib/admin"
 import { prisma } from "@/lib/prisma"
 
 const UNIT_PRICE_CENTS = 18_00
 
 // GET: List unpaid bookings grouped by user
 export async function GET() {
-  const session = await requireAdmin()
+  const session = await requireStaff()
   if (!session) {
     return NextResponse.json({ error: "Non autorisé" }, { status: 403 })
   }
@@ -91,7 +91,7 @@ export async function GET() {
 
 // POST: Mark booking as paid (or multiple bookings for a user)
 export async function POST(request: NextRequest) {
-  const session = await requireAdmin(request)
+  const session = await requireStaff(request)
   if (!session) {
     return NextResponse.json({ error: "Non autorisé" }, { status: 403 })
   }

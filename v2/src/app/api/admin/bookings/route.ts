@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server"
 import type { NextRequest } from "next/server"
 import { z } from "zod"
-import { requireAdmin } from "@/lib/admin"
+import { requireStaff } from "@/lib/admin"
 import { prisma } from "@/lib/prisma"
 
 const paginationSchema = z.object({
@@ -11,7 +11,7 @@ const paginationSchema = z.object({
 
 // GET: List all bookings with filters
 export async function GET(request: NextRequest) {
-  const session = await requireAdmin(request)
+  const session = await requireStaff(request)
   if (!session) {
     return NextResponse.json({ error: "Non autorisé" }, { status: 403 })
   }
@@ -95,7 +95,7 @@ export async function GET(request: NextRequest) {
 
 // PATCH: Update booking status
 export async function PATCH(request: NextRequest) {
-  const session = await requireAdmin(request)
+  const session = await requireStaff(request)
   if (!session) {
     return NextResponse.json({ error: "Non autorisé" }, { status: 403 })
   }

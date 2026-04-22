@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
-import { requireAdmin } from "@/lib/admin"
+import { requireStaff } from "@/lib/admin"
 import { prisma } from "@/lib/prisma"
 
 type RecipientFilter = "all" | "active-card" | "subscribers" | "inactive"
@@ -60,7 +60,7 @@ async function getRecipientEmails(filter: RecipientFilter) {
 }
 
 export async function POST(request: NextRequest) {
-  const session = await requireAdmin(request)
+  const session = await requireStaff(request)
   if (!session) {
     return NextResponse.json({ error: "Non autoris\u00e9" }, { status: 403 })
   }
@@ -111,7 +111,7 @@ export async function POST(request: NextRequest) {
 }
 
 export async function GET() {
-  const session = await requireAdmin()
+  const session = await requireStaff()
   if (!session) {
     return NextResponse.json({ error: "Non autoris\u00e9" }, { status: 403 })
   }

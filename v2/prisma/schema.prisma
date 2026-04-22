@@ -307,9 +307,12 @@ model PasswordResetToken {
 // Stripe webhook event ledger for idempotency. Stripe retries at-least-once,
 // so we guard every event handler against duplicate processing.
 model StripeWebhookEvent {
-  eventId     String   @id
-  type        String
-  processedAt DateTime @default(now())
+  eventId        String   @id
+  type           String
+  stripeCreated  Int?     // Unix timestamp from event.created — pairs with eventId for a
+                          // composite idempotency key. Divergent created for the same
+                          // eventId signals a malicious replay and is rejected in 409.
+  processedAt    DateTime @default(now())
 }
 
 // Transactional send log — every Resend call leaves a trace here for debugging
