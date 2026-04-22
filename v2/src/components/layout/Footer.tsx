@@ -60,7 +60,7 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12">
           {/* Brand */}
           <div className="space-y-4">
-            <Link href="/" className="inline-flex items-center gap-3">
+            <Link href="/" className="inline-flex items-center gap-3" aria-label="Mon Pilates — retour à l'accueil">
               <Image
                 src="/logo.png"
                 alt=""

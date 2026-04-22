@@ -454,6 +454,20 @@ export default function PlanningPage() {
 
   const planningJsonLd = buildPlanningJsonLd(sessions)
 
+  // a11y: announce selection/booking state to screen readers
+  const liveRegionMessage = (() => {
+    if (bookingSuccess) {
+      return bookingSuccess.waitlist
+        ? "Ajouté à la liste d'attente."
+        : "Réservation confirmée."
+    }
+    if (selectedSession) {
+      const dayName = dayNames[selectedSession.dayOffset] ?? ""
+      return `${selectedSession.courseName} — ${dayName} ${selectedSession.time} sélectionnée`
+    }
+    return ""
+  })()
+
   return (
     <>
       {/* Structured Data */}
@@ -461,6 +475,11 @@ export default function PlanningPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(planningJsonLd) }}
       />
+
+      {/* a11y live region for selection + booking feedback */}
+      <div aria-live="polite" aria-atomic="true" className="sr-only">
+        {liveRegionMessage}
+      </div>
 
       {/* Hero */}
       <section className="relative h-[40vh] min-h-[320px] flex items-center overflow-hidden">

@@ -1,7 +1,18 @@
 "use client"
-import { useMemo } from "react"
+import { useEffect, useMemo, useState } from "react"
 
 export function OceanParticles() {
+  const [reducedMotion, setReducedMotion] = useState(false)
+
+  useEffect(() => {
+    if (typeof window === "undefined" || !window.matchMedia) return
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)")
+    setReducedMotion(mq.matches)
+    const listener = (e: MediaQueryListEvent) => setReducedMotion(e.matches)
+    mq.addEventListener("change", listener)
+    return () => mq.removeEventListener("change", listener)
+  }, [])
+
   const particles = useMemo(() =>
     Array.from({ length: 25 }, (_, i) => ({
       id: i,
@@ -13,6 +24,8 @@ export function OceanParticles() {
       drift: (Math.random() - 0.5) * 30,
     }))
   , [])
+
+  if (reducedMotion) return null
 
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none motion-safe:block motion-reduce:hidden" aria-hidden="true">

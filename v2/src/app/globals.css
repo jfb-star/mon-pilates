@@ -318,8 +318,39 @@ html.theme-transition *::after {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
+    animation-delay: 0s !important;
     transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
     scroll-behavior: auto !important;
+  }
+
+  html {
+    scroll-behavior: auto !important;
+  }
+
+  /* Disable decorative/parallax/scroll-driven animations entirely */
+  .animate-ocean-float,
+  .animate-blob-morph,
+  .animate-shimmer,
+  .mp-shimmer,
+  .mp-pulse-glow,
+  .animate-availability-change,
+  .animate-confetti-fall,
+  .animate-fade-in,
+  .stagger-children > *,
+  .reveal {
+    animation: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+
+  /* Neutralize transform-based hover/parallax effects */
+  .mp-btn-primary:hover,
+  .mp-btn-secondary:hover,
+  .mp-btn-gold:hover,
+  .mp-card:hover,
+  .card-lift:hover {
+    transform: none !important;
   }
 }
 

@@ -332,18 +332,63 @@ export async function generateMetadata({
   if (!post) {
     return { title: "Article introuvable" };
   }
+
+  // Keywords derived from category + title tokens (stopwords filtered, max 12)
+  const stopwords = new Set([
+    "le", "la", "les", "un", "une", "des", "de", "du", "et", "à", "a", "au",
+    "aux", "en", "pour", "par", "sur", "dans", "avec", "sans", "ou", "où",
+    "que", "qui", "quoi", "ce", "cet", "cette", "ces", "mon", "ma", "mes",
+    "ton", "ta", "tes", "son", "sa", "ses", "est", "sont", "se", "vs", "votre",
+  ]);
+  const titleKeywords = post.title
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .split(/[^a-z0-9]+/)
+    .filter((w) => w.length > 2 && !stopwords.has(w));
+  const keywords = Array.from(
+    new Set(["pilates", "larmor-plage", "studio", post.category.toLowerCase(), ...titleKeywords])
+  ).slice(0, 12);
+
+  const absoluteImage = post.image
+    ? (post.image.startsWith("http") ? post.image : `${SITE_URL}${post.image}`)
+    : undefined;
+  const ogImages = absoluteImage
+    ? [{ url: absoluteImage, width: 1200, height: 630, alt: post.title }]
+    : undefined;
+
+  // Publication date as ISO 8601 (post.date is "YYYY-MM-DD" → expand to full ISO)
+  const publishedISO = new Date(`${post.date}T00:00:00.000Z`).toISOString();
+
   return {
     title: post.title,
     description: post.excerpt,
+    keywords,
+    authors: [{ name: "Violette Derumigny" }],
     openGraph: {
       title: `${post.title} | Mon Pilates`,
       description: post.excerpt,
       type: "article",
-      publishedTime: post.date,
-      images: post.image ? [{ url: post.image }] : undefined,
+      locale: "fr_FR",
+      url: `${SITE_URL}/blog/${slug}`,
+      siteName: "Mon Pilates",
+      publishedTime: publishedISO,
+      modifiedTime: publishedISO,
+      authors: ["Violette Derumigny"],
+      section: post.category,
+      images: ogImages,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${post.title} | Mon Pilates`,
+      description: post.excerpt,
+      images: absoluteImage ? [{ url: absoluteImage, alt: post.title }] : undefined,
     },
     alternates: {
       canonical: `${SITE_URL}/blog/${slug}`,
+      languages: {
+        "fr-FR": `${SITE_URL}/blog/${slug}`,
+      },
     },
   };
 }
@@ -386,28 +431,45 @@ export default async function BlogArticlePage({
 
   const readingTimeMinutes = Math.max(1, Math.round(wordCount / 200));
 
+  const publishedISO = new Date(`${post.date}T00:00:00.000Z`).toISOString();
+  const absoluteImage = post.image
+    ? (post.image.startsWith("http") ? post.image : `${SITE_URL}${post.image}`)
+    : undefined;
+
   const articleJsonLd = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
     headline: post.title,
     description: post.excerpt,
-    datePublished: post.date,
-    dateModified: post.date,
+    datePublished: publishedISO,
+    dateModified: publishedISO,
     mainEntityOfPage: {
       "@type": "WebPage",
       "@id": `${SITE_URL}/blog/${post.slug}`,
     },
     author: {
       "@type": "Person",
-      name: "Mon Pilates",
+      name: "Violette Derumigny",
       url: SITE_URL,
     },
     publisher: {
       "@type": "Organization",
       name: "Mon Pilates",
-      logo: { "@type": "ImageObject", url: `${SITE_URL}/images/logo.png` },
+      logo: {
+        "@type": "ImageObject",
+        url: `${SITE_URL}/images/logo.png`,
+        width: 512,
+        height: 512,
+      },
     },
-    image: post.image ? `${SITE_URL}${post.image}` : undefined,
+    image: absoluteImage
+      ? {
+          "@type": "ImageObject",
+          url: absoluteImage,
+          width: 1200,
+          height: 630,
+        }
+      : undefined,
     articleSection: post.category,
     wordCount,
     inLanguage: "fr-FR",
