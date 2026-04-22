@@ -260,65 +260,84 @@ textarea:focus-visible,
    DARK MODE
    ============================================================ */
 
-/* Manual toggle via .dark class on <html> */
-.dark {
-  --mp-cream: #1a1a2e;
-  --mp-white: #16213e;
-  --mp-charcoal: #e8e8e8;
-  --mp-charcoal-light: #c8c8c8;
-  --mp-text: #d4d4d4;
-  --mp-text-light: #b0b0b0;
-  --mp-text-muted: #808080;
-  --mp-sand: #2a2a3e;
-  --mp-sand-dark: #3a3a4e;
-  --mp-ocean: #7fb5c4;
-  --mp-ocean-dark: #6b9fad;
-  --mp-ocean-light: #5a8fa0;
-  --mp-sage: #a0bfa0;
-  --mp-sage-light: #7a9a7a;
+/* ----- Dark palette (shared between .dark and system preference) -----
+   Palette: deep ocean-bluish black as background, warm off-white text.
+   Tokens are tuned so existing components that rely on --mp-cream /
+   --mp-sand / --mp-charcoal remain legible without per-component patches. */
+.dark,
+:root.dark {
+  --mp-cream: #0f1516;          /* page background — quasi-black, ocean-tinted */
+  --mp-white: #0b1011;          /* deepest surface */
+  --mp-sand: #1a2326;           /* elevated surface */
+  --mp-sand-dark: #243033;      /* further elevated / borders */
+  --mp-charcoal: #e8eff1;       /* headings inverted */
+  --mp-charcoal-light: #c9d3d6;
+  --mp-text: #e8eff1;           /* body text */
+  --mp-text-light: #a8b4b8;
+  --mp-text-muted: #8a9599;
+  --mp-ocean: #5c9eb0;          /* brand on dark — more luminous */
+  --mp-ocean-dark: #3e7787;
+  --mp-ocean-light: #8fc0ce;
+  --mp-sage: #8fb28b;
+  --mp-sage-light: #5a7856;
   --mp-gold: #d4b878;
-  --mp-gold-light: #a09060;
+  --mp-gold-light: #8b6518;
   --mp-rose: #c08080;
-  --mp-rose-light: #4a3030;
+  --mp-rose-light: #3a2828;
   color-scheme: dark;
 }
 
-/* System preference (fallback when no manual class is set) */
+/* System preference fallback — applied only when the user has NOT forced
+   a manual choice (neither .light nor .dark on <html>). */
 @media (prefers-color-scheme: dark) {
-  html:not(.light) {
-    --mp-cream: #1a1a2e;
-    --mp-white: #16213e;
-    --mp-charcoal: #e8e8e8;
-    --mp-charcoal-light: #c8c8c8;
-    --mp-text: #d4d4d4;
-    --mp-text-light: #b0b0b0;
-    --mp-text-muted: #808080;
-    --mp-sand: #2a2a3e;
-    --mp-sand-dark: #3a3a4e;
-    --mp-ocean: #7fb5c4;
-    --mp-ocean-dark: #6b9fad;
-    --mp-ocean-light: #5a8fa0;
-    --mp-sage: #a0bfa0;
-    --mp-sage-light: #7a9a7a;
+  html:not(.light):not(.dark) {
+    --mp-cream: #0f1516;
+    --mp-white: #0b1011;
+    --mp-sand: #1a2326;
+    --mp-sand-dark: #243033;
+    --mp-charcoal: #e8eff1;
+    --mp-charcoal-light: #c9d3d6;
+    --mp-text: #e8eff1;
+    --mp-text-light: #a8b4b8;
+    --mp-text-muted: #8a9599;
+    --mp-ocean: #5c9eb0;
+    --mp-ocean-dark: #3e7787;
+    --mp-ocean-light: #8fc0ce;
+    --mp-sage: #8fb28b;
+    --mp-sage-light: #5a7856;
     --mp-gold: #d4b878;
-    --mp-gold-light: #a09060;
+    --mp-gold-light: #8b6518;
     --mp-rose: #c08080;
-    --mp-rose-light: #4a3030;
+    --mp-rose-light: #3a2828;
     color-scheme: dark;
   }
 }
 
-/* Dark mode overrides for hardcoded whites */
-.dark .mp-card {
-  background: var(--mp-white);
+/* Dark mode overrides for hardcoded whites in components.
+   `.mp-card` hard-codes `background: white` — repoint to the elevated
+   surface token so cards stay readable on dark backgrounds. */
+.dark .mp-card,
+:root.dark .mp-card {
+  background: var(--mp-sand);
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.4);
+}
+.dark .mp-card:hover,
+:root.dark .mp-card:hover {
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(92, 158, 176, 0.2);
 }
 @media (prefers-color-scheme: dark) {
-  html:not(.light) .mp-card {
-    background: var(--mp-white);
+  html:not(.light):not(.dark) .mp-card {
+    background: var(--mp-sand);
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.4);
+  }
+  html:not(.light):not(.dark) .mp-card:hover {
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(92, 158, 176, 0.2);
   }
 }
 
-/* Smooth theme transition */
+/* Smooth theme transition — triggered briefly by ThemeToggle when the user
+   flips themes, then removed. The reduced-motion block below neutralises
+   this with `transition-duration: 0.01ms !important` for users who opt out. */
 html.theme-transition,
 html.theme-transition *,
 html.theme-transition *::before,

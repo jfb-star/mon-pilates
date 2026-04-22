@@ -82,7 +82,7 @@ export function SkeletonAvatar({ size = 48 }: { size?: number }) {
 
 export function SkeletonCard() {
   return (
-    <div className="rounded-2xl bg-white border border-gray-100 overflow-hidden shadow-sm">
+    <div className="rounded-2xl bg-mp-cream border border-gray-100 overflow-hidden shadow-sm">
       <div className="h-40 bg-gray-200 animate-shimmer" />
       <div className="p-5 space-y-3">
         <SkeletonLine width="60%" />

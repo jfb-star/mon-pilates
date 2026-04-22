@@ -17,9 +17,22 @@ const nextConfig: NextConfig = {
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
   },
   async headers() {
+    // Headers for the service worker — applied in both dev and prod so the
+    // browser accepts root-scope registration (`Service-Worker-Allowed: /`)
+    // and always revalidates the SW script (never lets a stale SW persist).
+    const serviceWorkerHeaders = {
+      source: "/sw.js",
+      headers: [
+        { key: "Cache-Control", value: "public, max-age=0, must-revalidate" },
+        { key: "Service-Worker-Allowed", value: "/" },
+        { key: "Content-Type", value: "application/javascript; charset=utf-8" },
+      ],
+    };
+
     // In dev, only add security headers (no CSP, no cache overrides)
     if (isDev) {
       return [
+        serviceWorkerHeaders,
         {
           source: "/(.*)",
           headers: [
@@ -81,6 +94,7 @@ const nextConfig: NextConfig = {
     }
 
     return [
+      serviceWorkerHeaders,
       {
         source: "/images/(.*)",
         headers: [

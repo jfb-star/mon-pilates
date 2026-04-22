@@ -130,7 +130,7 @@ export function ProgressJourney() {
                 <div className="absolute left-[-6px] top-1 w-[15px] h-[15px] rounded-full bg-white border-[3px] border-mp-ocean shadow-sm" />
 
                 {/* Content */}
-                <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+                <div className="bg-mp-cream rounded-xl p-4 shadow-sm border border-gray-100">
                   <div className="flex items-center gap-3">
                     <div className="w-8 h-8 rounded-lg bg-mp-ocean/10 flex items-center justify-center shrink-0">
                       <Icon className="w-4 h-4 text-mp-ocean" />

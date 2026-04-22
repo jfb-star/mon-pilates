@@ -39,7 +39,7 @@ export function CookieConsent() {
       }`}
     >
       <div className="mp-container">
-        <div className="bg-white rounded-2xl shadow-2xl border border-mp-sand-dark/30 p-6 sm:p-8 flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 max-w-4xl mx-auto">
+        <div className="bg-mp-cream rounded-2xl shadow-2xl border border-mp-sand-dark/30 p-6 sm:p-8 flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 max-w-4xl mx-auto">
           <div className="flex-1">
             <p className="font-heading font-semibold text-mp-charcoal text-sm mb-1">
               Ce site utilise des cookies

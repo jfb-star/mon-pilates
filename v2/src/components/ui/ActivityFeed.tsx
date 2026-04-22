@@ -278,7 +278,7 @@ function ToastFeed() {
     >
       <div
         className={`
-          bg-white rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.12)] border border-mp-sand-dark/20
+          bg-mp-cream rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.12)] border border-mp-sand-dark/20
           p-4 pr-10
           transition-all duration-500 ease-out
           motion-safe:translate-y-0 motion-safe:opacity-100

@@ -160,7 +160,7 @@ function SessionCard({
   return (
     <div
       className={clsx(
-        "bg-white rounded-xl border transition-shadow",
+        "bg-mp-cream rounded-xl border transition-shadow",
         expanded ? "shadow-md" : "shadow-sm hover:shadow-md",
         isPast && "opacity-80"
       )}
@@ -486,7 +486,7 @@ export default function InstructeurPage() {
         {/* Stats cards */}
         {stats && (
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
-            <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
+            <div className="bg-mp-cream rounded-xl p-5 shadow-sm border border-gray-100">
               <div className="flex items-center gap-2 mb-2">
                 <div className="w-8 h-8 rounded-lg bg-mp-ocean/10 flex items-center justify-center">
                   <BookOpen className="w-4 h-4 text-mp-ocean" aria-hidden="true" />
@@ -503,7 +503,7 @@ export default function InstructeurPage() {
               </p>
             </div>
 
-            <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
+            <div className="bg-mp-cream rounded-xl p-5 shadow-sm border border-gray-100">
               <div className="flex items-center gap-2 mb-2">
                 <div className="w-8 h-8 rounded-lg bg-mp-sage/10 flex items-center justify-center">
                   <Calendar className="w-4 h-4 text-mp-sage" aria-hidden="true" />
@@ -520,7 +520,7 @@ export default function InstructeurPage() {
               </p>
             </div>
 
-            <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
+            <div className="bg-mp-cream rounded-xl p-5 shadow-sm border border-gray-100">
               <div className="flex items-center gap-2 mb-2">
                 <div className="w-8 h-8 rounded-lg bg-amber-50 flex items-center justify-center">
                   <Star className="w-4 h-4 text-amber-500" aria-hidden="true" />
@@ -539,7 +539,7 @@ export default function InstructeurPage() {
               </p>
             </div>
 
-            <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
+            <div className="bg-mp-cream rounded-xl p-5 shadow-sm border border-gray-100">
               <div className="flex items-center gap-2 mb-2">
                 <div className="w-8 h-8 rounded-lg bg-purple-50 flex items-center justify-center">
                   <TrendingUp className="w-4 h-4 text-purple-500" aria-hidden="true" />
@@ -573,7 +573,7 @@ export default function InstructeurPage() {
           </div>
 
           {groupedUpcoming.size === 0 ? (
-            <div className="bg-white rounded-xl p-8 shadow-sm border border-gray-100 text-center">
+            <div className="bg-mp-cream rounded-xl p-8 shadow-sm border border-gray-100 text-center">
               <Calendar className="w-10 h-10 text-mp-charcoal-light/30 mx-auto mb-3" aria-hidden="true" />
               <p className="text-mp-charcoal-light">
                 Aucun cours prévu dans les 4 prochaines semaines.

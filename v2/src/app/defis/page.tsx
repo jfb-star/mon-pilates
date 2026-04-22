@@ -162,19 +162,19 @@ export default function DefisPage() {
 
         {/* Stats cards */}
         <div className="grid grid-cols-3 gap-4 max-w-lg mx-auto mb-12">
-          <div className="bg-white rounded-2xl p-5 text-center shadow-sm border border-gray-100 card-lift">
+          <div className="bg-mp-cream rounded-2xl p-5 text-center shadow-sm border border-gray-100 card-lift">
             <div className="text-3xl font-bold text-mp-ocean">{data.currentStreak}</div>
             <div className="text-xs text-mp-text/50 mt-1 flex items-center justify-center gap-1">
               <Flame className="w-3 h-3 text-orange-500" /> Streak actuel
             </div>
           </div>
-          <div className="bg-white rounded-2xl p-5 text-center shadow-sm border border-gray-100 card-lift">
+          <div className="bg-mp-cream rounded-2xl p-5 text-center shadow-sm border border-gray-100 card-lift">
             <div className="text-3xl font-bold text-[#8FAE8F]">{data.longestStreak}</div>
             <div className="text-xs text-mp-text/50 mt-1 flex items-center justify-center gap-1">
               <Trophy className="w-3 h-3 text-amber-500" /> Record
             </div>
           </div>
-          <div className="bg-white rounded-2xl p-5 text-center shadow-sm border border-gray-100 card-lift">
+          <div className="bg-mp-cream rounded-2xl p-5 text-center shadow-sm border border-gray-100 card-lift">
             <div className="text-3xl font-bold text-mp-text">{data.totalClasses}</div>
             <div className="text-xs text-mp-text/50 mt-1 flex items-center justify-center gap-1">
               <Target className="w-3 h-3" /> Total cours
@@ -183,7 +183,7 @@ export default function DefisPage() {
         </div>
 
         {/* Activity Grid (GitHub-style) */}
-        <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 mb-12 overflow-x-auto">
+        <div className="bg-mp-cream rounded-2xl p-6 shadow-sm border border-gray-100 mb-12 overflow-x-auto">
           <h2 className="font-heading text-lg font-semibold text-mp-text mb-4 flex items-center gap-2">
             <Calendar className="w-5 h-5 text-mp-ocean" />
             Activité (52 semaines)
@@ -331,7 +331,7 @@ function ChallengeCard({ challenge }: { challenge: ChallengeData }) {
 
   return (
     <div
-      className={`bg-white rounded-2xl p-5 shadow-sm border transition-all ${
+      className={`bg-mp-cream rounded-2xl p-5 shadow-sm border transition-all ${
         challenge.completed
           ? "border-[#8FAE8F] bg-[#8FAE8F]/5"
           : "border-gray-100 hover:border-mp-ocean/20"

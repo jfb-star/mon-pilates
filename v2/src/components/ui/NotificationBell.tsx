@@ -128,7 +128,7 @@ export function NotificationBell({ scrolled }: { scrolled: boolean }) {
       </button>
 
       {open && (
-        <div className="absolute right-0 top-full mt-2 w-80 sm:w-96 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden z-50">
+        <div className="absolute right-0 top-full mt-2 w-80 sm:w-96 bg-mp-cream rounded-2xl shadow-2xl border border-gray-100 overflow-hidden z-50">
           {/* Header */}
           <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100">
             <h3 className="font-heading text-sm font-semibold text-mp-charcoal">Notifications</h3>

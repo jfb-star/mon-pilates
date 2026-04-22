@@ -119,7 +119,7 @@ export function SmartRecommendations() {
         {recs.map((rec) => (
           <div
             key={rec.id}
-            className="w-72 shrink-0 bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow p-5 card-lift"
+            className="w-72 shrink-0 bg-mp-cream rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow p-5 card-lift"
           >
             {/* Tags */}
             <div className="flex flex-wrap gap-1.5 mb-3">
