@@ -30,7 +30,7 @@ export const metadata: Metadata = {
       "Votre premier cours d'essai à 10€. Tout ce qu'il faut savoir avant de venir au studio.",
     images: [
       {
-        url: "/images/studio-reformer-ocean.jpg",
+        url: "/images/studio-reformer-ocean.webp",
         width: 1920,
         height: 1080,
         alt: "Studio de Pilates Mon Pilates avec Reformers et vue sur l'océan à Larmor-Plage",
@@ -147,7 +147,7 @@ export default function PremiereVisitePage() {
       <section className="relative bg-gradient-to-br from-mp-ocean/10 via-mp-cream to-mp-sage-light/20 pt-32 pb-16 sm:pb-20 overflow-hidden">
         <div className="absolute inset-0 opacity-10">
           <Image
-            src="/images/studio-reformer-ocean.jpg"
+            src="/images/studio-reformer-ocean.webp"
             alt="Studio Mon Pilates avec Reformers et vue sur l'océan à Larmor-Plage"
             fill
             className="object-cover"
@@ -300,7 +300,7 @@ export default function PremiereVisitePage() {
             </div>
             <div className="relative aspect-[4/3] rounded-2xl overflow-hidden">
               <Image
-                src="/images/studio-materiel.jpg"
+                src="/images/studio-materiel.webp"
                 alt="Équipement du studio Mon Pilates : tapis, ballons, élastiques et accessoires de Pilates"
                 fill
                 loading="lazy"

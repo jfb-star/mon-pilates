@@ -52,6 +52,16 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Invalid signature" }, { status: 400 })
   }
 
+  // Breadcrumb: webhook event received and signature-validated.
+  // Adds operational context so any captured error downstream has the
+  // triggering Stripe event visible in the Sentry trail.
+  Sentry.addBreadcrumb({
+    category: "stripe-webhook",
+    message: "event.received",
+    level: "info",
+    data: { eventType: event.type, eventId: event.id },
+  })
+
   // Idempotency: composite key (eventId + event.created). Stripe retries at-least-once
   // with the same (id, created) tuple. If we see the same eventId but a DIFFERENT
   // created timestamp, it's not a Stripe retry — it's a replay attempt. Reject 409.
@@ -181,6 +191,19 @@ export async function POST(req: NextRequest) {
                         }),
                       ]),
                 ])
+
+                Sentry.addBreadcrumb({
+                  category: "stripe-webhook",
+                  message: "booking.created",
+                  level: "info",
+                  data: {
+                    eventId: event.id,
+                    sessionId,
+                    userId: bookingUserId,
+                    status: isFull ? "WAITLIST" : "CONFIRMED",
+                    isTrial,
+                  },
+                })
 
                 // Save payment record
                 await prisma.payment.create({
@@ -354,7 +377,7 @@ export async function POST(req: NextRequest) {
           // Parse sessions count from label if applicable
           const label = session.metadata?.label ?? ""
           const sessionsMatch = label.match(/^(\d+) cours/)
-          const sessionsCount = sessionsMatch ? parseInt(sessionsMatch[1]) : null
+          const sessionsCount = sessionsMatch?.[1] ? parseInt(sessionsMatch[1]) : null
 
           await prisma.giftCard.create({
             data: {

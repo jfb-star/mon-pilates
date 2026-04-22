@@ -67,7 +67,7 @@ export const metadata: Metadata = {
     url: SITE_URL,
     images: [
       {
-        url: "/images/studio-reformer-ocean.jpg",
+        url: "/images/studio-reformer-ocean.webp",
         width: 1920,
         height: 1080,
         alt: "Studio Pilates Mon Pilates face \u00e0 l'oc\u00e9an \u00e0 Larmor-Plage",
@@ -79,7 +79,7 @@ export const metadata: Metadata = {
     title: "Mon Pilates \u2014 Studio \u00e0 Larmor-Plage, Bretagne",
     description:
       "Studio de Pilates \u00e0 Larmor-Plage. Cours tapis, cours priv\u00e9s sur appareil, pr\u00e9 & post-natal. R\u00e9servez en ligne.",
-    images: ["/images/studio-reformer-ocean.jpg"],
+    images: ["/images/studio-reformer-ocean.webp"],
   },
   keywords: [
     "pilates larmor-plage", "pilates lorient", "studio pilates bretagne",
@@ -105,7 +105,7 @@ const jsonLd = {
   url: SITE_URL,
   telephone: "+33699183216",
   email: "contact@mon-pilates.bzh",
-  image: `${SITE_URL}/images/studio-reformer-ocean.jpg`,
+  image: `${SITE_URL}/images/studio-reformer-ocean.webp`,
   priceRange: "\u20ac\u20ac",
   currenciesAccepted: "EUR",
   paymentAccepted: "Cash, Credit Card",
@@ -226,7 +226,7 @@ export default function RootLayout({
               "@type": "Organization",
               name: "Mon Pilates",
               url: SITE_URL,
-              logo: { "@type": "ImageObject", url: `${SITE_URL}/images/logo.png` },
+              logo: { "@type": "ImageObject", url: `${SITE_URL}/logo.webp` },
             },
           }) }}
         />

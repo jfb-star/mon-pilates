@@ -44,7 +44,7 @@ export async function DELETE(request: Request) {
     // Check if the session hasn't started yet (allow cancellation up to 2 hours before)
     const sessionDate = new Date(booking.session.date)
     const [hours, minutes] = booking.session.startTime.split(":").map(Number)
-    sessionDate.setHours(hours, minutes, 0, 0)
+    sessionDate.setHours(hours ?? 0, minutes ?? 0, 0, 0)
     const twoHoursBefore = new Date(sessionDate.getTime() - 2 * 60 * 60 * 1000)
 
     if (new Date() > twoHoursBefore) {

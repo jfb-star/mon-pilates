@@ -88,6 +88,21 @@ function getLimiter(maxRequests: number, windowMs: number): Ratelimit | null {
 /**
  * Async rate-limit check. Prefer this in new code: it transparently uses
  * Upstash in production and falls back to in-memory in dev / CI.
+ *
+ * Keying convention: callers should use `"<route>:<ip>"` (or `"<route>:<email>"`
+ * for per-account buckets). IPs should be extracted from `x-forwarded-for`
+ * (first hop, trimmed) with `x-real-ip` as fallback.
+ *
+ * Response convention on deny: return HTTP 429 with a `Retry-After` header
+ * (seconds) derived from `resetAt - Date.now()`.
+ *
+ * IMPORTANT — in-memory compromise: when `UPSTASH_REDIS_REST_URL` /
+ * `UPSTASH_REDIS_REST_TOKEN` are unset, the limiter falls back to a
+ * per-process `Map`. On Vercel serverless this resets on every cold start
+ * and is not shared across concurrent Lambda instances, so the effective
+ * limit is roughly `maxRequests × N(instances) × N(cold-starts)`. For the
+ * MVP this is an accepted trade-off — configure Upstash in production for
+ * a global bucket.
  */
 export async function checkRateLimit(
   key: string,

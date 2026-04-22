@@ -106,7 +106,7 @@ export async function GET() {
 
   // Resolve most popular course type name
   let popularCourseName = "—"
-  if (popularCourse.length > 0) {
+  if (popularCourse.length > 0 && popularCourse[0]) {
     const topSessionId = popularCourse[0].sessionId
     const topSession = await prisma.session.findUnique({
       where: { id: topSessionId },

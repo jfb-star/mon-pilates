@@ -62,7 +62,7 @@ export function Footer() {
           <div className="space-y-4">
             <Link href="/" className="inline-flex items-center gap-3" aria-label="Mon Pilates — retour à l'accueil">
               <Image
-                src="/logo.png"
+                src="/logo.webp"
                 alt=""
                 width={56}
                 height={56}
@@ -216,7 +216,7 @@ export function Footer() {
                   <br />
                   Sam : 9h — 12h30
                   <br />
-                  Jeu &amp; Dim : fermé
+                  Jeu et Dim : fermé
                 </span>
               </div>
             </address>

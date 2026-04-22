@@ -31,7 +31,55 @@ const nextConfig: NextConfig = {
       ];
     }
 
-    // Production: full security headers + caching
+    // Production: full security headers + caching.
+    //
+    // CSP notes:
+    // - 'unsafe-inline' on script-src is kept as a pragmatic MVP trade-off
+    //   (Next.js inline bootstrap + Sentry browser init). A nonce-based
+    //   strategy would be cleaner but requires reworking the Sentry wrap
+    //   and any third-party embeds (Stripe Elements, GTM, GA).
+    // - 'unsafe-inline' on style-src is required by Tailwind's inline
+    //   style injection through Next.
+    // - Stripe.js + Stripe Checkout: js.stripe.com (scripts + frames),
+    //   api.stripe.com (connect), hooks.stripe.com (frames for 3DS).
+    // - Sentry tunnel: /monitoring rewrite stays same-origin, but the
+    //   direct ingest domains are allowed via *.sentry.io for fallback.
+    const isProd = process.env.VERCEL_ENV === "production";
+
+    const csp = [
+      "default-src 'self'",
+      "script-src 'self' 'unsafe-inline' https://js.stripe.com https://www.googletagmanager.com https://www.google-analytics.com",
+      "style-src 'self' 'unsafe-inline'",
+      "img-src 'self' data: https: blob:",
+      "font-src 'self' data: https://fonts.gstatic.com",
+      "connect-src 'self' https://*.sentry.io https://api.stripe.com https://www.google-analytics.com https://analytics.google.com https://region1.google-analytics.com https://maps.googleapis.com",
+      "frame-src https://js.stripe.com https://hooks.stripe.com https://www.google.com https://maps.google.com",
+      "object-src 'none'",
+      "base-uri 'self'",
+      "form-action 'self'",
+      "frame-ancestors 'none'",
+    ].join("; ");
+
+    const securityHeaders = [
+      { key: "X-Frame-Options", value: "DENY" },
+      { key: "X-Content-Type-Options", value: "nosniff" },
+      { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+      { key: "X-DNS-Prefetch-Control", value: "on" },
+      {
+        key: "Permissions-Policy",
+        value: "camera=(), microphone=(), geolocation=()",
+      },
+      { key: "Content-Security-Policy", value: csp },
+    ];
+
+    // HSTS only on real production — previews shouldn't pin browsers.
+    if (isProd) {
+      securityHeaders.push({
+        key: "Strict-Transport-Security",
+        value: "max-age=63072000; includeSubDomains; preload",
+      });
+    }
+
     return [
       {
         source: "/images/(.*)",
@@ -77,35 +125,7 @@ const nextConfig: NextConfig = {
       },
       {
         source: "/(.*)",
-        headers: [
-          { key: "X-Frame-Options", value: "DENY" },
-          { key: "X-Content-Type-Options", value: "nosniff" },
-          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
-          { key: "X-DNS-Prefetch-Control", value: "on" },
-          {
-            key: "Strict-Transport-Security",
-            value: "max-age=63072000; includeSubDomains; preload",
-          },
-          {
-            key: "Permissions-Policy",
-            value: "camera=(), microphone=(), geolocation=()",
-          },
-          {
-            key: "Content-Security-Policy",
-            value: [
-              "default-src 'self'",
-              "script-src 'self' 'unsafe-inline' js.stripe.com https://www.googletagmanager.com https://www.google-analytics.com",
-              "style-src 'self' 'unsafe-inline'",
-              "img-src 'self' data: https: blob:",
-              "font-src 'self' https://fonts.gstatic.com",
-              "connect-src 'self' api.stripe.com https://maps.googleapis.com https://www.google-analytics.com https://analytics.google.com https://region1.google-analytics.com https://*.sentry.io",
-              "frame-src js.stripe.com https://www.google.com https://maps.google.com",
-              "object-src 'none'",
-              "base-uri 'self'",
-              "form-action 'self'",
-            ].join("; "),
-          },
-        ],
+        headers: securityHeaders,
       },
     ];
   },

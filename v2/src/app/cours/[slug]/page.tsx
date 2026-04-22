@@ -57,11 +57,11 @@ const courseFaqs: Record<string, { q: string; a: string }[]> = {
 }
 
 const courseHeroImages: Partial<Record<CourseType, string>> = {
-  mat: "/images/illustration-cours-collectif.png",
-  reformer: "/images/cours-reformer-instructrice.jpg",
-  prenatal: "/images/illustration-pilates-artistique.png",
-  doux: "/images/illustration-pilates-artistique.png",
-  intensif: "/images/illustration-pilates-artistique.png",
+  mat: "/images/illustration-cours-collectif.webp",
+  reformer: "/images/cours-reformer-instructrice.webp",
+  prenatal: "/images/illustration-pilates-artistique.webp",
+  doux: "/images/illustration-pilates-artistique.webp",
+  intensif: "/images/illustration-pilates-artistique.webp",
 };
 
 /* ----------------------------------------------------------
@@ -429,14 +429,17 @@ export default async function CourseDetailPage({
       </section>
 
       {/* FAQ du cours */}
-      {courseFaqs[course.slug] && courseFaqs[course.slug].length > 0 && (
+      {(() => {
+        const faqs = courseFaqs[course.slug]
+        if (!faqs || faqs.length === 0) return null
+        return (
         <>
           <script
             type="application/ld+json"
             dangerouslySetInnerHTML={{ __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "FAQPage",
-              mainEntity: courseFaqs[course.slug].map((faq) => ({
+              mainEntity: faqs.map((faq) => ({
                 "@type": "Question",
                 name: faq.q,
                 acceptedAnswer: { "@type": "Answer", text: faq.a },
@@ -449,7 +452,7 @@ export default async function CourseDetailPage({
                 Questions fréquentes — {course.name}
               </h2>
               <div className="space-y-3">
-                {courseFaqs[course.slug].map((faq, i) => (
+                {faqs.map((faq, i) => (
                   <details key={i} className="group scroll-mt-28 bg-mp-white rounded-xl border border-mp-sand-dark/20 overflow-hidden">
                     <summary className="flex items-center justify-between gap-4 p-5 cursor-pointer font-heading font-semibold text-sm text-mp-charcoal hover:text-mp-ocean transition-colors list-none [&::-webkit-details-marker]:hidden">
                       {faq.q}
@@ -464,7 +467,8 @@ export default async function CourseDetailPage({
             </div>
           </section>
         </>
-      )}
+        )
+      })()}
 
       {/* Avis des participants */}
       <section className="mp-section bg-mp-white">

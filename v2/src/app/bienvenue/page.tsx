@@ -81,7 +81,7 @@ function computeResult(
 
   const maxScore = Object.values(scores).reduce((a, b) => a + b, 0);
   const sorted = (Object.entries(scores) as [CourseKey, number][]).sort((a, b) => b[1] - a[1]);
-  const top = sorted[0];
+  const top = sorted[0] ?? (["mat", 0] as [CourseKey, number]);
 
   return {
     key: top[0],

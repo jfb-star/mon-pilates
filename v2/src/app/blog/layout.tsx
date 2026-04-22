@@ -12,7 +12,7 @@ export const metadata: Metadata = {
       "Conseils Pilates, exercices, témoignages. Le blog du studio Mon Pilates à Larmor-Plage.",
     images: [
       {
-        url: "/images/studio-reformer-ocean.jpg",
+        url: "/images/studio-reformer-ocean.webp",
         width: 1920,
         height: 1080,
         alt: "Studio de Pilates Mon Pilates avec Reformers et vue sur l'océan à Larmor-Plage",

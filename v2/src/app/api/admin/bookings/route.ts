@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server"
 import type { NextRequest } from "next/server"
 import { z } from "zod"
+import * as Sentry from "@sentry/nextjs"
 import { requireStaff } from "@/lib/admin"
 import { prisma } from "@/lib/prisma"
 
@@ -119,6 +120,20 @@ export async function PATCH(request: NextRequest) {
     }
 
     const oldStatus = booking.status
+
+    Sentry.addBreadcrumb({
+      category: "admin",
+      message: "booking.manual-update",
+      level: "info",
+      data: {
+        sessionId: booking.sessionId,
+        userId: booking.userId,
+        bookingId: booking.id,
+        oldStatus,
+        newStatus: status,
+        actor: session.user?.id,
+      },
+    })
 
     await prisma.$transaction(async (tx) => {
       // Update booking status

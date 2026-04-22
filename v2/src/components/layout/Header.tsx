@@ -86,7 +86,7 @@ export function Header() {
           {/* Logo */}
           <Link href="/" className="relative flex items-center group" aria-label="Mon Pilates — Accueil">
             <Image
-              src="/logo.png"
+              src="/logo.webp"
               alt="Mon Pilates"
               width={240}
               height={144}

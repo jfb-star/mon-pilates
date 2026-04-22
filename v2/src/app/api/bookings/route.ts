@@ -93,7 +93,7 @@ export async function POST(request: NextRequest) {
     // Check if session date is in the future
     const sessionDate = new Date(courseSession.date)
     const [hours, minutes] = courseSession.startTime.split(":").map(Number)
-    sessionDate.setHours(hours, minutes, 0, 0)
+    sessionDate.setHours(hours ?? 0, minutes ?? 0, 0, 0)
     if (sessionDate <= new Date()) {
       return NextResponse.json({ error: "Cette séance est déjà passée." }, { status: 400 })
     }

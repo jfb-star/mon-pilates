@@ -27,7 +27,7 @@ export const metadata: Metadata = {
       "Un studio de Pilates né face à l'océan, pensé pour votre bien-être et votre progression.",
     images: [
       {
-        url: "/images/studio-reformer-ocean.jpg",
+        url: "/images/studio-reformer-ocean.webp",
         width: 1920,
         height: 1080,
         alt: "Studio Mon Pilates — Reformers face à l'océan à Larmor-Plage",
@@ -77,7 +77,7 @@ export default function AboutPage() {
       {/* Hero */}
       <section className="relative h-[55vh] min-h-[380px] flex items-center overflow-hidden">
         <Image
-          src="/images/studio-reformer-ocean.jpg"
+          src="/images/studio-reformer-ocean.webp"
           alt="Studio Mon Pilates face à l'océan à Larmor-Plage"
           fill
           className="object-cover"
@@ -154,7 +154,7 @@ export default function AboutPage() {
                 <div className="space-y-4">
                   <div className="relative rounded-2xl overflow-hidden aspect-[3/4]">
                     <Image
-                      src="/images/reformer-closeup.jpg"
+                      src="/images/reformer-closeup.webp"
                       alt="Gros plan sur un Reformer Balanced Body au studio"
                       fill
                       loading="lazy"
@@ -164,7 +164,7 @@ export default function AboutPage() {
                   </div>
                   <div className="relative rounded-2xl overflow-hidden aspect-square">
                     <Image
-                      src="/images/mat-piscine-ocean.jpg"
+                      src="/images/mat-piscine-ocean.webp"
                       alt="Tapis de Pilates avec vue sur l'océan"
                       fill
                       loading="lazy"
@@ -176,7 +176,7 @@ export default function AboutPage() {
                 <div className="pt-8 space-y-4">
                   <div className="relative rounded-2xl overflow-hidden aspect-square">
                     <Image
-                      src="/images/cours-exterieur-toulhars.jpg"
+                      src="/images/cours-exterieur-toulhars.webp"
                       alt="Cours de Pilates en extérieur sur la plage de Toulhars"
                       fill
                       loading="lazy"
@@ -186,7 +186,7 @@ export default function AboutPage() {
                   </div>
                   <div className="relative rounded-2xl overflow-hidden aspect-[3/4]">
                     <Image
-                      src="/images/studio-cours-particulier.jpg"
+                      src="/images/studio-cours-particulier.webp"
                       alt="Vue intérieure du studio Mon Pilates"
                       fill
                       loading="lazy"
@@ -271,7 +271,7 @@ export default function AboutPage() {
             <ScrollReveal>
               <div className="relative rounded-2xl overflow-hidden aspect-[4/3] shadow-lg">
                 <Image
-                  src="/images/studio-cours-particulier.jpg"
+                  src="/images/studio-cours-particulier.webp"
                   alt="L'équipe Mon Pilates lors d'un cours particulier"
                   fill
                   loading="lazy"
@@ -318,7 +318,7 @@ export default function AboutPage() {
       {/* CTA */}
       <section className="relative mp-section overflow-hidden" aria-label="Cours d'essai">
         <Image
-          src="/images/illustration-pilates-artistique.png"
+          src="/images/illustration-pilates-artistique.webp"
           alt=""
           fill
           loading="lazy"

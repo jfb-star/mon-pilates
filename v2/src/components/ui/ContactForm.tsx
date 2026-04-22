@@ -54,7 +54,7 @@ export function ContactForm() {
       setErrors(validationErrors);
       // Focus the first field with an error
       const firstErrorField = Object.keys(validationErrors)[0];
-      const el = document.getElementById(firstErrorField);
+      const el = firstErrorField ? document.getElementById(firstErrorField) : null;
       if (el) requestAnimationFrame(() => el.focus());
       return;
     }

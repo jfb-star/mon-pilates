@@ -103,7 +103,7 @@ function computeResults(answers: Partial<Record<string, number>>[]) {
 
   const maxScore = Object.values(scores).reduce((a, b) => a + b, 0)
   const sorted = (Object.entries(scores) as [CourseKey, number][]).sort((a, b) => b[1] - a[1])
-  const top = sorted[0]
+  const top = sorted[0] ?? (["mat", 0] as [CourseKey, number])
   const runners = sorted.slice(1, 3)
 
   return {
@@ -299,6 +299,7 @@ export function CourseQuiz() {
 
   /* ---------- QUIZ STEPS ---------- */
   const current = steps[currentStep]
+  if (!current) return null
 
   return (
     <div>

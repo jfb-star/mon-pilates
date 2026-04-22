@@ -2406,7 +2406,8 @@ function AnalyticsTab() {
   const formatMonth = (m: unknown) => {
     const str = String(m ?? "")
     const parts = str.split("-")
-    return monthLabels[parts[1]] || parts[1]
+    const key = parts[1] ?? ""
+    return monthLabels[key] || key
   }
 
   return (

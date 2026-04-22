@@ -11,7 +11,7 @@ import { FaqAccordion } from "@/components/ui/FaqAccordion";
 import { SITE_URL } from "@/lib/env";
 
 const instructorPhotos: Record<string, string> = {
-  violette: "/images/violette-portrait.jpg",
+  violette: "/images/violette-portrait.webp",
 };
 
 const instructorExtras: Record<string, { quote: string; experience: string; funFact?: string }> = {
@@ -24,10 +24,10 @@ const instructorExtras: Record<string, { quote: string; experience: string; funF
 };
 
 const studioPhotos = [
-  { src: "/images/studio-reformer-ocean.jpg", alt: "Studio Reformer avec vue sur l'océan" },
-  { src: "/images/studio-materiel.jpg", alt: "Équipement du studio : ballons, tapis et accessoires" },
-  { src: "/images/studio-cours-particulier.jpg", alt: "Studio avec Reformer et vue sur l'océan" },
-  { src: "/images/cours-exterieur-toulhars.jpg", alt: "Cours de Pilates en extérieur près de la piscine" },
+  { src: "/images/studio-reformer-ocean.webp", alt: "Studio Reformer avec vue sur l'océan" },
+  { src: "/images/studio-materiel.webp", alt: "Équipement du studio : ballons, tapis et accessoires" },
+  { src: "/images/studio-cours-particulier.webp", alt: "Studio avec Reformer et vue sur l'océan" },
+  { src: "/images/cours-exterieur-toulhars.webp", alt: "Cours de Pilates en extérieur près de la piscine" },
 ];
 
 export const metadata: Metadata = {
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     title: "Notre équipe | Mon Pilates",
     description:
       "Violette, instructrice certifiée FPMP, vous accompagne dans votre pratique du Pilates à Larmor-Plage.",
-    images: [{ url: "/images/cours-reformer-instructrice.jpg", width: 1200, height: 630, alt: "Studio Mon Pilates à Larmor-Plage — séance Reformer face à l'océan" }],
+    images: [{ url: "/images/cours-reformer-instructrice.webp", width: 1200, height: 630, alt: "Studio Mon Pilates à Larmor-Plage — séance Reformer face à l'océan" }],
   },
   alternates: {
     canonical: `${SITE_URL}/equipe`,
@@ -143,7 +143,7 @@ export default function EquipePage() {
       <section className="relative bg-gradient-to-br from-mp-sand via-mp-cream to-mp-ocean-light/20 pt-32 pb-16 sm:pb-20 overflow-hidden">
         <div className="absolute inset-0 opacity-10">
           <Image
-            src="/images/studio-reformer-ocean.jpg"
+            src="/images/studio-reformer-ocean.webp"
             alt="Studio de Pilates avec vue sur l'océan"
             fill
             className="object-cover"
@@ -200,7 +200,7 @@ export default function EquipePage() {
                   {instructorPhotos[instructor.id] ? (
                     <>
                       <Image
-                        src={instructorPhotos[instructor.id]}
+                        src={instructorPhotos[instructor.id] ?? ""}
                         alt={`Portrait de ${instructor.name}, ${instructor.role} au studio Mon Pilates`}
                         fill
                         loading="lazy"
@@ -275,25 +275,29 @@ export default function EquipePage() {
                 </p>
 
                 {/* Personal quote */}
-                {instructorExtras[instructor.id] && (
+                {(() => {
+                  const extras = instructorExtras[instructor.id]
+                  if (!extras) return null
+                  return (
                   <div className="bg-mp-cream rounded-xl p-5 mb-6 relative">
                     <Quote className="w-6 h-6 text-mp-ocean/15 absolute top-3 left-4" aria-hidden="true" />
                     <blockquote className="font-body text-mp-text italic leading-relaxed pl-6">
-                      <p>&laquo; {instructorExtras[instructor.id].quote} &raquo;</p>
+                      <p>&laquo; {extras.quote} &raquo;</p>
                       <footer className="mt-3 not-italic">
                         <cite className="font-heading text-xs font-medium text-mp-ocean bg-mp-ocean/10 px-2.5 py-1 rounded-full not-italic inline-block">
-                          {instructor.name} — {instructorExtras[instructor.id].experience}
+                          {instructor.name} — {extras.experience}
                         </cite>
                       </footer>
                     </blockquote>
                   </div>
-                )}
+                  )
+                })()}
 
                 {/* Fun fact */}
                 {instructorExtras[instructor.id]?.funFact && (
                   <p className="text-sm font-body text-mp-text-muted italic mb-6 flex items-start gap-2">
                     <span className="text-mp-gold text-base leading-none mt-0.5" aria-hidden="true">&#9733;</span>
-                    {instructorExtras[instructor.id].funFact}
+                    {instructorExtras[instructor.id]?.funFact}
                   </p>
                 )}
 

@@ -82,7 +82,7 @@ function InstructorAvatar({ name, size = "sm" }: { name: string; size?: "sm" | "
 function generateIcsBlob(session: SessionData, dateStr: string): string {
   const [hours, minutes] = session.time.split(":").map(Number)
   const date = new Date(dateStr)
-  date.setHours(hours, minutes, 0, 0)
+  date.setHours(hours ?? 0, minutes ?? 0, 0, 0)
   const end = new Date(date.getTime() + session.durationMinutes * 60_000)
   const pad = (n: number) => String(n).padStart(2, "0")
   const fmt = (d: Date) =>
@@ -128,7 +128,7 @@ function generateIcsBlob(session: SessionData, dateStr: string): string {
 function generateGoogleCalendarUrl(session: SessionData, dateStr: string): string {
   const [hours, minutes] = session.time.split(":").map(Number)
   const date = new Date(dateStr)
-  date.setHours(hours, minutes, 0, 0)
+  date.setHours(hours ?? 0, minutes ?? 0, 0, 0)
   const end = new Date(date.getTime() + session.durationMinutes * 60_000)
   const pad = (n: number) => String(n).padStart(2, "0")
   const fmt = (d: Date) =>
@@ -485,7 +485,7 @@ export default function PlanningPage() {
       {/* Hero */}
       <section className="relative h-[40vh] min-h-[320px] flex items-center overflow-hidden">
         <Image
-          src="/images/studio-reformer-ocean.jpg"
+          src="/images/studio-reformer-ocean.webp"
           alt="Reformer Pilates au soleil"
           fill
           className="object-cover"
@@ -787,7 +787,7 @@ export default function PlanningPage() {
                         : "bg-white text-mp-charcoal border border-mp-sand"
                   )}
                 >
-                  <span>{dayNames[dayOffset].slice(0, 3)}</span>
+                  <span>{(dayNames[dayOffset] ?? "").slice(0, 3)}</span>
                   <span className={clsx("text-[10px] mt-0.5", active ? (today ? "text-white/70" : "text-mp-ocean/70") : "text-mp-text-muted")}>
                     {format(date, "d MMM", { locale: fr })}
                   </span>

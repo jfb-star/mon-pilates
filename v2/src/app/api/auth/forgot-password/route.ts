@@ -11,16 +11,20 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Origine non autorisée" }, { status: 403 })
   }
 
-  // Rate limit: 3 per 15 minutes per IP
-  const ip = request.headers.get("x-forwarded-for") ?? "unknown"
-  const { allowed } = await checkRateLimit(`forgot-password:${ip}`, {
-    maxRequests: 3,
+  // Rate limit: 5 per 15 minutes per IP (combined with per-email below)
+  const ip =
+    request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+    request.headers.get("x-real-ip") ||
+    "unknown"
+  const { allowed, resetAt } = await checkRateLimit(`forgot-password:${ip}`, {
+    maxRequests: 5,
     windowMs: 15 * 60 * 1000,
   })
   if (!allowed) {
+    const retryAfter = Math.max(1, Math.ceil((resetAt - Date.now()) / 1000))
     return NextResponse.json(
       { error: "Trop de tentatives. Réessayez dans quelques minutes." },
-      { status: 429 }
+      { status: 429, headers: { "Retry-After": String(retryAfter) } }
     )
   }
 
@@ -35,10 +39,10 @@ export async function POST(request: Request) {
       )
     }
 
-    // Additional rate limit: 3 per 15 minutes per email address.
+    // Additional rate limit: 5 per 15 minutes per email address.
     // Prevents account-specific spam even if the attacker rotates IPs.
     const { allowed: emailAllowed } = await checkRateLimit(`forgot-password:email:${email}`, {
-      maxRequests: 3,
+      maxRequests: 5,
       windowMs: 15 * 60 * 1000,
     })
     if (!emailAllowed) {

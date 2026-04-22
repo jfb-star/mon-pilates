@@ -174,7 +174,7 @@ function courseColor(name: string): string {
   ];
   let hash = 0;
   for (let i = 0; i < name.length; i++) hash = name.charCodeAt(i) + ((hash << 5) - hash);
-  return colors[Math.abs(hash) % colors.length];
+  return colors[Math.abs(hash) % colors.length] ?? "bg-mp-ocean";
 }
 
 /** Generate a Google Calendar "add event" URL */
@@ -275,7 +275,7 @@ function generateICS({
 function parseSessionDateTime(date: string, time: string): Date {
   const d = new Date(date);
   const [h, m] = time.split(":").map(Number);
-  d.setHours(h, m, 0, 0);
+  d.setHours(h ?? 0, m ?? 0, 0, 0);
   return d;
 }
 

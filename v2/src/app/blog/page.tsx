@@ -30,7 +30,7 @@ const hardcodedPosts: BlogPost[] = [
     date: "2026-04-01",
     readTime: "6 min",
     category: "Conseils",
-    image: "/images/illustration-cours-collectif.png",
+    image: "/images/illustration-cours-collectif.webp",
     featured: true,
   },
   {
@@ -41,7 +41,7 @@ const hardcodedPosts: BlogPost[] = [
     date: "2026-03-15",
     readTime: "5 min",
     category: "Pré & post-natal",
-    image: "/images/illustration-pilates-artistique.png",
+    image: "/images/illustration-pilates-artistique.webp",
     featured: false,
   },
   {
@@ -52,7 +52,7 @@ const hardcodedPosts: BlogPost[] = [
     date: "2026-03-01",
     readTime: "4 min",
     category: "Guide",
-    image: "/images/illustration-cours-machine.png",
+    image: "/images/illustration-cours-machine.webp",
     featured: false,
   },
   {
@@ -63,7 +63,7 @@ const hardcodedPosts: BlogPost[] = [
     date: "2026-02-15",
     readTime: "3 min",
     category: "Actualités",
-    image: "/images/studio-reformer-ocean.jpg",
+    image: "/images/studio-reformer-ocean.webp",
     featured: false,
   },
   {
@@ -74,7 +74,7 @@ const hardcodedPosts: BlogPost[] = [
     date: "2026-01-15",
     readTime: "4 min",
     category: "Conseils",
-    image: "/images/mat-piscine-ocean.jpg",
+    image: "/images/mat-piscine-ocean.webp",
     featured: false,
   },
 ];
@@ -96,7 +96,7 @@ function FeaturedPost({ post }: { post: BlogPost }) {
         {/* Image */}
         <div className="relative h-64 lg:h-auto overflow-hidden rounded-t-2xl lg:rounded-l-2xl lg:rounded-tr-none">
           <Image
-            src={post.image || "/images/illustration-pilates-artistique.png"}
+            src={post.image || "/images/illustration-pilates-artistique.webp"}
             alt={`Illustration de l'article : ${post.title}`}
             fill
             loading="lazy"
@@ -143,7 +143,7 @@ function PostCard({ post }: { post: BlogPost }) {
         {/* Image */}
         <div className="relative h-48 overflow-hidden rounded-t-2xl">
           <Image
-            src={post.image || "/images/illustration-pilates-artistique.png"}
+            src={post.image || "/images/illustration-pilates-artistique.webp"}
             alt={`Illustration de l'article : ${post.title}`}
             fill
             loading="lazy"
@@ -198,7 +198,7 @@ function mapApiPost(p: Record<string, unknown>): BlogPost {
     date: publishedAt || (p.createdAt as string) || "",
     readTime,
     category: tags[0] || "Conseils",
-    image: (p.coverImage as string) || "/images/illustration-pilates-artistique.png",
+    image: (p.coverImage as string) || "/images/illustration-pilates-artistique.webp",
     featured: false,
   };
 }

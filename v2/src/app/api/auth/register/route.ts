@@ -26,16 +26,20 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Origine non autorisée" }, { status: 403 })
   }
 
-  // Rate limit: 5 registrations per IP per 15 minutes
-  const ip = request.headers.get("x-forwarded-for") ?? "unknown"
-  const { allowed } = await checkRateLimit(`register:${ip}`, {
+  // Rate limit: 5 registrations per IP per hour
+  const ip =
+    request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+    request.headers.get("x-real-ip") ||
+    "unknown"
+  const { allowed, resetAt } = await checkRateLimit(`register:${ip}`, {
     maxRequests: 5,
-    windowMs: 15 * 60 * 1000,
+    windowMs: 60 * 60 * 1000,
   })
   if (!allowed) {
+    const retryAfter = Math.max(1, Math.ceil((resetAt - Date.now()) / 1000))
     return NextResponse.json(
       { error: "Trop de tentatives. Réessayez dans quelques minutes." },
-      { status: 429 }
+      { status: 429, headers: { "Retry-After": String(retryAfter) } }
     )
   }
 

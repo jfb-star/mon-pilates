@@ -23,15 +23,22 @@ const MAX_MESSAGE = 5000
 
 export async function POST(request: NextRequest) {
   // Rate limit: 3 submissions per minute per IP
-  const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown"
-  const { allowed, remaining } = await checkRateLimit(`contact:${ip}`, { maxRequests: 3, windowMs: 60_000 })
+  const ip =
+    request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+    request.headers.get("x-real-ip") ||
+    "unknown"
+  const { allowed, remaining, resetAt } = await checkRateLimit(`contact:${ip}`, { maxRequests: 3, windowMs: 60_000 })
 
   if (!allowed) {
+    const retryAfter = Math.max(1, Math.ceil((resetAt - Date.now()) / 1000))
     return NextResponse.json(
       { error: "Trop de messages envoyés. Veuillez patienter une minute." },
       {
         status: 429,
-        headers: { "X-RateLimit-Remaining": String(remaining) },
+        headers: {
+          "X-RateLimit-Remaining": String(remaining),
+          "Retry-After": String(retryAfter),
+        },
       }
     )
   }

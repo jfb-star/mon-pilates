@@ -175,7 +175,7 @@ export default function AdminSchedulesPage() {
     setEditing(null)
     setForm({
       ...emptyForm,
-      startDate: new Date().toISOString().split("T")[0],
+      startDate: new Date().toISOString().split("T")[0] ?? "",
     })
     setFormError(null)
     setShowForm(true)
@@ -189,8 +189,8 @@ export default function AdminSchedulesPage() {
       dayOfWeek: String(s.dayOfWeek),
       startTime: s.startTime,
       endTime: s.endTime,
-      startDate: new Date(s.startDate).toISOString().split("T")[0],
-      endDate: s.endDate ? new Date(s.endDate).toISOString().split("T")[0] : "",
+      startDate: new Date(s.startDate).toISOString().split("T")[0] ?? "",
+      endDate: s.endDate ? new Date(s.endDate).toISOString().split("T")[0] ?? "" : "",
       maxParticipants: s.maxParticipants !== null ? String(s.maxParticipants) : "",
       isRecurring: s.isRecurring,
     })

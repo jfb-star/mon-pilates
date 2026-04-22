@@ -56,8 +56,8 @@ export async function GET() {
     if (i === 0) {
       tempStreak = 1;
     } else {
-      const prev = new Date(sortedWeeks[i - 1]);
-      const curr = new Date(sortedWeeks[i]);
+      const prev = new Date(sortedWeeks[i - 1]!);
+      const curr = new Date(sortedWeeks[i]!);
       const diffDays = (prev.getTime() - curr.getTime()) / (1000 * 60 * 60 * 24);
       if (Math.abs(diffDays - 7) < 2) {
         tempStreak++;

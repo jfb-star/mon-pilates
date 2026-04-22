@@ -96,7 +96,7 @@ export default function DefisPage() {
       if (!cell) continue;
       const month = new Date(cell.date).getMonth();
       if (month !== lastMonth) {
-        labels.push({ label: MONTHS_FR[month], col: w });
+        labels.push({ label: MONTHS_FR[month] ?? "", col: w });
         lastMonth = month;
       }
     }

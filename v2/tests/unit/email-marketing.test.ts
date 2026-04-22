@@ -41,7 +41,7 @@ describe("sendMarketingEmail", () => {
       subject: "Hello",
       html: "<html><body><p>Hi</p></body></html>",
     })
-    const call = (sendEmail as MockedSendEmail).mock.calls[0][0] as {
+    const call = (sendEmail as MockedSendEmail).mock.calls[0]![0] as {
       html: string
     }
     expect(call.html).toMatch(/<\/body>/)
@@ -58,7 +58,7 @@ describe("sendMarketingEmail", () => {
       subject: "Hello",
       html: "<p>Plain fragment</p>",
     })
-    const call = (sendEmail as MockedSendEmail).mock.calls[0][0] as {
+    const call = (sendEmail as MockedSendEmail).mock.calls[0]![0] as {
       html: string
     }
     expect(call.html.startsWith("<p>Plain fragment</p>")).toBe(true)
@@ -71,7 +71,7 @@ describe("sendMarketingEmail", () => {
       subject: "Hello",
       html: "<p>Hi</p>",
     })
-    const call = (sendEmail as MockedSendEmail).mock.calls[0][0] as {
+    const call = (sendEmail as MockedSendEmail).mock.calls[0]![0] as {
       html: string
     }
     expect(call.html).toMatch(/\/unsubscribe\?token=/)
@@ -84,7 +84,7 @@ describe("sendMarketingEmail", () => {
       html: "<p>Hi</p>",
       text: "Hello Alice",
     })
-    const call = (sendEmail as MockedSendEmail).mock.calls[0][0] as {
+    const call = (sendEmail as MockedSendEmail).mock.calls[0]![0] as {
       text?: string
     }
     expect(call.text).toBeDefined()
@@ -99,7 +99,7 @@ describe("sendMarketingEmail", () => {
       subject: "Hello",
       html: "<p>Hi</p>",
     })
-    const call = (sendEmail as MockedSendEmail).mock.calls[0][0] as {
+    const call = (sendEmail as MockedSendEmail).mock.calls[0]![0] as {
       text?: string
     }
     expect(call.text).toBeUndefined()
@@ -112,7 +112,7 @@ describe("sendMarketingEmail", () => {
       html: "<p>Hi</p>",
       tags: [{ name: "campaign", value: "spring-2026" }],
     })
-    const call = (sendEmail as MockedSendEmail).mock.calls[0][0] as {
+    const call = (sendEmail as MockedSendEmail).mock.calls[0]![0] as {
       tags: { name: string; value: string }[]
     }
     expect(call.tags).toContainEqual({ name: "campaign", value: "spring-2026" })
@@ -127,7 +127,7 @@ describe("sendMarketingEmail", () => {
       replyTo: "support@example.com",
       templateKey: "newsletter-weekly",
     })
-    const call = (sendEmail as MockedSendEmail).mock.calls[0][0] as Record<
+    const call = (sendEmail as MockedSendEmail).mock.calls[0]![0] as Record<
       string,
       unknown
     >
@@ -149,10 +149,10 @@ describe("sendMarketingEmail", () => {
       html: "<p>Hi</p>",
     })
     const calls = (sendEmail as MockedSendEmail).mock.calls
-    const urlA = String(calls[0][0].html).match(
+    const urlA = String(calls[0]![0].html).match(
       /\/unsubscribe\?token=([^"\s]+)/
     )?.[1]
-    const urlB = String(calls[1][0].html).match(
+    const urlB = String(calls[1]![0].html).match(
       /\/unsubscribe\?token=([^"\s]+)/
     )?.[1]
     expect(urlA).toBeTruthy()

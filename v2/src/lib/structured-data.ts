@@ -72,7 +72,7 @@ export function getBlogPostSchema(post: {
       "@type": "Organization",
       name: "Mon Pilates",
       url: BASE_URL,
-      logo: { "@type": "ImageObject", url: `${BASE_URL}/images/logo.png` },
+      logo: { "@type": "ImageObject", url: `${BASE_URL}/logo.webp` },
     },
     mainEntityOfPage: `${BASE_URL}/blog/${post.slug}`,
   };

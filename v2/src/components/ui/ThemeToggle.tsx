@@ -57,7 +57,7 @@ export function ThemeToggle({ scrolled = true }: { scrolled?: boolean }) {
 
   const cycle = useCallback(() => {
     const order: Theme[] = ["system", "light", "dark"];
-    const next = order[(order.indexOf(theme) + 1) % order.length];
+    const next = order[(order.indexOf(theme) + 1) % order.length] ?? "system";
     setTheme(next);
     localStorage.setItem("mp-theme", next);
     applyTheme(next);

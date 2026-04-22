@@ -26,6 +26,7 @@ describe("unsubscribe-token", () => {
     const { sign, verify } = await loadModule()
     const token = sign("bob@example.com")
     const [email, sig] = token.split(".")
+    if (!sig) throw new Error("missing sig")
     // Flip a byte in the signature.
     const tampered = `${email}.${sig.slice(0, -1)}${sig.slice(-1) === "A" ? "B" : "A"}`
     expect(verify(tampered)).toBeNull()

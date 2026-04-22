@@ -42,10 +42,11 @@ export async function GET(request: NextRequest) {
     const formattedReviews = reviews.map((r) => {
       // Show first name + last initial for privacy
       const nameParts = r.user.name.split(" ")
+      const lastPart = nameParts[nameParts.length - 1]
       const displayName =
-        nameParts.length > 1
-          ? `${nameParts[0]} ${nameParts[nameParts.length - 1][0]}.`
-          : nameParts[0]
+        nameParts.length > 1 && lastPart
+          ? `${nameParts[0]} ${lastPart[0] ?? ""}.`
+          : nameParts[0] ?? ""
 
       return {
         id: r.id,
@@ -169,10 +170,11 @@ export async function POST(request: NextRequest) {
     })
 
     const nameParts = review.user.name.split(" ")
+    const lastPart = nameParts[nameParts.length - 1]
     const displayName =
-      nameParts.length > 1
-        ? `${nameParts[0]} ${nameParts[nameParts.length - 1][0]}.`
-        : nameParts[0]
+      nameParts.length > 1 && lastPart
+        ? `${nameParts[0]} ${lastPart[0] ?? ""}.`
+        : nameParts[0] ?? ""
 
     return NextResponse.json({
       review: {

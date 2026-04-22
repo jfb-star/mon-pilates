@@ -20,8 +20,8 @@ import { BodyMap } from "@/components/ui/BodyMap";
 import { SITE_URL } from "@/lib/env";
 
 const courseImages: Partial<Record<CourseType, string>> = {
-  mat: "/images/illustration-cours-collectif.png",
-  reformer: "/images/illustration-cours-machine.png",
+  mat: "/images/illustration-cours-collectif.webp",
+  reformer: "/images/illustration-cours-machine.webp",
 };
 
 export const metadata: Metadata = {
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
       "Pilates au tapis (doux, classique, avancé), cours privés sur appareil, pré & post-natal — pour tous les niveaux à Larmor-Plage.",
     images: [
       {
-        url: "/images/studio-reformer-ocean.jpg",
+        url: "/images/studio-reformer-ocean.webp",
         width: 1920,
         height: 1080,
         alt: "Studio de Pilates Mon Pilates avec Reformers et vue sur l'océan à Larmor-Plage",
@@ -121,7 +121,7 @@ export default function CoursPage() {
         {/* Background image */}
         <div className="absolute inset-0 opacity-10">
           <Image
-            src="/images/studio-reformer-ocean.jpg"
+            src="/images/studio-reformer-ocean.webp"
             alt="Studio de Pilates avec vue sur l'océan"
             fill
             className="object-cover"

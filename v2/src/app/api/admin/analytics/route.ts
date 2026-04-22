@@ -118,10 +118,13 @@ export async function GET() {
     const dayOrder = [1, 2, 3, 4, 5, 6, 0]
     const occupancyByDay = dayOrder
       .filter((d) => dayOccMap[d])
-      .map((d) => ({
-        day: dayNames[d],
-        rate: Math.round((dayOccMap[d].total / dayOccMap[d].count) * 100) / 100,
-      }))
+      .map((d) => {
+        const entry = dayOccMap[d]!
+        return {
+          day: dayNames[d] ?? "",
+          rate: Math.round((entry.total / entry.count) * 100) / 100,
+        }
+      })
 
     // 5. Peak hours
     const bookingsWithTime = await prisma.booking.findMany({
@@ -183,7 +186,7 @@ export async function GET() {
     for (const u of usersWithBookings) {
       if (u.bookings.length === 0) continue
       usersWithOneBooking++
-      if (u.bookings.length >= 2) {
+      if (u.bookings.length >= 2 && u.bookings[0] && u.bookings[1]) {
         const first = new Date(u.bookings[0].createdAt).getTime()
         const second = new Date(u.bookings[1].createdAt).getTime()
         if (second - first <= 30 * 24 * 60 * 60 * 1000) {

@@ -257,7 +257,7 @@ export function GiftCardForm() {
             setFieldErrors(errs);
             if (Object.keys(errs).length > 0) {
               const firstField = Object.keys(errs)[0];
-              const el = document.getElementById(firstField);
+              const el = firstField ? document.getElementById(firstField) : null;
               if (el) requestAnimationFrame(() => el.focus());
               return;
             }

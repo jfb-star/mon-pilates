@@ -343,6 +343,7 @@ async function main() {
   const claireSessions = sessions.filter((s) => new Date(s.date) >= today).slice(0, 3);
   for (let i = 0; i < claireSessions.length; i++) {
     const session = claireSessions[i];
+    if (!session) continue;
     await prisma.booking.create({
       data: {
         userId: users[3].id,
@@ -359,6 +360,7 @@ async function main() {
   const isabelleSessions = sessions.filter((s) => new Date(s.date) >= today).slice(2, 4);
   for (let i = 0; i < isabelleSessions.length; i++) {
     const session = isabelleSessions[i];
+    if (!session) continue;
     await prisma.booking.create({
       data: {
         userId: users[4].id,

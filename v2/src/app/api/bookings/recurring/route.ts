@@ -182,9 +182,11 @@ export async function GET() {
   const recurring = []
   for (const [scheduleId, bookings] of bySchedule) {
     if (bookings.length < 2) continue
+    const firstBooking = bookings[0]
+    if (!firstBooking) continue
 
-    const schedule = bookings[0].session.schedule
-    const nextSession = bookings[0].session
+    const schedule = firstBooking.session.schedule
+    const nextSession = firstBooking.session
 
     recurring.push({
       scheduleId,

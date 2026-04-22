@@ -297,6 +297,10 @@ export default function AdminInstructorsPage() {
                         <img
                           src={i.photo}
                           alt={i.name}
+                          width={36}
+                          height={36}
+                          loading="lazy"
+                          decoding="async"
                           className="w-9 h-9 rounded-full object-cover bg-gray-100"
                         />
                       ) : (

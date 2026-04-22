@@ -33,13 +33,15 @@ export interface LoyaltyData {
 }
 
 // Levels
-const LEVELS = [
+interface Level { name: string; minPoints: number; maxPoints: number }
+const LEVELS: Level[] = [
   { name: "D\u00e9butant", minPoints: 0, maxPoints: 100 },
   { name: "R\u00e9gulier", minPoints: 100, maxPoints: 300 },
   { name: "Confirm\u00e9", minPoints: 300, maxPoints: 600 },
   { name: "Expert", minPoints: 600, maxPoints: 1000 },
   { name: "Ma\u00eetre Pilates", minPoints: 1000, maxPoints: Infinity },
 ]
+const FALLBACK_LEVEL: Level = { name: "Ma\u00eetre Pilates", minPoints: 1000, maxPoints: Infinity }
 
 // Rewards
 const REWARDS = [
@@ -196,10 +198,10 @@ export async function calculateLoyalty(userId: string): Promise<LoyaltyData> {
   })
 
   // Determine current level
-  const currentLevel =
+  const currentLevel: Level =
     LEVELS.find(
       (l) => totalPoints >= l.minPoints && totalPoints < l.maxPoints
-    ) ?? LEVELS[LEVELS.length - 1]
+    ) ?? LEVELS[LEVELS.length - 1] ?? FALLBACK_LEVEL
 
   const level = {
     name: currentLevel.name,

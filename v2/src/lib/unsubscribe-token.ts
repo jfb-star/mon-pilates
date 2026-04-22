@@ -63,6 +63,7 @@ export function verify(token: string | null | undefined): string | null {
   if (parts.length !== 2) return null
 
   const [emailPart, sigPart] = parts
+  if (!emailPart || !sigPart) return null
   let email: string
   try {
     email = b64urlDecode(emailPart).toString("utf8")

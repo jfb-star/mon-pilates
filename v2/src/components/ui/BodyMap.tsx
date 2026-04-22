@@ -237,14 +237,14 @@ export function BodyMap() {
             const cy =
               zone.type === "ellipse"
                 ? zone.attrs.cy
-                : zone.attrs.y + zone.attrs.height / 2;
+                : (zone.attrs.y ?? 0) + (zone.attrs.height ?? 0) / 2;
             const isActive = selected === zone.id || hovered === zone.id;
 
             return (
               <text
                 key={`label-${zone.id}`}
                 x="150"
-                y={cy + 1}
+                y={(cy ?? 0) + 1}
                 textAnchor="middle"
                 dominantBaseline="central"
                 className="pointer-events-none font-heading"

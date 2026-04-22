@@ -49,7 +49,10 @@ function substitute(
 ): string {
   return template.replace(/\{\{\s*([a-zA-Z0-9_]+)\s*\}\}/g, (match, key) => {
     if (Object.prototype.hasOwnProperty.call(vars, key)) {
-      return escapeHtml(vars[key])
+      const value = vars[key]
+      if (value !== undefined) {
+        return escapeHtml(value)
+      }
     }
     console.warn(`[resend] unmatched placeholder {{${key}}} left in template`)
     return match
@@ -94,7 +97,7 @@ export async function sendEmail(opts: {
   tags?: { name: string; value: string }[]
   templateKey?: string
 }): Promise<{ id: string }> {
-  const primaryTo = Array.isArray(opts.to) ? opts.to[0] : opts.to
+  const primaryTo = Array.isArray(opts.to) ? (opts.to[0] ?? "") : opts.to
 
   if (!resend) {
     const msg = "RESEND_API_KEY not configured"

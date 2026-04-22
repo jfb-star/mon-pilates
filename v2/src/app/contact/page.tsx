@@ -17,7 +17,7 @@ export const metadata: Metadata = {
       "Une question ? Contactez-nous par formulaire, téléphone ou email. Studio de Pilates à Larmor-Plage.",
     images: [
       {
-        url: "/images/studio-reformer-ocean.jpg",
+        url: "/images/studio-reformer-ocean.webp",
         width: 1920,
         height: 1080,
         alt: "Studio de Pilates Mon Pilates face à l'océan à Larmor-Plage",
@@ -215,7 +215,7 @@ export default function ContactPage() {
                       <br />
                       Sam : 9h — 12h30
                       <br />
-                      Jeu &amp; Dim : fermé
+                      Jeu et Dim : fermé
                     </p>
                   </div>
                 </div>

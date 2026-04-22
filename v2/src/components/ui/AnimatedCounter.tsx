@@ -35,7 +35,7 @@ export function AnimatedCounter({
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting && !hasAnimated.current) {
+        if (entry?.isIntersecting && !hasAnimated.current) {
           hasAnimated.current = true
           const startValue = end * startFraction
           const delta = end - startValue

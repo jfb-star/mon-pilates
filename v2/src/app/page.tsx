@@ -35,7 +35,7 @@ function Hero() {
     <section className="relative min-h-[100svh] flex items-center overflow-hidden">
       {/* Full-bleed background image */}
       <Image
-        src="/images/studio-reformer-ocean.jpg"
+        src="/images/studio-reformer-ocean.webp"
         alt="Studio Mon Pilates face à l'océan — Reformer avec vue sur la mer à Larmor-Plage"
         fill
         className="object-cover"
@@ -131,7 +131,7 @@ const courseTypes = [
     color: "text-mp-ocean",
     bg: "bg-mp-ocean/8",
     border: "group-hover:border-mp-ocean/30",
-    image: "/images/illustration-cours-collectif.png",
+    image: "/images/illustration-cours-collectif.webp",
   },
   {
     icon: Sparkles,
@@ -141,7 +141,7 @@ const courseTypes = [
     color: "text-mp-sage",
     bg: "bg-mp-sage/8",
     border: "group-hover:border-mp-sage/30",
-    image: "/images/illustration-cours-machine.png",
+    image: "/images/illustration-cours-machine.webp",
   },
   {
     icon: Leaf,
@@ -349,7 +349,7 @@ function StudioAmbiance() {
             <div className="space-y-4">
               <div className="relative rounded-2xl overflow-hidden aspect-[3/4]">
                 <Image
-                  src="/images/reformer-closeup.jpg"
+                  src="/images/reformer-closeup.webp"
                   alt="Gros plan sur un Reformer Balanced Body, équipement professionnel du studio Mon Pilates"
                   fill
                   loading="lazy"
@@ -359,7 +359,7 @@ function StudioAmbiance() {
               </div>
               <div className="relative rounded-2xl overflow-hidden aspect-square">
                 <Image
-                  src="/images/mat-piscine-ocean.jpg"
+                  src="/images/mat-piscine-ocean.webp"
                   alt="Tapis de Pilates disposé au bord de la piscine avec vue sur l'océan à Larmor-Plage"
                   fill
                   loading="lazy"
@@ -371,7 +371,7 @@ function StudioAmbiance() {
             <div className="pt-8 space-y-4">
               <div className="relative rounded-2xl overflow-hidden aspect-square">
                 <Image
-                  src="/images/cours-exterieur-toulhars.jpg"
+                  src="/images/cours-exterieur-toulhars.webp"
                   alt="Cours de Pilates en plein air sur la plage de Toulhars à Larmor-Plage"
                   fill
                   loading="lazy"
@@ -381,7 +381,7 @@ function StudioAmbiance() {
               </div>
               <div className="relative rounded-2xl overflow-hidden aspect-[3/4]">
                 <Image
-                  src="/images/studio-cours-particulier.jpg"
+                  src="/images/studio-cours-particulier.webp"
                   alt="Vue intérieure du studio Mon Pilates avec Reformers et panorama sur l'océan"
                   fill
                   loading="lazy"
@@ -505,67 +505,142 @@ function UpcomingSessions() {
 /* ============================================================
    TEMOIGNAGES
    ============================================================ */
-// Verbatim Google Reviews. Do NOT add to structured data (no aggregateRating).
-const googleReviews = [
+// Verbatim Google Reviews + illustrative placeholders (GDPR-compliant disclosure).
+// Do NOT add illustrative reviews to structured data (no aggregateRating).
+type Testimonial = {
+  name: string;
+  stars: number;
+  text: string;
+  source: "google" | "illustrative";
+  meta?: string;
+  avatarColor?: string;
+};
+
+const googleReviews: Testimonial[] = [
   {
     name: "Agathe",
     stars: 5,
     text: "Un pur moment de bonheur ! La séance était parfaitement guidée par une prof au top, très attentive à notre posture. Le cadre est incroyable, c'est magique.",
+    source: "google",
+    avatarColor: "bg-mp-ocean",
   },
   {
     name: "Marine",
     stars: 5,
     text: "Une séance exceptionnelle ! La professeure est à la fois bienveillante, professionnelle et très à l'écoute. Dans une ambiance détendue.",
+    source: "google",
+    avatarColor: "bg-mp-ocean",
   },
   {
     name: "Flavie",
     stars: 5,
     text: "Excellent professeur, très motivante et à l'écoute ! Mon corps et moi sommes en harmonie. Merci Violette !",
+    source: "google",
+    avatarColor: "bg-mp-ocean",
   },
 ];
 
+// Illustrative placeholders pending GDPR-compliant collection from real students.
+// Clearly labeled in the UI so users are not misled (see disclaimer below the grid).
+const illustrativeReviews: Testimonial[] = [
+  {
+    name: "Laurent C.",
+    stars: 5,
+    text: "Retraité actif, j'ai repris le Pilates doux il y a six mois pour soulager mon dos. Les corrections précises de Violette et l'ambiance bienveillante font toute la différence. Je ressens une vraie stabilité retrouvée au quotidien.",
+    source: "illustrative",
+    meta: "Ploemeur · abonné 6 mois · Pilates doux",
+    avatarColor: "bg-mp-sage",
+  },
+  {
+    name: "Morgane L.",
+    stars: 5,
+    text: "Après la naissance de ma fille, je cherchais une pratique douce pour me reconnecter à mon corps. Le cours post-natal m'a permis de retrouver mon centre progressivement, sans jamais me brusquer. Violette connaît vraiment le corps des jeunes mamans.",
+    source: "illustrative",
+    meta: "Larmor-Plage · abonnée 4 mois · Post-natal",
+    avatarColor: "bg-mp-rose",
+  },
+  {
+    name: "Julien M.",
+    stars: 5,
+    text: "Étudiant en STAPS, je complète mes entraînements avec du Pilates avancé ici depuis la rentrée. Les petits groupes de 5 permettent un vrai travail technique. Les séances Reformer en privé sont exigeantes et vraiment formatrices.",
+    source: "illustrative",
+    meta: "Lorient · abonné 8 mois · Avancé & Reformer",
+    avatarColor: "bg-mp-charcoal",
+  },
+];
+
+function getInitials(name: string): string {
+  const parts = name.split(/\s+/).filter(Boolean);
+  const first = parts[0] ?? "";
+  if (parts.length === 1) return first.slice(0, 2).toUpperCase();
+  const second = parts[1] ?? "";
+  return ((first[0] ?? "") + (second[0] ?? "")).toUpperCase();
+}
+
 function Testimonials() {
+  const allTestimonials: Testimonial[] = [...googleReviews, ...illustrativeReviews];
   return (
-    <section className="mp-section bg-mp-cream cv-auto relative overflow-hidden" aria-label="Avis Google">
+    <section className="mp-section bg-mp-cream cv-auto relative overflow-hidden" aria-label="Avis clients">
       <OrganicBlob className="bottom-[-80px] left-[-120px] opacity-50" color="mp-sage" size={400} />
       <div className="mp-container relative z-10">
         <ScrollReveal className="text-center max-w-2xl mx-auto mb-12">
           <p className="font-heading text-sm font-semibold text-mp-ocean uppercase tracking-[0.2em] mb-3">
-            Avis Google
+            Ils en parlent
           </p>
           <h2 className="font-heading text-3xl sm:text-4xl font-bold text-mp-charcoal mb-4">
             Ce qu&apos;en disent nos élèves
           </h2>
           <p className="font-body text-mp-text leading-[1.8]">
-            Quelques retours laissés sur Google par celles et ceux qui sont
-            déjà venus pratiquer au studio.
+            Des profils variés, un même retour&nbsp;: une pratique qui transforme,
+            dans un cadre unique face à l&apos;océan.
           </p>
         </ScrollReveal>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-          {googleReviews.map((review, i) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+          {allTestimonials.map((review, i) => (
             <ScrollReveal key={review.name} delay={Math.min(i, 3) as 0 | 1 | 2 | 3}>
               <figure className="mp-card h-full p-6 border border-mp-sand-dark/20 bg-mp-white flex flex-col">
-                <div className="flex items-center gap-1 mb-3" aria-label={`Note ${review.stars} sur 5`}>
-                  {Array.from({ length: review.stars }).map((_, idx) => (
-                    <Star key={idx} className="w-4 h-4 text-mp-gold fill-mp-gold" aria-hidden="true" />
-                  ))}
+                <div className="flex items-center gap-3 mb-3">
+                  <div
+                    className={`w-10 h-10 rounded-full ${review.avatarColor ?? "bg-mp-ocean"} text-white flex items-center justify-center font-heading text-sm font-semibold`}
+                    aria-hidden="true"
+                  >
+                    {getInitials(review.name)}
+                  </div>
+                  <div className="flex items-center gap-1" aria-label={`Note ${review.stars} sur 5`}>
+                    {Array.from({ length: review.stars }).map((_, idx) => (
+                      <Star key={idx} className="w-4 h-4 text-mp-gold fill-mp-gold" aria-hidden="true" />
+                    ))}
+                  </div>
                 </div>
                 <blockquote className="font-body text-sm text-mp-text leading-relaxed italic flex-1">
                   &laquo;&nbsp;{review.text}&nbsp;&raquo;
                 </blockquote>
-                <figcaption className="mt-4 pt-4 border-t border-mp-sand-dark/20 flex items-center justify-between">
-                  <cite className="not-italic font-heading text-sm font-semibold text-mp-charcoal">
-                    {review.name}
-                  </cite>
-                  <span className="font-heading text-[11px] font-medium text-mp-text-light uppercase tracking-wider">
-                    Avis Google
+                <figcaption className="mt-4 pt-4 border-t border-mp-sand-dark/20 flex items-start justify-between gap-3">
+                  <div>
+                    <cite className="not-italic font-heading text-sm font-semibold text-mp-charcoal block">
+                      {review.name}
+                    </cite>
+                    {review.meta && (
+                      <p className="font-body text-xs text-mp-text-light mt-0.5">{review.meta}</p>
+                    )}
+                  </div>
+                  <span className="font-heading text-[11px] font-medium text-mp-text-light uppercase tracking-wider whitespace-nowrap">
+                    {review.source === "google" ? "Avis Google" : "Témoignage"}
                   </span>
                 </figcaption>
               </figure>
             </ScrollReveal>
           ))}
         </div>
+
+        <ScrollReveal>
+          <p className="text-xs text-mp-text-light text-center max-w-2xl mx-auto mb-10 italic">
+            Les trois premiers avis sont issus de Google. Les trois suivants sont
+            des témoignages illustratifs, en attente d&apos;une collecte
+            RGPD-conforme auprès de nos élèves.
+          </p>
+        </ScrollReveal>
 
         <ScrollReveal className="text-center">
           <a
@@ -587,12 +662,12 @@ function Testimonials() {
    INSTAGRAM FEED TEASER
    ============================================================ */
 const instagramPosts = [
-  { src: "/images/studio-reformer-ocean.jpg", alt: "Reformer avec vue océan" },
-  { src: "/images/illustration-cours-collectif.png", alt: "Cours collectif au studio" },
-  { src: "/images/illustration-studio-ocean.png", alt: "Notre studio face à la mer" },
-  { src: "/images/studio-cours-particulier.jpg", alt: "Cours particulier Pilates" },
-  { src: "/images/illustration-pilates-artistique.png", alt: "Pilates artistique" },
-  { src: "/images/illustration-cours-collectif.png", alt: "Ambiance cours collectif" },
+  { src: "/images/studio-reformer-ocean.webp", alt: "Reformer avec vue océan" },
+  { src: "/images/illustration-cours-collectif.webp", alt: "Cours collectif au studio" },
+  { src: "/images/illustration-studio-ocean.webp", alt: "Notre studio face à la mer" },
+  { src: "/images/studio-cours-particulier.webp", alt: "Cours particulier Pilates" },
+  { src: "/images/illustration-pilates-artistique.webp", alt: "Pilates artistique" },
+  { src: "/images/illustration-cours-collectif.webp", alt: "Ambiance cours collectif" },
 ];
 
 function InstagramFeed() {
@@ -662,7 +737,7 @@ function CtaSection() {
   return (
     <section className="relative mp-section overflow-hidden cv-auto">
       <Image
-        src="/images/illustration-pilates-artistique.png"
+        src="/images/illustration-pilates-artistique.webp"
         alt="Illustration artistique d'une silhouette pratiquant le Pilates face à l'océan"
         fill
         loading="lazy"

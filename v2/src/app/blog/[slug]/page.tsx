@@ -22,7 +22,7 @@ export const posts = [
     date: "2026-04-01",
     readTime: "6 min",
     category: "Conseils",
-    image: "/images/illustration-cours-collectif.png",
+    image: "/images/illustration-cours-collectif.webp",
     featured: true,
     content: [
       {
@@ -83,7 +83,7 @@ export const posts = [
     date: "2026-03-15",
     readTime: "5 min",
     category: "Pré & post-natal",
-    image: "/images/illustration-pilates-artistique.png",
+    image: "/images/illustration-pilates-artistique.webp",
     featured: false,
     content: [
       {
@@ -128,7 +128,7 @@ export const posts = [
     date: "2026-03-01",
     readTime: "4 min",
     category: "Guide",
-    image: "/images/illustration-cours-machine.png",
+    image: "/images/illustration-cours-machine.webp",
     featured: false,
     content: [
       {
@@ -173,7 +173,7 @@ export const posts = [
     date: "2026-02-15",
     readTime: "3 min",
     category: "Actualités",
-    image: "/images/studio-reformer-ocean.jpg",
+    image: "/images/studio-reformer-ocean.webp",
     featured: false,
     content: [
       {
@@ -214,7 +214,7 @@ export const posts = [
     date: "2026-01-15",
     readTime: "4 min",
     category: "Conseils",
-    image: "/images/mat-piscine-ocean.jpg",
+    image: "/images/mat-piscine-ocean.webp",
     featured: false,
     content: [
       {
@@ -306,7 +306,7 @@ async function getPostFromDb(slug: string) {
       date: dbPost.publishedAt?.toISOString().split("T")[0] || "",
       readTime: `${Math.max(1, Math.round(wordCount / 200))} min`,
       category: tags[0] || "Conseils",
-      image: dbPost.coverImage || "/images/illustration-pilates-artistique.png",
+      image: dbPost.coverImage || "/images/illustration-pilates-artistique.webp",
       featured: false,
       content,
     };
@@ -460,7 +460,7 @@ export default async function BlogArticlePage({
       name: "Mon Pilates",
       logo: {
         "@type": "ImageObject",
-        url: `${SITE_URL}/images/logo.png`,
+        url: `${SITE_URL}/logo.webp`,
         width: 512,
         height: 512,
       },

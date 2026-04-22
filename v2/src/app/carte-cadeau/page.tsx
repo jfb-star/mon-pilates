@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     title: "Carte Cadeau | Mon Pilates",
     description:
       "Offrez du bien-être : une carte cadeau Pilates personnalisée, livrée par email.",
-    images: [{ url: "/images/illustration-carte-cadeau.png", width: 480, height: 480, alt: "Carte cadeau Mon Pilates" }],
+    images: [{ url: "/images/illustration-carte-cadeau.webp", width: 480, height: 480, alt: "Carte cadeau Mon Pilates" }],
   },
   alternates: {
     canonical: `${SITE_URL}/carte-cadeau`,
@@ -54,7 +54,7 @@ const giftCardJsonLd = {
     availability: "https://schema.org/InStock",
     url: `${SITE_URL}/carte-cadeau`,
   },
-  image: `${SITE_URL}/images/illustration-carte-cadeau.png`,
+  image: `${SITE_URL}/images/illustration-carte-cadeau.webp`,
 };
 
 export default function CartesCadeauPage() {
@@ -97,7 +97,7 @@ export default function CartesCadeauPage() {
           </div>
           <div className="flex justify-center lg:justify-end">
             <Image
-              src="/images/illustration-carte-cadeau.png"
+              src="/images/illustration-carte-cadeau.webp"
               alt="Illustration d'une carte cadeau avec feuilles et noeud vert sauge"
               width={480}
               height={480}

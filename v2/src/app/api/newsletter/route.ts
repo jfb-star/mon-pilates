@@ -22,7 +22,7 @@ const NewsletterSchema = z.object({
     .email(),
 })
 
-const RATE_OPTS = { maxRequests: 5, windowMs: 15 * 60_000 }
+const RATE_OPTS = { maxRequests: 10, windowMs: 60 * 60_000 }
 
 export async function POST(request: NextRequest): Promise<Response> {
   const contentType = request.headers.get("content-type") ?? ""
@@ -44,13 +44,22 @@ export async function POST(request: NextRequest): Promise<Response> {
   }
 
   const ip =
-    request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown"
+    request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+    request.headers.get("x-real-ip") ||
+    "unknown"
 
   const ipLimit = await checkRateLimit(`newsletter:ip:${ip}`, RATE_OPTS)
   if (!ipLimit.allowed) {
-    return respond(
+    const retryAfter = Math.max(1, Math.ceil((ipLimit.resetAt - Date.now()) / 1000))
+    if (wantsHtml) {
+      return respond(
+        { error: "Veuillez patienter avant de réessayer." },
+        { status: 429 }
+      )
+    }
+    return NextResponse.json(
       { error: "Veuillez patienter avant de réessayer." },
-      { status: 429 }
+      { status: 429, headers: { "Retry-After": String(retryAfter) } }
     )
   }
 
@@ -74,9 +83,16 @@ export async function POST(request: NextRequest): Promise<Response> {
   // Per-email rate limit — defence against a spammer rotating IPs.
   const emailLimit = await checkRateLimit(`newsletter:email:${email}`, RATE_OPTS)
   if (!emailLimit.allowed) {
-    return respond(
+    const retryAfter = Math.max(1, Math.ceil((emailLimit.resetAt - Date.now()) / 1000))
+    if (wantsHtml) {
+      return respond(
+        { error: "Veuillez patienter avant de réessayer." },
+        { status: 429 }
+      )
+    }
+    return NextResponse.json(
       { error: "Veuillez patienter avant de réessayer." },
-      { status: 429 }
+      { status: 429, headers: { "Retry-After": String(retryAfter) } }
     )
   }
 

@@ -20,7 +20,7 @@ export const metadata: Metadata = {
       "Découverte tapis 10€, cartes de 5 à 20 cours dès 17€/séance, séances privées sur appareil. Trouvez la formule qui vous convient.",
     images: [
       {
-        url: "/images/studio-reformer-ocean.jpg",
+        url: "/images/studio-reformer-ocean.webp",
         width: 1920,
         height: 1080,
         alt: "Studio de Pilates Mon Pilates face à l'océan à Larmor-Plage",

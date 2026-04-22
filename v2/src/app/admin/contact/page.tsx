@@ -169,7 +169,7 @@ export default function AdminContactPage() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-6 flex flex-wrap gap-2">
           <FilterChip
-            label={`Tous (${byStatus.NEW + byStatus.READ + byStatus.HANDLED})`}
+            label={`Tous (${(byStatus.NEW ?? 0) + (byStatus.READ ?? 0) + (byStatus.HANDLED ?? 0)})`}
             active={filter === ""}
             onClick={() => setFilter("")}
           />
