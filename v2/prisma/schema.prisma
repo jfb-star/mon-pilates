@@ -291,6 +291,27 @@ model Subscriber {
   user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
 }
 
+// Hashed password-reset tokens. The raw token is mailed to the user; only the
+// sha256 hash is persisted so a DB leak can't be turned into a takeover.
+model PasswordResetToken {
+  tokenHash String    @id
+  userId    String
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([userId])
+  @@index([expiresAt])
+}
+
+// Stripe webhook event ledger for idempotency. Stripe retries at-least-once,
+// so we guard every event handler against duplicate processing.
+model StripeWebhookEvent {
+  eventId     String   @id
+  type        String
+  processedAt DateTime @default(now())
+}
+
 // Transactional send log — every Resend call leaves a trace here for debugging
 // and the /admin/emails/logs UI.
 model EmailLog {

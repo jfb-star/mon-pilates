@@ -4,8 +4,13 @@ import { prisma } from "@/lib/prisma"
 import { checkRateLimit } from "@/lib/rate-limit"
 import { storeResetToken } from "@/lib/password-reset"
 import { sendPasswordReset } from "@/lib/email"
+import { isAllowedOrigin } from "@/lib/utils"
 
 export async function POST(request: Request) {
+  if (!isAllowedOrigin(request.headers.get("origin"))) {
+    return NextResponse.json({ error: "Origine non autorisée" }, { status: 403 })
+  }
+
   // Rate limit: 3 per 15 minutes per IP
   const ip = request.headers.get("x-forwarded-for") ?? "unknown"
   const { allowed } = await checkRateLimit(`forgot-password:${ip}`, {
@@ -52,7 +57,7 @@ export async function POST(request: Request) {
 
     if (user) {
       const token = randomUUID()
-      storeResetToken(token, user.id)
+      await storeResetToken(token, user.id)
       sendPasswordReset({ to: user.email, name: user.name, resetToken: token }).catch(() => {
         // Silently ignore email send failures
       })

@@ -11,7 +11,7 @@ const paginationSchema = z.object({
 
 // GET: List users with search
 export async function GET(request: NextRequest) {
-  const session = await requireAdmin()
+  const session = await requireAdmin(request)
   if (!session) {
     return NextResponse.json({ error: "Non autorisé" }, { status: 403 })
   }
@@ -82,7 +82,7 @@ export async function GET(request: NextRequest) {
 
 // PATCH: Update user role
 export async function PATCH(request: NextRequest) {
-  const session = await requireAdmin()
+  const session = await requireAdmin(request)
   if (!session) {
     return NextResponse.json({ error: "Non autorisé" }, { status: 403 })
   }

@@ -3,6 +3,7 @@ import type { NextRequest } from "next/server"
 import { z } from "zod"
 import { requireAdmin } from "@/lib/admin"
 import { prisma } from "@/lib/prisma"
+import { sendBookingCancelled } from "@/lib/email"
 
 // Validate pagination params if provided. This route currently lists one week at a time,
 // so limit/offset are optional — but we still reject malformed values.
@@ -13,7 +14,7 @@ const paginationSchema = z.object({
 
 // GET: List sessions with filters
 export async function GET(request: NextRequest) {
-  const session = await requireAdmin()
+  const session = await requireAdmin(request)
   if (!session) {
     return NextResponse.json({ error: "Non autorisé" }, { status: 403 })
   }
@@ -94,7 +95,7 @@ export async function GET(request: NextRequest) {
 
 // POST: Create a new session
 export async function POST(request: NextRequest) {
-  const session = await requireAdmin()
+  const session = await requireAdmin(request)
   if (!session) {
     return NextResponse.json({ error: "Non autorisé" }, { status: 403 })
   }
@@ -158,7 +159,7 @@ export async function POST(request: NextRequest) {
 
 // PATCH: Update a session
 export async function PATCH(request: NextRequest) {
-  const session = await requireAdmin()
+  const session = await requireAdmin(request)
   if (!session) {
     return NextResponse.json({ error: "Non autorisé" }, { status: 403 })
   }
@@ -198,7 +199,7 @@ export async function PATCH(request: NextRequest) {
 
 // DELETE: Cancel a session and all its bookings
 export async function DELETE(request: NextRequest) {
-  const session = await requireAdmin()
+  const session = await requireAdmin(request)
   if (!session) {
     return NextResponse.json({ error: "Non autorisé" }, { status: 403 })
   }
@@ -210,6 +211,24 @@ export async function DELETE(request: NextRequest) {
     if (!id) {
       return NextResponse.json({ error: "ID de séance requis." }, { status: 400 })
     }
+
+    // Snapshot affected bookings + session info BEFORE the transaction so we can
+    // email the right people with the right course/time even if the row changes.
+    const sessionInfo = await prisma.session.findUnique({
+      where: { id },
+      select: {
+        date: true,
+        startTime: true,
+        endTime: true,
+        courseType: { select: { name: true } },
+        bookings: {
+          where: { status: { not: "CANCELLED" } },
+          select: {
+            user: { select: { email: true, name: true } },
+          },
+        },
+      },
+    })
 
     await prisma.$transaction(async (tx) => {
       // Cancel all bookings for this session
@@ -225,7 +244,24 @@ export async function DELETE(request: NextRequest) {
       })
     })
 
-    // TODO: send notification emails to affected users
+    // Notify affected users (non-blocking, failures ignored)
+    if (sessionInfo) {
+      const dateStr = sessionInfo.date.toLocaleDateString("fr-FR", {
+        weekday: "long",
+        day: "numeric",
+        month: "long",
+      })
+      const timeStr = `${sessionInfo.startTime}—${sessionInfo.endTime}`
+      for (const b of sessionInfo.bookings) {
+        sendBookingCancelled({
+          to: b.user.email,
+          userName: b.user.name,
+          courseName: sessionInfo.courseType.name,
+          date: dateStr,
+          time: timeStr,
+        }).catch(() => {})
+      }
+    }
 
     return NextResponse.json({ message: "Séance annulée avec succès." })
   } catch {

@@ -15,15 +15,28 @@ export async function POST(req: NextRequest) {
 
   let event: Stripe.Event
 
+  const secret = process.env.STRIPE_WEBHOOK_SECRET
+  if (!secret) {
+    console.error("[webhook] STRIPE_WEBHOOK_SECRET not configured")
+    return NextResponse.json({ error: "Webhook not configured" }, { status: 500 })
+  }
+
   try {
-    event = stripe.webhooks.constructEvent(
-      body,
-      sig,
-      process.env.STRIPE_WEBHOOK_SECRET!
-    )
+    event = stripe.webhooks.constructEvent(body, sig, secret)
   } catch (err) {
     console.error("[webhook] Signature verification failed:", err)
     return NextResponse.json({ error: "Invalid signature" }, { status: 400 })
+  }
+
+  // Idempotency: record event.id before processing. Stripe retries at-least-once,
+  // so a duplicate event would otherwise double-create bookings/gift cards.
+  try {
+    await prisma.stripeWebhookEvent.create({
+      data: { eventId: event.id, type: event.type },
+    })
+  } catch {
+    // Unique constraint = already processed. Ack so Stripe stops retrying.
+    return NextResponse.json({ received: true, duplicate: true })
   }
 
   switch (event.type) {

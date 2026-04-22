@@ -42,7 +42,7 @@ export async function GET(_request: NextRequest, ctx: Ctx) {
 
 // PATCH: update template
 export async function PATCH(request: NextRequest, ctx: Ctx) {
-  const session = await requireAdmin()
+  const session = await requireAdmin(request)
   if (!session) {
     return NextResponse.json({ error: "Non autorisé" }, { status: 403 })
   }
@@ -97,8 +97,8 @@ export async function PATCH(request: NextRequest, ctx: Ctx) {
 }
 
 // DELETE: delete template
-export async function DELETE(_request: NextRequest, ctx: Ctx) {
-  const session = await requireAdmin()
+export async function DELETE(request: NextRequest, ctx: Ctx) {
+  const session = await requireAdmin(request)
   if (!session) {
     return NextResponse.json({ error: "Non autorisé" }, { status: 403 })
   }

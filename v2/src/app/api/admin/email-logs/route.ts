@@ -12,7 +12,7 @@ const paginationSchema = z.object({
 
 // GET: list email logs with filters
 export async function GET(request: NextRequest) {
-  const session = await requireAdmin()
+  const session = await requireAdmin(request)
   if (!session) {
     return NextResponse.json({ error: "Non autorisé" }, { status: 403 })
   }

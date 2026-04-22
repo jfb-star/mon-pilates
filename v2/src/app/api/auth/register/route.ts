@@ -3,7 +3,7 @@ import { randomInt } from "crypto"
 import { hash } from "bcryptjs"
 import { prisma } from "@/lib/prisma"
 import { checkRateLimit } from "@/lib/rate-limit"
-import { sanitizeString } from "@/lib/utils"
+import { sanitizeString, isAllowedOrigin } from "@/lib/utils"
 import { sendWelcome } from "@/lib/email"
 
 /** Generate a referral code: MP-XXX-YYYY (3 letters from name + 4 random alphanumeric) */
@@ -22,6 +22,10 @@ function generateReferralCode(name: string): string {
 }
 
 export async function POST(request: Request) {
+  if (!isAllowedOrigin(request.headers.get("origin"))) {
+    return NextResponse.json({ error: "Origine non autorisée" }, { status: 403 })
+  }
+
   // Rate limit: 5 registrations per IP per 15 minutes
   const ip = request.headers.get("x-forwarded-for") ?? "unknown"
   const { allowed } = await checkRateLimit(`register:${ip}`, {

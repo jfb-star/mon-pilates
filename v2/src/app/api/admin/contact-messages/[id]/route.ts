@@ -9,7 +9,7 @@ const VALID_STATUSES = ["NEW", "READ", "HANDLED"] as const
 
 // PATCH: update contact message status
 export async function PATCH(request: NextRequest, ctx: Ctx) {
-  const session = await requireAdmin()
+  const session = await requireAdmin(request)
   if (!session) {
     return NextResponse.json({ error: "Non autorisé" }, { status: 403 })
   }
@@ -49,8 +49,8 @@ export async function PATCH(request: NextRequest, ctx: Ctx) {
 }
 
 // DELETE: remove a contact message
-export async function DELETE(_request: NextRequest, ctx: Ctx) {
-  const session = await requireAdmin()
+export async function DELETE(request: NextRequest, ctx: Ctx) {
+  const session = await requireAdmin(request)
   if (!session) {
     return NextResponse.json({ error: "Non autorisé" }, { status: 403 })
   }

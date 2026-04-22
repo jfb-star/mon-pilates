@@ -8,7 +8,7 @@ type Ctx = { params: Promise<{ key: string }> }
 
 // POST: send a test email for this template
 export async function POST(request: NextRequest, ctx: Ctx) {
-  const session = await requireAdmin()
+  const session = await requireAdmin(request)
   if (!session) {
     return NextResponse.json({ error: "Non autorisé" }, { status: 403 })
   }

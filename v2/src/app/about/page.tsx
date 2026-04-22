@@ -120,7 +120,6 @@ export default function AboutPage() {
                 <span className="text-mp-ocean">pas comme les autres</span>
               </h2>
 
-              {/* TODO owner: affiner le récit de création (date d'ouverture, anecdotes du déclic) */}
               <div className="space-y-4 font-body text-mp-text leading-relaxed">
                 <p>
                   Tout a commencé par une évidence&nbsp;: faire du Pilates
@@ -212,7 +211,6 @@ export default function AboutPage() {
             <h2 className="font-heading text-3xl sm:text-4xl font-bold text-mp-charcoal mb-6 leading-tight">
               Rendre le Pilates accessible, exigeant et durable
             </h2>
-            {/* TODO owner: remplacer par la formulation exacte de la mission/positionnement */}
             <p className="font-body text-mp-text-light leading-relaxed text-lg">
               Nous croyons qu&apos;une pratique régulière, bien encadrée, peut
               transformer un corps et une posture. Notre mission, c&apos;est de
@@ -234,7 +232,6 @@ export default function AboutPage() {
             <h2 className="font-heading text-3xl sm:text-4xl font-bold text-mp-charcoal mb-4">
               Ce qui guide nos cours
             </h2>
-            {/* TODO owner: valider la formulation des 4 valeurs (ci-dessous) */}
             <p className="font-body text-mp-text-light leading-relaxed">
               Quatre principes simples que nous appliquons à chaque séance, à
               chaque élève, à chaque correction.

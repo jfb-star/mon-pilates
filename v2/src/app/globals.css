@@ -23,6 +23,7 @@
   --mp-white: #fefdfb;
   --mp-cream: #faf7f3;
   --mp-charcoal: #2c2c2c;
+  --mp-charcoal-light: #4a4a4a;
   --mp-text: #3d3d3d;
   --mp-text-light: #5a5a5a;
   --mp-text-muted: #717171;
@@ -49,6 +50,7 @@
   --color-mp-white: var(--mp-white);
   --color-mp-cream: var(--mp-cream);
   --color-mp-charcoal: var(--mp-charcoal);
+  --color-mp-charcoal-light: var(--mp-charcoal-light);
   --color-mp-text: var(--mp-text);
   --color-mp-text-light: var(--mp-text-light);
   --color-mp-text-muted: var(--mp-text-muted, #717171);
@@ -249,6 +251,7 @@ html {
   --mp-cream: #1a1a2e;
   --mp-white: #16213e;
   --mp-charcoal: #e8e8e8;
+  --mp-charcoal-light: #c8c8c8;
   --mp-text: #d4d4d4;
   --mp-text-light: #b0b0b0;
   --mp-text-muted: #808080;
@@ -272,6 +275,7 @@ html {
     --mp-cream: #1a1a2e;
     --mp-white: #16213e;
     --mp-charcoal: #e8e8e8;
+    --mp-charcoal-light: #c8c8c8;
     --mp-text: #d4d4d4;
     --mp-text-light: #b0b0b0;
     --mp-text-muted: #808080;

@@ -7,8 +7,8 @@ import { getBroadcastStats } from "@/lib/resend"
 type Ctx = { params: Promise<{ id: string }> }
 
 // POST: refresh Resend stats JSON
-export async function POST(_request: NextRequest, ctx: Ctx) {
-  const session = await requireAdmin()
+export async function POST(request: NextRequest, ctx: Ctx) {
+  const session = await requireAdmin(request)
   if (!session) {
     return NextResponse.json({ error: "Non autorisé" }, { status: 403 })
   }

@@ -68,15 +68,21 @@ const contactPageJsonLd = {
     openingHoursSpecification: [
       {
         "@type": "OpeningHoursSpecification",
-        dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-        opens: "09:00",
-        closes: "20:00",
+        dayOfWeek: "Monday",
+        opens: "17:00",
+        closes: "20:30",
+      },
+      {
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: ["Tuesday", "Wednesday", "Friday"],
+        opens: "08:00",
+        closes: "20:30",
       },
       {
         "@type": "OpeningHoursSpecification",
         dayOfWeek: "Saturday",
         opens: "09:00",
-        closes: "14:00",
+        closes: "12:30",
       },
     ],
     sameAs: [
@@ -203,11 +209,13 @@ export default function ContactPage() {
                       <OpenStatus />
                     </div>
                     <p className="font-body text-sm text-mp-text-light">
-                      Lundi - Vendredi : 9h - 20h
+                      Lun : 17h — 20h30
                       <br />
-                      Samedi : 9h - 14h
+                      Mar, Mer, Ven : 8h — 20h30
                       <br />
-                      Dimanche : Fermé
+                      Sam : 9h — 12h30
+                      <br />
+                      Jeu &amp; Dim : fermé
                     </p>
                   </div>
                 </div>

@@ -60,7 +60,7 @@ async function getRecipientEmails(filter: RecipientFilter) {
 }
 
 export async function POST(request: NextRequest) {
-  const session = await requireAdmin()
+  const session = await requireAdmin(request)
   if (!session) {
     return NextResponse.json({ error: "Non autoris\u00e9" }, { status: 403 })
   }

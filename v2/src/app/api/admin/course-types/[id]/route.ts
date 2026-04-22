@@ -19,7 +19,7 @@ function toStringArray(input: unknown): string[] {
 
 // PATCH: update course type
 export async function PATCH(request: NextRequest, ctx: Ctx) {
-  const session = await requireAdmin()
+  const session = await requireAdmin(request)
   if (!session) {
     return NextResponse.json({ error: "Non autorisé" }, { status: 403 })
   }
@@ -77,8 +77,8 @@ export async function PATCH(request: NextRequest, ctx: Ctx) {
 }
 
 // DELETE: delete course type
-export async function DELETE(_request: NextRequest, ctx: Ctx) {
-  const session = await requireAdmin()
+export async function DELETE(request: NextRequest, ctx: Ctx) {
+  const session = await requireAdmin(request)
   if (!session) {
     return NextResponse.json({ error: "Non autorisé" }, { status: 403 })
   }

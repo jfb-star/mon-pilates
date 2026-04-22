@@ -1,9 +1,14 @@
 import { NextResponse } from "next/server"
 import { hash } from "bcryptjs"
 import { prisma } from "@/lib/prisma"
-import { validateResetToken, deleteResetToken } from "@/lib/password-reset"
+import { validateResetToken, consumeResetToken } from "@/lib/password-reset"
+import { isAllowedOrigin } from "@/lib/utils"
 
 export async function POST(request: Request) {
+  if (!isAllowedOrigin(request.headers.get("origin"))) {
+    return NextResponse.json({ error: "Origine non autorisée" }, { status: 403 })
+  }
+
   try {
     const body = await request.json()
     const { token, password } = body
@@ -23,7 +28,7 @@ export async function POST(request: Request) {
     }
 
     // Validate token
-    const tokenData = validateResetToken(token)
+    const tokenData = await validateResetToken(token)
     if (!tokenData) {
       return NextResponse.json(
         { error: "Ce lien est invalide ou a expiré. Veuillez refaire une demande." },
@@ -38,8 +43,8 @@ export async function POST(request: Request) {
       data: { passwordHash },
     })
 
-    // Delete the used token
-    deleteResetToken(token)
+    // Mark the token as used (idempotent; cron can purge old rows)
+    await consumeResetToken(token)
 
     return NextResponse.json({
       message: "Votre mot de passe a été réinitialisé avec succès.",

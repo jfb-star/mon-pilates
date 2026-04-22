@@ -91,7 +91,7 @@ export async function GET() {
 
 // POST: Mark booking as paid (or multiple bookings for a user)
 export async function POST(request: NextRequest) {
-  const session = await requireAdmin()
+  const session = await requireAdmin(request)
   if (!session) {
     return NextResponse.json({ error: "Non autorisé" }, { status: 403 })
   }

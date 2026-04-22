@@ -331,6 +331,14 @@ export default function AdminPage() {
     maxParticipants: "8",
   })
 
+  // Lookup lists populated on-demand to feed the Nouvelle séance selects
+  const [sessionCourseTypes, setSessionCourseTypes] = useState<
+    { id: string; name: string; maxParticipants: number }[]
+  >([])
+  const [sessionInstructors, setSessionInstructors] = useState<
+    { id: string; name: string }[]
+  >([])
+
   // Fetch stats (only when authenticated as admin)
   useEffect(() => {
     if (authStatus !== "authenticated" || !isAdmin) return
@@ -361,6 +369,24 @@ export default function AdminPage() {
   useEffect(() => {
     if (activeTab === "sessions" && authStatus === "authenticated" && isAdmin) fetchSessions()
   }, [activeTab, fetchSessions, authStatus, isAdmin])
+
+  // Lazy-load course types + instructors for the "Nouvelle séance" modal.
+  // We only want to hit the network once the modal actually opens.
+  useEffect(() => {
+    if (!showCreateSession) return
+    if (sessionCourseTypes.length === 0) {
+      fetch("/api/admin/course-types")
+        .then((r) => r.json())
+        .then((data) => setSessionCourseTypes(data.courseTypes ?? []))
+        .catch(() => {})
+    }
+    if (sessionInstructors.length === 0) {
+      fetch("/api/admin/instructors")
+        .then((r) => r.json())
+        .then((data) => setSessionInstructors(data.instructors ?? []))
+        .catch(() => {})
+    }
+  }, [showCreateSession, sessionCourseTypes.length, sessionInstructors.length])
 
   // Fetch bookings
   const fetchBookings = useCallback(() => {
@@ -776,24 +802,42 @@ export default function AdminPage() {
       <Modal open={showCreateSession} onClose={() => setShowCreateSession(false)} title="Nouvelle séance">
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">ID Type de cours</label>
-            <input
-              type="text"
+            <label className="block text-sm font-medium text-gray-700 mb-1">Type de cours</label>
+            <select
               value={newSession.courseTypeId}
-              onChange={(e) => setNewSession({ ...newSession, courseTypeId: e.target.value })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-mp-ocean focus:border-mp-ocean"
-              placeholder="ID du type de cours"
-            />
+              onChange={(e) => {
+                const id = e.target.value
+                const match = sessionCourseTypes.find((c) => c.id === id)
+                setNewSession({
+                  ...newSession,
+                  courseTypeId: id,
+                  maxParticipants: match ? String(match.maxParticipants) : newSession.maxParticipants,
+                })
+              }}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-mp-ocean focus:border-mp-ocean bg-white"
+            >
+              <option value="">— Choisir un type de cours —</option>
+              {sessionCourseTypes.map((c) => (
+                <option key={c.id} value={c.id}>
+                  {c.name}
+                </option>
+              ))}
+            </select>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">ID Instructeur</label>
-            <input
-              type="text"
+            <label className="block text-sm font-medium text-gray-700 mb-1">Instructeur</label>
+            <select
               value={newSession.instructorId}
               onChange={(e) => setNewSession({ ...newSession, instructorId: e.target.value })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-mp-ocean focus:border-mp-ocean"
-              placeholder="ID de l'instructeur"
-            />
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-mp-ocean focus:border-mp-ocean bg-white"
+            >
+              <option value="">— Choisir un instructeur —</option>
+              {sessionInstructors.map((i) => (
+                <option key={i.id} value={i.id}>
+                  {i.name}
+                </option>
+              ))}
+            </select>
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Date</label>
@@ -942,6 +986,9 @@ function SessionsTab({
 
   return (
     <div>
+      {/* Check-in panel (today's sessions + QR code) */}
+      <CheckinPanel sessions={sessions} />
+
       {/* Week navigation */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">

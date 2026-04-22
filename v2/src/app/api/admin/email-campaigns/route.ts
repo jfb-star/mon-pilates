@@ -42,7 +42,7 @@ export async function GET() {
 
 // POST: create campaign as DRAFT
 export async function POST(request: NextRequest) {
-  const session = await requireAdmin()
+  const session = await requireAdmin(request)
   if (!session) {
     return NextResponse.json({ error: "Non autorisé" }, { status: 403 })
   }

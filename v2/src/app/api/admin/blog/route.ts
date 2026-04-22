@@ -34,7 +34,7 @@ export async function GET() {
 
 // POST: Create blog post
 export async function POST(request: NextRequest) {
-  const session = await requireAdmin()
+  const session = await requireAdmin(request)
   if (!session) {
     return NextResponse.json({ error: "Non autorisé" }, { status: 403 })
   }
@@ -81,7 +81,7 @@ export async function POST(request: NextRequest) {
 
 // PATCH: Update blog post
 export async function PATCH(request: NextRequest) {
-  const session = await requireAdmin()
+  const session = await requireAdmin(request)
   if (!session) {
     return NextResponse.json({ error: "Non autorisé" }, { status: 403 })
   }
@@ -129,7 +129,7 @@ export async function PATCH(request: NextRequest) {
 
 // DELETE: Delete blog post
 export async function DELETE(request: NextRequest) {
-  const session = await requireAdmin()
+  const session = await requireAdmin(request)
   if (!session) {
     return NextResponse.json({ error: "Non autorisé" }, { status: 403 })
   }

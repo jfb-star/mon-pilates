@@ -9,8 +9,8 @@ type Ctx = { params: Promise<{ id: string }> }
 const RESEND_FROM = process.env.RESEND_FROM ?? ""
 
 // POST: validate DRAFT|SCHEDULED, create broadcast, send, store id, mark SENT
-export async function POST(_request: NextRequest, ctx: Ctx) {
-  const session = await requireAdmin()
+export async function POST(request: NextRequest, ctx: Ctx) {
+  const session = await requireAdmin(request)
   if (!session) {
     return NextResponse.json({ error: "Non autorisé" }, { status: 403 })
   }
