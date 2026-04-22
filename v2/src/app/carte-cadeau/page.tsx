@@ -25,7 +25,7 @@ export const metadata: Metadata = {
 const giftCardFaqItems = [
   { q: "Comment le destinataire reçoit-il la carte ?", a: "La carte cadeau est envoyée par email avec un joli visuel, votre message personnalisé et un code unique à présenter lors de la réservation." },
   { q: "Peut-on choisir la date d'envoi ?", a: "Oui, vous pouvez programmer l'envoi pour une date précise (anniversaire, Noël, fête des mères…)." },
-  { q: "La carte est-elle utilisable sur tous les cours ?", a: "Absolument ! Mat, Reformer, Prénatal, Senior, Doux… le bénéficiaire choisit le cours qui lui convient." },
+  { q: "La carte est-elle utilisable sur tous les cours ?", a: "Absolument ! Tapis (doux, classique, avancé), cours privés sur appareil, pré & post-natal… le bénéficiaire choisit le cours qui lui convient." },
   { q: "Que se passe-t-il si la carte n'est pas utilisée ?", a: "La carte est valable 1 an à partir de la date d'achat. Passé ce délai, elle expire. Contactez-nous si besoin d'une extension exceptionnelle." },
 ];
 

@@ -64,20 +64,20 @@ export default function CgvPage() {
                 Article 2 — Prestations et tarifs
               </h2>
               <p>
-                Mon Pilates propose des cours collectifs de Pilates Mat en petit
+                Mon Pilates propose des cours collectifs au tapis en petit
                 groupe (5 personnes maximum) ainsi que des séances privées
-                individuelles sur équipement (Reformer, Cadillac, Chair) sous
+                individuelles sur appareil (Reformer, Cadillac, Chair) sous
                 forme de :
               </p>
               <ul className="mt-3 space-y-1.5 list-disc list-inside">
-                <li>Cours Découverte Mat : 10&euro; (réservé aux nouveaux élèves)</li>
-                <li>Séance Mat à l&apos;unité : 20&euro;</li>
-                <li>Carte 5 cours Mat : 95&euro; (validité 3 mois)</li>
-                <li>Carte 10 cours Mat : 180&euro; (validité 6 mois)</li>
-                <li>Carte 20 cours Mat : 340&euro; (validité 12 mois)</li>
-                <li>Séance Découverte Privé sur équipement : 50&euro; (réservé aux nouveaux élèves)</li>
-                <li>Séance Privé sur équipement : 65&euro;</li>
-                <li>Carte 10 séances Privé sur équipement : 550&euro;</li>
+                <li>Cours Découverte Tapis : 10&euro; (réservé aux nouveaux élèves)</li>
+                <li>Séance tapis à l&apos;unité : 20&euro;</li>
+                <li>Carte 5 cours tapis : 95&euro; (validité 3 mois)</li>
+                <li>Carte 10 cours tapis : 180&euro; (validité 6 mois)</li>
+                <li>Carte 20 cours tapis : 340&euro; (validité 12 mois)</li>
+                <li>Séance Découverte Privé sur appareil : 50&euro; (réservé aux nouveaux élèves)</li>
+                <li>Séance Privé sur appareil : 65&euro;</li>
+                <li>Carte 10 séances Privé sur appareil : 550&euro;</li>
               </ul>
               <p className="mt-3">
                 Les tarifs en vigueur sont affichés sur le site mon-pilates.bzh
@@ -129,19 +129,19 @@ export default function CgvPage() {
               <p>Les cartes de cours sont soumises aux conditions suivantes :</p>
               <ul className="mt-3 space-y-1.5 list-disc list-inside">
                 <li>
-                  <strong>Carte 5 cours Mat :</strong> valable 3 mois à compter
+                  <strong>Carte 5 cours tapis :</strong> valable 3 mois à compter
                   de la date d&apos;achat.
                 </li>
                 <li>
-                  <strong>Carte 10 cours Mat :</strong> valable 6 mois à compter
+                  <strong>Carte 10 cours tapis :</strong> valable 6 mois à compter
                   de la date d&apos;achat.
                 </li>
                 <li>
-                  <strong>Carte 20 cours Mat :</strong> valable 12 mois à
+                  <strong>Carte 20 cours tapis :</strong> valable 12 mois à
                   compter de la date d&apos;achat.
                 </li>
                 <li>
-                  <strong>Carte 10 séances Privé sur équipement :</strong>{" "}
+                  <strong>Carte 10 séances Privé sur appareil :</strong>{" "}
                   validité communiquée au moment de l&apos;achat.
                 </li>
               </ul>
@@ -156,7 +156,7 @@ export default function CgvPage() {
 
             <div>
               <h2 className="font-heading text-2xl font-bold text-mp-charcoal mb-4">
-                Article 5 — Séances privées sur équipement
+                Article 5 — Séances privées sur appareil
               </h2>
               <p>
                 Les séances privées (Reformer, Cadillac, Chair) se déroulent en
@@ -166,7 +166,7 @@ export default function CgvPage() {
               <ul className="mt-3 space-y-1.5 list-disc list-inside">
                 <li>
                   La séance Découverte Privé est réservée aux personnes
-                  n&apos;ayant jamais pratiqué sur équipement au studio.
+                  n&apos;ayant jamais pratiqué sur appareil au studio.
                 </li>
                 <li>
                   Les séances privées ne peuvent être remplacées par un cours

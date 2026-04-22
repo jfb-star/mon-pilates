@@ -3,7 +3,7 @@
    Shared across planning, cours, and equipe pages.
    ============================================================ */
 
-export type CourseType = "mat" | "reformer" | "prenatal" | "senior" | "doux" | "intensif";
+export type CourseType = "mat" | "reformer" | "prenatal" | "doux" | "intensif";
 export type Level = "Tous niveaux" | "Débutant" | "Intermédiaire" | "Avancé";
 
 export interface Instructor {
@@ -54,18 +54,16 @@ export const courseTypeColors: Record<CourseType, { dot: string; bg: string; tex
   mat: { dot: "bg-mp-ocean", bg: "bg-mp-ocean/10", text: "text-mp-ocean", border: "border-mp-ocean" },
   reformer: { dot: "bg-mp-sage", bg: "bg-mp-sage/10", text: "text-mp-sage", border: "border-mp-sage" },
   prenatal: { dot: "bg-mp-rose", bg: "bg-mp-rose/10", text: "text-mp-rose", border: "border-mp-rose" },
-  senior: { dot: "bg-mp-gold", bg: "bg-mp-gold/10", text: "text-mp-gold", border: "border-mp-gold" },
   doux: { dot: "bg-mp-ocean-light", bg: "bg-mp-ocean-light/10", text: "text-mp-ocean-light", border: "border-mp-ocean-light" },
   intensif: { dot: "bg-mp-charcoal", bg: "bg-mp-charcoal/10", text: "text-mp-charcoal", border: "border-mp-charcoal" },
 };
 
 export const courseTypeLabels: Record<CourseType, string> = {
-  mat: "Classique",
-  reformer: "Privé",
-  prenatal: "Femmes enceintes",
-  senior: "Senior",
-  doux: "Doux",
-  intensif: "Avancé",
+  mat: "Tapis — classique",
+  reformer: "Cours privé sur appareil",
+  prenatal: "Pré & post-natal",
+  doux: "Tapis — doux",
+  intensif: "Tapis — avancé",
 };
 
 /* ----------------------------------------------------------
@@ -82,7 +80,7 @@ export const instructors: Instructor[] = [
       "Certifiée FPMP — Fédération des Professionnels de la Méthode Pilates",
       // TODO owner: ajouter les éventuelles autres certifications / formations de Violette
     ],
-    specialties: ["mat", "reformer", "prenatal", "senior", "doux", "intensif"],
+    specialties: ["mat", "reformer", "prenatal", "doux", "intensif"],
     color: "bg-mp-ocean",
   },
 ];
@@ -93,10 +91,10 @@ export const instructors: Instructor[] = [
 export const courses: CourseInfo[] = [
   {
     slug: "mat",
-    name: "Pilates Mat",
+    name: "Pilates classique — Tapis",
     shortDescription: "Le Pilates au sol, accessible à tous. Renforcez votre centre et améliorez votre posture.",
     longDescription:
-      "Le Pilates Mat est la forme originelle du Pilates, pratiquée sur un simple tapis. Ce cours vous guide à travers les exercices fondamentaux de la méthode Joseph Pilates, en mettant l'accent sur le contrôle, la respiration et la fluidité du mouvement. Accessible aux débutants comme aux pratiquants confirmés, chaque séance renforce en profondeur les muscles stabilisateurs, améliore la souplesse et développe une conscience corporelle fine. Le travail au sol permet de se concentrer pleinement sur la qualité du geste, sans distraction.",
+      "Le Pilates classique sur tapis est la forme originelle de la méthode, pratiquée sur un simple tapis. Ce cours vous guide à travers les exercices fondamentaux de la méthode Joseph Pilates, en mettant l'accent sur le contrôle, la respiration et la fluidité du mouvement. Accessible aux débutants comme aux pratiquants confirmés, chaque séance renforce en profondeur les muscles stabilisateurs, améliore la souplesse et développe une conscience corporelle fine. Le travail au sol permet de se concentrer pleinement sur la qualité du geste, sans distraction.",
     benefits: [
       "Renforcement du centre (core) et de la posture",
       "Amélioration de la souplesse et de la mobilité",
@@ -109,6 +107,7 @@ export const courses: CourseInfo[] = [
       "Pratiquants réguliers voulant approfondir les fondamentaux",
       "Personnes souffrant de douleurs de dos",
       "Sportifs cherchant un complément d'entraînement",
+      "Seniors souhaitant entretenir mobilité et équilibre (variante douce)",
     ],
     equipment: ["Tapis de sol (fourni)", "Tenue confortable", "Chaussettes antidérapantes recommandées"],
     duration: "55 min",
@@ -119,10 +118,10 @@ export const courses: CourseInfo[] = [
   },
   {
     slug: "reformer",
-    name: "Pilates Reformer",
-    shortDescription: "Sur machine Reformer, un travail en profondeur avec résistance pour sculpter votre silhouette.",
+    name: "Cours privé sur appareil",
+    shortDescription: "Séance individuelle sur machine (Reformer, Cadillac, Chair) — un accompagnement sur-mesure.",
     longDescription:
-      "Le Pilates Reformer utilise une machine à ressorts qui offre une résistance variable, permettant un travail musculaire profond et ciblé. Allongé, assis ou debout sur le chariot mobile, vous effectuez des mouvements contrôlés qui sollicitent l'ensemble du corps. Le Reformer permet d'adapter l'intensité à chaque niveau et offre un feedback tactile unique. Nos Reformer Balanced Body de dernière génération garantissent un confort optimal et une fluidité de mouvement exceptionnelle.",
+      "Le cours privé sur appareil est une séance individuelle sur nos machines Balanced Body (Reformer, Cadillac, Chair). Ces appareils à ressorts offrent une résistance variable, permettant un travail musculaire profond et ciblé. Allongé, assis ou debout, vous effectuez des mouvements contrôlés qui sollicitent l'ensemble du corps. Violette adapte chaque mouvement à votre morphologie, vos objectifs et vos éventuelles contraintes — une approche sur-mesure impossible en cours collectif. Idéal pour les débutants intimidés, les rééducations post-blessure, ou pour progresser rapidement.",
     benefits: [
       "Sculptage musculaire en profondeur",
       "Amélioration de l'alignement corporel",
@@ -131,33 +130,35 @@ export const courses: CourseInfo[] = [
       "Rééducation post-blessure en toute sécurité",
     ],
     targetAudience: [
-      "Pratiquants ayant une base en Pilates Mat",
+      "Débutants qui préfèrent un accompagnement individuel",
       "Personnes en rééducation (avis médical)",
-      "Sportifs recherchant un travail complémentaire",
+      "Sportifs recherchant un travail complémentaire ciblé",
       "Toute personne curieuse d'approfondir sa pratique",
     ],
-    equipment: ["Machine Reformer (fournie)", "Tenue ajustée recommandée", "Chaussettes antidérapantes obligatoires"],
-    duration: "50 min",
-    level: "Intermédiaire",
+    equipment: ["Reformer / Cadillac / Chair Balanced Body", "Tenue ajustée recommandée", "Chaussettes antidérapantes obligatoires"],
+    duration: "55 min",
+    level: "Tous niveaux",
     intensity: 4,
     color: "text-mp-sage",
     colorBg: "bg-mp-sage",
   },
   {
     slug: "prenatal",
-    name: "Pilates Prénatal",
-    shortDescription: "Adapté à chaque trimestre de grossesse. Maintenez votre forme en toute sécurité.",
+    name: "Pilates pré & post-natal",
+    shortDescription: "Adapté à chaque trimestre de grossesse et au retour de couches. Maintenez votre forme en toute sécurité.",
     longDescription:
-      "Le Pilates Prénatal est spécialement conçu pour accompagner les futures mamans tout au long de leur grossesse. Chaque séance est adaptée au trimestre et aux besoins spécifiques de chaque participante. On y travaille le renforcement du plancher pelvien, le soulagement des douleurs lombaires, et la préparation du corps à l'accouchement. Violette crée un environnement chaleureux et rassurant où les futures mamans peuvent pratiquer en toute confiance.",
+      "Le Pilates pré & post-natal est spécialement conçu pour accompagner les futures et jeunes mamans. En prénatal, chaque séance est adaptée au trimestre et aux besoins spécifiques de chaque participante : renforcement du plancher pelvien, soulagement des douleurs lombaires, préparation du corps à l'accouchement. En post-natal, on accompagne la reprise en douceur, la rééducation du périnée et du transverse. Violette crée un environnement chaleureux et rassurant où vous pouvez pratiquer en toute confiance.",
     benefits: [
       "Renforcement du plancher pelvien",
       "Soulagement des douleurs de dos liées à la grossesse",
       "Préparation physique à l'accouchement",
+      "Récupération post-partum en douceur",
       "Maintien de la forme et de l'énergie",
       "Moment de connexion avec bébé par la respiration",
     ],
     targetAudience: [
       "Femmes enceintes (à partir du 2e trimestre)",
+      "Jeunes mamans en période post-natale (avec accord médical)",
       "Avec accord du médecin ou de la sage-femme",
       "Aucune expérience en Pilates requise",
     ],
@@ -169,36 +170,11 @@ export const courses: CourseInfo[] = [
     colorBg: "bg-mp-rose",
   },
   {
-    slug: "senior",
-    name: "Pilates Senior",
-    shortDescription: "Des séances douces pour maintenir mobilité, équilibre et force en toute sécurité.",
-    longDescription:
-      "Le Pilates Senior est une pratique adaptée aux personnes de plus de 60 ans, axée sur le maintien de la mobilité, de l'équilibre et de la force musculaire. Les exercices sont réalisés à un rythme doux, avec des options assises ou debout selon les besoins. Violette porte une attention particulière à chaque participant, ajustant les mouvements pour respecter les éventuelles limitations. Ce cours est aussi un moment de convivialité et de partage dans un petit groupe bienveillant.",
-    benefits: [
-      "Maintien de l'équilibre et prévention des chutes",
-      "Préservation de la mobilité articulaire",
-      "Renforcement musculaire en douceur",
-      "Amélioration de la coordination",
-      "Bien-être mental et lien social",
-    ],
-    targetAudience: [
-      "Personnes de plus de 60 ans",
-      "Personnes à mobilité réduite (sous avis médical)",
-      "Aucune expérience en Pilates requise",
-    ],
-    equipment: ["Tapis et chaise (fournis)", "Tenue confortable", "Chaussures souples ou chaussettes antidérapantes"],
-    duration: "45 min",
-    level: "Débutant",
-    intensity: 1,
-    color: "text-mp-gold",
-    colorBg: "bg-mp-gold",
-  },
-  {
     slug: "doux",
-    name: "Pilates Doux",
+    name: "Pilates doux — Tapis",
     shortDescription: "Une pratique lente et méditative, idéale pour la récupération et la relaxation.",
     longDescription:
-      "Le Pilates Doux est une version ralentie et méditative du Pilates, parfaite pour les personnes en convalescence, stressées ou simplement en quête de douceur. Chaque mouvement est réalisé avec une attention particulière à la respiration et au relâchement des tensions. Ce cours intègre des éléments de stretching et de relaxation pour une expérience holistique. Idéal en complément d'une pratique plus intensive, ou comme porte d'entrée vers le Pilates.",
+      "Le Pilates doux — Tapis est une version ralentie et accessible du Pilates, parfaite pour les personnes en convalescence, stressées, les seniors ou simplement en quête de douceur. Chaque mouvement est réalisé avec une attention particulière à la respiration et au relâchement des tensions. Ce cours intègre des éléments de stretching et de relaxation pour une expérience holistique. Idéal en complément d'une pratique plus intensive, ou comme porte d'entrée vers le Pilates.",
     benefits: [
       "Relâchement profond des tensions musculaires",
       "Amélioration de la qualité du sommeil",
@@ -209,6 +185,7 @@ export const courses: CourseInfo[] = [
     targetAudience: [
       "Personnes stressées ou fatiguées",
       "Personnes en convalescence (avis médical)",
+      "Seniors souhaitant entretenir mobilité et équilibre",
       "Débutants souhaitant une approche en douceur",
       "Complément à une pratique sportive intense",
     ],
@@ -221,10 +198,10 @@ export const courses: CourseInfo[] = [
   },
   {
     slug: "intensif",
-    name: "Pilates Intensif",
+    name: "Pilates avancé — Tapis",
     shortDescription: "Un cours dynamique et exigeant pour les pratiquants confirmés en quête de dépassement.",
     longDescription:
-      "Le Pilates Intensif est conçu pour les pratiquants expérimentés qui cherchent à repousser leurs limites. Violette guide ce cours exigeant qui combine les exercices avancés du répertoire classique avec des enchaînements dynamiques. Le rythme soutenu, les transitions fluides et les séries complexes demandent concentration et engagement total. Un cours qui fait transpirer tout en respectant les principes fondamentaux du Pilates : contrôle, précision et fluidité.",
+      "Le Pilates avancé — Tapis est conçu pour les pratiquants expérimentés qui cherchent à repousser leurs limites. Violette guide ce cours exigeant qui combine les exercices avancés du répertoire classique avec des enchaînements dynamiques. Le rythme soutenu, les transitions fluides et les séries complexes demandent concentration et engagement total. Un cours qui fait transpirer tout en respectant les principes fondamentaux du Pilates : contrôle, précision et fluidité.",
     benefits: [
       "Développement de la force et de l'endurance",
       "Maîtrise des exercices avancés du répertoire",
@@ -256,7 +233,7 @@ export const courses: CourseInfo[] = [
 export const weeklySessions: Session[] = [
   // LUNDI
   { id: "l1", courseType: "reformer", courseName: "Cours privé sur appareils", instructor: "Violette", time: "17:00", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 1, spotsRemaining: 1, dayOffset: 0, description: "Séance individuelle sur Reformer / Cadillac / Chair." },
-  { id: "l2", courseType: "intensif", courseName: "Pilates avancé", instructor: "Violette", time: "18:15", duration: "55 min", durationMinutes: 55, level: "Intermédiaire", spotsTotal: 5, spotsRemaining: 3, dayOffset: 0, description: "Enchaînements soutenus pour pratiquants confirmés." },
+  { id: "l2", courseType: "intensif", courseName: "Pilates avancé — Tapis", instructor: "Violette", time: "18:15", duration: "55 min", durationMinutes: 55, level: "Intermédiaire", spotsTotal: 5, spotsRemaining: 3, dayOffset: 0, description: "Enchaînements soutenus pour pratiquants confirmés." },
   { id: "l3", courseType: "mat", courseName: "Pilates classique — Tapis", instructor: "Violette", time: "19:30", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 5, spotsRemaining: 2, dayOffset: 0, description: "Séance complète au tapis, tous niveaux." },
 
   // MARDI
@@ -273,18 +250,18 @@ export const weeklySessions: Session[] = [
   { id: "w2", courseType: "doux", courseName: "Pilates doux — Tapis", instructor: "Violette", time: "10:30", duration: "55 min", durationMinutes: 55, level: "Débutant", spotsTotal: 5, spotsRemaining: 5, dayOffset: 2, description: "Séance douce et accessible, idéale pour débuter." },
   { id: "w3", courseType: "mat", courseName: "Pilates classique — Tapis", instructor: "Violette", time: "12:30", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 5, spotsRemaining: 5, dayOffset: 2, description: "Séance du midi, tous niveaux." },
   { id: "w4", courseType: "mat", courseName: "Pilates classique — Tapis", instructor: "Violette", time: "18:15", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 5, spotsRemaining: 5, dayOffset: 2, description: "Séance du soir, tous niveaux." },
-  { id: "w5", courseType: "intensif", courseName: "Pilates avancé", instructor: "Violette", time: "19:30", duration: "55 min", durationMinutes: 55, level: "Intermédiaire", spotsTotal: 5, spotsRemaining: 5, dayOffset: 2, description: "Enchaînements soutenus pour pratiquants confirmés." },
+  { id: "w5", courseType: "intensif", courseName: "Pilates avancé — Tapis", instructor: "Violette", time: "19:30", duration: "55 min", durationMinutes: 55, level: "Intermédiaire", spotsTotal: 5, spotsRemaining: 5, dayOffset: 2, description: "Enchaînements soutenus pour pratiquants confirmés." },
 
   // JEUDI — fermé
 
   // VENDREDI
   { id: "v1", courseType: "reformer", courseName: "Cours privé sur appareils", instructor: "Violette", time: "08:00", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 1, spotsRemaining: 1, dayOffset: 4, description: "Séance individuelle sur Reformer / Cadillac / Chair." },
   { id: "v2", courseType: "doux", courseName: "Pilates doux — Tapis", instructor: "Violette", time: "09:15", duration: "55 min", durationMinutes: 55, level: "Débutant", spotsTotal: 5, spotsRemaining: 5, dayOffset: 4, description: "Séance douce et accessible, idéale pour débuter." },
-  { id: "v3", courseType: "intensif", courseName: "Pilates avancé", instructor: "Violette", time: "10:30", duration: "55 min", durationMinutes: 55, level: "Intermédiaire", spotsTotal: 5, spotsRemaining: 4, dayOffset: 4, description: "Enchaînements soutenus pour pratiquants confirmés." },
+  { id: "v3", courseType: "intensif", courseName: "Pilates avancé — Tapis", instructor: "Violette", time: "10:30", duration: "55 min", durationMinutes: 55, level: "Intermédiaire", spotsTotal: 5, spotsRemaining: 4, dayOffset: 4, description: "Enchaînements soutenus pour pratiquants confirmés." },
   { id: "v4", courseType: "mat", courseName: "Pilates classique — Tapis", instructor: "Violette", time: "12:30", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 5, spotsRemaining: 5, dayOffset: 4, description: "Séance du midi, tous niveaux." },
   { id: "v5", courseType: "reformer", courseName: "Cours privé sur appareils", instructor: "Violette", time: "14:00", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 1, spotsRemaining: 1, dayOffset: 4, description: "Séance individuelle sur Reformer / Cadillac / Chair." },
   { id: "v6", courseType: "reformer", courseName: "Cours privé sur appareils", instructor: "Violette", time: "15:15", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 1, spotsRemaining: 1, dayOffset: 4, description: "Séance individuelle sur Reformer / Cadillac / Chair." },
-  { id: "v7", courseType: "prenatal", courseName: "Pilates femmes enceintes", instructor: "Violette", time: "17:00", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 5, spotsRemaining: 5, dayOffset: 4, description: "Cours adapté à chaque trimestre de la grossesse." },
+  { id: "v7", courseType: "prenatal", courseName: "Pilates pré & post-natal", instructor: "Violette", time: "17:00", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 5, spotsRemaining: 5, dayOffset: 4, description: "Cours adapté à chaque trimestre de la grossesse." },
   { id: "v8", courseType: "mat", courseName: "Pilates classique — Tapis", instructor: "Violette", time: "18:15", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 5, spotsRemaining: 3, dayOffset: 4, description: "Séance du soir, tous niveaux." },
   { id: "v9", courseType: "mat", courseName: "Pilates classique — Tapis", instructor: "Violette", time: "19:30", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 5, spotsRemaining: 4, dayOffset: 4, description: "Séance du soir, tous niveaux." },
 

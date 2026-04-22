@@ -76,7 +76,7 @@ const steps = [
 const faq = [
   {
     q: "Faut-il avoir déjà fait du Pilates ?",
-    a: "Pas du tout ! Nos cours accueillent tous les niveaux. L'instructrice adapte chaque exercice à votre capacité. Le cours Pilates Mat Fondamental ou Pilates Doux sont idéaux pour commencer.",
+    a: "Pas du tout ! Nos cours accueillent tous les niveaux. L'instructrice adapte chaque exercice à votre capacité. Le cours Pilates doux — Tapis ou Pilates classique — Tapis sont idéaux pour commencer.",
   },
   {
     q: "Que dois-je apporter ?",
@@ -88,7 +88,7 @@ const faq = [
   },
   {
     q: "Combien de temps dure un cours ?",
-    a: "Entre 45 et 55 minutes selon le type de cours. Les cours Senior durent 45 min, les cours Mat et Intensif 55 min, et les cours Reformer, Prénatal et Doux 50 min.",
+    a: "Entre 45 et 55 minutes selon le type de cours. Les cours au tapis (doux, classique, avancé) durent 50 à 55 min. Les cours privés sur appareil et les séances pré & post-natal durent 50 min.",
   },
   {
     q: "Et si le cours ne me plaît pas ?",
@@ -279,7 +279,7 @@ export default function PremiereVisitePage() {
                 {[
                   { icon: Shirt, text: "Tenue confortable et près du corps (legging, brassière, t-shirt ajusté)" },
                   { icon: Droplets, text: "Une bouteille d'eau (optionnel — fontaine disponible au studio)" },
-                  { icon: CheckCircle, text: "Chaussettes antidérapantes (recommandé pour le Reformer, optionnel pour le Mat)" },
+                  { icon: CheckCircle, text: "Chaussettes antidérapantes (recommandé pour les séances sur appareil, optionnel au tapis)" },
                 ].map((item, i) => (
                   <li key={i} className="flex items-start gap-4">
                     <div className="w-10 h-10 rounded-xl bg-mp-sage/10 flex items-center justify-center flex-shrink-0">
@@ -461,7 +461,7 @@ export default function PremiereVisitePage() {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
             {[
               { title: "5 exercices pour le mal de dos", slug: "5-exercices-pilates-mal-de-dos", readTime: "6 min" },
-              { title: "Reformer vs Mat Pilates", slug: "reformer-vs-mat-pilates", readTime: "4 min" },
+              { title: "Tapis ou cours privé sur appareil : lequel choisir ?", slug: "reformer-vs-mat-pilates", readTime: "4 min" },
               { title: "La respiration en Pilates", slug: "respiration-pilates-guide-debutant", readTime: "4 min" },
             ].map((article) => (
               <ScrollReveal key={article.slug}>
@@ -511,7 +511,7 @@ export default function PremiereVisitePage() {
                     Découvrir nos cours
                   </h3>
                   <p className="font-body text-sm text-mp-text-light leading-relaxed">
-                    Mat, Reformer, Prénatal, Senior... trouvez le cours qui vous correspond.
+                    Tapis (doux, classique, avancé), cours privés sur appareil, pré & post-natal... trouvez le cours qui vous correspond.
                   </p>
                 </div>
               </div>

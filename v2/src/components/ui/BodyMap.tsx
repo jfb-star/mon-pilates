@@ -9,12 +9,11 @@ import { ArrowRight } from "lucide-react";
    ---------------------------------------------------------- */
 
 const courseNames: Record<string, string> = {
-  mat: "Pilates Mat",
-  reformer: "Reformer",
-  prenatal: "Prénatal",
-  senior: "Senior",
-  doux: "Pilates Doux",
-  intensif: "Intensif",
+  mat: "Pilates classique — Tapis",
+  reformer: "Cours privé sur appareil",
+  prenatal: "Pré & post-natal",
+  doux: "Pilates doux — Tapis",
+  intensif: "Pilates avancé — Tapis",
 };
 
 interface BodyZone {
@@ -61,7 +60,7 @@ const bodyZones: BodyZone[] = [
   {
     id: "hips",
     label: "Hanches & Bassin",
-    courses: ["mat", "prenatal", "senior", "doux"],
+    courses: ["mat", "prenatal", "doux"],
     benefits:
       "Stabilise le bassin et améliore la souplesse des hanches",
     exercises: ["Pelvic Curl", "Clam", "Hip Circles"],

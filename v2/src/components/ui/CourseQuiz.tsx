@@ -21,7 +21,7 @@ import { clsx } from "clsx"
 /* ============================================================
    COURSE DATA
    ============================================================ */
-type CourseKey = "mat" | "reformer" | "prenatal" | "senior" | "doux" | "intensif"
+type CourseKey = "mat" | "reformer" | "prenatal" | "doux" | "intensif"
 
 interface CourseInfo {
   name: string
@@ -33,12 +33,11 @@ interface CourseInfo {
 }
 
 const courseData: Record<CourseKey, CourseInfo> = {
-  mat: { name: "Pilates Mat", slug: "mat", description: "Renforcement postural au sol, accessible à tous", level: "Tous niveaux", duration: "60 min", color: "mp-ocean" },
-  reformer: { name: "Pilates Reformer", slug: "reformer", description: "Travail en profondeur sur machine Reformer", level: "Tous niveaux", duration: "55 min", color: "mp-sage" },
-  prenatal: { name: "Pilates Prénatal", slug: "prenatal", description: "Adapté à chaque trimestre de grossesse", level: "Tous niveaux", duration: "50 min", color: "mp-rose" },
-  senior: { name: "Pilates Senior", slug: "pilates-senior", description: "Mobilité et équilibre en douceur", level: "Débutant", duration: "55 min", color: "mp-gold" },
-  doux: { name: "Pilates Doux", slug: "doux", description: "Étirements et bien-être tout en douceur", level: "Tous niveaux", duration: "60 min", color: "mp-ocean" },
-  intensif: { name: "Pilates Intensif", slug: "intensif", description: "Cardio et renforcement pour les sportifs", level: "Intermédiaire", duration: "60 min", color: "mp-sage" },
+  mat: { name: "Pilates classique — Tapis", slug: "mat", description: "Renforcement postural au sol, accessible à tous", level: "Tous niveaux", duration: "55 min", color: "mp-ocean" },
+  reformer: { name: "Cours privé sur appareil", slug: "reformer", description: "Séance individuelle sur machine, sur-mesure", level: "Tous niveaux", duration: "55 min", color: "mp-sage" },
+  prenatal: { name: "Pilates pré & post-natal", slug: "prenatal", description: "Adapté à la grossesse et au post-partum", level: "Tous niveaux", duration: "55 min", color: "mp-rose" },
+  doux: { name: "Pilates doux — Tapis", slug: "doux", description: "Mouvements en douceur, idéal débutants et seniors", level: "Débutant", duration: "55 min", color: "mp-ocean" },
+  intensif: { name: "Pilates avancé — Tapis", slug: "intensif", description: "Rythme soutenu pour pratiquants confirmés", level: "Avancé", duration: "55 min", color: "mp-sage" },
 }
 
 /* ============================================================
@@ -61,11 +60,11 @@ const steps: QuizStep[] = [
     id: "goal",
     question: "Quel est votre objectif principal ?",
     options: [
-      { label: "Soulager mes douleurs", icon: Heart, weights: { mat: 2, doux: 2, senior: 1 } },
+      { label: "Soulager mes douleurs", icon: Heart, weights: { mat: 2, doux: 2, reformer: 1 } },
       { label: "Me tonifier", icon: Flame, weights: { reformer: 2, intensif: 2, mat: 1 } },
       { label: "Me détendre", icon: Sparkles, weights: { doux: 2, mat: 1 } },
       { label: "Accompagner ma grossesse", icon: Baby, weights: { prenatal: 3 } },
-      { label: "Rester actif/active", icon: Activity, weights: { senior: 2, doux: 1, mat: 1 } },
+      { label: "Rester actif/active", icon: Activity, weights: { doux: 2, mat: 1 } },
     ],
   },
   {
@@ -81,7 +80,7 @@ const steps: QuizStep[] = [
     id: "intensity",
     question: "Quelle intensité préférez-vous ?",
     options: [
-      { label: "Douce et progressive", weights: { doux: 2, prenatal: 1, senior: 1 } },
+      { label: "Douce et progressive", weights: { doux: 2, prenatal: 1 } },
       { label: "Modérée et équilibrée", weights: { mat: 2, reformer: 1 } },
       { label: "Intense et challengeante", weights: { intensif: 2, reformer: 1 } },
     ],
@@ -94,7 +93,7 @@ const steps: QuizStep[] = [
 type Scores = Record<CourseKey, number>
 
 function computeResults(answers: Partial<Record<string, number>>[]) {
-  const scores: Scores = { mat: 0, reformer: 0, prenatal: 0, senior: 0, doux: 0, intensif: 0 }
+  const scores: Scores = { mat: 0, reformer: 0, prenatal: 0, doux: 0, intensif: 0 }
 
   for (const weights of answers) {
     for (const [key, val] of Object.entries(weights)) {

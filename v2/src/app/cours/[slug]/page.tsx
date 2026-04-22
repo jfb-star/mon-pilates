@@ -6,7 +6,6 @@ import {
   Heart,
   Sparkles,
   Baby,
-  Clock,
   Leaf,
   Flame,
   CheckCircle,
@@ -32,32 +31,28 @@ import {
 
 const courseFaqs: Record<string, { q: string; a: string }[]> = {
   mat: [
-    { q: "Faut-il être souple pour faire du Pilates Mat ?", a: "Non, la souplesse n'est pas un prérequis. Le Pilates Mat s'adapte à tous les niveaux et la souplesse s'améliore naturellement avec la pratique." },
+    { q: "Faut-il être souple pour faire du Pilates classique au tapis ?", a: "Non, la souplesse n'est pas un prérequis. Le Pilates classique au tapis s'adapte à tous les niveaux et la souplesse s'améliore naturellement avec la pratique." },
     { q: "Quelle est la différence avec le yoga ?", a: "Le Pilates se concentre sur le renforcement du centre (abdominaux profonds, dos, plancher pelvien) avec des mouvements précis et contrôlés, tandis que le yoga met davantage l'accent sur la méditation et les postures statiques." },
     { q: "À quelle fréquence pratiquer ?", a: "Idéalement 2 à 3 fois par semaine pour des résultats optimaux. Une fois par semaine suffit pour maintenir les bienfaits." },
   ],
   reformer: [
-    { q: "Le Reformer est-il adapté aux débutants ?", a: "Oui ! Nous recommandons toutefois de commencer par quelques séances de Mat Pilates pour acquérir les bases avant de passer au Reformer." },
-    { q: "Les ressorts sont-ils dangereux ?", a: "Non, les Reformer Balanced Body sont conçus avec des systèmes de sécurité. L'instructrice règle les résistances en fonction de votre niveau." },
-    { q: "Combien de Reformer avez-vous ?", a: "Notre studio dispose de 6 Reformer Balanced Body de dernière génération, ce qui garantit un espace confortable pour chaque participant." },
+    { q: "Le cours privé sur appareil est-il adapté aux débutants ?", a: "Oui, c'est même souvent le format idéal pour débuter ! L'accompagnement individuel permet à Violette d'adapter chaque mouvement à votre morphologie et à votre niveau." },
+    { q: "Quels appareils sont utilisés ?", a: "Le studio est équipé de machines Balanced Body — Reformer, Cadillac et Chair. Violette choisit l'appareil le plus adapté à vos objectifs et à la séance." },
+    { q: "Pourquoi un cours privé plutôt qu'un cours collectif ?", a: "Le travail sur appareil demande une attention particulière aux réglages (ressorts, sangles) et à la précision du geste. Le format privé garantit sécurité, sur-mesure et progression rapide." },
   ],
   prenatal: [
     { q: "À partir de quel mois de grossesse puis-je commencer ?", a: "Le Pilates prénatal est accessible dès le 2e trimestre (à partir de 14 semaines), avec un avis médical favorable." },
     { q: "Y a-t-il des contre-indications ?", a: "Le Pilates prénatal est contre-indiqué en cas de grossesse à risque, de menace d'accouchement prématuré ou sur avis médical contraire. Consultez votre sage-femme ou gynécologue." },
-    { q: "Puis-je continuer jusqu'au terme ?", a: "Oui, nos exercices sont adaptés à chaque stade de la grossesse. Violette ajuste chaque séance individuellement jusqu'au 8e mois environ." },
-  ],
-  senior: [
-    { q: "Y a-t-il une limite d'âge ?", a: "Non, aucune limite d'âge ! Nous accueillons des élèves de 60 à 85 ans. Les exercices sont entièrement adaptés à vos capacités." },
-    { q: "Faut-il pouvoir se mettre au sol ?", a: "Pas nécessairement. Nos cours Senior incluent des exercices debout, assis sur chaise et au sol. Violette propose toujours des alternatives." },
-    { q: "Le Pilates aide-t-il contre l'arthrose ?", a: "Oui, le Pilates est recommandé par les rhumatologues. Les mouvements doux et contrôlés améliorent la mobilité articulaire sans impact." },
+    { q: "Et après l'accouchement ?", a: "Oui, le volet post-natal accompagne la reprise en douceur : rééducation du périnée et du transverse, retour progressif à la forme. Avec accord de votre sage-femme ou médecin, généralement après la visite post-partum." },
   ],
   doux: [
-    { q: "Quelle est la différence avec le Pilates Mat classique ?", a: "Le Pilates Doux propose un rythme plus lent, des mouvements plus accessibles et un accent sur la respiration et le relâchement. Idéal en récupération ou pour les débutants." },
-    { q: "Ce cours est-il adapté après une blessure ?", a: "Oui, le Pilates Doux est particulièrement indiqué en phase de récupération. Informez l'instructrice de votre situation pour des adaptations personnalisées." },
+    { q: "Quelle est la différence avec le Pilates classique au tapis ?", a: "Le Pilates doux propose un rythme plus lent, des mouvements plus accessibles et un accent sur la respiration et le relâchement. Idéal en récupération, pour les seniors ou pour les débutants." },
+    { q: "Ce cours est-il adapté aux seniors ?", a: "Oui, le Pilates doux convient très bien aux personnes souhaitant entretenir mobilité, équilibre et force en douceur, sans limite d'âge." },
+    { q: "Ce cours est-il adapté après une blessure ?", a: "Oui, le Pilates doux est particulièrement indiqué en phase de récupération. Informez Violette de votre situation pour des adaptations personnalisées." },
   ],
   intensif: [
-    { q: "Quel niveau faut-il pour le cours Intensif ?", a: "Ce cours s'adresse aux pratiquants ayant au moins 3 mois d'expérience en Pilates. Il est déconseillé aux grands débutants." },
-    { q: "Va-t-on transpirer ?", a: "Oui ! Le Pilates Intensif combine enchaînements dynamiques, séries longues et temps de repos courts. C'est un vrai challenge physique." },
+    { q: "Quel niveau faut-il pour le cours avancé ?", a: "Ce cours s'adresse aux pratiquants ayant au moins 3 mois d'expérience en Pilates. Il est déconseillé aux grands débutants." },
+    { q: "Va-t-on transpirer ?", a: "Oui ! Le Pilates avancé combine enchaînements dynamiques, séries longues et temps de repos courts. C'est un vrai challenge physique." },
   ],
 }
 
@@ -65,7 +60,6 @@ const courseHeroImages: Partial<Record<CourseType, string>> = {
   mat: "/images/illustration-cours-collectif.png",
   reformer: "/images/cours-reformer-instructrice.jpg",
   prenatal: "/images/illustration-pilates-artistique.png",
-  senior: "/images/illustration-pilates-artistique.png",
   doux: "/images/illustration-pilates-artistique.png",
   intensif: "/images/illustration-pilates-artistique.png",
 };
@@ -107,7 +101,6 @@ const courseIcons: Record<string, React.ElementType> = {
   mat: Heart,
   reformer: Sparkles,
   prenatal: Baby,
-  senior: Clock,
   doux: Leaf,
   intensif: Flame,
 };

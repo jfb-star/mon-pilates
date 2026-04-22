@@ -13,11 +13,11 @@ import { SITE_URL } from "@/lib/env";
 export const metadata: Metadata = {
   title: "Tarifs",
   description:
-    "Découvrez nos formules de Pilates : cours d'essai Mat à 10€, cartes de 5, 10 ou 20 cours, séances privées sur équipement. Tarifs Mon Pilates à Larmor-Plage.",
+    "Découvrez nos formules de Pilates : cours d'essai au tapis à 10€, cartes de 5, 10 ou 20 cours, séances privées sur appareil. Tarifs Mon Pilates à Larmor-Plage.",
   openGraph: {
     title: "Tarifs | Mon Pilates",
     description:
-      "Découverte Mat 10€, cartes de 5 à 20 cours dès 17€/séance, séances privées sur équipement. Trouvez la formule qui vous convient.",
+      "Découverte tapis 10€, cartes de 5 à 20 cours dès 17€/séance, séances privées sur appareil. Trouvez la formule qui vous convient.",
     images: [
       {
         url: "/images/studio-reformer-ocean.jpg",
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
 
 const pricingPlans = [
   {
-    name: "Découverte Mat",
+    name: "Découverte — Tapis",
     price: 10,
     priceLabel: "10\u20ac",
     perSession: null,
@@ -47,14 +47,14 @@ const pricingPlans = [
     href: "/planning",
     isTrial: true,
     features: [
-      "1 cours Pilates Mat au choix",
+      "1 cours au tapis au choix",
       "Réservé aux nouveaux élèves",
       "Matériel fourni",
       "Petit groupe (5 max)",
     ],
   },
   {
-    name: "Séance Mat à l'unité",
+    name: "Séance tapis à l'unité",
     price: 20,
     priceLabel: "20\u20ac",
     perSession: null,
@@ -66,14 +66,14 @@ const pricingPlans = [
     savings: null,
     href: "/planning",
     features: [
-      "1 cours Pilates Mat au choix",
+      "1 cours au tapis au choix",
       "Sans engagement",
       "Matériel fourni",
       "Petit groupe (5 max)",
     ],
   },
   {
-    name: "Carte 5 cours Mat",
+    name: "Carte 5 cours tapis",
     price: 95,
     priceLabel: "95\u20ac",
     perSession: "19\u20ac/séance",
@@ -86,14 +86,14 @@ const pricingPlans = [
     checkoutMode: "course-card" as const,
     cardType: "5" as const,
     features: [
-      "5 cours Pilates Mat",
+      "5 séances au tapis (doux, classique ou avancé)",
       "Valable 3 mois",
       "Matériel fourni",
       "Petit groupe (5 max)",
     ],
   },
   {
-    name: "Carte 10 cours Mat",
+    name: "Carte 10 cours tapis",
     price: 180,
     priceLabel: "180\u20ac",
     perSession: "18\u20ac/séance",
@@ -106,7 +106,7 @@ const pricingPlans = [
     checkoutMode: "course-card" as const,
     cardType: "10" as const,
     features: [
-      "10 cours Pilates Mat",
+      "10 séances au tapis (doux, classique ou avancé)",
       "Valable 6 mois",
       "Matériel fourni",
       "Petit groupe (5 max)",
@@ -114,7 +114,7 @@ const pricingPlans = [
     ],
   },
   {
-    name: "Carte 20 cours Mat",
+    name: "Carte 20 cours tapis",
     price: 340,
     priceLabel: "340\u20ac",
     perSession: "17\u20ac/séance",
@@ -127,7 +127,7 @@ const pricingPlans = [
     checkoutMode: "course-card" as const,
     cardType: "20" as const,
     features: [
-      "20 cours Pilates Mat",
+      "20 séances au tapis (doux, classique ou avancé)",
       "Valable 12 mois",
       "Matériel fourni",
       "Petit groupe (5 max)",
@@ -197,7 +197,7 @@ const faqItems = [
   {
     question: "Les cartes de cours expirent-elles ?",
     answer:
-      "Oui, chaque carte Pilates Mat a une durée de validité : 3 mois pour la carte 5 cours, 6 mois pour la carte 10 cours et 12 mois pour la carte 20 cours. La validité démarre à la date d'achat.",
+      "Oui, chaque carte tapis a une durée de validité : 3 mois pour la carte 5 séances, 6 mois pour la carte 10 séances et 12 mois pour la carte 20 séances. La validité démarre à la date d'achat.",
   },
   {
     question: "Puis-je annuler une réservation ?",
@@ -207,7 +207,7 @@ const faqItems = [
   {
     question: "Le cours Découverte est-il sans engagement ?",
     answer:
-      "Absolument ! Le cours Découverte Mat à 10€ est réservé aux nouveaux élèves et sans aucun engagement. C'est la meilleure façon de faire connaissance avec le studio et la méthode.",
+      "Absolument ! Le cours Découverte Tapis à 10€ est réservé aux nouveaux élèves et sans aucun engagement. C'est la meilleure façon de faire connaissance avec le studio et la méthode.",
   },
   {
     question: "Proposez-vous un abonnement mensuel illimité ?",
@@ -215,9 +215,9 @@ const faqItems = [
       "Non. Nous proposons uniquement des séances à l'unité et des cartes de 5, 10 ou 20 cours. Ce format vous laisse totalement libre de votre rythme, sans prélèvement récurrent.",
   },
   {
-    question: "Quelle est la différence entre les cours Mat et les séances privées sur équipement ?",
+    question: "Quelle est la différence entre les cours au tapis et les séances privées sur appareil ?",
     answer:
-      "Les cours Pilates Mat se pratiquent au sol en petit groupe (5 personnes max). Les séances privées se déroulent en individuel sur des équipements professionnels (Reformer, Cadillac, Chair) pour un suivi entièrement sur-mesure.",
+      "Les cours au tapis se pratiquent au sol en petit groupe (5 personnes max). Les séances privées se déroulent en individuel sur des équipements professionnels (Reformer, Cadillac, Chair) pour un suivi entièrement sur-mesure.",
   },
   {
     question: "Les cartes cadeaux sont-elles remboursables ?",
@@ -232,12 +232,12 @@ const faqItems = [
   {
     question: "Combien de personnes par cours ?",
     answer:
-      "Les cours Pilates Mat accueillent 5 personnes maximum. Ce petit effectif permet à Violette de corriger chaque posture et d'adapter les exercices individuellement. Les séances sur équipement se déroulent en privé (1 personne).",
+      "Les cours au tapis accueillent 5 personnes maximum. Ce petit effectif permet à Violette de corriger chaque posture et d'adapter les exercices individuellement. Les séances sur équipement se déroulent en privé (1 personne).",
   },
   {
     question: "Quel cours choisir pour débuter ?",
     answer:
-      "Le cours Découverte Mat à 10€ est idéal pour commencer : Violette adapte les exercices à votre niveau et prend le temps de présenter la méthode. Vous pouvez ensuite choisir la carte qui correspond à votre rythme.",
+      "Le cours Découverte Tapis à 10€ est idéal pour commencer : Violette adapte les exercices à votre niveau et prend le temps de présenter la méthode. Vous pouvez ensuite choisir la carte qui correspond à votre rythme.",
   },
   {
     question: "Puis-je venir si je suis enceinte ?",
@@ -266,7 +266,7 @@ const offersJsonLd = {
   "@type": "Product",
   name: "Cours de Pilates — Mon Pilates",
   description:
-    "Cours de Pilates Mat, Reformer, Prénatal, Senior à Larmor-Plage. Formules flexibles.",
+    "Cours de Pilates au tapis (doux, classique, avancé), cours privés sur appareil et pré & post-natal à Larmor-Plage. Formules flexibles.",
   brand: { "@type": "Brand", name: "Mon Pilates" },
   offers: pricingPlans.map((plan) => ({
     "@type": "Offer",
@@ -323,8 +323,8 @@ export default function TarifsPage() {
           </h1>
           <p className="font-body text-lg sm:text-xl text-mp-text-light leading-relaxed max-w-2xl mx-auto">
             Des formules flexibles pour s&apos;adapter à votre rythme et à vos
-            envies. Cours Mat en petit groupe, cartes multi-séances ou séances
-            privées sur équipement : trouvez ce qui vous convient.
+            envies. Cours au tapis en petit groupe, cartes multi-séances ou séances
+            privées sur appareil : trouvez ce qui vous convient.
           </p>
         </div>
       </section>
@@ -383,20 +383,20 @@ export default function TarifsPage() {
             items={[
               {
                 profile: "Je d\u00e9couvre le Pilates",
-                recommendation: "D\u00e9couverte Mat \u00e0 10\u20ac",
+                recommendation: "D\u00e9couverte Tapis \u00e0 10\u20ac",
                 detail: "Testez un cours en petit groupe (5 max), r\u00e9serv\u00e9 aux nouveaux \u00e9l\u00e8ves.",
                 color: "border-mp-sage bg-mp-sage/5",
                 isTrial: true,
               },
               {
                 profile: "Je veux pratiquer 1\u00e0 2\u00d7/semaine",
-                recommendation: "Carte 10 cours Mat",
+                recommendation: "Carte 10 cours tapis",
                 detail: "Le meilleur rapport qualit\u00e9-prix : 18\u20ac/s\u00e9ance. Valable 6 mois.",
                 color: "border-mp-ocean bg-mp-ocean/5",
               },
               {
                 profile: "Je veux un suivi sur-mesure",
-                recommendation: "Priv\u00e9 sur \u00e9quipement",
+                recommendation: "Priv\u00e9 sur appareil",
                 detail: "S\u00e9ances individuelles sur Reformer, Cadillac ou Chair : 65\u20ac la s\u00e9ance.",
                 color: "border-mp-rose bg-mp-rose/5",
               },

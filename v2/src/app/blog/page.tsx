@@ -32,20 +32,20 @@ const hardcodedPosts: BlogPost[] = [
   },
   {
     slug: "pilates-prenatal-bienfaits",
-    title: "Pilates prénatal : les bienfaits pour maman et bébé",
+    title: "Pilates pré & post-natal : les bienfaits pour maman et bébé",
     excerpt:
-      "Pendant la grossesse, le Pilates adapté aide à maintenir le tonus musculaire, soulager les douleurs et préparer le corps à l'accouchement.",
+      "Avant, pendant et après la grossesse, le Pilates adapté aide à maintenir le tonus musculaire, soulager les douleurs et préparer le corps.",
     date: "2026-03-15",
     readTime: "5 min",
-    category: "Prénatal",
+    category: "Pré & post-natal",
     image: "/images/illustration-pilates-artistique.png",
     featured: false,
   },
   {
     slug: "reformer-vs-mat-pilates",
-    title: "Reformer vs Mat Pilates : lequel choisir ?",
+    title: "Tapis ou cours privé sur appareil : lequel choisir ?",
     excerpt:
-      "Machine ou tapis ? Chaque méthode a ses avantages. On vous aide à comprendre les différences pour choisir le cours qui vous correspond.",
+      "Cours collectif au tapis ou séance privée sur appareil ? Chaque format a ses avantages. On vous aide à comprendre les différences.",
     date: "2026-03-01",
     readTime: "4 min",
     category: "Guide",
@@ -64,17 +64,6 @@ const hardcodedPosts: BlogPost[] = [
     featured: false,
   },
   {
-    slug: "bienfaits-pilates-seniors",
-    title: "Le Pilates après 60 ans : pourquoi c'est essentiel",
-    excerpt:
-      "Mobilité, équilibre, force douce — le Pilates est l'allié idéal pour vieillir en forme. Témoignages et conseils de notre équipe.",
-    date: "2026-02-01",
-    readTime: "5 min",
-    category: "Senior",
-    image: "/images/illustration-studio-ocean.png",
-    featured: false,
-  },
-  {
     slug: "respiration-pilates-guide-debutant",
     title: "La respiration en Pilates : guide pour débutants",
     excerpt:
@@ -87,7 +76,7 @@ const hardcodedPosts: BlogPost[] = [
   },
 ];
 
-const defaultCategories = ["Tous", "Conseils", "Guide", "Prénatal", "Senior", "Actualités"];
+const defaultCategories = ["Tous", "Conseils", "Guide", "Pré & post-natal", "Actualités"];
 
 function formatDate(dateStr: string): string {
   return new Date(dateStr).toLocaleDateString("fr-FR", {

@@ -3,13 +3,12 @@ import { SITE_URL } from "@/lib/env";
 
 const BASE_URL = SITE_URL;
 
-const coursesSlugs = ["mat", "reformer", "prenatal", "senior", "doux", "intensif"];
+const coursesSlugs = ["mat", "reformer", "prenatal", "doux", "intensif"];
 const blogSlugs = [
   "5-exercices-pilates-mal-de-dos",
   "pilates-prenatal-bienfaits",
   "reformer-vs-mat-pilates",
   "nouveau-studio-larmor-plage",
-  "bienfaits-pilates-seniors",
   "respiration-pilates-guide-debutant",
 ];
 

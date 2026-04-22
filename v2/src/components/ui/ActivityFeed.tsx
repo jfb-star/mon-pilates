@@ -56,7 +56,7 @@ function getFallbackEvents(): ActivityEvent[] {
     {
       id: "fallback-1",
       type: "booking",
-      message: "M. vient de réserver le cours de Pilates Mat",
+      message: "M. vient de réserver un cours de Pilates classique — Tapis",
       icon: "\uD83D\uDCC5",
       timestamp: new Date(now - 2 * 60_000).toISOString(),
       color: "text-blue-600",
@@ -64,7 +64,7 @@ function getFallbackEvents(): ActivityEvent[] {
     {
       id: "fallback-2",
       type: "spots",
-      message: "Plus que 1 place pour Pilates Reformer \u2014 demain 9h",
+      message: "Plus que 1 créneau pour un cours privé sur appareil \u2014 demain 9h",
       icon: "\u26A1",
       timestamp: new Date(now - 5 * 60_000).toISOString(),
       color: "text-red-600",
@@ -72,7 +72,7 @@ function getFallbackEvents(): ActivityEvent[] {
     {
       id: "fallback-3",
       type: "review",
-      message: "S. a donné 5\u2B50 au cours Pilates Doux",
+      message: "S. a donné 5\u2B50 au cours Pilates doux — Tapis",
       icon: "\u2B50",
       timestamp: new Date(now - 12 * 60_000).toISOString(),
       color: "text-amber-500",

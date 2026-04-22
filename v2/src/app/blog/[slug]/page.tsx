@@ -68,18 +68,18 @@ export const posts = [
       },
       {
         type: "paragraph" as const,
-        text: "Au studio Mon Pilates à Larmor-Plage, nos instructeurs intègrent ces exercices dans leurs cours et les adaptent à votre condition. Si vous souffrez de douleurs chroniques, nous vous recommandons de commencer par un cours de Pilates Doux avant de progresser vers des séances plus intenses.",
+        text: "Au studio Mon Pilates à Larmor-Plage, nos instructeurs intègrent ces exercices dans leurs cours et les adaptent à votre condition. Si vous souffrez de douleurs chroniques, nous vous recommandons de commencer par un cours Pilates doux — Tapis avant de progresser vers des séances plus intenses.",
       },
     ],
   },
   {
     slug: "pilates-prenatal-bienfaits",
-    title: "Pilates prénatal : les bienfaits pour maman et bébé",
+    title: "Pilates pré & post-natal : les bienfaits pour maman et bébé",
     excerpt:
-      "Pendant la grossesse, le Pilates adapté aide à maintenir le tonus musculaire, soulager les douleurs et préparer le corps à l'accouchement.",
+      "Avant, pendant et après la grossesse, le Pilates adapté aide à maintenir le tonus musculaire, soulager les douleurs et préparer le corps.",
     date: "2026-03-15",
     readTime: "5 min",
-    category: "Prénatal",
+    category: "Pré & post-natal",
     image: "/images/illustration-pilates-artistique.png",
     featured: false,
     content: [
@@ -113,15 +113,15 @@ export const posts = [
       },
       {
         type: "paragraph" as const,
-        text: "Nos cours de Pilates prénatal sont proposés le lundi soir, le mercredi matin et le vendredi après-midi. Ils sont accessibles dès le deuxième trimestre, avec un avis médical. Chaque séance est adaptée aux besoins individuels de chaque future maman.",
+        text: "Nos cours de Pilates pré & post-natal sont proposés le lundi soir, le mercredi matin et le vendredi après-midi. Ils sont accessibles dès le deuxième trimestre (avec un avis médical) et après l'accouchement, avec une adaptation post-partum. Chaque séance est personnalisée.",
       },
     ],
   },
   {
     slug: "reformer-vs-mat-pilates",
-    title: "Reformer vs Mat Pilates : lequel choisir ?",
+    title: "Tapis ou cours privé sur appareil : lequel choisir ?",
     excerpt:
-      "Machine ou tapis ? Chaque méthode a ses avantages. On vous aide à comprendre les différences pour choisir le cours qui vous correspond.",
+      "Cours collectif au tapis ou séance privée sur appareil ? Chaque format a ses avantages. On vous aide à comprendre les différences.",
     date: "2026-03-01",
     readTime: "4 min",
     category: "Guide",
@@ -130,23 +130,23 @@ export const posts = [
     content: [
       {
         type: "paragraph" as const,
-        text: "C'est la question que nous posent le plus souvent nos nouveaux élèves : faut-il commencer par le Mat Pilates ou le Reformer ? La réponse dépend de vos objectifs, de votre expérience et de vos préférences. Voici notre guide pour vous aider à choisir.",
+        text: "C'est la question que nous posent le plus souvent nos nouveaux élèves : faut-il commencer par un cours collectif au tapis ou par une séance privée sur appareil ? La réponse dépend de vos objectifs, de votre expérience et de vos préférences. Voici notre guide pour vous aider à choisir.",
       },
       {
         type: "heading" as const,
-        text: "Le Mat Pilates : la base de tout",
+        text: "Le Pilates au tapis : la base de tout",
       },
       {
         type: "paragraph" as const,
-        text: "Le Pilates au sol (Mat) est la forme originelle créée par Joseph Pilates. Pratiqué sur un simple tapis, il utilise le poids du corps comme résistance. C'est l'idéal pour apprendre les fondamentaux : l'engagement du centre, la respiration latérale thoracique, le contrôle et la précision du mouvement. Le Mat Pilates développe une conscience corporelle profonde et peut se pratiquer n'importe où, même chez soi.",
+        text: "Le Pilates au sol est la forme originelle créée par Joseph Pilates. Pratiqué sur un simple tapis en petit groupe (5 personnes max), il utilise le poids du corps comme résistance. C'est l'idéal pour apprendre les fondamentaux : l'engagement du centre, la respiration latérale thoracique, le contrôle et la précision du mouvement. Vous choisissez votre intensité — doux, classique ou avancé — selon votre niveau.",
       },
       {
         type: "heading" as const,
-        text: "Le Reformer : la précision par la résistance",
+        text: "Le cours privé sur appareil : le sur-mesure",
       },
       {
         type: "paragraph" as const,
-        text: "Le Reformer est une machine à ressorts qui offre une résistance variable. Le chariot mobile et les sangles permettent de travailler dans des positions variées — allongé, assis, debout, à genoux. La résistance des ressorts offre un feedback tactile qui aide à corriger l'alignement et à cibler les muscles profonds avec une grande précision. Le Reformer est particulièrement efficace pour la rééducation et le travail excentrique.",
+        text: "Les séances privées se déroulent en individuel sur des appareils professionnels (Reformer, Cadillac, Chair) avec résistance variable. Le chariot mobile et les sangles permettent de travailler dans des positions variées — allongé, assis, debout, à genoux. L'accompagnement en tête-à-tête est particulièrement efficace pour la rééducation, les douleurs ciblées et le travail excentrique précis.",
       },
       {
         type: "heading" as const,
@@ -154,11 +154,11 @@ export const posts = [
       },
       {
         type: "paragraph" as const,
-        text: "Si vous débutez, nous recommandons de commencer par 4 à 6 séances de Mat Pilates pour acquérir les bases. Ensuite, intégrez progressivement le Reformer pour enrichir votre pratique. La combinaison des deux est idéale : le Mat pour la conscience corporelle, le Reformer pour le travail ciblé et la progression. Chez Mon Pilates, beaucoup de nos élèves alternent les deux toute la semaine.",
+        text: "Si vous débutez, nous recommandons de commencer par 4 à 6 séances au tapis pour acquérir les bases. Ensuite, intégrez progressivement des cours privés sur appareil pour un travail ciblé. La combinaison des deux est idéale : le tapis pour la conscience corporelle, l'appareil pour la précision et la progression.",
       },
       {
         type: "paragraph" as const,
-        text: "Envie de tester ? Réservez votre premier cours d'essai — Mat ou Reformer — directement sur notre planning en ligne. Notre équipe se fera un plaisir de vous guider dans votre choix.",
+        text: "Envie de tester ? Réservez votre premier cours d'essai directement sur notre planning en ligne. Notre équipe se fera un plaisir de vous guider dans votre choix.",
       },
     ],
   },
@@ -204,52 +204,6 @@ export const posts = [
     ],
   },
   {
-    slug: "bienfaits-pilates-seniors",
-    title: "Le Pilates après 60 ans : pourquoi c'est essentiel",
-    excerpt:
-      "Mobilité, équilibre, force douce — le Pilates est l'allié idéal pour vieillir en forme. Témoignages et conseils de notre équipe.",
-    date: "2026-02-01",
-    readTime: "5 min",
-    category: "Senior",
-    image: "/images/illustration-studio-ocean.png",
-    featured: false,
-    content: [
-      {
-        type: "paragraph" as const,
-        text: "Après 60 ans, maintenir son activité physique n'est pas un luxe — c'est une nécessité. La perte de masse musculaire, la diminution de l'équilibre et la raideur articulaire s'accélèrent avec l'âge. Le Pilates, grâce à son approche douce et contrôlée, est l'une des disciplines les plus adaptées pour accompagner le vieillissement en forme.",
-      },
-      {
-        type: "heading" as const,
-        text: "Prévenir les chutes par l'équilibre",
-      },
-      {
-        type: "paragraph" as const,
-        text: "Les chutes sont la première cause d'accident chez les seniors. Le Pilates travaille en profondeur les muscles stabilisateurs et la proprioception — cette capacité à sentir la position de son corps dans l'espace. Nos exercices de Pilates Senior incluent des mouvements debout et sur chaise qui améliorent l'équilibre et la coordination, réduisant significativement le risque de chute.",
-      },
-      {
-        type: "heading" as const,
-        text: "Préserver la mobilité articulaire",
-      },
-      {
-        type: "paragraph" as const,
-        text: "Avec l'âge, les articulations perdent en amplitude si elles ne sont pas sollicitées régulièrement. Le Pilates propose des mouvements fluides et contrôlés qui mobilisent chaque articulation dans sa pleine amplitude, sans impact ni à-coups. C'est particulièrement bénéfique pour les épaules, les hanches et la colonne vertébrale — les zones les plus touchées par la raideur liée à l'âge.",
-      },
-      {
-        type: "heading" as const,
-        text: "Un accompagnement individualisé",
-      },
-      {
-        type: "paragraph" as const,
-        // TODO owner : remplacer ce paragraphe par un témoignage réel (avec accord de la personne concernée) si disponible.
-        text: "Au studio, les cours Pilates Mat sont limités à 5 personnes. Ce format en petit groupe permet à Violette de corriger chaque posture, d'adapter les exercices au rythme et aux besoins de chacun·e, et de proposer des variantes plus douces si nécessaire. C'est particulièrement précieux après 60 ans, quand chaque corps a son histoire : opérations, raideurs, sensibilités articulaires, récupération après une chute.",
-      },
-      {
-        type: "paragraph" as const,
-        text: "Nos cours Pilates Senior ont lieu le lundi et le jeudi matin. Aucune expérience préalable n'est nécessaire. Venez comme vous êtes, nous nous adaptons à vous.",
-      },
-    ],
-  },
-  {
     slug: "respiration-pilates-guide-debutant",
     title: "La respiration en Pilates : guide pour débutants",
     excerpt:
@@ -290,7 +244,7 @@ export const posts = [
       },
       {
         type: "paragraph" as const,
-        text: "Au studio Mon Pilates, nous prenons le temps en début de chaque cours de guider la respiration, surtout pour les débutants. N'hésitez pas à rejoindre notre cours Mat Pilates débutant le mercredi matin pour découvrir les bases en douceur.",
+        text: "Au studio Mon Pilates, nous prenons le temps en début de chaque cours de guider la respiration, surtout pour les débutants. N'hésitez pas à rejoindre notre cours Pilates classique — Tapis le mercredi matin pour découvrir les bases en douceur.",
       },
     ],
   },

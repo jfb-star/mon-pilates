@@ -103,7 +103,7 @@ async function main() {
     data: {
       userId: instrSophie.id,
       bio: "Certifiée Stott Pilates depuis 2018, Sophie enseigne avec douceur et précision. Spécialisée dans la rééducation posturale et le Pilates doux.",
-      specialties: JSON.stringify(["Pilates Mat", "Pilates Doux", "Pilates Senior"]),
+      specialties: JSON.stringify(["Pilates classique — Tapis", "Pilates doux — Tapis"]),
       slug: "sophie-laurent",
       certifications: "Stott Pilates, BPJEPS",
     },
@@ -113,7 +113,7 @@ async function main() {
     data: {
       userId: instrCamille.id,
       bio: "Passionnée de mouvement, Camille est formée au Pilates Reformer et au Pilates prénatal. Elle accompagne chaque élève avec bienveillance.",
-      specialties: JSON.stringify(["Reformer", "Prénatal", "Pilates Intensif"]),
+      specialties: JSON.stringify(["Cours privé sur appareil", "Pré & post-natal", "Pilates avancé — Tapis"]),
       slug: "camille-martin",
       certifications: "Balanced Body, CQP ALS",
     },
@@ -125,15 +125,15 @@ async function main() {
   const courseTypes = await Promise.all([
     prisma.courseType.create({
       data: {
-        name: "Pilates Mat",
+        name: "Pilates classique — Tapis",
         slug: "mat",
         description:
-          "Le Pilates Mat (au sol) est la forme originale du Pilates. Sur un simple tapis, vous travaillez en profondeur vos muscles stabilisateurs, améliorez votre posture et développez votre conscience corporelle. Idéal pour tous les niveaux.",
+          "Le Pilates classique sur tapis est la forme originelle de la méthode. Sur un simple tapis, vous travaillez en profondeur vos muscles stabilisateurs, améliorez votre posture et développez votre conscience corporelle. Accessible à tous les niveaux.",
         shortDescription: "Renforcement au sol, tous niveaux",
         duration: 55,
         level: "ALL_LEVELS",
         intensity: 3,
-        maxParticipants: 12,
+        maxParticipants: 5,
         color: "#0077B6",
         benefits: JSON.stringify(["Posture", "Souplesse", "Renforcement", "Conscience corporelle"]),
         equipment: JSON.stringify(["Tapis", "Balle", "Élastique"]),
@@ -141,31 +141,31 @@ async function main() {
     }),
     prisma.courseType.create({
       data: {
-        name: "Reformer",
+        name: "Cours privé sur appareil",
         slug: "reformer",
         description:
-          "Le Pilates Reformer utilise une machine à ressorts qui offre une résistance variable. Ce cours permet un travail plus ciblé et intense, avec un feedback proprioceptif unique. Places limitées pour un suivi personnalisé.",
-        shortDescription: "Machine à ressorts, travail ciblé",
+          "Séance individuelle sur nos machines Balanced Body (Reformer, Cadillac, Chair). Travail sur-mesure, adapté à votre morphologie et à vos objectifs. Idéal pour débuter, progresser rapidement, ou en rééducation.",
+        shortDescription: "Séance individuelle sur machine",
         duration: 55,
-        level: "INTERMEDIATE",
+        level: "ALL_LEVELS",
         intensity: 4,
-        maxParticipants: 6,
+        maxParticipants: 1,
         color: "#8FAE8F",
-        benefits: JSON.stringify(["Force", "Alignement", "Précision", "Tonicité"]),
-        equipment: JSON.stringify(["Reformer"]),
+        benefits: JSON.stringify(["Sur-mesure", "Alignement", "Précision", "Rééducation"]),
+        equipment: JSON.stringify(["Reformer", "Cadillac", "Chair"]),
       },
     }),
     prisma.courseType.create({
       data: {
-        name: "Pilates Doux",
+        name: "Pilates doux — Tapis",
         slug: "doux",
         description:
-          "Un cours adapté aux débutants et aux personnes recherchant une pratique en douceur. Mouvements lents et contrôlés, respiration guidée, parfait pour la récupération ou les seniors.",
-        shortDescription: "Mouvements doux, idéal débutants",
-        duration: 50,
+          "Un cours adapté aux débutants, aux seniors et aux personnes recherchant une pratique en douceur. Mouvements lents et contrôlés, respiration guidée, parfait pour la récupération ou pour entretenir mobilité et équilibre.",
+        shortDescription: "Mouvements doux, idéal débutants et seniors",
+        duration: 55,
         level: "BEGINNER",
         intensity: 2,
-        maxParticipants: 14,
+        maxParticipants: 5,
         color: "#D4A574",
         benefits: JSON.stringify(["Détente", "Mobilité", "Respiration", "Équilibre"]),
         equipment: JSON.stringify(["Tapis", "Coussin"]),
@@ -173,15 +173,15 @@ async function main() {
     }),
     prisma.courseType.create({
       data: {
-        name: "Prénatal",
+        name: "Pilates pré & post-natal",
         slug: "prenatal",
         description:
-          "Spécialement conçu pour les futures mamans, ce cours adapte les exercices de Pilates aux besoins de la grossesse. Renforcement du périnée, soulagement des douleurs dorsales, préparation à l'accouchement.",
-        shortDescription: "Adapté à la grossesse",
-        duration: 50,
+          "Spécialement conçu pour les futures et jeunes mamans, ce cours adapte les exercices aux besoins de la grossesse et de la récupération post-partum. Renforcement du périnée, soulagement des douleurs dorsales, préparation à l'accouchement, reprise en douceur.",
+        shortDescription: "Adapté à la grossesse et au post-partum",
+        duration: 55,
         level: "ALL_LEVELS",
         intensity: 2,
-        maxParticipants: 8,
+        maxParticipants: 5,
         color: "#E8B4B8",
         benefits: JSON.stringify(["Périnée", "Dos", "Respiration", "Bien-être"]),
         equipment: JSON.stringify(["Tapis", "Ballon", "Coussin"]),
@@ -189,31 +189,15 @@ async function main() {
     }),
     prisma.courseType.create({
       data: {
-        name: "Pilates Senior",
-        slug: "senior",
-        description:
-          "Le Pilates Senior est une pratique adaptée aux personnes de plus de 60 ans, axée sur le maintien de la mobilité, de l'équilibre et de la force musculaire. Rythme doux, options assises ou debout selon les besoins, attention particulière aux limitations.",
-        shortDescription: "Séances douces pour mobilité, équilibre, force",
-        duration: 45,
-        level: "BEGINNER",
-        intensity: 1,
-        maxParticipants: 8,
-        color: "#C9A961",
-        benefits: JSON.stringify(["Équilibre", "Mobilité", "Renforcement doux", "Coordination"]),
-        equipment: JSON.stringify(["Tapis", "Chaise"]),
-      },
-    }),
-    prisma.courseType.create({
-      data: {
-        name: "Pilates Intensif",
+        name: "Pilates avancé — Tapis",
         slug: "intensif",
         description:
-          "Le Pilates Intensif est conçu pour les pratiquants expérimentés qui cherchent à repousser leurs limites. Exercices avancés du répertoire classique combinés à des enchaînements dynamiques, rythme soutenu, transitions fluides.",
+          "Un cours dynamique pour les pratiquants confirmés. Exercices avancés du répertoire classique combinés à des enchaînements dynamiques, rythme soutenu, transitions fluides, séries complexes.",
         shortDescription: "Dynamique et exigeant, niveau avancé",
         duration: 55,
         level: "ADVANCED",
         intensity: 5,
-        maxParticipants: 10,
+        maxParticipants: 5,
         color: "#2c2c2c",
         benefits: JSON.stringify(["Force", "Endurance", "Technique avancée", "Challenge"]),
         equipment: JSON.stringify(["Tapis", "Cercle", "Petit matériel"]),
@@ -221,9 +205,9 @@ async function main() {
     }),
   ]);
 
-  const [mat, reformer, doux, prenatal, senior, intensif] = courseTypes;
+  const [mat, reformer, doux, prenatal, intensif] = courseTypes;
 
-  console.log("✓ 6 types de cours");
+  console.log("✓ 5 types de cours");
 
   // ── Schedules (weekly recurring) ───────────────────────
   const scheduleData = [
@@ -235,7 +219,7 @@ async function main() {
     { day: 2, start: "19:00", end: "19:55", course: reformer, instr: camille },
     { day: 3, start: "10:00", end: "10:50", course: prenatal, instr: camille },
     { day: 3, start: "14:00", end: "14:55", course: mat, instr: sophie },
-    { day: 3, start: "17:30", end: "18:15", course: senior, instr: sophie },
+    { day: 3, start: "17:30", end: "18:15", course: doux, instr: sophie },
     { day: 4, start: "09:00", end: "09:55", course: reformer, instr: camille },
     { day: 4, start: "11:00", end: "11:55", course: doux, instr: sophie },
     { day: 4, start: "18:30", end: "19:25", course: intensif, instr: camille },
@@ -499,7 +483,7 @@ async function main() {
     { user: users[1], course: mat, rating: 4, comment: "Très bon cours, ambiance chaleureuse. Parfait pour se vider la tête après le travail." },
     { user: users[1], course: doux, rating: 5, comment: "Idéal pour reprendre en douceur. Les exercices sont bien adaptés et progressifs." },
     { user: users[2], course: mat, rating: 4, comment: "J'adore l'atmosphère du studio. Les cours sont variés et on ne s'ennuie jamais." },
-    { user: users[2], course: senior, rating: 5, comment: "Exactement ce qu'il me fallait pour rester mobile. Les exercices sont adaptés et Sophie est d'une patience remarquable." },
+    { user: users[2], course: doux, rating: 5, comment: "Exactement ce qu'il me fallait pour rester mobile à 65 ans. Les exercices sont adaptés et Sophie est d'une patience remarquable." },
     { user: users[3], course: prenatal, rating: 5, comment: "Camille est formidable avec les futures mamans. Les exercices m'ont beaucoup aidée pendant ma grossesse." },
     { user: users[4], course: intensif, rating: 4, comment: "Intense mais gratifiant ! On sent vraiment qu'on a travaillé. Pour les sportifs qui veulent un vrai défi." },
     { user: users[4], course: mat, rating: 5, comment: "Première expérience en Pilates et je suis conquise. Le studio est magnifique et l'équipe au top." },
@@ -582,14 +566,14 @@ async function main() {
 
   await prisma.blogPost.create({
     data: {
-      title: "Reformer vs Mat Pilates : lequel choisir ?",
+      title: "Tapis ou cours privé sur appareil : lequel choisir ?",
       slug: "reformer-vs-mat-pilates",
-      excerpt: "Mat ou Reformer ? Découvrez les différences et trouvez la pratique qui vous correspond le mieux.",
-      content: "C'est la question que se posent tous les débutants : vaut-il mieux commencer par le Pilates Mat ou le Reformer ? La réponse dépend de vos objectifs, de votre condition physique et de vos préférences...",
+      excerpt: "Tapis en groupe ou cours privé sur appareil ? Découvrez les différences et trouvez la pratique qui vous correspond.",
+      content: "C'est la question que se posent tous les débutants : vaut-il mieux commencer par un cours collectif au tapis ou un cours privé sur appareil (Reformer, Cadillac, Chair) ? La réponse dépend de vos objectifs, de votre condition physique et de vos préférences...",
       published: true,
       publishedAt: new Date("2026-01-10"),
       authorId: admin.id,
-      tags: JSON.stringify(["reformer", "mat", "comparatif", "débutant"]),
+      tags: JSON.stringify(["tapis", "appareil", "comparatif", "débutant"]),
     },
   });
 
@@ -635,7 +619,7 @@ async function main() {
       userId: users[1].id,
       type: "BOOKING_CONFIRMED",
       title: "Réservation confirmée",
-      message: "Votre place pour le cours de Pilates Mat de lundi 9h est confirmée !",
+      message: "Votre place pour le cours de Pilates classique — Tapis de lundi 9h est confirmée !",
       read: false,
     },
   });

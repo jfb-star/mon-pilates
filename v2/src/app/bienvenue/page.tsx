@@ -18,7 +18,7 @@ import type { LucideIcon } from "lucide-react";
 /* ============================================================
    COURSE DATA (same as CourseQuiz)
    ============================================================ */
-type CourseKey = "mat" | "reformer" | "prenatal" | "senior" | "doux" | "intensif";
+type CourseKey = "mat" | "reformer" | "prenatal" | "doux" | "intensif";
 
 interface CourseInfo {
   name: string;
@@ -30,12 +30,11 @@ interface CourseInfo {
 }
 
 const courseData: Record<CourseKey, CourseInfo> = {
-  mat: { name: "Pilates Mat", slug: "mat", description: "Renforcement postural au sol, accessible a tous", level: "Tous niveaux", duration: "60 min", color: "mp-ocean" },
-  reformer: { name: "Pilates Reformer", slug: "reformer", description: "Travail en profondeur sur machine Reformer", level: "Tous niveaux", duration: "55 min", color: "mp-sage" },
-  prenatal: { name: "Pilates Prenatal", slug: "prenatal", description: "Adapte a chaque trimestre de grossesse", level: "Tous niveaux", duration: "50 min", color: "mp-rose" },
-  senior: { name: "Pilates Senior", slug: "pilates-senior", description: "Mobilite et equilibre en douceur", level: "Debutant", duration: "55 min", color: "mp-gold" },
-  doux: { name: "Pilates Doux", slug: "doux", description: "Etirements et bien-etre tout en douceur", level: "Tous niveaux", duration: "60 min", color: "mp-ocean" },
-  intensif: { name: "Pilates Intensif", slug: "intensif", description: "Cardio et renforcement pour les sportifs", level: "Intermediaire", duration: "60 min", color: "mp-sage" },
+  mat: { name: "Pilates classique — Tapis", slug: "mat", description: "Renforcement postural au sol, accessible a tous", level: "Tous niveaux", duration: "55 min", color: "mp-ocean" },
+  reformer: { name: "Cours privé sur appareil", slug: "reformer", description: "Séance individuelle sur machine, sur-mesure", level: "Tous niveaux", duration: "55 min", color: "mp-sage" },
+  prenatal: { name: "Pilates pré & post-natal", slug: "prenatal", description: "Adapté à la grossesse et au post-partum", level: "Tous niveaux", duration: "55 min", color: "mp-rose" },
+  doux: { name: "Pilates doux — Tapis", slug: "doux", description: "Mouvements en douceur, idéal débutants et seniors", level: "Débutant", duration: "55 min", color: "mp-ocean" },
+  intensif: { name: "Pilates avancé — Tapis", slug: "intensif", description: "Rythme soutenu pour pratiquants confirmés", level: "Avancé", duration: "55 min", color: "mp-sage" },
 };
 
 /* ============================================================
@@ -58,11 +57,11 @@ interface GoalOption {
 }
 
 const goalOptions: GoalOption[] = [
-  { id: "pain", label: "Soulager des douleurs", icon: Heart, weights: { mat: 2, doux: 2, senior: 1 } },
+  { id: "pain", label: "Soulager des douleurs", icon: Heart, weights: { mat: 2, doux: 2, reformer: 1 } },
   { id: "tone", label: "Me tonifier", icon: Flame, weights: { reformer: 2, intensif: 2, mat: 1 } },
   { id: "relax", label: "Me d\u00e9tendre", icon: Sparkles, weights: { doux: 2, mat: 1 } },
   { id: "pregnancy", label: "Accompagner ma grossesse", icon: Baby, weights: { prenatal: 3 } },
-  { id: "fitness", label: "Rester en forme", icon: Activity, weights: { senior: 2, doux: 1, mat: 1 } },
+  { id: "fitness", label: "Rester en forme", icon: Activity, weights: { doux: 2, mat: 1 } },
 ];
 
 /* ============================================================
@@ -72,7 +71,7 @@ function computeResult(
   expWeights: Partial<Record<CourseKey, number>>,
   goalWeights: Partial<Record<CourseKey, number>>
 ) {
-  const scores: Record<CourseKey, number> = { mat: 0, reformer: 0, prenatal: 0, senior: 0, doux: 0, intensif: 0 };
+  const scores: Record<CourseKey, number> = { mat: 0, reformer: 0, prenatal: 0, doux: 0, intensif: 0 };
 
   for (const w of [expWeights, goalWeights]) {
     for (const [key, val] of Object.entries(w)) {

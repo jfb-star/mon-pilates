@@ -5,11 +5,11 @@ import {
   Heart,
   Sparkles,
   Baby,
-  Clock,
   Leaf,
   Flame,
   ArrowRight,
   Users,
+  Sparkle,
 } from "lucide-react";
 import { clsx } from "clsx";
 import { courses, courseTypeColors, type CourseInfo, type CourseType } from "@/lib/mock-data";
@@ -27,11 +27,11 @@ const courseImages: Partial<Record<CourseType, string>> = {
 export const metadata: Metadata = {
   title: "Nos cours de Pilates",
   description:
-    "Découvrez nos 6 types de cours : Mat, Reformer, Prénatal, Senior, Doux et Intensif. Trouvez le Pilates qui vous correspond.",
+    "Découvrez nos 5 types de cours : tapis doux, classique et avancé, cours privés sur appareil et Pilates pré & post-natal. Trouvez le Pilates qui vous correspond.",
   openGraph: {
     title: "Nos cours | Mon Pilates",
     description:
-      "Mat, Reformer, Prénatal, Senior, Doux, Intensif — 6 types de cours pour tous les niveaux à Larmor-Plage.",
+      "Pilates au tapis (doux, classique, avancé), cours privés sur appareil, pré & post-natal — pour tous les niveaux à Larmor-Plage.",
     images: [
       {
         url: "/images/studio-reformer-ocean.jpg",
@@ -50,9 +50,9 @@ const courseIcons: Record<string, React.ElementType> = {
   mat: Heart,
   reformer: Sparkles,
   prenatal: Baby,
-  senior: Clock,
   doux: Leaf,
   intensif: Flame,
+  "reformer-collectif": Sparkle,
 };
 
 const coursesItemListJsonLd = {
@@ -74,7 +74,7 @@ const sportsActivityLocationJsonLd = {
   name: "Mon Pilates",
   url: SITE_URL,
   description:
-    "Studio de Pilates à Larmor-Plage proposant 6 types de cours : Mat, Reformer, Prénatal, Senior, Doux et Intensif.",
+    "Studio de Pilates à Larmor-Plage proposant des cours au tapis (doux, classique, avancé), des cours privés sur appareil et du Pilates pré & post-natal.",
   address: {
     "@type": "PostalAddress",
     addressLocality: "Larmor-Plage",
@@ -140,9 +140,9 @@ export default function CoursPage() {
             Nos cours de Pilates
           </h1>
           <p className="font-body text-lg text-mp-text-light max-w-2xl mx-auto leading-relaxed">
-            Que vous soyez débutant ou pratiquant confirmé, enceinte ou senior,
-            nous avons le cours qui vous correspond. Découvrez notre offre
-            complète.
+            Que vous soyez débutant ou pratiquant confirmé, enceinte, en reprise
+            post-partum ou à la recherche d'un accompagnement sur-mesure, nous
+            avons le cours qui vous correspond.
           </p>
         </div>
       </section>
@@ -200,6 +200,32 @@ export default function CoursPage() {
                 <CourseCard course={course} />
               </ScrollReveal>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Coming soon — Reformer collectif */}
+      <section className="mp-section bg-mp-white">
+        <div className="mp-container">
+          <div className="relative overflow-hidden rounded-3xl border-2 border-dashed border-mp-sage/40 bg-gradient-to-br from-mp-sage/5 via-mp-cream to-mp-sage/10 p-8 sm:p-12">
+            <div className="max-w-2xl">
+              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-mp-sage/15 text-mp-sage font-heading text-xs font-bold uppercase tracking-[0.18em] mb-4">
+                <Sparkle className="w-3.5 h-3.5" aria-hidden="true" />
+                Bientôt
+              </span>
+              <h2 className="font-heading text-2xl sm:text-3xl font-bold text-mp-charcoal mb-3">
+                Cours collectif sur Reformer
+              </h2>
+              <p className="font-body text-mp-text-light leading-relaxed mb-4">
+                En petits groupes sur les machines Balanced Body — un format collectif
+                pour partager l'expérience du travail sur appareil, avec tout le bénéfice
+                de la résistance variable. Arrivée prochaine au studio.
+              </p>
+              <p className="font-body text-sm text-mp-text-muted italic">
+                Envie d'être informé·e du lancement ? Inscrivez-vous à la newsletter
+                ou contactez-nous.
+              </p>
+            </div>
           </div>
         </div>
       </section>

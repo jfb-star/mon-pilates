@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     template: "%s | Mon Pilates",
   },
   description:
-    "Studio de Pilates face à l'océan à Larmor-Plage (Lorient). Cours Mat, Reformer, Prénatal & Senior en petits groupes (10 max). Cours d'essai à 10\u20ac. Réservez en ligne.",
+    "Studio de Pilates face à l'océan à Larmor-Plage (Lorient). Cours tapis (doux, classique, avancé), cours privés sur appareil et Pilates pré & post-natal. Groupes tapis de 5 personnes max. Cours d'essai à 10\u20ac. Réservez en ligne.",
   metadataBase: new URL(SITE_URL),
   icons: {
     icon: [
@@ -73,12 +73,13 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Mon Pilates \u2014 Studio \u00e0 Larmor-Plage, Bretagne",
     description:
-      "Studio de Pilates \u00e0 Larmor-Plage. Cours Mat, Reformer, Pr\u00e9natal, Senior. R\u00e9servez en ligne.",
+      "Studio de Pilates \u00e0 Larmor-Plage. Cours tapis, cours priv\u00e9s sur appareil, pr\u00e9 & post-natal. R\u00e9servez en ligne.",
     images: ["/images/studio-reformer-ocean.jpg"],
   },
   keywords: [
     "pilates larmor-plage", "pilates lorient", "studio pilates bretagne",
-    "cours pilates reformer", "pilates prénatal", "pilates senior",
+    "cours pilates tapis", "pilates pré-natal", "pilates post-natal",
+    "cours privé pilates", "reformer larmor-plage",
     "cours pilates morbihan", "mon pilates",
   ],
   robots: {
@@ -95,7 +96,7 @@ const jsonLd = {
   "@type": ["SportsActivityLocation", "LocalBusiness", "HealthClub"],
   name: "Mon Pilates",
   description:
-    "Studio de Pilates \u00e0 Larmor-Plage, Bretagne. Cours Mat, Reformer, Pr\u00e9natal et Senior face \u00e0 l'oc\u00e9an.",
+    "Studio de Pilates \u00e0 Larmor-Plage, Bretagne. Cours tapis (doux, classique, avanc\u00e9), cours priv\u00e9s sur appareil et Pilates pr\u00e9 & post-natal face \u00e0 l'oc\u00e9an.",
   url: SITE_URL,
   telephone: "+33699183216",
   email: "contact@mon-pilates.bzh",
@@ -157,10 +158,11 @@ const jsonLd = {
     },
   },
   knowsAbout: [
-    "Pilates Mat",
-    "Pilates Reformer",
-    "Pilates Prénatal",
-    "Pilates Senior",
+    "Pilates classique — Tapis",
+    "Pilates doux — Tapis",
+    "Pilates avancé — Tapis",
+    "Cours privé sur appareil",
+    "Pilates pré & post-natal",
     "Posture",
     "Rééducation posturale",
   ],
@@ -214,7 +216,7 @@ export default function RootLayout({
             name: "Mon Pilates",
             url: SITE_URL,
             inLanguage: "fr-FR",
-            description: "Studio de Pilates face à l'océan à Larmor-Plage. Cours Mat, Reformer, Prénatal et Senior.",
+            description: "Studio de Pilates face à l'océan à Larmor-Plage. Cours tapis, cours privés sur appareil et Pilates pré & post-natal.",
             publisher: {
               "@type": "Organization",
               name: "Mon Pilates",

@@ -39,9 +39,8 @@ const levels = ["Tous niveaux", "Débutant", "Intermédiaire", "Avancé"]
 const courseTypeDescriptions: Record<string, string> = {
   mat: "Séance complète au tapis",
   reformer: "Privé sur Reformer / Cadillac / Chair",
-  prenatal: "Adapté à la grossesse",
-  senior: "Doux et accessible",
-  doux: "Accessible, idéal pour débuter",
+  prenatal: "Adapté à la grossesse et au post-partum",
+  doux: "Accessible, idéal débutants et seniors",
   intensif: "Enchaînements soutenus, niveau avancé",
 }
 
@@ -216,7 +215,7 @@ function buildPlanningJsonLd(weeklySessions: SessionData[]) {
     "@type": "ItemList",
     name: "Planning des cours — Mon Pilates",
     description:
-      "Planning hebdomadaire des cours de Pilates à Larmor-Plage : Mat, Reformer, Prénatal, Senior, Doux et Intensif.",
+      "Planning hebdomadaire des cours de Pilates à Larmor-Plage : tapis (doux, classique, avancé), cours privés sur appareil, pré & post-natal.",
     numberOfItems: events.length,
     itemListElement: events.map((event, i) => ({
       "@type": "ListItem",
