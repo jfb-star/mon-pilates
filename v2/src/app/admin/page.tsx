@@ -1,6 +1,9 @@
 "use client"
 
-import { useState, useEffect, useCallback } from "react"
+import React, { useState, useEffect, useCallback } from "react"
+
+// Recharts value type for formatters (values may be undefined in tooltips).
+type RechartsValue = number | string | ReadonlyArray<number | string> | undefined
 import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
@@ -2392,7 +2395,7 @@ function AnalyticsTab() {
   const eurFormatter = (value: number) =>
     new Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR" }).format(value / 100)
 
-  const pctFormatter = (value: any) => `${Math.round(Number(value) * 100)}%`
+  const pctFormatter = (value: RechartsValue) => `${Math.round(Number(value ?? 0) * 100)}%`
 
   const monthLabels: Record<string, string> = {
     "01": "Jan", "02": "Fév", "03": "Mars", "04": "Avr",
@@ -2426,11 +2429,11 @@ function AnalyticsTab() {
                   </linearGradient>
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                <XAxis dataKey="week" tick={{ fontSize: 11 }} tickFormatter={(w: any) => String(w).replace(/^\d{4}-/, "")} />
+                <XAxis dataKey="week" tick={{ fontSize: 11 }} tickFormatter={(w: number | string) => String(w).replace(/^\d{4}-/, "")} />
                 <YAxis tick={{ fontSize: 11 }} allowDecimals={false} />
                 <Tooltip
-                  formatter={(value: any) => [value, "Réservations"]}
-                  labelFormatter={(label: any) => `Semaine ${label}`}
+                  formatter={(value: RechartsValue): [React.ReactNode, string] => [value ?? 0, "Réservations"]}
+                  labelFormatter={(label: React.ReactNode) => `Semaine ${String(label ?? "")}`}
                   contentStyle={{ borderRadius: 8, border: "1px solid #e5e7eb" }}
                 />
                 <Area type="monotone" dataKey="count" stroke="#6b9fad" strokeWidth={2} fill="url(#bookingFill)" />
@@ -2449,11 +2452,11 @@ function AnalyticsTab() {
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={data.weeklyRevenue}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                <XAxis dataKey="week" tick={{ fontSize: 11 }} tickFormatter={(w: any) => String(w).replace(/^\d{4}-/, "")} />
-                <YAxis tick={{ fontSize: 11 }} tickFormatter={(v: any) => `${Math.round(Number(v) / 100)}\u00a0\u20ac`} />
+                <XAxis dataKey="week" tick={{ fontSize: 11 }} tickFormatter={(w: number | string) => String(w).replace(/^\d{4}-/, "")} />
+                <YAxis tick={{ fontSize: 11 }} tickFormatter={(v: number | string) => `${Math.round(Number(v) / 100)}\u00a0\u20ac`} />
                 <Tooltip
-                  formatter={(value: any) => [eurFormatter(value), "Revenus"]}
-                  labelFormatter={(label: any) => `Semaine ${label}`}
+                  formatter={(value: RechartsValue): [React.ReactNode, string] => [eurFormatter(Number(value ?? 0)), "Revenus"]}
+                  labelFormatter={(label: React.ReactNode) => `Semaine ${String(label ?? "")}`}
                   contentStyle={{ borderRadius: 8, border: "1px solid #e5e7eb" }}
                 />
                 <Bar dataKey="amount" fill="#8faa8b" radius={[4, 4, 0, 0]} />
@@ -2484,7 +2487,7 @@ function AnalyticsTab() {
                     cx="50%"
                     cy="50%"
                     outerRadius={90}
-                    label={({ name, percent }: any) => `${name} (${(percent * 100).toFixed(0)}%)`}
+                    label={({ name, percent }: { name?: string; percent?: number }) => `${name ?? ""} (${((percent ?? 0) * 100).toFixed(0)}%)`}
                     labelLine={{ strokeWidth: 1 }}
                   >
                     {data.courseTypeDistribution.map((_, i) => (
@@ -2492,7 +2495,7 @@ function AnalyticsTab() {
                     ))}
                   </Pie>
                   <Tooltip
-                    formatter={(value: any, name: any) => [value, name]}
+                    formatter={(value: RechartsValue, name: number | string | undefined): [React.ReactNode, number | string] => [value ?? 0, name ?? ""]}
                     contentStyle={{ borderRadius: 8, border: "1px solid #e5e7eb" }}
                   />
                 </PieChart>
@@ -2517,7 +2520,7 @@ function AnalyticsTab() {
                   <XAxis type="number" tick={{ fontSize: 11 }} tickFormatter={pctFormatter} domain={[0, 1]} />
                   <YAxis type="category" dataKey="day" tick={{ fontSize: 11 }} width={80} />
                   <Tooltip
-                    formatter={(value: any) => [pctFormatter(value), "Occupation"]}
+                    formatter={(value: RechartsValue): [React.ReactNode, string] => [pctFormatter(value), "Occupation"]}
                     contentStyle={{ borderRadius: 8, border: "1px solid #e5e7eb" }}
                   />
                   <Bar dataKey="rate" fill="#d4a0a0" radius={[0, 4, 4, 0]} />
@@ -2546,7 +2549,7 @@ function AnalyticsTab() {
                   <XAxis dataKey="hour" tick={{ fontSize: 11 }} />
                   <YAxis tick={{ fontSize: 11 }} allowDecimals={false} />
                   <Tooltip
-                    formatter={(value: any) => [value, "Réservations"]}
+                    formatter={(value: RechartsValue): [React.ReactNode, string] => [value ?? 0, "Réservations"]}
                     contentStyle={{ borderRadius: 8, border: "1px solid #e5e7eb" }}
                   />
                   <Bar dataKey="count" fill="#c9a96e" radius={[4, 4, 0, 0]} />
@@ -2575,7 +2578,7 @@ function AnalyticsTab() {
                 <XAxis dataKey="month" tick={{ fontSize: 11 }} tickFormatter={formatMonth} />
                 <YAxis tick={{ fontSize: 11 }} allowDecimals={false} />
                 <Tooltip
-                  formatter={(value: any) => [value, "Nouveaux membres"]}
+                  formatter={(value: RechartsValue): [React.ReactNode, string] => [value ?? 0, "Nouveaux membres"]}
                   labelFormatter={formatMonth}
                   contentStyle={{ borderRadius: 8, border: "1px solid #e5e7eb" }}
                 />
