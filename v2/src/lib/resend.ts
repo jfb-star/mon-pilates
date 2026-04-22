@@ -8,22 +8,22 @@ import { prisma } from "@/lib/prisma"
 // ---------------------------------------------------------------------------
 
 const RESEND_API_KEY = process.env.RESEND_API_KEY
-const RESEND_FROM = process.env.RESEND_FROM
-
-if (!RESEND_FROM) {
-  // Fail fast on boot — prevents silent misconfiguration of the transactional
-  // layer.  Tests / CI should set a placeholder value.
-  throw new Error(
-    "[resend] RESEND_FROM env variable is not set — define it in .env (e.g. \"Mon Pilates <onboarding@resend.dev>\")"
-  )
-}
 
 // The SDK accepts an undefined key (and will then throw on first call) — we
 // keep a `null` sentinel so callers can branch cleanly in tests / local dev.
 const resend: Resend | null = RESEND_API_KEY ? new Resend(RESEND_API_KEY) : null
 
-// From this point `RESEND_FROM` is guaranteed to be set; capture for closures.
-const FROM: string = RESEND_FROM
+// Lazy — evaluated at send time, not at import. Build workers that import but
+// never send (collect-page-data) should not fail when RESEND_FROM is absent.
+function getFrom(): string {
+  const from = process.env.RESEND_FROM
+  if (!from) {
+    throw new Error(
+      "[resend] RESEND_FROM env variable is not set — define it in .env (e.g. \"Mon Pilates <onboarding@resend.dev>\")"
+    )
+  }
+  return from
+}
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -114,7 +114,7 @@ export async function sendEmail(opts: {
 
   try {
     const { data, error } = await resend.emails.send({
-      from: FROM,
+      from: getFrom(),
       to: opts.to,
       subject: opts.subject,
       html: opts.html,

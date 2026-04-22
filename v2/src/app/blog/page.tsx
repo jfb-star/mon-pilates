@@ -1,8 +1,5 @@
 "use client";
 
-// ISR — revalidate the blog index at most once per hour.
-export const revalidate = 3600;
-
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
