@@ -35,6 +35,13 @@
 
   /* Transitions */
   --mp-transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Focus ring tokens — unified across components */
+  --ring: color-mix(in srgb, var(--mp-ocean) 70%, transparent);
+  --ring-solid: var(--mp-ocean);
+  --ring-offset: var(--mp-white);
+  --ring-width: 2px;
+  --ring-offset-width: 2px;
 }
 
 @theme inline {
@@ -165,29 +172,41 @@ html {
 }
 
 /* Focus visible for accessibility — ciblé sur les éléments interactifs
-   pour éviter les anneaux parasites sur divs décoratives. */
+   pour éviter les anneaux parasites sur divs décoratives. Utilise les
+   tokens --ring / --ring-offset pour un anneau cohérent partout. */
 button:focus-visible,
 a:focus-visible,
 input:focus-visible,
 select:focus-visible,
 textarea:focus-visible,
-[role="button"]:focus-visible {
+summary:focus-visible,
+[role="button"]:focus-visible,
+[role="link"]:focus-visible,
+[role="menuitem"]:focus-visible,
+[role="tab"]:focus-visible,
+[tabindex]:not([tabindex="-1"]):focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px white, 0 0 0 4px rgba(62, 119, 135, 0.6);
-  border-radius: 0.125rem;
+  box-shadow:
+    0 0 0 var(--ring-offset-width) var(--ring-offset),
+    0 0 0 calc(var(--ring-offset-width) + var(--ring-width)) var(--ring);
+  border-radius: 0.25rem;
 }
 
 /* Classe utilitaire réutilisable pour un anneau de focus cohérent
    (composants custom qui ne matchent pas les sélecteurs ci-dessus). */
 .mp-focus-ring:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px white, 0 0 0 4px var(--mp-ocean);
+  box-shadow:
+    0 0 0 var(--ring-offset-width) var(--ring-offset),
+    0 0 0 calc(var(--ring-offset-width) + var(--ring-width)) var(--ring-solid);
 }
 
 .mp-btn:focus-visible {
-  outline: 3px solid var(--mp-ocean-dark);
-  outline-offset: 3px;
-  box-shadow: 0 0 0 6px rgba(107, 159, 173, 0.2);
+  outline: none;
+  box-shadow:
+    0 0 0 var(--ring-offset-width) var(--ring-offset),
+    0 0 0 calc(var(--ring-offset-width) + var(--ring-width) + 1px) var(--ring-solid),
+    0 0 0 calc(var(--ring-offset-width) + var(--ring-width) + 5px) color-mix(in srgb, var(--mp-ocean) 20%, transparent);
 }
 
 /* Selection color */
@@ -284,6 +303,9 @@ textarea:focus-visible,
   --mp-gold-light: #8b6518;
   --mp-rose: #c08080;
   --mp-rose-light: #3a2828;
+  --ring: color-mix(in srgb, var(--mp-ocean) 75%, transparent);
+  --ring-solid: var(--mp-ocean);
+  --ring-offset: var(--mp-white);
   color-scheme: dark;
 }
 
@@ -309,6 +331,9 @@ textarea:focus-visible,
     --mp-gold-light: #8b6518;
     --mp-rose: #c08080;
     --mp-rose-light: #3a2828;
+    --ring: color-mix(in srgb, var(--mp-ocean) 75%, transparent);
+    --ring-solid: var(--mp-ocean);
+    --ring-offset: var(--mp-white);
     color-scheme: dark;
   }
 }
@@ -403,6 +428,27 @@ html.theme-transition *::after {
 .safe-area-pb {
   padding-bottom: env(safe-area-inset-bottom, 0px);
 }
+
+/* iOS safe-area utilities — apply to any fixed/sticky element near screen edges */
+.safe-bottom {
+  padding-bottom: max(env(safe-area-inset-bottom, 0px), 0.75rem);
+}
+.safe-top {
+  padding-top: max(env(safe-area-inset-top, 0px), 0px);
+}
+.safe-x {
+  padding-left: env(safe-area-inset-left, 0px);
+  padding-right: env(safe-area-inset-right, 0px);
+}
+
+/* Ensure fixed/sticky bottom-anchored elements respect iOS home indicator */
+.fixed.bottom-0,
+.sticky.bottom-0 {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* Viewport meta must include viewport-fit=cover in layout.tsx for
+   env(safe-area-inset-*) to return non-zero values on iOS. */
 
 /* Shimmer effect for badges */
 @keyframes shimmer {

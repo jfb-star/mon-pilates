@@ -34,8 +34,19 @@ export function Header() {
   const isInstructor = userRole === "INSTRUCTOR" || userRole === "ADMIN"
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50)
-    handleScroll()
+    let ticking = false
+    const update = () => {
+      ticking = false
+      const next = window.scrollY > 8
+      setScrolled((prev) => (prev === next ? prev : next))
+    }
+    const handleScroll = () => {
+      if (!ticking) {
+        ticking = true
+        window.requestAnimationFrame(update)
+      }
+    }
+    update()
     window.addEventListener("scroll", handleScroll, { passive: true })
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
@@ -78,15 +89,17 @@ export function Header() {
       <header
         role="banner"
         className={clsx(
-          "fixed top-0 left-0 right-0 z-50 transition-all duration-500",
+          "fixed top-0 left-0 right-0 z-50 transition-[background-color,box-shadow,backdrop-filter,height] duration-200 ease-out motion-reduce:transition-none",
           headerSolid
-            ? "bg-mp-white/95 backdrop-blur-xl shadow-[0_1px_20px_rgba(0,0,0,0.06)]"
+            ? mobileOpen
+              ? "bg-mp-white/95 backdrop-blur-xl backdrop-saturate-150"
+              : "bg-mp-white/80 backdrop-blur-xl backdrop-saturate-150 shadow-[0_4px_20px_-8px_rgba(0,0,0,0.12),0_1px_0_0_rgba(0,0,0,0.04)]"
             : "bg-gradient-to-b from-black/30 to-transparent"
         )}
       >
         <div
           className={clsx(
-            "mp-container flex items-center justify-between transition-all duration-500",
+            "mp-container flex items-center justify-between transition-[height] duration-200 ease-out motion-reduce:transition-none",
             headerSolid ? "h-[72px]" : "h-24"
           )}
         >
