@@ -103,7 +103,7 @@ async function main() {
     data: {
       userId: instrSophie.id,
       bio: "Certifiée Stott Pilates depuis 2018, Sophie enseigne avec douceur et précision. Spécialisée dans la rééducation posturale et le Pilates doux.",
-      specialties: JSON.stringify(["Pilates Mat", "Pilates Doux", "Stretching"]),
+      specialties: JSON.stringify(["Pilates Mat", "Pilates Doux", "Pilates Senior"]),
       slug: "sophie-laurent",
       certifications: "Stott Pilates, BPJEPS",
     },
@@ -113,7 +113,7 @@ async function main() {
     data: {
       userId: instrCamille.id,
       bio: "Passionnée de mouvement, Camille est formée au Pilates Reformer et au Pilates prénatal. Elle accompagne chaque élève avec bienveillance.",
-      specialties: JSON.stringify(["Reformer", "Prénatal", "Dynamique"]),
+      specialties: JSON.stringify(["Reformer", "Prénatal", "Pilates Intensif"]),
       slug: "camille-martin",
       certifications: "Balanced Body, CQP ALS",
     },
@@ -189,39 +189,39 @@ async function main() {
     }),
     prisma.courseType.create({
       data: {
-        name: "Pilates Dynamique",
-        slug: "dynamique",
+        name: "Pilates Senior",
+        slug: "senior",
         description:
-          "Un Pilates challengeant qui combine les fondamentaux avec des séquences plus intenses et rythmées. Cardio léger, enchaînements fluides, pour ceux qui veulent se dépasser.",
-        shortDescription: "Intense et rythmé, niveau avancé",
-        duration: 55,
-        level: "ADVANCED",
-        intensity: 5,
-        maxParticipants: 10,
-        color: "#C44536",
-        benefits: JSON.stringify(["Cardio", "Endurance", "Force", "Coordination"]),
-        equipment: JSON.stringify(["Tapis", "Poids légers", "Cercle"]),
+          "Le Pilates Senior est une pratique adaptée aux personnes de plus de 60 ans, axée sur le maintien de la mobilité, de l'équilibre et de la force musculaire. Rythme doux, options assises ou debout selon les besoins, attention particulière aux limitations.",
+        shortDescription: "Séances douces pour mobilité, équilibre, force",
+        duration: 45,
+        level: "BEGINNER",
+        intensity: 1,
+        maxParticipants: 8,
+        color: "#C9A961",
+        benefits: JSON.stringify(["Équilibre", "Mobilité", "Renforcement doux", "Coordination"]),
+        equipment: JSON.stringify(["Tapis", "Chaise"]),
       },
     }),
     prisma.courseType.create({
       data: {
-        name: "Stretching Postural",
-        slug: "stretching",
+        name: "Pilates Intensif",
+        slug: "intensif",
         description:
-          "Un cours focalisé sur l'étirement en profondeur et le relâchement des tensions. Travail sur les chaînes musculaires, postures tenues, respiration consciente. Le complément idéal du Pilates.",
-        shortDescription: "Étirements profonds, anti-tensions",
-        duration: 45,
-        level: "ALL_LEVELS",
-        intensity: 1,
-        maxParticipants: 14,
-        color: "#7B68EE",
-        benefits: JSON.stringify(["Souplesse", "Détente", "Anti-douleur", "Récupération"]),
-        equipment: JSON.stringify(["Tapis", "Sangle"]),
+          "Le Pilates Intensif est conçu pour les pratiquants expérimentés qui cherchent à repousser leurs limites. Exercices avancés du répertoire classique combinés à des enchaînements dynamiques, rythme soutenu, transitions fluides.",
+        shortDescription: "Dynamique et exigeant, niveau avancé",
+        duration: 55,
+        level: "ADVANCED",
+        intensity: 5,
+        maxParticipants: 10,
+        color: "#2c2c2c",
+        benefits: JSON.stringify(["Force", "Endurance", "Technique avancée", "Challenge"]),
+        equipment: JSON.stringify(["Tapis", "Cercle", "Petit matériel"]),
       },
     }),
   ]);
 
-  const [mat, reformer, doux, prenatal, dynamique, stretching] = courseTypes;
+  const [mat, reformer, doux, prenatal, senior, intensif] = courseTypes;
 
   console.log("✓ 6 types de cours");
 
@@ -229,16 +229,16 @@ async function main() {
   const scheduleData = [
     { day: 1, start: "09:00", end: "09:55", course: mat, instr: sophie },
     { day: 1, start: "10:30", end: "11:25", course: reformer, instr: camille },
-    { day: 1, start: "18:00", end: "18:55", course: dynamique, instr: camille },
+    { day: 1, start: "18:00", end: "18:55", course: intensif, instr: camille },
     { day: 2, start: "09:30", end: "10:20", course: doux, instr: sophie },
     { day: 2, start: "12:15", end: "13:05", course: mat, instr: sophie },
     { day: 2, start: "19:00", end: "19:55", course: reformer, instr: camille },
     { day: 3, start: "10:00", end: "10:50", course: prenatal, instr: camille },
     { day: 3, start: "14:00", end: "14:55", course: mat, instr: sophie },
-    { day: 3, start: "17:30", end: "18:15", course: stretching, instr: sophie },
+    { day: 3, start: "17:30", end: "18:15", course: senior, instr: sophie },
     { day: 4, start: "09:00", end: "09:55", course: reformer, instr: camille },
     { day: 4, start: "11:00", end: "11:55", course: doux, instr: sophie },
-    { day: 4, start: "18:30", end: "19:25", course: dynamique, instr: camille },
+    { day: 4, start: "18:30", end: "19:25", course: intensif, instr: camille },
     { day: 5, start: "09:30", end: "10:25", course: mat, instr: sophie },
     { day: 5, start: "10:30", end: "11:25", course: reformer, instr: camille },
     { day: 6, start: "10:00", end: "10:55", course: mat, instr: sophie },
@@ -499,9 +499,9 @@ async function main() {
     { user: users[1], course: mat, rating: 4, comment: "Très bon cours, ambiance chaleureuse. Parfait pour se vider la tête après le travail." },
     { user: users[1], course: doux, rating: 5, comment: "Idéal pour reprendre en douceur. Les exercices sont bien adaptés et progressifs." },
     { user: users[2], course: mat, rating: 4, comment: "J'adore l'atmosphère du studio. Les cours sont variés et on ne s'ennuie jamais." },
-    { user: users[2], course: stretching, rating: 5, comment: "Le stretching postural est un vrai moment de détente. On ressort détendu et grandi !" },
+    { user: users[2], course: senior, rating: 5, comment: "Exactement ce qu'il me fallait pour rester mobile. Les exercices sont adaptés et Sophie est d'une patience remarquable." },
     { user: users[3], course: prenatal, rating: 5, comment: "Camille est formidable avec les futures mamans. Les exercices m'ont beaucoup aidée pendant ma grossesse." },
-    { user: users[4], course: dynamique, rating: 4, comment: "Intense mais gratifiant ! On sent vraiment qu'on a travaillé. Pour les sportifs qui veulent un vrai défi." },
+    { user: users[4], course: intensif, rating: 4, comment: "Intense mais gratifiant ! On sent vraiment qu'on a travaillé. Pour les sportifs qui veulent un vrai défi." },
     { user: users[4], course: mat, rating: 5, comment: "Première expérience en Pilates et je suis conquise. Le studio est magnifique et l'équipe au top." },
   ];
 
