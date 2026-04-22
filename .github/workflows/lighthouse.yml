@@ -21,7 +21,21 @@ jobs:
           node-version: 20
 
       - name: Wait for Vercel deploy
-        run: sleep 60
+        # Poll v2.mon-pilates.bzh until it serves a fresh deploy (or time out).
+        # `curl --retry-connrefused` handles DNS/connection flaps; we also match
+        # on HTTP 200 to skip the brief 5xx/502 window during deploy swap.
+        run: |
+          for i in {1..30}; do
+            code=$(curl -s -o /dev/null -w "%{http_code}" https://v2.mon-pilates.bzh/ || echo "000")
+            if [ "$code" = "200" ]; then
+              echo "Deploy is live (HTTP $code) after ${i} attempts"
+              exit 0
+            fi
+            echo "Attempt $i — HTTP $code, waiting 10s…"
+            sleep 10
+          done
+          echo "::error::Vercel deploy did not become healthy within 5 min"
+          exit 1
 
       - name: Run Lighthouse CI
         # On failure, dump the last 150 lines of lhci output to the job

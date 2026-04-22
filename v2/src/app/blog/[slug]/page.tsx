@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
+import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight, Calendar, Clock, Tag, List } from "lucide-react";
 import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
 import { ShareButtons } from "@/components/ui/ShareButtons";
@@ -408,19 +409,7 @@ export default async function BlogArticlePage({
   const post = (await getPostFromDb(slug)) || posts.find((p) => p.slug === slug);
 
   if (!post) {
-    return (
-      <div className="pt-20 mp-section">
-        <div className="mp-container text-center">
-          <h1 className="font-heading text-3xl font-bold text-mp-charcoal mb-4">
-            Article introuvable
-          </h1>
-          <Link href="/blog" className="mp-btn mp-btn-secondary">
-            <ArrowLeft className="w-4 h-4" />
-            Retour au blog
-          </Link>
-        </div>
-      </div>
-    );
+    notFound();
   }
 
   const related = getRelatedPosts(post.slug, post.category);

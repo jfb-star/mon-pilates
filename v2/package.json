@@ -21,7 +21,8 @@
     "test:unit:watch": "vitest",
     "typecheck": "tsc --noEmit",
     "lint": "next lint --dir src",
-    "analyze": "ANALYZE=true next build"
+    "analyze": "ANALYZE=true next build",
+    "lhci": "npx @lhci/cli@0.13.x autorun --config=../lighthouserc.json"
   },
   "dependencies": {
     "@next/third-parties": "^16.2.4",
