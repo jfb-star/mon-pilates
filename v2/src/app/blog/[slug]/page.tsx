@@ -7,6 +7,9 @@ import { ShareButtons } from "@/components/ui/ShareButtons";
 import { prisma } from "@/lib/prisma";
 import { SITE_URL } from "@/lib/env";
 
+// ISR — revalidate each article page at most once per hour.
+export const revalidate = 3600;
+
 /* ----------------------------------------------------------
    BLOG POSTS DATA (with full article content)
    ---------------------------------------------------------- */
@@ -546,6 +549,30 @@ export default async function BlogArticlePage({
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
             {/* Main content */}
             <article className="lg:col-span-8 max-w-none">
+              {/* Mobile-only Table of contents (desktop version lives in the sidebar) */}
+              {headings.length >= 3 && (
+                <nav
+                  className="lg:hidden bg-mp-cream rounded-2xl p-5 mb-8"
+                  aria-label="Table des matières"
+                >
+                  <h2 className="font-heading text-sm font-bold text-mp-charcoal uppercase tracking-wider mb-3 flex items-center gap-2">
+                    <List className="w-4 h-4 text-mp-ocean" />
+                    Sommaire
+                  </h2>
+                  <ol className="space-y-2">
+                    {headings.map((h) => (
+                      <li key={h.id}>
+                        <a
+                          href={`#${h.id}`}
+                          className="font-body text-sm text-mp-text-light hover:text-mp-ocean transition-colors leading-snug block"
+                        >
+                          {h.text}
+                        </a>
+                      </li>
+                    ))}
+                  </ol>
+                </nav>
+              )}
               {post.content.map((block, i) => {
                 if (block.type === "heading") {
                   return (
@@ -572,8 +599,8 @@ export default async function BlogArticlePage({
             {/* Sidebar */}
             <aside className="lg:col-span-4">
               <div className="sticky top-28 space-y-6">
-                {/* Table of contents */}
-                {headings.length > 0 && (
+                {/* Table of contents — desktop sticky sidebar (only when >= 3 headings) */}
+                {headings.length >= 3 && (
                   <nav className="bg-mp-cream rounded-2xl p-6" aria-label="Table des matières">
                     <h3 className="font-heading text-sm font-bold text-mp-charcoal uppercase tracking-wider mb-4 flex items-center gap-2">
                       <List className="w-4 h-4 text-mp-ocean" />

@@ -1,5 +1,6 @@
 import { Resend } from "resend"
 import { sendTemplate, sendEmail } from "@/lib/resend"
+import { log } from "@/lib/logger"
 import {
   layout,
   btn,
@@ -62,12 +63,15 @@ async function fallbackSend(opts: {
       text: opts.text,
     })
     if (error || !data) {
-      console.error("[email] Erreur Resend:", error)
+      log.error("[email] Erreur Resend", error instanceof Error ? error : undefined, {
+        subject: opts.subject,
+        resendError: error,
+      })
       return null
     }
     return { id: data.id }
   } catch (err) {
-    console.error("[email] Erreur lors de l'envoi:", err)
+    log.error("[email] Erreur lors de l'envoi", err, { subject: opts.subject })
     return null
   }
 }

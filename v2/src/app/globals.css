@@ -164,10 +164,24 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Focus visible for accessibility */
-*:focus-visible {
-  outline: 2px solid var(--mp-ocean);
-  outline-offset: 2px;
+/* Focus visible for accessibility — ciblé sur les éléments interactifs
+   pour éviter les anneaux parasites sur divs décoratives. */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[role="button"]:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px white, 0 0 0 4px rgba(62, 119, 135, 0.6);
+  border-radius: 0.125rem;
+}
+
+/* Classe utilitaire réutilisable pour un anneau de focus cohérent
+   (composants custom qui ne matchent pas les sélecteurs ci-dessus). */
+.mp-focus-ring:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px white, 0 0 0 4px var(--mp-ocean);
 }
 
 .mp-btn:focus-visible {

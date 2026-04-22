@@ -1,6 +1,9 @@
 import type { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
+
+// ISR — the About page is near-static; refresh once a day.
+export const revalidate = 86400
 import {
   ArrowRight,
   Calendar,

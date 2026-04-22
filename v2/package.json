@@ -9,13 +9,19 @@
     "tunnel": "npx localtunnel --port 3456",
     "seed": "npx tsx prisma/seed.ts",
     "postinstall": "prisma generate",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
     "test:unit": "vitest run",
     "test:unit:watch": "vitest",
-    "lint": "next lint --dir src"
+    "typecheck": "tsc --noEmit",
+    "lint": "next lint --dir src",
+    "analyze": "ANALYZE=true next build"
   },
   "dependencies": {
+    "@next/third-parties": "^16.2.4",
     "@prisma/client": "^5.22.0",
     "@sentry/nextjs": "^10.49.0",
     "@stripe/stripe-js": "^9.1.0",
@@ -41,6 +47,7 @@
     "seed": "npx tsx prisma/seed.ts"
   },
   "devDependencies": {
+    "@next/bundle-analyzer": "^16.2.4",
     "@playwright/test": "^1.59.1",
     "@tailwindcss/postcss": "^4.2.2",
     "@types/bcryptjs": "^3.0.0",

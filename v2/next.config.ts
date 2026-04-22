@@ -1,7 +1,12 @@
 import type { NextConfig } from "next";
 import { withSentryConfig } from "@sentry/nextjs";
+import bundleAnalyzer from "@next/bundle-analyzer";
 
 const isDev = process.env.NODE_ENV === "development";
+
+const withBundleAnalyzer = bundleAnalyzer({
+  enabled: process.env.ANALYZE === "true",
+});
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
@@ -38,6 +43,15 @@ const nextConfig: NextConfig = {
         ],
       },
       {
+        source: "/fonts/(.*)",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+        ],
+      },
+      {
         source: "/_next/image(.*)",
         headers: [
           {
@@ -53,6 +67,12 @@ const nextConfig: NextConfig = {
             key: "Cache-Control",
             value: "public, max-age=31536000, immutable",
           },
+        ],
+      },
+      {
+        source: "/api/(.*)",
+        headers: [
+          { key: "Cache-Control", value: "no-store" },
         ],
       },
       {
@@ -91,7 +111,7 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default withSentryConfig(nextConfig, {
+export default withBundleAnalyzer(withSentryConfig(nextConfig, {
   // For all available options, see:
   // https://www.npmjs.com/package/@sentry/webpack-plugin#options
 
@@ -127,4 +147,4 @@ export default withSentryConfig(nextConfig, {
       removeDebugLogging: true,
     },
   },
-});
+}));

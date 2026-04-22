@@ -51,6 +51,7 @@ import { clsx } from "clsx";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { LoyaltySection } from "@/components/ui/LoyaltySection";
 import { ProgressJourney } from "@/components/ui/ProgressJourney";
+import Skeleton from "@/components/ui/Skeleton";
 
 const breadcrumbItems = [
   { name: "Accueil", href: "/" },
@@ -2097,14 +2098,37 @@ export default function ComptePage() {
   if (status === "loading" || loading) {
     return (
       <div
-        className="min-h-[70vh] flex items-center justify-center bg-mp-cream"
+        className="min-h-[70vh] bg-mp-cream"
         role="status"
         aria-label="Chargement du compte"
       >
-        <Loader2
-          className="w-8 h-8 text-mp-ocean animate-spin"
-          aria-hidden="true"
-        />
+        {/* Skeleton 1 — header utilisateur (avatar + nom + membre depuis) */}
+        <section className="pt-32 pb-10">
+          <div className="mp-container">
+            <div className="flex items-center gap-4 mb-8">
+              <Skeleton className="w-14 h-14 rounded-full" />
+              <div className="space-y-2">
+                <Skeleton className="h-7 w-56 rounded-md" />
+                <Skeleton className="h-4 w-40 rounded-md" />
+              </div>
+            </div>
+            {/* Skeleton 2 — liste réservations (next class + stats) */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+              <Skeleton className="lg:col-span-2 h-40 rounded-2xl" />
+              <Skeleton className="h-40 rounded-2xl" />
+            </div>
+          </div>
+        </section>
+        {/* Skeleton 3 — fidélité / parcours */}
+        <section className="py-8 bg-mp-white">
+          <div className="mp-container max-w-3xl space-y-4">
+            <Skeleton className="h-6 w-48 rounded-md" />
+            <Skeleton className="h-32 w-full rounded-2xl" />
+          </div>
+        </section>
+        <span className="sr-only">
+          Chargement de votre espace personnel…
+        </span>
       </div>
     );
   }

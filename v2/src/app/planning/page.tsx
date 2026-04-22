@@ -29,6 +29,7 @@ import {
   dayNames,
 } from "@/lib/mock-data"
 import { SmartRecommendations } from "@/components/ui/SmartRecommendations"
+import Skeleton from "@/components/ui/Skeleton"
 import { SITE_URL } from "@/lib/env"
 
 const courseTypes = ["mat", "doux", "intensif", "prenatal", "reformer"] as const
@@ -733,8 +734,36 @@ export default function PlanningPage() {
             </div>
           )}
 
+          {/* Initial loading skeletons — remplace "Aucun cours" pendant le 1er fetch */}
+          {sessionsLoading && sessions.length === 0 && (
+            <div
+              role="status"
+              aria-label="Chargement des séances"
+              className="mb-4"
+            >
+              {/* Mobile : 6 skeletons empilés */}
+              <div className="sm:hidden grid grid-cols-1 gap-3">
+                {Array.from({ length: 6 }, (_, i) => (
+                  <Skeleton key={i} className="h-24 w-full rounded-xl" />
+                ))}
+              </div>
+              {/* Desktop : 6 colonnes, 3 skeletons chacune */}
+              <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-6 gap-4">
+                {Array.from({ length: 6 }, (_, day) => (
+                  <div key={day} className="space-y-2">
+                    <Skeleton className="h-16 w-full rounded-xl" />
+                    <Skeleton className="h-24 w-full rounded-xl" />
+                    <Skeleton className="h-24 w-full rounded-xl" />
+                    <Skeleton className="h-24 w-full rounded-xl" />
+                  </div>
+                ))}
+              </div>
+              <span className="sr-only">Chargement du planning en cours…</span>
+            </div>
+          )}
+
           {/* Mobile day selector */}
-          <div className="flex sm:hidden gap-1.5 mb-4 overflow-x-auto scrollbar-hide pb-1" role="tablist" aria-label="Jours de la semaine">
+          <div className={clsx("sm:hidden gap-1.5 mb-4 overflow-x-auto scrollbar-hide pb-1", sessionsLoading && sessions.length === 0 ? "hidden" : "flex")} role="tablist" aria-label="Jours de la semaine">
             {[0, 1, 2, 3, 4, 5].map((dayOffset) => {
               const date = addDays(weekStart, dayOffset)
               const today = isToday(date)
@@ -771,7 +800,7 @@ export default function PlanningPage() {
           </div>
 
           {/* Mobile single-day view */}
-          <div className="sm:hidden space-y-2" role="tabpanel" id="mobile-day-tabpanel" aria-label={dayNames[mobileDay]}>
+          <div className={clsx("sm:hidden space-y-2", sessionsLoading && sessions.length === 0 && "hidden")} role="tabpanel" id="mobile-day-tabpanel" aria-label={dayNames[mobileDay]}>
             {(() => {
               const sessions = getSessionsForDay(mobileDay)
               if (sessions.length === 0) {
@@ -862,7 +891,7 @@ export default function PlanningPage() {
           </div>
 
           {/* Desktop/tablet week grid */}
-          <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-6 gap-4">
+          <div className={clsx("sm:grid sm:grid-cols-2 lg:grid-cols-6 gap-4", sessionsLoading && sessions.length === 0 ? "hidden" : "hidden sm:grid")}>
             {[0, 1, 2, 3, 4, 5].map((dayOffset) => {
               const date = addDays(weekStart, dayOffset)
               const sessions = getSessionsForDay(dayOffset)
@@ -1201,6 +1230,47 @@ export default function PlanningPage() {
                     )}
                   </>
                 )}
+
+                {/* Récapitulatif de commande — avant paiement (a11y + transparence) */}
+                <section
+                  aria-labelledby="order-summary-heading"
+                  className="border border-mp-sand rounded-xl p-4 bg-mp-cream/40"
+                >
+                  <h3
+                    id="order-summary-heading"
+                    className="font-heading text-sm font-bold text-mp-charcoal mb-3"
+                  >
+                    Récapitulatif
+                  </h3>
+                  <dl className="space-y-2 text-sm font-body text-mp-text-light">
+                    <div className="flex justify-between gap-4">
+                      <dt className="text-mp-text-muted">Séance</dt>
+                      <dd className="text-right text-mp-charcoal font-heading font-medium">
+                        {courseTypeLabels[selectedSession.courseType as keyof typeof courseTypeLabels] ?? selectedSession.courseName} — {dayNames[selectedSession.dayOffset]} {selectedSession.time}
+                      </dd>
+                    </div>
+                    <div className="flex justify-between gap-4">
+                      <dt className="text-mp-text-muted">Instructrice</dt>
+                      <dd className="text-right text-mp-charcoal font-heading font-medium">
+                        {selectedSession.instructor}
+                      </dd>
+                    </div>
+                    <div className="flex justify-between gap-4">
+                      <dt className="text-mp-text-muted">Formule</dt>
+                      <dd className="text-right text-mp-charcoal font-heading font-medium">
+                        {isTrial ? "Cours d\u2019essai" : "Paiement à l\u2019unité"}
+                      </dd>
+                    </div>
+                    <div className="flex justify-between gap-4 pt-2 mt-2 border-t border-mp-sand">
+                      <dt className="text-mp-charcoal font-heading font-semibold">
+                        Prix total
+                      </dt>
+                      <dd className="text-right text-mp-charcoal font-heading font-bold text-base">
+                        {isTrial ? "10" : "20"}&nbsp;&euro;
+                      </dd>
+                    </div>
+                  </dl>
+                </section>
 
                 {/* Option 3: Pay per session */}
                 <button

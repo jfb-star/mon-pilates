@@ -20,6 +20,8 @@ const outfit = Outfit({
   weight: ["400", "500", "600", "700"],
   variable: "--font-outfit",
   display: "swap",
+  preload: true,
+  adjustFontFallback: true,
 })
 
 const lora = Lora({
@@ -27,6 +29,9 @@ const lora = Lora({
   weight: ["400", "500"],
   variable: "--font-lora",
   display: "swap",
+  // Secondary font — don't preload to keep the critical path focused on Outfit.
+  preload: false,
+  adjustFontFallback: true,
 })
 
 export const viewport: Viewport = {

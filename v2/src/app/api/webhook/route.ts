@@ -6,6 +6,7 @@ import { stripe } from "@/lib/stripe"
 import { prisma } from "@/lib/prisma"
 import Stripe from "stripe"
 import { sendBookingConfirmation, sendGiftCard } from "@/lib/email"
+import { log } from "@/lib/logger"
 
 // Zod schema for Stripe checkout metadata. All metadata fields are strings (Stripe
 // coerces everything to string). Unknown metadata keys are allowed but typed values
@@ -40,14 +41,14 @@ export async function POST(req: NextRequest) {
 
   const secret = process.env.STRIPE_WEBHOOK_SECRET
   if (!secret) {
-    console.error("[webhook] STRIPE_WEBHOOK_SECRET not configured")
+    log.error("[webhook] STRIPE_WEBHOOK_SECRET not configured")
     return NextResponse.json({ error: "Webhook not configured" }, { status: 500 })
   }
 
   try {
     event = stripe.webhooks.constructEvent(body, sig, secret)
   } catch (err) {
-    console.error("[webhook] Signature verification failed:", err)
+    log.error("[webhook] Signature verification failed", err)
     return NextResponse.json({ error: "Invalid signature" }, { status: 400 })
   }
 
@@ -211,7 +212,11 @@ export async function POST(req: NextRequest) {
               }
             }
           } catch (err) {
-            console.error("[webhook] Failed to create booking:", err)
+            log.error("[webhook] Failed to create booking", err, {
+              eventId: event.id,
+              sessionId,
+              userId: bookingUserId,
+            })
           }
         }
       } else if (type === "course-card") {
@@ -382,7 +387,10 @@ export async function POST(req: NextRequest) {
             }).catch(() => {})
           }
         } catch (err) {
-          console.error("[webhook] Failed to save gift card:", err)
+          log.error("[webhook] Failed to save gift card", err, {
+            eventId: event.id,
+            recipientEmail,
+          })
         }
       }
       break

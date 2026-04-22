@@ -1,3 +1,56 @@
+import { clsx } from "clsx";
+
+/**
+ * Base Skeleton primitive — réutilisable partout.
+ *
+ * Usage:
+ *   <Skeleton className="h-24 w-full rounded-xl" />
+ *
+ * A11y :
+ *   - Pas de texte, purement décoratif (aria-hidden). Le parent doit
+ *     fournir un `role="status"` + `aria-label="Chargement…"`.
+ *   - L'animation shimmer est neutralisée globalement par la règle
+ *     `@media (prefers-reduced-motion: reduce)` dans globals.css.
+ */
+export default function Skeleton({
+  className,
+  ...rest
+}: React.HTMLAttributes<HTMLDivElement>) {
+  return (
+    <div
+      aria-hidden="true"
+      className={clsx(
+        "bg-mp-sand/60 animate-shimmer rounded-md",
+        className
+      )}
+      {...rest}
+    />
+  );
+}
+
+/** Rend N `<Skeleton />` identiques — utile pour les listes/grilles. */
+export function SkeletonList({
+  count = 3,
+  className,
+  itemClassName,
+}: {
+  count?: number;
+  className?: string;
+  itemClassName?: string;
+}) {
+  return (
+    <div className={className} aria-hidden="true">
+      {Array.from({ length: count }, (_, i) => (
+        <Skeleton key={i} className={itemClassName} />
+      ))}
+    </div>
+  );
+}
+
+/* ============================================================
+   Variantes existantes — conservées pour compat descendante
+   ============================================================ */
+
 export function SkeletonLine({ width = "100%" }: { width?: string }) {
   return (
     <div

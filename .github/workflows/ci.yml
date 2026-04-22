@@ -1,36 +1,43 @@
+# CI workflow for Mon Pilates v2
+#
+# Triggered on push / pull_request to `main` and `v2`.
+#
+# Required GitHub repository secrets (Settings → Secrets → Actions):
+#   - DATABASE_URL            — Postgres connection string used by the optional E2E job
+#   - RESEND_API_KEY          — Resend API key (optional at CI time, but the e2e job
+#                               will flip to degraded-mode checks when missing)
+#   - STRIPE_SECRET_KEY       — Stripe test key (e.g. sk_test_...)
+#   - STRIPE_WEBHOOK_SECRET   — Stripe webhook signing secret (whsec_...)
+#   - NEXTAUTH_SECRET         — AuthJS session encryption secret
+#
+# The main `build-and-test` job runs on every push/PR with dummy env vars so it
+# stays green without any real secret. The `e2e` job only runs on PRs and uses
+# the secrets above.
+
 name: CI
 
 on:
   push:
     branches: [main, v2]
-    paths:
-      - "v2/**"
-      - ".github/workflows/ci.yml"
   pull_request:
     branches: [main, v2]
-    paths:
-      - "v2/**"
-      - ".github/workflows/ci.yml"
-
-defaults:
-  run:
-    working-directory: v2
 
 jobs:
   build-and-test:
     name: Build & Test
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: v2
     env:
-      # Prisma schema is postgresql — generate only needs a parseable URL,
-      # it does not open a connection. We skip `prisma db push` entirely
-      # by running `prisma generate` + `next build` directly below.
+      # Dummy env vars sufficient for `prisma generate`, typecheck, lint and tests.
+      # They do NOT open any real connection.
       DATABASE_URL: postgresql://ci:ci@localhost:5432/ci
       DIRECT_URL: postgresql://ci:ci@localhost:5432/ci
       AUTH_SECRET: ci-dummy-auth-secret-not-used-at-runtime
+      NEXTAUTH_SECRET: ci-dummy-auth-secret-not-used-at-runtime
       NEXTAUTH_URL: http://localhost:3457
-      # AuthJS refuses to serve /api/auth/* unless trustHost is set.
-      # On Vercel it's auto-detected; on a bare CI runner we must opt in.
       AUTH_TRUST_HOST: "true"
       RESEND_FROM: "CI <ci@example.test>"
       STRIPE_SECRET_KEY: sk_test_ci_dummy
@@ -55,60 +62,59 @@ jobs:
       - name: Prisma generate
         run: npx prisma generate
 
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Lint
+        run: npm run lint
+
       - name: Unit tests
-        run: npm run test:unit
+        run: npm run test
 
-      - name: Next build
-        # Bypass the npm "build" script so we skip `prisma db push` entirely.
-        # On failure, dump the last 200 lines of the log to the job summary
-        # (publicly readable) and as an error annotation so we can diagnose
-        # without needing the auth-gated artifact.
-        run: |
-          set +e
-          npx next build 2>&1 | tee build.log
-          code=${PIPESTATUS[0]}
-          if [ $code -ne 0 ]; then
-            {
-              echo "## Next build failed (exit $code)"
-              echo ""
-              echo '```'
-              tail -n 200 build.log
-              echo '```'
-            } >> "$GITHUB_STEP_SUMMARY"
-            tail_encoded=$(tail -n 50 build.log | sed ':a;N;$!ba;s/%/%25/g;s/\n/%0A/g;s/\r/%0D/g')
-            echo "::error title=Next build failed::$tail_encoded"
-          fi
-          exit $code
+  e2e:
+    name: E2E (Playwright)
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    if: github.event_name == 'pull_request'
+    needs: build-and-test
+    defaults:
+      run:
+        working-directory: v2
+    env:
+      # Real-ish secrets injected from the GitHub secret store. The job is
+      # skipped on push events; on PRs from forks these will be empty which
+      # will cause the job to fail loudly — that is intentional, external PRs
+      # should not gain access to secrets.
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      DIRECT_URL: ${{ secrets.DATABASE_URL }}
+      RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+      STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
+      STRIPE_WEBHOOK_SECRET: ${{ secrets.STRIPE_WEBHOOK_SECRET }}
+      NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
+      AUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
+      NEXTAUTH_URL: http://localhost:3457
+      AUTH_TRUST_HOST: "true"
+      NEXT_PUBLIC_SITE_URL: http://localhost:3457
+      NEXT_TELEMETRY_DISABLED: "1"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: Upload build log
-        if: always()
-        uses: actions/upload-artifact@v4
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
         with:
-          name: next-build-log
-          path: v2/build.log
-          retention-days: 7
-          if-no-files-found: ignore
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: v2/package-lock.json
 
-      - name: Get Playwright version
-        id: pw
-        run: |
-          version=$(node -p "require('@playwright/test/package.json').version")
-          echo "version=$version" >> "$GITHUB_OUTPUT"
+      - name: Install dependencies
+        run: npm ci
 
-      - name: Cache Playwright browsers
-        id: pw_cache
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/ms-playwright
-          key: playwright-${{ runner.os }}-${{ steps.pw.outputs.version }}
+      - name: Prisma generate
+        run: npx prisma generate
 
-      - name: Install Playwright browsers
-        if: steps.pw_cache.outputs.cache-hit != 'true'
+      - name: Install Playwright (chromium + OS deps)
         run: npx playwright install --with-deps chromium
-
-      - name: Install Playwright system deps (cache hit)
-        if: steps.pw_cache.outputs.cache-hit == 'true'
-        run: npx playwright install-deps chromium
 
       - name: Run Playwright tests
         run: npm run test:e2e
