@@ -686,7 +686,13 @@ async function main() {
         htmlCompiled: t.html,
         variables: JSON.stringify(t.variables),
       },
-      update: {},
+      update: {
+        name: t.name,
+        subject: t.subject,
+        mjmlSource: t.html,
+        htmlCompiled: t.html,
+        variables: JSON.stringify(t.variables),
+      },
     });
   }
 
