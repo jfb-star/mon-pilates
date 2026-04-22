@@ -33,6 +33,8 @@ import {
   MessageCircle,
   Mail,
   Settings,
+  ArrowRight,
+  ShieldCheck,
 } from "lucide-react";
 
 /* Google Calendar inline SVG icon (no extra dep needed) */
@@ -617,19 +619,22 @@ function WelcomeSection({
                 )}
               </div>
             ) : (
-              <div className="text-center py-4">
-                <Calendar
-                  className="w-10 h-10 text-mp-text-light/30 mx-auto mb-2"
-                  aria-hidden="true"
-                />
-                <p className="font-body text-sm text-mp-text-light mb-3">
-                  Pas de cours pr&eacute;vu
+              <div className="text-center py-8 px-4 rounded-xl border-2 border-dashed border-mp-sand">
+                <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-mp-ocean/10 text-mp-ocean mb-3">
+                  <Calendar className="w-6 h-6" aria-hidden="true" />
+                </div>
+                <h3 className="font-heading text-base font-semibold text-mp-charcoal mb-1">
+                  Aucune r&eacute;servation pour le moment
+                </h3>
+                <p className="text-sm text-mp-text-light mb-4">
+                  D&eacute;couvrez notre planning et r&eacute;servez votre premi&egrave;re s&eacute;ance.
                 </p>
                 <Link
                   href="/planning"
-                  className="mp-btn mp-btn-primary text-sm"
+                  className="mp-btn mp-btn-primary inline-flex items-center gap-2 text-sm"
                 >
-                  R&eacute;server un cours
+                  Voir le planning
+                  <ArrowRight className="w-4 h-4" aria-hidden="true" />
                 </Link>
               </div>
             )}
@@ -705,20 +710,24 @@ function CardStatusSection({ card }: { card: AccountData["activeCard"] }) {
   if (!card) {
     return (
       <section className="py-6 bg-mp-white border-y border-mp-sand-dark/20">
-        <div className="mp-container">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 py-2">
-            <div className="flex items-center gap-3">
-              <Sparkles
-                className="w-5 h-5 text-mp-gold"
-                aria-hidden="true"
-              />
-              <p className="font-body text-sm text-mp-text-light">
-                &Eacute;conomisez jusqu&apos;&agrave; 28% avec une carte de cours
-              </p>
+        <div className="mp-container max-w-3xl">
+          <div className="text-center py-8 px-4 rounded-xl border-2 border-dashed border-mp-sand">
+            <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-mp-ocean/10 text-mp-ocean mb-3">
+              <CreditCard className="w-6 h-6" aria-hidden="true" />
             </div>
-            <Link href="/tarifs" className="mp-btn mp-btn-gold text-sm !py-2 !px-4">
+            <h3 className="font-heading text-base font-semibold text-mp-charcoal mb-1">
+              Aucune carte de cours active
+            </h3>
+            <p className="text-sm text-mp-text-light mb-4">
+              <Sparkles className="inline-block w-3.5 h-3.5 text-mp-gold -mt-0.5 mr-1" aria-hidden="true" />
+              &Eacute;conomisez jusqu&apos;&agrave; 28% avec une carte de cours ou un abonnement.
+            </p>
+            <Link
+              href="/tarifs"
+              className="mp-btn mp-btn-gold inline-flex items-center gap-2 text-sm"
+            >
               D&eacute;couvrir nos formules
-              <ChevronRight className="w-4 h-4" aria-hidden="true" />
+              <ArrowRight className="w-4 h-4" aria-hidden="true" />
             </Link>
           </div>
         </div>
@@ -1081,21 +1090,24 @@ function UpcomingBookingsSection({
       </div>
 
       {remaining.length === 0 && bookings.length <= 1 ? (
-        <div className="text-center py-10 mp-card !rounded-2xl hover:!transform-none">
-          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-mp-ocean/10 mb-4">
-            <Calendar className="w-7 h-7 text-mp-ocean" aria-hidden="true" />
+        <div className="text-center py-8 px-4 rounded-xl border-2 border-dashed border-mp-sand">
+          <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-mp-ocean/10 text-mp-ocean mb-3">
+            <Calendar className="w-6 h-6" aria-hidden="true" />
           </div>
           <h3 className="font-heading text-base font-semibold text-mp-charcoal mb-1">
             {bookings.length === 1
               ? "Aucune autre s\u00e9ance r\u00e9serv\u00e9e"
-              : "Aucune s\u00e9ance r\u00e9serv\u00e9e"}
+              : "Aucune r\u00e9servation pour le moment"}
           </h3>
-          <p className="font-body text-sm text-mp-text-light mb-5 max-w-xs mx-auto">
-            Trouvez un cr\u00e9neau qui vous convient et r\u00e9servez votre prochain cours.
+          <p className="text-sm text-mp-text-light mb-4">
+            D&eacute;couvrez notre planning et r&eacute;servez votre prochaine s&eacute;ance.
           </p>
-          <Link href="/planning" className="mp-btn mp-btn-primary text-sm">
-            <Calendar className="w-3.5 h-3.5" aria-hidden="true" />
-            R&eacute;server un cours
+          <Link
+            href="/planning"
+            className="mp-btn mp-btn-primary inline-flex items-center gap-2 text-sm"
+          >
+            Voir le planning
+            <ArrowRight className="w-4 h-4" aria-hidden="true" />
           </Link>
         </div>
       ) : (
@@ -1277,18 +1289,23 @@ function RecurringSection() {
       </div>
 
       {recurring.length === 0 ? (
-        <div className="mp-card !rounded-2xl hover:!transform-none p-6 text-center">
-          <Repeat
-            className="w-10 h-10 text-mp-text-light/20 mx-auto mb-3"
-            aria-hidden="true"
-          />
-          <p className="font-body text-sm text-mp-text-light mb-1">
-            Pas de cr&eacute;neau r&eacute;current.
+        <div className="text-center py-8 px-4 rounded-xl border-2 border-dashed border-mp-sand">
+          <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-mp-ocean/10 text-mp-ocean mb-3">
+            <Repeat className="w-6 h-6" aria-hidden="true" />
+          </div>
+          <h3 className="font-heading text-base font-semibold text-mp-charcoal mb-1">
+            Aucun cr&eacute;neau r&eacute;current
+          </h3>
+          <p className="text-sm text-mp-text-light mb-4">
+            Cochez &laquo;&nbsp;R&eacute;server chaque semaine&nbsp;&raquo; lors de votre prochaine r&eacute;servation.
           </p>
-          <p className="font-body text-xs text-mp-text-muted">
-            Cochez &laquo;&nbsp;R&eacute;server chaque semaine&nbsp;&raquo; lors de votre
-            prochaine r&eacute;servation.
-          </p>
+          <Link
+            href="/planning"
+            className="mp-btn mp-btn-secondary inline-flex items-center gap-2 text-sm"
+          >
+            Voir le planning
+            <ArrowRight className="w-4 h-4" aria-hidden="true" />
+          </Link>
         </div>
       ) : (
         <div className="space-y-3">
@@ -1353,18 +1370,16 @@ function PastClassesSection({
 
   if (bookings.length === 0) {
     return (
-      <div className="mp-card !rounded-2xl p-5 hover:!transform-none">
-        <div className="flex items-center gap-3">
-          <Clock className="w-5 h-5 text-mp-text-light/60 flex-shrink-0" aria-hidden="true" />
-          <div>
-            <p className="font-heading font-semibold text-mp-charcoal text-sm">
-              Historique
-            </p>
-            <p className="text-xs text-mp-text-light mt-0.5">
-              Aucun historique pour le moment.
-            </p>
-          </div>
+      <div className="text-center py-8 px-4 rounded-xl border-2 border-dashed border-mp-sand">
+        <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-mp-ocean/10 text-mp-ocean mb-3">
+          <Clock className="w-6 h-6" aria-hidden="true" />
         </div>
+        <h3 className="font-heading text-base font-semibold text-mp-charcoal mb-1">
+          Aucun historique pour le moment
+        </h3>
+        <p className="text-sm text-mp-text-light">
+          Votre historique s&rsquo;affichera ici apr&egrave;s votre premi&egrave;re s&eacute;ance.
+        </p>
       </div>
     );
   }
@@ -2187,12 +2202,31 @@ export default function ComptePage() {
 
       <section className="mp-section bg-mp-white pb-0">
         <div className="mp-container max-w-3xl space-y-6">
-          {subscription && (
+          {subscription ? (
             <SubscriptionSection
               subscription={subscription}
               onAction={handleSubscriptionAction}
               actionLoading={subActionLoading}
             />
+          ) : (
+            <div className="text-center py-8 px-4 rounded-xl border-2 border-dashed border-mp-sand">
+              <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-mp-ocean/10 text-mp-ocean mb-3">
+                <Repeat className="w-6 h-6" aria-hidden="true" />
+              </div>
+              <h3 className="font-heading text-base font-semibold text-mp-charcoal mb-1">
+                Aucun abonnement actif
+              </h3>
+              <p className="text-sm text-mp-text-light mb-4">
+                Pratiquez sans compter gr&acirc;ce &agrave; un abonnement mensuel.
+              </p>
+              <Link
+                href="/tarifs"
+                className="mp-btn mp-btn-secondary inline-flex items-center gap-2 text-sm"
+              >
+                D&eacute;couvrir les abonnements
+                <ArrowRight className="w-4 h-4" aria-hidden="true" />
+              </Link>
+            </div>
           )}
           <ProfileSection user={user} onSave={handleSaveProfile} />
         </div>
@@ -2262,6 +2296,37 @@ export default function ComptePage() {
       <section className="py-8 bg-mp-white">
         <div className="mp-container max-w-3xl">
           <PaymentHistorySection payments={payments} />
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════
+          SECTION H — RGPD data export
+          ═══════════════════════════════════════════════════ */}
+      <section className="py-8 bg-mp-cream/30">
+        <div className="mp-container max-w-3xl">
+          <div className="mp-card !rounded-2xl p-6 hover:!transform-none">
+            <div className="flex items-start gap-3">
+              <div className="w-10 h-10 rounded-xl bg-mp-ocean/10 flex items-center justify-center flex-shrink-0">
+                <ShieldCheck className="w-5 h-5 text-mp-ocean" aria-hidden="true" />
+              </div>
+              <div className="flex-1">
+                <h3 className="font-heading text-base font-semibold text-mp-charcoal mb-2">
+                  Vos donn&eacute;es (RGPD)
+                </h3>
+                <p className="text-sm text-mp-text-light mb-4">
+                  T&eacute;l&eacute;chargez l&rsquo;ensemble de vos donn&eacute;es personnelles au format JSON (art. 15 RGPD).
+                </p>
+                <a
+                  href="/api/account/export"
+                  download
+                  className="mp-btn mp-btn-secondary inline-flex items-center gap-2 text-sm"
+                >
+                  <Download className="w-4 h-4" aria-hidden="true" />
+                  T&eacute;l&eacute;charger mes donn&eacute;es
+                </a>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
     </>

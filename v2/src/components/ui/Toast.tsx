@@ -1,26 +1,45 @@
 "use client";
 
-import { createContext, useContext, useState, useCallback, useRef, useEffect } from "react";
-import { CheckCircle, AlertCircle, Info, X } from "lucide-react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+import { AlertCircle, CheckCircle, Info, X } from "lucide-react";
 
 type ToastType = "success" | "error" | "info";
 
-interface Toast {
+interface ToastItemData {
   id: string;
   type: ToastType;
   message: string;
-  createdAt: number;
+  duration: number;
+}
+
+interface ShowOptions {
+  type?: ToastType;
+  duration?: number;
+}
+
+interface VariantOptions {
+  duration?: number;
 }
 
 interface ToastContextValue {
-  success: (message: string) => void;
-  error: (message: string) => void;
-  info: (message: string) => void;
+  show: (message: string, options?: ShowOptions) => string;
+  success: (message: string, options?: VariantOptions) => string;
+  error: (message: string, options?: VariantOptions) => string;
+  info: (message: string, options?: VariantOptions) => string;
+  dismiss: (id: string) => void;
 }
 
 const ToastContext = createContext<ToastContextValue | null>(null);
 
-export function useToast() {
+export function useToast(): ToastContextValue {
   const ctx = useContext(ToastContext);
   if (!ctx) throw new Error("useToast must be used within ToastProvider");
   return ctx;
@@ -30,111 +49,179 @@ const ICONS = {
   success: CheckCircle,
   error: AlertCircle,
   info: Info,
+} as const;
+
+const STYLES: Record<ToastType, { container: string; icon: string }> = {
+  success: {
+    container: "border-l-green-600 bg-green-50",
+    icon: "text-green-600",
+  },
+  error: {
+    container: "border-l-red-600 bg-red-50",
+    icon: "text-red-600",
+  },
+  info: {
+    container: "border-l-mp-ocean bg-mp-sand",
+    icon: "text-mp-ocean",
+  },
 };
 
-const COLORS = {
-  success: { bg: "#ecfdf5", border: "#10b981", icon: "#059669" },
-  error: { bg: "#fef2f2", border: "#ef4444", icon: "#dc2626" },
-  info: { bg: "#eff6ff", border: "#0077B6", icon: "#0077B6" },
-};
+const DEFAULT_DURATION = 4000;
 
-const AUTO_DISMISS = 4000;
-
-function ToastItem({ toast, onDismiss }: { toast: Toast; onDismiss: (id: string) => void }) {
-  const Icon = ICONS[toast.type];
-  const color = COLORS[toast.type];
-  const [exiting, setExiting] = useState(false);
-  const [progress, setProgress] = useState(100);
-  const startRef = useRef(Date.now());
+function usePrefersReducedMotion(): boolean {
+  const [prefers, setPrefers] = useState(false);
 
   useEffect(() => {
-    const raf = () => {
-      const elapsed = Date.now() - startRef.current;
-      const remaining = Math.max(0, 100 - (elapsed / AUTO_DISMISS) * 100);
-      setProgress(remaining);
-      if (remaining > 0) requestAnimationFrame(raf);
-    };
-    const id = requestAnimationFrame(raf);
-    return () => cancelAnimationFrame(id);
+    if (typeof window === "undefined" || !window.matchMedia) return;
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setPrefers(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setPrefers(e.matches);
+    if (mq.addEventListener) {
+      mq.addEventListener("change", handler);
+      return () => mq.removeEventListener("change", handler);
+    }
+    // Safari < 14 fallback
+    mq.addListener(handler);
+    return () => mq.removeListener(handler);
   }, []);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setExiting(true);
-      setTimeout(() => onDismiss(toast.id), 300);
-    }, AUTO_DISMISS);
-    return () => clearTimeout(timer);
-  }, [toast.id, onDismiss]);
+  return prefers;
+}
 
-  const handleDismiss = () => {
-    setExiting(true);
-    setTimeout(() => onDismiss(toast.id), 300);
-  };
+function ToastCard({
+  toast,
+  onDismiss,
+  reducedMotion,
+}: {
+  toast: ToastItemData;
+  onDismiss: (id: string) => void;
+  reducedMotion: boolean;
+}) {
+  const Icon = ICONS[toast.type];
+  const styles = STYLES[toast.type];
+  const role = toast.type === "error" ? "alert" : "status";
+
+  useEffect(() => {
+    if (toast.duration <= 0) return;
+    const timer = setTimeout(() => onDismiss(toast.id), toast.duration);
+    return () => clearTimeout(timer);
+  }, [toast.id, toast.duration, onDismiss]);
+
+  const animationStyle: React.CSSProperties = reducedMotion
+    ? {}
+    : { animation: "toast-slide-in 300ms ease-out" };
 
   return (
     <div
-      role="alert"
-      aria-live="assertive"
-      style={{
-        background: color.bg,
-        borderLeft: `4px solid ${color.border}`,
-        transform: exiting ? "translateX(120%)" : "translateX(0)",
-        opacity: exiting ? 0 : 1,
-        transition: "transform 300ms ease, opacity 300ms ease",
-        animation: "toast-slide-in 300ms ease",
-      }}
-      className="relative rounded-lg shadow-lg p-4 pr-10 min-w-[300px] max-w-[420px] overflow-hidden"
+      role={role}
+      style={animationStyle}
+      className={`mp-card p-4 pr-12 shadow-lg border-l-4 relative min-w-[280px] max-w-[420px] ${styles.container}`}
     >
       <div className="flex items-start gap-3">
-        <Icon size={20} style={{ color: color.icon, flexShrink: 0, marginTop: 2 }} />
-        <p className="text-sm text-[#2D2D2D] leading-snug">{toast.message}</p>
+        <Icon
+          className={`w-5 h-5 shrink-0 mt-0.5 ${styles.icon}`}
+          aria-hidden="true"
+        />
+        <p className="font-body text-sm text-mp-text leading-snug">
+          {toast.message}
+        </p>
       </div>
       <button
-        onClick={handleDismiss}
-        className="absolute top-3 right-3 text-gray-400 hover:text-gray-600 transition-colors"
+        type="button"
+        onClick={() => onDismiss(toast.id)}
+        className="absolute top-2 right-2 p-1.5 rounded-lg text-mp-text-light hover:text-mp-charcoal hover:bg-black/5 transition-colors focus:outline-none focus-visible:outline-2 focus-visible:outline-mp-ocean focus-visible:outline-offset-2"
         aria-label="Fermer"
       >
-        <X size={16} />
+        <X className="w-4 h-4" aria-hidden="true" />
       </button>
-      <div
-        className="absolute bottom-0 left-0 h-[3px] transition-none"
-        style={{
-          width: `${progress}%`,
-          background: color.border,
-        }}
-      />
     </div>
   );
 }
 
 export function ToastProvider({ children }: { children: React.ReactNode }) {
-  const [toasts, setToasts] = useState<Toast[]>([]);
+  const [toasts, setToasts] = useState<ToastItemData[]>([]);
   const counterRef = useRef(0);
-
-  const addToast = useCallback((type: ToastType, message: string) => {
-    const id = `toast-${++counterRef.current}`;
-    setToasts((prev) => [...prev.slice(-2), { id, type, message, createdAt: Date.now() }]);
-  }, []);
+  const reducedMotion = usePrefersReducedMotion();
 
   const dismiss = useCallback((id: string) => {
     setToasts((prev) => prev.filter((t) => t.id !== id));
   }, []);
 
-  const value: ToastContextValue = {
-    success: useCallback((msg: string) => addToast("success", msg), [addToast]),
-    error: useCallback((msg: string) => addToast("error", msg), [addToast]),
-    info: useCallback((msg: string) => addToast("info", msg), [addToast]),
-  };
+  const show = useCallback(
+    (message: string, options?: ShowOptions): string => {
+      const id = `toast-${++counterRef.current}-${Date.now()}`;
+      const toast: ToastItemData = {
+        id,
+        type: options?.type ?? "info",
+        message,
+        duration: options?.duration ?? DEFAULT_DURATION,
+      };
+      setToasts((prev) => [...prev, toast]);
+      return id;
+    },
+    []
+  );
+
+  const success = useCallback(
+    (message: string, options?: VariantOptions) =>
+      show(message, { type: "success", duration: options?.duration }),
+    [show]
+  );
+  const error = useCallback(
+    (message: string, options?: VariantOptions) =>
+      show(message, { type: "error", duration: options?.duration }),
+    [show]
+  );
+  const info = useCallback(
+    (message: string, options?: VariantOptions) =>
+      show(message, { type: "info", duration: options?.duration }),
+    [show]
+  );
+
+  const value = useMemo<ToastContextValue>(
+    () => ({ show, success, error, info, dismiss }),
+    [show, success, error, info, dismiss]
+  );
+
+  const politeToasts = toasts.filter((t) => t.type !== "error");
+  const assertiveToasts = toasts.filter((t) => t.type === "error");
 
   return (
     <ToastContext.Provider value={value}>
       {children}
-      <div className="fixed bottom-6 right-6 z-50 flex flex-col-reverse gap-3 pointer-events-none">
-        {toasts.map((t) => (
-          <div key={t.id} className="pointer-events-auto">
-            <ToastItem toast={t} onDismiss={dismiss} />
-          </div>
-        ))}
+      <div className="fixed bottom-4 right-4 z-50 flex flex-col gap-2 pointer-events-none">
+        {/* Assertive: errors (stacked on top) */}
+        <div
+          aria-live="assertive"
+          aria-relevant="additions"
+          className="flex flex-col gap-2"
+        >
+          {assertiveToasts.map((t) => (
+            <div key={t.id} className="pointer-events-auto">
+              <ToastCard
+                toast={t}
+                onDismiss={dismiss}
+                reducedMotion={reducedMotion}
+              />
+            </div>
+          ))}
+        </div>
+        {/* Polite: success + info */}
+        <div
+          aria-live="polite"
+          aria-relevant="additions"
+          className="flex flex-col gap-2"
+        >
+          {politeToasts.map((t) => (
+            <div key={t.id} className="pointer-events-auto">
+              <ToastCard
+                toast={t}
+                onDismiss={dismiss}
+                reducedMotion={reducedMotion}
+              />
+            </div>
+          ))}
+        </div>
       </div>
     </ToastContext.Provider>
   );

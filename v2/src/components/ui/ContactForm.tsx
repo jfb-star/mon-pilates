@@ -2,6 +2,7 @@
 
 import { useState, type FormEvent } from "react";
 import { Send, CheckCircle, Loader2 } from "lucide-react";
+import { useToast } from "@/components/ui/Toast";
 
 const subjects = [
   "Question générale",
@@ -12,6 +13,7 @@ const subjects = [
 ];
 
 export function ContactForm() {
+  const toast = useToast();
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -77,8 +79,11 @@ export function ContactForm() {
       });
       if (!res.ok) throw new Error("Erreur serveur");
       setIsSuccess(true);
+      toast.success("Message envoyé ! Nous vous répondrons sous 24h.");
     } catch {
-      setErrors({ form: "Une erreur est survenue. Veuillez réessayer." });
+      const message = "Une erreur est survenue. Veuillez réessayer.";
+      setErrors({ form: message });
+      toast.error(message);
     } finally {
       setIsSubmitting(false);
     }

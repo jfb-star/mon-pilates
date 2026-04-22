@@ -3,7 +3,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import { MapPin, Phone, Mail, Clock } from "lucide-react";
-import { useIsFirstTimer } from "@/hooks/useIsFirstTimer";
 
 function InstagramIcon({ className }: { className?: string }) {
   return (
@@ -50,10 +49,9 @@ const footerLinks = {
 };
 
 export function Footer() {
-  const isFirstTimer = useIsFirstTimer()
-  const studioLinks = isFirstTimer !== false
-    ? [footerLinks.studioFirstTimer, ...footerLinks.studioBase]
-    : footerLinks.studioBase
+  // Always show "Première visite" for a stable, SSR-friendly layout (avoids CLS).
+  // The URL is public — no privacy concern in rendering it to all users.
+  const studioLinks = [footerLinks.studioFirstTimer, ...footerLinks.studioBase]
   return (
     <footer className="bg-mp-charcoal text-white/80 pb-16 sm:pb-0" role="contentinfo">
       <div className="mp-container py-16">

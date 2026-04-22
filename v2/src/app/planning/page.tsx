@@ -2,6 +2,7 @@
 
 import { useState, useMemo, useEffect, useCallback, useRef } from "react"
 import Image from "next/image"
+import Link from "next/link"
 import {
   ChevronLeft,
   ChevronRight,
@@ -16,6 +17,8 @@ import {
   CalendarPlus,
   Repeat,
   CalendarX,
+  AlertCircle,
+  Loader2,
 } from "lucide-react"
 import { BookingStepper } from "@/components/BookingStepper"
 import { clsx } from "clsx"
@@ -402,6 +405,21 @@ export default function PlanningPage() {
       .catch(() => {})
   }, [])
 
+  // Remember the trigger so we can return focus to it after closing the modal.
+  const lastTriggerRef = useRef<HTMLButtonElement | null>(null)
+  // Visible countdown state for the success modal auto-close.
+  const [countdownSec, setCountdownSec] = useState<number | null>(null)
+  // Brief order-recap overlay between fetch and Stripe redirect.
+  const [stripeRedirecting, setStripeRedirecting] = useState(false)
+
+  const handleSelectSession = useCallback(
+    (session: SessionData, e?: React.MouseEvent<HTMLButtonElement>) => {
+      if (e) lastTriggerRef.current = e.currentTarget
+      setSelectedSession(session)
+    },
+    []
+  )
+
   const closeModal = useCallback(() => {
     setSelectedSession(null)
     setBookingSuccess(null)
@@ -409,7 +427,41 @@ export default function PlanningPage() {
     setIsTrial(false)
     setIsRecurring(false)
     setRecurringResult(null)
+    setCountdownSec(null)
+    setStripeRedirecting(false)
+    requestAnimationFrame(() => {
+      lastTriggerRef.current?.focus()
+    })
   }, [])
+
+  // Explicit wait-list join for full sessions (uses /bookings/on-site — it
+  // already returns status "WAITLIST" when the class is full).
+  const handleWaitlistJoin = useCallback(async () => {
+    if (!selectedSession) return
+    setBookingLoading(true)
+    setBookingError("")
+    try {
+      const res = await fetch("/api/bookings/on-site", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ sessionId: selectedSession.id }),
+      })
+      const data = await res.json()
+      if (res.ok) {
+        setBookingSuccess({
+          message:
+            "Vous \u00eates sur la liste d'attente ! Nous vous notifierons par email si une place se lib\u00e8re.",
+          waitlist: true,
+        })
+      } else {
+        setBookingError(data.error || "Erreur lors de l'inscription \u00e0 la liste d'attente.")
+      }
+    } catch {
+      setBookingError("Erreur de connexion.")
+    } finally {
+      setBookingLoading(false)
+    }
+  }, [selectedSession])
 
   // After a single booking succeeds, optionally subscribe to recurring
   const handleRecurringAfterBooking = useCallback(async (scheduleId: string) => {
@@ -429,12 +481,23 @@ export default function PlanningPage() {
     }
   }, [isRecurring])
 
-  // Auto-close modal 5 seconds after booking success
+  // Visible 10s countdown after booking success (user can cancel to stay).
   useEffect(() => {
     if (!bookingSuccess) return
-    const timer = setTimeout(() => closeModal(), 5000)
-    return () => clearTimeout(timer)
-  }, [bookingSuccess, closeModal])
+    setCountdownSec(10)
+  }, [bookingSuccess])
+
+  useEffect(() => {
+    if (countdownSec === null) return
+    if (countdownSec <= 0) {
+      closeModal()
+      return
+    }
+    const id = setInterval(() => {
+      setCountdownSec((s) => (s === null ? null : s - 1))
+    }, 1000)
+    return () => clearInterval(id)
+  }, [countdownSec, closeModal])
   const modalRef = useFocusTrap(!!selectedSession)
   const closeBtnRef = useRef<HTMLButtonElement>(null)
 
@@ -829,7 +892,7 @@ export default function PlanningPage() {
                 return (
                   <button
                     key={session.id}
-                    onClick={() => setSelectedSession(session)}
+                    onClick={(e) => handleSelectSession(session, e)}
                     aria-label={`${session.courseName} à ${session.time} — ${full ? "complet" : `${session.spotsRemaining} places`}`}
                     className={clsx(
                       "w-full text-left p-4 rounded-xl bg-white border transition-all duration-300",
@@ -944,7 +1007,7 @@ export default function PlanningPage() {
                       return (
                         <button
                           key={session.id}
-                          onClick={() => setSelectedSession(session)}
+                          onClick={(e) => handleSelectSession(session, e)}
                           aria-label={`${session.courseName} à ${session.time} — ${full ? "complet" : `${session.spotsRemaining} places`}`}
                           title={courseTypeDescriptions[session.courseType] ?? ""}
                           className={clsx(
@@ -1010,7 +1073,7 @@ export default function PlanningPage() {
       {/* Session modal */}
       {selectedSession && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-mp-charcoal/50 backdrop-blur-sm p-4"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-mp-charcoal/50 backdrop-blur-sm p-0 sm:p-4"
           role="dialog"
           aria-modal="true"
           aria-labelledby="session-modal-title"
@@ -1018,22 +1081,62 @@ export default function PlanningPage() {
         >
           <div
             ref={modalRef}
-            className="mp-card p-8 max-w-md w-full relative shadow-2xl"
+            className="mp-card p-6 sm:p-8 w-full sm:max-w-md relative shadow-2xl max-h-[100vh] sm:max-h-[90vh] overflow-y-auto rounded-none sm:rounded-2xl"
             onClick={(e) => e.stopPropagation()}
           >
+            {/* Stripe redirect overlay: brief order recap before leaving the site */}
+            {stripeRedirecting && (
+              <div
+                role="status"
+                aria-live="polite"
+                className="absolute inset-0 z-10 bg-white/95 backdrop-blur-sm flex flex-col items-center justify-center p-6 text-center rounded-none sm:rounded-2xl"
+              >
+                <Loader2 className="w-8 h-8 text-mp-ocean animate-spin mb-4" aria-hidden="true" />
+                <p className="font-body text-sm text-mp-charcoal leading-relaxed max-w-xs">
+                  Paiement s&eacute;curis&eacute; de{" "}
+                  <strong>{isTrial ? "10" : "20"}&nbsp;&euro;</strong> pour{" "}
+                  <strong>{selectedSession.courseName}</strong> le{" "}
+                  <strong>
+                    {format(
+                      addDays(weekStart, selectedSession.dayOffset),
+                      "EEEE d MMMM",
+                      { locale: fr }
+                    )}
+                  </strong>{" "}
+                  &agrave; <strong>{selectedSession.time}</strong>
+                </p>
+                <p className="mt-3 text-xs text-mp-text-muted">
+                  Redirection vers Stripe&hellip;
+                </p>
+              </div>
+            )}
             <button
               ref={closeBtnRef}
-              onClick={() => setSelectedSession(null)}
-              className="absolute top-4 right-4 p-2 rounded-full hover:bg-mp-sand transition-colors"
+              onClick={closeModal}
+              className="absolute top-3 right-3 w-12 h-12 flex items-center justify-center rounded-full hover:bg-mp-sand transition-colors"
               aria-label="Fermer"
             >
               <X className="w-5 h-5 text-mp-charcoal" aria-hidden="true" />
             </button>
 
             {/* Booking journey step indicator */}
-            <div className="mb-6 pr-8">
-              <BookingStepper currentStep={bookingSuccess ? 4 : 2} />
+            <div className="mb-6 pr-12">
+              <BookingStepper currentStep={bookingLoading ? 3 : bookingSuccess ? 4 : 2} />
             </div>
+
+            {/* Booking error — surfaced at the top of the modal */}
+            {bookingError && (
+              <div
+                role="alert"
+                className="flex items-start gap-3 p-4 rounded-xl bg-red-50 border border-red-200 mb-4"
+              >
+                <AlertCircle
+                  className="w-5 h-5 text-red-600 shrink-0 mt-0.5"
+                  aria-hidden
+                />
+                <div className="text-sm text-red-800">{bookingError}</div>
+              </div>
+            )}
 
             {/* Session summary header */}
             <div className="flex items-start gap-3 mb-4">
@@ -1151,6 +1254,33 @@ export default function PlanningPage() {
                     Voir mes réservations
                   </a>
                 </div>
+                {bookingSuccess.waitlist && (
+                  <div className="rounded-xl bg-mp-sand/60 border border-mp-sand p-4 mt-4 text-left">
+                    <h4 className="font-heading text-sm font-semibold text-mp-charcoal mb-1">
+                      Prochaine étape
+                    </h4>
+                    <p className="text-sm text-mp-text-light">
+                      D&egrave;s qu&apos;une place se lib&egrave;re, vous serez automatiquement
+                      notifi&eacute;(e) par email. Vous pouvez consulter vos listes
+                      d&apos;attente depuis{" "}
+                      <Link href="/compte" className="underline text-mp-ocean">
+                        votre compte
+                      </Link>
+                      .
+                    </p>
+                  </div>
+                )}
+                {countdownSec !== null && (
+                  <p className="text-xs text-mp-text-muted text-center mt-4">
+                    Fermeture automatique dans {countdownSec}s —{" "}
+                    <button
+                      onClick={() => setCountdownSec(null)}
+                      className="underline text-mp-ocean"
+                    >
+                      rester
+                    </button>
+                  </p>
+                )}
               </div>
             ) : selectedSession.spotsRemaining > 0 ? (
               <div className="space-y-3">
@@ -1173,7 +1303,7 @@ export default function PlanningPage() {
                           await handleRecurringAfterBooking(selectedSession.scheduleId)
                           setBookingSuccess({
                             message: data.status === "WAITLIST"
-                              ? "Vous êtes sur liste d\u2019attente !"
+                              ? "Vous \u00eates sur la liste d'attente ! Nous vous notifierons par email si une place se lib\u00e8re."
                               : "Réservation confirmée !",
                             waitlist: data.status === "WAITLIST",
                           })
@@ -1307,6 +1437,10 @@ export default function PlanningPage() {
                       })
                       const data = await res.json()
                       if (data.url) {
+                        // Show a brief order-recap overlay so the user sees
+                        // what's being charged before Stripe takes over.
+                        setStripeRedirecting(true)
+                        await new Promise((r) => setTimeout(r, 800))
                         window.location.href = data.url
                       } else {
                         setBookingError("Impossible de lancer le paiement.")
@@ -1359,7 +1493,7 @@ export default function PlanningPage() {
                         await handleRecurringAfterBooking(selectedSession.scheduleId)
                         setBookingSuccess({
                           message: data.status === "WAITLIST"
-                            ? "Vous êtes sur liste d\u2019attente ! Règlement sur place."
+                            ? "Vous \u00eates sur la liste d'attente ! Nous vous notifierons par email si une place se lib\u00e8re."
                             : "Réservation confirmée ! Règlement sur place au studio.",
                           waitlist: data.status === "WAITLIST",
                         })
@@ -1409,15 +1543,23 @@ export default function PlanningPage() {
                   </span>
                 </label>
 
-                {bookingError && (
-                  <p role="alert" className="text-sm text-red-600 text-center">{bookingError}</p>
-                )}
               </div>
             ) : (
-              <div className="text-center py-3 rounded-xl bg-mp-rose/10 border border-mp-rose/30">
+              <div className="text-center py-4 px-3 rounded-xl bg-mp-rose/10 border border-mp-rose/30">
                 <p className="text-mp-rose font-heading font-semibold">
                   Cette s&eacute;ance est compl&egrave;te
                 </p>
+                <p className="text-xs text-mp-text-light mt-1">
+                  Inscrivez-vous sur la liste d&apos;attente — vous serez
+                  notifi&eacute;(e) d&egrave;s qu&apos;une place se lib&egrave;re.
+                </p>
+                <button
+                  onClick={handleWaitlistJoin}
+                  disabled={bookingLoading}
+                  className="mp-btn mp-btn-secondary mt-3 w-full sm:w-auto justify-center"
+                >
+                  {bookingLoading ? "Inscription\u2026" : "Me mettre sur liste d'attente"}
+                </button>
               </div>
             )}
           </div>

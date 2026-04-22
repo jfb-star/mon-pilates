@@ -5,7 +5,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useSession } from "next-auth/react"
-import { Menu, X, Calendar, User, Shield, BookOpen, Flame } from "lucide-react"
+import { Menu, X, Calendar, User, Shield, BookOpen, Flame, Phone, Mail } from "lucide-react"
 import { clsx } from "clsx"
 import { useFocusTrap } from "@/hooks/useFocusTrap"
 import { useIsFirstTimer } from "@/hooks/useIsFirstTimer"
@@ -67,6 +67,13 @@ export function Header() {
 
   return (
     <>
+      {/* Skip to main content link for keyboard navigation */}
+      <a
+        href="#main"
+        className="sr-only focus-visible:not-sr-only focus-visible:fixed focus-visible:top-2 focus-visible:left-2 focus-visible:z-[100] focus-visible:bg-mp-ocean focus-visible:text-white focus-visible:px-4 focus-visible:py-2 focus-visible:rounded-md focus-visible:shadow-lg"
+      >
+        Aller au contenu principal
+      </a>
       {/* Top bar */}
       <header
         role="banner"
@@ -344,6 +351,17 @@ export function Header() {
               <Calendar className="w-4 h-4" aria-hidden="true" />
               R&eacute;server un cours
             </Link>
+            <div className="mt-6 pt-6 border-t border-mp-sand">
+              <p className="font-heading text-sm font-semibold text-mp-charcoal mb-3">Nous contacter</p>
+              <div className="flex flex-col gap-2">
+                <a href="tel:+33699183216" className="flex items-center gap-3 text-sm text-mp-text hover:text-mp-ocean">
+                  <Phone className="w-4 h-4" aria-hidden="true" /> 06 99 18 32 16
+                </a>
+                <a href="mailto:contact@mon-pilates.bzh" className="flex items-center gap-3 text-sm text-mp-text hover:text-mp-ocean">
+                  <Mail className="w-4 h-4" aria-hidden="true" /> contact@mon-pilates.bzh
+                </a>
+              </div>
+            </div>
           </div>
         </nav>
       </div>

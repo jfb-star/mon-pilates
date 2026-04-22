@@ -6,6 +6,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { Eye, EyeOff, Loader2, ArrowRight, Gift } from "lucide-react";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
+import { useToast } from "@/components/ui/Toast";
 
 const breadcrumbItems = [
   { name: "Accueil", href: "/" },
@@ -28,12 +29,17 @@ function ConnexionContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const refCode = searchParams.get("ref");
+  const toast = useToast();
 
   const [mode, setMode] = useState<"login" | "register" | "forgot">(
     refCode ? "register" : "login"
   );
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setErrorState] = useState("");
+  const setError = (msg: string) => {
+    setErrorState(msg);
+    if (msg) toast.error(msg);
+  };
   const [showPassword, setShowPassword] = useState(false);
   const [forgotSuccess, setForgotSuccess] = useState(false);
   const [referralCode] = useState(refCode || "");
@@ -154,6 +160,7 @@ function ConnexionContent() {
       }
 
       setForgotSuccess(true);
+      toast.success("Si un compte existe, un email a été envoyé.");
     } catch {
       setError("Erreur de connexion. Réessayez.");
     } finally {

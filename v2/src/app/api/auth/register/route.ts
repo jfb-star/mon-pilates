@@ -177,8 +177,10 @@ export async function POST(request: Request) {
       })
     }
 
-    // Send welcome email (non-blocking)
-    sendWelcome({ to: user.email, name: user.name }).catch(() => {})
+    // Send welcome email (non-blocking — fire-and-forget)
+    sendWelcome({ to: user.email, name: user.name }).catch((err) => {
+      console.error("[register] welcome email failed:", err)
+    })
 
     return NextResponse.json(
       {

@@ -84,7 +84,7 @@ function Hero() {
           <div className="flex flex-wrap gap-4 animate-[fadeUp_0.6s_ease_forwards] opacity-0 [animation-delay:0.65s]">
             <TrialCtaLink
               href="/planning"
-              className="mp-btn mp-btn-primary mp-pulse-glow !text-base !py-4 !px-8"
+              className="mp-btn mp-btn-primary mp-pulse-glow !text-sm sm:!text-base !py-4 !px-6 sm:!px-8 whitespace-nowrap"
               icon={<Calendar className="w-5 h-5" aria-hidden="true" />}
               trialLabel={"Cours d'essai — 10€"}
               returningLabel="Réserver un cours"
@@ -600,6 +600,17 @@ function Testimonials() {
           {allTestimonials.map((review, i) => (
             <ScrollReveal key={review.name} delay={Math.min(i, 3) as 0 | 1 | 2 | 3}>
               <figure className="mp-card h-full p-6 border border-mp-sand-dark/20 bg-mp-white flex flex-col">
+                <div className="mb-3">
+                  {review.source === "google" ? (
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-green-100 text-green-800 text-xs font-medium">
+                      Avis Google vérifié
+                    </span>
+                  ) : (
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 text-xs font-medium">
+                      Exemple illustratif
+                    </span>
+                  )}
+                </div>
                 <div className="flex items-center gap-3 mb-3">
                   <div
                     className={`w-10 h-10 rounded-full ${review.avatarColor ?? "bg-mp-ocean"} text-white flex items-center justify-center font-heading text-sm font-semibold`}
@@ -625,22 +636,11 @@ function Testimonials() {
                       <p className="font-body text-xs text-mp-text-light mt-0.5">{review.meta}</p>
                     )}
                   </div>
-                  <span className="font-heading text-[11px] font-medium text-mp-text-light uppercase tracking-wider whitespace-nowrap">
-                    {review.source === "google" ? "Avis Google" : "Témoignage"}
-                  </span>
                 </figcaption>
               </figure>
             </ScrollReveal>
           ))}
         </div>
-
-        <ScrollReveal>
-          <p className="text-xs text-mp-text-light text-center max-w-2xl mx-auto mb-10 italic">
-            Les trois premiers avis sont issus de Google. Les trois suivants sont
-            des témoignages illustratifs, en attente d&apos;une collecte
-            RGPD-conforme auprès de nos élèves.
-          </p>
-        </ScrollReveal>
 
         <ScrollReveal className="text-center">
           <a

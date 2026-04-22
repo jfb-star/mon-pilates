@@ -241,7 +241,7 @@ export default function RootLayout({
           <ToastProvider>
             <Header />
             <main id="main-content" role="main" className="flex-1">
-              {children}
+              <div id="main">{children}</div>
             </main>
             <Footer />
             <MobileFloatingCta />
