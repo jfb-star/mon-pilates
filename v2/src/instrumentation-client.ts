@@ -9,7 +9,7 @@ const dsn = process.env.NEXT_PUBLIC_SENTRY_DSN
 if (dsn) {
   Sentry.init({
     dsn,
-    environment: process.env.NEXT_PUBLIC_VERCEL_ENV || process.env.NODE_ENV,
+    environment: process.env.NEXT_PUBLIC_VERCEL_ENV || "local",
     tracesSampleRate: process.env.NODE_ENV === "production" ? 0.1 : 1.0,
     // Replay disabled by default — costs bandwidth and needs user consent (RGPD).
     replaysSessionSampleRate: 0,
