@@ -202,7 +202,11 @@ function mapApiPost(p: Record<string, unknown>): BlogPost {
 }
 
 export default function BlogPage() {
-  const [posts, setPosts] = useState<BlogPost[]>(hardcodedPosts);
+  const [posts, setPosts] = useState<BlogPost[]>(
+    [...hardcodedPosts].sort(
+      (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+    )
+  );
   const [activeCategory, setActiveCategory] = useState("Tous");
 
   useEffect(() => {
@@ -210,9 +214,12 @@ export default function BlogPage() {
       .then((r) => r.json())
       .then((data) => {
         if (data.posts && data.posts.length > 0) {
-          const mapped = data.posts.map(mapApiPost);
-          // Mark first as featured
-          if (mapped.length > 0) mapped[0].featured = true;
+          const mapped: BlogPost[] = data.posts.map(mapApiPost);
+          // Sort by date (most recent first) before picking the featured one.
+          mapped.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+          // Mark most recent as featured
+          const first = mapped[0];
+          if (first) first.featured = true;
           setPosts(mapped);
         }
       })

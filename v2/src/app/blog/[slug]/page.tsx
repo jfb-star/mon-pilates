@@ -619,7 +619,7 @@ export default async function BlogArticlePage({
                     <div className="flex items-center gap-3 text-sm text-mp-text">
                       <Clock className="w-4 h-4 text-mp-ocean shrink-0" />
                       <span className="font-body">
-                        {post.readTime} de lecture
+                        {readingTimeMinutes} min de lecture
                       </span>
                     </div>
                     <div className="flex items-center gap-3 text-sm text-mp-text">
