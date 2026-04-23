@@ -3,18 +3,23 @@ import Link from "next/link";
 import { MapPin, Phone, Mail, Clock, Calendar } from "lucide-react";
 import { ContactForm } from "@/components/ui/ContactForm";
 import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
+import { LocalBusinessJsonLd } from "@/components/seo/LocalBusinessJsonLd";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { OpenStatus } from "@/components/ui/OpenStatus";
 import { SITE_URL } from "@/lib/env";
 
 export const metadata: Metadata = {
-  title: "Contact",
+  title: "Contact — Studio Pilates Larmor-Plage",
   description:
-    "Contactez le studio Mon Pilates à Larmor-Plage. Formulaire de contact, téléphone, email et plan d'accès.",
+    "Contactez le studio Mon Pilates à Larmor-Plage (Morbihan, Bretagne). Formulaire, téléphone 06 99 18 32 16, email et plan d'accès boulevard des Dunes.",
   openGraph: {
-    title: "Contact | Mon Pilates",
+    title: "Contact — Studio Pilates Larmor-Plage | Mon Pilates",
     description:
-      "Une question ? Contactez-nous par formulaire, téléphone ou email. Studio de Pilates à Larmor-Plage.",
+      "Une question sur nos cours de Pilates à Larmor-Plage ? Contactez-nous par formulaire, téléphone ou email. Studio boulevard des Dunes, 56260.",
+    type: "website",
+    locale: "fr_FR",
+    url: `${SITE_URL}/contact`,
+    siteName: "Mon Pilates",
     images: [
       {
         url: "/images/studio-reformer-ocean.webp",
@@ -23,6 +28,13 @@ export const metadata: Metadata = {
         alt: "Studio de Pilates Mon Pilates face à l'océan à Larmor-Plage",
       },
     ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Contact — Studio Pilates Larmor-Plage | Mon Pilates",
+    description:
+      "Studio de Pilates à Larmor-Plage. Formulaire, téléphone, email et plan d'accès.",
+    images: ["/images/studio-reformer-ocean.webp"],
   },
   alternates: {
     canonical: `${SITE_URL}/contact`,
@@ -95,6 +107,7 @@ const contactPageJsonLd = {
 export default function ContactPage() {
   return (
     <>
+      <LocalBusinessJsonLd />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(contactPageJsonLd) }}

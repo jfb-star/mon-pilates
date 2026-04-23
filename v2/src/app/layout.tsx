@@ -11,6 +11,7 @@ import { BackToTop } from "@/components/ui/BackToTop"
 import { CookieConsent } from "@/components/ui/CookieConsent"
 import { ScrollProgress } from "@/components/ui/ScrollProgress"
 import { GoogleAnalytics } from "@/components/seo/GoogleAnalytics"
+import { LocalBusinessJsonLd } from "@/components/seo/LocalBusinessJsonLd"
 import { WebVitals } from "@/components/ui/WebVitals"
 import { ToastProvider } from "@/components/ui/Toast"
 import { ServiceWorkerRegistration } from "@/components/pwa/ServiceWorkerRegistration"
@@ -98,85 +99,6 @@ export const metadata: Metadata = {
   },
 }
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": ["SportsActivityLocation", "LocalBusiness", "HealthClub"],
-  name: "Mon Pilates",
-  description:
-    "Studio de Pilates \u00e0 Larmor-Plage, Bretagne. Cours tapis (doux, classique, avanc\u00e9), cours priv\u00e9s sur appareil et Pilates pr\u00e9 & post-natal face \u00e0 l'oc\u00e9an.",
-  url: SITE_URL,
-  telephone: "+33699183216",
-  email: "contact@mon-pilates.bzh",
-  image: `${SITE_URL}/images/studio-reformer-ocean.webp`,
-  priceRange: "\u20ac\u20ac",
-  currenciesAccepted: "EUR",
-  paymentAccepted: "Cash, Credit Card",
-  areaServed: [
-    { "@type": "City", name: "Larmor-Plage" },
-    { "@type": "City", name: "Lorient" },
-    { "@type": "AdministrativeArea", name: "Morbihan" },
-  ],
-  address: {
-    "@type": "PostalAddress",
-    streetAddress: "14 Boulevard des Dunes",
-    addressLocality: "Larmor-Plage",
-    postalCode: "56260",
-    addressRegion: "Bretagne",
-    addressCountry: "FR",
-  },
-  geo: {
-    "@type": "GeoCoordinates",
-    latitude: 47.7086,
-    longitude: -3.3839,
-  },
-  openingHoursSpecification: [
-    {
-      "@type": "OpeningHoursSpecification",
-      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-      opens: "09:00",
-      closes: "20:00",
-    },
-    {
-      "@type": "OpeningHoursSpecification",
-      dayOfWeek: "Saturday",
-      opens: "09:00",
-      closes: "14:00",
-    },
-  ],
-  hasMap:
-    "https://www.google.com/maps/search/?api=1&query=Mon+Pilates+Larmor-Plage",
-  potentialAction: {
-    "@type": "ReserveAction",
-    target: `${SITE_URL}/planning`,
-    name: "Réserver un cours de Pilates",
-  },
-  sameAs: [
-    "https://www.instagram.com/monpilates.bzh",
-    "https://www.facebook.com/MonPilatesBZH",
-  ],
-  founder: {
-    "@type": "Person",
-    name: "Violette Derumigny",
-    jobTitle: "Instructrice certifiée Pilates",
-    hasCredential: {
-      "@type": "EducationalOccupationalCredential",
-      credentialCategory: "certification",
-      name: "FPMP — Fédération des Professionnels de la Méthode Pilates",
-    },
-  },
-  knowsAbout: [
-    "Pilates classique — Tapis",
-    "Pilates doux — Tapis",
-    "Pilates avancé — Tapis",
-    "Cours privé sur appareil",
-    "Pilates pré & post-natal",
-    "Posture",
-    "Rééducation posturale",
-  ],
-  slogan: "Le Pilates face à l'océan, à Larmor-Plage.",
-  availableLanguage: ["fr", "fr-FR"],
-}
-
 export default function RootLayout({
   children,
 }: {
@@ -218,10 +140,7 @@ export default function RootLayout({
           Aller au contenu principal
         </a>
         <ScrollProgress />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
+        <LocalBusinessJsonLd />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify({
@@ -236,6 +155,11 @@ export default function RootLayout({
               name: "Mon Pilates",
               url: SITE_URL,
               logo: { "@type": "ImageObject", url: `${SITE_URL}/logo.webp` },
+            },
+            potentialAction: {
+              "@type": "SearchAction",
+              target: `${SITE_URL}/blog?q={search_term_string}`,
+              "query-input": "required name=search_term_string",
             },
           }) }}
         />
