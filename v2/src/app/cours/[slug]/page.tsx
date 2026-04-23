@@ -72,8 +72,36 @@ export function generateStaticParams() {
 }
 
 /* ----------------------------------------------------------
-   Dynamic metadata
+   Dynamic metadata — per-course SEO tuned for local + service queries
    ---------------------------------------------------------- */
+const courseSeoMeta: Record<string, { title: string; description: string }> = {
+  mat: {
+    title: "Pilates tapis à Larmor-Plage — cours Lorient Morbihan",
+    description:
+      "Cours de Pilates classique au tapis à Larmor-Plage, près de Lorient. Groupes de 5 max face à l'océan. Essai à 10€, réservez votre première séance en ligne.",
+  },
+  reformer: {
+    title: "Pilates Reformer à Larmor-Plage — cours privé Lorient",
+    description:
+      "Cours privé Pilates Reformer Cadillac à Larmor-Plage (Lorient, Morbihan). Séance individuelle sur mesure avec une instructrice FPMP. Réservez votre essai à 10€.",
+  },
+  prenatal: {
+    title: "Pilates prénatal à Larmor-Plage — Lorient Morbihan",
+    description:
+      "Cours de Pilates prénatal et post-natal à Larmor-Plage, près de Lorient. Séances adaptées à chaque trimestre par une instructrice FPMP. Réservez votre essai.",
+  },
+  doux: {
+    title: "Pilates doux à Larmor-Plage — seniors Lorient Morbihan",
+    description:
+      "Pilates doux à Larmor-Plage : idéal seniors, récupération et débutants en Morbihan. Petits groupes face à l'océan, à 10 min de Lorient. Essai 10€, réservez.",
+  },
+  intensif: {
+    title: "Pilates avancé à Larmor-Plage — cours Lorient Bretagne",
+    description:
+      "Cours de Pilates avancé au tapis à Larmor-Plage, près de Lorient. Enchaînements dynamiques en petit groupe pour pratiquants confirmés. Essai à 10€ en ligne.",
+  },
+};
+
 export async function generateMetadata({
   params,
 }: {
@@ -84,12 +112,17 @@ export async function generateMetadata({
   if (!course) {
     return { title: "Cours introuvable" };
   }
+  const seo = courseSeoMeta[course.slug];
+  const fallbackTitle = `${course.name} — Cours à Larmor-Plage (Lorient)`;
+  const fallbackDescription = `${course.shortDescription} Cours à Larmor-Plage, près de Lorient. Réservez votre essai à 10\u20ac au studio Mon Pilates.`;
+  const title = seo?.title ?? fallbackTitle;
+  const description = seo?.description ?? fallbackDescription;
   return {
-    title: `${course.name} — Cours à Larmor-Plage`,
-    description: `${course.shortDescription} Réservez votre cours d'essai à 10\u20ac au studio Mon Pilates.`,
+    title,
+    description,
     openGraph: {
-      title: `${course.name} | Mon Pilates`,
-      description: course.shortDescription,
+      title: `${title} | Mon Pilates`,
+      description,
     },
     alternates: {
       canonical: `${SITE_URL}/cours/${slug}`,
@@ -419,8 +452,11 @@ export default async function CourseDetailPage({
                   href="/planning"
                   className="mp-btn bg-white text-mp-charcoal hover:bg-mp-cream font-semibold w-full text-sm"
                 >
-                  Réserver
+                  Réserver ce cours
                 </Link>
+                <p className="text-white/80 text-xs font-body mt-3 text-center">
+                  Sans engagement · satisfait(e) ou remboursé(e)
+                </p>
               </div>
             </div>
           </div>
@@ -546,6 +582,25 @@ export default async function CourseDetailPage({
               <ArrowRight className="w-4 h-4" aria-hidden="true" />
             </Link>
           </div>
+        </div>
+      </section>
+
+      {/* Final reservation CTA */}
+      <section className="mp-section bg-gradient-to-br from-mp-ocean to-mp-ocean-dark text-white">
+        <div className="mp-container text-center">
+          <h2 className="font-heading text-3xl sm:text-4xl font-bold mb-3">
+            Réserver {course.name}
+          </h2>
+          <p className="font-body text-white/80 max-w-md mx-auto mb-6">
+            1<sup>er</sup> cours d&apos;essai à 10&nbsp;€ — sans engagement, satisfait(e) ou remboursé(e).
+          </p>
+          <Link
+            href="/planning"
+            className="mp-btn bg-white text-mp-ocean hover:bg-mp-cream font-semibold shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all"
+          >
+            <CalendarDays className="w-5 h-5" aria-hidden="true" />
+            Voir les prochains créneaux
+          </Link>
         </div>
       </section>
     </div>

@@ -131,9 +131,15 @@ export default function ContactPage() {
           <h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-bold text-mp-charcoal mb-6">
             Nous contacter
           </h1>
-          <p className="font-body text-lg sm:text-xl text-mp-text-light leading-relaxed max-w-2xl mx-auto">
+          <p className="font-body text-lg sm:text-xl text-mp-text-light leading-relaxed max-w-2xl mx-auto mb-6">
             Une question, une réservation ou simplement envie d&apos;en savoir
             plus ? Nous sommes à votre écoute.
+          </p>
+          <p className="font-body text-sm text-mp-text-light">
+            Déjà prêt(e) à réserver ?{" "}
+            <Link href="/planning" className="font-heading font-semibold text-mp-ocean hover:text-mp-ocean-dark underline underline-offset-4">
+              Voir le planning
+            </Link>
           </p>
         </div>
       </section>

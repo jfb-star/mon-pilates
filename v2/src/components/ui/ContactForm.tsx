@@ -37,7 +37,6 @@ export function ContactForm() {
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
       newErrors.email = "L'email n'est pas valide.";
     }
-    if (!formData.subject) newErrors.subject = "Veuillez choisir un sujet.";
     if (!formData.message.trim())
       newErrors.message = "Le message est requis.";
     else if (formData.message.trim().length < 10)
@@ -254,11 +253,10 @@ export function ContactForm() {
           htmlFor="subject"
           className="block font-heading text-sm font-medium text-mp-charcoal mb-1.5"
         >
-          Sujet <span className="text-mp-rose">*</span>
+          Sujet <span className="text-mp-text-light text-xs">(optionnel)</span>
         </label>
         <select
           id="subject"
-          required
           value={formData.subject}
           onChange={(e) => handleChange("subject", e.target.value)}
           aria-describedby={errors.subject ? "subject-error" : undefined}

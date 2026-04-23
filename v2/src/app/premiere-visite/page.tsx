@@ -179,6 +179,9 @@ export default function PremiereVisitePage() {
             <Calendar className="w-5 h-5" aria-hidden="true" />
             Réserver mon cours d&apos;essai — 10&euro;
           </Link>
+          <p className="mt-4 font-body text-sm text-mp-text-light">
+            Sans engagement · réservation en 2 clics · satisfait(e) ou remboursé(e)
+          </p>
         </div>
       </section>
 

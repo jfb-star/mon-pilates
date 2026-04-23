@@ -237,12 +237,15 @@ export default function CoursPage() {
           <h2 className="font-heading text-3xl sm:text-4xl font-bold text-mp-charcoal mb-4">
             Prêt(e) à essayer ?
           </h2>
-          <p className="font-body text-mp-text-light text-lg max-w-md mx-auto mb-8">
+          <p className="font-body text-mp-text-light text-lg max-w-md mx-auto mb-3">
             Consultez notre planning et réservez votre première séance dès
             maintenant.
           </p>
+          <p className="font-heading text-sm text-mp-ocean font-semibold mb-8">
+            1er cours d&apos;essai à 10&nbsp;€ · sans engagement · réservation en 2 clics
+          </p>
           <Link href="/planning" className="mp-btn mp-btn-primary text-base">
-            Voir le planning
+            Réserver mon cours d&apos;essai
             <ArrowRight className="w-5 h-5" aria-hidden="true" />
           </Link>
         </div>
