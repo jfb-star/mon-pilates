@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -16,6 +17,12 @@ import {
   Flame,
   Award,
 } from "lucide-react";
+
+export const metadata: Metadata = {
+  title: "Studio Pilates Larmor-Plage — Cours face à l'océan (Lorient)",
+  description:
+    "Studio de Pilates à Larmor-Plage, face à l'océan. Cours tapis, Reformer, prénatal et senior à 10 min de Lorient. Groupes de 5 max. Essai à 10€ — réservez en ligne.",
+};
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { TrustBar } from "@/components/ui/TrustBar";
 import { StudioStats } from "@/components/ui/StudioStats";
@@ -72,7 +79,7 @@ function Hero() {
               textShadow: "0 2px 24px rgba(0,0,0,0.75)",
             }}
           >
-            Le Pilates,
+            Le Pilates à Larmor-Plage,
             <br />
             <span className="text-mp-ocean-light">face à l&apos;océan</span>
           </h1>

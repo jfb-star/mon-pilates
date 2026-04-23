@@ -11,13 +11,13 @@ import { ProfileRecommendations } from "./ProfileRecommendations";
 import { SITE_URL } from "@/lib/env";
 
 export const metadata: Metadata = {
-  title: "Tarifs",
+  title: "Tarifs Pilates Larmor-Plage — cartes & Reformer Lorient",
   description:
-    "Découvrez nos formules de Pilates : cours d'essai au tapis à 10€, cartes de 5, 10 ou 20 cours, séances privées sur appareil. Tarifs Mon Pilates à Larmor-Plage.",
+    "Tarifs Pilates à Larmor-Plage : essai tapis 10€, cartes 5 à 20 cours dès 17€/séance, cours privés Reformer. Studio près de Lorient — choisissez votre formule.",
   openGraph: {
-    title: "Tarifs | Mon Pilates",
+    title: "Tarifs Pilates Larmor-Plage — cartes & Reformer Lorient | Mon Pilates",
     description:
-      "Découverte tapis 10€, cartes de 5 à 20 cours dès 17€/séance, séances privées sur appareil. Trouvez la formule qui vous convient.",
+      "Essai tapis 10€, cartes de 5 à 20 cours dès 17€/séance, cours privés Reformer à Larmor-Plage (Lorient). Trouvez la formule qui vous convient.",
     images: [
       {
         url: "/images/studio-reformer-ocean.webp",

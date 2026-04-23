@@ -364,14 +364,31 @@ export async function generateMetadata({
   // Publication date as ISO 8601 (post.date is "YYYY-MM-DD" → expand to full ISO)
   const publishedISO = new Date(`${post.date}T00:00:00.000Z`).toISOString();
 
+  // Title: keep post.title as-is (it's the H1), but hint location via the
+  // template (RootLayout appends " | Mon Pilates"). For SEO we append a
+  // discrete locality hint when the title doesn't already mention Larmor / Lorient.
+  const titleMentionsLocality = /larmor|lorient|morbihan|bretagne/i.test(post.title);
+  const seoTitle = titleMentionsLocality
+    ? post.title
+    : `${post.title} — Pilates Larmor-Plage`;
+  // Description: append a locality CTA when the excerpt doesn't already carry one
+  // (and when there's room under ~160 chars).
+  const excerpt = post.excerpt.trim();
+  const localityTail = " Studio Pilates à Larmor-Plage (Lorient).";
+  const descriptionMentionsLocality = /larmor|lorient|morbihan|bretagne/i.test(excerpt);
+  const seoDescription =
+    descriptionMentionsLocality || excerpt.length + localityTail.length > 160
+      ? excerpt
+      : `${excerpt}${localityTail}`;
+
   return {
-    title: post.title,
-    description: post.excerpt,
+    title: seoTitle,
+    description: seoDescription,
     keywords,
     authors: [{ name: "Violette Derumigny" }],
     openGraph: {
-      title: `${post.title} | Mon Pilates`,
-      description: post.excerpt,
+      title: `${seoTitle} | Mon Pilates`,
+      description: seoDescription,
       type: "article",
       locale: "fr_FR",
       url: `${SITE_URL}/blog/${slug}`,
@@ -384,8 +401,8 @@ export async function generateMetadata({
     },
     twitter: {
       card: "summary_large_image",
-      title: `${post.title} | Mon Pilates`,
-      description: post.excerpt,
+      title: `${seoTitle} | Mon Pilates`,
+      description: seoDescription,
       images: absoluteImage ? [{ url: absoluteImage, alt: post.title }] : undefined,
     },
     alternates: {

@@ -31,13 +31,13 @@ const studioPhotos = [
 ];
 
 export const metadata: Metadata = {
-  title: "Notre équipe",
+  title: "Instructrice Pilates FPMP à Larmor-Plage — Lorient",
   description:
-    "Rencontrez Violette, instructrice certifiée FPMP au studio Mon Pilates à Larmor-Plage. Bienveillance, écoute et séances adaptées à chaque corps.",
+    "Violette, instructrice Pilates certifiée FPMP, vous accompagne au studio de Larmor-Plage (Lorient, Morbihan). Cours tapis, Reformer, prénatal — réservez votre essai.",
   openGraph: {
-    title: "Notre équipe | Mon Pilates",
+    title: "Instructrice Pilates FPMP à Larmor-Plage — Lorient | Mon Pilates",
     description:
-      "Violette, instructrice certifiée FPMP, vous accompagne dans votre pratique du Pilates à Larmor-Plage.",
+      "Violette, instructrice Pilates certifiée FPMP à Larmor-Plage. Cours tapis, Reformer et prénatal en Bretagne sud.",
     images: [{ url: "/images/cours-reformer-instructrice.webp", width: 1200, height: 630, alt: "Studio Mon Pilates à Larmor-Plage — séance Reformer face à l'océan" }],
   },
   alternates: {
