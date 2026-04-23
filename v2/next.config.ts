@@ -10,6 +10,19 @@ const withBundleAnalyzer = bundleAnalyzer({
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  // Extend Next's default optimizePackageImports.
+  // lucide-react, date-fns, recharts are already optimized by default in
+  // Next 16 (see node_modules/next/dist/docs/.../optimizePackageImports.md),
+  // so their barrel imports are safe. We add the following for a small
+  // additional win on routes that import them (mostly server-side, but the
+  // hint is free and prevents accidental full-package pull-in):
+  experimental: {
+    optimizePackageImports: [
+      "@upstash/ratelimit",
+      "@upstash/redis",
+      "@next/third-parties",
+    ],
+  },
   images: {
     formats: ["image/avif", "image/webp"],
     qualities: [75, 85],
