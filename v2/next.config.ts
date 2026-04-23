@@ -130,24 +130,9 @@ const nextConfig: NextConfig = {
           },
         ],
       },
-      {
-        source: "/_next/image(.*)",
-        headers: [
-          {
-            key: "Cache-Control",
-            value: "public, max-age=31536000, immutable",
-          },
-        ],
-      },
-      {
-        source: "/_next/static/(.*)",
-        headers: [
-          {
-            key: "Cache-Control",
-            value: "public, max-age=31536000, immutable",
-          },
-        ],
-      },
+      // Note: /_next/image + /_next/static are intentionally not overridden —
+      // Next.js sets optimal Cache-Control on those itself (and warns if we
+      // shadow them). Image CDN TTL is tuned via images.minimumCacheTTL.
       {
         source: "/api/(.*)",
         headers: [

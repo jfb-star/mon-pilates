@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server"
 import type { NextRequest } from "next/server"
 import { z } from "zod"
+import type { Prisma } from "@prisma/client"
 import { requireAdmin } from "@/lib/admin"
 import { prisma } from "@/lib/prisma"
 
@@ -31,8 +32,7 @@ export async function GET(request: NextRequest) {
   const search = searchParams.get("search")
   const role = searchParams.get("role")
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const where: any = {}
+  const where: Prisma.UserWhereInput = {}
   if (role) where.role = role
   if (search) {
     where.OR = [

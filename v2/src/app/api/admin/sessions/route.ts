@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server"
 import type { NextRequest } from "next/server"
 import { z } from "zod"
+import type { Prisma } from "@prisma/client"
 import { requireStaff } from "@/lib/admin"
 import { prisma } from "@/lib/prisma"
 import { sendBookingCancelled } from "@/lib/email"
@@ -48,8 +49,7 @@ export async function GET(request: NextRequest) {
   const endDate = new Date(startDate)
   endDate.setDate(startDate.getDate() + 7)
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const where: any = {
+  const where: Prisma.SessionWhereInput = {
     date: { gte: startDate, lt: endDate },
   }
   if (courseType) where.courseTypeId = courseType
@@ -172,9 +172,10 @@ export async function PATCH(request: NextRequest) {
       return NextResponse.json({ error: "ID de séance requis." }, { status: 400 })
     }
 
-    // Only allow updating specific fields
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const data: any = {}
+    // SessionUncheckedUpdateInput exposes scalar FK fields (instructorId)
+    // directly — what this route needs since the client submits ids rather
+    // than relation connects.
+    const data: Prisma.SessionUncheckedUpdateInput = {}
     if (fields.startTime) data.startTime = fields.startTime
     if (fields.endTime) data.endTime = fields.endTime
     if (fields.instructorId) data.instructorId = fields.instructorId

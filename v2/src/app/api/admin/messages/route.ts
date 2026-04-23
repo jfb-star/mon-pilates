@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import { requireStaff } from "@/lib/admin"
 import { prisma } from "@/lib/prisma"
+import { log } from "@/lib/logger"
 
 type RecipientFilter = "all" | "active-card" | "subscribers" | "inactive"
 
@@ -99,13 +100,15 @@ export async function POST(request: NextRequest) {
       })),
     })
 
-    // Log (in production, send via Resend)
-    console.log(`[Admin Message] "${subject}" sent to ${users.length} users (filter: ${recipients})`)
-    console.log(`[Admin Message] Recipients: ${users.map((u) => u.email).join(", ")}`)
+    log.info("admin.message.sent", {
+      subject,
+      count: users.length,
+      recipientsFilter: recipients,
+    })
 
     return NextResponse.json({ sent: users.length, recipients })
   } catch (error) {
-    console.error("Admin message error:", error)
+    log.error("[admin/messages] send failed", error)
     return NextResponse.json({ error: "Erreur serveur" }, { status: 500 })
   }
 }

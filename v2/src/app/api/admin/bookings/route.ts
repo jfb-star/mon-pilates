@@ -2,6 +2,7 @@ import { NextResponse } from "next/server"
 import type { NextRequest } from "next/server"
 import { z } from "zod"
 import * as Sentry from "@sentry/nextjs"
+import type { Prisma } from "@prisma/client"
 import { requireStaff } from "@/lib/admin"
 import { prisma } from "@/lib/prisma"
 
@@ -35,8 +36,7 @@ export async function GET(request: NextRequest) {
   const date = searchParams.get("date")
   const search = searchParams.get("search")
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const where: any = {}
+  const where: Prisma.BookingWhereInput = {}
   if (sessionId) where.sessionId = sessionId
   if (userId) where.userId = userId
   if (status) where.status = status
