@@ -119,9 +119,9 @@ export const courses: CourseInfo[] = [
   {
     slug: "reformer",
     name: "Cours privé sur appareil",
-    shortDescription: "Séance individuelle sur machine (Reformer, Cadillac, Chair) — un accompagnement sur-mesure.",
+    shortDescription: "Séance individuelle sur notre Reformer Cadillac — un accompagnement sur-mesure.",
     longDescription:
-      "Le cours privé sur appareil est une séance individuelle sur nos machines Balanced Body (Reformer, Cadillac, Chair). Ces appareils à ressorts offrent une résistance variable, permettant un travail musculaire profond et ciblé. Allongé, assis ou debout, vous effectuez des mouvements contrôlés qui sollicitent l'ensemble du corps. Violette adapte chaque mouvement à votre morphologie, vos objectifs et vos éventuelles contraintes — une approche sur-mesure impossible en cours collectif. Idéal pour les débutants intimidés, les rééducations post-blessure, ou pour progresser rapidement.",
+      "Le cours privé sur appareil est une séance individuelle sur notre Reformer Cadillac premium. Cet appareil à ressorts offre une résistance variable, permettant un travail musculaire profond et ciblé. Allongé, assis ou debout, vous effectuez des mouvements contrôlés qui sollicitent l'ensemble du corps. Violette adapte chaque mouvement à votre morphologie, vos objectifs et vos éventuelles contraintes — une approche sur-mesure impossible en cours collectif. Idéal pour les débutants intimidés, les rééducations post-blessure, ou pour progresser rapidement.",
     benefits: [
       "Sculptage musculaire en profondeur",
       "Amélioration de l'alignement corporel",
@@ -135,7 +135,7 @@ export const courses: CourseInfo[] = [
       "Sportifs recherchant un travail complémentaire ciblé",
       "Toute personne curieuse d'approfondir sa pratique",
     ],
-    equipment: ["Reformer / Cadillac / Chair Balanced Body", "Tenue ajustée recommandée", "Chaussettes antidérapantes obligatoires"],
+    equipment: ["Reformer Cadillac premium", "Tenue ajustée recommandée", "Chaussettes antidérapantes obligatoires"],
     duration: "55 min",
     level: "Tous niveaux",
     intensity: 4,
@@ -232,12 +232,12 @@ export const courses: CourseInfo[] = [
    ---------------------------------------------------------- */
 export const weeklySessions: Session[] = [
   // LUNDI
-  { id: "l1", courseType: "reformer", courseName: "Cours privé sur appareils", instructor: "Violette", time: "17:00", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 1, spotsRemaining: 1, dayOffset: 0, description: "Séance individuelle sur Reformer / Cadillac / Chair." },
+  { id: "l1", courseType: "reformer", courseName: "Cours privé sur appareils", instructor: "Violette", time: "17:00", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 1, spotsRemaining: 1, dayOffset: 0, description: "Séance individuelle sur Reformer Cadillac." },
   { id: "l2", courseType: "intensif", courseName: "Pilates avancé — Tapis", instructor: "Violette", time: "18:15", duration: "55 min", durationMinutes: 55, level: "Intermédiaire", spotsTotal: 5, spotsRemaining: 3, dayOffset: 0, description: "Enchaînements soutenus pour pratiquants confirmés." },
   { id: "l3", courseType: "mat", courseName: "Pilates classique — Tapis", instructor: "Violette", time: "19:30", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 5, spotsRemaining: 2, dayOffset: 0, description: "Séance complète au tapis, tous niveaux." },
 
   // MARDI
-  { id: "m1", courseType: "reformer", courseName: "Cours privé sur appareils", instructor: "Violette", time: "08:00", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 1, spotsRemaining: 1, dayOffset: 1, description: "Séance individuelle sur Reformer / Cadillac / Chair." },
+  { id: "m1", courseType: "reformer", courseName: "Cours privé sur appareils", instructor: "Violette", time: "08:00", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 1, spotsRemaining: 1, dayOffset: 1, description: "Séance individuelle sur Reformer Cadillac." },
   { id: "m2", courseType: "mat", courseName: "Pilates classique — Tapis", instructor: "Violette", time: "09:15", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 5, spotsRemaining: 4, dayOffset: 1, description: "Séance complète au tapis, tous niveaux." },
   { id: "m3", courseType: "doux", courseName: "Pilates doux — Tapis", instructor: "Violette", time: "10:30", duration: "55 min", durationMinutes: 55, level: "Débutant", spotsTotal: 5, spotsRemaining: 5, dayOffset: 1, description: "Séance douce et accessible, idéale pour débuter." },
   { id: "m4", courseType: "doux", courseName: "Pilates doux — Tapis", instructor: "Violette", time: "12:30", duration: "55 min", durationMinutes: 55, level: "Débutant", spotsTotal: 5, spotsRemaining: 5, dayOffset: 1, description: "Séance douce du midi, idéale pour débuter." },
@@ -255,12 +255,12 @@ export const weeklySessions: Session[] = [
   // JEUDI — fermé
 
   // VENDREDI
-  { id: "v1", courseType: "reformer", courseName: "Cours privé sur appareils", instructor: "Violette", time: "08:00", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 1, spotsRemaining: 1, dayOffset: 4, description: "Séance individuelle sur Reformer / Cadillac / Chair." },
+  { id: "v1", courseType: "reformer", courseName: "Cours privé sur appareils", instructor: "Violette", time: "08:00", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 1, spotsRemaining: 1, dayOffset: 4, description: "Séance individuelle sur Reformer Cadillac." },
   { id: "v2", courseType: "doux", courseName: "Pilates doux — Tapis", instructor: "Violette", time: "09:15", duration: "55 min", durationMinutes: 55, level: "Débutant", spotsTotal: 5, spotsRemaining: 5, dayOffset: 4, description: "Séance douce et accessible, idéale pour débuter." },
   { id: "v3", courseType: "intensif", courseName: "Pilates avancé — Tapis", instructor: "Violette", time: "10:30", duration: "55 min", durationMinutes: 55, level: "Intermédiaire", spotsTotal: 5, spotsRemaining: 4, dayOffset: 4, description: "Enchaînements soutenus pour pratiquants confirmés." },
   { id: "v4", courseType: "mat", courseName: "Pilates classique — Tapis", instructor: "Violette", time: "12:30", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 5, spotsRemaining: 5, dayOffset: 4, description: "Séance du midi, tous niveaux." },
-  { id: "v5", courseType: "reformer", courseName: "Cours privé sur appareils", instructor: "Violette", time: "14:00", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 1, spotsRemaining: 1, dayOffset: 4, description: "Séance individuelle sur Reformer / Cadillac / Chair." },
-  { id: "v6", courseType: "reformer", courseName: "Cours privé sur appareils", instructor: "Violette", time: "15:15", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 1, spotsRemaining: 1, dayOffset: 4, description: "Séance individuelle sur Reformer / Cadillac / Chair." },
+  { id: "v5", courseType: "reformer", courseName: "Cours privé sur appareils", instructor: "Violette", time: "14:00", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 1, spotsRemaining: 1, dayOffset: 4, description: "Séance individuelle sur Reformer Cadillac." },
+  { id: "v6", courseType: "reformer", courseName: "Cours privé sur appareils", instructor: "Violette", time: "15:15", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 1, spotsRemaining: 1, dayOffset: 4, description: "Séance individuelle sur Reformer Cadillac." },
   { id: "v7", courseType: "prenatal", courseName: "Pilates pré & post-natal", instructor: "Violette", time: "17:00", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 5, spotsRemaining: 5, dayOffset: 4, description: "Cours adapté à chaque trimestre de la grossesse." },
   { id: "v8", courseType: "mat", courseName: "Pilates classique — Tapis", instructor: "Violette", time: "18:15", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 5, spotsRemaining: 3, dayOffset: 4, description: "Séance du soir, tous niveaux." },
   { id: "v9", courseType: "mat", courseName: "Pilates classique — Tapis", instructor: "Violette", time: "19:30", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 5, spotsRemaining: 4, dayOffset: 4, description: "Séance du soir, tous niveaux." },
@@ -268,7 +268,7 @@ export const weeklySessions: Session[] = [
   // SAMEDI (matin uniquement)
   { id: "s1", courseType: "mat", courseName: "Pilates classique — Tapis", instructor: "Violette", time: "09:00", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 5, spotsRemaining: 5, dayOffset: 5, description: "Séance du samedi matin, tous niveaux." },
   { id: "s2", courseType: "doux", courseName: "Pilates doux — Tapis", instructor: "Violette", time: "10:15", duration: "55 min", durationMinutes: 55, level: "Débutant", spotsTotal: 5, spotsRemaining: 5, dayOffset: 5, description: "Séance douce et accessible, idéale pour débuter." },
-  { id: "s3", courseType: "reformer", courseName: "Cours privé sur appareils", instructor: "Violette", time: "11:30", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 1, spotsRemaining: 1, dayOffset: 5, description: "Séance individuelle sur Reformer / Cadillac / Chair." },
+  { id: "s3", courseType: "reformer", courseName: "Cours privé sur appareils", instructor: "Violette", time: "11:30", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 1, spotsRemaining: 1, dayOffset: 5, description: "Séance individuelle sur Reformer Cadillac." },
 
   // DIMANCHE — fermé
 ];

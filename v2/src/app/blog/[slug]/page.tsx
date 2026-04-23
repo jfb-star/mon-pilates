@@ -150,7 +150,7 @@ export const posts = [
       },
       {
         type: "paragraph" as const,
-        text: "Les séances privées se déroulent en individuel sur des appareils professionnels (Reformer, Cadillac, Chair) avec résistance variable. Le chariot mobile et les sangles permettent de travailler dans des positions variées — allongé, assis, debout, à genoux. L'accompagnement en tête-à-tête est particulièrement efficace pour la rééducation, les douleurs ciblées et le travail excentrique précis.",
+        text: "Les séances privées se déroulent en individuel sur notre Reformer Cadillac premium — un appareil à résistance variable. Le chariot mobile et les sangles permettent de travailler dans des positions variées — allongé, assis, debout, à genoux. L'accompagnement en tête-à-tête est particulièrement efficace pour la rééducation, les douleurs ciblées et le travail excentrique précis.",
       },
       {
         type: "heading" as const,
@@ -195,7 +195,7 @@ export const posts = [
       },
       {
         type: "paragraph" as const,
-        text: "Nous avons investi dans six Reformer Balanced Body de dernière génération, des tapis professionnels et un ensemble complet de petit matériel : cercles, ballons, rouleaux et bandes élastiques. Chaque pièce d'équipement a été choisie pour garantir confort, sécurité et fluidité de mouvement. Nous voulions que chaque détail contribue à la qualité de votre pratique.",
+        text: "Nous avons choisi un Reformer Cadillac premium pour les cours privés, des tapis professionnels et un ensemble complet de petit matériel : cercles, ballons, rouleaux et bandes élastiques. Chaque pièce d'équipement a été sélectionnée pour garantir confort, sécurité et fluidité de mouvement. Deux Reformer supplémentaires viendront prochainement compléter l'équipement pour les cours collectifs sur machine.",
       },
       {
         type: "heading" as const,

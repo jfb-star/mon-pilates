@@ -148,7 +148,7 @@ const pricingPlans = [
     href: "/contact",
     features: [
       "1 séance privée sur équipement",
-      "Reformer, Cadillac ou Chair",
+      "Reformer Cadillac premium",
       "Accompagnement individuel",
       "Réservé aux nouveaux élèves",
     ],
@@ -168,7 +168,7 @@ const pricingPlans = [
     features: [
       "1 séance privée sur équipement",
       "Coaching individuel sur-mesure",
-      "Reformer, Cadillac ou Chair",
+      "Reformer Cadillac premium",
       "Matériel professionnel",
     ],
   },
@@ -187,7 +187,7 @@ const pricingPlans = [
     features: [
       "10 séances privées sur équipement",
       "Coaching individuel régulier",
-      "Reformer, Cadillac ou Chair",
+      "Reformer Cadillac premium",
       "Matériel professionnel",
     ],
   },
@@ -217,7 +217,7 @@ const faqItems = [
   {
     question: "Quelle est la différence entre les cours au tapis et les séances privées sur appareil ?",
     answer:
-      "Les cours au tapis se pratiquent au sol en petit groupe (5 personnes max). Les séances privées se déroulent en individuel sur des équipements professionnels (Reformer, Cadillac, Chair) pour un suivi entièrement sur-mesure.",
+      "Les cours au tapis se pratiquent au sol en petit groupe (5 personnes max). Les séances privées se déroulent en individuel sur notre Reformer Cadillac premium pour un suivi entièrement sur-mesure.",
   },
   {
     question: "Les cartes cadeaux sont-elles remboursables ?",
@@ -397,7 +397,7 @@ export default function TarifsPage() {
               {
                 profile: "Je veux un suivi sur-mesure",
                 recommendation: "Priv\u00e9 sur appareil",
-                detail: "S\u00e9ances individuelles sur Reformer, Cadillac ou Chair : 65\u20ac la s\u00e9ance.",
+                detail: "S\u00e9ances individuelles sur Reformer Cadillac : 65\u20ac la s\u00e9ance.",
                 color: "border-mp-rose bg-mp-rose/5",
               },
               {

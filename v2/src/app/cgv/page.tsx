@@ -66,7 +66,7 @@ export default function CgvPage() {
               <p>
                 Mon Pilates propose des cours collectifs au tapis en petit
                 groupe (5 personnes maximum) ainsi que des séances privées
-                individuelles sur appareil (Reformer, Cadillac, Chair) sous
+                individuelles sur notre Reformer Cadillac, sous
                 forme de :
               </p>
               <ul className="mt-3 space-y-1.5 list-disc list-inside">
@@ -159,7 +159,7 @@ export default function CgvPage() {
                 Article 5 — Séances privées sur appareil
               </h2>
               <p>
-                Les séances privées (Reformer, Cadillac, Chair) se déroulent en
+                Les séances privées sur Reformer Cadillac se déroulent en
                 individuel avec l&apos;instructrice. Elles sont réservables sur
                 rendez-vous, en fonction des disponibilités du studio.
               </p>

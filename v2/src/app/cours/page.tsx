@@ -40,7 +40,7 @@ export const metadata: Metadata = {
         url: "/images/studio-reformer-ocean.webp",
         width: 1920,
         height: 1080,
-        alt: "Studio de Pilates Mon Pilates avec Reformers et vue sur l'océan à Larmor-Plage",
+        alt: "Studio de Pilates Mon Pilates avec Reformer Cadillac et vue sur l'océan à Larmor-Plage",
       },
     ],
   },
@@ -218,7 +218,7 @@ export default function CoursPage() {
                 Cours collectif sur Reformer
               </h2>
               <p className="font-body text-mp-text-light leading-relaxed mb-4">
-                En petits groupes sur les machines Balanced Body — un format collectif
+                En petits groupes sur deux Reformer supplémentaires — un format collectif
                 pour partager l'expérience du travail sur appareil, avec tout le bénéfice
                 de la résistance variable. Arrivée prochaine au studio.
               </p>

@@ -30,7 +30,7 @@ export const metadata: Metadata = {
         url: "/images/studio-reformer-ocean.webp",
         width: 1920,
         height: 1080,
-        alt: "Studio Mon Pilates — Reformers face à l'océan à Larmor-Plage",
+        alt: "Studio Mon Pilates — Reformer Cadillac face à l'océan à Larmor-Plage",
       },
     ],
   },
@@ -55,7 +55,7 @@ const values = [
     icon: Sparkles,
     title: "Exigence",
     description:
-      "Une technique précise, une instructrice en formation continue (certifiée FPMP) et du matériel professionnel Balanced Body.",
+      "Une technique précise, une instructrice en formation continue (certifiée FPMP) et un Reformer Cadillac premium pour les cours privés.",
   },
   {
     icon: Heart,
@@ -155,7 +155,7 @@ export default function AboutPage() {
                   <div className="relative rounded-2xl overflow-hidden aspect-[3/4]">
                     <Image
                       src="/images/reformer-closeup.webp"
-                      alt="Gros plan sur un Reformer Balanced Body au studio"
+                      alt="Gros plan sur le Reformer Cadillac du studio"
                       fill
                       loading="lazy"
                       className="object-cover"

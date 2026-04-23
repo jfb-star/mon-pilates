@@ -37,7 +37,7 @@ const courseFaqs: Record<string, { q: string; a: string }[]> = {
   ],
   reformer: [
     { q: "Le cours privé sur appareil est-il adapté aux débutants ?", a: "Oui, c'est même souvent le format idéal pour débuter ! L'accompagnement individuel permet à Violette d'adapter chaque mouvement à votre morphologie et à votre niveau." },
-    { q: "Quels appareils sont utilisés ?", a: "Le studio est équipé de machines Balanced Body — Reformer, Cadillac et Chair. Violette choisit l'appareil le plus adapté à vos objectifs et à la séance." },
+    { q: "Quel appareil est utilisé ?", a: "Le studio est équipé d'un Reformer Cadillac premium. Violette règle ressorts et sangles en fonction de vos objectifs et de la séance." },
     { q: "Pourquoi un cours privé plutôt qu'un cours collectif ?", a: "Le travail sur appareil demande une attention particulière aux réglages (ressorts, sangles) et à la précision du geste. Le format privé garantit sécurité, sur-mesure et progression rapide." },
   ],
   prenatal: [

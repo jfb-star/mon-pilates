@@ -136,7 +136,7 @@ const courseTypes = [
     icon: Sparkles,
     name: "Cours privé sur appareils",
     slug: "reformer",
-    description: "Séance individuelle sur Reformer, Cadillac ou Chair. Accompagnement sur mesure, sans jamais partager la machine.",
+    description: "Séance individuelle sur notre Reformer Cadillac. Accompagnement sur mesure, sans jamais partager la machine.",
     color: "text-mp-sage",
     bg: "bg-mp-sage/8",
     border: "group-hover:border-mp-sage/30",
@@ -349,7 +349,7 @@ function StudioAmbiance() {
               <div className="relative rounded-2xl overflow-hidden aspect-[3/4]">
                 <Image
                   src="/images/reformer-closeup.webp"
-                  alt="Gros plan sur un Reformer Balanced Body, équipement professionnel du studio Mon Pilates"
+                  alt="Gros plan sur le Reformer Cadillac, équipement professionnel du studio Mon Pilates"
                   fill
                   loading="lazy"
                   className="object-cover"
@@ -381,7 +381,7 @@ function StudioAmbiance() {
               <div className="relative rounded-2xl overflow-hidden aspect-[3/4]">
                 <Image
                   src="/images/studio-cours-particulier.webp"
-                  alt="Vue intérieure du studio Mon Pilates avec Reformers et panorama sur l'océan"
+                  alt="Vue intérieure du studio Mon Pilates avec Reformer Cadillac et panorama sur l'océan"
                   fill
                   loading="lazy"
                   className="object-cover"
@@ -404,7 +404,7 @@ function StudioAmbiance() {
             <p className="font-body text-mp-text-light leading-relaxed mb-6">
               Niché face à l&apos;océan sur le boulevard des Dunes à Larmor-Plage,
               notre studio baigne dans la lumière naturelle. Parquet clair,
-              équipement Balanced Body de dernière génération et vue sur la mer
+              Reformer Cadillac premium pour les cours privés et vue sur la mer
               créent un cocon idéal pour votre pratique.
             </p>
             <StudioStats />

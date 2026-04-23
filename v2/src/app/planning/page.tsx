@@ -42,7 +42,7 @@ const levels = ["Tous niveaux", "Débutant", "Intermédiaire", "Avancé"]
 /** One-line descriptions per course type */
 const courseTypeDescriptions: Record<string, string> = {
   mat: "Séance complète au tapis",
-  reformer: "Privé sur Reformer / Cadillac / Chair",
+  reformer: "Privé sur Reformer Cadillac",
   prenatal: "Adapté à la grossesse et au post-partum",
   doux: "Accessible, idéal débutants et seniors",
   intensif: "Enchaînements soutenus, niveau avancé",
