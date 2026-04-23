@@ -15,6 +15,10 @@ const nextConfig: NextConfig = {
     qualities: [75, 85],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    // Cache optimized variants at the CDN for 1 year. All our images are
+    // content-addressable (fingerprinted filenames under /images/*), so a
+    // long TTL is safe and cuts re-optimization cost + improves repeat-view LCP.
+    minimumCacheTTL: 31536000,
   },
   async headers() {
     // Headers for the service worker — applied in both dev and prod so the
