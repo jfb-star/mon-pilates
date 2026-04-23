@@ -117,7 +117,7 @@ export const posts = [
       },
       {
         type: "paragraph" as const,
-        text: "Nos cours de Pilates pré & post-natal sont proposés le lundi soir, le mercredi matin et le vendredi après-midi. Ils sont accessibles dès le deuxième trimestre (avec un avis médical) et après l'accouchement, avec une adaptation post-partum. Chaque séance est personnalisée.",
+        text: "Nos cours de Pilates pré & post-natal sont proposés selon planning (consultez la page Planning pour les créneaux de la semaine). Ils sont accessibles dès le deuxième trimestre (avec un avis médical) et après l'accouchement, avec une adaptation post-partum. Chaque séance est personnalisée.",
       },
     ],
   },
