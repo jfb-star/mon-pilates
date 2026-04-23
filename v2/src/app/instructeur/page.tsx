@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect, useCallback } from "react"
+import Link from "next/link"
 import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import {
@@ -396,8 +397,20 @@ export default function InstructeurPage() {
           fetch("/api/instructor/schedule"),
         ])
 
+        if (statsRes.status === 404 || scheduleRes.status === 404) {
+          setError(
+            "Aucun profil instructeur n'est encore lié à votre compte. Demandez à l'administrateur de créer votre fiche instructeur depuis Admin › Instructeurs."
+          )
+          return
+        }
+
+        if (statsRes.status === 401 || statsRes.status === 403) {
+          setError("Votre session n'a pas les droits nécessaires. Reconnectez-vous ou contactez l'administrateur.")
+          return
+        }
+
         if (!statsRes.ok || !scheduleRes.ok) {
-          setError("Impossible de charger les données.")
+          setError(`Impossible de charger les données (HTTP ${!statsRes.ok ? statsRes.status : scheduleRes.status}).`)
           return
         }
 
@@ -428,10 +441,20 @@ export default function InstructeurPage() {
 
   if (error) {
     return (
-      <div className="min-h-[80vh] flex items-center justify-center bg-mp-cream">
-        <div className="text-center">
+      <div className="min-h-[80vh] flex items-center justify-center bg-mp-cream px-4">
+        <div className="text-center max-w-md">
           <AlertCircle className="w-10 h-10 text-rose-400 mx-auto mb-3" aria-hidden="true" />
-          <p className="text-mp-charcoal font-medium">{error}</p>
+          <p className="text-mp-charcoal font-medium mb-6">{error}</p>
+          <div className="flex flex-wrap items-center justify-center gap-3">
+            {userRole === "ADMIN" && (
+              <Link href="/admin/instructors" className="mp-btn mp-btn-primary">
+                Gérer les instructeurs
+              </Link>
+            )}
+            <Link href="/" className="mp-btn mp-btn-secondary">
+              Retour à l&apos;accueil
+            </Link>
+          </div>
         </div>
       </div>
     )

@@ -47,14 +47,14 @@ function Hero() {
         blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAoHBwgHBgoICAgLCgoLDhgQDg0NDh0VFhEYIx8lJCIfIiEmKzcvJik0KSEiMEExNDk7Pj4+JS5ESUM8SDc9Pjv/2wBDAQoLCw4NDhwQEBw7KCIoOzs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozv/wAARCAAIABADASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAABgUH/8QAIhAAAgIBAwQDAAAAAAAAAAAAAQIDBAAFBhESITFBE2Fx/8QAFQEBAQAAAAAAAAAAAAAAAAAAAwT/xAAaEQACAwEBAAAAAAAAAAAAAAABAgADESEx/9oADAMBAAIRAxEAPwCbq26tLpbMtKzVkuKjdBFLTmSYj1xrr2t7a6lJJDT0iy8bFVZ5nVSR9ADIe67U0WrSiWOhDVcKFLRscZplXMiGhYVSZ//9k="
       />
       {/* Overlay — stronger for text readability */}
-      <div className="absolute inset-0 bg-gradient-to-r from-mp-charcoal/90 via-mp-charcoal/70 to-mp-charcoal/30" />
+      <div className="absolute inset-0 bg-gradient-to-r from-mp-charcoal/95 via-mp-charcoal/80 to-mp-charcoal/40" />
       <div className="absolute inset-0 bg-gradient-to-b from-mp-charcoal/70 via-mp-charcoal/20 to-mp-charcoal/50" />
       {/* Radial scrim specifically behind the H1 block (top-left) to guarantee contrast over any background */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "radial-gradient(ellipse 900px 620px at 18% 40%, rgba(32,40,45,0.65) 0%, rgba(32,40,45,0.35) 45%, rgba(32,40,45,0) 75%)",
+            "radial-gradient(ellipse 900px 620px at 18% 40%, rgba(32,40,45,0.85) 0%, rgba(32,40,45,0.5) 45%, rgba(32,40,45,0) 75%)",
         }}
       />
 
@@ -69,8 +69,7 @@ function Hero() {
           <h1
             className="font-heading text-5xl sm:text-6xl lg:text-7xl font-bold text-white leading-[1.08] mb-6 animate-[fadeUp_0.6s_ease_forwards] opacity-0 [animation-delay:0.35s]"
             style={{
-              textShadow:
-                "0 0 18px rgba(0,0,0,0.85), 0 2px 10px rgba(0,0,0,0.9), 0 4px 24px rgba(0,0,0,0.55)",
+              textShadow: "0 2px 24px rgba(0,0,0,0.75)",
             }}
           >
             Le Pilates,
@@ -98,7 +97,7 @@ function Hero() {
           {/* Trust signal — facts only, no fake ratings until real reviews exist */}
           <div className="flex flex-wrap items-center gap-5 mt-14 pt-8 border-t border-white/15 animate-[fadeUp_0.6s_ease_forwards] opacity-0 [animation-delay:0.8s]">
             <p className="text-sm text-white/75 font-body">
-              Studio à Larmor-Plage · Instructrice certifiée FPMP · Cours en petits groupes (5 max)
+              Studio à Larmor-Plage · Instructrice certifiée FPMP · 5 participants max par cours · Terrasse face à l&apos;océan en été
             </p>
           </div>
         </div>

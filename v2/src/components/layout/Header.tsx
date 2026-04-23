@@ -229,7 +229,7 @@ export function Header() {
               )}
             >
               <Calendar className="w-4 h-4" aria-hidden="true" />
-              {showTrial ? "Cours d'essai — 10€" : "R\u00e9server"}
+              Réserver
             </Link>
 
             {/* Mobile menu button */}

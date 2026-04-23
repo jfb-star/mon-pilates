@@ -3,9 +3,9 @@
 import { AnimatedCounter } from "./AnimatedCounter"
 
 const stats = [
+  { value: 50, suffix: "m²", label: "d'espace intérieur" },
+  { value: 5, suffix: "", label: "places max par cours" },
   { value: 6, suffix: "", label: "Reformer professionnels" },
-  { value: 120, suffix: "m²", label: "d'espace lumineux" },
-  { value: 10, suffix: "", label: "places max par cours" },
   { value: 2, suffix: "", label: "instructrices certifiées" },
 ]
 

@@ -341,7 +341,7 @@ function CourseCard({ course }: { course: CourseInfo }) {
             </div>
             <span className="flex items-center gap-1 text-xs text-mp-text-muted font-heading">
               <Users className="w-3 h-3" aria-hidden="true" />
-              Petit groupe
+              {course.slug === "reformer" ? "Séance privée 1-à-1" : "5 max · suivi premium"}
             </span>
           </div>
         </div>

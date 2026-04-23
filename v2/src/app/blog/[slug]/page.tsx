@@ -187,7 +187,7 @@ export const posts = [
       },
       {
         type: "paragraph" as const,
-        text: "Situé à quelques pas de la plage de Toulhars, notre studio bénéficie d'une lumière naturelle exceptionnelle grâce à ses grandes baies vitrées. L'espace de 120 m² a été conçu pour offrir une atmosphère apaisante : parquet clair, murs dans des tons de sable et de blanc cassé, et une vue sur la mer qui accompagne chaque séance. Pratiquer le Pilates face à l'océan, c'est l'expérience unique que nous vous proposons.",
+        text: "Situé à quelques pas de la plage de Toulhars, notre studio bénéficie d'une lumière naturelle exceptionnelle grâce à ses grandes baies vitrées. L'espace intérieur de 50 m² — prolongé d'une terrasse face à l'océan où nous installons les cours en été, bercés par le bruit des vagues — a été conçu pour offrir une atmosphère apaisante : parquet clair, murs dans des tons de sable et de blanc cassé, et une vue sur la mer qui accompagne chaque séance. Pratiquer le Pilates face à l'océan, c'est l'expérience unique que nous vous proposons.",
       },
       {
         type: "heading" as const,
