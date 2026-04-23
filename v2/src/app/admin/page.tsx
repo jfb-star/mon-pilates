@@ -42,6 +42,9 @@ import {
 } from "lucide-react"
 import { clsx } from "clsx"
 import { useToast } from "@/components/ui/Toast"
+import { EmptyState } from "@/components/admin/EmptyState"
+import { TableSkeleton } from "@/components/admin/TableSkeleton"
+import { ConfirmDialog } from "@/components/admin/ConfirmDialog"
 
 /* ============================================================
    TYPES
@@ -233,14 +236,63 @@ function StatusBadge({ status, map, colors }: { status: string; map: Record<stri
    ============================================================ */
 
 function Modal({ open, onClose, title, children }: { open: boolean; onClose: () => void; title: string; children: React.ReactNode }) {
+  const dialogRef = React.useRef<HTMLDivElement>(null)
+  const previouslyFocused = React.useRef<HTMLElement | null>(null)
+
+  React.useEffect(() => {
+    if (!open) return
+    previouslyFocused.current = document.activeElement as HTMLElement | null
+    // Focus first focusable element inside the dialog
+    const focusTimer = window.setTimeout(() => {
+      const focusables = dialogRef.current?.querySelectorAll<HTMLElement>(
+        'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+      )
+      focusables?.[0]?.focus()
+    }, 0)
+
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        e.preventDefault()
+        onClose()
+        return
+      }
+      if (e.key === "Tab" && dialogRef.current) {
+        const focusables = dialogRef.current.querySelectorAll<HTMLElement>(
+          'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        )
+        if (focusables.length === 0) return
+        const first = focusables[0]!
+        const last = focusables[focusables.length - 1]!
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault()
+          last.focus()
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault()
+          first.focus()
+        }
+      }
+    }
+    document.addEventListener("keydown", onKey)
+    return () => {
+      window.clearTimeout(focusTimer)
+      document.removeEventListener("keydown", onKey)
+      previouslyFocused.current?.focus?.()
+    }
+  }, [open, onClose])
+
   if (!open) return null
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
-      <div className="absolute inset-0 bg-black/40" onClick={onClose} />
-      <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-lg mx-4 max-h-[90vh] overflow-y-auto">
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="admin-modal-title"
+    >
+      <div className="absolute inset-0 bg-black/40" onClick={onClose} aria-hidden="true" />
+      <div ref={dialogRef} className="relative bg-white rounded-2xl shadow-2xl w-full max-w-lg mx-4 max-h-[90vh] overflow-y-auto">
         <div className="flex items-center justify-between p-6 border-b border-gray-100">
-          <h3 className="font-heading text-lg font-semibold text-mp-charcoal">{title}</h3>
-          <button onClick={onClose} className="p-1.5 rounded-full hover:bg-gray-100 transition-colors">
+          <h3 id="admin-modal-title" className="font-heading text-lg font-semibold text-mp-charcoal">{title}</h3>
+          <button onClick={onClose} className="p-1.5 rounded-full hover:bg-gray-100 transition-colors" aria-label="Fermer">
             <X className="w-5 h-5 text-gray-400" />
           </button>
         </div>
@@ -277,7 +329,13 @@ export default function AdminPage() {
   const [activeTab, setActiveTab] = useState<TabId>("sessions")
   const [stats, setStats] = useState<Stats | null>(null)
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+  const [error, setError] = useState<
+    | { kind: "auth"; message: string }
+    | { kind: "forbidden"; message: string }
+    | { kind: "server"; message: string }
+    | null
+  >(null)
+  const [statsReloadToken, setStatsReloadToken] = useState(0)
 
   // Redirect non-admin users
   useEffect(() => {
@@ -320,6 +378,16 @@ export default function AdminPage() {
   const [unpaidTotal, setUnpaidTotal] = useState({ amount: 0, count: 0 })
   const [unpaidLoading, setUnpaidLoading] = useState(false)
 
+  // Confirm dialog for destructive actions (replaces raw confirm())
+  const [confirm, setConfirm] = useState<{
+    title: string
+    description: React.ReactNode
+    confirmLabel: string
+    variant?: "danger" | "default"
+    onConfirm: () => void | Promise<void>
+  } | null>(null)
+  const [confirmBusy, setConfirmBusy] = useState(false)
+
   // Generate sessions state
   const [showGenerateModal, setShowGenerateModal] = useState(false)
   const [generateWeeks, setGenerateWeeks] = useState(4)
@@ -347,18 +415,38 @@ export default function AdminPage() {
   // Fetch stats (only when authenticated as admin)
   useEffect(() => {
     if (authStatus !== "authenticated" || !isAdmin) return
+    setLoading(true)
+    setError(null)
     fetch("/api/admin/stats")
-      .then((r) => {
+      .then(async (r) => {
+        if (r.status === 401) throw new Error("auth")
         if (r.status === 403) throw new Error("forbidden")
+        if (!r.ok) throw new Error("server")
         return r.json()
       })
-      .then(setStats)
-      .catch((err) => {
-        if (err.message === "forbidden") setError("Accès réservé aux administrateurs.")
-        else setError("Impossible de charger les statistiques.")
+      .then((data) => {
+        setStats(data)
+      })
+      .catch((err: Error) => {
+        if (err.message === "auth") {
+          setError({
+            kind: "auth",
+            message: "Votre session a expiré. Reconnectez-vous pour continuer.",
+          })
+        } else if (err.message === "forbidden") {
+          setError({
+            kind: "forbidden",
+            message: "Accès réservé aux administrateurs.",
+          })
+        } else {
+          setError({
+            kind: "server",
+            message: "Impossible de charger les statistiques. Vérifiez votre connexion puis réessayez.",
+          })
+        }
       })
       .finally(() => setLoading(false))
-  }, [authStatus, isAdmin])
+  }, [authStatus, isAdmin, statsReloadToken])
 
   // Fetch sessions
   const fetchSessions = useCallback(() => {
@@ -462,16 +550,47 @@ export default function AdminPage() {
     if (activeTab === "unpaid" && authStatus === "authenticated" && isAdmin) fetchUnpaid()
   }, [activeTab, fetchUnpaid, authStatus, isAdmin])
 
-  const markUserPaid = async (userId: string) => {
-    if (!confirm("Marquer toutes les s\u00e9ances de ce membre comme pay\u00e9es ?")) return
-    const res = await fetch("/api/admin/unpaid", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ userId }),
+  const markUserPaid = (userId: string) => {
+    const group = unpaidGroups.find((g) => g.user.id === userId)
+    const name = group?.user.name ?? "ce membre"
+    const amount = group ? ` (${formatPrice(group.totalAmount)})` : ""
+    setConfirm({
+      title: "Marquer toutes les séances comme payées ?",
+      description: (
+        <>
+          Toutes les séances impayées de <strong>{name}</strong>{amount} seront
+          marquées comme réglées. Cette action est réversible depuis la fiche
+          membre.
+        </>
+      ),
+      confirmLabel: "Marquer payé",
+      variant: "default",
+      onConfirm: async () => {
+        setConfirmBusy(true)
+        try {
+          const res = await fetch("/api/admin/unpaid", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ userId }),
+          })
+          if (res.ok) {
+            toast.success("Séances marquées comme payées.")
+            // Optimistic: remove the group from the local list immediately
+            setUnpaidGroups((prev) => prev.filter((g) => g.user.id !== userId))
+            setUnpaidTotal((prev) => ({
+              amount: Math.max(0, prev.amount - (group?.totalAmount ?? 0)),
+              count: Math.max(0, prev.count - (group?.totalCount ?? 0)),
+            }))
+          } else {
+            toast.error("Erreur lors du marquage.")
+            fetchUnpaid()
+          }
+        } finally {
+          setConfirmBusy(false)
+          setConfirm(null)
+        }
+      },
     })
-    if (res.ok) toast.success("Séances marquées comme payées.")
-    else toast.error("Erreur lors du marquage.")
-    fetchUnpaid()
   }
 
   const markBookingPaid = async (bookingId: string) => {
@@ -486,12 +605,39 @@ export default function AdminPage() {
   }
 
   // Blog actions
-  const deleteBlogPost = async (id: string) => {
-    if (!confirm("Supprimer cet article ?")) return
-    const res = await fetch(`/api/admin/blog?id=${id}`, { method: "DELETE" })
-    if (res.ok) toast.success("Article supprimé.")
-    else toast.error("Suppression impossible.")
-    fetchBlogPosts()
+  const deleteBlogPost = (id: string) => {
+    const post = blogPosts.find((p) => p.id === id)
+    const title = post?.title ?? "cet article"
+    setConfirm({
+      title: "Supprimer l'article ?",
+      description: (
+        <>
+          L&apos;article <strong>“{title}”</strong> sera supprimé
+          définitivement. Cette action est irréversible.
+        </>
+      ),
+      confirmLabel: "Supprimer",
+      variant: "danger",
+      onConfirm: async () => {
+        setConfirmBusy(true)
+        try {
+          // Optimistic removal
+          const previous = blogPosts
+          setBlogPosts((prev) => prev.filter((p) => p.id !== id))
+          const res = await fetch(`/api/admin/blog?id=${id}`, { method: "DELETE" })
+          if (res.ok) {
+            toast.success("Article supprimé.")
+          } else {
+            // Rollback on failure
+            setBlogPosts(previous)
+            toast.error("Suppression impossible.")
+          }
+        } finally {
+          setConfirmBusy(false)
+          setConfirm(null)
+        }
+      },
+    })
   }
 
   const saveBlogPost = async (data: {
@@ -570,12 +716,46 @@ export default function AdminPage() {
     }
   }
 
-  const cancelSession = async (id: string) => {
-    if (!confirm("Annuler cette séance et toutes ses réservations ?")) return
-    const res = await fetch(`/api/admin/sessions?id=${id}`, { method: "DELETE" })
-    if (res.ok) toast.success("Séance annulée.")
-    else toast.error("Annulation impossible.")
-    fetchSessions()
+  const cancelSession = (id: string) => {
+    const target = sessions.find((s) => s.id === id)
+    const label = target
+      ? `${target.courseType.name} du ${formatDate(target.date)} à ${formatTime(target.startTime)}`
+      : "cette séance"
+    const bookingInfo =
+      target && target.bookingCount > 0
+        ? ` ${target.bookingCount} réservation${target.bookingCount > 1 ? "s" : ""} sera${target.bookingCount > 1 ? "ont" : ""} également annulée${target.bookingCount > 1 ? "s" : ""}.`
+        : ""
+    setConfirm({
+      title: "Annuler la séance ?",
+      description: (
+        <>
+          <strong>{label}</strong> sera annulée.{bookingInfo} Les élèves
+          concernés seront notifiés.
+        </>
+      ),
+      confirmLabel: "Annuler la séance",
+      variant: "danger",
+      onConfirm: async () => {
+        setConfirmBusy(true)
+        try {
+          // Optimistic update: mark status locally
+          const previous = sessions
+          setSessions((prev) =>
+            prev.map((s) => (s.id === id ? { ...s, status: "CANCELLED" } : s))
+          )
+          const res = await fetch(`/api/admin/sessions?id=${id}`, { method: "DELETE" })
+          if (res.ok) {
+            toast.success("Séance annulée.")
+          } else {
+            setSessions(previous)
+            toast.error("Annulation impossible.")
+          }
+        } finally {
+          setConfirmBusy(false)
+          setConfirm(null)
+        }
+      },
+    })
   }
 
   const createSession = async () => {
@@ -600,18 +780,44 @@ export default function AdminPage() {
     return (
       <div className="min-h-screen flex items-center justify-center bg-mp-cream">
         <Loader2 className="w-8 h-8 animate-spin text-mp-ocean" />
+        <span className="sr-only">Chargement de l&apos;administration…</span>
       </div>
     )
   }
 
   if (error) {
+    const isAuth = error.kind === "auth"
+    const isForbidden = error.kind === "forbidden"
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-mp-cream gap-4">
-        <Shield className="w-12 h-12 text-red-400" />
-        <p className="font-heading text-lg text-mp-charcoal">{error}</p>
-        <Link href="/" className="text-mp-ocean hover:underline text-sm">
-          Retour au site
-        </Link>
+      <div className="min-h-screen flex flex-col items-center justify-center bg-mp-cream gap-4 px-6 text-center">
+        <Shield className={clsx("w-12 h-12", isForbidden ? "text-red-400" : "text-amber-400")} />
+        <p className="font-heading text-lg text-mp-charcoal max-w-md">{error.message}</p>
+        <div className="flex items-center gap-3">
+          {isAuth ? (
+            <Link
+              href="/connexion"
+              className="mp-btn mp-btn-primary !text-sm !py-2 !px-4"
+            >
+              Se reconnecter
+            </Link>
+          ) : isForbidden ? (
+            <Link href="/" className="text-mp-ocean hover:underline text-sm">
+              Retour au site
+            </Link>
+          ) : (
+            <>
+              <button
+                onClick={() => setStatsReloadToken((n) => n + 1)}
+                className="mp-btn mp-btn-primary !text-sm !py-2 !px-4"
+              >
+                Réessayer
+              </button>
+              <Link href="/" className="text-mp-ocean hover:underline text-sm">
+                Retour au site
+              </Link>
+            </>
+          )}
+        </div>
       </div>
     )
   }
@@ -950,6 +1156,20 @@ export default function AdminPage() {
           </button>
         </div>
       </Modal>
+
+      {/* Destructive-action confirm dialog (shared) */}
+      <ConfirmDialog
+        open={confirm !== null}
+        title={confirm?.title ?? ""}
+        description={confirm?.description ?? ""}
+        confirmLabel={confirm?.confirmLabel ?? "Confirmer"}
+        variant={confirm?.variant ?? "danger"}
+        loading={confirmBusy}
+        onConfirm={() => confirm?.onConfirm()}
+        onCancel={() => {
+          if (!confirmBusy) setConfirm(null)
+        }}
+      />
     </div>
   )
 }
@@ -1057,11 +1277,18 @@ function SessionsTab({
       </div>
 
       {loading ? (
-        <div className="flex justify-center py-12">
-          <Loader2 className="w-6 h-6 animate-spin text-mp-ocean" />
-        </div>
+        <TableSkeleton rows={5} columns={7} label="Chargement des séances…" />
       ) : sessions.length === 0 ? (
-        <div className="text-center py-12 text-gray-400">Aucune séance cette semaine.</div>
+        <EmptyState
+          icon={CalendarPlus}
+          title="Aucune séance cette semaine"
+          description="Générez automatiquement les séances à partir des plannings, ou créez-en une nouvelle manuellement."
+          action={{
+            label: "Nouvelle séance",
+            onClick: onShowCreate,
+            icon: Plus,
+          }}
+        />
       ) : (
         <>
           {/* Desktop table */}
@@ -1273,11 +1500,26 @@ function BookingsTab({
       </div>
 
       {loading ? (
-        <div className="flex justify-center py-12">
-          <Loader2 className="w-6 h-6 animate-spin text-mp-ocean" />
-        </div>
+        <TableSkeleton rows={6} columns={6} label="Chargement des réservations…" />
       ) : bookings.length === 0 ? (
-        <div className="text-center py-12 text-gray-400">Aucune réservation trouvée.</div>
+        <EmptyState
+          icon={CalendarCheck}
+          title={search ? "Aucun résultat" : "Aucune réservation"}
+          description={
+            search
+              ? `Aucune réservation ne correspond à « ${search} ». Essayez avec un autre terme.`
+              : "Les réservations effectuées par vos élèves apparaîtront ici."
+          }
+          {...(search
+            ? {
+                action: {
+                  label: "Effacer la recherche",
+                  onClick: () => onSearchChange(""),
+                  icon: X,
+                },
+              }
+            : {})}
+        />
       ) : (
         <>
           {/* Desktop table */}
@@ -1431,24 +1673,16 @@ function UnpaidTab({
   const [expandedUser, setExpandedUser] = useState<string | null>(null)
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center py-12">
-        <Loader2 className="w-8 h-8 text-mp-ocean animate-spin" />
-      </div>
-    )
+    return <TableSkeleton rows={4} columns={4} label="Chargement des impayés…" />
   }
 
   if (groups.length === 0) {
     return (
-      <div className="bg-white rounded-xl p-12 text-center shadow-sm border border-gray-100">
-        <BadgeCheck className="w-12 h-12 text-emerald-400 mx-auto mb-3" />
-        <p className="font-heading text-lg font-semibold text-mp-charcoal mb-1">
-          Aucun impayé
-        </p>
-        <p className="text-sm text-mp-charcoal-light">
-          Toutes les séances sont réglées. Bravo !
-        </p>
-      </div>
+      <EmptyState
+        icon={BadgeCheck}
+        title="Aucun impayé"
+        description="Toutes les séances sont réglées. Bravo !"
+      />
     )
   }
 
@@ -1656,11 +1890,26 @@ function UsersTab({
       </div>
 
       {loading ? (
-        <div className="flex justify-center py-12">
-          <Loader2 className="w-6 h-6 animate-spin text-mp-ocean" />
-        </div>
+        <TableSkeleton rows={6} columns={7} label="Chargement des membres…" />
       ) : users.length === 0 ? (
-        <div className="text-center py-12 text-gray-400">Aucun membre trouvé.</div>
+        <EmptyState
+          icon={Users}
+          title={search ? "Aucun membre trouvé" : "Aucun membre"}
+          description={
+            search
+              ? `Aucun membre ne correspond à « ${search} ».`
+              : "Les membres inscrits apparaîtront ici."
+          }
+          {...(search
+            ? {
+                action: {
+                  label: "Effacer la recherche",
+                  onClick: () => onSearchChange(""),
+                  icon: X,
+                },
+              }
+            : {})}
+        />
       ) : (
         <>
           {/* Desktop table */}
@@ -2118,11 +2367,7 @@ function BlogTab({
   onCreate: () => void
 }) {
   if (loading) {
-    return (
-      <div className="flex justify-center py-12">
-        <Loader2 className="w-6 h-6 animate-spin text-mp-ocean" />
-      </div>
-    )
+    return <TableSkeleton rows={4} columns={4} label="Chargement des articles…" />
   }
 
   return (
@@ -2135,10 +2380,16 @@ function BlogTab({
       </div>
 
       {posts.length === 0 ? (
-        <div className="bg-white rounded-xl border border-gray-100 p-12 text-center">
-          <FileText className="w-10 h-10 text-gray-300 mx-auto mb-3" />
-          <p className="text-gray-400 text-sm">Aucun article. Créez le premier !</p>
-        </div>
+        <EmptyState
+          icon={FileText}
+          title="Aucun article publié"
+          description="Partagez actualités, astuces et conseils santé avec vos élèves."
+          action={{
+            label: "Créer un article",
+            onClick: onCreate,
+            icon: Plus,
+          }}
+        />
       ) : (
         <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
           <div className="hidden sm:grid grid-cols-[1fr_100px_120px_100px] gap-4 px-6 py-3 border-b border-gray-100 bg-gray-50/50 text-xs font-medium text-gray-500 uppercase tracking-wider">
