@@ -5,8 +5,8 @@ import { AnimatedCounter } from "./AnimatedCounter"
 const stats = [
   { value: 50, suffix: "m²", label: "d'espace intérieur" },
   { value: 5, suffix: "", label: "places max par cours" },
-  { value: 6, suffix: "", label: "Reformer professionnels" },
-  { value: 2, suffix: "", label: "instructrices certifiées" },
+  { value: 1, suffix: "", label: "Reformer Cadillac premium" },
+  { value: 1, suffix: "", label: "instructrice certifiée FPMP" },
 ]
 
 export function StudioStats() {

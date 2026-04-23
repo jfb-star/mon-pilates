@@ -72,7 +72,7 @@ export const posts = [
       },
       {
         type: "paragraph" as const,
-        text: "Au studio Mon Pilates à Larmor-Plage, nos instructeurs intègrent ces exercices dans leurs cours et les adaptent à votre condition. Si vous souffrez de douleurs chroniques, nous vous recommandons de commencer par un cours Pilates doux — Tapis avant de progresser vers des séances plus intenses.",
+        text: "Au studio Mon Pilates à Larmor-Plage, Violette intègre ces exercices dans ses cours et les adapte à votre condition. Si vous souffrez de douleurs chroniques, nous vous recommandons de commencer par un cours Pilates doux — Tapis avant de progresser vers des séances plus intenses.",
       },
     ],
   },

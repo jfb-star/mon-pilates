@@ -46,7 +46,7 @@ const suggestions = [
     name: "L'équipe",
     href: "/equipe",
     icon: Users,
-    description: "Rencontrez vos instructrices",
+    description: "Rencontrez Violette",
   },
   {
     name: "Nous contacter",

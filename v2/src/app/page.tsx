@@ -860,7 +860,7 @@ function Location() {
 const faqs = [
   {
     q: "Faut-il avoir fait du Pilates avant ?",
-    a: "Non ! Nos cours sont adaptés à tous les niveaux. Les débutants sont les bienvenus et nos instructrices vous guident pas à pas.",
+    a: "Non ! Nos cours sont adaptés à tous les niveaux. Les débutants sont les bienvenus et Violette vous guide pas à pas.",
   },
   {
     q: "Comment se passe le premier cours ?",
