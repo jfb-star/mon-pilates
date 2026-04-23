@@ -122,7 +122,7 @@ model Payment {
   id                      String   @id @default(cuid())
   userId                  String
   stripePaymentIntentId   String?
-  stripeCheckoutSessionId String?
+  stripeCheckoutSessionId String?  @unique
   amount                  Int
   currency                String   @default("eur")
   status                  String   @default("PENDING")

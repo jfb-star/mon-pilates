@@ -2,11 +2,26 @@ import { NextRequest, NextResponse } from "next/server"
 import { randomInt } from "crypto"
 import { z } from "zod"
 import * as Sentry from "@sentry/nextjs"
+import { Prisma } from "@prisma/client"
 import { stripe } from "@/lib/stripe"
 import { prisma } from "@/lib/prisma"
 import Stripe from "stripe"
 import { sendBookingConfirmation, sendGiftCard } from "@/lib/email"
 import { log } from "@/lib/logger"
+
+// Race-safe idempotency gate: when two callers (webhook + /api/checkout/confirm)
+// try to process the same Stripe checkout session concurrently, the second one
+// trips `Payment_stripeCheckoutSessionId_key` and we treat it as a no-op — the
+// first caller has already applied the side effects atomically.
+function isPaymentSessionDuplicate(err: unknown): boolean {
+  if (!(err instanceof Prisma.PrismaClientKnownRequestError) || err.code !== "P2002") {
+    return false
+  }
+  const target = err.meta?.target
+  if (Array.isArray(target)) return target.includes("stripeCheckoutSessionId")
+  if (typeof target === "string") return target.includes("stripeCheckoutSessionId")
+  return false
+}
 
 // Zod schema for Stripe checkout metadata. All metadata fields are strings (Stripe
 // coerces everything to string). Unknown metadata keys are allowed but typed values
@@ -150,7 +165,6 @@ export async function POST(req: NextRequest) {
         // Create booking in DB if we have a session and user
         if (sessionId && bookingUserId) {
           try {
-            // Check session exists
             const courseSession = await prisma.session.findUnique({
               where: { id: sessionId },
               include: {
@@ -160,19 +174,23 @@ export async function POST(req: NextRequest) {
             })
 
             if (courseSession) {
-              // Check not already booked
-              const existing = await prisma.booking.findFirst({
-                where: {
-                  userId: bookingUserId,
-                  sessionId,
-                  status: { not: "CANCELLED" },
-                },
-              })
+              const isFull = courseSession.currentParticipants >= courseSession.maxParticipants
 
-              if (!existing) {
-                const isFull = courseSession.currentParticipants >= courseSession.maxParticipants
-
+              // Atomic: Payment.create is the idempotency gate (unique on
+              // stripeCheckoutSessionId). If /api/checkout/confirm already ran
+              // for this session, this tx rolls back with P2002 and we no-op.
+              try {
                 await prisma.$transaction([
+                  prisma.payment.create({
+                    data: {
+                      userId: bookingUserId,
+                      stripeCheckoutSessionId: session.id,
+                      amount: session.amount_total ?? 0,
+                      currency: session.currency ?? "eur",
+                      status: "COMPLETED",
+                      type: isTrial ? "TRIAL" : "BOOKING",
+                    },
+                  }),
                   prisma.booking.create({
                     data: {
                       userId: bookingUserId,
@@ -205,21 +223,8 @@ export async function POST(req: NextRequest) {
                   },
                 })
 
-                // Save payment record
-                await prisma.payment.create({
-                  data: {
-                    userId: bookingUserId,
-                    stripeCheckoutSessionId: session.id,
-                    amount: session.amount_total ?? 0,
-                    currency: session.currency ?? "eur",
-                    status: "COMPLETED",
-                    type: isTrial ? "TRIAL" : "BOOKING",
-                  },
-                })
-
                 console.log("[webhook] Booking created in DB for user", bookingUserId)
 
-                // Send booking confirmation email (non-blocking)
                 if (!isFull) {
                   const userEmail = email || (await prisma.user.findUnique({ where: { id: bookingUserId! }, select: { email: true } }))?.email
                   if (userEmail) {
@@ -231,6 +236,12 @@ export async function POST(req: NextRequest) {
                       instructor: courseSession.instructor?.user?.name || "L'équipe",
                     }).catch(() => {})
                   }
+                }
+              } catch (txErr) {
+                if (isPaymentSessionDuplicate(txErr)) {
+                  console.log("[webhook] Booking already processed by /confirm, skipping", { sessionId })
+                } else {
+                  throw txErr
                 }
               }
             }
@@ -258,31 +269,38 @@ export async function POST(req: NextRequest) {
             const expiresAt = new Date()
             expiresAt.setMonth(expiresAt.getMonth() + expiryMonths)
 
-            const payment = await prisma.payment.create({
-              data: {
-                userId,
-                stripeCheckoutSessionId: session.id,
-                amount: session.amount_total ?? 0,
-                currency: session.currency ?? "eur",
-                status: "COMPLETED",
-                type: "COURSE_CARD",
-              },
-            })
-
-            await prisma.courseCard.create({
-              data: {
-                userId,
-                paymentId: payment.id,
-                type: cardTypeLabel,
-                totalSessions: sessionsCount,
-                remainingSessions: sessionsCount,
-                expiresAt,
-              },
+            // Atomic: Payment.create is the idempotency gate; if /confirm already
+            // created records for this session, we no-op on P2002.
+            await prisma.$transaction(async (tx) => {
+              const payment = await tx.payment.create({
+                data: {
+                  userId,
+                  stripeCheckoutSessionId: session.id,
+                  amount: session.amount_total ?? 0,
+                  currency: session.currency ?? "eur",
+                  status: "COMPLETED",
+                  type: "COURSE_CARD",
+                },
+              })
+              await tx.courseCard.create({
+                data: {
+                  userId,
+                  paymentId: payment.id,
+                  type: cardTypeLabel,
+                  totalSessions: sessionsCount,
+                  remainingSessions: sessionsCount,
+                  expiresAt,
+                },
+              })
             })
 
             console.log("[webhook] Course card created for user", userId)
           } catch (err) {
-            console.error("[webhook] Failed to create course card:", err)
+            if (isPaymentSessionDuplicate(err)) {
+              console.log("[webhook] Course card already processed by /confirm, skipping")
+            } else {
+              console.error("[webhook] Failed to create course card:", err)
+            }
           }
         }
       } else if (type === "subscription") {
