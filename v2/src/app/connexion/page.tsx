@@ -13,6 +13,29 @@ const breadcrumbItems = [
   { name: "Connexion", href: "/connexion" },
 ];
 
+/**
+ * Validate a `returnTo` search-param so it can be used as a redirect target
+ * without opening the user up to an open-redirect / phishing attack.
+ *
+ * Accepts only same-origin, relative URLs:
+ *   - must start with `/`
+ *   - must NOT start with `//` (protocol-relative) or `/\` (backslash variant)
+ *   - must NOT contain `://` (absolute URL)
+ *   - length-limited to 512 chars
+ *
+ * Anything else falls back to `/planning`, which is the most useful landing
+ * page for a user returning from auth on the booking flow.
+ */
+function safeReturnTo(raw: string | null): string {
+  const fallback = "/planning";
+  if (!raw) return fallback;
+  if (raw.length > 512) return fallback;
+  if (!raw.startsWith("/")) return fallback;
+  if (raw.startsWith("//") || raw.startsWith("/\\")) return fallback;
+  if (raw.includes("://")) return fallback;
+  return raw;
+}
+
 export default function ConnexionPage() {
   return (
     <Suspense fallback={
@@ -29,6 +52,9 @@ function ConnexionContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const refCode = searchParams.get("ref");
+  // Validated post-login destination. Defaults to /planning if absent
+  // or if an invalid / unsafe value was passed (e.g. open-redirect attempt).
+  const returnTo = safeReturnTo(searchParams.get("returnTo"));
   const toast = useToast();
 
   const [mode, setMode] = useState<"login" | "register" | "forgot">(
@@ -76,7 +102,9 @@ function ConnexionContent() {
       if (result?.error) {
         setError("Email ou mot de passe incorrect.");
       } else {
-        router.push("/compte");
+        // Honor returnTo when present (e.g. user came from /planning#sessionId),
+        // otherwise land on /compte as before.
+        router.push(returnTo !== "/planning" || searchParams.get("returnTo") ? returnTo : "/compte");
         router.refresh();
       }
     } catch {
@@ -132,7 +160,10 @@ function ConnexionContent() {
         setError("Compte créé ! Connectez-vous avec vos identifiants.");
         setMode("login");
       } else {
-        router.push("/bienvenue");
+        // If the user was redirected here from a booking attempt, honor that
+        // returnTo after registration so they land back on the session they
+        // wanted. Otherwise fall through to the onboarding page.
+        router.push(searchParams.get("returnTo") ? returnTo : "/bienvenue");
         router.refresh();
       }
     } catch {
@@ -242,7 +273,7 @@ function ConnexionContent() {
             <div className="space-y-3 mb-6">
               <button
                 type="button"
-                onClick={() => signIn("google", { callbackUrl: "/compte" })}
+                onClick={() => signIn("google", { callbackUrl: searchParams.get("returnTo") ? returnTo : "/compte" })}
                 className="flex items-center justify-center gap-3 w-full py-3 px-4 rounded-xl border border-mp-sand-dark/50 bg-white text-mp-charcoal font-heading text-sm font-medium hover:bg-mp-sand/30 transition-colors"
               >
                 <svg className="w-5 h-5" viewBox="0 0 24 24" aria-hidden="true">
@@ -255,7 +286,7 @@ function ConnexionContent() {
               </button>
               <button
                 type="button"
-                onClick={() => signIn("apple", { callbackUrl: "/compte" })}
+                onClick={() => signIn("apple", { callbackUrl: searchParams.get("returnTo") ? returnTo : "/compte" })}
                 className="flex items-center justify-center gap-3 w-full py-3 px-4 rounded-xl bg-mp-charcoal text-white font-heading text-sm font-medium hover:bg-mp-charcoal/90 transition-colors"
               >
                 <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">

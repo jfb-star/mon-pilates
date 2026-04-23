@@ -3,6 +3,7 @@
 import { useState, useMemo, useEffect, useCallback, useRef } from "react"
 import Image from "next/image"
 import Link from "next/link"
+import { useSession } from "next-auth/react"
 import {
   ChevronLeft,
   ChevronRight,
@@ -247,7 +248,22 @@ interface SessionData {
   date?: string
 }
 
+/**
+ * Build a safe `/connexion?returnTo=...` URL for the current page
+ * (including an optional #sessionId hash). The returnTo value is a
+ * *relative* same-origin URL, validated on the /connexion side too.
+ */
+function buildLoginReturnUrl(sessionId?: string): string {
+  if (typeof window === "undefined") return "/connexion?returnTo=%2Fplanning"
+  const { pathname, search } = window.location
+  const hash = sessionId ? `#${sessionId}` : ""
+  const target = `${pathname}${search}${hash}`
+  const safe = target.length > 512 || !target.startsWith("/") ? "/planning" : target
+  return `/connexion?returnTo=${encodeURIComponent(safe)}`
+}
+
 export default function PlanningPage() {
+  const { data: session } = useSession()
   const [weekOffset, setWeekOffset] = useState(0)
   const [sessions, setSessions] = useState<SessionData[]>([])
   const [sessionsLoading, setSessionsLoading] = useState(true)
@@ -384,6 +400,10 @@ export default function PlanningPage() {
 
   const [bookingLoading, setBookingLoading] = useState(false)
   const [bookingError, setBookingError] = useState("")
+  // When a booking API returns 401, we surface a contextual auth prompt
+  // (instead of just an inline "Connectez-vous pour réserver." message).
+  // "anon" = no session cookie; "stale" = had a session but it expired.
+  const [authPrompt, setAuthPrompt] = useState<null | "anon" | "stale">(null)
   const [isTrial, setIsTrial] = useState(false)
   const isFirstTimer = useIsFirstTimer()
   const showTrialOptions = isFirstTimer !== false
@@ -424,6 +444,7 @@ export default function PlanningPage() {
     setSelectedSession(null)
     setBookingSuccess(null)
     setBookingError("")
+    setAuthPrompt(null)
     setIsTrial(false)
     setIsRecurring(false)
     setRecurringResult(null)
@@ -433,6 +454,21 @@ export default function PlanningPage() {
       lastTriggerRef.current?.focus()
     })
   }, [])
+
+  /**
+   * When a booking endpoint returns 401, flag the appropriate prompt.
+   * Returns true if the response was unauthorised and the caller should
+   * stop further processing.
+   */
+  const handleAuthError = useCallback(
+    (status: number): boolean => {
+      if (status !== 401) return false
+      setAuthPrompt(session?.user ? "stale" : "anon")
+      setBookingError("")
+      return true
+    },
+    [session]
+  )
 
   // Explicit wait-list join for full sessions (uses /bookings/on-site — it
   // already returns status "WAITLIST" when the class is full).
@@ -446,6 +482,7 @@ export default function PlanningPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ sessionId: selectedSession.id }),
       })
+      if (handleAuthError(res.status)) return
       const data = await res.json()
       if (res.ok) {
         setBookingSuccess({
@@ -461,7 +498,7 @@ export default function PlanningPage() {
     } finally {
       setBookingLoading(false)
     }
-  }, [selectedSession])
+  }, [selectedSession, handleAuthError])
 
   // After a single booking succeeds, optionally subscribe to recurring
   const handleRecurringAfterBooking = useCallback(async (scheduleId: string) => {
@@ -1124,6 +1161,37 @@ export default function PlanningPage() {
               <BookingStepper currentStep={bookingLoading ? 3 : bookingSuccess ? 4 : 2} />
             </div>
 
+            {/* Auth prompt — surfaced when a booking API returns 401. */}
+            {authPrompt && (
+              <div
+                role="alert"
+                className="flex items-start gap-3 p-4 rounded-xl bg-mp-ocean/5 border border-mp-ocean/30 mb-4"
+              >
+                <AlertCircle
+                  className="w-5 h-5 text-mp-ocean shrink-0 mt-0.5"
+                  aria-hidden
+                />
+                <div className="flex-1 text-sm text-mp-charcoal">
+                  <p className="font-heading font-semibold mb-1">
+                    {authPrompt === "stale"
+                      ? "Votre session a expiré"
+                      : "Connectez-vous pour réserver"}
+                  </p>
+                  <p className="text-mp-text-muted text-xs mb-3">
+                    {authPrompt === "stale"
+                      ? "Reconnectez-vous pour finaliser votre réservation — nous vous ramènerons ici."
+                      : "Vous retrouverez cette séance après connexion."}
+                  </p>
+                  <a
+                    href={buildLoginReturnUrl(selectedSession?.id)}
+                    className="mp-btn mp-btn-primary text-sm"
+                  >
+                    {authPrompt === "stale" ? "Se reconnecter" : "Se connecter pour réserver"}
+                  </a>
+                </div>
+              </div>
+            )}
+
             {/* Booking error — surfaced at the top of the modal */}
             {bookingError && (
               <div
@@ -1297,6 +1365,7 @@ export default function PlanningPage() {
                           headers: { "Content-Type": "application/json" },
                           body: JSON.stringify({ sessionId: selectedSession.id }),
                         })
+                        if (handleAuthError(res.status)) return
                         const data = await res.json()
                         if (res.ok) {
                           setActiveCard({ ...activeCard, remaining: data.cardRemaining })
@@ -1435,6 +1504,7 @@ export default function PlanningPage() {
                           },
                         }),
                       })
+                      if (handleAuthError(res.status)) return
                       const data = await res.json()
                       if (data.url) {
                         // Show a brief order-recap overlay so the user sees
@@ -1488,6 +1558,7 @@ export default function PlanningPage() {
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({ sessionId: selectedSession.id }),
                       })
+                      if (handleAuthError(res.status)) return
                       const data = await res.json()
                       if (res.ok) {
                         await handleRecurringAfterBooking(selectedSession.scheduleId)
