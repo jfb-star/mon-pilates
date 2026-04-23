@@ -134,6 +134,7 @@ export function Header() {
                   className={clsx(
                     "font-heading text-[13px] font-medium px-3 py-2 rounded-full whitespace-nowrap transition-all duration-300",
                     "relative after:absolute after:bottom-0.5 after:left-1/2 after:-translate-x-1/2 after:h-[2px] after:rounded-full after:transition-all after:duration-300",
+                    "focus:outline-none focus-visible:outline-2 focus-visible:outline-mp-ocean focus-visible:outline-offset-2",
                     isActive ? "after:w-5" : "after:w-0 hover:after:w-5",
                     scrolled
                       ? clsx(
@@ -142,7 +143,7 @@ export function Header() {
                         )
                       : clsx(
                           "after:bg-white",
-                          isActive ? "text-white" : "text-white/85 hover:text-white"
+                          isActive ? "text-white" : "text-white/90 hover:text-white"
                         )
                   )}
                   aria-current={isActive ? "page" : undefined}
@@ -237,12 +238,14 @@ export function Header() {
               type="button"
               className={clsx(
                 "lg:hidden p-2.5 rounded-full transition-colors relative z-[60]",
+                "focus:outline-none focus-visible:outline-2 focus-visible:outline-mp-ocean focus-visible:outline-offset-2",
                 headerSolid
                   ? "text-mp-charcoal hover:bg-mp-cream"
                   : "text-white hover:bg-white/10"
               )}
               onClick={() => setMobileOpen((prev) => !prev)}
               aria-expanded={mobileOpen}
+              aria-controls="mobile-menu-panel"
               aria-label={mobileOpen ? "Fermer le menu" : "Ouvrir le menu"}
             >
               {mobileOpen ? (
@@ -257,6 +260,7 @@ export function Header() {
 
       {/* Mobile full-screen overlay menu */}
       <div
+        id="mobile-menu-panel"
         ref={mobileMenuRef}
         role="dialog"
         aria-modal="true"
@@ -293,6 +297,7 @@ export function Header() {
                   onClick={() => setMobileOpen(false)}
                   className={clsx(
                     "font-heading text-base font-medium px-4 py-3.5 rounded-xl transition-all",
+                    "focus:outline-none focus-visible:outline-2 focus-visible:outline-mp-ocean focus-visible:outline-offset-2",
                     isActive
                       ? "text-mp-ocean bg-mp-ocean/5 border-l-2 border-mp-ocean"
                       : "text-mp-charcoal-light hover:text-mp-ocean hover:bg-mp-cream"

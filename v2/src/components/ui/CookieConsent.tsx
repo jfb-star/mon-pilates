@@ -30,6 +30,7 @@ export function CookieConsent() {
     <div
       role="dialog"
       aria-label="Consentement aux cookies"
+      aria-modal="false"
       aria-live="polite"
       tabIndex={visible ? undefined : -1}
       className={`fixed bottom-0 left-0 right-0 z-[70] p-4 sm:p-6 transition-all duration-400 ${
@@ -64,14 +65,16 @@ export function CookieConsent() {
           </div>
           <div className="flex gap-3 flex-shrink-0">
             <button
+              type="button"
               onClick={decline}
-              className="px-4 py-2 rounded-full text-sm font-heading font-medium text-mp-text-light hover:text-mp-charcoal border border-mp-sand-dark hover:border-mp-charcoal/30 transition-colors"
+              className="px-4 py-2 rounded-full text-sm font-heading font-medium text-mp-text-light hover:text-mp-charcoal border border-mp-sand-dark hover:border-mp-charcoal/30 transition-colors focus:outline-none focus-visible:outline-2 focus-visible:outline-mp-ocean focus-visible:outline-offset-2"
             >
               Refuser
             </button>
             <button
+              type="button"
               onClick={accept}
-              className="px-5 py-2 rounded-full text-sm font-heading font-semibold bg-mp-ocean text-white hover:bg-mp-ocean-dark transition-colors shadow-sm"
+              className="px-5 py-2 rounded-full text-sm font-heading font-semibold bg-mp-ocean text-white hover:bg-mp-ocean-dark transition-colors shadow-sm focus:outline-none focus-visible:outline-2 focus-visible:outline-mp-ocean focus-visible:outline-offset-2"
             >
               Accepter
             </button>

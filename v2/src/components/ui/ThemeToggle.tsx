@@ -86,9 +86,10 @@ export function ThemeToggle({ scrolled = true }: { scrolled?: boolean }) {
       onClick={cycle}
       className={clsx(
         "relative w-9 h-9 rounded-full flex items-center justify-center transition-all duration-300",
+        "focus:outline-none focus-visible:outline-2 focus-visible:outline-mp-ocean focus-visible:outline-offset-2",
         scrolled
           ? "text-mp-text-light hover:text-mp-ocean hover:bg-mp-cream"
-          : "text-white/80 hover:text-white hover:bg-white/10"
+          : "text-white/90 hover:text-white hover:bg-white/10"
       )}
       aria-label={label}
       title={label}

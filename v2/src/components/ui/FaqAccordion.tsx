@@ -25,8 +25,9 @@ export function FaqAccordion({ items }: FaqAccordionProps) {
             className="mp-card border border-mp-sand-dark/30 overflow-hidden"
           >
             <button
+              type="button"
               onClick={() => setOpenIndex(isOpen ? null : index)}
-              className="w-full flex items-center justify-between p-5 sm:p-6 text-left cursor-pointer"
+              className="w-full flex items-center justify-between p-5 sm:p-6 text-left cursor-pointer focus:outline-none focus-visible:outline-2 focus-visible:outline-mp-ocean focus-visible:outline-offset-[-2px] rounded-2xl"
               aria-expanded={isOpen}
               aria-controls={`faq-panel-${index}`}
               id={`faq-heading-${index}`}

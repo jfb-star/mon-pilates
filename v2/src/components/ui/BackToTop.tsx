@@ -23,6 +23,7 @@ export function BackToTop() {
       className={clsx(
         "fixed bottom-24 sm:bottom-6 right-6 z-40 w-12 h-12 rounded-full bg-mp-ocean/90 text-white shadow-lg backdrop-blur-sm flex items-center justify-center transition-all duration-300",
         "hover:bg-mp-ocean hover:shadow-xl hover:-translate-y-1",
+        "focus:outline-none focus-visible:outline-2 focus-visible:outline-mp-ocean focus-visible:outline-offset-2",
         visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none"
       )}
     >

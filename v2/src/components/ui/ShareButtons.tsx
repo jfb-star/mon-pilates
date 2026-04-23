@@ -55,7 +55,7 @@ export function ShareButtons({ title, slug }: ShareButtonsProps) {
         href={`https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`}
         target="_blank"
         rel="noopener noreferrer"
-        className="flex items-center justify-center w-10 h-10 rounded-full bg-mp-ocean/10 text-mp-ocean hover:bg-[#1877F2] hover:text-white transition-colors"
+        className="flex items-center justify-center w-10 h-10 rounded-full bg-mp-ocean/10 text-mp-ocean hover:bg-[#1877F2] hover:text-white transition-colors focus:outline-none focus-visible:outline-2 focus-visible:outline-mp-ocean focus-visible:outline-offset-2"
         aria-label="Partager sur Facebook"
       >
         <FacebookIcon className="w-4 h-4" />
@@ -64,14 +64,15 @@ export function ShareButtons({ title, slug }: ShareButtonsProps) {
         href={`https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`}
         target="_blank"
         rel="noopener noreferrer"
-        className="flex items-center justify-center w-10 h-10 rounded-full bg-mp-ocean/10 text-mp-ocean hover:bg-mp-charcoal hover:text-white transition-colors"
+        className="flex items-center justify-center w-10 h-10 rounded-full bg-mp-ocean/10 text-mp-ocean hover:bg-mp-charcoal hover:text-white transition-colors focus:outline-none focus-visible:outline-2 focus-visible:outline-mp-ocean focus-visible:outline-offset-2"
         aria-label="Partager sur X (Twitter)"
       >
         <XIcon className="w-4 h-4" />
       </a>
       <button
+        type="button"
         onClick={copyLink}
-        className="flex items-center justify-center w-10 h-10 rounded-full bg-mp-ocean/10 text-mp-ocean hover:bg-mp-ocean hover:text-white transition-colors"
+        className="flex items-center justify-center w-10 h-10 rounded-full bg-mp-ocean/10 text-mp-ocean hover:bg-mp-ocean hover:text-white transition-colors focus:outline-none focus-visible:outline-2 focus-visible:outline-mp-ocean focus-visible:outline-offset-2"
         aria-label={copied ? "Lien copié" : "Copier le lien"}
       >
         {copied ? <Check className="w-4 h-4" /> : <Link2 className="w-4 h-4" />}

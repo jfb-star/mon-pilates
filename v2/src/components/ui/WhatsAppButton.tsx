@@ -27,6 +27,7 @@ export function WhatsAppButton() {
       className={clsx(
         "fixed bottom-24 sm:bottom-20 right-6 z-40 w-14 h-14 rounded-full bg-[#25D366] text-white shadow-lg flex items-center justify-center transition-all duration-300",
         "hover:shadow-xl hover:scale-110",
+        "focus:outline-none focus-visible:outline-2 focus-visible:outline-mp-ocean focus-visible:outline-offset-2",
         visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none"
       )}
     >

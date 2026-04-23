@@ -157,7 +157,7 @@ export function ContactForm() {
             onChange={(e) => handleChange("firstName", e.target.value)}
             aria-describedby={errors.firstName ? "firstName-error" : undefined}
             aria-invalid={!!errors.firstName}
-            className={`w-full px-4 py-3 rounded-xl border font-body text-sm text-mp-text bg-mp-white transition-colors focus:outline-none focus:ring-2 focus:ring-mp-ocean/40 ${
+            className={`w-full px-4 py-3 rounded-xl border font-body text-sm text-mp-text bg-mp-white transition-colors focus:outline-none focus-visible:outline-2 focus-visible:outline-mp-ocean focus-visible:outline-offset-2 ${
               errors.firstName ? "border-red-400" : "border-mp-sand-dark/50"
             }`}
             placeholder="Votre prénom"
@@ -185,7 +185,7 @@ export function ContactForm() {
             onChange={(e) => handleChange("lastName", e.target.value)}
             aria-describedby={errors.lastName ? "lastName-error" : undefined}
             aria-invalid={!!errors.lastName}
-            className={`w-full px-4 py-3 rounded-xl border font-body text-sm text-mp-text bg-mp-white transition-colors focus:outline-none focus:ring-2 focus:ring-mp-ocean/40 ${
+            className={`w-full px-4 py-3 rounded-xl border font-body text-sm text-mp-text bg-mp-white transition-colors focus:outline-none focus-visible:outline-2 focus-visible:outline-mp-ocean focus-visible:outline-offset-2 ${
               errors.lastName ? "border-red-400" : "border-mp-sand-dark/50"
             }`}
             placeholder="Votre nom"
@@ -216,7 +216,7 @@ export function ContactForm() {
             onChange={(e) => handleChange("email", e.target.value)}
             aria-describedby={errors.email ? "email-error" : undefined}
             aria-invalid={!!errors.email}
-            className={`w-full px-4 py-3 rounded-xl border font-body text-sm text-mp-text bg-mp-white transition-colors focus:outline-none focus:ring-2 focus:ring-mp-ocean/40 ${
+            className={`w-full px-4 py-3 rounded-xl border font-body text-sm text-mp-text bg-mp-white transition-colors focus:outline-none focus-visible:outline-2 focus-visible:outline-mp-ocean focus-visible:outline-offset-2 ${
               errors.email ? "border-red-400" : "border-mp-sand-dark/50"
             }`}
             placeholder="votre@email.com"
@@ -242,7 +242,7 @@ export function ContactForm() {
             enterKeyHint="next"
             value={formData.phone}
             onChange={(e) => handleChange("phone", e.target.value)}
-            className="w-full px-4 py-3 rounded-xl border border-mp-sand-dark/50 font-body text-sm text-mp-text bg-mp-white transition-colors focus:outline-none focus:ring-2 focus:ring-mp-ocean/40"
+            className="w-full px-4 py-3 rounded-xl border border-mp-sand-dark/50 font-body text-sm text-mp-text bg-mp-white transition-colors focus:outline-none focus-visible:outline-2 focus-visible:outline-mp-ocean focus-visible:outline-offset-2"
             placeholder="06 12 34 56 78"
           />
         </div>
@@ -263,7 +263,7 @@ export function ContactForm() {
           onChange={(e) => handleChange("subject", e.target.value)}
           aria-describedby={errors.subject ? "subject-error" : undefined}
           aria-invalid={!!errors.subject}
-          className={`w-full px-4 py-3 rounded-xl border font-body text-sm text-mp-text bg-mp-white transition-colors focus:outline-none focus:ring-2 focus:ring-mp-ocean/40 appearance-none ${
+          className={`w-full px-4 py-3 rounded-xl border font-body text-sm text-mp-text bg-mp-white transition-colors focus:outline-none focus-visible:outline-2 focus-visible:outline-mp-ocean focus-visible:outline-offset-2 appearance-none ${
             errors.subject ? "border-red-400" : "border-mp-sand-dark/50"
           } ${!formData.subject ? "text-mp-text-light" : ""}`}
         >
@@ -304,7 +304,7 @@ export function ContactForm() {
           onChange={(e) => handleChange("message", e.target.value)}
           aria-describedby={errors.message ? "message-error" : undefined}
           aria-invalid={!!errors.message}
-          className={`w-full px-4 py-3 rounded-xl border font-body text-sm text-mp-text bg-mp-white transition-colors focus:outline-none focus:ring-2 focus:ring-mp-ocean/40 resize-y ${
+          className={`w-full px-4 py-3 rounded-xl border font-body text-sm text-mp-text bg-mp-white transition-colors focus:outline-none focus-visible:outline-2 focus-visible:outline-mp-ocean focus-visible:outline-offset-2 resize-y ${
             errors.message ? "border-red-400" : "border-mp-sand-dark/50"
           }`}
           placeholder="Votre message..."
@@ -324,7 +324,7 @@ export function ContactForm() {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="mp-btn mp-btn-primary w-full sm:w-auto disabled:opacity-60 disabled:cursor-not-allowed"
+          className="mp-btn mp-btn-primary w-full sm:w-auto disabled:opacity-60 disabled:cursor-not-allowed focus:outline-none focus-visible:outline-2 focus-visible:outline-mp-ocean focus-visible:outline-offset-2"
         >
           {isSubmitting ? (
             <>

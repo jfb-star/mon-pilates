@@ -53,7 +53,7 @@ export function Footer() {
   // The URL is public — no privacy concern in rendering it to all users.
   const studioLinks = [footerLinks.studioFirstTimer, ...footerLinks.studioBase]
   return (
-    <footer className="bg-mp-charcoal text-white/80 pb-16 sm:pb-0" role="contentinfo">
+    <footer className="bg-mp-charcoal text-white/85 pb-16 sm:pb-0" role="contentinfo">
       <div className="mp-container py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12">
           {/* Brand */}
@@ -70,7 +70,7 @@ export function Footer() {
                 Mon <span className="text-mp-ocean-light">Pilates</span>
               </span>
             </Link>
-            <p className="font-body text-sm leading-relaxed text-white/70">
+            <p className="font-body text-sm leading-relaxed text-white/85">
               Studio de Pilates à Larmor-Plage, Bretagne.
               <br />
               Cours adaptés à tous les niveaux, dans un cadre lumineux face à l&apos;océan.
@@ -80,7 +80,7 @@ export function Footer() {
                 href="https://www.instagram.com/monpilates.bzh"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-3 rounded-full bg-white/10 hover:bg-mp-ocean transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center"
+                className="p-3 rounded-full bg-white/10 hover:bg-mp-ocean transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center focus:outline-none focus-visible:outline-2 focus-visible:outline-mp-ocean-light focus-visible:outline-offset-2"
                 aria-label="Instagram Mon Pilates"
               >
                 <InstagramIcon className="w-5 h-5" />
@@ -89,7 +89,7 @@ export function Footer() {
                 href="https://www.facebook.com/MonPilatesBZH"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-3 rounded-full bg-white/10 hover:bg-mp-ocean transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center"
+                className="p-3 rounded-full bg-white/10 hover:bg-mp-ocean transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center focus:outline-none focus-visible:outline-2 focus-visible:outline-mp-ocean-light focus-visible:outline-offset-2"
                 aria-label="Facebook Mon Pilates"
               >
                 <FacebookIcon className="w-5 h-5" />
@@ -107,7 +107,7 @@ export function Footer() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-sm hover:text-mp-ocean-light transition-colors"
+                    className="text-sm text-white/85 hover:text-mp-ocean-light transition-colors rounded focus:outline-none focus-visible:outline-2 focus-visible:outline-mp-ocean-light focus-visible:outline-offset-2"
                   >
                     {link.name}
                   </Link>
@@ -164,7 +164,7 @@ export function Footer() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-sm hover:text-mp-ocean-light transition-colors line-clamp-2"
+                    className="text-sm text-white/85 hover:text-mp-ocean-light transition-colors line-clamp-2 rounded focus:outline-none focus-visible:outline-2 focus-visible:outline-mp-ocean-light focus-visible:outline-offset-2"
                   >
                     {link.name}
                   </Link>
@@ -190,7 +190,7 @@ export function Footer() {
               <div>
                 <a
                   href="tel:+33699183216"
-                  className="flex items-center gap-3 text-sm hover:text-mp-ocean-light transition-colors"
+                  className="flex items-center gap-3 text-sm text-white/85 hover:text-mp-ocean-light transition-colors rounded focus:outline-none focus-visible:outline-2 focus-visible:outline-mp-ocean-light focus-visible:outline-offset-2"
                 >
                   <Phone className="w-4 h-4 text-mp-ocean-light flex-shrink-0" aria-hidden="true" />
                   06 99 18 32 16
@@ -199,7 +199,7 @@ export function Footer() {
               <div>
                 <a
                   href="mailto:contact@mon-pilates.bzh"
-                  className="flex items-center gap-3 text-sm hover:text-mp-ocean-light transition-colors"
+                  className="flex items-center gap-3 text-sm text-white/85 hover:text-mp-ocean-light transition-colors rounded focus:outline-none focus-visible:outline-2 focus-visible:outline-mp-ocean-light focus-visible:outline-offset-2"
                 >
                   <Mail className="w-4 h-4 text-mp-ocean-light flex-shrink-0" aria-hidden="true" />
                   contact@mon-pilates.bzh
@@ -228,7 +228,7 @@ export function Footer() {
               <h3 className="font-heading text-sm font-semibold text-white uppercase tracking-wider mb-1">
                 Newsletter
               </h3>
-              <p className="text-sm text-white/60 font-body">
+              <p className="text-sm text-white/80 font-body">
                 Conseils Pilates, offres exclusives et actus du studio. Pas de spam, promis.
               </p>
             </div>
@@ -246,7 +246,7 @@ export function Footer() {
               />
               <button
                 type="submit"
-                className="px-5 py-2.5 rounded-full bg-mp-ocean text-white text-sm font-heading font-semibold hover:bg-mp-ocean-dark transition-colors whitespace-nowrap"
+                className="px-5 py-2.5 rounded-full bg-mp-ocean text-white text-sm font-heading font-semibold hover:bg-mp-ocean-dark transition-colors whitespace-nowrap focus:outline-none focus-visible:outline-2 focus-visible:outline-mp-ocean-light focus-visible:outline-offset-2"
               >
                 S&apos;inscrire
               </button>
@@ -256,10 +256,10 @@ export function Footer() {
 
         {/* Bottom bar */}
         <div className="pt-6 border-t border-white/10 flex flex-col sm:flex-row justify-between items-center gap-4">
-          <small className="text-xs text-white/60 block">
+          <small className="text-xs text-white/80 block">
             &copy; {new Date().getFullYear()} Mon Pilates. Tous droits réservés.
           </small>
-          <p className="text-xs text-white/50">
+          <p className="text-xs text-white/75">
             Fait avec soin en Bretagne
           </p>
         </div>

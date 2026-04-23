@@ -47,7 +47,7 @@ export function NewsletterForm() {
         placeholder="votre@email.com"
         autoComplete="email"
         required
-        className="flex-1 px-4 py-3 rounded-full border border-mp-sand-dark bg-mp-white text-mp-text font-body text-sm focus:outline-none focus:border-mp-ocean focus:ring-2 focus:ring-mp-ocean/20"
+        className="flex-1 px-4 py-3 rounded-full border border-mp-sand-dark bg-mp-white text-mp-text font-body text-sm focus:outline-none focus-visible:outline-2 focus-visible:outline-mp-ocean focus-visible:outline-offset-2"
         aria-label="Adresse email pour la newsletter"
       />
       <button
