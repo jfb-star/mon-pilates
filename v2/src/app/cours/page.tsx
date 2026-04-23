@@ -22,6 +22,9 @@ import { SITE_URL } from "@/lib/env";
 const courseImages: Partial<Record<CourseType, string>> = {
   mat: "/images/illustration-cours-collectif.webp",
   reformer: "/images/illustration-cours-machine.webp",
+  prenatal: "/images/illustration-cours-prenatal.webp",
+  doux: "/images/illustration-cours-doux.webp",
+  intensif: "/images/illustration-cours-intensif.webp",
 };
 
 export const metadata: Metadata = {
