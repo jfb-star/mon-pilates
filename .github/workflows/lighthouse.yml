@@ -7,10 +7,16 @@ on:
       - v2
   workflow_dispatch:
 
+# Cancel superseded runs on the same branch so we don't audit stale deploys.
+concurrency:
+  group: lighthouse-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   lighthouse:
     name: Audit public pages
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -41,9 +47,17 @@ jobs:
         # On failure, dump the last 150 lines of lhci output to the job
         # summary so we can read the assertion failures and public report
         # URLs without auth-gated artifacts.
+        env:
+          # Belt-and-braces: most CI images ship Chrome, but LHCI occasionally
+          # spawns without inheriting the config's chromeFlags when the Chrome
+          # binary is resolved via puppeteer. This env var is respected by
+          # Lighthouse's launcher as a fallback.
+          CHROME_PATH: /usr/bin/google-chrome
+          LHCI_BUILD_CONTEXT__CURRENT_HASH: ${{ github.sha }}
+          LHCI_BUILD_CONTEXT__CURRENT_BRANCH: ${{ github.ref_name }}
         run: |
           set +e
-          npx @lhci/cli@0.13.x autorun 2>&1 | tee lhci.log
+          npx @lhci/cli@0.13.x autorun --config=./lighthouserc.json 2>&1 | tee lhci.log
           code=${PIPESTATUS[0]}
           if [ $code -ne 0 ]; then
             {
@@ -55,3 +69,14 @@ jobs:
             } >> "$GITHUB_STEP_SUMMARY"
           fi
           exit $code
+
+      - name: Upload Lighthouse report artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-report-${{ github.run_id }}
+          path: |
+            .lighthouseci/
+            lhci.log
+          if-no-files-found: ignore
+          retention-days: 14
