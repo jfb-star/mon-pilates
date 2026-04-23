@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server"
 import { stripe } from "@/lib/stripe"
 import { prisma } from "@/lib/prisma"
 import { auth } from "@/lib/auth"
-import { sendBookingConfirmation } from "@/lib/email"
 
 /**
  * POST /api/checkout/confirm
@@ -162,19 +161,11 @@ export async function POST(req: NextRequest) {
       }),
     ])
 
-    // Send booking confirmation email (non-blocking)
-    if (!isFull) {
-      const userEmail = checkoutSession.customer_details?.email || authSession?.user?.email
-      if (userEmail) {
-        sendBookingConfirmation({
-          to: userEmail,
-          courseName: courseSession.courseType?.name || "Pilates",
-          date: courseSession.date.toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" }),
-          time: courseSession.startTime,
-          instructor: courseSession.instructor?.user?.name || "L'équipe",
-        }).catch(() => {})
-      }
-    }
+    // NOTE: booking confirmation email is sent exclusively by the webhook
+    // handler (src/app/api/webhook/route.ts). Sending from this route as well
+    // would double-email customers when the webhook races with this endpoint
+    // and both succeed in creating records (see also the race/unique-constraint
+    // caveat flagged in the audit).
 
     return NextResponse.json({ ok: true, bookingId: booking.id })
   } catch (err) {
