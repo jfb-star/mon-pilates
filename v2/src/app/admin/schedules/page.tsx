@@ -15,6 +15,8 @@ import {
   Calendar,
 } from "lucide-react"
 import { clsx } from "clsx"
+import { useToast } from "@/components/ui/Toast"
+import { EmptyState } from "@/components/admin/EmptyState"
 
 interface AdminSchedule {
   id: string
@@ -101,6 +103,7 @@ function Modal({
 export default function AdminSchedulesPage() {
   const { data: authSession, status: authStatus } = useSession()
   const router = useRouter()
+  const toast = useToast()
   const role = (authSession?.user as { role?: string } | undefined)?.role
   const isAdmin = role === "ADMIN" || role === "INSTRUCTOR"
 
@@ -235,6 +238,7 @@ export default function AdminSchedulesPage() {
         setFormError(data.error || "Erreur lors de l'enregistrement.")
         return
       }
+      toast.success(editing ? "Planning mis à jour." : "Planning créé.")
       closeForm()
       fetchSchedules()
     } catch {
@@ -247,8 +251,12 @@ export default function AdminSchedulesPage() {
   const remove = async (s: AdminSchedule) => {
     if (!confirm(`Supprimer ce planning ?`)) return
     const res = await fetch(`/api/admin/schedules/${s.id}`, { method: "DELETE" })
-    const data = await res.json()
-    if (!res.ok) alert(data.error || "Erreur")
+    const data = await res.json().catch(() => ({}))
+    if (!res.ok) {
+      toast.error(data.error || "Suppression impossible.")
+      return
+    }
+    toast.success("Planning supprimé.")
     fetchSchedules()
   }
 
@@ -314,7 +322,27 @@ export default function AdminSchedulesPage() {
           </select>
         </div>
 
-        <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+        {schedules.length === 0 ? (
+          <EmptyState
+            icon={Calendar}
+            title={
+              instructorFilter
+                ? "Aucun planning pour ce coach"
+                : "Aucun planning"
+            }
+            description={
+              instructorFilter
+                ? "Ce coach n'a pas encore de créneau. Créez-en un ou changez de filtre."
+                : "Créez votre premier créneau récurrent. Les séances seront ensuite générées automatiquement chaque semaine."
+            }
+            action={{
+              label: "Nouveau planning",
+              onClick: openCreate,
+              icon: Plus,
+            }}
+          />
+        ) : (
+        <div className="bg-white rounded-xl border border-gray-200 overflow-x-auto">
           <table className="w-full text-sm">
             <thead className="bg-gray-50 text-gray-600 text-xs uppercase tracking-wide">
               <tr>
@@ -328,13 +356,6 @@ export default function AdminSchedulesPage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
-              {schedules.length === 0 && (
-                <tr>
-                  <td colSpan={7} className="px-4 py-8 text-center text-gray-400">
-                    Aucun planning pour le moment.
-                  </td>
-                </tr>
-              )}
               {schedules.map((s) => (
                 <tr key={s.id} className="hover:bg-gray-50">
                   <td className="px-4 py-3">
@@ -396,6 +417,7 @@ export default function AdminSchedulesPage() {
             </tbody>
           </table>
         </div>
+        )}
       </main>
 
       <Modal

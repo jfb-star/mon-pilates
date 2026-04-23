@@ -41,6 +41,7 @@ import {
   Phone,
 } from "lucide-react"
 import { clsx } from "clsx"
+import { useToast } from "@/components/ui/Toast"
 
 /* ============================================================
    TYPES
@@ -269,6 +270,7 @@ type TabId = (typeof tabs)[number]["id"]
 export default function AdminPage() {
   const { data: authSession, status: authStatus } = useSession()
   const router = useRouter()
+  const toast = useToast()
   const userRole = (authSession?.user as { role?: string } | undefined)?.role
   const isAdmin = userRole === "ADMIN" || userRole === "INSTRUCTOR"
 
@@ -462,27 +464,33 @@ export default function AdminPage() {
 
   const markUserPaid = async (userId: string) => {
     if (!confirm("Marquer toutes les s\u00e9ances de ce membre comme pay\u00e9es ?")) return
-    await fetch("/api/admin/unpaid", {
+    const res = await fetch("/api/admin/unpaid", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ userId }),
     })
+    if (res.ok) toast.success("Séances marquées comme payées.")
+    else toast.error("Erreur lors du marquage.")
     fetchUnpaid()
   }
 
   const markBookingPaid = async (bookingId: string) => {
-    await fetch("/api/admin/unpaid", {
+    const res = await fetch("/api/admin/unpaid", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ bookingIds: [bookingId] }),
     })
+    if (res.ok) toast.success("Séance encaissée.")
+    else toast.error("Erreur lors de l'encaissement.")
     fetchUnpaid()
   }
 
   // Blog actions
   const deleteBlogPost = async (id: string) => {
     if (!confirm("Supprimer cet article ?")) return
-    await fetch(`/api/admin/blog?id=${id}`, { method: "DELETE" })
+    const res = await fetch(`/api/admin/blog?id=${id}`, { method: "DELETE" })
+    if (res.ok) toast.success("Article supprimé.")
+    else toast.error("Suppression impossible.")
     fetchBlogPosts()
   }
 
@@ -496,19 +504,19 @@ export default function AdminPage() {
     tags: string[]
     published: boolean
   }) => {
-    if (data.id) {
-      await fetch("/api/admin/blog", {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      })
-    } else {
-      await fetch("/api/admin/blog", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      })
-    }
+    const res = data.id
+      ? await fetch("/api/admin/blog", {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        })
+      : await fetch("/api/admin/blog", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        })
+    if (res.ok) toast.success(data.id ? "Article mis à jour." : "Article publié.")
+    else toast.error("Enregistrement impossible.")
     setShowBlogForm(false)
     setEditingBlogPost(null)
     fetchBlogPosts()
@@ -516,20 +524,24 @@ export default function AdminPage() {
 
   // Actions
   const updateBookingStatus = async (id: string, status: string) => {
-    await fetch("/api/admin/bookings", {
+    const res = await fetch("/api/admin/bookings", {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ id, status }),
     })
+    if (res.ok) toast.success("Statut de la réservation mis à jour.")
+    else toast.error("Mise à jour impossible.")
     fetchBookings()
   }
 
   const updateUserRole = async (id: string, role: string) => {
-    await fetch("/api/admin/users", {
+    const res = await fetch("/api/admin/users", {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ id, role }),
     })
+    if (res.ok) toast.success("Rôle mis à jour.")
+    else toast.error("Mise à jour impossible.")
     fetchUsers()
   }
 
@@ -545,13 +557,14 @@ export default function AdminPage() {
       if (res.ok) {
         const data = await res.json()
         setGenerateResult({ created: data.created, skipped: data.skipped })
+        toast.success(`${data.created} séance${data.created !== 1 ? "s" : ""} générée${data.created !== 1 ? "s" : ""}.`)
         fetchSessions()
       } else {
-        const data = await res.json()
-        alert(data.error || "Erreur lors de la génération.")
+        const data = await res.json().catch(() => ({}))
+        toast.error(data.error || "Erreur lors de la génération.")
       }
     } catch {
-      alert("Erreur de connexion.")
+      toast.error("Erreur de connexion.")
     } finally {
       setGenerateLoading(false)
     }
@@ -559,7 +572,9 @@ export default function AdminPage() {
 
   const cancelSession = async (id: string) => {
     if (!confirm("Annuler cette séance et toutes ses réservations ?")) return
-    await fetch(`/api/admin/sessions?id=${id}`, { method: "DELETE" })
+    const res = await fetch(`/api/admin/sessions?id=${id}`, { method: "DELETE" })
+    if (res.ok) toast.success("Séance annulée.")
+    else toast.error("Annulation impossible.")
     fetchSessions()
   }
 
@@ -570,9 +585,13 @@ export default function AdminPage() {
       body: JSON.stringify(newSession),
     })
     if (res.ok) {
+      toast.success("Séance créée.")
       setShowCreateSession(false)
       setNewSession({ courseTypeId: "", instructorId: "", date: "", startTime: "09:00", endTime: "10:00", maxParticipants: "8" })
       fetchSessions()
+    } else {
+      const data = await res.json().catch(() => ({}))
+      toast.error(data.error || "Création impossible.")
     }
   }
 

@@ -15,6 +15,8 @@ import {
   UserCheck,
 } from "lucide-react"
 import { clsx } from "clsx"
+import { useToast } from "@/components/ui/Toast"
+import { EmptyState } from "@/components/admin/EmptyState"
 
 interface AdminInstructor {
   id: string
@@ -87,6 +89,7 @@ function Modal({
 export default function AdminInstructorsPage() {
   const { data: authSession, status: authStatus } = useSession()
   const router = useRouter()
+  const toast = useToast()
   const role = (authSession?.user as { role?: string } | undefined)?.role
   const isAdmin = role === "ADMIN" || role === "INSTRUCTOR"
 
@@ -185,6 +188,7 @@ export default function AdminInstructorsPage() {
       if (!editing && data.tempPassword) {
         setCreatedInfo({ email: form.email, password: data.tempPassword })
       }
+      toast.success(editing ? "Coach mis à jour." : "Coach créé.")
       closeForm()
       fetchInstructors()
     } catch {
@@ -197,8 +201,12 @@ export default function AdminInstructorsPage() {
   const remove = async (i: AdminInstructor) => {
     if (!confirm(`Supprimer le coach ${i.name} ?`)) return
     const res = await fetch(`/api/admin/instructors/${i.id}`, { method: "DELETE" })
-    const data = await res.json()
-    if (!res.ok) alert(data.error || "Erreur")
+    const data = await res.json().catch(() => ({}))
+    if (!res.ok) {
+      toast.error(data.error || "Suppression impossible.")
+      return
+    }
+    toast.success(`${i.name} supprimé.`)
     fetchInstructors()
   }
 
@@ -269,7 +277,19 @@ export default function AdminInstructorsPage() {
           </div>
         )}
 
-        <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+        {instructors.length === 0 ? (
+          <EmptyState
+            icon={UserCheck}
+            title="Aucun coach"
+            description="Ajoutez votre premier coach pour l'assigner à des plannings et à des séances. Un compte utilisateur est créé automatiquement."
+            action={{
+              label: "Nouveau coach",
+              onClick: openCreate,
+              icon: Plus,
+            }}
+          />
+        ) : (
+        <div className="bg-white rounded-xl border border-gray-200 overflow-x-auto">
           <table className="w-full text-sm">
             <thead className="bg-gray-50 text-gray-600 text-xs uppercase tracking-wide">
               <tr>
@@ -281,13 +301,6 @@ export default function AdminInstructorsPage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
-              {instructors.length === 0 && (
-                <tr>
-                  <td colSpan={5} className="px-4 py-8 text-center text-gray-400">
-                    Aucun coach pour le moment.
-                  </td>
-                </tr>
-              )}
               {instructors.map((i) => (
                 <tr key={i.id} className="hover:bg-gray-50">
                   <td className="px-4 py-3">
@@ -356,6 +369,7 @@ export default function AdminInstructorsPage() {
             </tbody>
           </table>
         </div>
+        )}
       </main>
 
       <Modal

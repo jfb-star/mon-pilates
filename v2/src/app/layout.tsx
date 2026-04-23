@@ -198,10 +198,12 @@ export default function RootLayout({
         <GoogleAnalytics />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        {/* Preconnect to Google Maps: the homepage embeds a Maps iframe near the bottom
+            and opening the TCP/TLS handshake early avoids a late third-party stall. */}
+        <link rel="preconnect" href="https://maps.googleapis.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://js.stripe.com" />
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
         <link rel="dns-prefetch" href="https://www.google.com" />
-        <link rel="dns-prefetch" href="https://maps.googleapis.com" />
       </head>
       <body className="min-h-screen flex flex-col bg-mp-white text-mp-text font-body antialiased">
         <noscript>

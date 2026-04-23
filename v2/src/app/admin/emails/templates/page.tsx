@@ -16,6 +16,8 @@ import {
   Send,
 } from "lucide-react"
 import { clsx } from "clsx"
+import { useToast } from "@/components/ui/Toast"
+import { EmptyState } from "@/components/admin/EmptyState"
 
 interface AdminTemplate {
   id: string
@@ -102,6 +104,7 @@ function substitutePreview(
 export default function AdminEmailTemplatesPage() {
   const { data: authSession, status: authStatus } = useSession()
   const router = useRouter()
+  const toast = useToast()
   const role = (authSession?.user as { role?: string } | undefined)?.role
   const isAdmin = role === "ADMIN" || role === "INSTRUCTOR"
 
@@ -114,7 +117,6 @@ export default function AdminEmailTemplatesPage() {
   const [form, setForm] = useState<FormState>(emptyForm)
   const [saving, setSaving] = useState(false)
   const [formError, setFormError] = useState<string | null>(null)
-  const [info, setInfo] = useState<string | null>(null)
 
   useEffect(() => {
     if (authStatus === "unauthenticated") router.push("/connexion")
@@ -193,6 +195,7 @@ export default function AdminEmailTemplatesPage() {
         setFormError(data.error || "Erreur lors de l'enregistrement.")
         return
       }
+      toast.success(editing ? "Template mis à jour." : "Template créé.")
       closeForm()
       fetchTemplates()
     } catch {
@@ -207,8 +210,12 @@ export default function AdminEmailTemplatesPage() {
     const res = await fetch(`/api/admin/email-templates/${t.key}`, {
       method: "DELETE",
     })
-    const data = await res.json()
-    if (!res.ok) alert(data.error || "Erreur")
+    const data = await res.json().catch(() => ({}))
+    if (!res.ok) {
+      toast.error(data.error || "Suppression impossible.")
+      return
+    }
+    toast.success(`Template "${t.name}" supprimé.`)
     fetchTemplates()
   }
 
@@ -221,14 +228,14 @@ export default function AdminEmailTemplatesPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
       })
-      const data = await res.json()
+      const data = await res.json().catch(() => ({}))
       if (!res.ok) {
-        alert(data.error || "Erreur")
+        toast.error(data.error || "Envoi impossible.")
       } else {
-        setInfo(`Email de test envoyé à ${email}.`)
+        toast.success(`Email de test envoyé à ${email}.`)
       }
     } catch {
-      alert("Erreur réseau.")
+      toast.error("Erreur réseau.")
     }
   }
 
@@ -285,19 +292,19 @@ export default function AdminEmailTemplatesPage() {
       </header>
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {info && (
-          <div className="mb-6 p-4 bg-emerald-50 border border-emerald-200 rounded-lg flex items-center justify-between">
-            <p className="text-sm text-emerald-800">{info}</p>
-            <button
-              onClick={() => setInfo(null)}
-              className="text-xs text-emerald-700 hover:underline"
-            >
-              Masquer
-            </button>
-          </div>
-        )}
-
-        <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+        {templates.length === 0 ? (
+          <EmptyState
+            icon={Mail}
+            title="Aucun template email"
+            description="Créez votre premier template (confirmation, rappel, mot de passe oublié…). Utilisez des variables {{nom}} pour la personnalisation."
+            action={{
+              label: "Nouveau template",
+              onClick: openCreate,
+              icon: Plus,
+            }}
+          />
+        ) : (
+        <div className="bg-white rounded-xl border border-gray-200 overflow-x-auto">
           <table className="w-full text-sm">
             <thead className="bg-gray-50 text-gray-600 text-xs uppercase tracking-wide">
               <tr>
@@ -309,13 +316,6 @@ export default function AdminEmailTemplatesPage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
-              {templates.length === 0 && (
-                <tr>
-                  <td colSpan={5} className="px-4 py-8 text-center text-gray-400">
-                    Aucun template pour le moment.
-                  </td>
-                </tr>
-              )}
               {templates.map((t) => (
                 <tr key={t.id} className="hover:bg-gray-50">
                   <td className="px-4 py-3">
@@ -366,6 +366,7 @@ export default function AdminEmailTemplatesPage() {
             </tbody>
           </table>
         </div>
+        )}
       </main>
 
       <Modal

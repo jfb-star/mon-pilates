@@ -118,18 +118,16 @@ export default function CoursPage() {
             { name: "Nos cours", href: "/cours" },
           ]} />
         </div>
-        {/* Background image */}
+        {/* Decorative background — opacity-10, not the LCP element. Lazy-loaded so the hero H1 paints first. */}
         <div className="absolute inset-0 opacity-10">
           <Image
             src="/images/studio-reformer-ocean.webp"
-            alt="Studio de Pilates avec vue sur l'océan"
+            alt=""
+            aria-hidden="true"
             fill
             className="object-cover"
-            priority
-            fetchPriority="high"
+            loading="lazy"
             sizes="100vw"
-            placeholder="blur"
-            blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAoHBwgHBgoICAgLCgoLDhgQDg0NDh0VFhEYIx8lJCIfIiEmKzcvJik0KSEiMEExNDk7Pj4+JS5ESUM8SDc9Pjv/2wBDAQoLCw4NDhwQEBw7KCIoOzs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozv/wAARCAAIABADASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAABgUH/8QAIhAAAgIBAwQDAAAAAAAAAAAAAQIDBAAFBhESITFBE2Fx/8QAFQEBAQAAAAAAAAAAAAAAAAAAAwT/xAAaEQACAwEBAAAAAAAAAAAAAAABAgADESEx/9oADAMBAAIRAxEAPwCbq26tLpbMtKzVkuKjdBFLTmSYj1xrr2t7a6lJJDT0iy8bFVZ5nVSR9ADIe67U0WrSiWOhDVcKFLRscZplXMiGhYVSZ//9k="
           />
         </div>
         <div className="mp-container text-center relative z-10">

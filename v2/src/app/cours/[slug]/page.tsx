@@ -249,7 +249,8 @@ export default async function CourseDetailPage({
               </p>
             </div>
 
-            {/* Hero image */}
+            {/* Hero image — only rendered on lg+ screens. Drop `priority` so mobile users don't
+                fetch a DOM-hidden asset; keep a sensible `sizes` for the desktop layout. */}
             {heroImage && (
               <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-lg hidden lg:block">
                 <Image
@@ -258,9 +259,7 @@ export default async function CourseDetailPage({
                   title={course.name}
                   fill
                   className="object-cover"
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                  priority
-                  fetchPriority="high"
+                  sizes="(min-width: 1024px) 50vw, 100vw"
                 />
               </div>
             )}

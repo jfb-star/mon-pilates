@@ -14,6 +14,8 @@ import {
   Inbox,
 } from "lucide-react"
 import { clsx } from "clsx"
+import { useToast } from "@/components/ui/Toast"
+import { EmptyState } from "@/components/admin/EmptyState"
 
 interface ContactMessage {
   id: string
@@ -42,6 +44,7 @@ const statusColors: Record<string, string> = {
 export default function AdminContactPage() {
   const { data: authSession, status: authStatus } = useSession()
   const router = useRouter()
+  const toast = useToast()
   const role = (authSession?.user as { role?: string } | undefined)?.role
   const isAdmin = role === "ADMIN" || role === "INSTRUCTOR"
 
@@ -92,10 +95,11 @@ export default function AdminContactPage() {
       body: JSON.stringify({ status }),
     })
     if (!res.ok) {
-      const data = await res.json()
-      alert(data.error || "Erreur")
+      const data = await res.json().catch(() => ({}))
+      toast.error(data.error || "Erreur lors de la mise à jour du statut.")
       return
     }
+    toast.success("Statut mis à jour.")
     fetchMessages()
   }
 
@@ -105,10 +109,11 @@ export default function AdminContactPage() {
       method: "DELETE",
     })
     if (!res.ok) {
-      const data = await res.json()
-      alert(data.error || "Erreur")
+      const data = await res.json().catch(() => ({}))
+      toast.error(data.error || "Erreur lors de la suppression.")
       return
     }
+    toast.success("Message supprimé.")
     if (expanded === id) setExpanded(null)
     fetchMessages()
   }
@@ -190,13 +195,18 @@ export default function AdminContactPage() {
           />
         </div>
 
-        <div className="bg-white rounded-xl border border-gray-200 divide-y divide-gray-100">
-          {messages.length === 0 && (
-            <div className="p-12 flex flex-col items-center gap-3 text-gray-400">
-              <Inbox className="w-10 h-10" />
-              <p className="text-sm">Aucun message à afficher.</p>
-            </div>
-          )}
+        {messages.length === 0 ? (
+          <EmptyState
+            icon={Inbox}
+            title="Aucun message à afficher"
+            description={
+              filter
+                ? "Aucun message ne correspond à ce filtre. Changez de catégorie pour voir les autres messages."
+                : "Les nouveaux messages envoyés depuis le formulaire de contact apparaîtront ici."
+            }
+          />
+        ) : (
+        <div className="bg-white rounded-xl border border-gray-200 divide-y divide-gray-100 overflow-x-auto">
           {messages.map((m) => {
             const isOpen = expanded === m.id
             const fullName = `${m.firstName} ${m.lastName}`.trim()
@@ -288,6 +298,7 @@ export default function AdminContactPage() {
             )
           })}
         </div>
+        )}
       </main>
     </div>
   )

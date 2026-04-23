@@ -90,13 +90,14 @@ function FeaturedPost({ post }: { post: BlogPost }) {
   return (
     <Link href={`/blog/${post.slug}`} className="block group">
       <article aria-label={`Article à la une : ${post.title}`} className="mp-card overflow-hidden grid grid-cols-1 lg:grid-cols-2">
-        {/* Image */}
+        {/* Image — featured post is above-the-fold: prioritise LCP. */}
         <div className="relative h-64 lg:h-auto overflow-hidden rounded-t-2xl lg:rounded-l-2xl lg:rounded-tr-none">
           <Image
             src={post.image || "/images/illustration-pilates-artistique.webp"}
             alt={`Illustration de l'article : ${post.title}`}
             fill
-            loading="lazy"
+            priority
+            fetchPriority="high"
             className="object-cover transition-transform duration-500 group-hover:scale-105"
             sizes="(max-width: 1024px) 100vw, 50vw"
           />

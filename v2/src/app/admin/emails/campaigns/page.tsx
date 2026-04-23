@@ -17,6 +17,8 @@ import {
   Megaphone,
 } from "lucide-react"
 import { clsx } from "clsx"
+import { useToast } from "@/components/ui/Toast"
+import { EmptyState } from "@/components/admin/EmptyState"
 
 interface Audience {
   id: string
@@ -117,6 +119,7 @@ function extractCount(stats: Record<string, unknown>, keys: string[]): number | 
 export default function AdminEmailCampaignsPage() {
   const { data: authSession, status: authStatus } = useSession()
   const router = useRouter()
+  const toast = useToast()
   const role = (authSession?.user as { role?: string } | undefined)?.role
   const isAdmin = role === "ADMIN" || role === "INSTRUCTOR"
 
@@ -131,7 +134,6 @@ export default function AdminEmailCampaignsPage() {
   const [form, setForm] = useState<FormState>(emptyForm)
   const [saving, setSaving] = useState(false)
   const [formError, setFormError] = useState<string | null>(null)
-  const [info, setInfo] = useState<string | null>(null)
   const [busyId, setBusyId] = useState<string | null>(null)
 
   useEffect(() => {
@@ -222,6 +224,7 @@ export default function AdminEmailCampaignsPage() {
         setFormError(data.error || "Erreur lors de l'enregistrement.")
         return
       }
+      toast.success(editing ? "Campagne mise à jour." : "Campagne créée.")
       closeForm()
       fetchCampaigns()
     } catch {
@@ -236,8 +239,12 @@ export default function AdminEmailCampaignsPage() {
     const res = await fetch(`/api/admin/email-campaigns/${c.id}`, {
       method: "DELETE",
     })
-    const data = await res.json()
-    if (!res.ok) alert(data.error || "Erreur")
+    const data = await res.json().catch(() => ({}))
+    if (!res.ok) {
+      toast.error(data.error || "Suppression impossible.")
+      return
+    }
+    toast.success(`Campagne "${c.name}" supprimée.`)
     fetchCampaigns()
   }
 
@@ -253,12 +260,12 @@ export default function AdminEmailCampaignsPage() {
       const res = await fetch(`/api/admin/email-campaigns/${c.id}/send`, {
         method: "POST",
       })
-      const data = await res.json()
-      if (!res.ok) alert(data.error || "Erreur")
-      else setInfo(`Campagne "${c.name}" envoyée.`)
+      const data = await res.json().catch(() => ({}))
+      if (!res.ok) toast.error(data.error || "Envoi impossible.")
+      else toast.success(`Campagne "${c.name}" envoyée.`)
       fetchCampaigns()
     } catch {
-      alert("Erreur réseau.")
+      toast.error("Erreur réseau.")
     } finally {
       setBusyId(null)
     }
@@ -271,11 +278,12 @@ export default function AdminEmailCampaignsPage() {
         `/api/admin/email-campaigns/${c.id}/refresh-stats`,
         { method: "POST" }
       )
-      const data = await res.json()
-      if (!res.ok) alert(data.error || "Erreur")
+      const data = await res.json().catch(() => ({}))
+      if (!res.ok) toast.error(data.error || "Rafraîchissement impossible.")
+      else toast.success("Statistiques mises à jour.")
       fetchCampaigns()
     } catch {
-      alert("Erreur réseau.")
+      toast.error("Erreur réseau.")
     } finally {
       setBusyId(null)
     }
@@ -332,18 +340,6 @@ export default function AdminEmailCampaignsPage() {
       </header>
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {info && (
-          <div className="mb-6 p-4 bg-emerald-50 border border-emerald-200 rounded-lg flex items-center justify-between">
-            <p className="text-sm text-emerald-800">{info}</p>
-            <button
-              onClick={() => setInfo(null)}
-              className="text-xs text-emerald-700 hover:underline"
-            >
-              Masquer
-            </button>
-          </div>
-        )}
-
         {audiencesError && (
           <div className="mb-6 p-4 bg-amber-50 border border-amber-200 rounded-lg">
             <p className="text-sm text-amber-800">
@@ -352,7 +348,19 @@ export default function AdminEmailCampaignsPage() {
           </div>
         )}
 
-        <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+        {campaigns.length === 0 ? (
+          <EmptyState
+            icon={Megaphone}
+            title="Aucune campagne"
+            description="Rédigez votre première newsletter ou campagne promotionnelle. Elle sera envoyée à l'audience Resend de votre choix."
+            action={{
+              label: "Nouvelle campagne",
+              onClick: openCreate,
+              icon: Plus,
+            }}
+          />
+        ) : (
+        <div className="bg-white rounded-xl border border-gray-200 overflow-x-auto">
           <table className="w-full text-sm">
             <thead className="bg-gray-50 text-gray-600 text-xs uppercase tracking-wide">
               <tr>
@@ -366,13 +374,6 @@ export default function AdminEmailCampaignsPage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
-              {campaigns.length === 0 && (
-                <tr>
-                  <td colSpan={7} className="px-4 py-8 text-center text-gray-400">
-                    Aucune campagne pour le moment.
-                  </td>
-                </tr>
-              )}
               {campaigns.map((c) => {
                 const opens = extractCount(c.stats, [
                   "opens",
@@ -501,6 +502,7 @@ export default function AdminEmailCampaignsPage() {
             </tbody>
           </table>
         </div>
+        )}
       </main>
 
       <Modal

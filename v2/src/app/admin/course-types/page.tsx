@@ -12,8 +12,11 @@ import {
   X,
   Edit3,
   Trash2,
+  BadgeCheck,
 } from "lucide-react"
 import { clsx } from "clsx"
+import { useToast } from "@/components/ui/Toast"
+import { EmptyState } from "@/components/admin/EmptyState"
 
 interface AdminCourseType {
   id: string
@@ -109,6 +112,7 @@ function Modal({
 export default function AdminCourseTypesPage() {
   const { data: authSession, status: authStatus } = useSession()
   const router = useRouter()
+  const toast = useToast()
   const role = (authSession?.user as { role?: string } | undefined)?.role
   const isAdmin = role === "ADMIN" || role === "INSTRUCTOR"
 
@@ -206,6 +210,7 @@ export default function AdminCourseTypesPage() {
         setFormError(data.error || "Erreur lors de l'enregistrement.")
         return
       }
+      toast.success(editing ? "Type de cours mis à jour." : "Type de cours créé.")
       closeForm()
       fetchList()
     } catch {
@@ -218,8 +223,12 @@ export default function AdminCourseTypesPage() {
   const remove = async (c: AdminCourseType) => {
     if (!confirm(`Supprimer le type de cours "${c.name}" ?`)) return
     const res = await fetch(`/api/admin/course-types/${c.id}`, { method: "DELETE" })
-    const data = await res.json()
-    if (!res.ok) alert(data.error || "Erreur")
+    const data = await res.json().catch(() => ({}))
+    if (!res.ok) {
+      toast.error(data.error || "Suppression impossible.")
+      return
+    }
+    toast.success(`"${c.name}" supprimé.`)
     fetchList()
   }
 
@@ -271,7 +280,19 @@ export default function AdminCourseTypesPage() {
       </header>
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+        {items.length === 0 ? (
+          <EmptyState
+            icon={BadgeCheck}
+            title="Aucun type de cours"
+            description="Créez votre premier type de cours (Pilates doux, Matwork, Prénatal…). Il pourra ensuite être assigné à un planning ou une séance."
+            action={{
+              label: "Nouveau type",
+              onClick: openCreate,
+              icon: Plus,
+            }}
+          />
+        ) : (
+        <div className="bg-white rounded-xl border border-gray-200 overflow-x-auto">
           <table className="w-full text-sm">
             <thead className="bg-gray-50 text-gray-600 text-xs uppercase tracking-wide">
               <tr>
@@ -285,13 +306,6 @@ export default function AdminCourseTypesPage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
-              {items.length === 0 && (
-                <tr>
-                  <td colSpan={7} className="px-4 py-8 text-center text-gray-400">
-                    Aucun type de cours pour le moment.
-                  </td>
-                </tr>
-              )}
               {items.map((c) => (
                 <tr key={c.id} className="hover:bg-gray-50">
                   <td className="px-4 py-3">
@@ -335,6 +349,7 @@ export default function AdminCourseTypesPage() {
             </tbody>
           </table>
         </div>
+        )}
       </main>
 
       <Modal
