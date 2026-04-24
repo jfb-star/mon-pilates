@@ -179,7 +179,7 @@ export const posts = [
     content: [
       {
         type: "paragraph" as const,
-        text: "C'est avec une immense joie que nous vous annonçons l'ouverture de notre nouveau studio Mon Pilates à Larmor-Plage ! Après six mois de travaux minutieux, notre espace est prêt à vous accueillir dans un cadre pensé pour le bien-être et la sérénité.",
+        text: "C'est avec une immense joie que nous vous annonçons l'ouverture de notre nouveau studio Mon Pilates à Larmor-Plage ! Après plusieurs mois de travaux minutieux, notre espace est prêt à vous accueillir dans un cadre pensé pour le bien-être et la sérénité.",
       },
       {
         type: "heading" as const,
