@@ -43,7 +43,7 @@ test.describe("Custom 404 page", () => {
       page.getByRole("link", { name: /planning des cours/i })
     ).toBeVisible()
     await expect(
-      page.getByRole("link", { name: /retour à l'accueil/i })
+      page.getByRole("link", { name: "Retour à l'accueil", exact: true })
     ).toBeVisible()
   })
 
@@ -54,7 +54,7 @@ test.describe("Custom 404 page", () => {
       page.getByRole("heading", { level: 1, name: /cette page a pris une pause/i })
     ).toBeVisible()
 
-    await page.getByRole("link", { name: /retour à l'accueil/i }).click()
+    await page.getByRole("link", { name: "Retour à l'accueil", exact: true }).click()
 
     await page.waitForURL(/\/$/, { timeout: 10_000 })
     expect(new URL(page.url()).pathname).toBe("/")

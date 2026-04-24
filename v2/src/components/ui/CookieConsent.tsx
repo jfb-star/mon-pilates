@@ -28,9 +28,8 @@ export function CookieConsent() {
 
   return (
     <div
-      role="dialog"
+      role="region"
       aria-label="Consentement aux cookies"
-      aria-modal="false"
       aria-live="polite"
       tabIndex={visible ? undefined : -1}
       className={`fixed bottom-0 left-0 right-0 z-[70] p-4 sm:p-6 transition-all duration-400 ${

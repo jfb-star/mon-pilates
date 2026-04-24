@@ -9,6 +9,10 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,
   reporter: process.env.CI ? [["github"], ["list"]] : "list",
+  // Limit parallelism: `next start` doesn't scale well past a few workers and
+  // tests timeout / flake under heavy load. 2 workers keeps the full suite
+  // fast enough without hammering the server.
+  workers: process.env.CI ? 2 : 2,
   use: {
     baseURL: BASE_URL,
     trace: "retain-on-failure",

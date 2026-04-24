@@ -78,13 +78,6 @@ export function Header() {
 
   return (
     <>
-      {/* Skip to main content link for keyboard navigation */}
-      <a
-        href="#main"
-        className="sr-only focus-visible:not-sr-only focus-visible:fixed focus-visible:top-2 focus-visible:left-2 focus-visible:z-[100] focus-visible:bg-mp-ocean focus-visible:text-white focus-visible:px-4 focus-visible:py-2 focus-visible:rounded-md focus-visible:shadow-lg"
-      >
-        Aller au contenu principal
-      </a>
       {/* Top bar */}
       <header
         role="banner"

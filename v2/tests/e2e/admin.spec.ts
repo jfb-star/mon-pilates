@@ -179,7 +179,7 @@ test.describe("Admin — /admin", () => {
     // Sessions tab renders a "Nouvelle séance" CTA button and a week picker.
     // At least one of those must be present once the tab is active.
     await expect(
-      page.getByRole("button", { name: /nouvelle séance/i })
+      page.getByRole("button", { name: /nouvelle séance/i }).first()
     ).toBeVisible()
   })
 
@@ -255,8 +255,8 @@ test.describe("Admin — /admin", () => {
     await page.getByRole("button", { name: /^membres$/i }).click()
 
     // Both fake emails must be visible in the rendered table / card list.
-    await expect(page.getByText("alice.martin@example.test")).toBeVisible()
-    await expect(page.getByText("bob.durand@example.test")).toBeVisible()
+    await expect(page.getByText("alice.martin@example.test").first()).toBeVisible()
+    await expect(page.getByText("bob.durand@example.test").first()).toBeVisible()
   })
 
   test.skip(

@@ -24,7 +24,7 @@ test.describe("Auth — /connexion", () => {
 
     // Email + password fields (login mode is default)
     await expect(page.getByLabel(/^email$/i)).toBeVisible()
-    await expect(page.getByLabel(/mot de passe/i)).toBeVisible()
+    await expect(page.getByLabel(/^mot de passe$/i)).toBeVisible()
 
     // Submit button
     await expect(
@@ -50,13 +50,18 @@ test.describe("Auth — /connexion", () => {
     await page.goto("/connexion")
 
     await page.getByLabel(/^email$/i).fill("wrong@test.com")
-    await page.getByLabel(/mot de passe/i).fill("badpass")
+    await page.getByLabel(/^mot de passe$/i).fill("badpass")
     await page.getByRole("button", { name: /se connecter/i }).click()
 
-    // The component renders errors in a role="alert" div
-    const alert = page.getByRole("alert")
+    // The component renders errors in a role="alert" div. Exclude Next's
+    // always-present route announcer ("__next-route-announcer__") and the
+    // toast copy that mirrors the message — the in-form alert is the first
+    // match with non-empty text.
+    const alert = page
+      .getByRole("alert")
+      .filter({ hasText: /incorrect|erreur/i })
+      .first()
     await expect(alert).toBeVisible()
-    await expect(alert).toContainText(/incorrect|erreur/i)
   })
 
   test("Page inscription charge et formulaire a les bons champs", async ({ page }) => {

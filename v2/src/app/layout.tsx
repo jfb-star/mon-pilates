@@ -135,7 +135,7 @@ export default function RootLayout({
         </noscript>
         <a
           href="#main-content"
-          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-6 focus:py-3 focus:rounded-xl focus:bg-mp-ocean focus:text-white focus:font-heading focus:font-semibold focus:text-sm focus:shadow-xl focus:outline-none"
+          className="absolute left-4 top-0 -translate-y-full focus:translate-y-4 z-[100] px-6 py-3 rounded-xl bg-mp-ocean text-white font-heading font-semibold text-sm shadow-xl focus:outline-none transition-transform"
         >
           Aller au contenu principal
         </a>
@@ -167,7 +167,7 @@ export default function RootLayout({
           <ToastProvider>
             <Header />
             <main id="main-content" role="main" className="flex-1">
-              <div id="main">{children}</div>
+              {children}
             </main>
             <Footer />
             <MobileFloatingCta />

@@ -12,14 +12,10 @@ import { test, expect } from "@playwright/test"
  *   - The primary navigation has an accessible name.
  *
  * Notes on the real codebase:
- *   - There are TWO skip links in the DOM on every page:
- *       1) in src/app/layout.tsx → href="#main-content"
- *       2) in src/components/layout/Header.tsx → href="#main"
- *     Both render the same visible text "Aller au contenu principal". The
- *     layout one is the first focusable element because the Header logo is
- *     rendered after it. We target it via getByRole("link") + first().
- *   - <main id="main-content"> wraps children, with an inner <div id="main">
- *     for the header's skip target, so both hash targets resolve.
+ *   - The single skip link lives in src/app/layout.tsx → href="#main-content".
+ *     It is the first focusable element of every page (rendered before the
+ *     Header).
+ *   - <main id="main-content"> wraps children so the hash target resolves.
  */
 
 test.describe.configure({ mode: "parallel" })
@@ -34,18 +30,20 @@ for (const path of PATHS) {
       await page.goto(path)
 
       // The skip link carries the accessible name "Aller au contenu principal"
-      const skipLink = page
-        .getByRole("link", { name: /aller au contenu principal/i })
-        .first()
+      const skipLink = page.getByRole("link", { name: /aller au contenu principal/i })
       await expect(skipLink).toHaveCount(1)
 
-      // It must have an anchor href targeting a main landmark
+      // It must have an anchor href targeting the main landmark
       const href = await skipLink.getAttribute("href")
-      expect(href).toMatch(/^#(main|main-content)$/)
+      expect(href).toBe("#main-content")
 
       // Hit Tab from the body — the skip link should be the first focusable
-      // element on the page.
-      await page.locator("body").click({ position: { x: 1, y: 1 } })
+      // element on the page. We focus the document root first to ensure Tab
+      // starts from the very top of the tab order.
+      await page.evaluate(() => {
+        ;(document.activeElement as HTMLElement | null)?.blur?.()
+        document.body.focus()
+      })
       await page.keyboard.press("Tab")
 
       // Assert the focused element is the skip link (by its accessible name)
@@ -57,11 +55,10 @@ for (const path of PATHS) {
 
       // Activating the skip link must move the URL hash to the main landmark
       await page.keyboard.press("Enter")
-      await expect(page).toHaveURL(/#(main|main-content)$/)
+      await expect(page).toHaveURL(/#main-content$/)
 
       // The target element must exist in the DOM
-      const target = href!.replace("#", "")
-      const mainCount = await page.locator(`#${target}`).count()
+      const mainCount = await page.locator("#main-content").count()
       expect(mainCount).toBeGreaterThan(0)
     })
 
