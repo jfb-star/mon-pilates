@@ -290,6 +290,49 @@ export async function sendCardExpiringSoon({
   }
 }
 
+/**
+ * Notify the studio owner that a new contact message came in. Non-blocking —
+ * errors are swallowed so the request handler can still write to DB and
+ * return 200 to the visitor even when Resend is down or unconfigured.
+ *
+ * Destination is `CONTACT_INBOX` env var, default `contact@mon-pilates.bzh`.
+ */
+export async function sendContactNotification({
+  firstName,
+  lastName,
+  email,
+  phone,
+  subject,
+  message,
+}: {
+  firstName: string
+  lastName: string
+  email: string
+  phone?: string
+  subject: string
+  message: string
+}) {
+  const inbox = process.env.CONTACT_INBOX || "contact@mon-pilates.bzh"
+  const emailSubject = `Nouveau message — ${subject} (${firstName} ${lastName})`
+  const escape = (s: string) =>
+    s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+  const html = layout(
+    emailSubject,
+    `<h1 style="margin:0 0 16px;font-size:20px;color:#2c2c2c;">Nouveau message via le formulaire contact</h1>
+     <p style="margin:0 0 6px;font-size:14px;color:#2c2c2c;"><strong>De :</strong> ${escape(firstName)} ${escape(lastName)} &lt;${escape(email)}&gt;</p>
+     ${phone ? `<p style="margin:0 0 6px;font-size:14px;color:#2c2c2c;"><strong>Téléphone :</strong> ${escape(phone)}</p>` : ""}
+     <p style="margin:0 0 6px;font-size:14px;color:#2c2c2c;"><strong>Sujet :</strong> ${escape(subject)}</p>
+     <div style="margin:16px 0;padding:16px 20px;background-color:#faf7f3;border-left:4px solid #6b9fad;border-radius:4px;white-space:pre-wrap;font-size:14px;line-height:1.6;color:#2c2c2c;">${escape(message)}</div>
+     <p style="margin:16px 0 0;font-size:13px;color:#888;">Consulter dans l'admin : <a href="${SITE_URL}/admin/contact" style="color:#6b9fad;">${SITE_URL}/admin/contact</a></p>`
+  )
+  const text = `Nouveau message contact\n\nDe: ${firstName} ${lastName} <${email}>\n${phone ? `Téléphone: ${phone}\n` : ""}Sujet: ${subject}\n\n${message}\n\nAdmin: ${SITE_URL}/admin/contact`
+  try {
+    return await sendEmail({ to: inbox, subject: emailSubject, html, text, replyTo: email })
+  } catch {
+    return null
+  }
+}
+
 export async function sendGiftCard({
   to,
   recipientName,

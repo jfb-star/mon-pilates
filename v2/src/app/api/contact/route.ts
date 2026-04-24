@@ -2,6 +2,9 @@ import type { NextRequest } from "next/server"
 import { NextResponse } from "next/server"
 import { checkRateLimit } from "@/lib/rate-limit"
 import { sanitizeString } from "@/lib/utils"
+import { prisma } from "@/lib/prisma"
+import { sendContactNotification } from "@/lib/email"
+import { log } from "@/lib/logger"
 
 const VALID_SUBJECTS = [
   "Question générale",
@@ -79,17 +82,42 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ errors }, { status: 400 })
     }
 
-    // Log the contact message (in production, save to DB + send notification email)
-    console.log("[contact] New message:", {
-      from: `${firstName} ${lastName} <${email}>`,
-      phone: phone || "N/A",
-      subject,
-      message: message.substring(0, 100) + "...",
-      timestamp: new Date().toISOString(),
-    })
+    // Persist to DB so the admin can read/respond from /admin/contact.
+    try {
+      await prisma.contactMessage.create({
+        data: {
+          firstName,
+          lastName,
+          email,
+          phone: phone || null,
+          subject,
+          message,
+        },
+      })
+    } catch (err) {
+      log.error("[contact] Failed to persist ContactMessage", err, {
+        email,
+        subject,
+      })
+      // Don't fail the visitor's request just because DB write failed — we
+      // still try to email-notify the owner below so the message isn't lost.
+    }
 
-    // TODO: When Brevo/SMTP is configured, send notification email to contact@mon-pilates.bzh
-    // TODO: Save to database (ContactMessage model)
+    // Notify the owner inbox. Non-blocking: swallowed errors, never throws.
+    sendContactNotification({
+      firstName,
+      lastName,
+      email,
+      phone: phone || undefined,
+      subject,
+      message,
+    }).catch(() => {})
+
+    log.info("contact.message.received", {
+      email,
+      subject,
+      hasPhone: Boolean(phone),
+    })
 
     return NextResponse.json({ success: true, message: "Message reçu." })
   } catch {
