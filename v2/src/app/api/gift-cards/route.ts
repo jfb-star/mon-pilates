@@ -1,6 +1,6 @@
 import type { NextRequest } from "next/server"
 import { NextResponse } from "next/server"
-import { isAllowedOrigin, sanitizeString } from "@/lib/utils"
+import { sanitizeString } from "@/lib/utils"
 import { prisma } from "@/lib/prisma"
 
 /** Max length for a gift card code query param */
@@ -64,19 +64,6 @@ export async function GET(request: NextRequest) {
   }
 }
 
-export async function POST(request: NextRequest) {
-  // Origin check -- reject cross-origin requests
-  const origin = request.headers.get("origin")
-  if (!isAllowedOrigin(origin)) {
-    return NextResponse.json(
-      { error: "Origine non autorisée." },
-      { status: 403 }
-    )
-  }
-
-  // TODO: Validate input, create Stripe checkout session, generate gift card code
-  return NextResponse.json(
-    { message: "Gift cards POST - not yet implemented" },
-    { status: 501 }
-  )
-}
+// Gift card purchases flow through POST /api/checkout with `mode: "gift-card"`.
+// The Stripe webhook (src/app/api/webhook/route.ts) creates the GiftCard row on
+// checkout.session.completed. There is deliberately no POST handler here.
