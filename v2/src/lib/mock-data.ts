@@ -78,7 +78,9 @@ export const instructors: Instructor[] = [
     bio: "Ancienne éducatrice en gymnastique et en sport, Violette s'est reconvertie au Pilates après un parcours personnel marqué par des blessures. « Le Pilates a été une vraie révélation : retrouver un corps sans douleur et un mouvement plus juste. » Aujourd'hui, elle accompagne chaque personne avec attention, en adaptant chaque séance à son corps, son histoire et ses besoins, dans un cadre bienveillant, lumineux et apaisé, face à l'océan.",
     certifications: [
       "Certifiée FPMP — Fédération des Professionnels de la Méthode Pilates",
-      // TODO owner: ajouter les éventuelles autres certifications / formations de Violette
+      "BP AGFF — Brevet Professionnel Activités Gymniques Forme et Force (CRIFO Paris, 2010)",
+      "Brevet d'État d'Éducateur Sportif — option Gymnastique Artistique Féminine (DDRJS Paris, 2001)",
+      "PSC1 — Premiers Secours (Croix-Rouge française, 2012)",
     ],
     specialties: ["mat", "reformer", "prenatal", "doux", "intensif"],
     color: "bg-mp-ocean",

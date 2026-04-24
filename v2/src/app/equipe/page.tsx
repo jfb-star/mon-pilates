@@ -19,7 +19,7 @@ const instructorExtras: Record<string, { quote: string; experience: string; funF
     quote:
       "Aujourd'hui, j'accompagne chaque personne avec attention, en adaptant chaque séance à son corps, son histoire et ses besoins, dans un cadre bienveillant, lumineux et apaisé, face à l'océan.",
     experience: "Certifiée FPMP — Fédération des Professionnels de la Méthode Pilates",
-    // TODO owner: ajouter un \"fun fact\" personnel si Violette souhaite en partager un
+    funFact: "Maman de 3 enfants et accro au café le matin ☕",
   },
 };
 
