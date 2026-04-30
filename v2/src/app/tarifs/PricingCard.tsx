@@ -3,24 +3,7 @@
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { Check, Loader2 } from "lucide-react"
-
-type PricingPlan = {
-  name: string
-  price: number
-  priceLabel: string
-  perSession: string | null
-  validity: string | null
-  badge: string | null
-  badgeColor: string
-  highlighted: boolean
-  cta: string
-  savings: string | null
-  features: string[]
-  priceUnit?: string
-  checkoutMode?: "course-card" | "subscription"
-  cardType?: "5" | "10" | "20"
-  href?: string
-}
+import type { PricingPlan } from "@/lib/pricing-plans"
 
 export function PricingCard({ plan }: { plan: PricingPlan }) {
   const router = useRouter()

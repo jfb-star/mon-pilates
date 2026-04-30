@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { SITE_URL } from "@/lib/env";
+import { pricingPlans, cgvLineFor } from "@/lib/pricing-plans";
 
 export const metadata: Metadata = {
   title: "Conditions générales de vente — Mon Pilates Larmor-Plage",
@@ -33,7 +34,7 @@ export default function CgvPage() {
             Conditions générales de vente — Mon Pilates
           </h1>
           <p className="font-body text-mp-text-light">
-            Dernière mise à jour : <time dateTime="2025-01-15">15 janvier 2025</time>
+            Dernière mise à jour : <time dateTime="2026-04-21">21 avril 2026</time>
           </p>
         </div>
       </section>
@@ -70,14 +71,9 @@ export default function CgvPage() {
                 forme de :
               </p>
               <ul className="mt-3 space-y-1.5 list-disc list-inside">
-                <li>Cours Découverte Tapis : 10&euro; (réservé aux nouveaux élèves)</li>
-                <li>Séance tapis à l&apos;unité : 20&euro;</li>
-                <li>Carte 5 cours tapis : 95&euro; (validité 3 mois)</li>
-                <li>Carte 10 cours tapis : 180&euro; (validité 6 mois)</li>
-                <li>Carte 20 cours tapis : 340&euro; (validité 12 mois)</li>
-                <li>Séance Découverte Privé sur appareil : 50&euro; (réservé aux nouveaux élèves)</li>
-                <li>Séance Privé sur appareil : 65&euro;</li>
-                <li>Carte 10 séances Privé sur appareil : 550&euro;</li>
+                {pricingPlans.map((plan) => (
+                  <li key={plan.name}>{cgvLineFor(plan)}</li>
+                ))}
               </ul>
               <p className="mt-3">
                 Les tarifs en vigueur sont affichés sur le site mon-pilates.bzh
