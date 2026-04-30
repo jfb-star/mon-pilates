@@ -415,15 +415,18 @@ export default function PlanningPage() {
   const [activeCard, setActiveCard] = useState<{ remaining: number; total: number } | null>(null)
   const [bookingSuccess, setBookingSuccess] = useState<{ message: string; waitlist: boolean } | null>(null)
 
-  // Check if user has an active course card
+  // Check if user has an active course card. Skip when not signed in to
+  // avoid an authenticated-only 401 in the console for visitors.
+  const isLoggedIn = Boolean(session?.user)
   useEffect(() => {
+    if (!isLoggedIn) return
     fetch("/api/account")
       .then((r) => r.ok ? r.json() : null)
       .then((data) => {
         if (data?.activeCard) setActiveCard(data.activeCard)
       })
       .catch(() => {})
-  }, [])
+  }, [isLoggedIn])
 
   // Remember the trigger so we can return focus to it after closing the modal.
   const lastTriggerRef = useRef<HTMLButtonElement | null>(null)
@@ -930,7 +933,7 @@ export default function PlanningPage() {
                   <button
                     key={session.id}
                     onClick={(e) => handleSelectSession(session, e)}
-                    aria-label={`${session.time} ${session.courseName} — ${full ? "complet" : `${session.spotsRemaining} places`}`}
+                    aria-label={full ? `${session.time} ${session.courseName} — complet` : undefined}
                     className={clsx(
                       "w-full text-left p-4 rounded-xl bg-white border transition-all duration-300",
                       `border-l-4 ${colors?.border}`,
@@ -1045,7 +1048,7 @@ export default function PlanningPage() {
                         <button
                           key={session.id}
                           onClick={(e) => handleSelectSession(session, e)}
-                          aria-label={`${session.time} ${session.courseName} — ${full ? "complet" : `${session.spotsRemaining} places`}`}
+                          aria-label={full ? `${session.time} ${session.courseName} — complet` : undefined}
                           title={courseTypeDescriptions[session.courseType] ?? ""}
                           className={clsx(
                             "group w-full text-left p-3 rounded-xl bg-white border transition-all duration-300 relative",

@@ -67,7 +67,7 @@ export function SmartRecommendations() {
       <div className="bg-gradient-to-r from-mp-ocean/5 to-[#8FAE8F]/5 rounded-2xl p-6 mb-8">
         <div className="flex items-center gap-3 mb-2">
           <Sparkles className="w-5 h-5 text-mp-ocean" />
-          <h3 className="font-heading font-semibold text-mp-text">Recommandations personnalisées</h3>
+          <h2 className="font-heading font-semibold text-mp-text">Recommandations personnalisées</h2>
         </div>
         <p className="text-sm text-mp-text/60 mb-4">
           Connectez-vous pour recevoir des suggestions de cours adaptées à vos habitudes.
@@ -100,7 +100,7 @@ export function SmartRecommendations() {
       <div className="bg-gradient-to-r from-mp-ocean/5 to-[#8FAE8F]/5 rounded-2xl p-6 mb-8">
         <div className="flex items-center gap-3 mb-2">
           <Sparkles className="w-5 h-5 text-mp-ocean" />
-          <h3 className="font-heading font-semibold text-mp-text">Commencez votre parcours</h3>
+          <h2 className="font-heading font-semibold text-mp-text">Commencez votre parcours</h2>
         </div>
         <p className="text-sm text-mp-text/60">
           Réservez vos premiers cours et nous vous proposerons des recommandations personnalisées.
@@ -113,7 +113,7 @@ export function SmartRecommendations() {
     <div className="mb-8">
       <div className="flex items-center gap-3 mb-4">
         <Sparkles className="w-5 h-5 text-mp-ocean" />
-        <h3 className="font-heading font-semibold text-mp-text">Recommandé pour vous</h3>
+        <h2 className="font-heading font-semibold text-mp-text">Recommandé pour vous</h2>
       </div>
       <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
         {recs.map((rec) => (
