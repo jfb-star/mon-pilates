@@ -575,7 +575,7 @@ function ConnexionContent() {
 
           <p className="text-center font-body text-xs text-mp-text-muted mt-6">
             Besoin d&apos;aide ? Appelez-nous au{" "}
-            <a href="tel:+33699183216" className="text-mp-ocean hover:underline">
+            <a href="tel:+33699183216" className="text-mp-ocean underline">
               06 99 18 32 16
             </a>
           </p>

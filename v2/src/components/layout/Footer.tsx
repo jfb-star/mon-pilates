@@ -99,9 +99,9 @@ export function Footer() {
 
           {/* Studio links */}
           <nav aria-label="Le Studio">
-            <h3 className="font-heading text-sm font-semibold text-white uppercase tracking-wider mb-4">
+            <h2 className="font-heading text-sm font-semibold text-white uppercase tracking-wider mb-4">
               Le Studio
-            </h3>
+            </h2>
             <ul className="space-y-2.5">
               {studioLinks.map((link) => (
                 <li key={link.href}>
@@ -119,9 +119,9 @@ export function Footer() {
           {/* Info + Legal */}
           <div>
             <nav aria-label="Informations">
-              <h3 className="font-heading text-sm font-semibold text-white uppercase tracking-wider mb-4">
+              <h2 className="font-heading text-sm font-semibold text-white uppercase tracking-wider mb-4">
                 Informations
-              </h3>
+              </h2>
               <ul className="space-y-2.5">
                 {footerLinks.info.map((link) => (
                   <li key={link.href}>
@@ -136,9 +136,9 @@ export function Footer() {
               </ul>
             </nav>
             <nav aria-label="Mentions légales" className="mt-8">
-              <h3 className="font-heading text-sm font-semibold text-white uppercase tracking-wider mb-4">
+              <h2 className="font-heading text-sm font-semibold text-white uppercase tracking-wider mb-4">
                 Légal
-              </h3>
+              </h2>
               <ul className="space-y-2.5">
                 {footerLinks.legal.map((link) => (
                   <li key={link.href}>
@@ -156,9 +156,9 @@ export function Footer() {
 
           {/* Blog */}
           <div>
-            <h3 className="font-heading text-sm font-semibold text-white uppercase tracking-wider mb-4">
+            <h2 className="font-heading text-sm font-semibold text-white uppercase tracking-wider mb-4">
               Articles récents
-            </h3>
+            </h2>
             <ul className="space-y-2.5">
               {footerLinks.blog.map((link) => (
                 <li key={link.href}>
@@ -175,9 +175,9 @@ export function Footer() {
 
           {/* Contact */}
           <div>
-            <h3 className="font-heading text-sm font-semibold text-white uppercase tracking-wider mb-4">
+            <h2 className="font-heading text-sm font-semibold text-white uppercase tracking-wider mb-4">
               Contact
-            </h3>
+            </h2>
             <address className="not-italic space-y-4">
               <div className="flex items-start gap-3 text-sm">
                 <MapPin className="w-4 h-4 mt-0.5 text-mp-ocean-light flex-shrink-0" aria-hidden="true" />
@@ -225,9 +225,9 @@ export function Footer() {
         <div className="mt-12 pt-8 border-t border-white/10">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-6 mb-8">
             <div>
-              <h3 className="font-heading text-sm font-semibold text-white uppercase tracking-wider mb-1">
+              <h2 className="font-heading text-sm font-semibold text-white uppercase tracking-wider mb-1">
                 Newsletter
-              </h3>
+              </h2>
               <p className="text-sm text-white/80 font-body">
                 Conseils Pilates, offres exclusives et actus du studio. Pas de spam, promis.
               </p>
