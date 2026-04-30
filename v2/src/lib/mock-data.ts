@@ -50,11 +50,14 @@ export interface Session {
 /* ----------------------------------------------------------
    COURSE TYPE COLORS
    ---------------------------------------------------------- */
+// `text` keys must clear WCAG AA (4.5:1) on a /10-tinted bg. Decorative
+// shades (`-light`) drop below ~3:1 even on white, so prenatal + doux use
+// `-dark` variants for any text rendered on these tints.
 export const courseTypeColors: Record<CourseType, { dot: string; bg: string; text: string; border: string }> = {
-  mat: { dot: "bg-mp-ocean", bg: "bg-mp-ocean/10", text: "text-mp-ocean", border: "border-mp-ocean" },
-  reformer: { dot: "bg-mp-sage", bg: "bg-mp-sage/10", text: "text-mp-sage", border: "border-mp-sage" },
-  prenatal: { dot: "bg-mp-rose", bg: "bg-mp-rose/10", text: "text-mp-rose", border: "border-mp-rose" },
-  doux: { dot: "bg-mp-ocean-light", bg: "bg-mp-ocean-light/10", text: "text-mp-ocean-light", border: "border-mp-ocean-light" },
+  mat: { dot: "bg-mp-ocean", bg: "bg-mp-ocean/10", text: "text-mp-ocean-dark", border: "border-mp-ocean" },
+  reformer: { dot: "bg-mp-sage", bg: "bg-mp-sage/10", text: "text-mp-sage-dark", border: "border-mp-sage" },
+  prenatal: { dot: "bg-mp-rose", bg: "bg-mp-rose/10", text: "text-mp-rose-dark", border: "border-mp-rose" },
+  doux: { dot: "bg-mp-ocean-light", bg: "bg-mp-ocean-light/10", text: "text-mp-ocean-dark", border: "border-mp-ocean-light" },
   intensif: { dot: "bg-mp-charcoal", bg: "bg-mp-charcoal/10", text: "text-mp-charcoal", border: "border-mp-charcoal" },
 };
 

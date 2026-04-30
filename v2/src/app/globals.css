@@ -17,6 +17,7 @@
   --mp-ocean-dark: #2a5d6e;   /* darker hover */
   --mp-ocean-light: #a3c9d3;  /* decorative only */
   --mp-sage: #5a7856;         /* 5.0:1 on white */
+  --mp-sage-dark: #4a6346;    /* 6.4:1 on white — for text on tinted bg */
   --mp-sage-light: #c2d4bf;
   --mp-gold: #8b6518;         /* 5.3:1 on white */
   --mp-gold-light: #e0d0a8;
@@ -28,6 +29,7 @@
   --mp-text-light: #5a5a5a;
   --mp-text-muted: #717171;
   --mp-rose: #d4a0a0;
+  --mp-rose-dark: #9a5757;    /* 6.1:1 on white — for text on tinted bg */
   --mp-rose-light: #f0dede;
 
   /* Spacing scale */
@@ -51,6 +53,7 @@
   --color-mp-ocean-dark: var(--mp-ocean-dark);
   --color-mp-ocean-light: var(--mp-ocean-light);
   --color-mp-sage: var(--mp-sage);
+  --color-mp-sage-dark: var(--mp-sage-dark);
   --color-mp-sage-light: var(--mp-sage-light);
   --color-mp-gold: var(--mp-gold);
   --color-mp-gold-light: var(--mp-gold-light);
@@ -62,6 +65,7 @@
   --color-mp-text-light: var(--mp-text-light);
   --color-mp-text-muted: var(--mp-text-muted, #717171);
   --color-mp-rose: var(--mp-rose);
+  --color-mp-rose-dark: var(--mp-rose-dark);
   --color-mp-rose-light: var(--mp-rose-light);
   --font-heading: var(--font-outfit);
   --font-body: var(--font-lora);

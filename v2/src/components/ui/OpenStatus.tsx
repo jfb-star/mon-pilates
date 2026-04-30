@@ -68,7 +68,7 @@ export function OpenStatus() {
       className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-heading font-semibold ${
         isOpen
           ? "bg-emerald-50 text-emerald-700"
-          : "bg-red-50 text-red-600"
+          : "bg-red-50 text-red-700"
       }`}
     >
       <span

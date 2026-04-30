@@ -82,7 +82,7 @@ export function PricingCard({ plan }: { plan: PricingPlan }) {
         </p>
       )}
       {plan.savings && (
-        <p className="inline-flex items-center gap-1 text-xs font-heading font-semibold text-mp-sage bg-mp-sage/10 px-2.5 py-1 rounded-full mt-1.5 w-fit">
+        <p className="inline-flex items-center gap-1 text-xs font-heading font-semibold text-mp-sage-dark bg-mp-sage/10 px-2.5 py-1 rounded-full mt-1.5 w-fit">
           <Check className="w-3 h-3" aria-hidden="true" />
           {plan.savings}
         </p>
