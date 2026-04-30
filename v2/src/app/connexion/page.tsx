@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, type FormEvent, Suspense } from "react";
-import { signIn } from "next-auth/react";
+import { signIn, getProviders } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { Eye, EyeOff, Loader2, ArrowRight, Gift } from "lucide-react";
@@ -70,6 +70,24 @@ function ConnexionContent() {
   const [forgotSuccess, setForgotSuccess] = useState(false);
   const [referralCode] = useState(refCode || "");
   const errorRef = useRef<HTMLDivElement>(null);
+  // Tracks which OAuth providers are actually configured server-side. NextAuth
+  // omits providers that lack credentials, so the UI hides their buttons in
+  // dev/preview where Google/Apple secrets aren't set.
+  const [oauthProviders, setOauthProviders] = useState<{ google: boolean; apple: boolean } | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    getProviders().then((p) => {
+      if (cancelled) return;
+      setOauthProviders({
+        google: Boolean(p?.google),
+        apple: Boolean(p?.apple),
+      });
+    }).catch(() => {
+      if (!cancelled) setOauthProviders({ google: false, apple: false });
+    });
+    return () => { cancelled = true };
+  }, []);
 
   useEffect(() => {
     if (error && errorRef.current) {
@@ -268,32 +286,37 @@ function ConnexionContent() {
             </div>
           )}
 
-          {/* Social login buttons (shown for login & register modes) */}
-          {mode !== "forgot" && (
+          {/* Social login buttons (shown for login & register modes, only for
+              providers actually configured server-side). */}
+          {mode !== "forgot" && oauthProviders && (oauthProviders.google || oauthProviders.apple) && (
             <div className="space-y-3 mb-6">
-              <button
-                type="button"
-                onClick={() => signIn("google", { callbackUrl: searchParams.get("returnTo") ? returnTo : "/compte" })}
-                className="flex items-center justify-center gap-3 w-full py-3 px-4 rounded-xl border border-mp-sand-dark/50 bg-white text-mp-charcoal font-heading text-sm font-medium hover:bg-mp-sand/30 transition-colors"
-              >
-                <svg className="w-5 h-5" viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/>
-                  <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-                  <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18A10.96 10.96 0 0 0 1 12c0 1.77.42 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
-                  <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
-                </svg>
-                Continuer avec Google
-              </button>
-              <button
-                type="button"
-                onClick={() => signIn("apple", { callbackUrl: searchParams.get("returnTo") ? returnTo : "/compte" })}
-                className="flex items-center justify-center gap-3 w-full py-3 px-4 rounded-xl bg-mp-charcoal text-white font-heading text-sm font-medium hover:bg-mp-charcoal/90 transition-colors"
-              >
-                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                  <path d="M17.05 20.28c-.98.95-2.05.88-3.08.4-1.09-.5-2.08-.48-3.24 0-1.44.62-2.2.44-3.06-.4C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.32 2.32-1.55 4.28-3.74 4.25z"/>
-                </svg>
-                Continuer avec Apple
-              </button>
+              {oauthProviders.google && (
+                <button
+                  type="button"
+                  onClick={() => signIn("google", { callbackUrl: searchParams.get("returnTo") ? returnTo : "/compte" })}
+                  className="flex items-center justify-center gap-3 w-full py-3 px-4 rounded-xl border border-mp-sand-dark/50 bg-white text-mp-charcoal font-heading text-sm font-medium hover:bg-mp-sand/30 transition-colors"
+                >
+                  <svg className="w-5 h-5" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/>
+                    <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                    <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18A10.96 10.96 0 0 0 1 12c0 1.77.42 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+                    <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+                  </svg>
+                  Continuer avec Google
+                </button>
+              )}
+              {oauthProviders.apple && (
+                <button
+                  type="button"
+                  onClick={() => signIn("apple", { callbackUrl: searchParams.get("returnTo") ? returnTo : "/compte" })}
+                  className="flex items-center justify-center gap-3 w-full py-3 px-4 rounded-xl bg-mp-charcoal text-white font-heading text-sm font-medium hover:bg-mp-charcoal/90 transition-colors"
+                >
+                  <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M17.05 20.28c-.98.95-2.05.88-3.08.4-1.09-.5-2.08-.48-3.24 0-1.44.62-2.2.44-3.06-.4C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.32 2.32-1.55 4.28-3.74 4.25z"/>
+                  </svg>
+                  Continuer avec Apple
+                </button>
+              )}
 
               {/* Separator */}
               <div className="relative flex items-center py-1">
