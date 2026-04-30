@@ -323,7 +323,7 @@ export function ReviewSection({
               maxLength={500}
               rows={3}
               className="w-full rounded-lg border border-mp-sand-dark/30 bg-mp-white px-4 py-2.5 font-body text-sm text-mp-text placeholder:text-mp-text-muted/60 focus:outline-none focus:ring-2 focus:ring-mp-ocean/40 focus:border-mp-ocean transition-colors resize-none"
-              placeholder="Partagez votre experience..."
+              placeholder="Partagez votre expérience..."
             />
             <p className="text-xs text-mp-text-muted mt-1 text-right">
               {comment.length}/500
