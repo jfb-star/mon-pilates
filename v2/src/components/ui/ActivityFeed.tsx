@@ -48,9 +48,10 @@ function PulsingDot({ type }: { type: ActivityEvent["type"] }) {
 }
 
 /* ------------------------------------------------------------------ */
-/*  Fallback / placeholder events when API returns empty               */
+/*  Demo events used only outside production (design previews) — never */
+/*  shown on the real site, where empty state hides the widget.        */
 /* ------------------------------------------------------------------ */
-function getFallbackEvents(): ActivityEvent[] {
+function getDemoEvents(): ActivityEvent[] {
   const now = Date.now()
   return [
     {
@@ -104,14 +105,17 @@ function useActivityEvents() {
   const [loaded, setLoaded] = useState(false)
 
   const fetchEvents = useCallback(async () => {
+    // Never fabricate "live" activity in production — empty state hides
+    // the widget. Demo events stay available outside prod for design work.
+    const useDemoOnEmpty = process.env.NODE_ENV !== "production"
     try {
       const res = await fetch("/api/activity")
       if (!res.ok) throw new Error("fetch failed")
       const data = await res.json()
       const fetched: ActivityEvent[] = data.events ?? []
-      setEvents(fetched.length > 0 ? fetched : getFallbackEvents())
+      setEvents(fetched.length > 0 ? fetched : useDemoOnEmpty ? getDemoEvents() : [])
     } catch {
-      setEvents(getFallbackEvents())
+      setEvents(useDemoOnEmpty ? getDemoEvents() : [])
     } finally {
       setLoaded(true)
     }
@@ -147,6 +151,9 @@ function SidebarFeed() {
       </div>
     )
   }
+
+  // Hide entirely when there's no activity — better than fake "live" events.
+  if (events.length === 0) return null
 
   const displayed = events.slice(0, 5)
 

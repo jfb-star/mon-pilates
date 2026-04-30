@@ -693,9 +693,9 @@ export default function PlanningPage() {
           {filtersOpen && (
             <div className="mp-card p-6 mb-8 border border-mp-sand">
               <div className="flex items-center justify-between mb-5">
-                <h3 className="font-heading text-lg font-bold text-mp-charcoal">
+                <h2 className="font-heading text-lg font-bold text-mp-charcoal">
                   Filtres
-                </h3>
+                </h2>
                 {hasFilters && (
                   <button
                     onClick={clearFilters}
@@ -888,7 +888,7 @@ export default function PlanningPage() {
                   )}
                 >
                   <span>{(dayNames[dayOffset] ?? "").slice(0, 3)}</span>
-                  <span className={clsx("text-[10px] mt-0.5", active ? (today ? "text-white/70" : "text-mp-ocean/70") : "text-mp-text-muted")}>
+                  <span className={clsx("text-[10px] mt-0.5", active ? (today ? "text-white/95" : "text-mp-ocean") : "text-mp-text-muted")}>
                     {format(date, "d MMM", { locale: fr })}
                   </span>
                   {dayCount > 0 && (
@@ -930,7 +930,7 @@ export default function PlanningPage() {
                   <button
                     key={session.id}
                     onClick={(e) => handleSelectSession(session, e)}
-                    aria-label={`${session.courseName} à ${session.time} — ${full ? "complet" : `${session.spotsRemaining} places`}`}
+                    aria-label={`${session.time} ${session.courseName} — ${full ? "complet" : `${session.spotsRemaining} places`}`}
                     className={clsx(
                       "w-full text-left p-4 rounded-xl bg-white border transition-all duration-300",
                       `border-l-4 ${colors?.border}`,
@@ -1013,7 +1013,7 @@ export default function PlanningPage() {
                       </span>
                     )}
                     <p>{dayNames[dayOffset]}</p>
-                    <p className={clsx("text-xs mt-0.5", today ? "text-white/70" : "text-mp-text-muted")}>
+                    <p className={clsx("text-xs mt-0.5", today ? "text-white/95" : "text-mp-text-muted")}>
                       {format(date, "d MMM", { locale: fr })}
                     </p>
                   </div>
@@ -1045,7 +1045,7 @@ export default function PlanningPage() {
                         <button
                           key={session.id}
                           onClick={(e) => handleSelectSession(session, e)}
-                          aria-label={`${session.courseName} à ${session.time} — ${full ? "complet" : `${session.spotsRemaining} places`}`}
+                          aria-label={`${session.time} ${session.courseName} — ${full ? "complet" : `${session.spotsRemaining} places`}`}
                           title={courseTypeDescriptions[session.courseType] ?? ""}
                           className={clsx(
                             "group w-full text-left p-3 rounded-xl bg-white border transition-all duration-300 relative",

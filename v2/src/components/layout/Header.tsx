@@ -207,7 +207,7 @@ export function Header() {
                   ? "text-mp-charcoal-light hover:text-mp-ocean"
                   : "text-white/80 hover:text-white"
               )}
-              aria-label={isLoggedIn ? "Mon compte" : "Se connecter"}
+              aria-label={isLoggedIn ? "Mon compte" : "Connexion"}
             >
               <User className="w-4 h-4" aria-hidden="true" />
               <span className="hidden xl:inline">{isLoggedIn ? "Mon compte" : "Connexion"}</span>

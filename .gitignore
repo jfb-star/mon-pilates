@@ -80,3 +80,4 @@ app/public/wp-content/plugins/google-listings-and-ads/
 # =============================================================================
 .claude/
 .lighthouseci/
+.lighthouseci-local/
