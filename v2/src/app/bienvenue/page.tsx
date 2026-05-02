@@ -18,7 +18,7 @@ import type { LucideIcon } from "lucide-react";
 /* ============================================================
    COURSE DATA (same as CourseQuiz)
    ============================================================ */
-type CourseKey = "mat" | "reformer" | "prenatal" | "doux" | "intensif";
+type CourseKey = "tapis" | "appareils" | "prenatal" | "doux" | "intensif";
 
 interface CourseInfo {
   name: string;
@@ -30,20 +30,20 @@ interface CourseInfo {
 }
 
 const courseData: Record<CourseKey, CourseInfo> = {
-  mat: { name: "Pilates classique — Tapis", slug: "mat", description: "Renforcement postural au sol, accessible a tous", level: "Tous niveaux", duration: "55 min", color: "mp-ocean" },
-  reformer: { name: "Cours privé sur appareil", slug: "reformer", description: "Séance individuelle sur machine, sur-mesure", level: "Tous niveaux", duration: "55 min", color: "mp-sage" },
+  tapis: { name: "Pilates classique — Tapis", slug: "tapis", description: "Renforcement postural au sol, accessible à tous", level: "Tous niveaux", duration: "55 min", color: "mp-ocean" },
+  appareils: { name: "Cours collectif sur appareils", slug: "appareils", description: "Petit groupe sur Reformer et appareils, charges adaptées", level: "Tous niveaux", duration: "55 min", color: "mp-gold" },
   prenatal: { name: "Pilates pré & post-natal", slug: "prenatal", description: "Adapté à la grossesse et au post-partum", level: "Tous niveaux", duration: "55 min", color: "mp-rose" },
   doux: { name: "Pilates doux — Tapis", slug: "doux", description: "Mouvements en douceur, idéal débutants et seniors", level: "Débutant", duration: "55 min", color: "mp-ocean" },
-  intensif: { name: "Pilates avancé — Tapis", slug: "intensif", description: "Rythme soutenu pour pratiquants confirmés", level: "Avancé", duration: "55 min", color: "mp-sage" },
+  intensif: { name: "Pilates avancé — Tapis", slug: "intensif", description: "Rythme soutenu pour pratiquants confirmés", level: "Avancé", duration: "55 min", color: "mp-charcoal" },
 };
 
 /* ============================================================
    EXPERIENCE WEIGHTS
    ============================================================ */
 const experienceWeights: Record<string, Partial<Record<CourseKey, number>>> = {
-  never: { mat: 1, doux: 1 },
-  some: { mat: 1, reformer: 1 },
-  regular: { reformer: 1, intensif: 1 },
+  never: { tapis: 1, doux: 1 },
+  some: { tapis: 1, appareils: 1 },
+  regular: { appareils: 1, intensif: 1 },
 };
 
 /* ============================================================
@@ -57,11 +57,11 @@ interface GoalOption {
 }
 
 const goalOptions: GoalOption[] = [
-  { id: "pain", label: "Soulager des douleurs", icon: Heart, weights: { mat: 2, doux: 2, reformer: 1 } },
-  { id: "tone", label: "Me tonifier", icon: Flame, weights: { reformer: 2, intensif: 2, mat: 1 } },
-  { id: "relax", label: "Me d\u00e9tendre", icon: Sparkles, weights: { doux: 2, mat: 1 } },
+  { id: "pain", label: "Soulager des douleurs", icon: Heart, weights: { tapis: 2, doux: 2, appareils: 1 } },
+  { id: "tone", label: "Me tonifier", icon: Flame, weights: { appareils: 2, intensif: 2, tapis: 1 } },
+  { id: "relax", label: "Me d\u00e9tendre", icon: Sparkles, weights: { doux: 2, tapis: 1 } },
   { id: "pregnancy", label: "Accompagner ma grossesse", icon: Baby, weights: { prenatal: 3 } },
-  { id: "fitness", label: "Rester en forme", icon: Activity, weights: { doux: 2, mat: 1 } },
+  { id: "fitness", label: "Rester en forme", icon: Activity, weights: { doux: 2, tapis: 1 } },
 ];
 
 /* ============================================================
@@ -71,7 +71,7 @@ function computeResult(
   expWeights: Partial<Record<CourseKey, number>>,
   goalWeights: Partial<Record<CourseKey, number>>
 ) {
-  const scores: Record<CourseKey, number> = { mat: 0, reformer: 0, prenatal: 0, doux: 0, intensif: 0 };
+  const scores: Record<CourseKey, number> = { tapis: 0, appareils: 0, prenatal: 0, doux: 0, intensif: 0 };
 
   for (const w of [expWeights, goalWeights]) {
     for (const [key, val] of Object.entries(w)) {
@@ -81,7 +81,7 @@ function computeResult(
 
   const maxScore = Object.values(scores).reduce((a, b) => a + b, 0);
   const sorted = (Object.entries(scores) as [CourseKey, number][]).sort((a, b) => b[1] - a[1]);
-  const top = sorted[0] ?? (["mat", 0] as [CourseKey, number]);
+  const top = sorted[0] ?? (["tapis", 0] as [CourseKey, number]);
 
   return {
     key: top[0],

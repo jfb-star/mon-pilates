@@ -20,6 +20,9 @@ import {
   CalendarX,
   AlertCircle,
   Loader2,
+  Sparkles,
+  Phone,
+  Mail,
 } from "lucide-react"
 import { BookingStepper } from "@/components/BookingStepper"
 import { clsx } from "clsx"
@@ -36,17 +39,17 @@ import { SmartRecommendations } from "@/components/ui/SmartRecommendations"
 import Skeleton from "@/components/ui/Skeleton"
 import { SITE_URL } from "@/lib/env"
 
-const courseTypes = ["mat", "doux", "intensif", "prenatal", "reformer"] as const
+const courseTypes = ["tapis", "doux", "intensif", "appareils", "prenatal"] as const
 const instructorNames = ["Violette"]
 const levels = ["Tous niveaux", "Débutant", "Intermédiaire", "Avancé"]
 
 /** One-line descriptions per course type */
 const courseTypeDescriptions: Record<string, string> = {
-  mat: "Séance complète au tapis",
-  reformer: "Privé sur Reformer Cadillac",
-  prenatal: "Adapté à la grossesse et au post-partum",
+  tapis: "Séance complète au tapis, tous niveaux",
   doux: "Accessible, idéal débutants et seniors",
   intensif: "Enchaînements soutenus, niveau avancé",
+  appareils: "Petit groupe sur Reformer et appareils",
+  prenatal: "Adapté à la grossesse et au post-partum",
 }
 
 /** Instructor avatar colors based on name */
@@ -1109,6 +1112,66 @@ export default function PlanningPage() {
           </div>
         </div>
       </div>
+
+      {/* Cours privés sur appareils — hors planning collectif */}
+      <section
+        aria-labelledby="planning-private-title"
+        className="bg-mp-sand/40 border-t border-mp-sand-dark/40"
+      >
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
+          <div className="flex items-start gap-4 mb-6">
+            <span
+              className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-mp-sage/10 shrink-0"
+              aria-hidden="true"
+            >
+              <Sparkles className="w-6 h-6 text-mp-sage" />
+            </span>
+            <div>
+              <h2
+                id="planning-private-title"
+                className="font-heading text-2xl sm:text-3xl text-mp-charcoal mb-2"
+              >
+                Cours privés sur appareils
+              </h2>
+              <p className="font-body text-mp-text-light text-sm sm:text-base max-w-2xl">
+                Séance individuelle (55 min) sur Reformer Cadillac, en tête-à-tête avec
+                Violette. Idéal pour débuter, pour une rééducation ou pour progresser plus
+                rapidement avec un accompagnement 100&nbsp;% personnalisé.
+              </p>
+              <p className="font-body text-mp-text-light text-sm sm:text-base mt-3 max-w-2xl">
+                <strong className="text-mp-charcoal">Sur réservation</strong> les après-midis
+                en semaine et le samedi midi. Le créneau exact est confirmé après échange,
+                pour s'adapter à vos contraintes et aux vôtres.
+              </p>
+            </div>
+          </div>
+
+          <div className="flex flex-col sm:flex-row gap-3 mt-8">
+            <a
+              href="tel:+33699183216"
+              className="mp-btn mp-btn-primary inline-flex items-center justify-center gap-2"
+            >
+              <Phone className="w-4 h-4" aria-hidden="true" />
+              06 99 18 32 16
+            </a>
+            <a
+              href="mailto:contact@mon-pilates.bzh?subject=Demande%20de%20cours%20priv%C3%A9%20sur%20appareils"
+              className="mp-btn mp-btn-outline inline-flex items-center justify-center gap-2"
+            >
+              <Mail className="w-4 h-4" aria-hidden="true" />
+              Demander un créneau par email
+            </a>
+          </div>
+
+          <p className="mt-6 text-xs text-mp-text-muted font-body">
+            Tarif privé&nbsp;: voir la page{" "}
+            <Link href="/tarifs" className="underline hover:text-mp-ocean">
+              tarifs
+            </Link>
+            .
+          </p>
+        </div>
+      </section>
 
       {/* Session modal */}
       {selectedSession && (

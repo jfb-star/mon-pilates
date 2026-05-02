@@ -20,8 +20,8 @@ import { BodyMap } from "@/components/ui/BodyMap";
 import { SITE_URL } from "@/lib/env";
 
 const courseImages: Partial<Record<CourseType, string>> = {
-  mat: "/images/illustration-cours-collectif.webp",
-  reformer: "/images/illustration-cours-machine.webp",
+  tapis: "/images/illustration-cours-collectif.webp",
+  appareils: "/images/illustration-cours-machine.webp",
   prenatal: "/images/illustration-cours-prenatal.webp",
   doux: "/images/illustration-cours-doux.webp",
   intensif: "/images/illustration-cours-intensif.webp",
@@ -30,11 +30,11 @@ const courseImages: Partial<Record<CourseType, string>> = {
 export const metadata: Metadata = {
   title: "Nos cours de Pilates",
   description:
-    "Découvrez nos 5 types de cours : tapis doux, classique et avancé, cours privés sur appareil et Pilates pré & post-natal. Trouvez le Pilates qui vous correspond.",
+    "Découvrez nos 5 types de cours : tapis doux, classique et avancé, cours collectif sur appareils et Pilates pré & post-natal. Cours privés disponibles sur réservation.",
   openGraph: {
     title: "Nos cours | Mon Pilates",
     description:
-      "Pilates au tapis (doux, classique, avancé), cours privés sur appareil, pré & post-natal — pour tous les niveaux à Larmor-Plage.",
+      "Pilates au tapis (doux, classique, avancé), cours collectif sur appareils, pré & post-natal et privés sur appareils — pour tous les niveaux à Larmor-Plage.",
     images: [
       {
         url: "/images/studio-reformer-ocean.webp",
@@ -50,12 +50,11 @@ export const metadata: Metadata = {
 };
 
 const courseIcons: Record<string, React.ElementType> = {
-  mat: Heart,
-  reformer: Sparkles,
+  tapis: Heart,
+  appareils: Sparkles,
   prenatal: Baby,
   doux: Leaf,
   intensif: Flame,
-  "reformer-collectif": Sparkle,
 };
 
 const coursesItemListJsonLd = {
@@ -347,7 +346,7 @@ function CourseCard({ course }: { course: CourseInfo }) {
             </div>
             <span className="flex items-center gap-1 text-xs text-mp-text-muted font-heading">
               <Users className="w-3 h-3" aria-hidden="true" />
-              {course.slug === "reformer" ? "Séance privée 1-à-1" : "5 max · suivi premium"}
+              {course.slug === "appareils" ? "4 max · sur appareils" : "5 max · suivi premium"}
             </span>
           </div>
         </div>

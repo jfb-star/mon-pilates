@@ -9,7 +9,7 @@ const pages = [
   { name: "home", path: "/" },
   { name: "planning", path: "/planning" },
   { name: "cours", path: "/cours" },
-  { name: "cours-mat", path: "/cours/mat" },
+  { name: "cours-tapis", path: "/cours/tapis" },
   { name: "tarifs", path: "/tarifs" },
   { name: "equipe", path: "/equipe" },
   { name: "blog", path: "/blog" },

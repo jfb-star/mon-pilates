@@ -31,7 +31,7 @@ const moods: MoodOption[] = [
     colorText: "text-mp-rose",
     courses: [
       { slug: "doux", name: "Pilates doux — Tapis", description: "\u00c9tirements et relaxation profonde" },
-      { slug: "mat", name: "Pilates classique — Tapis", description: "Renforcement postural apaisant" },
+      { slug: "tapis", name: "Pilates classique — Tapis", description: "Renforcement postural apaisant" },
     ],
     reason: "Un cours doux pour rel\u00e2cher les tensions et retrouver le calme",
   },
@@ -45,7 +45,7 @@ const moods: MoodOption[] = [
     colorText: "text-mp-sage",
     courses: [
       { slug: "doux", name: "Pilates doux — Tapis", description: "Mouvements lents et r\u00e9g\u00e9n\u00e9rants" },
-      { slug: "reformer", name: "Cours priv\u00e9 sur appareil", description: "S\u00e9ance individuelle sur-mesure" },
+      { slug: "appareils", name: "Cours collectif sur appareils", description: "Petit groupe sur machine, charges adapt\u00e9es" },
     ],
     reason: "Des mouvements doux pour retrouver l'\u00e9nergie sans forcer",
   },
@@ -59,7 +59,7 @@ const moods: MoodOption[] = [
     colorText: "text-mp-gold",
     courses: [
       { slug: "intensif", name: "Pilates avancé — Tapis", description: "Rythme soutenu pour pratiquants confirmés" },
-      { slug: "reformer", name: "Cours privé sur appareil", description: "Travail en profondeur sur machine" },
+      { slug: "appareils", name: "Cours collectif sur appareils", description: "Travail en profondeur sur machine" },
     ],
     reason: "Canalisez votre \u00e9nergie dans un workout intense et structur\u00e9",
   },
@@ -73,7 +73,7 @@ const moods: MoodOption[] = [
     colorText: "text-mp-ocean",
     courses: [
       { slug: "doux", name: "Pilates doux — Tapis", description: "\u00c9tirements cibl\u00e9s et mobilit\u00e9" },
-      { slug: "mat", name: "Pilates classique — Tapis", description: "Travail postural tout en douceur" },
+      { slug: "tapis", name: "Pilates classique — Tapis", description: "Travail postural tout en douceur" },
     ],
     reason: "\u00c9tirements et mobilit\u00e9 pour soulager les douleurs musculaires",
   },
@@ -86,7 +86,7 @@ const moods: MoodOption[] = [
     colorBorder: "border-mp-sage",
     colorText: "text-mp-sage",
     courses: [
-      { slug: "reformer", name: "Cours privé sur appareil", description: "Sculptez votre silhouette" },
+      { slug: "appareils", name: "Cours collectif sur appareils", description: "Sculptez votre silhouette" },
       { slug: "intensif", name: "Pilates avancé — Tapis", description: "Repoussez vos limites" },
     ],
     reason: "Profitez de votre bonne forme pour progresser et vous d\u00e9passer !",

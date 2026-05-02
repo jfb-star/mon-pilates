@@ -3,7 +3,7 @@
    Shared across planning, cours, and equipe pages.
    ============================================================ */
 
-export type CourseType = "mat" | "reformer" | "prenatal" | "doux" | "intensif";
+export type CourseType = "tapis" | "prenatal" | "doux" | "intensif" | "appareils";
 export type Level = "Tous niveaux" | "Débutant" | "Intermédiaire" | "Avancé";
 
 export interface Instructor {
@@ -54,19 +54,19 @@ export interface Session {
 // shades (`-light`) drop below ~3:1 even on white, so prenatal + doux use
 // `-dark` variants for any text rendered on these tints.
 export const courseTypeColors: Record<CourseType, { dot: string; bg: string; text: string; border: string }> = {
-  mat: { dot: "bg-mp-ocean", bg: "bg-mp-ocean/10", text: "text-mp-ocean-dark", border: "border-mp-ocean" },
-  reformer: { dot: "bg-mp-sage", bg: "bg-mp-sage/10", text: "text-mp-sage-dark", border: "border-mp-sage" },
+  tapis: { dot: "bg-mp-ocean", bg: "bg-mp-ocean/10", text: "text-mp-ocean-dark", border: "border-mp-ocean" },
   prenatal: { dot: "bg-mp-rose", bg: "bg-mp-rose/10", text: "text-mp-rose-dark", border: "border-mp-rose" },
   doux: { dot: "bg-mp-ocean-light", bg: "bg-mp-ocean-light/10", text: "text-mp-ocean-dark", border: "border-mp-ocean-light" },
   intensif: { dot: "bg-mp-charcoal", bg: "bg-mp-charcoal/10", text: "text-mp-charcoal", border: "border-mp-charcoal" },
+  appareils: { dot: "bg-mp-gold", bg: "bg-mp-gold/10", text: "text-mp-gold", border: "border-mp-gold" },
 };
 
 export const courseTypeLabels: Record<CourseType, string> = {
-  mat: "Tapis — classique",
-  reformer: "Cours privé sur appareil",
-  prenatal: "Pré & post-natal",
+  tapis: "Tapis — classique",
   doux: "Tapis — doux",
   intensif: "Tapis — avancé",
+  appareils: "Appareils",
+  prenatal: "Pré & post-natal",
 };
 
 /* ----------------------------------------------------------
@@ -85,7 +85,7 @@ export const instructors: Instructor[] = [
       "Brevet d'État d'Éducateur Sportif — option Gymnastique Artistique Féminine (DDRJS Paris, 2001)",
       "PSC1 — Premiers Secours (Croix-Rouge française, 2012)",
     ],
-    specialties: ["mat", "reformer", "prenatal", "doux", "intensif"],
+    specialties: ["tapis", "doux", "intensif", "appareils", "prenatal"],
     color: "bg-mp-ocean",
   },
 ];
@@ -95,7 +95,7 @@ export const instructors: Instructor[] = [
    ---------------------------------------------------------- */
 export const courses: CourseInfo[] = [
   {
-    slug: "mat",
+    slug: "tapis",
     name: "Pilates classique — Tapis",
     shortDescription: "Le Pilates au sol, accessible à tous. Renforcez votre centre et améliorez votre posture.",
     longDescription:
@@ -120,32 +120,6 @@ export const courses: CourseInfo[] = [
     intensity: 3,
     color: "text-mp-ocean",
     colorBg: "bg-mp-ocean",
-  },
-  {
-    slug: "reformer",
-    name: "Cours privé sur appareil",
-    shortDescription: "Séance individuelle sur notre Reformer Cadillac — un accompagnement sur-mesure.",
-    longDescription:
-      "Le cours privé sur appareil est une séance individuelle sur notre Reformer Cadillac premium. Cet appareil à ressorts offre une résistance variable, permettant un travail musculaire profond et ciblé. Allongé, assis ou debout, vous effectuez des mouvements contrôlés qui sollicitent l'ensemble du corps. Violette adapte chaque mouvement à votre morphologie, vos objectifs et vos éventuelles contraintes — une approche sur-mesure impossible en cours collectif. Idéal pour les débutants intimidés, les rééducations post-blessure, ou pour progresser rapidement.",
-    benefits: [
-      "Sculptage musculaire en profondeur",
-      "Amélioration de l'alignement corporel",
-      "Travail excentrique doux pour les articulations",
-      "Développement de la force fonctionnelle",
-      "Rééducation post-blessure en toute sécurité",
-    ],
-    targetAudience: [
-      "Débutants qui préfèrent un accompagnement individuel",
-      "Personnes en rééducation (avis médical)",
-      "Sportifs recherchant un travail complémentaire ciblé",
-      "Toute personne curieuse d'approfondir sa pratique",
-    ],
-    equipment: ["Reformer Cadillac premium", "Tenue ajustée recommandée", "Chaussettes antidérapantes obligatoires"],
-    duration: "55 min",
-    level: "Tous niveaux",
-    intensity: 4,
-    color: "text-mp-sage",
-    colorBg: "bg-mp-sage",
   },
   {
     slug: "prenatal",
@@ -202,6 +176,32 @@ export const courses: CourseInfo[] = [
     colorBg: "bg-mp-ocean-light",
   },
   {
+    slug: "appareils",
+    name: "Cours collectif sur appareils",
+    shortDescription: "Pilates en petit groupe sur Reformer et appareils — l'efficacité du privé, la convivialité du collectif.",
+    longDescription:
+      "Le cours collectif sur appareils est notre nouveau format : 3 à 4 personnes maximum sur Reformer Cadillac, Chair et autres équipements Pilates. Vous bénéficiez de la résistance variable des ressorts pour un travail musculaire profond, tout en partageant l'énergie d'un groupe. Violette ajuste les charges et les variantes selon chaque participant — un excellent compromis entre l'accompagnement personnalisé du privé et l'émulation du collectif. Idéal pour progresser plus vite que sur tapis et découvrir l'univers des machines à un tarif accessible.",
+    benefits: [
+      "Travail musculaire ciblé et progressif",
+      "Charge ajustable à chaque participant",
+      "Progression plus rapide que sur tapis",
+      "Découverte des appareils Pilates",
+      "Ambiance conviviale en petit groupe",
+    ],
+    targetAudience: [
+      "Pratiquants curieux de découvrir les appareils",
+      "Personnes cherchant un travail plus poussé qu'en tapis",
+      "Tarif intermédiaire entre tapis et privé",
+      "Niveau intermédiaire bienvenu (débutants accompagnés)",
+    ],
+    equipment: ["Reformer Cadillac, Chair, accessoires", "Tenue ajustée", "Chaussettes antidérapantes obligatoires"],
+    duration: "55 min",
+    level: "Tous niveaux",
+    intensity: 3,
+    color: "text-mp-gold",
+    colorBg: "bg-mp-gold",
+  },
+  {
     slug: "intensif",
     name: "Pilates avancé — Tapis",
     shortDescription: "Un cours dynamique et exigeant pour les pratiquants confirmés en quête de dépassement.",
@@ -229,53 +229,69 @@ export const courses: CourseInfo[] = [
 ];
 
 /* ----------------------------------------------------------
-   WEEKLY SESSIONS (fallback data)
-   Source: Bsport live calendar (mars-mai 2026) + Mer/Sam additions.
+   WEEKLY SESSIONS — planning optimal (rentrée septembre 2026)
+   Source: rebuilt from Bsport effectif moyen 2025-2026.
    dayOffset: 0=Lun, 1=Mar, 2=Mer, 3=Jeu, 4=Ven, 5=Sam, 6=Dim
-   Jeudi + Dimanche fermés.
-   Groupes Tapis : 5 max. Privé sur appareils : 1 max.
+   Jeudi + Dimanche fermés. Lundi matin fermé.
+   Groupes Tapis : 5 max. Collectif appareils : 4 max.
+   Cours privés sur appareils : géré séparément (privateAvailabilityWindows).
    ---------------------------------------------------------- */
 export const weeklySessions: Session[] = [
-  // LUNDI
-  { id: "l1", courseType: "reformer", courseName: "Cours privé sur appareils", instructor: "Violette", time: "17:00", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 1, spotsRemaining: 1, dayOffset: 0, description: "Séance individuelle sur Reformer Cadillac." },
-  { id: "l2", courseType: "intensif", courseName: "Pilates avancé — Tapis", instructor: "Violette", time: "18:15", duration: "55 min", durationMinutes: 55, level: "Intermédiaire", spotsTotal: 5, spotsRemaining: 3, dayOffset: 0, description: "Enchaînements soutenus pour pratiquants confirmés." },
-  { id: "l3", courseType: "mat", courseName: "Pilates classique — Tapis", instructor: "Violette", time: "19:30", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 5, spotsRemaining: 2, dayOffset: 0, description: "Séance complète au tapis, tous niveaux." },
+  // LUNDI (après-midi/soir uniquement)
+  { id: "l1", courseType: "appareils", courseName: "Cours collectif sur appareils", instructor: "Violette", time: "17:00", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 4, spotsRemaining: 4, dayOffset: 0, description: "Petit groupe sur Reformer et appareils, charges adaptées." },
+  { id: "l2", courseType: "tapis", courseName: "Pilates classique — Tapis", instructor: "Violette", time: "18:15", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 5, spotsRemaining: 5, dayOffset: 0, description: "Séance du soir, tous niveaux." },
+  { id: "l3", courseType: "tapis", courseName: "Pilates classique — Tapis", instructor: "Violette", time: "19:30", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 5, spotsRemaining: 5, dayOffset: 0, description: "Séance du soir, tous niveaux." },
 
   // MARDI
-  { id: "m1", courseType: "reformer", courseName: "Cours privé sur appareils", instructor: "Violette", time: "08:00", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 1, spotsRemaining: 1, dayOffset: 1, description: "Séance individuelle sur Reformer Cadillac." },
-  { id: "m2", courseType: "mat", courseName: "Pilates classique — Tapis", instructor: "Violette", time: "09:15", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 5, spotsRemaining: 4, dayOffset: 1, description: "Séance complète au tapis, tous niveaux." },
-  { id: "m3", courseType: "doux", courseName: "Pilates doux — Tapis", instructor: "Violette", time: "10:30", duration: "55 min", durationMinutes: 55, level: "Débutant", spotsTotal: 5, spotsRemaining: 5, dayOffset: 1, description: "Séance douce et accessible, idéale pour débuter." },
-  { id: "m4", courseType: "doux", courseName: "Pilates doux — Tapis", instructor: "Violette", time: "12:30", duration: "55 min", durationMinutes: 55, level: "Débutant", spotsTotal: 5, spotsRemaining: 5, dayOffset: 1, description: "Séance douce du midi, idéale pour débuter." },
-  { id: "m5", courseType: "doux", courseName: "Pilates doux — Tapis", instructor: "Violette", time: "17:00", duration: "55 min", durationMinutes: 55, level: "Débutant", spotsTotal: 5, spotsRemaining: 5, dayOffset: 1, description: "Séance douce de fin de journée." },
-  { id: "m6", courseType: "mat", courseName: "Pilates classique — Tapis", instructor: "Violette", time: "18:15", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 5, spotsRemaining: 3, dayOffset: 1, description: "Séance du soir, tous niveaux." },
-  { id: "m7", courseType: "mat", courseName: "Pilates classique — Tapis", instructor: "Violette", time: "19:30", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 5, spotsRemaining: 4, dayOffset: 1, description: "Séance du soir, tous niveaux." },
+  { id: "m1", courseType: "doux", courseName: "Pilates doux — Tapis", instructor: "Violette", time: "09:15", duration: "55 min", durationMinutes: 55, level: "Débutant", spotsTotal: 5, spotsRemaining: 5, dayOffset: 1, description: "Séance douce du matin, idéale pour débuter." },
+  { id: "m2", courseType: "doux", courseName: "Pilates doux — Tapis", instructor: "Violette", time: "10:30", duration: "55 min", durationMinutes: 55, level: "Débutant", spotsTotal: 5, spotsRemaining: 5, dayOffset: 1, description: "Séance douce de fin de matinée." },
+  { id: "m3", courseType: "tapis", courseName: "Pilates classique — Tapis", instructor: "Violette", time: "12:30", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 5, spotsRemaining: 5, dayOffset: 1, description: "Séance complète du midi, tous niveaux." },
+  { id: "m4", courseType: "intensif", courseName: "Pilates avancé — Tapis", instructor: "Violette", time: "18:15", duration: "55 min", durationMinutes: 55, level: "Avancé", spotsTotal: 5, spotsRemaining: 5, dayOffset: 1, description: "Enchaînements soutenus pour pratiquants confirmés." },
+  { id: "m5", courseType: "tapis", courseName: "Pilates classique — Tapis", instructor: "Violette", time: "19:30", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 5, spotsRemaining: 5, dayOffset: 1, description: "Séance du soir, tous niveaux." },
 
   // MERCREDI
-  { id: "w1", courseType: "mat", courseName: "Pilates classique — Tapis", instructor: "Violette", time: "09:15", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 5, spotsRemaining: 5, dayOffset: 2, description: "Séance complète au tapis, tous niveaux." },
-  { id: "w2", courseType: "doux", courseName: "Pilates doux — Tapis", instructor: "Violette", time: "10:30", duration: "55 min", durationMinutes: 55, level: "Débutant", spotsTotal: 5, spotsRemaining: 5, dayOffset: 2, description: "Séance douce et accessible, idéale pour débuter." },
-  { id: "w3", courseType: "mat", courseName: "Pilates classique — Tapis", instructor: "Violette", time: "12:30", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 5, spotsRemaining: 5, dayOffset: 2, description: "Séance du midi, tous niveaux." },
-  { id: "w4", courseType: "mat", courseName: "Pilates classique — Tapis", instructor: "Violette", time: "18:15", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 5, spotsRemaining: 5, dayOffset: 2, description: "Séance du soir, tous niveaux." },
-  { id: "w5", courseType: "intensif", courseName: "Pilates avancé — Tapis", instructor: "Violette", time: "19:30", duration: "55 min", durationMinutes: 55, level: "Intermédiaire", spotsTotal: 5, spotsRemaining: 5, dayOffset: 2, description: "Enchaînements soutenus pour pratiquants confirmés." },
+  { id: "w1", courseType: "doux", courseName: "Pilates doux — Tapis", instructor: "Violette", time: "10:30", duration: "55 min", durationMinutes: 55, level: "Débutant", spotsTotal: 5, spotsRemaining: 5, dayOffset: 2, description: "Séance douce du matin, idéale pour débuter." },
+  { id: "w2", courseType: "tapis", courseName: "Pilates classique — Tapis", instructor: "Violette", time: "12:30", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 5, spotsRemaining: 5, dayOffset: 2, description: "Séance complète du midi, tous niveaux." },
+  { id: "w3", courseType: "tapis", courseName: "Pilates classique — Tapis", instructor: "Violette", time: "18:15", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 5, spotsRemaining: 5, dayOffset: 2, description: "Séance du soir, tous niveaux." },
+  { id: "w4", courseType: "appareils", courseName: "Cours collectif sur appareils", instructor: "Violette", time: "19:30", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 4, spotsRemaining: 4, dayOffset: 2, description: "Petit groupe sur Reformer et appareils, charges adaptées." },
 
-  // JEUDI — fermé
+  // JEUDI — fermé (indisponibilité instructrice)
 
   // VENDREDI
-  { id: "v1", courseType: "reformer", courseName: "Cours privé sur appareils", instructor: "Violette", time: "08:00", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 1, spotsRemaining: 1, dayOffset: 4, description: "Séance individuelle sur Reformer Cadillac." },
-  { id: "v2", courseType: "doux", courseName: "Pilates doux — Tapis", instructor: "Violette", time: "09:15", duration: "55 min", durationMinutes: 55, level: "Débutant", spotsTotal: 5, spotsRemaining: 5, dayOffset: 4, description: "Séance douce et accessible, idéale pour débuter." },
-  { id: "v3", courseType: "intensif", courseName: "Pilates avancé — Tapis", instructor: "Violette", time: "10:30", duration: "55 min", durationMinutes: 55, level: "Intermédiaire", spotsTotal: 5, spotsRemaining: 4, dayOffset: 4, description: "Enchaînements soutenus pour pratiquants confirmés." },
-  { id: "v4", courseType: "mat", courseName: "Pilates classique — Tapis", instructor: "Violette", time: "12:30", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 5, spotsRemaining: 5, dayOffset: 4, description: "Séance du midi, tous niveaux." },
-  { id: "v5", courseType: "reformer", courseName: "Cours privé sur appareils", instructor: "Violette", time: "14:00", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 1, spotsRemaining: 1, dayOffset: 4, description: "Séance individuelle sur Reformer Cadillac." },
-  { id: "v6", courseType: "reformer", courseName: "Cours privé sur appareils", instructor: "Violette", time: "15:15", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 1, spotsRemaining: 1, dayOffset: 4, description: "Séance individuelle sur Reformer Cadillac." },
-  { id: "v7", courseType: "prenatal", courseName: "Pilates pré & post-natal", instructor: "Violette", time: "17:00", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 5, spotsRemaining: 5, dayOffset: 4, description: "Cours adapté à chaque trimestre de la grossesse." },
-  { id: "v8", courseType: "mat", courseName: "Pilates classique — Tapis", instructor: "Violette", time: "18:15", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 5, spotsRemaining: 3, dayOffset: 4, description: "Séance du soir, tous niveaux." },
-  { id: "v9", courseType: "mat", courseName: "Pilates classique — Tapis", instructor: "Violette", time: "19:30", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 5, spotsRemaining: 4, dayOffset: 4, description: "Séance du soir, tous niveaux." },
+  { id: "v1", courseType: "doux", courseName: "Pilates doux — Tapis", instructor: "Violette", time: "09:15", duration: "55 min", durationMinutes: 55, level: "Débutant", spotsTotal: 5, spotsRemaining: 5, dayOffset: 4, description: "Séance douce du matin, idéale pour débuter." },
+  { id: "v2", courseType: "doux", courseName: "Pilates doux — Tapis", instructor: "Violette", time: "10:30", duration: "55 min", durationMinutes: 55, level: "Débutant", spotsTotal: 5, spotsRemaining: 5, dayOffset: 4, description: "Séance douce de fin de matinée." },
+  { id: "v3", courseType: "tapis", courseName: "Pilates classique — Tapis", instructor: "Violette", time: "12:30", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 5, spotsRemaining: 5, dayOffset: 4, description: "Séance complète du midi, tous niveaux." },
+  { id: "v4", courseType: "prenatal", courseName: "Pilates pré & post-natal", instructor: "Violette", time: "17:00", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 5, spotsRemaining: 5, dayOffset: 4, description: "Cours adapté à chaque trimestre de grossesse et au post-partum." },
+  { id: "v5", courseType: "tapis", courseName: "Pilates classique — Tapis", instructor: "Violette", time: "18:15", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 5, spotsRemaining: 5, dayOffset: 4, description: "Séance du soir, tous niveaux." },
+  { id: "v6", courseType: "intensif", courseName: "Pilates avancé — Tapis", instructor: "Violette", time: "19:30", duration: "55 min", durationMinutes: 55, level: "Avancé", spotsTotal: 5, spotsRemaining: 5, dayOffset: 4, description: "Enchaînements soutenus pour pratiquants confirmés." },
 
   // SAMEDI (matin uniquement)
-  { id: "s1", courseType: "mat", courseName: "Pilates classique — Tapis", instructor: "Violette", time: "09:00", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 5, spotsRemaining: 5, dayOffset: 5, description: "Séance du samedi matin, tous niveaux." },
-  { id: "s2", courseType: "doux", courseName: "Pilates doux — Tapis", instructor: "Violette", time: "10:15", duration: "55 min", durationMinutes: 55, level: "Débutant", spotsTotal: 5, spotsRemaining: 5, dayOffset: 5, description: "Séance douce et accessible, idéale pour débuter." },
-  { id: "s3", courseType: "reformer", courseName: "Cours privé sur appareils", instructor: "Violette", time: "11:30", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 1, spotsRemaining: 1, dayOffset: 5, description: "Séance individuelle sur Reformer Cadillac." },
+  { id: "s1", courseType: "tapis", courseName: "Pilates classique — Tapis", instructor: "Violette", time: "09:30", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 5, spotsRemaining: 5, dayOffset: 5, description: "Séance du samedi matin, tous niveaux." },
+  { id: "s2", courseType: "appareils", courseName: "Cours collectif sur appareils", instructor: "Violette", time: "10:45", duration: "55 min", durationMinutes: 55, level: "Tous niveaux", spotsTotal: 4, spotsRemaining: 4, dayOffset: 5, description: "Petit groupe sur Reformer et appareils, charges adaptées." },
 
   // DIMANCHE — fermé
+];
+
+/* ----------------------------------------------------------
+   COURS PRIVÉS SUR APPAREILS — disponibilités sur réservation
+   Hors planning collectif : créneaux ouverts à la demande,
+   1 personne / 55 min sur Reformer Cadillac.
+   ---------------------------------------------------------- */
+export interface PrivateWindow {
+  dayOffset: number; // 0=Lun ... 6=Dim
+  label: string;     // ex. "13h - 17h"
+  startTime: string; // "13:00"
+  endTime: string;   // "17:00"
+}
+
+export const privateAvailabilityWindows: PrivateWindow[] = [
+  // Buffers volontaires avant le prochain collectif (installation, accueil, paiement).
+  { dayOffset: 0, label: "13h - 16h45", startTime: "13:00", endTime: "16:45" },
+  { dayOffset: 1, label: "13h45 - 16h30", startTime: "13:45", endTime: "16:30" },
+  { dayOffset: 2, label: "9h - 10h15", startTime: "09:00", endTime: "10:15" },
+  { dayOffset: 2, label: "13h45 - 17h45", startTime: "13:45", endTime: "17:45" },
+  { dayOffset: 4, label: "13h45 - 16h30", startTime: "13:45", endTime: "16:30" },
+  { dayOffset: 5, label: "12h - 13h", startTime: "12:00", endTime: "13:00" },
 ];
 
 /* ----------------------------------------------------------

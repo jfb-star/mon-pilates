@@ -7,7 +7,7 @@ const BASE_URL = SITE_URL;
 // Course detail slugs exposed under /cours/[slug] — mirrors lib/mock-data.ts
 // courseTypes. Duplicating here (rather than importing) keeps the sitemap
 // route free of client-only dependencies in lib/mock-data.
-const COURSE_SLUGS = ["mat", "reformer", "doux", "intensif", "prenatal"] as const;
+const COURSE_SLUGS = ["tapis", "doux", "intensif", "appareils", "prenatal"] as const;
 
 /**
  * Dynamic sitemap — combines core static pages, course detail pages, and

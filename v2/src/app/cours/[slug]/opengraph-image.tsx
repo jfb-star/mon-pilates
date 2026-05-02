@@ -7,7 +7,7 @@ export const contentType = "image/png"
 
 const OCEAN = "#3e7787"
 const OCEAN_DARK = "#2a5d6e"
-const SAGE = "#5a7856"
+const GOLD = "#8b6518"
 const ROSE = "#d4a0a0"
 const CHARCOAL = "#2c2c2c"
 const SAND = "#f5f0eb"
@@ -15,8 +15,8 @@ const CREAM = "#faf7f3"
 
 // Per-course accent colour — matches the course-type palette used elsewhere.
 const courseAccents: Record<string, string> = {
-  mat: OCEAN,
-  reformer: SAGE,
+  tapis: OCEAN,
+  appareils: GOLD,
   prenatal: ROSE,
   doux: "#a3c9d3",
   intensif: CHARCOAL,

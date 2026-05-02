@@ -9,8 +9,8 @@ import { ArrowRight } from "lucide-react";
    ---------------------------------------------------------- */
 
 const courseNames: Record<string, string> = {
-  mat: "Pilates classique — Tapis",
-  reformer: "Cours privé sur appareil",
+  tapis: "Pilates classique — Tapis",
+  appareils: "Cours collectif sur appareils",
   prenatal: "Pré & post-natal",
   doux: "Pilates doux — Tapis",
   intensif: "Pilates avancé — Tapis",
@@ -28,7 +28,7 @@ const bodyZones: BodyZone[] = [
   {
     id: "neck",
     label: "Nuque & Cervicales",
-    courses: ["mat", "doux"],
+    courses: ["tapis", "doux"],
     benefits:
       "Relâche les tensions cervicales et améliore la mobilité du cou",
     exercises: ["Roll Down", "Neck Pull", "Chest Lift"],
@@ -36,7 +36,7 @@ const bodyZones: BodyZone[] = [
   {
     id: "shoulders",
     label: "Épaules & Bras",
-    courses: ["reformer", "mat", "intensif"],
+    courses: ["appareils", "tapis", "intensif"],
     benefits:
       "Renforce la ceinture scapulaire et libère les épaules",
     exercises: ["Arm Circles", "Push-Up", "Pulling Straps"],
@@ -44,7 +44,7 @@ const bodyZones: BodyZone[] = [
   {
     id: "back",
     label: "Dos",
-    courses: ["mat", "reformer", "doux"],
+    courses: ["tapis", "appareils", "doux"],
     benefits:
       "Soulage les douleurs dorsales et renforce les muscles profonds",
     exercises: ["Swan", "Swimming", "Cat-Cow"],
@@ -52,7 +52,7 @@ const bodyZones: BodyZone[] = [
   {
     id: "core",
     label: "Abdominaux & Centre",
-    courses: ["mat", "reformer", "intensif"],
+    courses: ["tapis", "appareils", "intensif"],
     benefits:
       "Renforce le powerhouse — centre de toute la méthode Pilates",
     exercises: ["The Hundred", "Teaser", "Plank"],
@@ -60,7 +60,7 @@ const bodyZones: BodyZone[] = [
   {
     id: "hips",
     label: "Hanches & Bassin",
-    courses: ["mat", "prenatal", "doux"],
+    courses: ["tapis", "prenatal", "doux"],
     benefits:
       "Stabilise le bassin et améliore la souplesse des hanches",
     exercises: ["Pelvic Curl", "Clam", "Hip Circles"],
@@ -68,7 +68,7 @@ const bodyZones: BodyZone[] = [
   {
     id: "legs",
     label: "Jambes & Pieds",
-    courses: ["reformer", "intensif", "mat"],
+    courses: ["appareils", "intensif", "tapis"],
     benefits: "Tonifie les jambes et améliore l'équilibre",
     exercises: ["Footwork", "Leg Circles", "Side Kicks"],
   },

@@ -30,15 +30,15 @@ import {
 } from "@/lib/mock-data";
 
 const courseFaqs: Record<string, { q: string; a: string }[]> = {
-  mat: [
+  tapis: [
     { q: "Faut-il être souple pour faire du Pilates classique au tapis ?", a: "Non, la souplesse n'est pas un prérequis. Le Pilates classique au tapis s'adapte à tous les niveaux et la souplesse s'améliore naturellement avec la pratique." },
     { q: "Quelle est la différence avec le yoga ?", a: "Le Pilates se concentre sur le renforcement du centre (abdominaux profonds, dos, plancher pelvien) avec des mouvements précis et contrôlés, tandis que le yoga met davantage l'accent sur la méditation et les postures statiques." },
     { q: "À quelle fréquence pratiquer ?", a: "Idéalement 2 à 3 fois par semaine pour des résultats optimaux. Une fois par semaine suffit pour maintenir les bienfaits." },
   ],
-  reformer: [
-    { q: "Le cours privé sur appareil est-il adapté aux débutants ?", a: "Oui, c'est même souvent le format idéal pour débuter ! L'accompagnement individuel permet à Violette d'adapter chaque mouvement à votre morphologie et à votre niveau." },
-    { q: "Quel appareil est utilisé ?", a: "Le studio est équipé d'un Reformer Cadillac premium. Violette règle ressorts et sangles en fonction de vos objectifs et de la séance." },
-    { q: "Pourquoi un cours privé plutôt qu'un cours collectif ?", a: "Le travail sur appareil demande une attention particulière aux réglages (ressorts, sangles) et à la précision du geste. Le format privé garantit sécurité, sur-mesure et progression rapide." },
+  appareils: [
+    { q: "Quelle est la différence avec le cours tapis ?", a: "Le cours sur appareils utilise le Reformer Cadillac et d'autres équipements à ressorts. La résistance variable permet un travail musculaire plus profond et progressif que le tapis, tout en restant accessible grâce aux charges ajustables." },
+    { q: "Combien de personnes par cours ?", a: "Maximum 4 participants — un format intermédiaire entre le tapis (5 max) et le privé (1-à-1) qui garantit un suivi rapproché par Violette tout en gardant l'émulation du collectif." },
+    { q: "Faut-il avoir déjà fait du Pilates ?", a: "Non, ce cours est ouvert à tous niveaux. Violette adapte les charges et les variantes selon chaque participant. Les vrais débutants peuvent préférer commencer par le tapis ou un cours privé pour les fondamentaux." },
   ],
   prenatal: [
     { q: "À partir de quel mois de grossesse puis-je commencer ?", a: "Le Pilates prénatal est accessible dès le 2e trimestre (à partir de 14 semaines), avec un avis médical favorable." },
@@ -57,8 +57,8 @@ const courseFaqs: Record<string, { q: string; a: string }[]> = {
 }
 
 const courseHeroImages: Partial<Record<CourseType, string>> = {
-  mat: "/images/illustration-cours-collectif.webp",
-  reformer: "/images/cours-reformer-instructrice.webp",
+  tapis: "/images/illustration-cours-collectif.webp",
+  appareils: "/images/cours-reformer-instructrice.webp",
   prenatal: "/images/illustration-pilates-artistique.webp",
   doux: "/images/illustration-pilates-artistique.webp",
   intensif: "/images/illustration-pilates-artistique.webp",
@@ -75,15 +75,15 @@ export function generateStaticParams() {
    Dynamic metadata — per-course SEO tuned for local + service queries
    ---------------------------------------------------------- */
 const courseSeoMeta: Record<string, { title: string; description: string }> = {
-  mat: {
+  tapis: {
     title: "Pilates tapis à Larmor-Plage — cours Lorient Morbihan",
     description:
       "Cours de Pilates classique au tapis à Larmor-Plage, près de Lorient. Groupes de 5 max face à l'océan. Essai à 10€, réservez votre première séance en ligne.",
   },
-  reformer: {
-    title: "Pilates Reformer à Larmor-Plage — cours privé Lorient",
+  appareils: {
+    title: "Pilates collectif sur appareils — Larmor-Plage Lorient",
     description:
-      "Cours privé Pilates Reformer Cadillac à Larmor-Plage (Lorient, Morbihan). Séance individuelle sur mesure avec une instructrice FPMP. Réservez votre essai à 10€.",
+      "Cours collectif sur Reformer Cadillac à Larmor-Plage (Lorient, Morbihan). Petit groupe de 4, charges adaptées. Essai à 10€, réservez votre séance en ligne.",
   },
   prenatal: {
     title: "Pilates prénatal à Larmor-Plage — Lorient Morbihan",
@@ -131,8 +131,8 @@ export async function generateMetadata({
 }
 
 const courseIcons: Record<string, React.ElementType> = {
-  mat: Heart,
-  reformer: Sparkles,
+  tapis: Heart,
+  appareils: Sparkles,
   prenatal: Baby,
   doux: Leaf,
   intensif: Flame,

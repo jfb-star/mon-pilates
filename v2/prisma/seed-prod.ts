@@ -78,60 +78,39 @@ async function main() {
   console.log(`  ✓ instructor: ${INSTRUCTOR_NAME} (slug=${instructor.slug})`)
 
   // ---- Course types (real offering) -------------------------------------
+  // Slugs alignés avec /src/lib/mock-data.ts (5 types collectifs).
   const courseTypes = [
     {
-      slug: "pilates-decouverte",
-      name: "Séance Découverte",
-      shortDescription: "Première séance pour découvrir la méthode",
-      description:
-        "Cours collectif d'initiation (jusqu'à 5 personnes). Idéal pour découvrir le Pilates sur tapis et évaluer votre niveau.",
-      duration: 55,
-      level: "BEGINNER",
-      intensity: 2,
-      maxParticipants: 5,
-      color: "#ffdfa3",
-      benefits: JSON.stringify(["Découverte", "Posture", "Respiration"]),
-      equipment: JSON.stringify(["tapis"]),
-    },
-    {
-      slug: "pilates-mat-tous-niveaux",
-      name: "Pilates Mat — Tous Niveaux",
+      slug: "tapis",
+      name: "Pilates classique — Tapis",
       shortDescription: "Cours collectif au tapis, tous niveaux (max 5)",
       description:
-        "Cours de Pilates sur tapis, groupe de 5 maximum. Adapté à tous les niveaux, l'instructrice ajuste les exercices selon chaque participant.",
+        "Cours de Pilates classique sur tapis, groupe de 5 maximum. Tous niveaux : Violette ajuste les exercices selon chaque participant.",
       duration: 55,
       level: "ALL_LEVELS",
       intensity: 3,
       maxParticipants: 5,
-      color: "#d8ecf5",
-      benefits: JSON.stringify([
-        "Renforcement profond",
-        "Souplesse",
-        "Posture",
-      ]),
+      color: "#3e7787",
+      benefits: JSON.stringify(["Renforcement profond", "Souplesse", "Posture"]),
       equipment: JSON.stringify(["tapis", "ballon", "élastique"]),
     },
     {
-      slug: "pilates-mat-debutant",
-      name: "Pilates Mat — Débutant",
-      shortDescription: "Cours collectif au tapis, niveau débutant (max 5)",
+      slug: "doux",
+      name: "Pilates doux — Tapis",
+      shortDescription: "Séance douce, idéale débutants et seniors (max 5)",
       description:
-        "Cours au tapis pour débutants : apprentissage des fondamentaux de la méthode, respiration, postures de base.",
+        "Cours doux au tapis : mouvements lents, respiration, mobilité et équilibre. Particulièrement adapté aux seniors, aux personnes en convalescence et aux débutants.",
       duration: 55,
       level: "BEGINNER",
-      intensity: 2,
+      intensity: 1,
       maxParticipants: 5,
-      color: "#cce5b8",
-      benefits: JSON.stringify([
-        "Apprentissage des bases",
-        "Respiration",
-        "Alignement",
-      ]),
-      equipment: JSON.stringify(["tapis"]),
+      color: "#a3c9d3",
+      benefits: JSON.stringify(["Posture", "Équilibre", "Douceur"]),
+      equipment: JSON.stringify(["tapis", "coussin"]),
     },
     {
-      slug: "pilates-mat-avance",
-      name: "Pilates Mat — Avancé",
+      slug: "intensif",
+      name: "Pilates avancé — Tapis",
       shortDescription: "Cours collectif au tapis, niveau confirmé (max 5)",
       description:
         "Cours au tapis pour pratiquants confirmés. Enchaînements dynamiques, exercices avancés, défi musculaire accru.",
@@ -139,41 +118,63 @@ async function main() {
       level: "ADVANCED",
       intensity: 4,
       maxParticipants: 5,
-      color: "#f5b8b8",
+      color: "#2c2c2c",
       benefits: JSON.stringify(["Défi musculaire", "Endurance", "Coordination"]),
       equipment: JSON.stringify(["tapis", "ballon", "élastique"]),
     },
     {
-      slug: "pilates-prive-equipement",
-      name: "Cours Privé — Équipement",
-      shortDescription: "Séance individuelle sur équipement (Reformer, etc.)",
+      slug: "appareils",
+      name: "Cours collectif sur appareils",
+      shortDescription: "Petit groupe sur Reformer et appareils (max 4)",
       description:
-        "Séance 100% personnalisée sur équipement Pilates (Reformer, Cadillac, Chair). 55 min en tête-à-tête, objectifs et rythme adaptés.",
+        "Cours collectif sur Reformer Cadillac et autres appareils Pilates, groupe de 4 maximum. Charges adaptées à chaque participant. Format intermédiaire entre tapis et privé.",
       duration: 55,
       level: "ALL_LEVELS",
       intensity: 3,
-      maxParticipants: 1,
-      color: "#c9b8f5",
+      maxParticipants: 4,
+      color: "#8b6518",
       benefits: JSON.stringify([
-        "100% personnalisé",
-        "Équipement professionnel",
+        "Travail musculaire ciblé",
+        "Charges ajustables",
         "Progression rapide",
       ]),
       equipment: JSON.stringify(["Reformer", "Cadillac", "Chair"]),
     },
     {
-      slug: "pilates-posture-seniors",
-      name: "Pilates Posture & Seniors",
-      shortDescription: "Séance douce axée posture et équilibre",
+      slug: "prenatal",
+      name: "Pilates pré & post-natal",
+      shortDescription: "Cours adapté à la grossesse et au post-partum",
       description:
-        "Cours doux dédié à l'amélioration de la posture et de l'équilibre, particulièrement adapté aux seniors et aux personnes avec douleurs chroniques.",
+        "Cours dédié aux futures et jeunes mamans : renforcement du plancher pelvien, soulagement des lombaires, préparation à l'accouchement et reprise post-partum en douceur.",
       duration: 55,
-      level: "BEGINNER",
-      intensity: 1,
+      level: "ALL_LEVELS",
+      intensity: 2,
       maxParticipants: 5,
-      color: "#e8e1d4",
-      benefits: JSON.stringify(["Posture", "Équilibre", "Douceur"]),
-      equipment: JSON.stringify(["tapis", "chaise"]),
+      color: "#d4a0a0",
+      benefits: JSON.stringify([
+        "Plancher pelvien",
+        "Soulagement du dos",
+        "Reprise en douceur",
+      ]),
+      equipment: JSON.stringify(["tapis", "ballon", "coussin"]),
+    },
+    {
+      slug: "prive-appareils",
+      name: "Cours privé sur appareils",
+      shortDescription: "Séance individuelle sur Reformer, sur réservation",
+      description:
+        "Séance 100% personnalisée sur Reformer Cadillac, en tête-à-tête avec Violette. 55 min, objectifs et rythme adaptés. Sur réservation hors planning collectif.",
+      duration: 55,
+      level: "ALL_LEVELS",
+      intensity: 3,
+      maxParticipants: 1,
+      color: "#5a7856",
+      benefits: JSON.stringify([
+        "100% personnalisé",
+        "Reformer Cadillac",
+        "Progression rapide",
+      ]),
+      equipment: JSON.stringify(["Reformer", "Cadillac", "Chair"]),
     },
   ]
 
@@ -194,27 +195,42 @@ async function main() {
   const startDate = new Date()
   startDate.setHours(0, 0, 0, 0)
 
+  // Planning v3 — rentrée septembre 2026.
+  // Lundi matin et jeudi complet : indisponibles (instructrice).
+  // dayOfWeek: 1=Mon, 2=Tue, 3=Wed, 4=Thu, 5=Fri, 6=Sat
   const scheduleTemplates: Array<{
     dayOfWeek: number
     startTime: string
     endTime: string
     courseTypeSlug: string
   }> = [
-    // Monday
-    { dayOfWeek: 1, startTime: "09:00", endTime: "09:55", courseTypeSlug: "pilates-mat-tous-niveaux" },
-    { dayOfWeek: 1, startTime: "18:30", endTime: "19:25", courseTypeSlug: "pilates-mat-debutant" },
-    // Tuesday
-    { dayOfWeek: 2, startTime: "09:00", endTime: "09:55", courseTypeSlug: "pilates-mat-avance" },
-    { dayOfWeek: 2, startTime: "18:30", endTime: "19:25", courseTypeSlug: "pilates-mat-tous-niveaux" },
-    // Wednesday
-    { dayOfWeek: 3, startTime: "10:00", endTime: "10:55", courseTypeSlug: "pilates-posture-seniors" },
-    { dayOfWeek: 3, startTime: "18:30", endTime: "19:25", courseTypeSlug: "pilates-mat-tous-niveaux" },
-    // Thursday
-    { dayOfWeek: 4, startTime: "09:00", endTime: "09:55", courseTypeSlug: "pilates-mat-tous-niveaux" },
-    { dayOfWeek: 4, startTime: "18:30", endTime: "19:25", courseTypeSlug: "pilates-mat-debutant" },
-    // Friday
-    { dayOfWeek: 5, startTime: "09:00", endTime: "09:55", courseTypeSlug: "pilates-mat-tous-niveaux" },
-    { dayOfWeek: 5, startTime: "12:15", endTime: "13:10", courseTypeSlug: "pilates-mat-tous-niveaux" },
+    // Lundi (PM uniquement)
+    { dayOfWeek: 1, startTime: "17:00", endTime: "17:55", courseTypeSlug: "appareils" },
+    { dayOfWeek: 1, startTime: "18:15", endTime: "19:10", courseTypeSlug: "tapis" },
+    { dayOfWeek: 1, startTime: "19:30", endTime: "20:25", courseTypeSlug: "tapis" },
+    // Mardi
+    { dayOfWeek: 2, startTime: "09:15", endTime: "10:10", courseTypeSlug: "doux" },
+    { dayOfWeek: 2, startTime: "10:30", endTime: "11:25", courseTypeSlug: "doux" },
+    { dayOfWeek: 2, startTime: "12:30", endTime: "13:25", courseTypeSlug: "tapis" },
+    { dayOfWeek: 2, startTime: "17:00", endTime: "17:55", courseTypeSlug: "prenatal" },
+    { dayOfWeek: 2, startTime: "18:15", endTime: "19:10", courseTypeSlug: "intensif" },
+    { dayOfWeek: 2, startTime: "19:30", endTime: "20:25", courseTypeSlug: "tapis" },
+    // Mercredi
+    { dayOfWeek: 3, startTime: "10:30", endTime: "11:25", courseTypeSlug: "doux" },
+    { dayOfWeek: 3, startTime: "12:30", endTime: "13:25", courseTypeSlug: "tapis" },
+    { dayOfWeek: 3, startTime: "18:15", endTime: "19:10", courseTypeSlug: "tapis" },
+    { dayOfWeek: 3, startTime: "19:30", endTime: "20:25", courseTypeSlug: "appareils" },
+    // Jeudi : fermé
+    // Vendredi
+    { dayOfWeek: 5, startTime: "09:15", endTime: "10:10", courseTypeSlug: "doux" },
+    { dayOfWeek: 5, startTime: "10:30", endTime: "11:25", courseTypeSlug: "doux" },
+    { dayOfWeek: 5, startTime: "12:30", endTime: "13:25", courseTypeSlug: "tapis" },
+    { dayOfWeek: 5, startTime: "17:00", endTime: "17:55", courseTypeSlug: "prenatal" },
+    { dayOfWeek: 5, startTime: "18:15", endTime: "19:10", courseTypeSlug: "tapis" },
+    { dayOfWeek: 5, startTime: "19:30", endTime: "20:25", courseTypeSlug: "intensif" },
+    // Samedi (matin)
+    { dayOfWeek: 6, startTime: "09:30", endTime: "10:25", courseTypeSlug: "tapis" },
+    { dayOfWeek: 6, startTime: "10:45", endTime: "11:40", courseTypeSlug: "appareils" },
   ]
 
   let scheduleCount = 0
