@@ -15,7 +15,7 @@ const DEFAULT_LABELS: [string, string, string, string] = [
   "Choix",
   "Détails",
   "Paiement",
-  "Confirmation",
+  "Confirmé",
 ]
 
 /**
@@ -102,10 +102,12 @@ export function BookingStepper({
                 </div>
               </div>
 
-              {/* Label */}
+              {/* Label — wraps freely on narrow screens (no truncate). Short
+                  default labels (Choix/Détails/Paiement/Confirmé) keep each
+                  pill on one line down to 320px in most cases. */}
               <span
                 className={clsx(
-                  "mt-2 text-[10px] sm:text-xs font-heading font-medium text-center leading-tight px-1 truncate max-w-full",
+                  "mt-2 text-[10px] sm:text-xs font-heading font-medium text-center leading-tight px-0.5 break-words max-w-full",
                   isCurrent && "text-mp-ocean font-semibold",
                   isPast && "text-mp-charcoal",
                   isFuture && "text-mp-text-muted"

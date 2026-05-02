@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Gift, Sparkles, ShieldCheck, CreditCard, CalendarX } from "lucide-react";
+import { Gift, Sparkles, ShieldCheck, CreditCard, CalendarX, ShoppingBag, CalendarCheck } from "lucide-react";
 import { FaqAccordion } from "@/components/ui/FaqAccordion";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { StickyCta } from "@/components/ui/StickyCta";
@@ -166,6 +166,70 @@ export default function TarifsPage() {
             Des formules flexibles pour s&apos;adapter à votre rythme et à vos
             envies. Cours au tapis en petit groupe, cartes multi-séances ou séances
             privées sur appareil : trouvez ce qui vous convient.
+          </p>
+        </div>
+      </section>
+
+      {/* How it works — answers "when/how do I use a card?" upfront */}
+      <section
+        aria-labelledby="how-cards-work-heading"
+        className="bg-mp-cream/60 border-y border-mp-sand-dark/30 py-10 sm:py-12"
+      >
+        <div className="mp-container max-w-4xl">
+          <h2
+            id="how-cards-work-heading"
+            className="font-heading text-xl sm:text-2xl font-bold text-mp-charcoal text-center mb-2"
+          >
+            Comment fonctionnent nos cartes&nbsp;?
+          </h2>
+          <p className="text-center text-sm text-mp-text-light mb-8 max-w-xl mx-auto">
+            Une carte = un crédit de séances utilisable quand vous voulez,
+            dans la limite de la validité.
+          </p>
+          <ol className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
+            <li className="flex sm:flex-col items-start sm:items-center gap-4 sm:gap-3 p-4 sm:p-5 rounded-2xl bg-white border border-mp-sand-dark/30 sm:text-center">
+              <span className="flex-shrink-0 inline-flex items-center justify-center w-10 h-10 rounded-full bg-mp-ocean text-white font-heading font-bold text-sm" aria-hidden="true">1</span>
+              <div className="flex-1 sm:flex-none">
+                <div className="flex items-center gap-2 sm:justify-center mb-1">
+                  <ShoppingBag className="w-4 h-4 text-mp-ocean" aria-hidden="true" />
+                  <h3 className="font-heading text-sm sm:text-base font-semibold text-mp-charcoal">Choisissez une carte</h3>
+                </div>
+                <p className="text-xs sm:text-sm text-mp-text-light leading-relaxed">
+                  5, 10 ou 20 séances. Plus la carte est grande, moins la séance coûte cher.
+                </p>
+              </div>
+            </li>
+            <li className="flex sm:flex-col items-start sm:items-center gap-4 sm:gap-3 p-4 sm:p-5 rounded-2xl bg-white border border-mp-sand-dark/30 sm:text-center">
+              <span className="flex-shrink-0 inline-flex items-center justify-center w-10 h-10 rounded-full bg-mp-ocean text-white font-heading font-bold text-sm" aria-hidden="true">2</span>
+              <div className="flex-1 sm:flex-none">
+                <div className="flex items-center gap-2 sm:justify-center mb-1">
+                  <CreditCard className="w-4 h-4 text-mp-ocean" aria-hidden="true" />
+                  <h3 className="font-heading text-sm sm:text-base font-semibold text-mp-charcoal">Payez en une fois</h3>
+                </div>
+                <p className="text-xs sm:text-sm text-mp-text-light leading-relaxed">
+                  Paiement sécurisé Stripe. La carte est créditée immédiatement sur votre compte.
+                </p>
+              </div>
+            </li>
+            <li className="flex sm:flex-col items-start sm:items-center gap-4 sm:gap-3 p-4 sm:p-5 rounded-2xl bg-white border border-mp-sand-dark/30 sm:text-center">
+              <span className="flex-shrink-0 inline-flex items-center justify-center w-10 h-10 rounded-full bg-mp-ocean text-white font-heading font-bold text-sm" aria-hidden="true">3</span>
+              <div className="flex-1 sm:flex-none">
+                <div className="flex items-center gap-2 sm:justify-center mb-1">
+                  <CalendarCheck className="w-4 h-4 text-mp-ocean" aria-hidden="true" />
+                  <h3 className="font-heading text-sm sm:text-base font-semibold text-mp-charcoal">Réservez sans repayer</h3>
+                </div>
+                <p className="text-xs sm:text-sm text-mp-text-light leading-relaxed">
+                  Sur le planning, choisissez «&nbsp;Réserver avec ma carte&nbsp;»&nbsp;: 1 séance déduite, c&apos;est tout.
+                </p>
+              </div>
+            </li>
+          </ol>
+          <p className="text-center text-xs text-mp-text-muted mt-6">
+            Pas envie d&apos;une carte&nbsp;?{" "}
+            <Link href="/planning" className="text-mp-ocean underline hover:text-mp-ocean-dark">
+              Réservez et payez à l&apos;unité
+            </Link>{" "}
+            (20&nbsp;€/séance).
           </p>
         </div>
       </section>

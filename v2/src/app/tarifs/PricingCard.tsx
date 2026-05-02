@@ -47,7 +47,7 @@ export function PricingCard({ plan }: { plan: PricingPlan }) {
 
   return (
     <div
-      className={`mp-card p-8 flex flex-col relative border-2 h-full !overflow-visible ${
+      className={`mp-card p-6 sm:p-8 flex flex-col relative border-2 h-full !overflow-visible ${
         plan.highlighted
           ? "border-mp-ocean shadow-[0_8px_40px_rgba(107,159,173,0.18)] lg:scale-[1.03] ring-1 ring-mp-ocean/20"
           : "border-mp-sand-dark/20 hover:border-mp-ocean/30 hover:-translate-y-1 transition-all duration-200"
@@ -107,7 +107,7 @@ export function PricingCard({ plan }: { plan: PricingPlan }) {
             type="button"
             onClick={handlePurchase}
             disabled={loading}
-            className={`mp-btn w-full text-center inline-flex items-center justify-center gap-2 ${
+            className={`mp-btn w-full text-center inline-flex items-center justify-center gap-2 !px-4 sm:!px-6 text-sm sm:text-base ${
               plan.highlighted ? "mp-btn-primary" : "mp-btn-secondary"
             } disabled:opacity-60 disabled:cursor-not-allowed`}
           >
@@ -121,7 +121,7 @@ export function PricingCard({ plan }: { plan: PricingPlan }) {
       ) : (
         <a
           href={plan.href ?? "/planning"}
-          className={`mp-btn w-full text-center ${
+          className={`mp-btn w-full text-center !px-4 sm:!px-6 text-sm sm:text-base ${
             plan.highlighted ? "mp-btn-primary" : "mp-btn-secondary"
           }`}
         >

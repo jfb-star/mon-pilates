@@ -1417,9 +1417,102 @@ export default function PlanningPage() {
                 )}
               </div>
             ) : selectedSession.spotsRemaining > 0 ? (
-              <div className="space-y-3">
-                {/* Option 1: Use course card if available */}
-                {activeCard && activeCard.remaining > 0 && (
+              <div className="space-y-4">
+                {/* 1. CONFIG — toggles set the price/recurrence before any action */}
+                <div className="space-y-2.5">
+                  {showTrialOptions && (
+                    <label className="flex items-center gap-3 cursor-pointer group p-3 rounded-xl border border-mp-sand hover:border-mp-ocean/30 transition-colors">
+                      <span className={`relative w-11 h-6 rounded-full transition-colors flex-shrink-0 ${isTrial ? "bg-mp-ocean" : "bg-mp-sand-dark"}`}>
+                        <span className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform ${isTrial ? "translate-x-5" : "translate-x-0"}`} />
+                        <input
+                          type="checkbox"
+                          checked={isTrial}
+                          onChange={(e) => setIsTrial(e.target.checked)}
+                          className="sr-only"
+                        />
+                      </span>
+                      <span className="flex-1 min-w-0">
+                        <span className="font-heading text-sm font-medium text-mp-charcoal group-hover:text-mp-ocean transition-colors block">
+                          C&apos;est ma premi&egrave;re s&eacute;ance
+                        </span>
+                        <span className="text-xs text-mp-sage block mt-0.5">
+                          Cours d&eacute;couverte &agrave; <strong>10&nbsp;&euro;</strong> au lieu de 20&nbsp;&euro;
+                        </span>
+                      </span>
+                    </label>
+                  )}
+                  <label className="flex items-center gap-3 cursor-pointer group p-3 rounded-xl border border-mp-sand hover:border-mp-ocean/30 transition-colors">
+                    <span className={`relative w-11 h-6 rounded-full transition-colors flex-shrink-0 ${isRecurring ? "bg-mp-ocean" : "bg-mp-sand-dark"}`}>
+                      <span className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform ${isRecurring ? "translate-x-5" : "translate-x-0"}`} />
+                      <input
+                        type="checkbox"
+                        checked={isRecurring}
+                        onChange={(e) => setIsRecurring(e.target.checked)}
+                        className="sr-only"
+                      />
+                    </span>
+                    <span className="flex-1 min-w-0">
+                      <span className="font-heading text-sm font-medium text-mp-charcoal group-hover:text-mp-ocean transition-colors flex items-center gap-1.5">
+                        <Repeat className="w-3.5 h-3.5" aria-hidden="true" />
+                        Chaque semaine
+                      </span>
+                      <span className="text-xs text-mp-text-muted block mt-0.5">
+                        Inscription auto. aux 4 prochaines s&eacute;ances
+                      </span>
+                    </span>
+                  </label>
+                </div>
+
+                {/* 2. RÉCAP — single source of truth for what gets booked */}
+                <section
+                  aria-labelledby="order-summary-heading"
+                  className="border border-mp-sand rounded-xl p-4 bg-mp-cream/40"
+                >
+                  <h3
+                    id="order-summary-heading"
+                    className="font-heading text-sm font-bold text-mp-charcoal mb-3"
+                  >
+                    Récapitulatif
+                  </h3>
+                  <dl className="space-y-2 text-sm font-body text-mp-text-light">
+                    <div className="flex justify-between gap-3">
+                      <dt className="text-mp-text-muted shrink-0">Séance</dt>
+                      <dd className="text-right text-mp-charcoal font-heading font-medium min-w-0 break-words">
+                        {courseTypeLabels[selectedSession.courseType as keyof typeof courseTypeLabels] ?? selectedSession.courseName}
+                      </dd>
+                    </div>
+                    <div className="flex justify-between gap-3">
+                      <dt className="text-mp-text-muted shrink-0">Quand</dt>
+                      <dd className="text-right text-mp-charcoal font-heading font-medium">
+                        {dayNames[selectedSession.dayOffset]} {selectedSession.time}
+                      </dd>
+                    </div>
+                    <div className="flex justify-between gap-3">
+                      <dt className="text-mp-text-muted shrink-0">Avec</dt>
+                      <dd className="text-right text-mp-charcoal font-heading font-medium">
+                        {selectedSession.instructor}
+                      </dd>
+                    </div>
+                    <div className="flex justify-between gap-3 pt-2 mt-2 border-t border-mp-sand">
+                      <dt className="text-mp-charcoal font-heading font-semibold">
+                        À payer
+                      </dt>
+                      <dd className="text-right text-mp-charcoal font-heading font-bold text-base">
+                        {activeCard && activeCard.remaining > 0 ? (
+                          <span className="text-mp-sage">
+                            <span className="line-through text-mp-text-muted text-xs font-normal mr-2">{isTrial ? "10" : "20"}&nbsp;&euro;</span>
+                            1 séance carte
+                          </span>
+                        ) : (
+                          <>{isTrial ? "10" : "20"}&nbsp;&euro;</>
+                        )}
+                      </dd>
+                    </div>
+                  </dl>
+                </section>
+
+                {/* 3. PRIMARY ACTION — one button. Carte si dispo, sinon paiement. */}
+                {activeCard && activeCard.remaining > 0 ? (
                   <button
                     disabled={bookingLoading}
                     onClick={async () => {
@@ -1453,232 +1546,172 @@ export default function PlanningPage() {
                     }}
                     className="mp-btn mp-btn-primary w-full justify-center"
                   >
-                    {bookingLoading ? "Réservation\u2026" : (
-                      <>
-                        <ShieldCheck className="w-4 h-4" aria-hidden="true" />
-                        Réserver avec ma carte ({activeCard.remaining}/{activeCard.total} restants)
-                      </>
+                    {bookingLoading ? "R\u00e9servation\u2026" : (
+                      <span className="flex flex-col items-center gap-0.5 leading-tight">
+                        <span className="inline-flex items-center gap-2">
+                          <ShieldCheck className="w-4 h-4" aria-hidden="true" />
+                          Réserver avec ma carte
+                        </span>
+                        <span className="text-[11px] font-body font-normal opacity-90">
+                          {activeCard.remaining} séance{activeCard.remaining > 1 ? "s" : ""} restante{activeCard.remaining > 1 ? "s" : ""} sur {activeCard.total}
+                        </span>
+                      </span>
                     )}
                   </button>
-                )}
-
-                {/* Separator if card option is shown */}
-                {activeCard && activeCard.remaining > 0 && (
-                  <div className="flex items-center gap-3 text-xs text-mp-text-muted">
-                    <span className="flex-1 h-px bg-mp-sand-dark/30" />
-                    ou
-                    <span className="flex-1 h-px bg-mp-sand-dark/30" />
-                  </div>
-                )}
-
-                {/* Option 2: Trial toggle (first-timers only) */}
-                {showTrialOptions && (
-                  <>
-                    <label className="flex items-center gap-3 cursor-pointer group">
-                      <span className={`relative w-11 h-6 rounded-full transition-colors ${isTrial ? "bg-mp-ocean" : "bg-mp-sand-dark"}`}>
-                        <span className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform ${isTrial ? "translate-x-5" : "translate-x-0"}`} />
-                        <input
-                          type="checkbox"
-                          checked={isTrial}
-                          onChange={(e) => setIsTrial(e.target.checked)}
-                          className="sr-only"
-                        />
-                      </span>
-                      <span className="font-heading text-sm font-medium text-mp-charcoal group-hover:text-mp-ocean transition-colors">
-                        C&apos;est ma premi&egrave;re s&eacute;ance (cours d&apos;essai)
-                      </span>
-                    </label>
-                    {isTrial && (
-                      <p className="text-sm text-mp-sage font-heading font-medium bg-mp-sage/10 px-4 py-2 rounded-xl">
-                        Votre cours d&eacute;couverte Mat &agrave; seulement <strong>10&euro;</strong> au lieu de 20&euro; !
-                      </p>
-                    )}
-                  </>
-                )}
-
-                {/* Récapitulatif de commande — avant paiement (a11y + transparence) */}
-                <section
-                  aria-labelledby="order-summary-heading"
-                  className="border border-mp-sand rounded-xl p-4 bg-mp-cream/40"
-                >
-                  <h3
-                    id="order-summary-heading"
-                    className="font-heading text-sm font-bold text-mp-charcoal mb-3"
-                  >
-                    Récapitulatif
-                  </h3>
-                  <dl className="space-y-2 text-sm font-body text-mp-text-light">
-                    <div className="flex justify-between gap-4">
-                      <dt className="text-mp-text-muted">Séance</dt>
-                      <dd className="text-right text-mp-charcoal font-heading font-medium">
-                        {courseTypeLabels[selectedSession.courseType as keyof typeof courseTypeLabels] ?? selectedSession.courseName} — {dayNames[selectedSession.dayOffset]} {selectedSession.time}
-                      </dd>
-                    </div>
-                    <div className="flex justify-between gap-4">
-                      <dt className="text-mp-text-muted">Instructrice</dt>
-                      <dd className="text-right text-mp-charcoal font-heading font-medium">
-                        {selectedSession.instructor}
-                      </dd>
-                    </div>
-                    <div className="flex justify-between gap-4">
-                      <dt className="text-mp-text-muted">Formule</dt>
-                      <dd className="text-right text-mp-charcoal font-heading font-medium">
-                        {isTrial ? "Cours d\u2019essai" : "Paiement à l\u2019unité"}
-                      </dd>
-                    </div>
-                    <div className="flex justify-between gap-4 pt-2 mt-2 border-t border-mp-sand">
-                      <dt className="text-mp-charcoal font-heading font-semibold">
-                        Prix total
-                      </dt>
-                      <dd className="text-right text-mp-charcoal font-heading font-bold text-base">
-                        {isTrial ? "10" : "20"}&nbsp;&euro;
-                      </dd>
-                    </div>
-                  </dl>
-                </section>
-
-                {/* Option 3: Pay per session */}
-                <button
-                  disabled={bookingLoading}
-                  onClick={async () => {
-                    setBookingLoading(true)
-                    setBookingError("")
-                    const price = isTrial ? 10 : 20
-                    try {
-                      const res = await fetch("/api/checkout", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({
-                          mode: "booking",
-                          items: [
-                            {
+                ) : (
+                  <button
+                    disabled={bookingLoading}
+                    onClick={async () => {
+                      setBookingLoading(true)
+                      setBookingError("")
+                      const price = isTrial ? 10 : 20
+                      try {
+                        const res = await fetch("/api/checkout", {
+                          method: "POST",
+                          headers: { "Content-Type": "application/json" },
+                          body: JSON.stringify({
+                            mode: "booking",
+                            items: [{
                               name: isTrial
                                 ? `Cours d'essai — ${selectedSession.courseName} — ${selectedSession.time}`
                                 : `${selectedSession.courseName} — ${selectedSession.time} (${selectedSession.duration})`,
                               price,
                               quantity: 1,
+                            }],
+                            metadata: {
+                              sessionId: selectedSession.id,
+                              scheduleId: selectedSession.scheduleId,
+                              courseName: selectedSession.courseName,
+                              instructor: selectedSession.instructor,
+                              time: selectedSession.time,
+                              isTrial: String(isTrial),
+                              isRecurring: String(isRecurring),
                             },
-                          ],
-                          metadata: {
-                            sessionId: selectedSession.id,
-                            scheduleId: selectedSession.scheduleId,
-                            courseName: selectedSession.courseName,
-                            instructor: selectedSession.instructor,
-                            time: selectedSession.time,
-                            isTrial: String(isTrial),
-                            isRecurring: String(isRecurring),
-                          },
-                        }),
-                      })
-                      if (handleAuthError(res.status)) return
-                      const data = await res.json()
-                      if (data.url) {
-                        // Show a brief order-recap overlay so the user sees
-                        // what's being charged before Stripe takes over.
-                        setStripeRedirecting(true)
-                        await new Promise((r) => setTimeout(r, 800))
-                        window.location.href = data.url
-                      } else {
-                        setBookingError("Impossible de lancer le paiement.")
-                      }
-                    } catch {
-                      setBookingError("Impossible de lancer le paiement.")
-                    } finally {
-                      setBookingLoading(false)
-                    }
-                  }}
-                  className={clsx(
-                    "w-full justify-center",
-                    activeCard && activeCard.remaining > 0
-                      ? "mp-btn mp-btn-secondary"
-                      : "mp-btn mp-btn-primary"
-                  )}
-                >
-                  {bookingLoading ? "Redirection\u2026" : <>Payer &agrave; l&apos;unit&eacute; &mdash; {isTrial ? "10" : "20"}&euro;</>}
-                </button>
-
-                {/* Upsell banner for non-card users */}
-                {!activeCard && !isTrial && (
-                  <div className="flex items-start gap-2 px-4 py-3 rounded-xl bg-amber-50/80 border border-amber-200/50 text-sm">
-                    <span className="text-base leading-none mt-0.5" aria-hidden="true">💡</span>
-                    <div>
-                      <p className="text-mp-charcoal font-body">
-                        Avec la carte 10 cours, ce cours reviendrait à <strong className="text-mp-ocean">18&euro;</strong> au lieu de 20&euro;
-                      </p>
-                      <a href="/tarifs" className="text-mp-ocean font-heading font-semibold text-xs hover:underline mt-1 inline-block">
-                        Voir les cartes &rarr;
-                      </a>
-                    </div>
-                  </div>
-                )}
-
-                {/* Option: Pay on-site */}
-                <button
-                  disabled={bookingLoading}
-                  onClick={async () => {
-                    setBookingLoading(true)
-                    setBookingError("")
-                    try {
-                      const res = await fetch("/api/bookings/on-site", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({ sessionId: selectedSession.id }),
-                      })
-                      if (handleAuthError(res.status)) return
-                      const data = await res.json()
-                      if (res.ok) {
-                        await handleRecurringAfterBooking(selectedSession.scheduleId)
-                        setBookingSuccess({
-                          message: data.status === "WAITLIST"
-                            ? "Vous \u00eates sur la liste d'attente ! Nous vous notifierons par email si une place se lib\u00e8re."
-                            : "Réservation confirmée ! Règlement sur place au studio.",
-                          waitlist: data.status === "WAITLIST",
+                          }),
                         })
-                      } else {
-                        setBookingError(data.error || "Erreur lors de la réservation.")
+                        if (handleAuthError(res.status)) return
+                        const data = await res.json()
+                        if (data.url) {
+                          setStripeRedirecting(true)
+                          await new Promise((r) => setTimeout(r, 800))
+                          window.location.href = data.url
+                        } else {
+                          setBookingError("Impossible de lancer le paiement.")
+                        }
+                      } catch {
+                        setBookingError("Impossible de lancer le paiement.")
+                      } finally {
+                        setBookingLoading(false)
                       }
-                    } catch {
-                      setBookingError("Erreur de connexion.")
-                    } finally {
-                      setBookingLoading(false)
-                    }
-                  }}
-                  className="mp-btn mp-btn-secondary w-full justify-center text-sm"
-                >
-                  R&eacute;gler sur place au studio
-                </button>
-
-                {/* Link to buy a card */}
-                {!activeCard && (
-                  <p className="text-center text-xs text-mp-text-muted mt-1">
-                    <a href="/tarifs" className="text-mp-ocean hover:underline">
-                      Acheter une carte de cours &rarr;
-                    </a>{" "}
-                    pour r&eacute;server sans payer &agrave; chaque fois
-                  </p>
+                    }}
+                    className="mp-btn mp-btn-primary w-full justify-center"
+                  >
+                    {bookingLoading ? "Redirection\u2026" : <>Payer {isTrial ? "10" : "20"}&nbsp;&euro; par carte bancaire</>}
+                  </button>
                 )}
 
-                {/* Recurring booking toggle */}
-                <label className="flex items-start gap-3 cursor-pointer group p-3 rounded-xl border border-mp-sand hover:border-mp-ocean/30 transition-colors">
-                  <span className={`relative w-11 h-6 rounded-full transition-colors flex-shrink-0 mt-0.5 ${isRecurring ? "bg-mp-ocean" : "bg-mp-sand-dark"}`}>
-                    <span className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform ${isRecurring ? "translate-x-5" : "translate-x-0"}`} />
-                    <input
-                      type="checkbox"
-                      checked={isRecurring}
-                      onChange={(e) => setIsRecurring(e.target.checked)}
-                      className="sr-only"
-                    />
-                  </span>
-                  <span className="flex-1">
-                    <span className="font-heading text-sm font-medium text-mp-charcoal group-hover:text-mp-ocean transition-colors flex items-center gap-1.5">
-                      <Repeat className="w-3.5 h-3.5" aria-hidden="true" />
-                      R&eacute;server ce cr&eacute;neau chaque semaine
+                {/* 4. SECONDARY ACTIONS — text links, no visual weight */}
+                <div className="space-y-1 pt-1 border-t border-mp-sand/60">
+                  {activeCard && activeCard.remaining > 0 && (
+                    <button
+                      disabled={bookingLoading}
+                      onClick={async () => {
+                        setBookingLoading(true)
+                        setBookingError("")
+                        const price = isTrial ? 10 : 20
+                        try {
+                          const res = await fetch("/api/checkout", {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({
+                              mode: "booking",
+                              items: [{
+                                name: isTrial
+                                  ? `Cours d'essai — ${selectedSession.courseName} — ${selectedSession.time}`
+                                  : `${selectedSession.courseName} — ${selectedSession.time} (${selectedSession.duration})`,
+                                price,
+                                quantity: 1,
+                              }],
+                              metadata: {
+                                sessionId: selectedSession.id,
+                                scheduleId: selectedSession.scheduleId,
+                                courseName: selectedSession.courseName,
+                                instructor: selectedSession.instructor,
+                                time: selectedSession.time,
+                                isTrial: String(isTrial),
+                                isRecurring: String(isRecurring),
+                              },
+                            }),
+                          })
+                          if (handleAuthError(res.status)) return
+                          const data = await res.json()
+                          if (data.url) {
+                            setStripeRedirecting(true)
+                            await new Promise((r) => setTimeout(r, 800))
+                            window.location.href = data.url
+                          } else {
+                            setBookingError("Impossible de lancer le paiement.")
+                          }
+                        } catch {
+                          setBookingError("Impossible de lancer le paiement.")
+                        } finally {
+                          setBookingLoading(false)
+                        }
+                      }}
+                      className="block w-full text-center text-sm font-heading font-medium text-mp-ocean hover:text-mp-ocean-dark hover:underline py-2.5"
+                    >
+                      Payer {isTrial ? "10" : "20"}&nbsp;&euro; sans toucher à ma carte
+                    </button>
+                  )}
+                  <button
+                    disabled={bookingLoading}
+                    onClick={async () => {
+                      setBookingLoading(true)
+                      setBookingError("")
+                      try {
+                        const res = await fetch("/api/bookings/on-site", {
+                          method: "POST",
+                          headers: { "Content-Type": "application/json" },
+                          body: JSON.stringify({ sessionId: selectedSession.id }),
+                        })
+                        if (handleAuthError(res.status)) return
+                        const data = await res.json()
+                        if (res.ok) {
+                          await handleRecurringAfterBooking(selectedSession.scheduleId)
+                          setBookingSuccess({
+                            message: data.status === "WAITLIST"
+                              ? "Vous \u00eates sur la liste d'attente ! Nous vous notifierons par email si une place se lib\u00e8re."
+                              : "Réservation confirmée ! Règlement sur place au studio.",
+                            waitlist: data.status === "WAITLIST",
+                          })
+                        } else {
+                          setBookingError(data.error || "Erreur lors de la réservation.")
+                        }
+                      } catch {
+                        setBookingError("Erreur de connexion.")
+                      } finally {
+                        setBookingLoading(false)
+                      }
+                    }}
+                    className="block w-full text-center text-sm font-heading font-medium text-mp-text-light hover:text-mp-charcoal hover:underline py-2.5"
+                  >
+                    Régler sur place au studio
+                  </button>
+                </div>
+
+                {/* 5. UPSELL — only when no card and not a trial */}
+                {!activeCard && !isTrial && (
+                  <a
+                    href="/tarifs"
+                    className="flex items-start gap-2 px-3 py-2.5 rounded-xl bg-amber-50/80 border border-amber-200/60 text-xs hover:bg-amber-100/80 transition-colors"
+                  >
+                    <span className="text-base leading-none mt-0.5" aria-hidden="true">💡</span>
+                    <span className="text-mp-charcoal flex-1">
+                      Avec la <strong>carte 10 cours</strong>, ce cours coûterait <strong className="text-mp-ocean">18&nbsp;&euro;</strong> au lieu de 20&nbsp;&euro;
+                      {" "}<span className="text-mp-ocean font-heading font-semibold whitespace-nowrap">— Voir les cartes →</span>
                     </span>
-                    <span className="text-xs text-mp-text-muted block mt-0.5">
-                      Vous serez automatiquement inscrit(e) aux 4 prochaines s&eacute;ances
-                    </span>
-                  </span>
-                </label>
+                  </a>
+                )}
 
               </div>
             ) : (
