@@ -868,8 +868,13 @@ export default function PlanningPage() {
             </div>
           )}
 
-          {/* Mobile day selector */}
-          <div className={clsx("sm:hidden gap-1.5 mb-4 overflow-x-auto scrollbar-hide pb-1", sessionsLoading && sessions.length === 0 ? "hidden" : "flex")} role="tablist" aria-label="Jours de la semaine">
+          {/* Mobile day selector — wrapped in a relative container with a
+              right-edge gradient that fades to background colour when there's
+              more content to scroll. The gradient is purely visual; the day
+              tabs themselves remain accessible. */}
+          <div className={clsx("sm:hidden relative mb-4", sessionsLoading && sessions.length === 0 ? "hidden" : "block")}>
+            <span aria-hidden="true" className="pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-mp-cream to-transparent z-10" />
+          <div className="flex gap-1.5 overflow-x-auto scrollbar-hide pb-1 pr-2" role="tablist" aria-label="Jours de la semaine">
             {[0, 1, 2, 3, 4, 5].map((dayOffset) => {
               const date = addDays(weekStart, dayOffset)
               const today = isToday(date)
@@ -903,6 +908,7 @@ export default function PlanningPage() {
                 </button>
               )
             })}
+          </div>
           </div>
 
           {/* Mobile single-day view */}

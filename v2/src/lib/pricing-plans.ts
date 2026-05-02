@@ -25,6 +25,8 @@ export type PricingPlan = {
   cardType?: "5" | "10" | "20"
   href?: string
   isTrial?: boolean
+  /** Used on /tarifs to group plans into mobile tabs (Tapis vs Privé). */
+  category: "tapis" | "prive"
 }
 
 export const pricingPlans: PricingPlan[] = [
@@ -47,6 +49,7 @@ export const pricingPlans: PricingPlan[] = [
       "Matériel fourni",
       "Petit groupe (5 max)",
     ],
+    category: "tapis",
   },
   {
     name: "Séance tapis à l'unité",
@@ -66,6 +69,7 @@ export const pricingPlans: PricingPlan[] = [
       "Matériel fourni",
       "Petit groupe (5 max)",
     ],
+    category: "tapis",
   },
   {
     name: "Carte 5 cours tapis",
@@ -86,6 +90,7 @@ export const pricingPlans: PricingPlan[] = [
       "Matériel fourni",
       "Petit groupe (5 max)",
     ],
+    category: "tapis",
   },
   {
     name: "Carte 10 cours tapis",
@@ -107,6 +112,7 @@ export const pricingPlans: PricingPlan[] = [
       "Petit groupe (5 max)",
       "Le meilleur rapport qualité-prix",
     ],
+    category: "tapis",
   },
   {
     name: "Carte 20 cours tapis",
@@ -128,6 +134,7 @@ export const pricingPlans: PricingPlan[] = [
       "Petit groupe (5 max)",
       "Le tarif le plus avantageux",
     ],
+    category: "tapis",
   },
   {
     name: "Découverte Privé sur équipement",
@@ -147,6 +154,7 @@ export const pricingPlans: PricingPlan[] = [
       "Accompagnement individuel",
       "Réservé aux nouveaux élèves",
     ],
+    category: "prive",
   },
   {
     name: "Privé sur équipement",
@@ -166,6 +174,7 @@ export const pricingPlans: PricingPlan[] = [
       "Reformer Cadillac premium",
       "Matériel professionnel",
     ],
+    category: "prive",
   },
   {
     name: "Carte 10 privés équipement",
@@ -185,6 +194,7 @@ export const pricingPlans: PricingPlan[] = [
       "Reformer Cadillac premium",
       "Matériel professionnel",
     ],
+    category: "prive",
   },
 ]
 

@@ -2,13 +2,17 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
-import { Check, Loader2 } from "lucide-react"
+import { Check, Loader2, ShieldCheck } from "lucide-react"
 import type { PricingPlan } from "@/lib/pricing-plans"
 
 export function PricingCard({ plan }: { plan: PricingPlan }) {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
+  // Brief order-recap overlay between fetch and Stripe redirect — same UX
+  // pattern as the planning booking modal so users never wonder what's
+  // being charged when they leave the site.
+  const [stripeRedirecting, setStripeRedirecting] = useState(false)
 
   const isCheckout = !!plan.checkoutMode
 
@@ -37,6 +41,8 @@ export function PricingCard({ plan }: { plan: PricingPlan }) {
       }
 
       if (data.url) {
+        setStripeRedirecting(true)
+        await new Promise((r) => setTimeout(r, 600))
         window.location.href = data.url
       }
     } catch (err) {
@@ -53,6 +59,24 @@ export function PricingCard({ plan }: { plan: PricingPlan }) {
           : "border-mp-sand-dark/20 hover:border-mp-ocean/30 hover:-translate-y-1 transition-all duration-200"
       }`}
     >
+      {/* Stripe redirect overlay: brief recap before leaving the site */}
+      {stripeRedirecting && (
+        <div
+          role="status"
+          aria-live="polite"
+          className="absolute inset-0 z-10 bg-white/95 backdrop-blur-sm flex flex-col items-center justify-center p-6 text-center rounded-2xl"
+        >
+          <Loader2 className="w-8 h-8 text-mp-ocean animate-spin mb-3" aria-hidden="true" />
+          <p className="font-body text-sm text-mp-charcoal leading-relaxed max-w-xs">
+            Paiement sécurisé de <strong>{plan.priceLabel}</strong> pour la{" "}
+            <strong>{plan.name}</strong>
+          </p>
+          <p className="mt-2 inline-flex items-center gap-1.5 text-xs text-mp-text-muted">
+            <ShieldCheck className="w-3.5 h-3.5 text-mp-sage" aria-hidden="true" />
+            Redirection vers Stripe…
+          </p>
+        </div>
+      )}
       {plan.badge && (
         <span
           className={`absolute -top-3.5 left-6 px-4 py-1.5 rounded-full text-xs font-heading font-semibold shadow-sm ${plan.badgeColor} ${plan.highlighted ? "mp-shimmer" : ""}`}
