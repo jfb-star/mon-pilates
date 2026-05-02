@@ -728,7 +728,7 @@ export default function PlanningPage() {
                           aria-pressed={active}
                           onClick={() => toggleType(type)}
                           className={clsx(
-                            "px-3 py-1.5 rounded-full text-xs font-heading font-semibold transition-all",
+                            "px-4 py-2.5 sm:px-3 sm:py-1.5 rounded-full text-sm sm:text-xs font-heading font-semibold transition-all min-h-[40px] sm:min-h-0",
                             active
                               ? `${colors?.bg} ${colors?.text} ring-2 ${colors?.border}`
                               : "bg-mp-sand text-mp-text-light hover:bg-mp-sand-dark/30"
@@ -757,7 +757,7 @@ export default function PlanningPage() {
                           )
                         }
                         className={clsx(
-                          "px-3 py-1.5 rounded-full text-xs font-heading font-semibold transition-all",
+                          "px-4 py-2.5 sm:px-3 sm:py-1.5 rounded-full text-sm sm:text-xs font-heading font-semibold transition-all min-h-[40px] sm:min-h-0",
                           selectedInstructor === name
                             ? "bg-mp-ocean/10 text-mp-ocean ring-2 ring-mp-ocean"
                             : "bg-mp-sand text-mp-text-light hover:bg-mp-sand-dark/30"
@@ -783,7 +783,7 @@ export default function PlanningPage() {
                           setSelectedLevel(selectedLevel === level ? "" : level)
                         }
                         className={clsx(
-                          "px-3 py-1.5 rounded-full text-xs font-heading font-semibold transition-all",
+                          "px-4 py-2.5 sm:px-3 sm:py-1.5 rounded-full text-sm sm:text-xs font-heading font-semibold transition-all min-h-[40px] sm:min-h-0",
                           selectedLevel === level
                             ? "bg-mp-ocean/10 text-mp-ocean ring-2 ring-mp-ocean"
                             : "bg-mp-sand text-mp-text-light hover:bg-mp-sand-dark/30"

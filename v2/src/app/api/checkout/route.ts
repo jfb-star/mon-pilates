@@ -60,6 +60,19 @@ export async function POST(req: NextRequest) {
     // Get current user if logged in
     const authSession = await auth()
     const userId = authSession?.user?.id ?? ""
+    const userEmail = authSession?.user?.email ?? undefined
+
+    // Mobile-friendly defaults applied to every Checkout Session.
+    // - "card" enables Apple Pay / Google Pay automatically on supported
+    //   devices (iOS Safari, Android Chrome). No extra config required.
+    // - "link" enables Stripe Link autofill (1-tap for returning Link users).
+    // - phone_number_collection is left at its default (disabled) — collecting
+    //   a phone is friction we don't need for a Pilates booking.
+    const mobileFriendlyDefaults = {
+      payment_method_types: ["card", "link"] as ["card", "link"],
+      // Pre-fill the email field for logged-in users → one less mobile keystroke.
+      ...(userEmail ? { customer_email: userEmail } : {}),
+    }
 
     // --- Course card checkout ---
     if (mode === "course-card") {
@@ -71,7 +84,7 @@ export async function POST(req: NextRequest) {
 
       const session = await stripe.checkout.sessions.create({
         mode: "payment",
-        payment_method_types: ["card", "link"],
+        ...mobileFriendlyDefaults,
         allow_promotion_codes: true,
         locale: "fr",
         line_items: [
@@ -106,7 +119,7 @@ export async function POST(req: NextRequest) {
 
       const session = await stripe.checkout.sessions.create({
         mode: "subscription",
-        payment_method_types: ["card", "link"],
+        ...mobileFriendlyDefaults,
         allow_promotion_codes: true,
         locale: "fr",
         line_items: [{ price: priceId, quantity: 1 }],
@@ -179,7 +192,7 @@ export async function POST(req: NextRequest) {
 
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
-      payment_method_types: ["card"],
+      ...mobileFriendlyDefaults,
       locale: "fr",
       line_items,
       metadata: {

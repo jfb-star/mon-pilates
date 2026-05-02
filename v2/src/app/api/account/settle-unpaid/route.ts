@@ -99,10 +99,15 @@ export async function POST(request: NextRequest) {
   // --- Pay online via Stripe ---
   const amountCents = unpaid.length * SESSION_PRICE_CENTS
 
+  // Pre-fill email so logged-in users skip a mobile keyboard step.
+  // payment_method_types: ["card","link"] enables Apple Pay / Google Pay
+  // automatically on supported devices (they're served via the "card" PMT).
+  const userEmail = session.user.email ?? undefined
   const checkoutSession = await stripe.checkout.sessions.create({
     mode: "payment",
     payment_method_types: ["card", "link"],
     locale: "fr",
+    ...(userEmail ? { customer_email: userEmail } : {}),
     line_items: [
       {
         price_data: {
