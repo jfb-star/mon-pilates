@@ -49,7 +49,7 @@ export function PricingGrid({ plans }: { plans: PricingPlan[] }) {
                 }`}
               >
                 <span className="block leading-tight">{tab.label}</span>
-                <span className={`block text-[10px] font-body font-normal mt-0.5 ${isActive ? "text-white/80" : "text-mp-text-muted"}`}>
+                <span className={`block text-[11px] font-body font-normal mt-0.5 ${isActive ? "text-white/85" : "text-mp-text-muted"}`}>
                   {tab.sub}
                 </span>
               </button>

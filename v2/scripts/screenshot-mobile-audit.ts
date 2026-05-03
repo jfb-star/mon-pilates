@@ -20,6 +20,10 @@ const PAGES = [
   { slug: "premiere-visite", url: "/premiere-visite" },
   { slug: "connexion", url: "/connexion" },
   { slug: "contact", url: "/contact" },
+  { slug: "cours", url: "/cours" },
+  { slug: "equipe", url: "/equipe" },
+  { slug: "about", url: "/about" },
+  { slug: "blog", url: "/blog" },
 ];
 
 async function main() {

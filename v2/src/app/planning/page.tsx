@@ -643,7 +643,7 @@ export default function PlanningPage() {
             <div className="flex flex-wrap items-center gap-2">
               <button
                 onClick={() => setWeekOffset((w) => w - 1)}
-                className="p-2.5 rounded-full border border-mp-sand hover:bg-mp-sand transition-colors"
+                className="p-2.5 rounded-full border border-mp-sand hover:bg-mp-sand transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center"
                 aria-label="Semaine pr\u00e9c\u00e9dente"
               >
                 <ChevronLeft className="w-5 h-5 text-mp-charcoal" aria-hidden="true" />
@@ -654,7 +654,7 @@ export default function PlanningPage() {
               </span>
               <button
                 onClick={() => setWeekOffset((w) => w + 1)}
-                className="p-2.5 rounded-full border border-mp-sand hover:bg-mp-sand transition-colors"
+                className="p-2.5 rounded-full border border-mp-sand hover:bg-mp-sand transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center"
                 aria-label="Semaine suivante"
               >
                 <ChevronRight className="w-5 h-5 text-mp-charcoal" aria-hidden="true" />
@@ -899,7 +899,7 @@ export default function PlanningPage() {
                   )}
                 >
                   <span>{(dayNames[dayOffset] ?? "").slice(0, 3)}</span>
-                  <span className={clsx("text-[10px] mt-0.5", active ? (today ? "text-white/95" : "text-mp-ocean") : "text-mp-text-muted")}>
+                  <span className={clsx("text-[11px] mt-0.5", active ? (today ? "text-white/95" : "text-mp-ocean") : "text-mp-text-muted")}>
                     {format(date, "d MMM", { locale: fr })}
                   </span>
                   {dayCount > 0 && (

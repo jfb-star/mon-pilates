@@ -563,7 +563,7 @@ const illustrativeReviews: Testimonial[] = [
     text: "Après la naissance de ma fille, je cherchais une pratique douce pour me reconnecter à mon corps. Le cours post-natal m'a permis de retrouver mon centre progressivement, sans jamais me brusquer. Violette connaît vraiment le corps des jeunes mamans.",
     source: "illustrative",
     meta: "Larmor-Plage · abonnée 4 mois · Post-natal",
-    avatarColor: "bg-mp-rose",
+    avatarColor: "bg-mp-rose-dark",
   },
   {
     name: "Julien M.",

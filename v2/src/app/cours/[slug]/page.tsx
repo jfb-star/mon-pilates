@@ -588,7 +588,7 @@ export default async function CourseDetailPage({
       {/* Final reservation CTA */}
       <section className="mp-section bg-gradient-to-br from-mp-ocean to-mp-ocean-dark text-white">
         <div className="mp-container text-center">
-          <h2 className="font-heading text-3xl sm:text-4xl font-bold mb-3">
+          <h2 className="font-heading text-3xl sm:text-4xl font-bold mb-3 text-white">
             Réserver {course.name}
           </h2>
           <p className="font-body text-white/80 max-w-md mx-auto mb-6">

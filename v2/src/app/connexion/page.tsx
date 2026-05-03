@@ -394,7 +394,7 @@ function ConnexionContent() {
                 <button
                   type="button"
                   onClick={() => { setMode("forgot"); setError(""); setForgotSuccess(false); }}
-                  className="font-body text-sm text-mp-ocean hover:underline"
+                  className="font-body text-sm text-mp-ocean hover:underline inline-flex items-center justify-center min-h-[44px] px-3"
                 >
                   Mot de passe oublié ?
                 </button>

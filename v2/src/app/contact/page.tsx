@@ -262,7 +262,7 @@ export default function ContactPage() {
       {/* CTA */}
       <section className="mp-section bg-gradient-to-br from-mp-ocean to-mp-ocean-dark text-white">
         <div className="mp-container text-center">
-          <h2 className="font-heading text-3xl sm:text-4xl font-bold mb-4">
+          <h2 className="font-heading text-3xl sm:text-4xl font-bold mb-4 text-white">
             Envie d&apos;essayer directement ?
           </h2>
           <p className="font-body text-lg text-white/80 max-w-md mx-auto mb-8">

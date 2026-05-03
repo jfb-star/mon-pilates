@@ -10,11 +10,12 @@
   /* Couleurs principales */
   --mp-sand: #f5f0eb;
   --mp-sand-dark: #e8dfd6;
-  /* Interactive tokens meet WCAG AA (≥4.5:1 on white). The previous
-     values (#6b9fad, #8faa8b, #c9a96e) landed at 2.2–2.9:1 and tripped
-     Lighthouse color-contrast. Decorative `-light` shades are unchanged. */
-  --mp-ocean: #3e7787;        /* 5.0:1 on white */
-  --mp-ocean-dark: #2a5d6e;   /* darker hover */
+  /* Interactive tokens meet WCAG AA (≥4.5:1 on white AND on sand #f5f0eb).
+     #3e7787 only got 4.42:1 on sand bg (eyebrow text in heroes), so we
+     darken to #346d7d → 5.5:1 on white, 4.85:1 on sand — both pass.
+     Decorative `-light` shades are unchanged. */
+  --mp-ocean: #346d7d;        /* 5.5:1 on white, 4.85:1 on sand */
+  --mp-ocean-dark: #235463;   /* darker hover, 8.0:1 on white */
   --mp-ocean-light: #a3c9d3;  /* decorative only */
   --mp-sage: #5a7856;         /* 5.0:1 on white */
   --mp-sage-dark: #4a6346;    /* 6.4:1 on white — for text on tinted bg */
@@ -75,13 +76,20 @@
    BASE STYLES
    ============================================================ */
 
-body {
-  background: var(--mp-white);
-  color: var(--mp-text);
-}
+/* Base styles wrapped in @layer base so Tailwind utilities (text-white,
+   text-mp-ocean, etc.) can override them. WITHOUT this wrapper, plain
+   selectors like `h1, h2, ...` win against any utility class regardless
+   of specificity, because Tailwind 4 puts utilities inside @layer. That
+   bug rendered every `text-white` heading in the dark Footer invisible. */
+@layer base {
+  body {
+    background: var(--mp-white);
+    color: var(--mp-text);
+  }
 
-h1, h2, h3, h4, h5, h6 {
-  color: var(--mp-charcoal);
+  h1, h2, h3, h4, h5, h6 {
+    color: var(--mp-charcoal);
+  }
 }
 
 /* ============================================================

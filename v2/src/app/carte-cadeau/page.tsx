@@ -130,7 +130,7 @@ export default function CartesCadeauPage() {
               <p className="font-body text-xs text-mp-text-light">Ajoutez un message personnel pour rendre le cadeau unique.</p>
             </ScrollReveal>
             <ScrollReveal delay={2} className="flex flex-col items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-mp-rose/10 flex items-center justify-center font-heading font-bold text-mp-rose text-lg" aria-hidden="true">3</div>
+              <div className="w-10 h-10 rounded-full bg-mp-rose/15 flex items-center justify-center font-heading font-bold text-mp-rose-dark text-lg" aria-hidden="true">3</div>
               <h3 className="font-heading text-sm font-semibold text-mp-charcoal">Envoyez</h3>
               <p className="font-body text-xs text-mp-text-light">La carte est envoyée instantanément par email au destinataire.</p>
             </ScrollReveal>
@@ -143,7 +143,7 @@ export default function CartesCadeauPage() {
         <div className="mp-container">
           <p className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-xs text-mp-text-muted mb-8 text-center">
             <span className="flex items-center gap-1"><Mail className="w-3.5 h-3.5 text-mp-gold" aria-hidden="true" />Livraison instantan&eacute;e par email</span>
-            <span className="text-mp-sand-dark">&middot;</span>
+            <span className="text-mp-text-muted/40" aria-hidden="true">&middot;</span>
             <span className="flex items-center gap-1"><Gift className="w-3.5 h-3.5 text-mp-gold" aria-hidden="true" />Montant personnalisable de 10&euro; &agrave; 500&euro;</span>
           </p>
           <GiftCardForm />

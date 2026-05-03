@@ -332,7 +332,7 @@ export default function EquipePage() {
                           key={spec}
                           href={`/cours/${spec}`}
                           className={clsx(
-                            "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-heading font-medium transition-all hover:shadow-md",
+                            "inline-flex items-center gap-1.5 px-4 py-2.5 sm:px-3 sm:py-1.5 rounded-full text-sm font-heading font-medium transition-all hover:shadow-md min-h-[40px] sm:min-h-0",
                             colors.bg,
                             colors.text
                           )}
@@ -454,7 +454,7 @@ export default function EquipePage() {
       {/* CTA */}
       <section className="mp-section bg-gradient-to-br from-mp-ocean to-mp-ocean-dark text-white">
         <div className="mp-container text-center">
-          <h2 className="font-heading text-3xl sm:text-4xl font-bold mb-4">
+          <h2 className="font-heading text-3xl sm:text-4xl font-bold mb-4 text-white">
             Envie de nous rencontrer ?
           </h2>
           <p className="font-body text-lg text-white/80 max-w-md mx-auto mb-8">

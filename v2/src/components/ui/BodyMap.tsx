@@ -123,7 +123,7 @@ export function BodyMap() {
       <div className="w-full lg:w-[40%] flex justify-center shrink-0">
         <svg
           viewBox="0 0 300 460"
-          className="w-[220px] sm:w-[260px] lg:w-[300px] h-auto select-none"
+          className="w-[280px] sm:w-[300px] lg:w-[300px] h-auto select-none"
           aria-label="Carte du corps — cliquez sur une zone pour voir les cours correspondants"
           role="img"
         >
@@ -249,10 +249,10 @@ export function BodyMap() {
                 dominantBaseline="central"
                 className="pointer-events-none font-heading"
                 style={{
-                  fontSize: "9px",
+                  fontSize: "12px",
                   fontWeight: 600,
                   fill: isActive ? "var(--mp-ocean-dark)" : "var(--mp-text-muted)",
-                  opacity: isActive ? 1 : 0.55,
+                  opacity: isActive ? 1 : 0.7,
                   transition: "all 0.3s ease",
                 }}
               >

@@ -102,12 +102,12 @@ export function Footer() {
             <h2 className="font-heading text-sm font-semibold text-white uppercase tracking-wider mb-4">
               Le Studio
             </h2>
-            <ul className="space-y-2.5">
+            <ul className="space-y-1 sm:space-y-2.5">
               {studioLinks.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-sm text-white/85 hover:text-mp-ocean-light transition-colors rounded focus:outline-none focus-visible:outline-2 focus-visible:outline-mp-ocean-light focus-visible:outline-offset-2"
+                    className="text-sm text-white/85 hover:text-mp-ocean-light transition-colors rounded focus:outline-none focus-visible:outline-2 focus-visible:outline-mp-ocean-light focus-visible:outline-offset-2 inline-flex items-center min-h-[40px] sm:min-h-0 py-1.5 sm:py-0 -my-1.5 sm:my-0 px-3 sm:px-0 -mx-3 sm:mx-0"
                   >
                     {link.name}
                   </Link>
@@ -122,12 +122,12 @@ export function Footer() {
               <h2 className="font-heading text-sm font-semibold text-white uppercase tracking-wider mb-4">
                 Informations
               </h2>
-              <ul className="space-y-2.5">
+              <ul className="space-y-1 sm:space-y-2.5">
                 {footerLinks.info.map((link) => (
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className="text-sm hover:text-mp-ocean-light transition-colors"
+                      className="text-sm hover:text-mp-ocean-light transition-colors inline-flex items-center min-h-[40px] sm:min-h-0 py-1.5 sm:py-0 -my-1.5 sm:my-0 px-3 sm:px-0 -mx-3 sm:mx-0"
                     >
                       {link.name}
                     </Link>
@@ -139,12 +139,12 @@ export function Footer() {
               <h2 className="font-heading text-sm font-semibold text-white uppercase tracking-wider mb-4">
                 Légal
               </h2>
-              <ul className="space-y-2.5">
+              <ul className="space-y-1 sm:space-y-2.5">
                 {footerLinks.legal.map((link) => (
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className="text-sm hover:text-mp-ocean-light transition-colors"
+                      className="text-sm hover:text-mp-ocean-light transition-colors inline-flex items-center min-h-[40px] sm:min-h-0 py-1.5 sm:py-0 -my-1.5 sm:my-0 px-3 sm:px-0 -mx-3 sm:mx-0"
                     >
                       {link.name}
                     </Link>
@@ -159,12 +159,12 @@ export function Footer() {
             <h2 className="font-heading text-sm font-semibold text-white uppercase tracking-wider mb-4">
               Articles récents
             </h2>
-            <ul className="space-y-2.5">
+            <ul className="space-y-1 sm:space-y-2.5">
               {footerLinks.blog.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-sm text-white/85 hover:text-mp-ocean-light transition-colors line-clamp-2 rounded focus:outline-none focus-visible:outline-2 focus-visible:outline-mp-ocean-light focus-visible:outline-offset-2"
+                    className="text-sm text-white/85 hover:text-mp-ocean-light transition-colors line-clamp-2 rounded focus:outline-none focus-visible:outline-2 focus-visible:outline-mp-ocean-light focus-visible:outline-offset-2 inline-flex min-h-[40px] sm:min-h-0 py-1.5 sm:py-0 -my-1.5 sm:my-0"
                   >
                     {link.name}
                   </Link>
@@ -190,7 +190,7 @@ export function Footer() {
               <div>
                 <a
                   href="tel:+33699183216"
-                  className="flex items-center gap-3 text-sm text-white/85 hover:text-mp-ocean-light transition-colors rounded focus:outline-none focus-visible:outline-2 focus-visible:outline-mp-ocean-light focus-visible:outline-offset-2"
+                  className="flex items-center gap-3 text-sm text-white/85 hover:text-mp-ocean-light transition-colors rounded focus:outline-none focus-visible:outline-2 focus-visible:outline-mp-ocean-light focus-visible:outline-offset-2 min-h-[40px] sm:min-h-0 py-1.5 sm:py-0 -my-1.5 sm:my-0"
                 >
                   <Phone className="w-4 h-4 text-mp-ocean-light flex-shrink-0" aria-hidden="true" />
                   06 99 18 32 16
@@ -199,7 +199,7 @@ export function Footer() {
               <div>
                 <a
                   href="mailto:contact@mon-pilates.bzh"
-                  className="flex items-center gap-3 text-sm text-white/85 hover:text-mp-ocean-light transition-colors rounded focus:outline-none focus-visible:outline-2 focus-visible:outline-mp-ocean-light focus-visible:outline-offset-2"
+                  className="flex items-center gap-3 text-sm text-white/85 hover:text-mp-ocean-light transition-colors rounded focus:outline-none focus-visible:outline-2 focus-visible:outline-mp-ocean-light focus-visible:outline-offset-2 min-h-[40px] sm:min-h-0 py-1.5 sm:py-0 -my-1.5 sm:my-0"
                 >
                   <Mail className="w-4 h-4 text-mp-ocean-light flex-shrink-0" aria-hidden="true" />
                   contact@mon-pilates.bzh

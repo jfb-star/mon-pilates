@@ -72,7 +72,7 @@ export function SmartRecommendations() {
         <p className="text-sm text-mp-text/60 mb-4">
           Connectez-vous pour recevoir des suggestions de cours adaptées à vos habitudes.
         </p>
-        <Link href="/connexion" className="text-sm font-medium text-mp-ocean hover:underline inline-flex items-center gap-1">
+        <Link href="/connexion" className="text-sm font-medium text-mp-ocean hover:underline inline-flex items-center gap-1 min-h-[44px] py-2 px-3 -mx-3 rounded">
           Se connecter <ArrowRight className="w-3 h-3" />
         </Link>
       </div>
