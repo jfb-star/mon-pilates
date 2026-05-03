@@ -37,40 +37,83 @@ async function main() {
       console.log(`  ${vp.name}: clicked → ${clicked}`);
       await new Promise((r) => setTimeout(r, 2000));
 
-      // Wait for modal to be present
-      await page.waitForSelector('[role="dialog"]', { timeout: 8000 }).catch(() => null);
+      // Wait for modal to be present (use aria-labelledby to disambiguate
+      // from the Header's mobile drawer which also has role="dialog").
+      await page.waitForSelector('[aria-labelledby="session-modal-title"]', { timeout: 8000 }).catch(() => null);
       await new Promise((r) => setTimeout(r, 800));
 
       const file = path.join(OUT, `${vp.name}-planning-modal-top.png`);
       await page.screenshot({ path: file, fullPage: false });
       console.log("  ✓", path.relative(OUT, file));
 
-      // Diagnostic: log modal scroll metrics
-      const scrollInfo = await page.evaluate(() => {
-        const dialog = document.querySelector('[role="dialog"]') as HTMLElement | null;
-        if (!dialog) return "no dialog";
-        const all = Array.from(dialog.querySelectorAll<HTMLElement>("*"));
-        const scrollables = all.filter((el) => {
-          const cs = getComputedStyle(el);
-          return (cs.overflowY === "auto" || cs.overflowY === "scroll");
-        }).map((el) => ({
-          cls: el.className.slice(0, 50),
-          ch: el.clientHeight, sh: el.scrollHeight, scrollable: el.scrollHeight > el.clientHeight,
-        }));
-        return JSON.stringify({ dialog: { ch: dialog.clientHeight, sh: dialog.scrollHeight }, scrollables }, null, 2);
+      const stickyDiag = await page.evaluate(() => {
+        const dialog = document.querySelector('[aria-labelledby="session-modal-title"]') as HTMLElement | null;
+        if (!dialog) return "no session modal";
+        const stickies = Array.from(dialog.querySelectorAll<HTMLElement>("*"))
+          .filter((el) => getComputedStyle(el).position === "sticky")
+          .map((el) => ({
+            cls: el.className.slice(0, 60),
+            top: getComputedStyle(el).top,
+            rect: el.getBoundingClientRect(),
+          }));
+        return JSON.stringify({ stickyCount: stickies.length, stickies }, null, 2);
       });
-      console.log(`  scroll info:\n${scrollInfo}`);
+      console.log(`  sticky diag:\n${stickyDiag}`);
 
-      // Use a CSS rule injected at top-level to disable max-height so all content shows in screenshot
-      await page.addStyleTag({ content: `
-        [role="dialog"] > div { max-height: none !important; overflow: visible !important; }
-        [role="dialog"] { align-items: flex-start !important; overflow: visible !important; }
-      ` });
+      // Target the session booking modal specifically (Header has its own
+      // role="dialog" mobile drawer that would otherwise match).
+      const scrollDiag = await page.evaluate(() => {
+        const dialog = document.querySelector('[aria-labelledby="session-modal-title"]') as HTMLElement | null;
+        if (!dialog) return "no session modal";
+        const candidates: HTMLElement[] = [
+          dialog,
+          ...Array.from(dialog.children).filter((c): c is HTMLElement => c instanceof HTMLElement),
+          document.scrollingElement as HTMLElement | null,
+          document.body,
+          document.documentElement,
+        ].filter((x): x is HTMLElement => !!x);
+        const before = candidates.map((el, i) => ({
+          i, tag: el.tagName, cls: (el.className || "").toString().slice(0, 40),
+          ch: el.clientHeight, sh: el.scrollHeight, ovY: getComputedStyle(el).overflowY,
+        }));
+        // Try to scroll each
+        candidates.forEach((el) => { try { el.scrollTop = 99999; } catch {} });
+        const after = candidates.map((el) => el.scrollTop);
+        return JSON.stringify({ before, after }, null, 2);
+      });
+      console.log(`  scroll diag:\n${scrollDiag}`);
+
+      // Use the bottom-most action button as the scroll target.
+      await page.evaluate(() => {
+        const dialog = document.querySelector('[aria-labelledby="session-modal-title"]');
+        const btns = dialog ? Array.from(dialog.querySelectorAll('button')) : [];
+        const last = btns[btns.length - 1];
+        if (last) (last as HTMLElement).scrollIntoView({ block: "end", inline: "center" });
+      });
+      await new Promise((r) => setTimeout(r, 600));
+      // After scroll, where is the sticky header?
+      const stickyAfter = await page.evaluate(() => {
+        const dialog = document.querySelector('[aria-labelledby="session-modal-title"]');
+        const sticky = dialog?.querySelector(".sticky") as HTMLElement | null;
+        if (!sticky) return "no sticky";
+        const r = sticky.getBoundingClientRect();
+        return `sticky after scroll: y=${r.top} h=${r.height} viewport=${window.innerHeight}`;
+      });
+      console.log(`  ${stickyAfter}`);
+      await new Promise((r) => setTimeout(r, 600));
+      const fileBottom = path.join(OUT, `${vp.name}-planning-modal-bottom.png`);
+      await page.screenshot({ path: fileBottom, fullPage: false });
+      console.log("  ✓", path.relative(OUT, fileBottom));
+
+      // Mid scroll for récap visibility
+      await page.evaluate(() => {
+        const dialog = document.querySelector('[aria-labelledby="session-modal-title"]') as HTMLElement | null;
+        if (dialog) dialog.scrollTop = Math.floor(dialog.scrollHeight * 0.5);
+      });
       await new Promise((r) => setTimeout(r, 400));
-
-      const fileFull = path.join(OUT, `${vp.name}-planning-modal-expanded.png`);
-      await page.screenshot({ path: fileFull, fullPage: true });
-      console.log("  ✓", path.relative(OUT, fileFull));
+      const fileMid = path.join(OUT, `${vp.name}-planning-modal-mid.png`);
+      await page.screenshot({ path: fileMid, fullPage: false });
+      console.log("  ✓", path.relative(OUT, fileMid));
     } catch (e) {
       console.warn("  ⚠", vp.name, (e as Error).message);
     }

@@ -1179,10 +1179,21 @@ export default function PlanningPage() {
         </div>
       </section>
 
-      {/* Session modal */}
+      {/* Session modal — mobile-first scroll strategy:
+          - On mobile (<sm), the OUTER overlay scrolls (page-style scroll).
+            The card has min-h-screen and no max-height, so its content
+            grows freely and you can scroll all the way to the payment CTAs.
+          - On desktop (≥sm), the INNER card scrolls within a centered modal
+            (max-h-[90vh]) — classic dialog pattern.
+          We deliberately avoid the `mp-card` utility here because its global
+          `overflow: hidden` rule defeats the Tailwind `overflow-y-auto`
+          utility on iOS — that's the source of the "frozen modal" bug. */}
       {selectedSession && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-mp-charcoal/50 backdrop-blur-sm p-0 sm:p-4"
+          // block on mobile so the inner card can grow taller than the
+          // viewport and the dialog itself scrolls naturally; flex+centered
+          // on ≥sm for the classic centered modal pattern.
+          className="fixed inset-0 z-50 block sm:flex sm:items-center sm:justify-center bg-mp-charcoal/50 backdrop-blur-sm p-0 sm:p-4 overflow-y-auto sm:overflow-hidden overscroll-contain"
           role="dialog"
           aria-modal="true"
           aria-labelledby="session-modal-title"
@@ -1190,15 +1201,35 @@ export default function PlanningPage() {
         >
           <div
             ref={modalRef}
-            className="mp-card p-6 sm:p-8 w-full sm:max-w-md relative shadow-2xl max-h-[100vh] sm:max-h-[90vh] overflow-y-auto rounded-none sm:rounded-2xl"
+            // No min-height on mobile — let the card size to its content so
+            // the outer dialog can compute a proper scrollHeight and scroll.
+            className="bg-white relative w-full sm:max-w-md sm:max-h-[90vh] sm:overflow-y-auto rounded-none sm:rounded-2xl shadow-2xl sm:mx-auto"
             onClick={(e) => e.stopPropagation()}
           >
+            {/* Sticky header with the close button. We avoid `position:fixed`
+                here because the parent dialog uses `backdrop-filter`, which
+                creates a containing block for fixed descendants — meaning a
+                `position: fixed` close button would scroll WITH the content
+                instead of staying at the viewport. `sticky` inside the
+                scrolling card is the reliable cross-browser pattern. */}
+            <div className="sticky top-0 z-20 bg-white/95 backdrop-blur-sm flex items-center justify-end px-2 py-2 border-b border-mp-sand/40">
+              <button
+                ref={closeBtnRef}
+                onClick={(e) => { e.stopPropagation(); closeModal() }}
+                className="w-12 h-12 flex items-center justify-center rounded-full hover:bg-mp-sand transition-colors"
+                aria-label="Fermer"
+              >
+                <X className="w-5 h-5 text-mp-charcoal" aria-hidden="true" />
+              </button>
+            </div>
+
+          <div className="p-6 sm:p-8 pt-4 sm:pt-4">
             {/* Stripe redirect overlay: brief order recap before leaving the site */}
             {stripeRedirecting && (
               <div
                 role="status"
                 aria-live="polite"
-                className="absolute inset-0 z-10 bg-white/95 backdrop-blur-sm flex flex-col items-center justify-center p-6 text-center rounded-none sm:rounded-2xl"
+                className="fixed sm:absolute inset-0 z-30 bg-white/95 backdrop-blur-sm flex flex-col items-center justify-center p-6 text-center rounded-none sm:rounded-2xl"
               >
                 <Loader2 className="w-8 h-8 text-mp-ocean animate-spin mb-4" aria-hidden="true" />
                 <p className="font-body text-sm text-mp-charcoal leading-relaxed max-w-xs">
@@ -1219,14 +1250,6 @@ export default function PlanningPage() {
                 </p>
               </div>
             )}
-            <button
-              ref={closeBtnRef}
-              onClick={closeModal}
-              className="absolute top-3 right-3 w-12 h-12 flex items-center justify-center rounded-full hover:bg-mp-sand transition-colors"
-              aria-label="Fermer"
-            >
-              <X className="w-5 h-5 text-mp-charcoal" aria-hidden="true" />
-            </button>
 
             {/* Booking journey step indicator */}
             <div className="mb-6 pr-12">
@@ -1738,6 +1761,7 @@ export default function PlanningPage() {
                 </button>
               </div>
             )}
+          </div>
           </div>
         </div>
       )}
