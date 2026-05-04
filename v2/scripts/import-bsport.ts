@@ -263,12 +263,21 @@ async function importClients(
       // Upsert: prefer bsportId (already-migrated) over email (V2-native).
       const existing = await PRISMA.user.findFirst({ where: { OR: [{ bsportId: c.id }, { email: data.email }] } })
       if (existing) {
-        // Don't overwrite a V2-native user's password / native fields blindly
+        // Two paths:
+        //  - Pure migration update: same bsportId already linked → safe to
+        //    overwrite name/phone/migration metadata (won't affect a real
+        //    V2 user since this user was already a Bsport import).
+        //  - Email-match link: an EXISTING V2-native account happens to
+        //    share an email with a Bsport client. Link the bsportId so
+        //    webhooks can find them, but DO NOT set migrationSource to
+        //    BSPORT_IMPORT — that would make the next --reset wipe them
+        //    along with the actual imports. Their original migrationSource
+        //    (likely V2_NATIVE) is preserved.
         const updated = await PRISMA.user.update({
           where: { id: existing.id },
           data: existing.bsportId === c.id
-            ? data                                       // pure migration update
-            : { bsportId: c.id, migratedAt: new Date(), migrationSource: "BSPORT_IMPORT" }, // link only
+            ? data
+            : { bsportId: c.id, migratedAt: new Date() }, // link only — preserve migrationSource
         })
         idMap.set(c.id, updated.id)
         stats.updated++
