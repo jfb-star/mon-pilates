@@ -104,6 +104,15 @@ function ConnexionContent() {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
+  // Optional profile fields shown in an "Informations complémentaires (facultatif)"
+  // accordion below the required signup fields. Pre-filling these helps the
+  // studio with future communications (birthday cards, paper gift cards, etc.)
+  // but is not required to create the account.
+  const [signupBirthday, setSignupBirthday] = useState("");
+  const [signupAddressLine, setSignupAddressLine] = useState("");
+  const [signupPostalCode, setSignupPostalCode] = useState("");
+  const [signupCity, setSignupCity] = useState("");
+  const [signupExtrasOpen, setSignupExtrasOpen] = useState(false);
 
   async function handleLogin(e: FormEvent) {
     e.preventDefault();
@@ -157,6 +166,11 @@ function ConnexionContent() {
           password,
           phone: phone.trim() || undefined,
           referralCode: referralCode || undefined,
+          // Optional profile fields — only sent if the user filled them in.
+          birthday: signupBirthday || undefined,
+          addressLine: signupAddressLine.trim() || undefined,
+          postalCode: signupPostalCode.trim() || undefined,
+          city: signupCity.trim() || undefined,
         }),
       });
 
@@ -508,6 +522,89 @@ function ConnexionContent() {
                   className={inputClass}
                 />
               </div>
+
+              {/* Optional extras — collapsed by default to keep signup short.
+                  Pre-fillable here so we can send them birthday cards or use
+                  the address for paper gift cards / accounting. */}
+              <div className="border-t border-mp-sand-dark/20 pt-4">
+                <button
+                  type="button"
+                  onClick={() => setSignupExtrasOpen((v) => !v)}
+                  className="w-full flex items-center justify-between text-left text-sm font-heading font-medium text-mp-text-light hover:text-mp-ocean transition-colors"
+                  aria-expanded={signupExtrasOpen}
+                >
+                  <span>Informations compl&eacute;mentaires <span className="text-mp-text-muted/70 font-normal">(facultatif)</span></span>
+                  <span className={`transition-transform ${signupExtrasOpen ? "rotate-180" : ""}`} aria-hidden="true">▾</span>
+                </button>
+                {signupExtrasOpen && (
+                  <div className="mt-4 space-y-4">
+                    <div>
+                      <label htmlFor="register-birthday" className="block font-heading text-sm font-medium text-mp-charcoal mb-1.5">
+                        Date de naissance
+                      </label>
+                      <input
+                        id="register-birthday"
+                        type="date"
+                        autoComplete="bday"
+                        enterKeyHint="next"
+                        value={signupBirthday}
+                        onChange={(e) => setSignupBirthday(e.target.value)}
+                        max={new Date().toISOString().slice(0, 10)}
+                        className={inputClass}
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="register-address" className="block font-heading text-sm font-medium text-mp-charcoal mb-1.5">
+                        Adresse
+                      </label>
+                      <input
+                        id="register-address"
+                        type="text"
+                        autoComplete="street-address"
+                        enterKeyHint="next"
+                        placeholder="14 Boulevard des Dunes"
+                        value={signupAddressLine}
+                        onChange={(e) => setSignupAddressLine(e.target.value)}
+                        className={inputClass}
+                      />
+                    </div>
+                    <div className="grid grid-cols-3 gap-3">
+                      <div>
+                        <label htmlFor="register-postal" className="block font-heading text-sm font-medium text-mp-charcoal mb-1.5">
+                          Code postal
+                        </label>
+                        <input
+                          id="register-postal"
+                          type="text"
+                          inputMode="numeric"
+                          autoComplete="postal-code"
+                          enterKeyHint="next"
+                          placeholder="56260"
+                          value={signupPostalCode}
+                          onChange={(e) => setSignupPostalCode(e.target.value)}
+                          className={inputClass}
+                        />
+                      </div>
+                      <div className="col-span-2">
+                        <label htmlFor="register-city" className="block font-heading text-sm font-medium text-mp-charcoal mb-1.5">
+                          Ville
+                        </label>
+                        <input
+                          id="register-city"
+                          type="text"
+                          autoComplete="address-level2"
+                          enterKeyHint="next"
+                          placeholder="Larmor-Plage"
+                          value={signupCity}
+                          onChange={(e) => setSignupCity(e.target.value)}
+                          className={inputClass}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+
               <div>
                 <label htmlFor="register-password" className="block font-heading text-sm font-medium text-mp-charcoal mb-1.5">
                   Mot de passe <span className="text-mp-text-light font-normal">(min. 8 caract&egrave;res)</span>

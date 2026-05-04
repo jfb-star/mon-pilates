@@ -70,6 +70,11 @@ interface AccountData {
     name: string;
     email: string;
     phone: string | null;
+    birthday: string | null;
+    addressLine: string | null;
+    postalCode: string | null;
+    city: string | null;
+    country: string | null;
     memberSince: string;
   };
   upcomingBookings: {
@@ -1443,24 +1448,41 @@ function PastClassesSection({
   );
 }
 
-/** Profile section — collapsible */
+/** Profile section — collapsible. Includes optional fields (birthday +
+ * 4-line address) that the user can fill in if they want; only `name`
+ * is conceptually required (already set at signup). */
 function ProfileSection({
   user,
   onSave,
 }: {
   user: AccountData["user"];
-  onSave: (data: { name: string; phone: string }) => Promise<void>;
+  onSave: (data: {
+    name: string
+    phone: string
+    birthday: string
+    addressLine: string
+    postalCode: string
+    city: string
+    country: string
+  }) => Promise<void>;
 }) {
   const [open, setOpen] = useState(false);
   const [name, setName] = useState(user.name);
   const [phone, setPhone] = useState(user.phone ?? "");
+  // <input type="date"> needs an ISO yyyy-mm-dd value (no time). user.birthday
+  // arrives as an ISO datetime string from the JSON API, so we slice it.
+  const [birthday, setBirthday] = useState(user.birthday ? user.birthday.slice(0, 10) : "");
+  const [addressLine, setAddressLine] = useState(user.addressLine ?? "");
+  const [postalCode, setPostalCode] = useState(user.postalCode ?? "");
+  const [city, setCity] = useState(user.city ?? "");
+  const [country, setCountry] = useState(user.country ?? "France");
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
 
   async function handleSave() {
     setSaving(true);
     setSaved(false);
-    await onSave({ name, phone });
+    await onSave({ name, phone, birthday, addressLine, postalCode, city, country });
     setSaving(false);
     setSaved(true);
     setTimeout(() => setSaved(false), 3000);
@@ -1529,18 +1551,105 @@ function ProfileSection({
                 htmlFor="profile-tel"
                 className="block font-heading text-xs font-medium text-mp-text-light mb-1.5"
               >
-                T&eacute;l&eacute;phone
+                T&eacute;l&eacute;phone <span className="text-mp-text-muted/70 font-normal">(optionnel)</span>
               </label>
               <input
                 id="profile-tel"
                 type="tel"
                 inputMode="tel"
                 autoComplete="tel"
-                enterKeyHint="done"
+                enterKeyHint="next"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 className="w-full px-3 py-2.5 rounded-xl border border-mp-sand-dark bg-mp-white text-mp-text font-body text-sm focus:outline-none focus-visible:outline-2 focus-visible:outline-mp-ocean focus-visible:outline-offset-2"
               />
+            </div>
+            <div>
+              <label
+                htmlFor="profile-birthday"
+                className="block font-heading text-xs font-medium text-mp-text-light mb-1.5"
+              >
+                Date de naissance <span className="text-mp-text-muted/70 font-normal">(optionnel)</span>
+              </label>
+              <input
+                id="profile-birthday"
+                type="date"
+                autoComplete="bday"
+                enterKeyHint="next"
+                value={birthday}
+                onChange={(e) => setBirthday(e.target.value)}
+                max={new Date().toISOString().slice(0, 10)}
+                className="w-full px-3 py-2.5 rounded-xl border border-mp-sand-dark bg-mp-white text-mp-text font-body text-sm focus:outline-none focus-visible:outline-2 focus-visible:outline-mp-ocean focus-visible:outline-offset-2"
+              />
+            </div>
+          </div>
+
+          {/* Address — entirely optional, collapsed visually under a sub-heading */}
+          <div className="border-t border-mp-sand-dark/20 pt-4 mb-5">
+            <p className="font-heading text-xs font-medium text-mp-text-light mb-3">
+              Adresse <span className="text-mp-text-muted/70 font-normal">(optionnel — utile pour les cartes cadeaux papier ou la facturation)</span>
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="sm:col-span-2">
+                <label htmlFor="profile-address" className="block font-heading text-xs font-medium text-mp-text-light mb-1.5">
+                  Adresse
+                </label>
+                <input
+                  id="profile-address"
+                  type="text"
+                  autoComplete="street-address"
+                  enterKeyHint="next"
+                  placeholder="14 Boulevard des Dunes"
+                  value={addressLine}
+                  onChange={(e) => setAddressLine(e.target.value)}
+                  className="w-full px-3 py-2.5 rounded-xl border border-mp-sand-dark bg-mp-white text-mp-text font-body text-sm focus:outline-none focus-visible:outline-2 focus-visible:outline-mp-ocean focus-visible:outline-offset-2"
+                />
+              </div>
+              <div>
+                <label htmlFor="profile-postal" className="block font-heading text-xs font-medium text-mp-text-light mb-1.5">
+                  Code postal
+                </label>
+                <input
+                  id="profile-postal"
+                  type="text"
+                  inputMode="numeric"
+                  autoComplete="postal-code"
+                  enterKeyHint="next"
+                  placeholder="56260"
+                  value={postalCode}
+                  onChange={(e) => setPostalCode(e.target.value)}
+                  className="w-full px-3 py-2.5 rounded-xl border border-mp-sand-dark bg-mp-white text-mp-text font-body text-sm focus:outline-none focus-visible:outline-2 focus-visible:outline-mp-ocean focus-visible:outline-offset-2"
+                />
+              </div>
+              <div>
+                <label htmlFor="profile-city" className="block font-heading text-xs font-medium text-mp-text-light mb-1.5">
+                  Ville
+                </label>
+                <input
+                  id="profile-city"
+                  type="text"
+                  autoComplete="address-level2"
+                  enterKeyHint="next"
+                  placeholder="Larmor-Plage"
+                  value={city}
+                  onChange={(e) => setCity(e.target.value)}
+                  className="w-full px-3 py-2.5 rounded-xl border border-mp-sand-dark bg-mp-white text-mp-text font-body text-sm focus:outline-none focus-visible:outline-2 focus-visible:outline-mp-ocean focus-visible:outline-offset-2"
+                />
+              </div>
+              <div className="sm:col-span-2">
+                <label htmlFor="profile-country" className="block font-heading text-xs font-medium text-mp-text-light mb-1.5">
+                  Pays
+                </label>
+                <input
+                  id="profile-country"
+                  type="text"
+                  autoComplete="country-name"
+                  enterKeyHint="done"
+                  value={country}
+                  onChange={(e) => setCountry(e.target.value)}
+                  className="w-full px-3 py-2.5 rounded-xl border border-mp-sand-dark bg-mp-white text-mp-text font-body text-sm focus:outline-none focus-visible:outline-2 focus-visible:outline-mp-ocean focus-visible:outline-offset-2"
+                />
+              </div>
             </div>
           </div>
 
@@ -2092,7 +2201,15 @@ export default function ComptePage() {
     }
   }
 
-  async function handleSaveProfile(data: { name: string; phone: string }) {
+  async function handleSaveProfile(data: {
+    name: string
+    phone: string
+    birthday: string
+    addressLine: string
+    postalCode: string
+    city: string
+    country: string
+  }) {
     try {
       const res = await fetch("/api/account", {
         method: "PATCH",

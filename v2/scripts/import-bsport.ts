@@ -240,10 +240,16 @@ async function importClients(
         errors.push({ resource: "clients", sourceId: c.id, message: `no valid email — skipped (likely a POS walk-in)` })
         continue
       }
+      // Birthday: Bsport returns ISO date string ("1985-03-12") or null.
+      // Convert to a Date object only if valid; otherwise leave undefined
+      // so Prisma keeps the column NULL.
+      const birthdayRaw = c.birthday ?? c.birth_date ?? null
+      const birthday = birthdayRaw && /^\d{4}-\d{2}-\d{2}/.test(birthdayRaw) ? new Date(birthdayRaw) : undefined
       const data = {
         email: n.email.toLowerCase().trim(),
         name: n.fullname || n.email,
         phone: n.phone,
+        birthday,
         bsportId: n.id,
         migratedAt: new Date(),
         migrationSource: "BSPORT_IMPORT",

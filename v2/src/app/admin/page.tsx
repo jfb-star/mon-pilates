@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useEffect, useCallback } from "react"
+import React, { useState, useEffect, useCallback, useMemo } from "react"
 
 // Recharts value type for formatters (values may be undefined in tooltips).
 type RechartsValue = number | string | ReadonlyArray<number | string> | undefined
@@ -1210,7 +1210,7 @@ function SessionsTab({
   loading: boolean
   weekDate: Date
   onWeekChange: (d: Date) => void
-  onCancel: (id: string) => void
+  onCancel: (id: string) => void | Promise<void>
   onShowBookings: (id: string) => void
   onShowCreate: () => void
   onShowGenerate: () => void
@@ -1225,6 +1225,36 @@ function SessionsTab({
     d.setDate(d.getDate() + 7)
     onWeekChange(d)
   }
+
+  // Sortable columns. Sessions naturally come from the API ordered by date,
+  // but the admin often wants to spot the fullest classes first or sort by
+  // course/instructor to spot anomalies.
+  type SessionSortKey = "date" | "courseName" | "instructorName" | "currentParticipants"
+  const [sessionSortBy, setSessionSortBy] = useState<SessionSortKey>("date")
+  const [sessionSortDir, setSessionSortDir] = useState<"asc" | "desc">("asc")
+  const sortedSessions = useMemo(() => {
+    const arr = [...sessions]
+    arr.sort((a, b) => {
+      let cmp = 0
+      if (sessionSortBy === "date") {
+        const ad = new Date(a.date).getTime() + (parseInt(a.startTime.replace(":", ""), 10) || 0)
+        const bd = new Date(b.date).getTime() + (parseInt(b.startTime.replace(":", ""), 10) || 0)
+        cmp = ad - bd
+      } else if (sessionSortBy === "courseName") cmp = a.courseType.name.localeCompare(b.courseType.name, "fr")
+      else if (sessionSortBy === "instructorName") cmp = a.instructor.name.localeCompare(b.instructor.name, "fr")
+      else if (sessionSortBy === "currentParticipants") cmp = a.currentParticipants - b.currentParticipants
+      return sessionSortDir === "asc" ? cmp : -cmp
+    })
+    return arr
+  }, [sessions, sessionSortBy, sessionSortDir])
+  const toggleSessionSort = (key: SessionSortKey) => {
+    if (sessionSortBy === key) setSessionSortDir(sessionSortDir === "asc" ? "desc" : "asc")
+    else { setSessionSortBy(key); setSessionSortDir("asc") }
+  }
+
+  // Confirmation for session cancellation (destructive — refunds bookings).
+  const [pendingCancel, setPendingCancel] = useState<AdminSession | null>(null)
+  const [confirmingCancel, setConfirmingCancel] = useState(false)
 
   return (
     <div>
@@ -1296,20 +1326,20 @@ function SessionsTab({
             <table className="w-full">
               <thead>
                 <tr className="border-b border-gray-100 bg-gray-50/50">
-                  <th className="text-left px-4 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
-                  <th className="text-left px-4 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Heure</th>
-                  <th className="text-left px-4 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Cours</th>
-                  <th className="text-left px-4 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Prof</th>
-                  <th className="text-left px-4 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Inscrits/Max</th>
+                  <SortableTh sortKey="date" sortBy={sessionSortBy} sortDir={sessionSortDir} onSort={toggleSessionSort}>Date / Heure</SortableTh>
+                  <SortableTh sortKey="courseName" sortBy={sessionSortBy} sortDir={sessionSortDir} onSort={toggleSessionSort}>Cours</SortableTh>
+                  <SortableTh sortKey="instructorName" sortBy={sessionSortBy} sortDir={sessionSortDir} onSort={toggleSessionSort}>Prof</SortableTh>
+                  <SortableTh sortKey="currentParticipants" sortBy={sessionSortBy} sortDir={sessionSortDir} onSort={toggleSessionSort}>Inscrits/Max</SortableTh>
                   <th className="text-left px-4 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Statut</th>
                   <th className="text-right px-4 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-50">
-                {sessions.map((s) => (
+                {sortedSessions.map((s) => (
                   <tr key={s.id} className="hover:bg-gray-50/50 transition-colors">
-                    <td className="px-4 py-3 text-sm">{formatDate(s.date)}</td>
-                    <td className="px-4 py-3 text-sm">{formatTime(s.startTime)} — {formatTime(s.endTime)}</td>
+                    <td className="px-4 py-3 text-sm whitespace-nowrap">
+                      {formatDate(s.date)} <span className="text-gray-400">·</span> {formatTime(s.startTime)}—{formatTime(s.endTime)}
+                    </td>
                     <td className="px-4 py-3 text-sm font-medium">{s.courseType.name}</td>
                     <td className="px-4 py-3 text-sm">{s.instructor.name}</td>
                     <td className="px-4 py-3 text-sm">
@@ -1335,7 +1365,7 @@ function SessionsTab({
                         </button>
                         {s.status === "SCHEDULED" && (
                           <button
-                            onClick={() => onCancel(s.id)}
+                            onClick={() => setPendingCancel(s)}
                             className="p-1.5 rounded-lg hover:bg-red-50 transition-colors text-gray-400 hover:text-red-600"
                             title="Annuler"
                           >
@@ -1352,7 +1382,7 @@ function SessionsTab({
 
           {/* Mobile cards */}
           <div className="md:hidden space-y-3">
-            {sessions.map((s) => (
+            {sortedSessions.map((s) => (
               <div key={s.id} className="bg-white rounded-xl border border-gray-100 p-4 shadow-sm">
                 <div className="flex items-center justify-between mb-2">
                   <span className="font-heading font-semibold text-sm">{s.courseType.name}</span>
@@ -1377,7 +1407,7 @@ function SessionsTab({
                   </button>
                   {s.status === "SCHEDULED" && (
                     <button
-                      onClick={() => onCancel(s.id)}
+                      onClick={() => setPendingCancel(s)}
                       className="text-xs text-red-500 hover:underline flex items-center gap-1 ml-auto"
                     >
                       <Ban className="w-3.5 h-3.5" /> Annuler
@@ -1389,6 +1419,37 @@ function SessionsTab({
           </div>
         </>
       )}
+
+      {/* Cancel-session confirmation. Cancelling a session refunds bookings
+          and notifies attendees by email — destructive, not reversible. */}
+      <ConfirmDialog
+        open={!!pendingCancel}
+        title="Annuler cette séance ?"
+        description={pendingCancel ? (
+          <>
+            <p className="mb-2">
+              <strong>{pendingCancel.courseType.name}</strong> — {formatDate(pendingCancel.date)} à {formatTime(pendingCancel.startTime)}
+            </p>
+            <p className="text-sm">
+              {pendingCancel.currentParticipants > 0
+                ? <>⚠ <strong>{pendingCancel.currentParticipants} inscrit{pendingCancel.currentParticipants > 1 ? "s" : ""}</strong> seront crédités du retour de leur séance et notifiés par email.</>
+                : "Aucun inscrit pour le moment — annulation propre."}
+            </p>
+          </>
+        ) : ""}
+        confirmLabel="Oui, annuler la séance"
+        cancelLabel="Garder la séance"
+        variant="danger"
+        loading={confirmingCancel}
+        onConfirm={async () => {
+          if (!pendingCancel) return
+          setConfirmingCancel(true)
+          await onCancel(pendingCancel.id)
+          setConfirmingCancel(false)
+          setPendingCancel(null)
+        }}
+        onCancel={() => setPendingCancel(null)}
+      />
     </div>
   )
 }
@@ -1849,10 +1910,41 @@ function UsersTab({
   search: string
   onSearchChange: (s: string) => void
   onPageChange: (p: number) => void
-  onUpdateRole: (id: string, role: string) => void
+  onUpdateRole: (id: string, role: string) => void | Promise<void>
 }) {
   const totalPages = Math.ceil(total / 20)
   const [editingRole, setEditingRole] = useState<string | null>(null)
+
+  // Client-side sorting (operates on the current page; for cross-page sort
+  // we'd need to push the order to the API). For 20 users/page this is fine.
+  type SortKey = "name" | "email" | "role" | "createdAt" | "totalBookings"
+  const [sortBy, setSortBy] = useState<SortKey>("createdAt")
+  const [sortDir, setSortDir] = useState<"asc" | "desc">("desc")
+  const sortedUsers = useMemo(() => {
+    const arr = [...users]
+    arr.sort((a, b) => {
+      let cmp = 0
+      if (sortBy === "name") cmp = a.name.localeCompare(b.name, "fr")
+      else if (sortBy === "email") cmp = a.email.localeCompare(b.email)
+      else if (sortBy === "role") cmp = (a.role || "").localeCompare(b.role || "")
+      else if (sortBy === "createdAt") cmp = new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+      else if (sortBy === "totalBookings") cmp = a.totalBookings - b.totalBookings
+      return sortDir === "asc" ? cmp : -cmp
+    })
+    return arr
+  }, [users, sortBy, sortDir])
+  const toggleSort = (key: SortKey) => {
+    if (sortBy === key) setSortDir(sortDir === "asc" ? "desc" : "asc")
+    else { setSortBy(key); setSortDir("asc") }
+  }
+
+  // Confirmation dialog for role changes — protects against accidental
+  // demotion of an admin or accidental promotion of a member.
+  const [pendingRoleChange, setPendingRoleChange] = useState<{
+    user: AdminUser
+    newRole: string
+  } | null>(null)
+  const [confirmingRole, setConfirmingRole] = useState(false)
 
   return (
     <div>
@@ -1917,17 +2009,17 @@ function UsersTab({
             <table className="w-full">
               <thead>
                 <tr className="border-b border-gray-100 bg-gray-50/50">
-                  <th className="text-left px-4 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Nom</th>
-                  <th className="text-left px-4 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
-                  <th className="text-left px-4 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Rôle</th>
-                  <th className="text-left px-4 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Inscrit le</th>
-                  <th className="text-left px-4 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Cours</th>
+                  <SortableTh sortKey="name" sortBy={sortBy} sortDir={sortDir} onSort={toggleSort}>Nom</SortableTh>
+                  <SortableTh sortKey="email" sortBy={sortBy} sortDir={sortDir} onSort={toggleSort}>Email</SortableTh>
+                  <SortableTh sortKey="role" sortBy={sortBy} sortDir={sortDir} onSort={toggleSort}>Rôle</SortableTh>
+                  <SortableTh sortKey="createdAt" sortBy={sortBy} sortDir={sortDir} onSort={toggleSort}>Inscrit le</SortableTh>
+                  <SortableTh sortKey="totalBookings" sortBy={sortBy} sortDir={sortDir} onSort={toggleSort}>Cours</SortableTh>
                   <th className="text-left px-4 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Carte active</th>
                   <th className="text-right px-4 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-50">
-                {users.map((u) => (
+                {sortedUsers.map((u) => (
                   <tr key={u.id} className="hover:bg-gray-50/50 transition-colors">
                     <td className="px-4 py-3 text-sm font-medium">{u.name}</td>
                     <td className="px-4 py-3 text-sm text-gray-500">{u.email}</td>
@@ -1936,8 +2028,12 @@ function UsersTab({
                         <select
                           defaultValue={u.role}
                           onChange={(e) => {
-                            onUpdateRole(u.id, e.target.value)
+                            const newRole = e.target.value
                             setEditingRole(null)
+                            // No-op if role unchanged; otherwise queue confirmation.
+                            if (newRole !== u.role) {
+                              setPendingRoleChange({ user: u, newRole })
+                            }
                           }}
                           onBlur={() => setEditingRole(null)}
                           autoFocus
@@ -1997,8 +2093,11 @@ function UsersTab({
                     <select
                       defaultValue={u.role}
                       onChange={(e) => {
-                        onUpdateRole(u.id, e.target.value)
+                        const newRole = e.target.value
                         setEditingRole(null)
+                        if (newRole !== u.role) {
+                          setPendingRoleChange({ user: u, newRole })
+                        }
                       }}
                       className="text-xs border border-gray-200 rounded px-2 py-1 ml-2"
                     >
@@ -2039,7 +2138,70 @@ function UsersTab({
           )}
         </>
       )}
+
+      {/* Role-change confirmation. Demoting an admin or promoting a member
+          should not be a one-click action — easy to misclick a select. */}
+      <ConfirmDialog
+        open={!!pendingRoleChange}
+        title="Changer le rôle ?"
+        description={pendingRoleChange ? (
+          <>
+            Vous allez changer le rôle de <strong>{pendingRoleChange.user.name}</strong> ({pendingRoleChange.user.email}) :{" "}
+            <strong>{roleLabels[pendingRoleChange.user.role] ?? pendingRoleChange.user.role}</strong> →{" "}
+            <strong className="text-mp-ocean">{roleLabels[pendingRoleChange.newRole] ?? pendingRoleChange.newRole}</strong>.
+            {pendingRoleChange.newRole === "ADMIN" && (
+              <p className="mt-2 text-xs text-amber-700">⚠ Donner les droits administrateur permet de modifier tous les comptes, plannings et paiements.</p>
+            )}
+            {pendingRoleChange.user.role === "ADMIN" && pendingRoleChange.newRole !== "ADMIN" && (
+              <p className="mt-2 text-xs text-amber-700">⚠ Vous retirez les droits administrateur de cet utilisateur.</p>
+            )}
+          </>
+        ) : ""}
+        confirmLabel="Confirmer le changement"
+        cancelLabel="Annuler"
+        variant={pendingRoleChange?.user.role === "ADMIN" && pendingRoleChange?.newRole !== "ADMIN" ? "danger" : "default"}
+        loading={confirmingRole}
+        onConfirm={async () => {
+          if (!pendingRoleChange) return
+          setConfirmingRole(true)
+          await onUpdateRole(pendingRoleChange.user.id, pendingRoleChange.newRole)
+          setConfirmingRole(false)
+          setPendingRoleChange(null)
+        }}
+        onCancel={() => setPendingRoleChange(null)}
+      />
     </div>
+  )
+}
+
+/** Sortable table header — click to toggle sort, displays an arrow indicator. */
+function SortableTh<K extends string>({
+  sortKey,
+  sortBy,
+  sortDir,
+  onSort,
+  children,
+  align = "left",
+}: {
+  sortKey: K
+  sortBy: K
+  sortDir: "asc" | "desc"
+  onSort: (k: K) => void
+  children: React.ReactNode
+  align?: "left" | "right"
+}) {
+  const active = sortBy === sortKey
+  return (
+    <th
+      onClick={() => onSort(sortKey)}
+      className={`px-4 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer select-none hover:bg-gray-100 transition-colors ${align === "right" ? "text-right" : "text-left"}`}
+      aria-sort={active ? (sortDir === "asc" ? "ascending" : "descending") : "none"}
+    >
+      <span className={active ? "text-mp-ocean" : ""}>{children}</span>
+      <span className="ml-1 text-[10px]" aria-hidden="true">
+        {active ? (sortDir === "asc" ? "▲" : "▼") : "⇅"}
+      </span>
+    </th>
   )
 }
 

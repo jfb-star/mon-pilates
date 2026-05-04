@@ -45,7 +45,7 @@ export async function POST(request: Request) {
 
   try {
     const body = await request.json()
-    const { name, email, password, phone, referralCode } = body
+    const { name, email, password, phone, referralCode, birthday, addressLine, postalCode, city } = body
 
     // Validate required fields
     if (!name || !email || !password) {
@@ -58,6 +58,18 @@ export async function POST(request: Request) {
     const cleanName = sanitizeString(name, 100)
     const cleanEmail = (email as string).toLowerCase().trim().slice(0, 320)
     const cleanPhone = phone ? sanitizeString(phone, 20) : null
+    // Optional profile extras — all nullable, only validated lightly. The
+    // <input type="date"> field always sends YYYY-MM-DD which Date() parses
+    // unambiguously; reject malformed strings rather than silently storing junk.
+    const cleanBirthday = (() => {
+      if (!birthday || typeof birthday !== "string") return null
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(birthday)) return null
+      const d = new Date(birthday)
+      return isNaN(d.getTime()) ? null : d
+    })()
+    const cleanAddressLine = addressLine ? sanitizeString(addressLine, 200) : null
+    const cleanPostalCode = postalCode ? sanitizeString(postalCode, 20) : null
+    const cleanCity = city ? sanitizeString(city, 100) : null
 
     // Validate email format
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleanEmail)) {
@@ -118,6 +130,11 @@ export async function POST(request: Request) {
         phone: cleanPhone,
         referralCode: newUserCode,
         referredBy: referrer?.id ?? null,
+        // Optional profile fields (only stored if user filled them)
+        birthday: cleanBirthday,
+        addressLine: cleanAddressLine,
+        postalCode: cleanPostalCode,
+        city: cleanCity,
       },
     })
 

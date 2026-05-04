@@ -52,6 +52,13 @@ const statements = [
      "error" TEXT,
      CONSTRAINT "BsportWebhookEvent_pkey" PRIMARY KEY ("eventKey")
    )`,
+
+  // Optional profile fields — birthday + address (all nullable)
+  `ALTER TABLE "User" ADD COLUMN IF NOT EXISTS "birthday" DATE`,
+  `ALTER TABLE "User" ADD COLUMN IF NOT EXISTS "addressLine" TEXT`,
+  `ALTER TABLE "User" ADD COLUMN IF NOT EXISTS "postalCode" TEXT`,
+  `ALTER TABLE "User" ADD COLUMN IF NOT EXISTS "city" TEXT`,
+  `ALTER TABLE "User" ADD COLUMN IF NOT EXISTS "country" TEXT DEFAULT 'France'`,
 ];
 
 let applied = 0;

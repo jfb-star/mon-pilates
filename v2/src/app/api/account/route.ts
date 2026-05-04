@@ -17,6 +17,11 @@ export async function GET() {
       name: true,
       email: true,
       phone: true,
+      birthday: true,
+      addressLine: true,
+      postalCode: true,
+      city: true,
+      country: true,
       createdAt: true,
       bookings: {
         orderBy: { createdAt: "desc" },
@@ -110,6 +115,11 @@ export async function GET() {
       name: user.name,
       email: user.email,
       phone: user.phone,
+      birthday: user.birthday,
+      addressLine: user.addressLine,
+      postalCode: user.postalCode,
+      city: user.city,
+      country: user.country,
       memberSince: user.createdAt,
     },
     upcomingBookings,
@@ -141,11 +151,27 @@ export async function PATCH(request: Request) {
 
   try {
     const body = await request.json()
-    const { name, phone } = body
+    const { name, phone, birthday, addressLine, postalCode, city, country } = body
 
-    const data: Record<string, string> = {}
+    // Allow updating any subset of: identity (name/phone) + optional profile
+    // (birthday + 4-line address). Empty string from a cleared input is
+    // treated as "remove the value" (write null) for optional fields, but
+    // for `name` we keep the previous value (a user shouldn't end up nameless).
+    const data: Record<string, string | Date | null> = {}
     if (name && typeof name === "string") data.name = name.trim().slice(0, 100)
     if (phone !== undefined) data.phone = phone ? String(phone).trim().slice(0, 20) : ""
+    if (birthday !== undefined) {
+      // Accept ISO date string ("YYYY-MM-DD") from <input type="date">; null/empty clears.
+      if (typeof birthday === "string" && /^\d{4}-\d{2}-\d{2}/.test(birthday)) {
+        data.birthday = new Date(birthday)
+      } else if (birthday === null || birthday === "") {
+        data.birthday = null
+      }
+    }
+    if (addressLine !== undefined) data.addressLine = addressLine ? String(addressLine).trim().slice(0, 200) : null
+    if (postalCode !== undefined) data.postalCode = postalCode ? String(postalCode).trim().slice(0, 20) : null
+    if (city !== undefined) data.city = city ? String(city).trim().slice(0, 100) : null
+    if (country !== undefined) data.country = country ? String(country).trim().slice(0, 100) : null
 
     if (Object.keys(data).length === 0) {
       return NextResponse.json({ error: "Aucune donnée à modifier" }, { status: 400 })
@@ -154,7 +180,10 @@ export async function PATCH(request: Request) {
     const user = await prisma.user.update({
       where: { id: userId },
       data,
-      select: { id: true, name: true, email: true, phone: true },
+      select: {
+        id: true, name: true, email: true, phone: true,
+        birthday: true, addressLine: true, postalCode: true, city: true, country: true,
+      },
     })
 
     return NextResponse.json({ user })

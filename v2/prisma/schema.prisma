@@ -33,6 +33,15 @@ model User {
   // and requires going through the email reset link.
   needsActivation Boolean   @default(false)
 
+  // Optional profile fields (not required at signup). Surfaced on /compte
+  // for self-edit; populated from Bsport at import when available
+  // (birthday only — Bsport list endpoint doesn't expose address).
+  birthday    DateTime? @db.Date
+  addressLine String?
+  postalCode  String?
+  city        String?
+  country     String?   @default("France")
+
   instructor        Instructor?
   bookings          Booking[]
   payments          Payment[]

@@ -153,7 +153,7 @@ export function Header() {
               <Link
                 href="/instructeur"
                 className={clsx(
-                  "hidden xl:flex items-center gap-1.5 font-heading text-[13px] font-medium px-2.5 py-2 rounded-full whitespace-nowrap transition-all",
+                  "hidden lg:flex items-center gap-1.5 font-heading text-[13px] font-medium px-2.5 py-2 rounded-full whitespace-nowrap transition-all",
                   scrolled
                     ? "text-mp-ocean hover:text-mp-ocean-dark hover:bg-mp-ocean/5"
                     : "text-white/80 hover:text-white"
