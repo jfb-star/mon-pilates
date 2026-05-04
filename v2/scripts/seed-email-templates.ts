@@ -18,6 +18,7 @@ import {
   buildBookingCancelledHtml,
   buildResetPasswordHtml,
   buildWelcomeHtml,
+  buildBsportMigrationHtml,
 } from "@/lib/email-templates";
 
 type Template = {
@@ -64,6 +65,13 @@ async function main() {
       subject: "Bienvenue chez Mon Pilates !",
       html: buildWelcomeHtml(),
       variables: ["name"],
+    },
+    {
+      key: "bsport_migration_welcome",
+      name: "Migration Bsport — activation de compte",
+      subject: "Votre nouveau site Mon Pilates est prêt — activez votre compte",
+      html: buildBsportMigrationHtml(),
+      variables: ["name", "activationUrl", "cardSummary"],
     },
   ];
 

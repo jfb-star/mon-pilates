@@ -38,6 +38,13 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
+
+# Bsport scraper artifacts (contain session cookies — NEVER commit)
+/scripts/.puppeteer-bsport-profile/
+/scripts/bsport-fixtures/clients.json
+/scripts/bsport-fixtures/client-passes.json
+/scripts/bsport-fixtures/bookings.json
+/migration-report-*.json
 next-env.d.ts
 
 # screenshots (dev tooling)

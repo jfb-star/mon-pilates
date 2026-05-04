@@ -16,14 +16,27 @@ model User {
   phone        String?
   role         String   @default("USER")
   referralCode String?  @unique
-  referredBy   String?  // userId of referrer
+  referredBy   String? // userId of referrer
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
+
+  // Bsport migration metadata. `bsportId` is the integer id from the Bsport
+  // /management/clients/ endpoint and is used as the dedup key when we
+  // ingest both via CSV import AND via webhook events. `migrationSource`
+  // distinguishes accounts created through migration from native V2 signups
+  // for analytics + targeted comms.
+  bsportId        Int?      @unique
+  migratedAt      DateTime?
+  migrationSource String?   @default("V2_NATIVE") // BSPORT_IMPORT | V2_NATIVE
+  // True when the user has not yet set a password (post-migration). Login
+  // flow shows an "Activate your account" CTA instead of the password field
+  // and requires going through the email reset link.
+  needsActivation Boolean   @default(false)
 
   instructor        Instructor?
   bookings          Booking[]
   payments          Payment[]
-  courseCards        CourseCard[]
+  courseCards       CourseCard[]
   subscriptions     Subscription[]
   blogPosts         BlogPost[]
   redeemedGiftCards GiftCard[]     @relation("RedeemedBy")
@@ -69,7 +82,7 @@ model CourseType {
 
 model Schedule {
   id              String    @id @default(cuid())
-  courseTypeId     String
+  courseTypeId    String
   instructorId    String
   dayOfWeek       Int
   startTime       String
@@ -79,22 +92,22 @@ model Schedule {
   endDate         DateTime?
   maxParticipants Int?
 
-  courseType  CourseType @relation(fields: [courseTypeId], references: [id], onDelete: Cascade)
+  courseType CourseType @relation(fields: [courseTypeId], references: [id], onDelete: Cascade)
   instructor Instructor @relation(fields: [instructorId], references: [id], onDelete: Cascade)
   sessions   Session[]
 }
 
 model Session {
-  id                  String @id @default(cuid())
+  id                  String   @id @default(cuid())
   scheduleId          String
-  courseTypeId         String
+  courseTypeId        String
   instructorId        String
   date                DateTime
   startTime           String
   endTime             String
-  status              String @default("SCHEDULED")
+  status              String   @default("SCHEDULED")
   maxParticipants     Int
-  currentParticipants Int    @default(0)
+  currentParticipants Int      @default(0)
   notes               String?
 
   schedule   Schedule   @relation(fields: [scheduleId], references: [id], onDelete: Cascade)
@@ -114,6 +127,8 @@ model Booking {
   cancelledAt   DateTime?
   paidAt        DateTime?
 
+  bsportId Int? @unique
+
   user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   session Session @relation(fields: [sessionId], references: [id], onDelete: Cascade)
 }
@@ -130,22 +145,31 @@ model Payment {
   metadata                String?
   createdAt               DateTime @default(now())
 
-  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  // For payments imported from Bsport (no Stripe trace). When set,
+  // `externalProvider` distinguishes the source ("bsport") in the admin UI.
+  bsportId         Int?    @unique
+  externalProvider String?
+
+  user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
   courseCard CourseCard?
 }
 
 model CourseCard {
   id                String   @id @default(cuid())
   userId            String
-  paymentId         String   @unique
+  paymentId         String?  @unique
   type              String
   totalSessions     Int
   remainingSessions Int
   purchasedAt       DateTime @default(now())
   expiresAt         DateTime
 
-  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  payment Payment @relation(fields: [paymentId], references: [id], onDelete: Cascade)
+  // Bsport "client_pass" id — set on imported cards. paymentId is nullable
+  // because Bsport-imported cards have no Stripe payment trace.
+  bsportId Int? @unique
+
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  payment Payment? @relation(fields: [paymentId], references: [id], onDelete: Cascade)
 }
 
 model Subscription {
@@ -201,11 +225,11 @@ model Notification {
   id        String   @id @default(cuid())
   userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  type      String   // "BOOKING_CONFIRMED", "WAITLIST_PROMOTED", "CARD_EXPIRING", "REFERRAL_CREDIT", "SYSTEM"
+  type      String // "BOOKING_CONFIRMED", "WAITLIST_PROMOTED", "CARD_EXPIRING", "REFERRAL_CREDIT", "SYSTEM"
   title     String
   message   String
   read      Boolean  @default(false)
-  data      String?  // JSON metadata (link, etc.)
+  data      String? // JSON metadata (link, etc.)
   createdAt DateTime @default(now())
 }
 
@@ -225,8 +249,8 @@ model Review {
   id           String     @id @default(cuid())
   userId       String
   user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  courseTypeId  String
-  courseType    CourseType @relation(fields: [courseTypeId], references: [id], onDelete: Cascade)
+  courseTypeId String
+  courseType   CourseType @relation(fields: [courseTypeId], references: [id], onDelete: Cascade)
   rating       Int
   comment      String?
   createdAt    DateTime   @default(now())
@@ -238,16 +262,16 @@ model Review {
 // htmlCompiled is generated from mjmlSource on save; variables is a JSON array
 // of variable names usable in {{mustache}} substitution.
 model EmailTemplate {
-  id            String   @id @default(cuid())
-  key           String   @unique // e.g. "booking_confirm", "reset_password"
-  name          String
-  subject       String
-  mjmlSource    String   // editable source (MJML or HTML)
-  htmlCompiled  String   // rendered HTML cached at save time
-  variables     String   @default("[]") // JSON array of variable names
-  updatedAt     DateTime @updatedAt
-  updatedBy     String?  // userId of last admin editor
-  createdAt     DateTime @default(now())
+  id           String   @id @default(cuid())
+  key          String   @unique // e.g. "booking_confirm", "reset_password"
+  name         String
+  subject      String
+  mjmlSource   String // editable source (MJML or HTML)
+  htmlCompiled String // rendered HTML cached at save time
+  variables    String   @default("[]") // JSON array of variable names
+  updatedAt    DateTime @updatedAt
+  updatedBy    String? // userId of last admin editor
+  createdAt    DateTime @default(now())
 
   logs EmailLog[]
 }
@@ -256,37 +280,37 @@ model EmailTemplate {
 // audienceFilter is a JSON object describing segment criteria (tags, etc).
 // stats is a JSON snapshot of Resend stats (opens, clicks, bounces).
 model EmailCampaign {
-  id                 String    @id @default(cuid())
-  name               String
-  subject            String
-  mjmlSource         String
-  htmlCompiled       String
-  status             String    @default("DRAFT") // DRAFT | SCHEDULED | SENDING | SENT | FAILED
-  resendBroadcastId  String?   @unique
-  resendAudienceId   String?   // target audience id in Resend
-  audienceFilter     String    @default("{}") // JSON — reserved for in-app segment refinement
-  scheduledAt        DateTime?
-  sentAt             DateTime?
-  stats              String    @default("{}") // JSON
-  createdBy          String?   // userId
-  createdAt          DateTime  @default(now())
-  updatedAt          DateTime  @updatedAt
+  id                String    @id @default(cuid())
+  name              String
+  subject           String
+  mjmlSource        String
+  htmlCompiled      String
+  status            String    @default("DRAFT") // DRAFT | SCHEDULED | SENDING | SENT | FAILED
+  resendBroadcastId String?   @unique
+  resendAudienceId  String? // target audience id in Resend
+  audienceFilter    String    @default("{}") // JSON — reserved for in-app segment refinement
+  scheduledAt       DateTime?
+  sentAt            DateTime?
+  stats             String    @default("{}") // JSON
+  createdBy         String? // userId
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
 }
 
 // Marketing subscribers (RGPD: explicit consent required).
 // Linked to User when the subscriber has an account; email is the source of truth
 // for unauthenticated newsletter signups. resendContactId mirrors the Resend Audience contact.
 model Subscriber {
-  id                String    @id @default(cuid())
-  email             String    @unique
-  userId            String?   @unique
-  consentAt         DateTime  @default(now())
-  unsubscribedAt    DateTime?
-  resendContactId   String?
-  resendAudienceId  String?   // audience the contact was pushed to
-  tags              String    @default("[]") // JSON array
-  createdAt         DateTime  @default(now())
-  updatedAt         DateTime  @updatedAt
+  id               String    @id @default(cuid())
+  email            String    @unique
+  userId           String?   @unique
+  consentAt        DateTime  @default(now())
+  unsubscribedAt   DateTime?
+  resendContactId  String?
+  resendAudienceId String? // audience the contact was pushed to
+  tags             String    @default("[]") // JSON array
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
 
   user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
 }
@@ -307,25 +331,56 @@ model PasswordResetToken {
 // Stripe webhook event ledger for idempotency. Stripe retries at-least-once,
 // so we guard every event handler against duplicate processing.
 model StripeWebhookEvent {
-  eventId        String   @id
-  type           String
-  stripeCreated  Int?     // Unix timestamp from event.created — pairs with eventId for a
-                          // composite idempotency key. Divergent created for the same
-                          // eventId signals a malicious replay and is rejected in 409.
-  processedAt    DateTime @default(now())
+  eventId       String   @id
+  type          String
+  stripeCreated Int? // Unix timestamp from event.created — pairs with eventId for a
+  // composite idempotency key. Divergent created for the same
+  // eventId signals a malicious replay and is rejected in 409.
+  processedAt   DateTime @default(now())
+}
+
+// Audit ledger for one-shot Bsport imports. Each batch records source
+// (CSV file path / fixture / API), counts of created/updated/skipped per
+// resource, and any per-row errors so a failed batch can be inspected and
+// resumed. `status` is RUNNING while the script is in flight, DONE on
+// success, FAILED on a fatal error before completion.
+model MigrationBatch {
+  id          String    @id @default(cuid())
+  source      String // e.g. "bsport_csv_2026-05-04" or "bsport_api_2026-05-04"
+  startedAt   DateTime  @default(now())
+  finishedAt  DateTime?
+  status      String    @default("RUNNING") // RUNNING | DONE | FAILED
+  stats       String    @default("{}") // JSON: {users:{created,updated,skipped}, cards:{...}, ...}
+  errors      String    @default("[]") // JSON array of {resource, sourceId, message}
+  triggeredBy String? // userId of admin who launched it
+}
+
+// Idempotence ledger for incoming Bsport webhook calls. Bsport doesn't
+// document HMAC signature verification yet, so we instead protect with a
+// shared secret in the URL/header AND dedupe by (event_type, data.<id>,
+// date) since Bsport doesn't expose a stable event UUID. The composite
+// key lives in `eventKey`.
+model BsportWebhookEvent {
+  eventKey    String    @id // sha256(event_type + ":" + entityId + ":" + date)
+  eventType   String // booking-create | booking-update | booking-delete | member-create | member-update
+  payload     String // raw JSON for replay/debug
+  receivedAt  DateTime  @default(now())
+  processedAt DateTime?
+  status      String    @default("RECEIVED") // RECEIVED | PROCESSED | FAILED | SKIPPED
+  error       String?
 }
 
 // Transactional send log — every Resend call leaves a trace here for debugging
 // and the /admin/emails/logs UI.
 model EmailLog {
-  id           String   @id @default(cuid())
-  templateKey  String?
-  toEmail      String
-  subject      String
-  providerId   String?  // Resend message id
-  status       String   @default("SENT") // SENT | FAILED | BOUNCED
-  error        String?
-  sentAt       DateTime @default(now())
+  id          String   @id @default(cuid())
+  templateKey String?
+  toEmail     String
+  subject     String
+  providerId  String? // Resend message id
+  status      String   @default("SENT") // SENT | FAILED | BOUNCED
+  error       String?
+  sentAt      DateTime @default(now())
 
   template EmailTemplate? @relation(fields: [templateKey], references: [key], onDelete: SetNull)
 

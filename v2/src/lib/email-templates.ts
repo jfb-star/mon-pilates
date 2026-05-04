@@ -149,3 +149,35 @@ export function buildWelcomeHtml(): string {
      </p>`
   )
 }
+
+/**
+ * Sent ONCE to every Bsport-imported user during the migration cutover.
+ * Variables:
+ *   {{name}}             — user fullname
+ *   {{activationUrl}}    — set-password URL with single-use token (30j validity)
+ *   {{cardSummary}}      — optional, e.g. "Carte 10 cours (6 séances restantes, valable jusqu'au 15/08/2026)"
+ *                          empty string if no active card
+ */
+export function buildBsportMigrationHtml(): string {
+  return layout(
+    "Votre nouveau site Mon Pilates est prêt",
+    `<h1 style="margin:0 0 16px;font-size:22px;color:#2c2c2c;">Bonjour {{name}},</h1>
+     <p style="margin:0 0 12px;font-size:15px;color:#2c2c2c;line-height:1.6;">
+       Bonne nouvelle&nbsp;: <strong>Mon Pilates a son nouveau site de réservation</strong>, plus rapide et plus simple. Tout votre historique a été transféré.
+     </p>
+     {{cardSummary}}
+     <p style="margin:0 0 12px;font-size:15px;color:#2c2c2c;line-height:1.6;">
+       Pour activer votre compte, choisissez un mot de passe en cliquant ci-dessous (lien valable 30 jours)&nbsp;:
+     </p>
+     ${btn("{{activationUrl}}", "Activer mon compte")}
+     <p style="margin:16px 0 0;font-size:14px;color:#2c2c2c;line-height:1.6;">
+       <strong>Vos données sont conservées</strong>&nbsp;: votre carte de cours, votre historique de réservations, vos préférences. Aucune action de votre part n'est nécessaire au-delà de ce mot de passe.
+     </p>
+     <p style="margin:16px 0 0;font-size:13px;color:#888;line-height:1.5;">
+       Une question&nbsp;? Répondez à cet email ou écrivez à contact@mon-pilates.bzh — Violette vous répondra rapidement.
+     </p>
+     <p style="margin:16px 0 0;font-size:12px;color:#a0a0a0;line-height:1.5;">
+       Vos données ont été transférées dans le respect du RGPD. Vous pouvez à tout moment demander la suppression de votre compte depuis votre espace personnel.
+     </p>`
+  )
+}
