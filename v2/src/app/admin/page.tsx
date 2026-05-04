@@ -109,10 +109,15 @@ interface AdminUser {
   id: string
   name: string
   email: string
+  phone: string | null
+  city: string | null
   role: string
   createdAt: string
+  migrationSource: string | null
+  needsActivation: boolean
   totalBookings: number
-  activeCard: { type: string; remainingSessions: number } | null
+  totalCards: number
+  activeCard: { type: string; remainingSessions: number; expiresAt: string } | null
 }
 
 interface AdminBlogPost {
@@ -2021,8 +2026,19 @@ function UsersTab({
               <tbody className="divide-y divide-gray-50">
                 {sortedUsers.map((u) => (
                   <tr key={u.id} className="hover:bg-gray-50/50 transition-colors">
-                    <td className="px-4 py-3 text-sm font-medium">{u.name}</td>
-                    <td className="px-4 py-3 text-sm text-gray-500">{u.email}</td>
+                    <td className="px-4 py-3 text-sm font-medium">
+                      <Link
+                        href={`/admin/users/${u.id}`}
+                        className="text-mp-charcoal hover:text-mp-ocean hover:underline"
+                      >
+                        {u.name}
+                      </Link>
+                      {u.city && <span className="block text-[11px] text-gray-400 font-normal mt-0.5">{u.city}</span>}
+                    </td>
+                    <td className="px-4 py-3 text-sm text-gray-500">
+                      {u.email}
+                      {u.phone && <span className="block text-[11px] text-gray-400 mt-0.5">{u.phone}</span>}
+                    </td>
                     <td className="px-4 py-3">
                       {editingRole === u.id ? (
                         <select
@@ -2053,13 +2069,22 @@ function UsersTab({
                       {u.activeCard ? `${u.activeCard.type} (${u.activeCard.remainingSessions} restants)` : "—"}
                     </td>
                     <td className="px-4 py-3 text-right">
-                      <button
-                        onClick={() => setEditingRole(u.id)}
-                        className="p-1.5 rounded-lg hover:bg-gray-100 transition-colors text-gray-400 hover:text-mp-ocean"
-                        title="Changer rôle"
-                      >
-                        <Edit3 className="w-4 h-4" />
-                      </button>
+                      <div className="flex items-center justify-end gap-1">
+                        <Link
+                          href={`/admin/users/${u.id}`}
+                          className="p-1.5 rounded-lg hover:bg-gray-100 transition-colors text-gray-400 hover:text-mp-ocean"
+                          title="Voir le détail"
+                        >
+                          <Eye className="w-4 h-4" />
+                        </Link>
+                        <button
+                          onClick={() => setEditingRole(u.id)}
+                          className="p-1.5 rounded-lg hover:bg-gray-100 transition-colors text-gray-400 hover:text-mp-ocean"
+                          title="Changer rôle"
+                        >
+                          <Edit3 className="w-4 h-4" />
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))}
@@ -2069,12 +2094,18 @@ function UsersTab({
 
           {/* Mobile cards */}
           <div className="md:hidden space-y-3">
-            {users.map((u) => (
+            {sortedUsers.map((u) => (
               <div key={u.id} className="bg-white rounded-xl border border-gray-100 p-4 shadow-sm">
                 <div className="flex items-center justify-between mb-2">
-                  <div>
-                    <p className="text-sm font-medium">{u.name}</p>
-                    <p className="text-xs text-gray-400">{u.email}</p>
+                  <div className="min-w-0">
+                    <Link
+                      href={`/admin/users/${u.id}`}
+                      className="text-sm font-medium text-mp-charcoal hover:text-mp-ocean hover:underline block truncate"
+                    >
+                      {u.name}
+                    </Link>
+                    <p className="text-xs text-gray-400 truncate">{u.email}</p>
+                    {u.phone && <p className="text-xs text-gray-400">{u.phone}</p>}
                   </div>
                   <StatusBadge status={u.role} map={roleLabels} colors={roleColors} />
                 </div>
@@ -2083,9 +2114,15 @@ function UsersTab({
                   {u.activeCard && ` · Carte ${u.activeCard.type}`}
                 </div>
                 <div className="flex items-center gap-2 mt-3 pt-3 border-t border-gray-100">
+                  <Link
+                    href={`/admin/users/${u.id}`}
+                    className="text-xs text-mp-ocean hover:underline flex items-center gap-1"
+                  >
+                    <Eye className="w-3.5 h-3.5" /> Voir détail
+                  </Link>
                   <button
                     onClick={() => setEditingRole(editingRole === u.id ? null : u.id)}
-                    className="text-xs text-mp-ocean hover:underline flex items-center gap-1"
+                    className="text-xs text-mp-ocean hover:underline flex items-center gap-1 ml-auto"
                   >
                     <Edit3 className="w-3.5 h-3.5" /> Changer rôle
                   </button>
