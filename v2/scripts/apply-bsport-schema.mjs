@@ -53,6 +53,10 @@ const statements = [
      CONSTRAINT "BsportWebhookEvent_pkey" PRIMARY KEY ("eventKey")
    )`,
 
+  // Bsport "consumer" id — separate from member id, used by webhook payloads
+  `ALTER TABLE "User" ADD COLUMN IF NOT EXISTS "bsportConsumerId" INTEGER`,
+  `CREATE UNIQUE INDEX IF NOT EXISTS "User_bsportConsumerId_key" ON "User"("bsportConsumerId")`,
+
   // Optional profile fields — birthday + address (all nullable)
   `ALTER TABLE "User" ADD COLUMN IF NOT EXISTS "birthday" DATE`,
   `ALTER TABLE "User" ADD COLUMN IF NOT EXISTS "addressLine" TEXT`,

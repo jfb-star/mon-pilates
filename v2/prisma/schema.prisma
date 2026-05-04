@@ -26,6 +26,10 @@ model User {
   // distinguishes accounts created through migration from native V2 signups
   // for analytics + targeted comms.
   bsportId        Int?      @unique
+  // Bsport "consumer" id — distinct from `bsportId` (which is the per-studio
+  // member id). Webhooks (booking-create, etc.) reference users by their
+  // consumer id, not their studio member id, so we keep both for matching.
+  bsportConsumerId Int?     @unique
   migratedAt      DateTime?
   migrationSource String?   @default("V2_NATIVE") // BSPORT_IMPORT | V2_NATIVE
   // True when the user has not yet set a password (post-migration). Login

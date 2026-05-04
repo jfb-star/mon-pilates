@@ -251,6 +251,9 @@ async function importClients(
         phone: n.phone,
         birthday,
         bsportId: n.id,
+        // Webhooks (booking/invoice) reference the consumer id, not the
+        // per-studio member id. Store both so webhook lookups work.
+        bsportConsumerId: c.consumer ?? null,
         migratedAt: new Date(),
         migrationSource: "BSPORT_IMPORT",
         needsActivation: true,

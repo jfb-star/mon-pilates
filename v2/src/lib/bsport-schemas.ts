@@ -221,12 +221,32 @@ export function normalizePassTemplate(t: BsportPassTemplate): {
 /* ---------- Webhook payload schemas ---------- */
 
 /**
- * Booking webhook envelope. event_type is one of:
- *   - "booking-create"
- *   - "booking-update"
- *   - "booking-delete"
- * Payload `data.booking` shape is similar to BsportBookingSchema but with
- * extra nested member/offer info — we only validate the bits we need.
+ * Booking webhook envelope. Real payload sample observed in prod:
+ *   {
+ *     event_type: "booking-create",
+ *     date: 1777913433,
+ *     data: { booking: {
+ *       id: 76419255,
+ *       consumer: 14227628,        // ← references User.bsportConsumerId
+ *       consumer_payment_pack: 73178529,  // ← CourseCard.bsportId
+ *       offer: 2024,                // session id (Bsport-side)
+ *       offer_date_start: "2024-09-06T10:00:00+02:00",
+ *       offer_duration_minute: 60,
+ *       attendance: true,
+ *       booking_status_code: 0,     // ← INTEGER, not string
+ *       is_deleted: false,
+ *       date: "2024-09-04T18:33:36...",
+ *       date_canceled: null,
+ *       source_member: null,
+ *       first_in_company: true,
+ *       name: "Cours collectif tapis - Tous niveaux",
+ *       ...
+ *     }}
+ *   }
+ *
+ * The OpenAPI spec uses different field names (member.id, status as string).
+ * We accept BOTH shapes via .optional() so the schema works for fixture data
+ * AND real webhook calls.
  */
 export const BsportBookingWebhookSchema = z.object({
   event_type: z.enum(["booking-create", "booking-update", "booking-delete"]),
@@ -234,23 +254,34 @@ export const BsportBookingWebhookSchema = z.object({
   data: z.object({
     booking: z.object({
       id: z.number().int(),
+      // Prod uses `consumer` (integer); OpenAPI uses `member.id` (object)
+      consumer: z.number().int().nullable().optional(),
       member: z.object({ id: z.number().int(), email: z.string().email().optional() }).passthrough().optional(),
-      booking_status_code: z.string().nullable().optional(),
+      consumer_payment_pack: z.number().int().nullable().optional(),
+      offer: z.number().int().nullable().optional(),
+      offer_date_start: z.string().nullable().optional(),
+      offer_duration_minute: z.number().int().nullable().optional(),
+      // booking_status_code: prod = number (0/1/2/3), OpenAPI = string
+      booking_status_code: z.union([z.number(), z.string()]).nullable().optional(),
       attendance: z.boolean().nullable().optional(),
       is_deleted: z.boolean().optional(),
-      offer_date_start: z.string().optional(),
+      date: z.string().nullable().optional(), // when booking was created
       date_canceled: z.string().nullable().optional(),
-      credit_consumed: z.number().int().optional(),
+      credit_consumed: z.number().int().nullable().optional(),
       is_no_show: z.boolean().optional(),
+      first_in_company: z.boolean().optional(),
+      name: z.string().nullable().optional(),
+      source_member: z.number().int().nullable().optional(),
+      recurrence_rule_booking: z.unknown().nullable().optional(),
+      is_discardable: z.boolean().optional(),
     }).passthrough(),
   }),
 })
 export type BsportBookingWebhook = z.infer<typeof BsportBookingWebhookSchema>
 
 /**
- * Member webhook envelope. event_type:
- *   - "member-create"
- *   - "member-update"
+ * Member webhook envelope. Bsport prod uses snake_case (first_name) and
+ * may include the consumer link. Email may be null/missing for POS walk-ins.
  */
 export const BsportMemberWebhookSchema = z.object({
   event_type: z.enum(["member-create", "member-update"]),
@@ -258,11 +289,23 @@ export const BsportMemberWebhookSchema = z.object({
   data: z.object({
     member: z.object({
       id: z.number().int(),
-      email: z.string().email(),
-      firstname: z.string().optional(),
-      lastname: z.string().optional(),
+      // Email can be null/missing for walk-in POS members; we accept that
+      // but the handler will skip rows without a usable email.
+      email: z.string().nullable().optional(),
+      // Both snake_case (prod) and camelCase (OpenAPI) accepted
+      first_name: z.string().nullable().optional(),
+      last_name: z.string().nullable().optional(),
+      firstname: z.string().nullable().optional(),
+      lastname: z.string().nullable().optional(),
+      name: z.string().nullable().optional(),
       phone_number: z.string().nullable().optional(),
+      phone: z.string().nullable().optional(),
+      // Both `archived` (prod) and `is_archived` (OpenAPI)
       archived: z.boolean().optional(),
+      is_archived: z.boolean().optional(),
+      consumer: z.number().int().nullable().optional(),
+      birthday: z.string().nullable().optional(),
+      birth_date: z.string().nullable().optional(),
     }).passthrough(),
   }),
 })
@@ -287,6 +330,8 @@ export const BsportInvoiceWebhookSchema = z.object({
   data: z.object({
     invoice: z.object({
       id: z.number().int(),
+      // Prod uses `consumer` (integer); OpenAPI uses `member.id` (object). Accept both.
+      consumer: z.number().int().nullable().optional(),
       member: z.object({ id: z.number().int(), email: z.string().email().optional() }).passthrough().optional(),
       total_amount: z.union([z.number(), z.string()]).optional(), // decimal as number or string
       currency: z.string().optional(),

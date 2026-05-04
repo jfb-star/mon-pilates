@@ -138,34 +138,62 @@ async function dispatch(event: ReturnType<typeof BsportWebhookSchema.parse>): Pr
 
 async function handleMemberUpsert(member: {
   id: number
-  email: string
-  firstname?: string
-  lastname?: string
+  email?: string | null
+  firstname?: string | null
+  lastname?: string | null
+  first_name?: string | null
+  last_name?: string | null
+  name?: string | null
   phone_number?: string | null
+  phone?: string | null
   archived?: boolean
+  is_archived?: boolean
+  consumer?: number | null
 }): Promise<void> {
-  const email = member.email.toLowerCase().trim()
-  const name = `${member.firstname ?? ""} ${member.lastname ?? ""}`.trim() || email
-  // Match on bsportId first, fall back to email
-  const existing = await prisma.user.findFirst({ where: { OR: [{ bsportId: member.id }, { email }] } })
+  // Resolve fullname / phone from either snake_case (prod) or camelCase (OpenAPI)
+  const firstname = member.first_name ?? member.firstname ?? ""
+  const lastname = member.last_name ?? member.lastname ?? ""
+  const fullname = member.name ?? `${firstname} ${lastname}`.trim()
+  const phone = member.phone_number ?? member.phone ?? null
+  const consumerId = member.consumer ?? null
+
+  // Walk-in POS members may have no email — we can't create a V2 account
+  // without one, so we silently skip and log for diagnostics.
+  const rawEmail = (member.email ?? "").trim().toLowerCase()
+  if (!rawEmail || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(rawEmail)) {
+    console.log(`[bsport webhook] member ${member.id} skipped: no usable email`)
+    return
+  }
+
+  // Match on bsportId, then bsportConsumerId, then email
+  const existing = await prisma.user.findFirst({
+    where: { OR: [
+      { bsportId: member.id },
+      ...(consumerId ? [{ bsportConsumerId: consumerId }] : []),
+      { email: rawEmail },
+    ] },
+  })
   if (existing) {
+    // Preserve V2-native users' migrationSource; only update profile fields
+    // and add bsport linkage. needsActivation never re-enabled on existing.
     await prisma.user.update({
       where: { id: existing.id },
       data: {
         bsportId: member.id,
-        ...(existing.bsportId === member.id ? { name, phone: member.phone_number ?? null } : {}),
-        // Don't touch needsActivation if already set up by user
+        ...(consumerId ? { bsportConsumerId: consumerId } : {}),
+        ...(existing.bsportId === member.id ? { name: fullname || existing.name, phone: phone ?? existing.phone } : {}),
       },
     })
   } else {
     const placeholderHash = `migrated:${crypto.randomBytes(16).toString("hex")}`
     await prisma.user.create({
       data: {
-        email,
-        name,
-        phone: member.phone_number ?? null,
+        email: rawEmail,
+        name: fullname || rawEmail,
+        phone,
         passwordHash: placeholderHash,
         bsportId: member.id,
+        bsportConsumerId: consumerId,
         migratedAt: new Date(),
         migrationSource: "BSPORT_IMPORT",
         needsActivation: true,
@@ -176,37 +204,57 @@ async function handleMemberUpsert(member: {
 
 async function handleBookingUpsert(booking: {
   id: number
+  consumer?: number | null
   member?: { id: number; email?: string }
-  booking_status_code?: string | null
+  consumer_payment_pack?: number | null
+  offer?: number | null
+  offer_date_start?: string | null
+  booking_status_code?: number | string | null
   attendance?: boolean | null
   is_no_show?: boolean
-  offer_date_start?: string
+  is_deleted?: boolean
   date_canceled?: string | null
-  credit_consumed?: number
+  credit_consumed?: number | null
 }): Promise<void> {
-  // Look up the user by Bsport member id (if available)
-  if (!booking.member?.id) return // can't match user without member link
-  const user = await prisma.user.findFirst({ where: { bsportId: booking.member.id } })
+  // Look up the user. Prod payload references the consumer id; OpenAPI
+  // spec uses member.id. We try consumer first (real prod), member.id
+  // second (fixture/OpenAPI compat).
+  const consumerId = booking.consumer ?? null
+  const memberId = booking.member?.id ?? null
+  if (!consumerId && !memberId) return // no user link at all — skip
+
+  const user = await prisma.user.findFirst({
+    where: { OR: [
+      ...(consumerId ? [{ bsportConsumerId: consumerId }] : []),
+      ...(memberId ? [{ bsportId: memberId }] : []),
+    ] },
+  })
   if (!user) {
-    // Member hasn't been imported yet — silently skip; a subsequent
-    // member-create event will populate them, and the import script
-    // will fold this booking into V2 on next run.
+    // User hasn't been imported yet — silently skip. A subsequent
+    // member-create event (or the next CLI import) will populate them.
+    console.log(`[bsport webhook] booking ${booking.id}: user not found (consumer=${consumerId}, member=${memberId})`)
     return
   }
 
-  // Booking → V2 model: we need a Session id, which we may not have for
-  // historical Bsport bookings. For webhook flow, we just record the
-  // booking metadata in V2 if we have a matching V2 Session by
-  // session_start_at, otherwise we skip (the Booking will be picked up
-  // by the next CLI import which has Schedule reconstruction logic).
+  // We need a V2 Session row matching the offer_date_start. Many historical
+  // bookings (pre-cutover) don't have a corresponding V2 Session — we skip
+  // those silently; they'll be handled by the CLI import if needed.
   if (!booking.offer_date_start) return
   const startAt = new Date(booking.offer_date_start)
-  const session = await prisma.session.findFirst({
-    where: { date: startAt },
-  })
-  if (!session) return // no matching Session — skip, will be handled by CLI import
+  // Match by exact datetime; if your sessions are stored with date+startTime
+  // separately, we'd need to widen the lookup. Defer that until we see the
+  // first real-world misses.
+  const session = await prisma.session.findFirst({ where: { date: startAt } })
+  if (!session) {
+    console.log(`[bsport webhook] booking ${booking.id}: no V2 session at ${booking.offer_date_start}`)
+    return
+  }
 
-  const status = booking.date_canceled ? "CANCELLED" : "CONFIRMED"
+  // Booking status: Bsport uses an integer code (0=booked, 1=attended,
+  // 2=no-show, 3=canceled — best guess from observation). We treat it as:
+  //   - is_deleted OR date_canceled → CANCELLED
+  //   - otherwise → CONFIRMED
+  const status = booking.is_deleted || booking.date_canceled ? "CANCELLED" : "CONFIRMED"
   await prisma.booking.upsert({
     where: { bsportId: booking.id },
     create: {
@@ -250,6 +298,7 @@ async function handleBookingDelete(booking: { id: number }): Promise<void> {
  */
 async function handleInvoiceUpsert(invoice: {
   id: number
+  consumer?: number | null
   member?: { id: number; email?: string }
   total_amount?: number | string
   currency?: string
@@ -257,9 +306,17 @@ async function handleInvoiceUpsert(invoice: {
   paid_at?: string | null
   line_items?: Array<{ pass_id?: number | null; pass_name?: string | null; amount?: number | string; quantity?: number }>
 }): Promise<void> {
-  if (!invoice.member?.id) return // can't link without member
-  const user = await prisma.user.findFirst({ where: { bsportId: invoice.member.id } })
-  if (!user) return // member not yet imported — defer to next CLI run
+  // Prod uses `consumer` (integer), OpenAPI uses `member.id` (object) — accept both
+  const consumerId = invoice.consumer ?? null
+  const memberId = invoice.member?.id ?? null
+  if (!consumerId && !memberId) return
+  const user = await prisma.user.findFirst({
+    where: { OR: [
+      ...(consumerId ? [{ bsportConsumerId: consumerId }] : []),
+      ...(memberId ? [{ bsportId: memberId }] : []),
+    ] },
+  })
+  if (!user) return
 
   // Compute amount in cents from total_amount (decimal string or number)
   const amountCents = (() => {
