@@ -5,7 +5,6 @@ import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import {
-  ArrowLeft,
   Loader2,
   Shield,
   Trash2,
@@ -133,7 +132,7 @@ export default function AdminContactPage() {
 
   if (loading && !messages.length) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-mp-cream">
+      <div className="flex items-center justify-center py-24">
         <Loader2 className="w-8 h-8 animate-spin text-mp-ocean" />
       </div>
     )
@@ -141,37 +140,17 @@ export default function AdminContactPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-mp-cream gap-4">
+      <div className="flex flex-col items-center justify-center gap-4 py-24">
         <Shield className="w-12 h-12 text-red-400" />
         <p className="font-heading text-lg text-mp-charcoal">{error}</p>
-        <Link href="/admin" className="text-mp-ocean hover:underline text-sm">
-          Retour à l&apos;administration
-        </Link>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <header className="bg-white border-b border-gray-200 sticky top-0 z-40">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
-          <div className="flex items-center gap-4">
-            <Link
-              href="/admin"
-              className="flex items-center gap-1.5 text-sm text-mp-text-light hover:text-mp-ocean transition-colors"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              Administration
-            </Link>
-            <div className="h-5 w-px bg-gray-200" />
-            <h1 className="font-heading text-xl font-bold text-mp-charcoal">
-              Messages de contact
-            </h1>
-          </div>
-        </div>
-      </header>
-
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div>
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <h1 className="font-heading text-2xl font-bold text-mp-charcoal mb-6">Messages de contact</h1>
         <div className="mb-6 flex flex-wrap gap-2">
           <FilterChip
             label={`Tous (${(byStatus.NEW ?? 0) + (byStatus.READ ?? 0) + (byStatus.HANDLED ?? 0)})`}

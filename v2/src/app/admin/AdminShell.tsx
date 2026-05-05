@@ -12,6 +12,7 @@ import {
 import { clsx } from "clsx"
 import { CommandPalette } from "@/components/admin/CommandPalette"
 import { Breadcrumbs } from "@/components/admin/Breadcrumbs"
+import { ShortcutsDialog } from "@/components/admin/ShortcutsDialog"
 
 interface NavItem {
   label: string
@@ -100,6 +101,7 @@ export function AdminShell({
   const [collapsed, setCollapsed] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const [paletteOpen, setPaletteOpen] = useState(false)
+  const [shortcutsOpen, setShortcutsOpen] = useState(false)
   const [userMenuOpen, setUserMenuOpen] = useState(false)
   const userMenuRef = useRef<HTMLDivElement>(null)
   const [counts, setCounts] = useState<Counts>({ unpaidBookings: 0, newContactMessages: 0, needsActivation: 0 })
@@ -161,6 +163,13 @@ export function AdminShell({
         return
       }
       if (inField) return
+      // "?" → show shortcuts help. We check for both Shift+/ (US/AZERTY produce
+      // "?" via Shift) and the literal "?" key on layouts where it's primary.
+      if (e.key === "?") {
+        e.preventDefault()
+        setShortcutsOpen(true)
+        return
+      }
       // "g" then a letter — chord detection
       if (e.key === "g") {
         e.preventDefault()
@@ -400,6 +409,9 @@ export function AdminShell({
 
       {/* Cmd+K palette */}
       <CommandPalette open={paletteOpen} onClose={() => setPaletteOpen(false)} />
+
+      {/* Keyboard shortcuts help (?) */}
+      <ShortcutsDialog open={shortcutsOpen} onClose={() => setShortcutsOpen(false)} />
     </div>
   )
 }

@@ -5,7 +5,6 @@ import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import {
-  ArrowLeft,
   Plus,
   Loader2,
   Shield,
@@ -231,20 +230,10 @@ export default function AdminInstructorsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <header className="bg-white border-b border-gray-200 sticky top-0 z-40">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
-          <div className="flex items-center gap-4">
-            <Link
-              href="/admin"
-              className="flex items-center gap-1.5 text-sm text-mp-text-light hover:text-mp-ocean transition-colors"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              Administration
-            </Link>
-            <div className="h-5 w-px bg-gray-200" />
-            <h1 className="font-heading text-xl font-bold text-mp-charcoal">Coachs</h1>
-          </div>
+    <div>
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div className="flex items-center justify-between mb-6 gap-3 flex-wrap">
+          <h1 className="font-heading text-2xl font-bold text-mp-charcoal">Coachs</h1>
           <button
             onClick={openCreate}
             className="inline-flex items-center gap-2 px-4 py-2 bg-mp-ocean text-white rounded-lg text-sm font-medium hover:bg-mp-ocean-dark transition-colors"
@@ -253,9 +242,6 @@ export default function AdminInstructorsPage() {
             Nouveau coach
           </button>
         </div>
-      </header>
-
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {createdInfo && (
           <div className="mb-6 p-4 bg-emerald-50 border border-emerald-200 rounded-lg">
             <p className="text-sm font-semibold text-emerald-900 mb-1">Coach créé.</p>
