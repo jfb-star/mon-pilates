@@ -3,13 +3,15 @@
 import { useState, useEffect, useMemo, useRef } from "react"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
+import { signOut } from "next-auth/react"
 import {
   LayoutDashboard, Calendar, ClipboardList, AlertCircle, Users, BookOpen,
-  CreditCard, Mail, FileText, Database, MessageSquare, Settings, Search,
-  ChevronLeft, ChevronRight, Menu, X, Home,
+  CreditCard, Mail, FileText, Database, MessageSquare, Search,
+  ChevronLeft, ChevronRight, Menu, X, Home, LogOut, User as UserIcon,
 } from "lucide-react"
 import { clsx } from "clsx"
 import { CommandPalette } from "@/components/admin/CommandPalette"
+import { Breadcrumbs } from "@/components/admin/Breadcrumbs"
 
 interface NavItem {
   label: string
@@ -74,12 +76,36 @@ function isItemActive(href: string, pathname: string, tab: string | null): boole
   return pathname === href || pathname.startsWith(href + "/")
 }
 
-export function AdminShell({ role, children }: { role: string; children: React.ReactNode }) {
+export function AdminShell({
+  role,
+  userName,
+  userEmail,
+  children,
+}: {
+  role: string
+  userName: string
+  userEmail: string
+  children: React.ReactNode
+}) {
   const pathname = usePathname()
   const router = useRouter()
   const [collapsed, setCollapsed] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const [paletteOpen, setPaletteOpen] = useState(false)
+  const [userMenuOpen, setUserMenuOpen] = useState(false)
+  const userMenuRef = useRef<HTMLDivElement>(null)
+
+  // Close the user menu when clicking outside
+  useEffect(() => {
+    if (!userMenuOpen) return
+    const onClick = (e: MouseEvent) => {
+      if (userMenuRef.current && !userMenuRef.current.contains(e.target as Node)) {
+        setUserMenuOpen(false)
+      }
+    }
+    document.addEventListener("mousedown", onClick)
+    return () => document.removeEventListener("mousedown", onClick)
+  }, [userMenuOpen])
 
   // Read ?tab= from the URL — using window.location is fine here because
   // the sidebar re-renders on navigation; this avoids a useSearchParams
@@ -243,8 +269,8 @@ export function AdminShell({ role, children }: { role: string; children: React.R
           ))}
         </nav>
 
-        {/* Footer link to public site */}
-        <div className="border-t border-gray-100 p-2">
+        {/* Footer: public-site link + user menu */}
+        <div className="border-t border-gray-100 p-2 space-y-1" ref={userMenuRef}>
           <Link
             href="/"
             className={clsx(
@@ -255,6 +281,57 @@ export function AdminShell({ role, children }: { role: string; children: React.R
             <Home className="w-4 h-4 shrink-0" />
             {!collapsed && <span>Voir le site</span>}
           </Link>
+
+          <div className="relative">
+            <button
+              onClick={() => setUserMenuOpen((v) => !v)}
+              className={clsx(
+                "w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-heading hover:bg-gray-50 transition-colors",
+                collapsed && "justify-center"
+              )}
+              aria-haspopup="menu"
+              aria-expanded={userMenuOpen}
+              title={collapsed ? `${userName} (${role})` : undefined}
+            >
+              <div className="w-7 h-7 rounded-full bg-mp-ocean/15 text-mp-ocean-dark flex items-center justify-center text-[11px] font-bold shrink-0">
+                {userName.split(" ").map((p) => p[0]).join("").slice(0, 2).toUpperCase() || "?"}
+              </div>
+              {!collapsed && (
+                <div className="min-w-0 flex-1 text-left">
+                  <p className="truncate text-mp-charcoal text-xs">{userName}</p>
+                  <p className="truncate text-[10px] text-gray-400 font-normal">{role}</p>
+                </div>
+              )}
+            </button>
+
+            {userMenuOpen && (
+              <div
+                className={clsx(
+                  "absolute z-50 bg-white rounded-xl shadow-xl border border-gray-100 py-1 min-w-[200px]",
+                  collapsed ? "left-full ml-2 bottom-0" : "left-0 right-0 bottom-full mb-2"
+                )}
+                role="menu"
+              >
+                <div className="px-3 py-2 border-b border-gray-100">
+                  <p className="text-sm font-heading text-mp-charcoal truncate">{userName}</p>
+                  <p className="text-xs text-gray-500 truncate">{userEmail}</p>
+                </div>
+                <Link
+                  href="/compte"
+                  onClick={() => setUserMenuOpen(false)}
+                  className="flex items-center gap-2 px-3 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-mp-charcoal"
+                >
+                  <UserIcon className="w-4 h-4" /> Mon compte
+                </Link>
+                <button
+                  onClick={() => signOut({ callbackUrl: "/" })}
+                  className="w-full flex items-center gap-2 px-3 py-2 text-sm text-red-600 hover:bg-red-50 text-left"
+                >
+                  <LogOut className="w-4 h-4" /> Se déconnecter
+                </button>
+              </div>
+            )}
+          </div>
         </div>
       </aside>
 
@@ -268,8 +345,18 @@ export function AdminShell({ role, children }: { role: string; children: React.R
       )}
 
       {/* Main content */}
-      <main className="flex-1 min-w-0">
-        {children}
+      <main className="flex-1 min-w-0 flex flex-col">
+        {/* Breadcrumb bar — sticky so it stays visible while scrolling long pages.
+            Hidden on /admin root (the dashboard already has its own page header). */}
+        {pathname !== "/admin" && (
+          <div className="sticky top-0 z-20 bg-white/80 backdrop-blur-sm border-b border-gray-100 px-4 sm:px-6 lg:px-8 py-2.5 flex items-center">
+            <div className="lg:hidden w-10 shrink-0" /> {/* Spacer for the mobile menu button */}
+            <Breadcrumbs pathname={pathname} tab={currentTab} />
+          </div>
+        )}
+        <div className="flex-1">
+          {children}
+        </div>
       </main>
 
       {/* Cmd+K palette */}

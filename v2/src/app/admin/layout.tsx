@@ -16,7 +16,10 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   const session = await requireStaff()
   if (!session) redirect("/connexion?returnTo=/admin")
 
-  const role = (session.user as { role?: string } | undefined)?.role ?? "USER"
+  const u = session.user as { role?: string; name?: string | null; email?: string | null } | undefined
+  const role = u?.role ?? "USER"
+  const name = u?.name ?? "Membre"
+  const email = u?.email ?? ""
 
-  return <AdminShell role={role}>{children}</AdminShell>
+  return <AdminShell role={role} userName={name} userEmail={email}>{children}</AdminShell>
 }
