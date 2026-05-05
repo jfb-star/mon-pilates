@@ -1,6 +1,7 @@
 "use client"
 
-import React, { useState, useEffect, useCallback, useMemo } from "react"
+import React, { useState, useEffect, useCallback, useMemo, Suspense } from "react"
+import { useSearchParams, usePathname } from "next/navigation"
 
 // Recharts value type for formatters (values may be undefined in tooltips).
 type RechartsValue = number | string | ReadonlyArray<number | string> | undefined
@@ -324,14 +325,42 @@ const tabs = [
 
 type TabId = (typeof tabs)[number]["id"]
 
+// useSearchParams (used by AdminPageInner) requires a Suspense boundary
+// in Next.js 15 since the page may be statically rendered. The boundary
+// shows a minimal skeleton during the first render, then hydrates.
 export default function AdminPage() {
+  return (
+    <Suspense fallback={<div className="p-6 text-sm text-gray-400">Chargement de l&apos;admin…</div>}>
+      <AdminPageInner />
+    </Suspense>
+  )
+}
+
+function AdminPageInner() {
   const { data: authSession, status: authStatus } = useSession()
   const router = useRouter()
   const toast = useToast()
   const userRole = (authSession?.user as { role?: string } | undefined)?.role
   const isAdmin = userRole === "ADMIN" || userRole === "INSTRUCTOR"
 
-  const [activeTab, setActiveTab] = useState<TabId>("sessions")
+  // URL-synced tab: ?tab=… persists across refresh + back/forward.
+  // We default to "sessions" if the param is missing or invalid.
+  const searchParams = useSearchParams()
+  const pathname = usePathname()
+  const tabFromUrl = (() => {
+    const t = searchParams.get("tab")
+    return tabs.some((x) => x.id === t) ? (t as TabId) : "sessions"
+  })()
+  const [activeTab, setActiveTabState] = useState<TabId>(tabFromUrl)
+  // Keep state in sync when the URL changes (e.g. sidebar link clicked)
+  useEffect(() => { setActiveTabState(tabFromUrl) }, [tabFromUrl])
+  // Wrapper that updates BOTH state AND URL — call this from tab buttons
+  const setActiveTab = useCallback((id: TabId) => {
+    setActiveTabState(id)
+    const params = new URLSearchParams(searchParams.toString())
+    params.set("tab", id)
+    window.history.replaceState(null, "", `${pathname}?${params.toString()}`)
+  }, [searchParams, pathname])
   const [stats, setStats] = useState<Stats | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<
@@ -1951,10 +1980,47 @@ function UsersTab({
   } | null>(null)
   const [confirmingRole, setConfirmingRole] = useState(false)
 
+  // Filter presets — quick chips above the table. Operates on the current
+  // page only; for cross-page filtering we'd need to push the predicate
+  // to the API. For 280 members across ~14 pages, page-local is fine.
+  type Preset = "all" | "active-card" | "expiring" | "no-card" | "unactivated"
+  const [activePreset, setActivePreset] = useState<Preset>("all")
+  const filterPredicates: Record<Preset, (u: AdminUser) => boolean> = {
+    "all": () => true,
+    "active-card": (u) => !!u.activeCard && u.activeCard.remainingSessions > 0,
+    "expiring": (u) => {
+      if (!u.activeCard) return false
+      const days = (new Date(u.activeCard.expiresAt).getTime() - Date.now()) / (1000 * 60 * 60 * 24)
+      return days < 30 && days > 0
+    },
+    "no-card": (u) => !u.activeCard,
+    "unactivated": (u) => u.needsActivation,
+  }
+  const filteredUsers = useMemo(
+    () => sortedUsers.filter(filterPredicates[activePreset]),
+    [sortedUsers, activePreset] // eslint-disable-line react-hooks/exhaustive-deps
+  )
+
+  // Bulk-select state. Set of user IDs.
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set())
+  const allFilteredSelected = filteredUsers.length > 0 && filteredUsers.every((u) => selectedIds.has(u.id))
+  const toggleAll = () => {
+    if (allFilteredSelected) setSelectedIds(new Set())
+    else setSelectedIds(new Set(filteredUsers.map((u) => u.id)))
+  }
+  const toggleOne = (id: string) => {
+    setSelectedIds((prev) => {
+      const next = new Set(prev)
+      if (next.has(id)) next.delete(id)
+      else next.add(id)
+      return next
+    })
+  }
+
   return (
     <div>
       {/* Search + Export */}
-      <div className="mb-4 flex items-center gap-3">
+      <div className="mb-3 flex items-center gap-3">
         <div className="relative max-w-sm flex-1">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
           <input
@@ -1967,10 +2033,12 @@ function UsersTab({
         </div>
         <button
           onClick={() => {
-            const hdrs = ["Nom", "Email", "Rôle", "Inscrit le", "Total cours", "Carte active"]
-            const rws = users.map((u) => [
+            const hdrs = ["Nom", "Email", "Téléphone", "Ville", "Rôle", "Inscrit le", "Total cours", "Carte active"]
+            const rws = filteredUsers.map((u) => [
               u.name,
               u.email,
+              u.phone ?? "",
+              u.city ?? "",
               roleLabels[u.role] ?? u.role,
               formatDate(u.createdAt),
               String(u.totalBookings),
@@ -1985,6 +2053,70 @@ function UsersTab({
           <span className="hidden sm:inline">Exporter CSV</span>
         </button>
       </div>
+
+      {/* Filter presets — quick chips for common admin queries.
+          Operates client-side on the current page. */}
+      <div className="mb-4 flex items-center gap-2 flex-wrap">
+        {([
+          { id: "all", label: "Tous", count: users.length },
+          { id: "active-card", label: "Carte active", count: users.filter(filterPredicates["active-card"]).length },
+          { id: "expiring", label: "Carte expirant <30j", count: users.filter(filterPredicates.expiring).length },
+          { id: "no-card", label: "Sans carte active", count: users.filter(filterPredicates["no-card"]).length },
+          { id: "unactivated", label: "Non activés", count: users.filter(filterPredicates.unactivated).length },
+        ] as const).map((preset) => (
+          <button
+            key={preset.id}
+            onClick={() => setActivePreset(preset.id)}
+            className={clsx(
+              "text-xs font-heading px-3 py-1.5 rounded-full border transition-colors flex items-center gap-1.5",
+              activePreset === preset.id
+                ? "bg-mp-ocean text-white border-mp-ocean"
+                : "bg-white text-gray-600 border-gray-200 hover:border-mp-ocean/40 hover:bg-mp-ocean/5"
+            )}
+          >
+            {preset.label}
+            <span className={clsx(
+              "text-[10px] font-semibold px-1.5 py-0.5 rounded",
+              activePreset === preset.id ? "bg-white/20 text-white" : "bg-gray-100 text-gray-500"
+            )}>
+              {preset.count}
+            </span>
+          </button>
+        ))}
+      </div>
+
+      {/* Bulk action toolbar — surfaces when at least 1 row is selected. */}
+      {selectedIds.size > 0 && (
+        <div className="mb-3 flex items-center justify-between gap-3 px-4 py-2.5 rounded-xl bg-mp-ocean/5 border border-mp-ocean/20">
+          <p className="text-sm font-heading">
+            <strong>{selectedIds.size}</strong> membre{selectedIds.size > 1 ? "s" : ""} sélectionné{selectedIds.size > 1 ? "s" : ""}
+          </p>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => {
+                const selected = filteredUsers.filter((u) => selectedIds.has(u.id))
+                const hdrs = ["Nom", "Email", "Téléphone", "Ville", "Rôle", "Inscrit le", "Total cours", "Carte active"]
+                const rws = selected.map((u) => [
+                  u.name, u.email, u.phone ?? "", u.city ?? "",
+                  roleLabels[u.role] ?? u.role, formatDate(u.createdAt),
+                  String(u.totalBookings),
+                  u.activeCard ? `${u.activeCard.type} (${u.activeCard.remainingSessions} restantes)` : "Non",
+                ])
+                downloadCSV("membres-selection.csv", hdrs, rws)
+              }}
+              className="text-xs font-heading px-3 py-1.5 rounded-lg bg-white border border-gray-200 hover:border-mp-ocean transition-colors"
+            >
+              Exporter
+            </button>
+            <button
+              onClick={() => setSelectedIds(new Set())}
+              className="text-xs font-heading px-3 py-1.5 rounded-lg text-gray-500 hover:text-mp-charcoal"
+            >
+              Désélectionner
+            </button>
+          </div>
+        </div>
+      )}
 
       {loading ? (
         <TableSkeleton rows={6} columns={7} label="Chargement des membres…" />
@@ -2014,6 +2146,15 @@ function UsersTab({
             <table className="w-full">
               <thead>
                 <tr className="border-b border-gray-100 bg-gray-50/50">
+                  <th className="px-3 py-3 w-10">
+                    <input
+                      type="checkbox"
+                      checked={allFilteredSelected}
+                      onChange={toggleAll}
+                      className="w-4 h-4 rounded border-gray-300 text-mp-ocean focus:ring-mp-ocean"
+                      aria-label="Tout sélectionner"
+                    />
+                  </th>
                   <SortableTh sortKey="name" sortBy={sortBy} sortDir={sortDir} onSort={toggleSort}>Nom</SortableTh>
                   <SortableTh sortKey="email" sortBy={sortBy} sortDir={sortDir} onSort={toggleSort}>Email</SortableTh>
                   <SortableTh sortKey="role" sortBy={sortBy} sortDir={sortDir} onSort={toggleSort}>Rôle</SortableTh>
@@ -2024,8 +2165,23 @@ function UsersTab({
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-50">
-                {sortedUsers.map((u) => (
-                  <tr key={u.id} className="hover:bg-gray-50/50 transition-colors">
+                {filteredUsers.map((u) => (
+                  <tr
+                    key={u.id}
+                    className={clsx(
+                      "hover:bg-gray-50/50 transition-colors",
+                      selectedIds.has(u.id) && "bg-mp-ocean/5"
+                    )}
+                  >
+                    <td className="px-3 py-3">
+                      <input
+                        type="checkbox"
+                        checked={selectedIds.has(u.id)}
+                        onChange={() => toggleOne(u.id)}
+                        className="w-4 h-4 rounded border-gray-300 text-mp-ocean focus:ring-mp-ocean"
+                        aria-label={`Sélectionner ${u.name}`}
+                      />
+                    </td>
                     <td className="px-4 py-3 text-sm font-medium">
                       <Link
                         href={`/admin/users/${u.id}`}
@@ -2034,6 +2190,11 @@ function UsersTab({
                         {u.name}
                       </Link>
                       {u.city && <span className="block text-[11px] text-gray-400 font-normal mt-0.5">{u.city}</span>}
+                      {u.needsActivation && (
+                        <span className="inline-block mt-1 text-[10px] bg-amber-100 text-amber-700 px-1.5 py-0.5 rounded">
+                          Non activé
+                        </span>
+                      )}
                     </td>
                     <td className="px-4 py-3 text-sm text-gray-500">
                       {u.email}
@@ -2094,8 +2255,14 @@ function UsersTab({
 
           {/* Mobile cards */}
           <div className="md:hidden space-y-3">
-            {sortedUsers.map((u) => (
-              <div key={u.id} className="bg-white rounded-xl border border-gray-100 p-4 shadow-sm">
+            {filteredUsers.map((u) => (
+              <div
+                key={u.id}
+                className={clsx(
+                  "bg-white rounded-xl border p-4 shadow-sm",
+                  selectedIds.has(u.id) ? "border-mp-ocean/40 bg-mp-ocean/5" : "border-gray-100"
+                )}
+              >
                 <div className="flex items-center justify-between mb-2">
                   <div className="min-w-0">
                     <Link
