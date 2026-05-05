@@ -1,7 +1,10 @@
 "use client"
 
 import { useState } from "react"
-import { Mail, Phone, MapPin, CalendarDays, CreditCard, Calendar, AlertCircle, Edit2, Plus, Minus, Ban, Loader2 } from "lucide-react"
+import {
+  Mail, Phone, MapPin, CalendarDays, CreditCard, Calendar, AlertCircle,
+  Edit2, Plus, Minus, Ban, Loader2, Send, KeyRound, Link as LinkIcon, Copy, Check,
+} from "lucide-react"
 import { ConfirmDialog } from "@/components/admin/ConfirmDialog"
 
 /* ---------- Types ---------- */
@@ -88,12 +91,21 @@ export function MemberDetailClient({ initialUser }: { initialUser: MemberDetail 
   const [editingCard, setEditingCard] = useState<Card | null>(null)
   const [pendingCancelCard, setPendingCancelCard] = useState<Card | null>(null)
   const [editingProfile, setEditingProfile] = useState(false)
+  const [composingEmail, setComposingEmail] = useState(false)
+  const [confirmActivation, setConfirmActivation] = useState(false)
+  const [paymentLinkOpen, setPaymentLinkOpen] = useState(false)
+  const [toast, setToast] = useState<{ kind: "ok" | "err"; msg: string } | null>(null)
 
   const activeCards = user.courseCards.filter(isCardActive)
-  const expiredCards = user.courseCards.filter((c) => !isCardActive(c))
   const totalSpent = user.payments.filter((p) => p.status === "PAID").reduce((s, p) => s + p.amount, 0)
   const upcomingBookings = user.bookings.filter((b) => b.status !== "CANCELLED" && new Date(b.session.date) >= new Date())
   const pastBookings = user.bookings.filter((b) => b.status === "CANCELLED" || new Date(b.session.date) < new Date())
+  const unpaidCount = user.bookings.filter((b) => b.status !== "CANCELLED" && b.paymentStatus === "PENDING").length
+
+  function flash(kind: "ok" | "err", msg: string) {
+    setToast({ kind, msg })
+    setTimeout(() => setToast(null), 4000)
+  }
 
   return (
     <div className="space-y-6">
@@ -108,12 +120,40 @@ export function MemberDetailClient({ initialUser }: { initialUser: MemberDetail 
               {user.needsActivation && <span className="ml-2 text-xs bg-amber-100 text-amber-700 px-2 py-0.5 rounded">Compte non activé</span>}
             </p>
           </div>
-          <button
-            onClick={() => setEditingProfile(true)}
-            className="mp-btn mp-btn-secondary !text-sm !py-2 !px-3 self-start"
-          >
-            <Edit2 className="w-4 h-4" /> Modifier
-          </button>
+          <div className="flex flex-wrap items-center gap-2 self-start">
+            <button
+              onClick={() => setComposingEmail(true)}
+              className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-heading bg-mp-ocean/10 text-mp-ocean-dark hover:bg-mp-ocean/15 transition-colors"
+              title="Envoyer un email personnalisé"
+            >
+              <Send className="w-4 h-4" /> Email
+            </button>
+            {unpaidCount > 0 && (
+              <button
+                onClick={() => setPaymentLinkOpen(true)}
+                className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-heading bg-amber-100 text-amber-800 hover:bg-amber-200 transition-colors"
+                title={`${unpaidCount} séance${unpaidCount > 1 ? "s" : ""} à régler`}
+              >
+                <LinkIcon className="w-4 h-4" /> Lien paiement
+                <span className="ml-0.5 text-xs bg-amber-200/70 px-1.5 rounded">{unpaidCount}</span>
+              </button>
+            )}
+            {user.needsActivation && (
+              <button
+                onClick={() => setConfirmActivation(true)}
+                className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-heading bg-mp-sage/15 text-mp-sage-dark hover:bg-mp-sage/25 transition-colors"
+                title="Renvoyer le mail d'activation"
+              >
+                <KeyRound className="w-4 h-4" /> Activation
+              </button>
+            )}
+            <button
+              onClick={() => setEditingProfile(true)}
+              className="mp-btn mp-btn-secondary !text-sm !py-2 !px-3"
+            >
+              <Edit2 className="w-4 h-4" /> Modifier
+            </button>
+          </div>
         </div>
 
         {/* Identity grid */}
@@ -253,6 +293,57 @@ export function MemberDetailClient({ initialUser }: { initialUser: MemberDetail 
           onSaved={(updated) => { setUser({ ...user, ...updated }); setEditingProfile(false) }}
           onClose={() => setEditingProfile(false)}
         />
+      )}
+
+      {/* QUICK ACTIONS */}
+      {composingEmail && (
+        <SendEmailModal
+          userId={user.id}
+          userName={user.name}
+          userEmail={user.email}
+          onSent={() => { flash("ok", "Email envoyé"); setComposingEmail(false) }}
+          onClose={() => setComposingEmail(false)}
+        />
+      )}
+      {paymentLinkOpen && (
+        <PaymentLinkModal
+          userId={user.id}
+          unpaidCount={unpaidCount}
+          onDone={() => setPaymentLinkOpen(false)}
+          onFlash={flash}
+        />
+      )}
+      <ConfirmDialog
+        open={confirmActivation}
+        title="Renvoyer le mail d'activation ?"
+        description={
+          <p>
+            Un nouveau lien d&apos;activation (valable 1&nbsp;h) sera envoyé à <strong>{user.email}</strong>.
+            Le lien précédent sera invalidé.
+          </p>
+        }
+        confirmLabel="Envoyer"
+        cancelLabel="Annuler"
+        onConfirm={async () => {
+          setConfirmActivation(false)
+          const res = await fetch(`/api/admin/users/${user.id}/resend-activation`, { method: "POST" })
+          if (res.ok) flash("ok", "Email d'activation envoyé")
+          else {
+            const data = await res.json().catch(() => ({}))
+            flash("err", data.error || "Échec de l'envoi")
+          }
+        }}
+        onCancel={() => setConfirmActivation(false)}
+      />
+
+      {/* TOAST */}
+      {toast && (
+        <div className={`fixed bottom-4 right-4 z-[70] px-4 py-3 rounded-xl shadow-lg text-sm font-heading flex items-center gap-2 ${
+          toast.kind === "ok" ? "bg-mp-sage/95 text-white" : "bg-red-600 text-white"
+        }`}>
+          {toast.kind === "ok" ? <Check className="w-4 h-4" /> : <AlertCircle className="w-4 h-4" />}
+          {toast.msg}
+        </div>
       )}
     </div>
   )
@@ -519,6 +610,170 @@ function Field({ label, value, onChange, type = "text" }: { label: string; value
         onChange={(e) => onChange(e.target.value)}
         className="w-full px-3 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-mp-ocean text-sm"
       />
+    </div>
+  )
+}
+
+/* ---------- Send manual email modal ---------- */
+
+function SendEmailModal({ userId, userName, userEmail, onSent, onClose }: {
+  userId: string
+  userName: string
+  userEmail: string
+  onSent: () => void
+  onClose: () => void
+}) {
+  const [subject, setSubject] = useState("")
+  const [message, setMessage] = useState("")
+  const [sending, setSending] = useState(false)
+  const [error, setError] = useState("")
+
+  async function handleSend() {
+    if (!subject.trim() || !message.trim()) {
+      setError("Sujet et message obligatoires")
+      return
+    }
+    setSending(true)
+    setError("")
+    const res = await fetch(`/api/admin/users/${userId}/send-email`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ subject: subject.trim(), message: message.trim() }),
+    })
+    setSending(false)
+    if (!res.ok) {
+      const data = await res.json().catch(() => ({}))
+      setError(data.error || "Échec de l'envoi")
+      return
+    }
+    onSent()
+  }
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4 overflow-y-auto" onClick={onClose}>
+      <div className="bg-white rounded-2xl shadow-2xl max-w-lg w-full p-6 my-8" onClick={(e) => e.stopPropagation()}>
+        <h3 className="font-heading text-lg font-bold text-mp-charcoal mb-1">Email à {userName}</h3>
+        <p className="text-xs text-gray-500 mb-4">{userEmail}</p>
+        <div className="space-y-3">
+          <Field label="Sujet" value={subject} onChange={setSubject} />
+          <div>
+            <label className="block font-heading text-xs font-medium text-mp-text-light mb-1.5">Message</label>
+            <textarea
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              rows={8}
+              className="w-full px-3 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-mp-ocean text-sm resize-y"
+              placeholder="Bonjour…"
+            />
+            <p className="text-[11px] text-gray-400 mt-1">Les sauts de ligne doubles créent un nouveau paragraphe.</p>
+          </div>
+          {error && <p className="text-xs text-red-600">{error}</p>}
+        </div>
+        <div className="flex gap-2 justify-end mt-6">
+          <button onClick={onClose} className="mp-btn mp-btn-secondary !text-sm">Annuler</button>
+          <button onClick={handleSend} disabled={sending} className="mp-btn mp-btn-primary !text-sm">
+            {sending ? <Loader2 className="w-4 h-4 animate-spin" /> : <><Send className="w-4 h-4" /> Envoyer</>}
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+/* ---------- Payment-link modal ---------- */
+
+function PaymentLinkModal({ userId, unpaidCount, onDone, onFlash }: {
+  userId: string
+  unpaidCount: number
+  onDone: () => void
+  onFlash: (kind: "ok" | "err", msg: string) => void
+}) {
+  const [loading, setLoading] = useState(false)
+  const [url, setUrl] = useState<string | null>(null)
+  const [amount, setAmount] = useState<number | null>(null)
+  const [copied, setCopied] = useState(false)
+  const [error, setError] = useState("")
+
+  async function generate(sendEmail: boolean) {
+    setLoading(true)
+    setError("")
+    const res = await fetch(`/api/admin/users/${userId}/payment-link`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ sendEmail }),
+    })
+    setLoading(false)
+    if (!res.ok) {
+      const data = await res.json().catch(() => ({}))
+      setError(data.error || "Échec de la génération")
+      return
+    }
+    const data = await res.json()
+    setUrl(data.url)
+    setAmount(data.amount)
+    if (sendEmail) {
+      onFlash(data.emailed ? "ok" : "err", data.emailed ? "Lien envoyé par email" : "Lien généré, mais email non envoyé")
+    }
+  }
+
+  async function copy() {
+    if (!url) return
+    await navigator.clipboard.writeText(url)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 1500)
+  }
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4 overflow-y-auto" onClick={onDone}>
+      <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 my-8" onClick={(e) => e.stopPropagation()}>
+        <h3 className="font-heading text-lg font-bold text-mp-charcoal mb-1">Lien de paiement</h3>
+        <p className="text-xs text-gray-500 mb-4">
+          {unpaidCount} séance{unpaidCount > 1 ? "s" : ""} en attente de règlement.
+        </p>
+
+        {!url && (
+          <div className="space-y-2">
+            <button
+              onClick={() => generate(true)}
+              disabled={loading}
+              className="w-full mp-btn mp-btn-primary !text-sm"
+            >
+              {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <><Send className="w-4 h-4" /> Générer & envoyer par email</>}
+            </button>
+            <button
+              onClick={() => generate(false)}
+              disabled={loading}
+              className="w-full mp-btn mp-btn-secondary !text-sm"
+            >
+              {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <><LinkIcon className="w-4 h-4" /> Générer un lien à copier</>}
+            </button>
+            {error && <p className="text-xs text-red-600 mt-2">{error}</p>}
+          </div>
+        )}
+
+        {url && (
+          <div className="space-y-3">
+            {amount !== null && (
+              <p className="text-sm text-mp-charcoal">
+                Montant&nbsp;: <strong>{(amount / 100).toFixed(2).replace(".", ",")}&nbsp;€</strong>
+              </p>
+            )}
+            <div className="p-2 rounded-lg border border-gray-200 bg-gray-50/50 break-all text-xs text-gray-700 font-mono">
+              {url}
+            </div>
+            <button
+              onClick={copy}
+              className="w-full mp-btn mp-btn-primary !text-sm"
+            >
+              {copied ? <><Check className="w-4 h-4" /> Copié</> : <><Copy className="w-4 h-4" /> Copier le lien</>}
+            </button>
+          </div>
+        )}
+
+        <div className="flex justify-end mt-4">
+          <button onClick={onDone} className="text-sm text-gray-500 hover:text-mp-charcoal">Fermer</button>
+        </div>
+      </div>
     </div>
   )
 }
