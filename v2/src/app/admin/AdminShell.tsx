@@ -20,6 +20,14 @@ interface NavItem {
   adminOnly?: boolean
   /** kbd shortcut hint (e.g. "g s" → "g then s") */
   shortcut?: string
+  /** Which counts key drives the badge on this item */
+  badgeKey?: keyof Counts
+}
+
+interface Counts {
+  unpaidBookings: number
+  newContactMessages: number
+  needsActivation: number
 }
 
 const NAV_GROUPS: { title: string; items: NavItem[] }[] = [
@@ -29,13 +37,13 @@ const NAV_GROUPS: { title: string; items: NavItem[] }[] = [
       { label: "Tableau de bord",  href: "/admin",                 icon: LayoutDashboard, shortcut: "g d" },
       { label: "Séances",          href: "/admin?tab=sessions",    icon: Calendar,        shortcut: "g s" },
       { label: "Réservations",     href: "/admin?tab=bookings",    icon: ClipboardList,   shortcut: "g b" },
-      { label: "Impayés",          href: "/admin?tab=unpaid",      icon: AlertCircle },
+      { label: "Impayés",          href: "/admin?tab=unpaid",      icon: AlertCircle,     badgeKey: "unpaidBookings" },
     ],
   },
   {
     title: "Membres",
     items: [
-      { label: "Membres",          href: "/admin?tab=users",       icon: Users,           shortcut: "g u" },
+      { label: "Membres",          href: "/admin?tab=users",       icon: Users,           shortcut: "g u", badgeKey: "needsActivation" },
       { label: "Instructeurs",     href: "/admin/instructors",     icon: BookOpen,        adminOnly: true },
     ],
   },
@@ -53,7 +61,7 @@ const NAV_GROUPS: { title: string; items: NavItem[] }[] = [
       { label: "Templates",        href: "/admin/emails/templates",icon: Mail,            adminOnly: true },
       { label: "Campagnes",        href: "/admin/emails/campaigns",icon: Mail,            adminOnly: true },
       { label: "Logs emails",      href: "/admin/emails/logs",     icon: FileText,        adminOnly: true },
-      { label: "Messages contact", href: "/admin/contact",         icon: MessageSquare },
+      { label: "Messages contact", href: "/admin/contact",         icon: MessageSquare,   badgeKey: "newContactMessages" },
       { label: "Blog",             href: "/admin?tab=blog",        icon: FileText,        adminOnly: true },
     ],
   },
@@ -94,6 +102,25 @@ export function AdminShell({
   const [paletteOpen, setPaletteOpen] = useState(false)
   const [userMenuOpen, setUserMenuOpen] = useState(false)
   const userMenuRef = useRef<HTMLDivElement>(null)
+  const [counts, setCounts] = useState<Counts>({ unpaidBookings: 0, newContactMessages: 0, needsActivation: 0 })
+
+  // Poll the lightweight counts endpoint every 60s so the sidebar badges
+  // stay roughly in sync with reality. Failures are silent — stale numbers
+  // are better than a broken UI.
+  useEffect(() => {
+    let cancelled = false
+    async function pull() {
+      try {
+        const res = await fetch("/api/admin/sidebar-counts", { cache: "no-store" })
+        if (!res.ok || cancelled) return
+        const data = (await res.json()) as Counts
+        if (!cancelled) setCounts(data)
+      } catch { /* silent */ }
+    }
+    pull()
+    const t = setInterval(pull, 60_000)
+    return () => { cancelled = true; clearInterval(t) }
+  }, [])
 
   // Close the user menu when clicking outside
   useEffect(() => {
@@ -237,25 +264,37 @@ export function AdminShell({
               <ul className="space-y-0.5">
                 {group.items.map((item) => {
                   const active = isItemActive(item.href, pathname, currentTab)
+                  const badge = item.badgeKey ? counts[item.badgeKey] : 0
                   return (
                     <li key={item.href}>
                       <Link
                         href={item.href}
                         onClick={() => setMobileOpen(false)}
                         className={clsx(
-                          "flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-heading transition-colors",
+                          "relative flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-heading transition-colors",
                           active
                             ? "bg-mp-ocean/10 text-mp-ocean-dark font-semibold"
                             : "text-gray-600 hover:bg-gray-50 hover:text-mp-charcoal",
                           collapsed && "justify-center"
                         )}
-                        title={collapsed ? item.label : undefined}
+                        title={collapsed ? `${item.label}${badge > 0 ? ` (${badge})` : ""}` : undefined}
                       >
-                        <item.icon className="w-4 h-4 shrink-0" />
+                        <span className="relative shrink-0">
+                          <item.icon className="w-4 h-4" />
+                          {/* Collapsed mode: show a tiny dot instead of the number */}
+                          {collapsed && badge > 0 && (
+                            <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-amber-500 ring-2 ring-white" />
+                          )}
+                        </span>
                         {!collapsed && (
                           <>
                             <span className="flex-1 truncate">{item.label}</span>
-                            {item.shortcut && (
+                            {badge > 0 && (
+                              <span className="inline-flex items-center justify-center min-w-[18px] h-[18px] px-1 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800">
+                                {badge > 99 ? "99+" : badge}
+                              </span>
+                            )}
+                            {!badge && item.shortcut && (
                               <kbd className="text-[10px] text-gray-400 hidden xl:inline">{item.shortcut}</kbd>
                             )}
                           </>
