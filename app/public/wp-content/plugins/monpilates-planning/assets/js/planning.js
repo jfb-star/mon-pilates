@@ -32,7 +32,7 @@
             icon: '🤰',
             title: 'Je suis enceinte ou jeune maman',
             subtitle: 'Pilates pré & post-natal, adapté à votre corps',
-            keywords: ['enceinte', 'prenatal', 'prénatal', 'post-natal', 'postnatal', 'maman', 'femme enceinte', 'grossesse'],
+            keywords: ['enceinte', 'prenatal', 'prénatal', 'post-natal', 'postnatal', 'maman', 'femme enceinte', 'grossesse', 'maternité', 'maternite'],
             color: '#E8A4B8',
             isSpecial: false,
             bannerText: 'Pilates pré & post-natal'
@@ -42,7 +42,7 @@
             icon: '🔵',
             title: 'Je veux découvrir ou pratiquer le Pilates',
             subtitle: 'Renforcement global, accessible même aux débutants',
-            keywords: ['classique', 'tapis', 'collectif', 'mat'],
+            keywords: ['classique', 'tapis', 'collectif', 'mat', 'tous niveaux'],
             color: '#5B8FA8',
             isSpecial: false
         },
