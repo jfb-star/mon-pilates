@@ -90,12 +90,12 @@ get_header();
                                 <path d="M16 3.13a4 4 0 010 7.75"/>
                             </svg>
                         </div>
-                        <h3 class="mp-profile-title">Cours en petit groupe</h3>
-                        <p>5 personnes maximum, sur tapis avec petit matériel. Un format convivial où l'on se retrouve chaque semaine dans une ambiance chaleureuse. Parfait pour inscrire le mouvement dans sa routine.</p>
+                        <h3 class="mp-profile-title">Cours collectifs en petit groupe</h3>
+                        <p>5 personnes maximum, dans une ambiance conviviale : <strong>Pilates Tapis</strong> au sol avec petit matériel, ou <strong>Pilates Machine</strong> sur Reformer et appareils. Un format chaleureux pour inscrire le mouvement dans sa routine.</p>
                         <a href="<?php echo esc_url(home_url('/les-seances/')); ?>" class="mp-profile-link">En savoir plus sur les séances</a>
                     </div>
 
-                    <!-- Individuel -->
+                    <!-- Cours privé -->
                     <div class="mp-profile-card mp-profile-rose-light">
                         <div class="mp-profile-icon">
                             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -104,9 +104,9 @@ get_header();
                                 <path d="M12 13v3"/>
                             </svg>
                         </div>
-                        <h3 class="mp-profile-title">Séance individuelle sur appareils</h3>
+                        <h3 class="mp-profile-title">Cours privé sur appareils</h3>
                         <p>Reformer, Cadillac, Wunda Chair... Un accompagnement 100 % personnalisé. Idéal si vous avez des douleurs, un objectif précis, ou simplement envie d'un moment rien que pour vous.</p>
-                        <a href="<?php echo esc_url(mp_get_seances_individuelles_url()); ?>" class="mp-profile-link">Découvrir les séances individuelles</a>
+                        <a href="<?php echo esc_url(mp_get_seances_individuelles_url()); ?>" class="mp-profile-link">Découvrir les cours privés</a>
                     </div>
 
                     <!-- Cartes cadeaux -->
@@ -156,7 +156,7 @@ get_header();
                     <details class="mp-faq-item">
                         <summary class="mp-faq-question">Le Pilates peut-il aider pour le mal de dos ?</summary>
                         <div class="mp-faq-answer">
-                            <p>Oui, c'est l'une des raisons les plus fréquentes de consultation. Le Pilates renforce les muscles profonds qui soutiennent la colonne vertébrale, améliore la posture et soulage les tensions. En séance individuelle sur appareils, le travail est encore plus ciblé et personnalisé.</p>
+                            <p>Oui, c'est l'une des raisons les plus fréquentes de consultation. Le Pilates renforce les muscles profonds qui soutiennent la colonne vertébrale, améliore la posture et soulage les tensions. En cours <strong>Pilates Machine</strong> (en petit groupe ou en privé), le travail sur appareils permet d'aller encore plus loin, avec un accompagnement précis et adapté à votre dos.</p>
                         </div>
                     </details>
 
@@ -237,7 +237,7 @@ get_header();
             "name": "Le Pilates peut-il aider pour le mal de dos ?",
             "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Oui, c'est l'une des raisons les plus fréquentes de consultation. Le Pilates renforce les muscles profonds qui soutiennent la colonne vertébrale, améliore la posture et soulage les tensions. En séance individuelle sur appareils, le travail est encore plus ciblé et personnalisé."
+                "text": "Oui, c'est l'une des raisons les plus fréquentes de consultation. Le Pilates renforce les muscles profonds qui soutiennent la colonne vertébrale, améliore la posture et soulage les tensions. En cours Pilates Machine (en petit groupe ou en privé), le travail sur appareils permet d'aller encore plus loin, avec un accompagnement précis et adapté à votre dos."
             }
         },
         {

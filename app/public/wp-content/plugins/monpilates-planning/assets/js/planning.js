@@ -55,12 +55,26 @@
             color: '#D4726A',
             isSpecial: false
         },
+        machine_groupe: {
+            id: 'machine_groupe',
+            icon: '🏋️',
+            title: 'Je veux travailler sur appareils en petit groupe',
+            subtitle: 'Reformers & machines, dynamique collective, tarif accessible',
+            // Mots qui ciblent l'activité "Pilates Machine Petit Groupe" sans
+            // attraper l'activité "Cours privés" (qui contient aussi "machine"
+            // dans sa description). On match le libellé exact en priorité.
+            keywords: ['pilates machine', 'machine petit groupe', 'machine groupe'],
+            color: '#7FB069',
+            isSpecial: false
+        },
         prive: {
             id: 'prive',
             icon: '✨',
-            title: "Je veux une expérience sur appareils",
-            subtitle: 'Reformers & machines, accompagnement personnalisé',
-            keywords: ['privé', 'individuel', 'duo', 'reformer', 'machine', 'appareil'],
+            title: 'Je veux un accompagnement individuel',
+            subtitle: 'Cours privé sur appareils, séance 100% personnalisée',
+            // Resserré : on enlève "machine" et "appareil" qui captaient aussi
+            // le nouveau Pilates Machine Petit Groupe par mégarde.
+            keywords: ['privé', 'individuel', 'duo'],
             color: '#8B7355',
             isSpecial: true,
             ctaLabel: 'Découvrir les cours privés',

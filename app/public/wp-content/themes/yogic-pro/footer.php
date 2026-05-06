@@ -113,7 +113,7 @@
     "@type": ["SportsActivityLocation", "LocalBusiness"],
     "name": "Mon Pilates",
     "alternateName": ["Mon Pilates Larmor-Plage", "Mon Pilates à Larmor-Plage"],
-    "description": "Studio de Pilates à Larmor-Plage face à la mer, près de Lorient. Cours collectifs en petit groupe (5 personnes max), cours privés sur appareils (Reformer, Cadillac). Enseignante certifiée FPMP.",
+    "description": "Studio de Pilates à Larmor-Plage face à la mer, près de Lorient. Cours collectifs Pilates Tapis et Pilates Machine en petit groupe (5 personnes max), cours privés sur appareils (Reformer, Cadillac). Enseignante certifiée FPMP.",
     "url": "https://mon-pilates.bzh/",
     "logo": "https://mon-pilates.bzh/wp-content/uploads/2024/08/logo-removebg-preview.png",
     "image": "https://mon-pilates.bzh/wp-content/uploads/2025/02/14-Boulevard-des-dunes-56260-Larmor-Plage-Mon-Pilates.jpg",
@@ -173,7 +173,7 @@
                 "@type": "Offer",
                 "itemOffered": {
                     "@type": "Service",
-                    "name": "Cours collectif tapis",
+                    "name": "Pilates Tapis",
                     "description": "Cours de Pilates en petit groupe de 5 personnes maximum, sur tapis avec petit matériel"
                 },
                 "price": "17.00",
@@ -181,6 +181,26 @@
                 "priceSpecification": {
                     "@type": "UnitPriceSpecification",
                     "price": "17.00",
+                    "priceCurrency": "EUR",
+                    "referenceQuantity": {
+                        "@type": "QuantitativeValue",
+                        "value": "1",
+                        "unitText": "séance"
+                    }
+                }
+            },
+            {
+                "@type": "Offer",
+                "itemOffered": {
+                    "@type": "Service",
+                    "name": "Pilates Machine en petit groupe",
+                    "description": "Cours collectif sur Reformer et appareils Pilates en groupe restreint"
+                },
+                "price": "27.00",
+                "priceCurrency": "EUR",
+                "priceSpecification": {
+                    "@type": "UnitPriceSpecification",
+                    "price": "27.00",
                     "priceCurrency": "EUR",
                     "referenceQuantity": {
                         "@type": "QuantitativeValue",

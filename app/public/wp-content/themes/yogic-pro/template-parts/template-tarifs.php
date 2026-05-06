@@ -68,7 +68,7 @@ get_header();
                     <span class="mp-choose-for">Idéal pour : première fois, curiosité</span>
                 </div>
 
-                <!-- Collectif -->
+                <!-- Collectif Tapis -->
                 <div class="mp-choose-card mp-choose-card-group">
                     <div class="mp-choose-icon">
                         <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -79,12 +79,30 @@ get_header();
                             <circle cx="12" cy="17" r="3"/>
                         </svg>
                     </div>
-                    <h3 class="mp-choose-title">Cours collectifs</h3>
+                    <h3 class="mp-choose-title">Pilates Tapis</h3>
                     <p class="mp-choose-desc">
-                        En petit groupe de 5 personnes maximum. L'énergie du collectif
-                        avec une attention personnalisée.
+                        Cours collectif au sol avec petit matériel,
+                        en petit groupe de 5 personnes maximum.
                     </p>
                     <span class="mp-choose-for">Idéal pour : pratique régulière, convivialité</span>
+                </div>
+
+                <!-- Machine Petit Groupe -->
+                <div class="mp-choose-card mp-choose-card-machine">
+                    <div class="mp-choose-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <rect x="3" y="9" width="18" height="6" rx="1"/>
+                            <path d="M3 12h18"/>
+                            <circle cx="6" cy="12" r="1.5"/>
+                            <circle cx="18" cy="12" r="1.5"/>
+                        </svg>
+                    </div>
+                    <h3 class="mp-choose-title">Pilates Machine en petit groupe</h3>
+                    <p class="mp-choose-desc">
+                        Cours collectif sur Reformer et appareils, en groupe restreint.
+                        Le travail ciblé des appareils, l'énergie du collectif.
+                    </p>
+                    <span class="mp-choose-for">Idéal pour : progresser sur appareils sans engagement individuel</span>
                 </div>
 
                 <!-- Privé -->
@@ -167,8 +185,8 @@ get_header();
             <div class="mp-pricing-category mp-pricing-group">
                 <div class="mp-category-header">
                     <span class="mp-category-label">Pratique régulière</span>
-                    <h2 class="mp-category-title">Cours collectifs tapis</h2>
-                    <p class="mp-category-desc">En petit groupe de 5 personnes maximum</p>
+                    <h2 class="mp-category-title">Pilates Tapis</h2>
+                    <p class="mp-category-desc">Cours collectifs en petit groupe de 5 personnes maximum, sur tapis avec petit matériel</p>
                 </div>
 
                 <div class="mp-pricing-cards mp-pricing-cards-4">
@@ -233,11 +251,69 @@ get_header();
                 </a>
             </div>
 
+            <!-- COLLECTIF - MACHINE PETIT GROUPE -->
+            <div class="mp-pricing-category mp-pricing-machine">
+                <div class="mp-category-header">
+                    <span class="mp-category-label">Travailler sur appareils en groupe</span>
+                    <h2 class="mp-category-title">Pilates Machine Petit Groupe</h2>
+                    <p class="mp-category-desc">Cours collectifs sur Reformer et appareils Pilates, en groupe restreint</p>
+                </div>
+
+                <div class="mp-pricing-cards mp-pricing-cards-3">
+                    <div class="mp-pricing-card mp-pricing-card-simple">
+                        <h3 class="mp-card-title">Séance unité</h3>
+                        <div class="mp-card-price">
+                            <span class="mp-price-amount">30</span>
+                            <span class="mp-price-currency">€</span>
+                        </div>
+                        <p class="mp-card-note">Découverte ou flexibilité</p>
+                        <span class="mp-card-validity">Valable 1 mois</span>
+                        <a href="https://backoffice.bsport.io/customer/payment/pass/755253/?membership=3023&force=true" class="mp-card-buy-btn" target="_blank" rel="noopener">
+                            Acheter
+                        </a>
+                    </div>
+
+                    <div class="mp-pricing-card mp-pricing-card-simple">
+                        <h3 class="mp-card-title">Carte 5 cours</h3>
+                        <div class="mp-card-price">
+                            <span class="mp-price-amount">140</span>
+                            <span class="mp-price-currency">€</span>
+                        </div>
+                        <p class="mp-card-note">28€ / séance</p>
+                        <span class="mp-card-validity">Valable 5 mois</span>
+                        <a href="https://backoffice.bsport.io/customer/payment/pass/755254/?membership=3023&force=true" class="mp-card-buy-btn" target="_blank" rel="noopener">
+                            Acheter
+                        </a>
+                    </div>
+
+                    <div class="mp-pricing-card mp-pricing-card-simple mp-pricing-card-popular">
+                        <div class="mp-card-badge">Le + choisi</div>
+                        <h3 class="mp-card-title">Carte 10 cours</h3>
+                        <div class="mp-card-price">
+                            <span class="mp-price-amount">270</span>
+                            <span class="mp-price-currency">€</span>
+                        </div>
+                        <p class="mp-card-note">27€ / séance</p>
+                        <span class="mp-card-validity">Valable 10 mois</span>
+                        <a href="https://backoffice.bsport.io/customer/payment/pass/755256/?membership=3023&force=true" class="mp-card-buy-btn" target="_blank" rel="noopener">
+                            Acheter
+                        </a>
+                    </div>
+                </div>
+
+                <a href="<?php echo esc_url(mp_get_planning_url()); ?>" class="mp-category-cta">
+                    <span>Voir les créneaux Pilates Machine</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </a>
+            </div>
+
             <!-- PRIVÉ - INDIVIDUEL -->
             <div class="mp-pricing-category mp-pricing-private">
                 <div class="mp-category-header">
-                    <span class="mp-category-label">Accompagnement personnalisé</span>
-                    <h2 class="mp-category-title">Cours privés sur appareils</h2>
+                    <span class="mp-category-label">Accompagnement 100% personnalisé</span>
+                    <h2 class="mp-category-title">Cours privés</h2>
                     <p class="mp-category-desc">Séances individuelles sur Reformer, Cadillac et autres appareils Pilates</p>
                 </div>
 
@@ -363,7 +439,19 @@ get_header();
                         </svg>
                     </summary>
                     <div class="mp-faq-answer">
-                        <p>Les cours tapis se font au sol avec petit matériel. Les cours sur appareils (Reformer, Cadillac) permettent un travail plus ciblé grâce aux résistances. Les deux sont complémentaires !</p>
+                        <p>Le studio propose trois formats : <strong>Pilates Tapis</strong> en petit groupe (au sol avec petit matériel), <strong>Pilates Machine en petit groupe</strong> (Reformer & appareils, à plusieurs pour une dynamique collective) et <strong>Cours privés</strong> (séance individuelle entièrement personnalisée sur appareils). Tapis et appareils sont complémentaires : le tapis travaille la conscience corporelle, les appareils ajoutent les résistances pour cibler plus finement.</p>
+                    </div>
+                </details>
+
+                <details class="mp-faq-item">
+                    <summary class="mp-faq-question">
+                        <span>Quelle différence entre Pilates Machine en groupe et cours privé ?</span>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M6 9l6 6 6-6"/>
+                        </svg>
+                    </summary>
+                    <div class="mp-faq-answer">
+                        <p>Les deux se déroulent sur appareils (Reformer, Cadillac…). En <strong>petit groupe</strong>, vous bénéficiez de l'énergie collective et d'un tarif plus accessible (à partir de 27€/séance). En <strong>cours privé</strong>, la séance est 100% personnalisée selon vos besoins, idéale pour un objectif précis, une douleur ou une rééducation.</p>
                     </div>
                 </details>
             </div>
@@ -437,7 +525,15 @@ get_header();
             "name": "Quelle différence entre les cours Pilates tapis et appareils ?",
             "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Les cours tapis se font au sol avec petit matériel en groupe de 5 personnes maximum. Les cours sur appareils (Reformer, Cadillac) sont des séances individuelles permettant un travail plus ciblé grâce aux résistances. Les deux sont complémentaires."
+                "text": "Le studio propose trois formats : Pilates Tapis en petit groupe (au sol avec petit matériel), Pilates Machine en petit groupe (Reformer et appareils, en groupe restreint pour une dynamique collective) et Cours privés (séance individuelle entièrement personnalisée sur appareils). Tapis et appareils sont complémentaires : le tapis travaille la conscience corporelle, les appareils ajoutent les résistances pour cibler plus finement."
+            }
+        },
+        {
+            "@type": "Question",
+            "name": "Quelle différence entre Pilates Machine en petit groupe et cours privé ?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Les deux formats se déroulent sur appareils Pilates (Reformer, Cadillac…). En petit groupe, vous bénéficiez de l'énergie collective et d'un tarif plus accessible (à partir de 27€/séance). En cours privé, la séance est entièrement personnalisée selon vos besoins, idéale pour un objectif précis, une douleur ou une rééducation."
             }
         }
     ]

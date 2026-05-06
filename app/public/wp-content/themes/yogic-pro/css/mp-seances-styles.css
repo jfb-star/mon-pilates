@@ -315,6 +315,14 @@ body[class*="petit-groupe"] .innerbanner {
     color: #b8875a;
 }
 
+.mp-profile-sage-light {
+    border-top: 3px solid var(--mp-sage, #7fb069);
+}
+.mp-profile-sage-light .mp-profile-icon {
+    background: rgba(127, 176, 105, 0.12);
+    color: var(--mp-sage, #5a9947);
+}
+
 /* Variantes couleurs profils - Groupe */
 .mp-profile-blue-soft {
     background: linear-gradient(135deg, rgba(127, 168, 182, 0.08) 0%, white 100%);
