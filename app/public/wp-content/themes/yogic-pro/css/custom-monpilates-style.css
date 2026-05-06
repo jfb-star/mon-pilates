@@ -2382,8 +2382,8 @@ a[href*="contact"].hero-btn-secondary:not(:has(span)):hover,
     box-sizing: border-box;
 }
 
-/* Assurer que le grid fonctionne sur tablette aussi */
-@media screen and (min-width: 769px) and (max-width: 992px) {
+/* Tablet : passer à 2 colonnes (la 3e card descend) */
+@media screen and (min-width: 769px) and (max-width: 1100px) {
     .courses-grid {
         grid-template-columns: repeat(2, 1fr) !important;
     }
@@ -2413,8 +2413,8 @@ a[href*="contact"].hero-btn-secondary:not(:has(span)):hover,
 
 .courses-grid {
     display: grid !important;
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 40px;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 32px;
     margin-bottom: 60px;
     width: 100%;
 }
@@ -4368,4 +4368,47 @@ body.admin-bar .mp-header-spacer {
 
 .innerbanner {
     display: none !important;
+}
+
+/* ==========================================================================
+   COURSE-CARD MACHINE (nouveau format Pilates Machine en petit groupe)
+   ========================================================================== */
+
+.course-card.machine {
+    background: linear-gradient(135deg, #ffffff 0%, #f4f9f1 100%);
+    border-top: 5px solid #7fb069;
+}
+
+.course-card.machine::before {
+    background: linear-gradient(90deg, #7fb069 0%, #5a9947 100%);
+}
+
+.course-card.machine h3 .course-icon {
+    background: rgba(127, 176, 105, 0.15);
+}
+
+.course-card.machine .ideal-tag {
+    background: rgba(127, 176, 105, 0.12);
+    color: #4a7d3a;
+    border: 1px solid rgba(127, 176, 105, 0.25);
+}
+
+/* Badge "Nouveau" — accent visuel pour signaler la nouveauté */
+.course-badge.new-badge,
+.new-badge {
+    background: linear-gradient(135deg, #cf317c 0%, #b62a6c 100%);
+    color: #fff !important;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 11px;
+    box-shadow: 0 2px 8px rgba(207, 49, 124, 0.25);
+    animation: newBadgePulse 2.4s ease-in-out infinite;
+}
+
+@keyframes newBadgePulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
 }
