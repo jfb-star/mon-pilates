@@ -1644,6 +1644,19 @@ add_action('template_redirect', function() {
     }
 });
 
+// Empêcher tout cache CDN/proxy/navigateur sur les réponses REST API.
+// Sans ça, OVH renvoie un Cache-Control public max-age=3600 par défaut, ce qui
+// fait que les services externes (ex : LLAR MFA qui callback notre endpoint
+// pour déclencher l'envoi du code 2FA) reçoivent des réponses périmées et
+// croient que le serveur ne répond pas.
+add_filter('rest_post_dispatch', function($response) {
+    if ($response instanceof WP_REST_Response) {
+        $response->header('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
+        $response->header('Pragma', 'no-cache');
+    }
+    return $response;
+}, 10, 1);
+
 // Restreindre la REST API aux utilisateurs connectes (sauf oembed et contact form)
 add_filter('rest_authentication_errors', function($result) {
     if (!empty($result)) return $result;
