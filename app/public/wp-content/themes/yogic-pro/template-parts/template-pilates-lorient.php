@@ -26,7 +26,7 @@ get_header();
             </div>
             <h1 class="mp-hero-title">Cours de Pilates près de Lorient : votre studio à Larmor-Plage</h1>
             <p class="mp-hero-subtitle">
-                Vous habitez Lorient et vous cherchez un cours de Pilates de qualité, dans un cadre apaisant ? Mon Pilates vous accueille à 10 minutes du centre-ville, dans un studio face à la mer à Larmor-Plage. Cours en petit groupe ou séance individuelle sur appareils, avec une enseignante certifiée FPMP.
+                Vous habitez Lorient et vous cherchez un cours de Pilates de qualité, dans un cadre apaisant ? Mon Pilates vous accueille à 10 minutes du centre-ville, dans un studio face à la mer à Larmor-Plage. Trois formats au choix : Pilates Tapis en petit groupe, Pilates Machine en petit groupe, ou cours privés sur appareils — avec une enseignante certifiée FPMP.
             </p>
         </div>
     </section>
@@ -75,12 +75,27 @@ get_header();
                                 <path d="M16 3.13a4 4 0 010 7.75"/>
                             </svg>
                         </div>
-                        <h3 class="mp-profile-title">Cours en petit groupe</h3>
+                        <h3 class="mp-profile-title">Pilates Tapis en petit groupe</h3>
                         <p>5 personnes maximum sur tapis, avec petit matériel. L'énergie du collectif, avec une vraie attention individuelle. Idéal pour instaurer un rituel bien-être hebdomadaire.</p>
                         <p class="mp-profile-price">À partir de 17 € la séance</p>
                     </div>
 
-                    <!-- Cours individuels -->
+                    <!-- Pilates Machine en petit groupe -->
+                    <div class="mp-profile-card mp-profile-sage-light">
+                        <div class="mp-profile-icon">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <rect x="3" y="9" width="18" height="6" rx="1"/>
+                                <path d="M3 12h18"/>
+                                <circle cx="6" cy="12" r="1.5"/>
+                                <circle cx="18" cy="12" r="1.5"/>
+                            </svg>
+                        </div>
+                        <h3 class="mp-profile-title">Pilates Machine en petit groupe</h3>
+                        <p>Cours collectif sur Reformer et appareils, en groupe restreint. Le travail ciblé des appareils Pilates avec la dynamique du collectif, à un tarif accessible.</p>
+                        <p class="mp-profile-price">À partir de 27 € la séance</p>
+                    </div>
+
+                    <!-- Cours privés -->
                     <div class="mp-profile-card mp-profile-rose-light">
                         <div class="mp-profile-icon">
                             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -89,9 +104,9 @@ get_header();
                                 <path d="M12 13v3"/>
                             </svg>
                         </div>
-                        <h3 class="mp-profile-title">Séance individuelle sur appareils</h3>
+                        <h3 class="mp-profile-title">Cours privé sur appareils</h3>
                         <p>Reformer, Cadillac, Wunda Chair... Une séance entièrement dédiée à vos besoins, idéale pour un travail ciblé : dos, posture, rééducation, préparation sportive.</p>
-                        <p class="mp-profile-price">55 € la séance</p>
+                        <p class="mp-profile-price">À partir de 55 € la séance</p>
                     </div>
 
                     <!-- Cours découverte -->
@@ -180,14 +195,14 @@ get_header();
                     <details class="mp-faq-item">
                         <summary class="mp-faq-question">Quels sont les tarifs des cours de Pilates près de Lorient ?</summary>
                         <div class="mp-faq-answer">
-                            <p>Les cours collectifs en petit groupe sont à partir de 17 € la séance. Les séances individuelles sur appareils (Reformer, Cadillac) sont à 55 €. Des carnets sont disponibles pour un tarif encore plus avantageux. Consultez notre <a href="<?php echo esc_url(home_url('/cours-de-pilates-larmor-plage-tarifs/')); ?>">page tarifs</a> pour tous les détails.</p>
+                            <p>Trois formats, trois gammes de prix : <strong>Pilates Tapis en petit groupe</strong> à partir de 17 € la séance, <strong>Pilates Machine en petit groupe</strong> à partir de 27 € la séance et <strong>cours privé sur appareils</strong> à partir de 55 € la séance. Des cartes de plusieurs séances sont disponibles pour un tarif encore plus avantageux. Consultez notre <a href="<?php echo esc_url(home_url('/cours-de-pilates-larmor-plage-tarifs/')); ?>">page tarifs</a> pour tous les détails.</p>
                         </div>
                     </details>
 
                     <details class="mp-faq-item">
-                        <summary class="mp-faq-question">Quelle est la différence entre un cours collectif et un cours individuel ?</summary>
+                        <summary class="mp-faq-question">Quelle est la différence entre les cours collectifs et le cours privé ?</summary>
                         <div class="mp-faq-answer">
-                            <p>Le cours collectif se déroule sur tapis en petit groupe de 5 personnes maximum, avec du petit matériel. C'est un format convivial et motivant. Le cours individuel est une séance privée sur appareils Pilates (Reformer, Cadillac, Wunda Chair), entièrement personnalisée selon vos besoins. Découvrez nos <a href="<?php echo esc_url(home_url('/les-seances/')); ?>">différentes formules</a>.</p>
+                            <p>Le studio propose deux formats <strong>collectifs</strong> en petit groupe de 5 personnes : <em>Pilates Tapis</em> (au sol avec petit matériel) et <em>Pilates Machine</em> (sur Reformer et appareils). Tous deux sont conviviaux et motivants. Le <strong>cours privé</strong> est une séance individuelle sur appareils, entièrement personnalisée selon vos besoins — idéale pour un objectif précis ou une rééducation. Découvrez nos <a href="<?php echo esc_url(home_url('/les-seances/')); ?>">différentes formules</a>.</p>
                         </div>
                     </details>
 
@@ -261,15 +276,15 @@ get_header();
             "name": "Quels sont les tarifs des cours de Pilates près de Lorient ?",
             "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Les cours collectifs en petit groupe sont à partir de 17 € la séance. Les séances individuelles sur appareils (Reformer, Cadillac) sont à 60 €. Des carnets sont disponibles pour un tarif encore plus avantageux."
+                "text": "Trois formats, trois gammes de prix : Pilates Tapis en petit groupe à partir de 17 € la séance, Pilates Machine en petit groupe à partir de 27 € la séance et cours privé sur appareils à partir de 55 € la séance. Des cartes de plusieurs séances sont disponibles pour un tarif encore plus avantageux."
             }
         },
         {
             "@type": "Question",
-            "name": "Quelle est la différence entre un cours collectif et un cours individuel ?",
+            "name": "Quelle est la différence entre les cours collectifs et le cours privé ?",
             "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Le cours collectif se déroule sur tapis en petit groupe de 5 personnes maximum, avec du petit matériel. C'est un format convivial et motivant. Le cours individuel est une séance privée sur appareils Pilates (Reformer, Cadillac, Wunda Chair), entièrement personnalisée selon vos besoins."
+                "text": "Le studio propose deux formats collectifs en petit groupe de 5 personnes : Pilates Tapis (au sol avec petit matériel) et Pilates Machine (sur Reformer et appareils). Le cours privé est une séance individuelle sur appareils, entièrement personnalisée selon vos besoins, idéale pour un objectif précis ou une rééducation."
             }
         },
         {

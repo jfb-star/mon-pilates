@@ -119,15 +119,22 @@
 
 .mp-choose-cards {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 24px;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1100px) {
+    .mp-choose-cards {
+        grid-template-columns: repeat(2, 1fr);
+        max-width: 720px;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 600px) {
     .mp-choose-cards {
         grid-template-columns: 1fr;
         max-width: 400px;
-        margin: 0 auto;
     }
 }
 
@@ -162,6 +169,10 @@
 
 .mp-choose-card-group .mp-choose-icon {
     color: var(--mp-ocean-deep);
+}
+
+.mp-choose-card-machine .mp-choose-icon {
+    color: var(--mp-sage, #7fb069);
 }
 
 .mp-choose-card-private .mp-choose-icon {
