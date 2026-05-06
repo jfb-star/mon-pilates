@@ -1649,8 +1649,19 @@ add_filter('rest_authentication_errors', function($result) {
     if (!empty($result)) return $result;
     if (!is_user_logged_in()) {
         $route = $GLOBALS['wp']->query_vars['rest_route'] ?? '';
-        // Autoriser oembed, contact-form-7, wpforms, wc/store (panier public)
-        $allowed = array('/oembed/', '/contact-form-7/', '/wpforms/', '/wc/store', '/monpilates/');
+        // Autoriser : oembed, contact-form-7, wpforms, wc/store (panier public),
+        // monpilates (plugins maison), llar (Limit Login Attempts MFA — sans
+        // ça la double-auth email du panel admin reste bloquée en 401),
+        // really-simple-security (RSSSL 2FA si jamais on l'active un jour).
+        $allowed = array(
+            '/oembed/',
+            '/contact-form-7/',
+            '/wpforms/',
+            '/wc/store',
+            '/monpilates/',
+            '/llar/',
+            '/really-simple-security/',
+        );
         foreach ($allowed as $prefix) {
             if (strpos($route, $prefix) !== false) return $result;
         }
