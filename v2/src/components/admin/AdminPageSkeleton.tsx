@@ -8,6 +8,12 @@ interface AdminPageSkeletonProps {
   withStats?: boolean
 }
 
+/**
+ * Loading-boundary skeleton for /admin/* pages. Rendered *inside* AdminShell
+ * (which provides the sidebar + breadcrumb bar) so it must not draw its own
+ * page chrome — only the in-page elements (page title row, optional stats grid,
+ * optional filter chips, table skeleton).
+ */
 export function AdminPageSkeleton({
   title = "Chargement…",
   rows = 6,
@@ -16,23 +22,14 @@ export function AdminPageSkeleton({
   withStats = false,
 }: AdminPageSkeletonProps) {
   return (
-    <div
-      role="status"
-      aria-label={title}
-      className="min-h-screen bg-gray-50"
-    >
-      <header className="bg-white border-b border-gray-200 sticky top-0 z-40">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
-          <div className="flex items-center gap-4">
-            <Skeleton className="h-4 w-28" />
-            <div className="h-5 w-px bg-gray-200" />
-            <Skeleton className="h-5 w-40" />
-          </div>
+    <div role="status" aria-label={title}>
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        {/* Page title placeholder */}
+        <div className="flex items-center justify-between mb-6 gap-3">
+          <Skeleton className="h-7 w-48" />
           <Skeleton className="h-9 w-36 rounded-lg" />
         </div>
-      </header>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {withStats && (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
             {Array.from({ length: 4 }).map((_, i) => (

@@ -202,15 +202,6 @@ export function AdminShell({
 
   return (
     <div className="min-h-screen bg-gray-50/50 flex">
-      {/* Mobile menu trigger (top-left) */}
-      <button
-        onClick={() => setMobileOpen(true)}
-        className="lg:hidden fixed top-3 left-3 z-30 w-10 h-10 rounded-xl bg-white border border-gray-200 shadow-sm flex items-center justify-center hover:bg-gray-50"
-        aria-label="Ouvrir le menu admin"
-      >
-        <Menu className="w-5 h-5 text-mp-charcoal" />
-      </button>
-
       {/* Sidebar — fixed position, width animates on collapse */}
       <aside
         className={clsx(
@@ -394,14 +385,26 @@ export function AdminShell({
 
       {/* Main content */}
       <main className="flex-1 min-w-0 flex flex-col">
-        {/* Breadcrumb bar — sticky so it stays visible while scrolling long pages.
-            Hidden on /admin root (the dashboard already has its own page header). */}
-        {pathname !== "/admin" && (
-          <div className="sticky top-0 z-20 bg-white/80 backdrop-blur-sm border-b border-gray-100 px-4 sm:px-6 lg:px-8 py-2.5 flex items-center">
-            <div className="lg:hidden w-10 shrink-0" /> {/* Spacer for the mobile menu button */}
+        {/* Top bar — always renders on mobile (so the menu trigger is in-flow,
+            not floating over content). On desktop, hidden on /admin root since
+            there's no breadcrumb to show. */}
+        <div className={clsx(
+          "sticky top-0 z-20 bg-white/80 backdrop-blur-sm border-b border-gray-100 px-4 sm:px-6 lg:px-8 py-2.5 flex items-center gap-3",
+          pathname === "/admin" && "lg:hidden"
+        )}>
+          <button
+            onClick={() => setMobileOpen(true)}
+            className="lg:hidden -ml-1 w-9 h-9 rounded-lg hover:bg-gray-100 flex items-center justify-center text-mp-charcoal shrink-0"
+            aria-label="Ouvrir le menu admin"
+          >
+            <Menu className="w-5 h-5" />
+          </button>
+          {pathname !== "/admin" ? (
             <Breadcrumbs pathname={pathname} tab={currentTab} />
-          </div>
-        )}
+          ) : (
+            <span className="font-heading text-sm font-semibold text-mp-charcoal lg:hidden">Tableau de bord</span>
+          )}
+        </div>
         <div className="flex-1">
           {children}
         </div>

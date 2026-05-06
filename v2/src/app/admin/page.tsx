@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation"
 import Link from "next/link"
 import {
   Users,
+  Calendar,
   CalendarCheck,
   Euro,
   TrendingUp,
@@ -34,7 +35,6 @@ import {
   CalendarPlus,
   Download,
   Mail,
-  Megaphone,
   Send,
   Banknote,
   BadgeCheck,
@@ -59,7 +59,15 @@ interface Stats {
   popularCourseName: string
   occupancyRate: number
   revenueBreakdown: { type: string; amount: number }[]
+  previousMonth: { totalUsers: number; bookings: number; revenue: number }
+  today: { sessions: number; bookings: number; revenue: number }
+  recentActivity: ActivityEvent[]
 }
+
+type ActivityEvent =
+  | { kind: "signup"; id: string; date: string; userId: string; userName: string; meta: { email: string } }
+  | { kind: "booking"; id: string; date: string; userId: string; userName: string; meta: { courseName: string; sessionDate: string } }
+  | { kind: "payment"; id: string; date: string; userId: string; userName: string; meta: { amount: number; type: string } }
 
 interface AdminSession {
   id: string
@@ -392,6 +400,7 @@ function AdminPageInner() {
   const [bookingsLoading, setBookingsLoading] = useState(false)
   const [bookingSearch, setBookingSearch] = useState("")
   const [bookingPage, setBookingPage] = useState(0)
+  const [bookingStatus, setBookingStatus] = useState<"" | "CONFIRMED" | "ATTENDED" | "CANCELLED" | "WAITLIST">("")
 
   // Users state
   const [users, setUsers] = useState<AdminUser[]>([])
@@ -519,6 +528,7 @@ function AdminPageInner() {
     setBookingsLoading(true)
     const params = new URLSearchParams({ limit: "20", offset: String(bookingPage * 20) })
     if (bookingSearch) params.set("search", bookingSearch)
+    if (bookingStatus) params.set("status", bookingStatus)
     fetch(`/api/admin/bookings?${params}`)
       .then((r) => r.json())
       .then((data) => {
@@ -527,7 +537,7 @@ function AdminPageInner() {
       })
       .catch(() => {})
       .finally(() => setBookingsLoading(false))
-  }, [bookingSearch, bookingPage])
+  }, [bookingSearch, bookingStatus, bookingPage])
 
   useEffect(() => {
     if (activeTab === "bookings") fetchBookings()
@@ -811,7 +821,7 @@ function AdminPageInner() {
   // Error / loading states
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-mp-cream">
+      <div className="flex items-center justify-center py-24">
         <Loader2 className="w-8 h-8 animate-spin text-mp-ocean" />
         <span className="sr-only">Chargement de l&apos;administration…</span>
       </div>
@@ -822,7 +832,7 @@ function AdminPageInner() {
     const isAuth = error.kind === "auth"
     const isForbidden = error.kind === "forbidden"
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-mp-cream gap-4 px-6 text-center">
+      <div className="flex flex-col items-center justify-center gap-4 py-24 px-6 text-center">
         <Shield className={clsx("w-12 h-12", isForbidden ? "text-red-400" : "text-amber-400")} />
         <p className="font-heading text-lg text-mp-charcoal max-w-md">{error.message}</p>
         <div className="flex items-center gap-3">
@@ -861,24 +871,27 @@ function AdminPageInner() {
         <h1 className="font-heading text-2xl font-bold text-mp-charcoal mb-6">Tableau de bord</h1>
         {/* Stats cards */}
         {stats && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
             <StatCard
               icon={<Users className="w-5 h-5" />}
               label="Total membres"
               value={String(stats.totalUsers)}
               color="bg-purple-50 text-purple-600"
+              delta={pctDelta(stats.totalUsers, stats.previousMonth.totalUsers)}
             />
             <StatCard
               icon={<CalendarCheck className="w-5 h-5" />}
               label="Réservations ce mois"
               value={String(stats.bookingsThisMonth)}
               color="bg-emerald-50 text-emerald-600"
+              delta={pctDelta(stats.bookingsThisMonth, stats.previousMonth.bookings)}
             />
             <StatCard
               icon={<Euro className="w-5 h-5" />}
               label="Revenus ce mois"
               value={formatPrice(stats.revenueThisMonth)}
               color="bg-blue-50 text-blue-600"
+              delta={pctDelta(stats.revenueThisMonth, stats.previousMonth.revenue)}
             />
             <StatCard
               icon={<TrendingUp className="w-5 h-5" />}
@@ -889,58 +902,13 @@ function AdminPageInner() {
           </div>
         )}
 
-        {/* Admin CRUD shortcuts */}
-        <div className="flex flex-wrap gap-2 mb-6">
-          <Link
-            href="/admin/instructors"
-            className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-lg text-sm text-mp-charcoal hover:border-mp-ocean hover:text-mp-ocean transition-colors"
-          >
-            <UserCheck className="w-4 h-4" />
-            Coachs
-          </Link>
-          <Link
-            href="/admin/course-types"
-            className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-lg text-sm text-mp-charcoal hover:border-mp-ocean hover:text-mp-ocean transition-colors"
-          >
-            <BadgeCheck className="w-4 h-4" />
-            Types de cours
-          </Link>
-          <Link
-            href="/admin/schedules"
-            className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-lg text-sm text-mp-charcoal hover:border-mp-ocean hover:text-mp-ocean transition-colors"
-          >
-            <Clock className="w-4 h-4" />
-            Plannings
-          </Link>
-          <Link
-            href="/admin/contact"
-            className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-lg text-sm text-mp-charcoal hover:border-mp-ocean hover:text-mp-ocean transition-colors"
-          >
-            <Phone className="w-4 h-4" />
-            Contact
-          </Link>
-          <Link
-            href="/admin/emails/templates"
-            className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-lg text-sm text-mp-charcoal hover:border-mp-ocean hover:text-mp-ocean transition-colors"
-          >
-            <Mail className="w-4 h-4" />
-            Templates
-          </Link>
-          <Link
-            href="/admin/emails/campaigns"
-            className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-lg text-sm text-mp-charcoal hover:border-mp-ocean hover:text-mp-ocean transition-colors"
-          >
-            <Megaphone className="w-4 h-4" />
-            Campagnes
-          </Link>
-          <Link
-            href="/admin/emails/logs"
-            className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-lg text-sm text-mp-charcoal hover:border-mp-ocean hover:text-mp-ocean transition-colors"
-          >
-            <FileText className="w-4 h-4" />
-            Logs emails
-          </Link>
-        </div>
+        {/* Today snapshot + recent activity */}
+        {stats && (
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-8">
+            <TodayPanel today={stats.today} />
+            <RecentActivityPanel events={stats.recentActivity} />
+          </div>
+        )}
 
         {/* Tabs */}
         <div className="border-b border-gray-200 mb-6">
@@ -983,7 +951,9 @@ function AdminPageInner() {
             loading={bookingsLoading}
             page={bookingPage}
             search={bookingSearch}
+            status={bookingStatus}
             onSearchChange={(s) => { setBookingSearch(s); setBookingPage(0) }}
+            onStatusChange={(s) => { setBookingStatus(s); setBookingPage(0) }}
             onPageChange={setBookingPage}
             onUpdateStatus={updateBookingStatus}
           />
@@ -1195,18 +1165,131 @@ function AdminPageInner() {
    STAT CARD
    ============================================================ */
 
-function StatCard({ icon, label, value, color }: { icon: React.ReactNode; label: string; value: string; color: string }) {
+function StatCard({
+  icon,
+  label,
+  value,
+  color,
+  delta,
+}: {
+  icon: React.ReactNode
+  label: string
+  value: string
+  color: string
+  /** Percentage change vs previous period (e.g. -12 for -12%). Omit to hide. */
+  delta?: number | null
+}) {
   return (
     <div className="bg-white rounded-xl border border-gray-100 p-5 flex items-center gap-4 shadow-sm">
       <div className={clsx("w-11 h-11 rounded-xl flex items-center justify-center", color)}>
         {icon}
       </div>
-      <div>
-        <p className="text-sm text-gray-500">{label}</p>
-        <p className="text-xl font-heading font-bold text-mp-charcoal">{value}</p>
+      <div className="min-w-0 flex-1">
+        <p className="text-sm text-gray-500 truncate">{label}</p>
+        <div className="flex items-baseline gap-2">
+          <p className="text-xl font-heading font-bold text-mp-charcoal">{value}</p>
+          {delta !== undefined && delta !== null && Number.isFinite(delta) && (
+            <span className={clsx(
+              "text-[11px] font-heading font-semibold",
+              delta > 0 ? "text-emerald-600" : delta < 0 ? "text-red-500" : "text-gray-400"
+            )}>
+              {delta > 0 ? "+" : ""}{Math.round(delta)}%
+            </span>
+          )}
+        </div>
       </div>
     </div>
   )
+}
+
+/**
+ * Compute % change. Returns null when the previous value is 0 (we can't divide
+ * by zero — the call site renders nothing rather than "+Infinity%").
+ */
+function pctDelta(current: number, previous: number): number | null {
+  if (previous === 0) return null
+  return ((current - previous) / previous) * 100
+}
+
+function TodayPanel({ today }: { today: Stats["today"] }) {
+  return (
+    <div className="bg-gradient-to-br from-mp-ocean/10 to-mp-sage/5 rounded-xl border border-mp-ocean/15 p-5 lg:col-span-1">
+      <div className="flex items-center gap-2 mb-4">
+        <Calendar className="w-4 h-4 text-mp-ocean" />
+        <p className="text-xs font-heading uppercase tracking-wider text-mp-ocean-dark font-semibold">Aujourd&apos;hui</p>
+      </div>
+      <div className="space-y-3">
+        <TodayRow label="Séances programmées" value={today.sessions} />
+        <TodayRow label="Nouvelles réservations" value={today.bookings} />
+        <TodayRow label="Encaissé" value={formatPrice(today.revenue)} accent />
+      </div>
+    </div>
+  )
+}
+
+function TodayRow({ label, value, accent }: { label: string; value: string | number; accent?: boolean }) {
+  return (
+    <div className="flex items-center justify-between">
+      <span className="text-sm text-gray-600">{label}</span>
+      <span className={clsx(
+        "font-heading font-bold",
+        accent ? "text-xl text-mp-ocean-dark" : "text-lg text-mp-charcoal"
+      )}>{value}</span>
+    </div>
+  )
+}
+
+function RecentActivityPanel({ events }: { events: ActivityEvent[] }) {
+  return (
+    <div className="bg-white rounded-xl border border-gray-100 p-5 lg:col-span-2 shadow-sm">
+      <p className="text-xs font-heading uppercase tracking-wider text-gray-400 mb-3">Activité récente</p>
+      {events.length === 0 ? (
+        <p className="text-sm text-gray-400 italic py-6 text-center">Pas d&apos;activité récente.</p>
+      ) : (
+        <ul className="divide-y divide-gray-100">
+          {events.map((e) => (
+            <li key={`${e.kind}-${e.id}`} className="py-2.5 flex items-center gap-3">
+              <ActivityIcon kind={e.kind} />
+              <div className="min-w-0 flex-1">
+                <p className="text-sm text-mp-charcoal truncate">
+                  <Link href={`/admin/users/${e.userId}`} className="font-medium hover:text-mp-ocean">
+                    {e.userName}
+                  </Link>
+                  <span className="text-gray-500"> {activityLabel(e)}</span>
+                </p>
+              </div>
+              <span className="text-[11px] text-gray-400 shrink-0">{relativeTime(e.date)}</span>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  )
+}
+
+function ActivityIcon({ kind }: { kind: ActivityEvent["kind"] }) {
+  const cls = "w-7 h-7 rounded-lg flex items-center justify-center shrink-0"
+  if (kind === "signup") return <div className={clsx(cls, "bg-purple-50 text-purple-600")}><Users className="w-3.5 h-3.5" /></div>
+  if (kind === "booking") return <div className={clsx(cls, "bg-emerald-50 text-emerald-600")}><CalendarCheck className="w-3.5 h-3.5" /></div>
+  return <div className={clsx(cls, "bg-blue-50 text-blue-600")}><Euro className="w-3.5 h-3.5" /></div>
+}
+
+function activityLabel(e: ActivityEvent): string {
+  if (e.kind === "signup") return "a créé son compte"
+  if (e.kind === "booking") return `a réservé ${e.meta.courseName}`
+  return `a payé ${formatPrice(e.meta.amount)} (${e.meta.type.toLowerCase()})`
+}
+
+function relativeTime(iso: string): string {
+  const ms = Date.now() - new Date(iso).getTime()
+  const m = Math.round(ms / 60_000)
+  if (m < 1) return "à l'instant"
+  if (m < 60) return `il y a ${m} min`
+  const h = Math.round(m / 60)
+  if (h < 24) return `il y a ${h} h`
+  const d = Math.round(h / 24)
+  if (d < 7) return `il y a ${d} j`
+  return new Date(iso).toLocaleDateString("fr-FR", { day: "2-digit", month: "short" })
 }
 
 /* ============================================================
@@ -1279,16 +1362,23 @@ function SessionsTab({
       <CheckinPanel sessions={sessions} />
 
       {/* Week navigation */}
-      <div className="flex items-center justify-between mb-4">
+      <div className="flex items-center justify-between mb-4 gap-2 flex-wrap">
         <div className="flex items-center gap-2">
-          <button onClick={prevWeek} className="p-2 rounded-lg hover:bg-gray-100 transition-colors">
+          <button onClick={prevWeek} className="p-2 rounded-lg hover:bg-gray-100 transition-colors" aria-label="Semaine précédente">
             <ChevronLeft className="w-5 h-5" />
           </button>
-          <span className="font-heading text-sm font-medium text-mp-charcoal min-w-[200px] text-center">
+          <span className="font-heading text-sm font-medium text-mp-charcoal min-w-[180px] text-center">
             {formatWeekRange(weekDate)}
           </span>
-          <button onClick={nextWeek} className="p-2 rounded-lg hover:bg-gray-100 transition-colors">
+          <button onClick={nextWeek} className="p-2 rounded-lg hover:bg-gray-100 transition-colors" aria-label="Semaine suivante">
             <ChevronRight className="w-5 h-5" />
+          </button>
+          <button
+            onClick={() => onWeekChange(new Date())}
+            className="px-2.5 py-1 ml-1 text-xs font-heading rounded-md border border-gray-200 text-gray-600 hover:border-mp-ocean hover:text-mp-ocean transition-colors"
+            title="Revenir à cette semaine"
+          >
+            Aujourd&apos;hui
           </button>
         </div>
         <div className="flex items-center gap-2">
@@ -1505,9 +1595,11 @@ function SessionBookingsList({ sessionId }: { sessionId: string | null }) {
     <div className="space-y-2">
       {bookings.map((b) => (
         <div key={b.id} className="flex items-center justify-between py-2 px-3 rounded-lg hover:bg-gray-50">
-          <div>
-            <p className="text-sm font-medium">{b.user.name}</p>
-            <p className="text-xs text-gray-400">{b.user.email}</p>
+          <div className="min-w-0">
+            <Link href={`/admin/users/${b.user.id}`} className="text-sm font-medium text-mp-charcoal hover:text-mp-ocean block truncate">
+              {b.user.name}
+            </Link>
+            <p className="text-xs text-gray-400 truncate">{b.user.email}</p>
           </div>
           <StatusBadge status={b.status} map={statusLabels} colors={statusColors} />
         </div>
@@ -1520,13 +1612,17 @@ function SessionBookingsList({ sessionId }: { sessionId: string | null }) {
    BOOKINGS TAB
    ============================================================ */
 
+type BookingStatusFilter = "" | "CONFIRMED" | "ATTENDED" | "CANCELLED" | "WAITLIST"
+
 function BookingsTab({
   bookings,
   total,
   loading,
   page,
   search,
+  status,
   onSearchChange,
+  onStatusChange,
   onPageChange,
   onUpdateStatus,
 }: {
@@ -1535,14 +1631,42 @@ function BookingsTab({
   loading: boolean
   page: number
   search: string
+  status: BookingStatusFilter
   onSearchChange: (s: string) => void
+  onStatusChange: (s: BookingStatusFilter) => void
   onPageChange: (p: number) => void
   onUpdateStatus: (id: string, status: string) => void
 }) {
   const totalPages = Math.ceil(total / 20)
 
+  const STATUS_CHIPS: { key: BookingStatusFilter; label: string }[] = [
+    { key: "", label: "Tous" },
+    { key: "CONFIRMED", label: "Confirmées" },
+    { key: "ATTENDED", label: "Présents" },
+    { key: "WAITLIST", label: "Liste d'attente" },
+    { key: "CANCELLED", label: "Annulées" },
+  ]
+
   return (
     <div>
+      {/* Status filter chips */}
+      <div className="mb-3 flex flex-wrap gap-2">
+        {STATUS_CHIPS.map((c) => (
+          <button
+            key={c.key || "all"}
+            onClick={() => onStatusChange(c.key)}
+            className={clsx(
+              "px-3 py-1.5 rounded-full text-xs font-heading font-medium transition-colors",
+              status === c.key
+                ? "bg-mp-ocean text-white"
+                : "bg-white text-gray-600 border border-gray-200 hover:border-mp-ocean hover:text-mp-ocean"
+            )}
+          >
+            {c.label}
+          </button>
+        ))}
+      </div>
+
       {/* Search + Export */}
       <div className="mb-4 flex items-center gap-3">
         <div className="relative max-w-sm flex-1">
@@ -1582,11 +1706,13 @@ function BookingsTab({
       ) : bookings.length === 0 ? (
         <EmptyState
           icon={CalendarCheck}
-          title={search ? "Aucun résultat" : "Aucune réservation"}
+          title={search || status ? "Aucun résultat" : "Aucune réservation"}
           description={
             search
               ? `Aucune réservation ne correspond à « ${search} ». Essayez avec un autre terme.`
-              : "Les réservations effectuées par vos élèves apparaîtront ici."
+              : status
+                ? "Aucune réservation ne correspond à ce filtre."
+                : "Les réservations effectuées par vos élèves apparaîtront ici."
           }
           {...(search
             ? {
@@ -1618,7 +1744,9 @@ function BookingsTab({
                   <tr key={b.id} className="hover:bg-gray-50/50 transition-colors">
                     <td className="px-4 py-3 text-sm">{formatDate(b.sessionDate)}</td>
                     <td className="px-4 py-3">
-                      <div className="text-sm font-medium">{b.user.name}</div>
+                      <Link href={`/admin/users/${b.user.id}`} className="text-sm font-medium text-mp-charcoal hover:text-mp-ocean">
+                        {b.user.name}
+                      </Link>
                       <div className="text-xs text-gray-400">{b.user.email}</div>
                     </td>
                     <td className="px-4 py-3 text-sm">{b.courseName}</td>
@@ -1667,10 +1795,12 @@ function BookingsTab({
           <div className="md:hidden space-y-3">
             {bookings.map((b) => (
               <div key={b.id} className="bg-white rounded-xl border border-gray-100 p-4 shadow-sm">
-                <div className="flex items-center justify-between mb-2">
-                  <div>
-                    <p className="text-sm font-medium">{b.user.name}</p>
-                    <p className="text-xs text-gray-400">{b.user.email}</p>
+                <div className="flex items-center justify-between mb-2 gap-2">
+                  <div className="min-w-0">
+                    <Link href={`/admin/users/${b.user.id}`} className="text-sm font-medium text-mp-charcoal hover:text-mp-ocean block truncate">
+                      {b.user.name}
+                    </Link>
+                    <p className="text-xs text-gray-400 truncate">{b.user.email}</p>
                   </div>
                   <StatusBadge status={b.status} map={statusLabels} colors={statusColors} />
                 </div>
@@ -1835,6 +1965,13 @@ function UnpaidTab({
                 <div className="border-t border-gray-100">
                   {/* Contact actions */}
                   <div className="flex flex-wrap gap-2 px-4 py-3 bg-gray-50 border-b border-gray-100">
+                    <Link
+                      href={`/admin/users/${group.user.id}`}
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-gray-200 text-xs font-medium text-mp-charcoal hover:bg-mp-ocean hover:text-white hover:border-mp-ocean transition-colors"
+                    >
+                      <Eye className="w-3.5 h-3.5" />
+                      Fiche membre
+                    </Link>
                     <a
                       href={`mailto:${group.user.email}`}
                       className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-gray-200 text-xs font-medium text-mp-charcoal hover:bg-mp-ocean hover:text-white hover:border-mp-ocean transition-colors"

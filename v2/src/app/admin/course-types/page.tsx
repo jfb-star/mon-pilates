@@ -3,7 +3,6 @@
 import { useCallback, useEffect, useState } from "react"
 import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
-import Link from "next/link"
 import {
   Plus,
   Loader2,
@@ -233,7 +232,7 @@ export default function AdminCourseTypesPage() {
 
   if (loading && !items.length) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-mp-cream">
+      <div className="flex items-center justify-center py-24">
         <Loader2 className="w-8 h-8 animate-spin text-mp-ocean" />
       </div>
     )
@@ -241,12 +240,9 @@ export default function AdminCourseTypesPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-mp-cream gap-4">
+      <div className="flex flex-col items-center justify-center gap-4 py-24">
         <Shield className="w-12 h-12 text-red-400" />
         <p className="font-heading text-lg text-mp-charcoal">{error}</p>
-        <Link href="/admin" className="text-mp-ocean hover:underline text-sm">
-          Retour à l&apos;administration
-        </Link>
       </div>
     )
   }

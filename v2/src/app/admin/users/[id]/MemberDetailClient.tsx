@@ -97,7 +97,7 @@ export function MemberDetailClient({ initialUser }: { initialUser: MemberDetail 
   const [toast, setToast] = useState<{ kind: "ok" | "err"; msg: string } | null>(null)
 
   const activeCards = user.courseCards.filter(isCardActive)
-  const totalSpent = user.payments.filter((p) => p.status === "PAID").reduce((s, p) => s + p.amount, 0)
+  const totalSpent = user.payments.filter((p) => p.status === "COMPLETED").reduce((s, p) => s + p.amount, 0)
   const upcomingBookings = user.bookings.filter((b) => b.status !== "CANCELLED" && new Date(b.session.date) >= new Date())
   const pastBookings = user.bookings.filter((b) => b.status === "CANCELLED" || new Date(b.session.date) < new Date())
   const unpaidCount = user.bookings.filter((b) => b.status !== "CANCELLED" && b.paymentStatus === "PENDING").length
@@ -241,7 +241,7 @@ export function MemberDetailClient({ initialUser }: { initialUser: MemberDetail 
                   <p className="font-medium">{fmtPrice(p.amount, p.currency)} <span className="text-xs text-gray-400">· {p.type}</span></p>
                   <p className="text-xs text-gray-500">{fmtDateTime(p.createdAt)} · {p.externalProvider ?? "Stripe"}</p>
                 </div>
-                <span className={`text-xs px-2 py-0.5 rounded ${p.status === "PAID" ? "bg-mp-sage/15 text-mp-sage-dark" : "bg-amber-100 text-amber-700"}`}>{p.status}</span>
+                <span className={`text-xs px-2 py-0.5 rounded ${p.status === "COMPLETED" ? "bg-mp-sage/15 text-mp-sage-dark" : "bg-amber-100 text-amber-700"}`}>{p.status}</span>
               </div>
             ))}
           </div>
