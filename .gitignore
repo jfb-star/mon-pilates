@@ -79,3 +79,16 @@ app/public/wp-content/plugins/google-listings-and-ads/
 # CLAUDE CODE (config locale)
 # =============================================================================
 .claude/
+
+# =============================================================================
+# LIGHTHOUSE (rapports d'audit générés, ne pas versionner)
+# =============================================================================
+.lighthouseci/
+.lighthouseci-local/
+.lighthouseci-prod/
+
+# =============================================================================
+# V2 (projet Next.js sur la branche v2 — ne doit pas apparaître sur preprod/main)
+# =============================================================================
+v2/
+
