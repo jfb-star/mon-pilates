@@ -91,4 +91,5 @@ app/public/wp-content/plugins/google-listings-and-ads/
 # V2 (projet Next.js sur la branche v2 — ne doit pas apparaître sur preprod/main)
 # =============================================================================
 v2/
+photoss/
 

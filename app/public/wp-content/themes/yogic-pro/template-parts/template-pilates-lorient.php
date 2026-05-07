@@ -31,6 +31,23 @@ get_header();
         </div>
     </section>
 
+    <!-- HERO PHOTO + INFO PLEIN AIR -->
+    <section class="mp-hero-photo">
+        <div class="mp-hero-photo-frame">
+            <?php
+            echo wp_get_attachment_image( 2256, 'full', false, [
+                'loading'  => 'eager',
+                'decoding' => 'async',
+                'fetchpriority' => 'high',
+            ] );
+            ?>
+        </div>
+        <div class="mp-plein-air-note">
+            <span class="mp-plein-air-note-icon" aria-hidden="true">☀️</span>
+            <p><strong>Cours en plein air dès que la météo le permet</strong> — au bord de la piscine, face à la mer. Pensez à votre casquette et à vos lunettes de soleil.</p>
+        </div>
+    </section>
+
     <!-- CONTENU PRINCIPAL -->
     <div class="mp-content-container">
 
