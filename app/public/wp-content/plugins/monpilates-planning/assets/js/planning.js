@@ -177,8 +177,7 @@
      */
     const ACTIVITY_COLORS = [
         { match: ['doux', 'senior'],          light: '#A4C99A', dark: '#7FB069' }, // sage
-        { match: ['avance en ligne', 'en ligne'], light: '#A189C2', dark: '#8B6FB1' }, // violet (must come BEFORE 'avance' to win)
-        { match: ['avance'],                  light: '#E89489', dark: '#D4726A' }, // corail
+        { match: ['avance', 'avancé'],        light: '#E89489', dark: '#D4726A' }, // corail
         { match: ['maternite', 'enceinte', 'prenatal', 'postnatal'], light: '#F0BFC9', dark: '#E8A4B8' }, // rose tendre
         { match: ['machine', 'reformer'],     light: '#7DBA9F', dark: '#5C9982' }, // vert profond
         { match: ['prive', 'individuel', 'duo'], light: '#B8A07A', dark: '#8B7355' }, // bronze
