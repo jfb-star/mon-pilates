@@ -159,18 +159,32 @@
     }
 
     /**
-     * Get activities matching a need's keywords
+     * Strip diacritics so "Maternité" matches keyword "maternite" (or vice-versa).
+     * Resilient to Bsport activity renames where accents may shift.
+     */
+    function normalizeText(str) {
+        return (str || '')
+            .toLowerCase()
+            .normalize('NFD')
+            .replace(/[̀-ͯ]/g, '');
+    }
+
+    /**
+     * Get activities matching a need's keywords (accent-insensitive)
      */
     function getActivitiesForNeed(needId) {
         if (!needId || !NEEDS_MAP[needId]) return [];
 
-        const keywords = NEEDS_MAP[needId].keywords;
+        const keywords = NEEDS_MAP[needId].keywords.map(normalizeText);
         const allActivities = getUniqueActivities();
 
-        return allActivities.filter(activity => {
-            const actLower = activity.toLowerCase();
-            return keywords.some(kw => actLower.includes(kw.toLowerCase()));
+        const matched = allActivities.filter(activity => {
+            const actNorm = normalizeText(activity);
+            return keywords.some(kw => actNorm.includes(kw));
         });
+
+        log(`Need "${needId}" → keywords:`, keywords, '→ matched activities:', matched, '/ all:', allActivities);
+        return matched;
     }
 
     /**

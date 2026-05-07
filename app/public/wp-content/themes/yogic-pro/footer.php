@@ -32,8 +32,9 @@
                 <li><a href="<?php echo esc_url( home_url( '/le-studio/' ) ); ?>">Le studio</a></li>
                 <li><a href="<?php echo esc_url( home_url( '/pour-qui/' ) ); ?>">Pour qui ?</a></li>
                 <li class="mp-footer__category">Les séances</li>
-                <li><a href="<?php echo esc_url( mp_get_seances_groupe_url() ); ?>">Cours en petit groupe</a></li>
-                <li><a href="<?php echo esc_url( mp_get_seances_individuelles_url() ); ?>">Cours individuels</a></li>
+                <li><a href="<?php echo esc_url( mp_get_seances_individuelles_url() ); ?>">Séances individuelles</a></li>
+                <li><a href="<?php echo esc_url( mp_get_seances_groupe_url() ); ?>">Pilates Tapis</a></li>
+                <li><a href="<?php echo esc_url( mp_get_seances_machine_url() ); ?>">Pilates Machine</a></li>
                 <li><a href="<?php echo esc_url( mp_get_planning_url() ); ?>">Planning & réservation</a></li>
                 <li><a href="<?php echo esc_url( home_url( '/cours-de-pilates-larmor-plage-tarifs/' ) ); ?>">Tarifs</a></li>
                 <li><a href="<?php echo esc_url( mp_get_gift_card_url() ); ?>">Cartes cadeaux</a></li>
