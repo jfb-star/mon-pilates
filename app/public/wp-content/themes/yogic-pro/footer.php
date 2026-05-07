@@ -37,7 +37,7 @@
                 <li><a href="<?php echo esc_url( mp_get_planning_url() ); ?>">Planning & réservation</a></li>
                 <li><a href="<?php echo esc_url( home_url( '/cours-de-pilates-larmor-plage-tarifs/' ) ); ?>">Tarifs</a></li>
                 <li><a href="<?php echo esc_url( mp_get_gift_card_url() ); ?>">Cartes cadeaux</a></li>
-                <li><a href="<?php echo esc_url( home_url( '/pilates-en-entreprise-boostez-le-bien-etre-au-travail/' ) ); ?>">Pilates en entreprise</a></li>
+                <li><a href="<?php echo esc_url( home_url( '/pilates-entreprise-lorient/' ) ); ?>">Pilates en entreprise</a></li>
                 <li><a href="<?php echo esc_url( mp_get_contact_url() ); ?>">Contact</a></li>
             </ul>
         </nav>
