@@ -91,7 +91,7 @@ get_header();
                             </svg>
                         </div>
                         <h3 class="mp-profile-title">Cours collectifs en petit groupe</h3>
-                        <p>5 personnes maximum, dans une ambiance conviviale : <strong>Pilates Tapis</strong> au sol avec petit matériel, ou <strong>Pilates Machine</strong> sur Reformer. Un format chaleureux pour inscrire le mouvement dans sa routine.</p>
+                        <p>En petit groupe restreint, dans une ambiance conviviale : <strong>Pilates Tapis</strong> au sol avec petit matériel (5 personnes max), ou <strong>Pilates Machine</strong> sur Reformer (4 personnes max). Un format chaleureux pour inscrire le mouvement dans sa routine.</p>
                         <a href="<?php echo esc_url(home_url('/les-seances/')); ?>" class="mp-profile-link">En savoir plus sur les séances</a>
                     </div>
 
@@ -149,7 +149,7 @@ get_header();
                     <details class="mp-faq-item">
                         <summary class="mp-faq-question">Les cours de Pilates sont-ils adaptés aux débutants ?</summary>
                         <div class="mp-faq-answer">
-                            <p>Absolument. La majorité des personnes qui nous rejoignent n'ont jamais pratiqué le Pilates. Les cours en petit groupe de 5 personnes maximum permettent à l'enseignante d'adapter chaque exercice à votre niveau. Pas de prérequis, pas de condition physique minimum.</p>
+                            <p>Absolument. La majorité des personnes qui nous rejoignent n'ont jamais pratiqué le Pilates. Les cours en petit groupe restreint permettent à l'enseignante d'adapter chaque exercice à votre niveau. Pas de prérequis, pas de condition physique minimum.</p>
                         </div>
                     </details>
 
@@ -229,7 +229,7 @@ get_header();
             "name": "Les cours de Pilates sont-ils adaptés aux débutants ?",
             "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Absolument. La majorité des personnes qui nous rejoignent n'ont jamais pratiqué le Pilates. Les cours en petit groupe de 5 personnes maximum permettent à l'enseignante d'adapter chaque exercice à votre niveau. Pas de prérequis, pas de condition physique minimum."
+                "text": "Absolument. La majorité des personnes qui nous rejoignent n'ont jamais pratiqué le Pilates. Les cours en petit groupe restreint permettent à l'enseignante d'adapter chaque exercice à votre niveau. Pas de prérequis, pas de condition physique minimum."
             }
         },
         {

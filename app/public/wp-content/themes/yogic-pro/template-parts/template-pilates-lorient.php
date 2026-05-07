@@ -188,7 +188,7 @@ get_header();
                     <details class="mp-faq-item">
                         <summary class="mp-faq-question">Faut-il avoir déjà pratiqué le Pilates pour s'inscrire ?</summary>
                         <div class="mp-faq-answer">
-                            <p>Non, aucune expérience préalable n'est nécessaire. Les cours en petit groupe (5 personnes maximum) permettent d'adapter chaque exercice à votre niveau. Les débutants sont accueillis avec écoute et attention dès la première séance.</p>
+                            <p>Non, aucune expérience préalable n'est nécessaire. Les cours en petit groupe restreint permettent d'adapter chaque exercice à votre niveau. Les débutants sont accueillis avec écoute et attention dès la première séance.</p>
                         </div>
                     </details>
 
@@ -202,7 +202,7 @@ get_header();
                     <details class="mp-faq-item">
                         <summary class="mp-faq-question">Quelle est la différence entre les cours collectifs et le cours privé ?</summary>
                         <div class="mp-faq-answer">
-                            <p>Le studio propose deux formats <strong>collectifs</strong> en petit groupe de 5 personnes : <em>Pilates Tapis</em> (au sol avec petit matériel) et <em>Pilates Machine</em> (sur Reformer). Tous deux sont conviviaux et motivants. Le <strong>cours privé</strong> est une séance individuelle sur tous les appareils du studio (Reformer, Cadillac, Wunda Chair…), entièrement personnalisée selon vos besoins — idéale pour un objectif précis ou une rééducation. Découvrez nos <a href="<?php echo esc_url(home_url('/les-seances/')); ?>">différentes formules</a>.</p>
+                            <p>Le studio propose deux formats <strong>collectifs</strong> en petit groupe : <em>Pilates Tapis</em> (au sol avec petit matériel, 5 personnes max) et <em>Pilates Machine</em> (sur Reformer, 4 personnes max). Tous deux sont conviviaux et motivants. Le <strong>cours privé</strong> est une séance individuelle sur tous les appareils du studio (Reformer, Cadillac, Wunda Chair…), entièrement personnalisée selon vos besoins — idéale pour un objectif précis ou une rééducation. Découvrez nos <a href="<?php echo esc_url(home_url('/les-seances/')); ?>">différentes formules</a>.</p>
                         </div>
                     </details>
 
@@ -268,7 +268,7 @@ get_header();
             "name": "Faut-il avoir déjà pratiqué le Pilates pour s'inscrire ?",
             "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Non, aucune expérience préalable n'est nécessaire. Les cours en petit groupe (5 personnes maximum) permettent d'adapter chaque exercice à votre niveau. Les débutants sont accueillis avec écoute et attention dès la première séance."
+                "text": "Non, aucune expérience préalable n'est nécessaire. Les cours en petit groupe restreint permettent d'adapter chaque exercice à votre niveau. Les débutants sont accueillis avec écoute et attention dès la première séance."
             }
         },
         {
@@ -284,7 +284,7 @@ get_header();
             "name": "Quelle est la différence entre les cours collectifs et le cours privé ?",
             "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Le studio propose deux formats collectifs en petit groupe de 5 personnes : Pilates Tapis (au sol avec petit matériel) et Pilates Machine (sur Reformer). Le cours privé est une séance individuelle sur tous les appareils du studio (Reformer, Cadillac, Wunda Chair...), entièrement personnalisée selon vos besoins, idéale pour un objectif précis ou une rééducation."
+                "text": "Le studio propose deux formats collectifs en petit groupe : Pilates Tapis (au sol avec petit matériel, 5 personnes max) et Pilates Machine (sur Reformer, 4 personnes max). Le cours privé est une séance individuelle sur tous les appareils du studio (Reformer, Cadillac, Wunda Chair...), entièrement personnalisée selon vos besoins, idéale pour un objectif précis ou une rééducation."
             }
         },
         {

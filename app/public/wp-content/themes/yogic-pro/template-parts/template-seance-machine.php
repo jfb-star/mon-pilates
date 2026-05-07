@@ -33,7 +33,7 @@ get_header();
                 Le travail ciblé sur Reformer, avec la dynamique d'un petit groupe.<br>
                 Une formule qui combine progression précise et énergie collective, à un tarif accessible.
             </p>
-            <p class="mp-hero-badge">5 personnes maximum par séance</p>
+            <p class="mp-hero-badge">4 personnes maximum par séance</p>
             <a href="<?php echo esc_url(mp_get_planning_url()); ?>" class="mp-btn mp-btn-outline mp-hero-cta">
                 <span>Trouver un créneau</span>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -77,8 +77,8 @@ get_header();
                                 <path d="M16 3.13a4 4 0 010 7.75"/>
                             </svg>
                         </div>
-                        <h3 class="mp-value-title">Un groupe de 5 maximum</h3>
-                        <p>Travailler sur appareil demande une attention particulière à l'alignement. En limitant à 5 personnes, je peux passer auprès de chacun, ajuster les réglages et corriger en temps réel.</p>
+                        <h3 class="mp-value-title">Un groupe de 4 maximum</h3>
+                        <p>Travailler sur Reformer demande une attention particulière à l'alignement. En limitant à 4 personnes — un format encore plus restreint que le tapis — je peux passer auprès de chacun, ajuster les réglages et corriger en temps réel.</p>
                     </div>
 
                     <div class="mp-value-card">
@@ -222,7 +222,7 @@ get_header();
                 <p class="mp-cta-text">
                     Consultez les créneaux Pilates Machine ou écrivez-moi pour échanger avant de réserver.
                 </p>
-                <p class="mp-cta-reassurance">5 personnes maximum, débutants bienvenus<br>Studio à Larmor-Plage, à 10 min de <a href="<?php echo esc_url(home_url('/pilates-lorient/')); ?>">Lorient</a>, 5 min de <a href="<?php echo esc_url(home_url('/pilates-ploemeur/')); ?>">Ploemeur</a></p>
+                <p class="mp-cta-reassurance">4 personnes maximum, débutants bienvenus<br>Studio à Larmor-Plage, à 10 min de <a href="<?php echo esc_url(home_url('/pilates-lorient/')); ?>">Lorient</a>, 5 min de <a href="<?php echo esc_url(home_url('/pilates-ploemeur/')); ?>">Ploemeur</a></p>
                 <div class="mp-cta-buttons">
                     <a href="<?php echo esc_url(mp_get_planning_url()); ?>" class="mp-btn mp-btn-primary">
                         <span>Trouver un créneau</span>
@@ -259,7 +259,7 @@ get_header();
     "@type": "Service",
     "serviceType": "Cours de Pilates sur Reformer en petit groupe",
     "name": "Pilates Machine en petit groupe",
-    "description": "Cours collectif sur Reformer en petit groupe (5 personnes maximum) à Larmor-Plage. Le travail ciblé des appareils Pilates avec la dynamique du collectif, à un tarif accessible.",
+    "description": "Cours collectif sur Reformer en petit groupe (4 personnes maximum) à Larmor-Plage. Le travail ciblé des appareils Pilates avec la dynamique du collectif, à un tarif accessible.",
     "provider": {
         "@type": "LocalBusiness",
         "name": "Mon Pilates",
