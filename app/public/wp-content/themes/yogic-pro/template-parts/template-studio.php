@@ -76,7 +76,7 @@ get_header();
                     <h2 class="mp-section-title">Un accompagnement qui s'adapte à vous</h2>
                     <p>Je m'appelle Violette, et j'ai créé Mon Pilates avec une conviction simple : chaque corps est différent, chaque parcours est unique.</p>
                     <p>Que vous veniez pour la première fois ou que vous pratiquiez depuis des années, je prends le temps de comprendre ce dont vous avez besoin. Ensemble, on ajuste les mouvements, on respecte vos limites, on avance pas à pas.</p>
-                    <p class="mp-text-emphasis">Mon rôle n'est pas de vous pousser, mais de vous accompagner avec bienveillance.</p>
+                    <p class="mp-text-emphasis">Mon rôle n'est pas de vous pousser, mais de vous accompagner avec écoute et précision.</p>
                 </div>
                 <div class="mp-section-visual">
                     <figure class="mp-section-image mp-image-portrait">

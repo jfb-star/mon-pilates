@@ -127,7 +127,7 @@ get_header();
         <div class="mp-gift-cards__inner">
             <h2 class="mp-gift-section-title">Trouvez la carte qui lui ressemble</h2>
             <p class="mp-gift-section-subtitle">
-                Trois façons d'offrir du bien-être, selon l'envie et l'occasion.
+                Plusieurs formules, selon l'envie et l'occasion. Tapis ou appareils, à la séance ou en carte.
             </p>
 
             <?php
@@ -219,7 +219,7 @@ get_header();
                         </p>
                         <ul class="mp-gift-card__features">
                             <li>10 séances collectives en petit groupe</li>
-                            <li>Transformation durable</li>
+                            <li>Une vraie progression dans le temps</li>
                             <li>Liberté totale sur le planning</li>
                         </ul>
                     </div>

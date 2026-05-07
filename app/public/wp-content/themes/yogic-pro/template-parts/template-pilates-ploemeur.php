@@ -27,7 +27,7 @@ get_header();
             </div>
             <h1 class="mp-hero-title">Pilates à Ploemeur : votre studio à 5 minutes</h1>
             <p class="mp-hero-subtitle">
-                Vous vivez à Ploemeur et vous cherchez un lieu calme pour prendre soin de vous ? Mon Pilates vous accueille à Larmor-Plage, à quelques minutes de chez vous. Un studio intime face à la mer, des cours en petit groupe ou en individuel, et une approche bienveillante qui respecte votre rythme.
+                Vous vivez à Ploemeur et cherchez un lieu calme pour prendre soin de vous ? Mon Pilates vous accueille à Larmor-Plage, à 5 minutes de chez vous. Un studio lumineux à deux pas de la plage de Toulhars, des cours en petit groupe ou en individuel, et un accompagnement attentif qui respecte vos possibilités.
             </p>
         </div>
     </section>

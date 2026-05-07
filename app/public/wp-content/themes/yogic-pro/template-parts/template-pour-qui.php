@@ -142,7 +142,7 @@ get_header();
                     </div>
 
                     <div class="mp-profile-reassurance">
-                        <p><strong>Pourquoi vous êtes à votre place :</strong> Même avec de l'expérience, on apprend toujours. Et avoir un regard extérieur bienveillant aide à affiner les mouvements et à éviter les compensations.</p>
+                        <p><strong>Pourquoi vous êtes à votre place :</strong> Même avec de l'expérience, on apprend toujours. Avoir un regard extérieur attentif aide à affiner les mouvements et à éviter les compensations.</p>
                     </div>
                 </div>
             </div>

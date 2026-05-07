@@ -116,10 +116,10 @@ get_header();
                     </div>
                     <h3 class="mp-choose-title">Cours privés</h3>
                     <p class="mp-choose-desc">
-                        Un accompagnement 100% personnalisé, sur tapis ou appareils.
-                        Pour des besoins spécifiques ou un suivi approfondi.
+                        Un accompagnement 100% personnalisé, sur appareils Pilates.
+                        Pour un objectif précis ou un suivi sur-mesure.
                     </p>
-                    <span class="mp-choose-for">Idéal pour : objectifs précis, récupération</span>
+                    <span class="mp-choose-for">Idéal pour : objectifs précis, reprise après douleur</span>
                 </div>
             </div>
         </div>
@@ -408,7 +408,7 @@ get_header();
                     <h2 class="mp-gift-title">Offrez du bien-être</h2>
                     <p class="mp-gift-desc">
                         Les cartes cadeaux Mon Pilates sont disponibles pour toutes les formules.
-                        Un cadeau original et bienveillant.
+                        Un cadeau attentionné, à offrir simplement.
                     </p>
                 </div>
             </div>

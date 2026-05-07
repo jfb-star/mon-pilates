@@ -18,7 +18,7 @@ get_header();
         <div class="mp-contact-hero-inner">
             <h1 class="mp-contact-title">Contactez Mon Pilates à Larmor-Plage</h1>
             <p class="mp-contact-subtitle">
-                Besoin d'un renseignement ou d'un rendez-vous ? Nous vous répondons sous 24h, avec écoute et bienveillance. Notre studio est situé au 14 Boulevard des Dunes, à deux pas de l'océan, près de Lorient.
+                Une question avant de venir ? Un projet d'entreprise ? Je vous réponds sous 24&nbsp;h, avec attention. Le studio est situé au 14 boulevard des Dunes à Larmor-Plage, à deux pas de la plage de Toulhars et à 10 minutes de Lorient.
             </p>
         </div>
     </section>
