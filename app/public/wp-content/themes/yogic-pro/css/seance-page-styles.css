@@ -441,7 +441,7 @@ body[class*="page-seance"] .innerbanner {
 }
 
 .mp-cta-reassurance::before {
-    content: '✓';
+    content: '\2713';
     display: inline-flex;
     align-items: center;
     justify-content: center;

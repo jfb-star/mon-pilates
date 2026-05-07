@@ -180,7 +180,7 @@
         { match: ['avance', 'avancé'],        light: '#E89489', dark: '#D4726A' }, // corail
         { match: ['maternite', 'enceinte', 'prenatal', 'postnatal'], light: '#F0BFC9', dark: '#E8A4B8' }, // rose tendre
         { match: ['machine', 'reformer'],     light: '#7DBA9F', dark: '#5C9982' }, // vert profond
-        { match: ['prive', 'individuel', 'duo'], light: '#B8A07A', dark: '#8B7355' }, // bronze
+        { match: ['prive', 'individuel', 'duo'], light: '#D4BC8A', dark: '#B8915A' }, // champagne / doré pâle
         { match: ['tous niveaux', 'classique', 'tapis', 'collectif', 'mat'], light: '#A8C5CF', dark: '#7FA8B6' }, // bleu océan (default Pilates)
     ];
 

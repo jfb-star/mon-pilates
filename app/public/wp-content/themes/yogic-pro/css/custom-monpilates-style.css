@@ -1527,7 +1527,7 @@ html {
     .sitenav ul li.menu-item-has-children.submenu-open > a::after,
     .sitenav .menu li.menu-item-has-children.submenu-open > a::after,
     .sitenav #menu-primary li.menu-item-has-children.submenu-open > a::after {
-        content: '−';
+        content: '\2212';
     }
 
     /* Slider mobile */
@@ -2564,7 +2564,7 @@ a[href*="contact"].hero-btn-secondary:not(:has(span)):hover,
 }
 
 .course-features li::before {
-    content: '✓';
+    content: '\2713';
     position: absolute;
     left: 0;
     color: #cf317c;
