@@ -194,7 +194,7 @@
                 "itemOffered": {
                     "@type": "Service",
                     "name": "Pilates Machine en petit groupe",
-                    "description": "Cours collectif sur Reformer et appareils Pilates en groupe restreint"
+                    "description": "Cours collectif sur Reformer en groupe restreint (Pilates Machine)"
                 },
                 "price": "27.00",
                 "priceCurrency": "EUR",

@@ -97,12 +97,12 @@ get_header();
                             <circle cx="18" cy="12" r="1.5"/>
                         </svg>
                     </div>
-                    <h3 class="mp-choose-title">Pilates Machine en petit groupe</h3>
+                    <h3 class="mp-choose-title">Pilates Machine</h3>
                     <p class="mp-choose-desc">
-                        Cours collectif sur Reformer et appareils, en groupe restreint.
-                        Le travail ciblé des appareils, l'énergie du collectif.
+                        Cours collectif sur Reformer, en groupe restreint.
+                        Le travail ciblé de l'appareil, l'énergie du collectif.
                     </p>
-                    <span class="mp-choose-for">Idéal pour : progresser sur appareils sans engagement individuel</span>
+                    <span class="mp-choose-for">Idéal pour : progresser sur Reformer sans engagement individuel</span>
                 </div>
 
                 <!-- Privé -->
@@ -170,7 +170,7 @@ get_header();
                         </div>
                         <ul class="mp-card-features">
                             <li>1 séance en petit groupe</li>
-                            <li>Sur Reformer et appareils</li>
+                            <li>Sur Reformer</li>
                             <li>Tous niveaux acceptés</li>
                         </ul>
                         <a href="https://backoffice.bsport.io/customer/payment/pass/755371/?membership=3023&force=true" class="mp-card-cta" target="_blank" rel="noopener">
@@ -274,8 +274,8 @@ get_header();
             <div class="mp-pricing-category mp-pricing-machine">
                 <div class="mp-category-header">
                     <span class="mp-category-label">Travailler sur appareils en groupe</span>
-                    <h2 class="mp-category-title">Pilates Machine Petit Groupe</h2>
-                    <p class="mp-category-desc">Cours collectifs sur Reformer et appareils Pilates, en groupe restreint</p>
+                    <h2 class="mp-category-title">Pilates Machine en petit groupe</h2>
+                    <p class="mp-category-desc">Cours collectifs sur Reformer, en groupe restreint</p>
                 </div>
 
                 <div class="mp-pricing-cards mp-pricing-cards-3">
@@ -383,7 +383,7 @@ get_header();
             <h2 class="mp-section-title">Vous hésitez entre les formules ?</h2>
             <ul class="mp-help-list">
                 <li><strong>Pour découvrir le Pilates en douceur</strong> : commencez par une <em>Séance découverte tapis</em> (10&nbsp;€), une <em>Séance découverte machine</em> (20&nbsp;€) ou une carte 5&nbsp;cours <em>Pilates Tapis</em>.</li>
-                <li><strong>Pour progresser avec les appareils sans engagement individuel</strong> : choisissez <em>Pilates Machine en petit groupe</em> (carte 5&nbsp;cours à 140&nbsp;€).</li>
+                <li><strong>Pour progresser sur Reformer sans cours individuel</strong> : choisissez <em>Pilates Machine</em> en petit groupe (carte 5&nbsp;cours à 140&nbsp;€).</li>
                 <li><strong>Pour un besoin spécifique ou un accompagnement complet</strong> : privilégiez le <em>cours privé</em> (séance unité à 65&nbsp;€ ou carte 10&nbsp;cours à 550&nbsp;€).</li>
             </ul>
             <p class="mp-help-note">Vous pouvez toujours alterner les formules selon vos envies — chaque carte est valable plusieurs mois.</p>
@@ -473,19 +473,19 @@ get_header();
                         </svg>
                     </summary>
                     <div class="mp-faq-answer">
-                        <p>Le studio propose trois formats : <strong>Pilates Tapis</strong> en petit groupe (au sol avec petit matériel), <strong>Pilates Machine en petit groupe</strong> (Reformer & appareils, à plusieurs pour une dynamique collective) et <strong>Cours privés</strong> (séance individuelle entièrement personnalisée sur appareils). Tapis et appareils sont complémentaires : le tapis travaille la conscience corporelle, les appareils ajoutent les résistances pour cibler plus finement.</p>
+                        <p>Le studio propose trois formats : <strong>Pilates Tapis</strong> en petit groupe (au sol avec petit matériel), <strong>Pilates Machine</strong> en petit groupe (sur Reformer, à plusieurs pour une dynamique collective) et <strong>Cours privés</strong> (séance individuelle sur Reformer, Cadillac et autres appareils, entièrement personnalisée). Tapis et appareils sont complémentaires : le tapis travaille la conscience corporelle, le Reformer ajoute les résistances pour cibler plus finement.</p>
                     </div>
                 </details>
 
                 <details class="mp-faq-item">
                     <summary class="mp-faq-question">
-                        <span>Quelle différence entre Pilates Machine en groupe et cours privé ?</span>
+                        <span>Quelle différence entre Pilates Machine en groupe et cours privé sur appareils ?</span>
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M6 9l6 6 6-6"/>
                         </svg>
                     </summary>
                     <div class="mp-faq-answer">
-                        <p>Les deux se déroulent sur appareils (Reformer, Cadillac…). En <strong>petit groupe</strong>, vous bénéficiez de l'énergie collective et d'un tarif plus accessible (à partir de 27€/séance). En <strong>cours privé</strong>, la séance est 100% personnalisée selon vos besoins, idéale pour un objectif précis, une douleur ou une rééducation.</p>
+                        <p>Le format <strong>Pilates Machine en petit groupe</strong> se déroule uniquement sur <strong>Reformer</strong>, à plusieurs, pour bénéficier de l'énergie collective à un tarif accessible. Le <strong>cours privé</strong> est une séance individuelle sur tous les appareils du studio (Reformer, Cadillac, Wunda Chair…), entièrement personnalisée selon vos besoins — idéale pour un objectif précis, une douleur ou une rééducation.</p>
                     </div>
                 </details>
             </div>
@@ -558,15 +558,15 @@ get_header();
             "name": "Quelle différence entre les cours Pilates tapis et appareils ?",
             "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Le studio propose trois formats : Pilates Tapis en petit groupe (au sol avec petit matériel), Pilates Machine en petit groupe (Reformer et appareils, en groupe restreint pour une dynamique collective) et Cours privés (séance individuelle entièrement personnalisée sur appareils). Tapis et appareils sont complémentaires : le tapis travaille la conscience corporelle, les appareils ajoutent les résistances pour cibler plus finement."
+                "text": "Le studio propose trois formats : Pilates Tapis en petit groupe (au sol avec petit matériel), Pilates Machine en petit groupe (sur Reformer, à plusieurs pour une dynamique collective) et Cours privés (séance individuelle sur Reformer, Cadillac et autres appareils, entièrement personnalisée). Tapis et appareils sont complémentaires : le tapis travaille la conscience corporelle, le Reformer ajoute les résistances pour cibler plus finement."
             }
         },
         {
             "@type": "Question",
-            "name": "Quelle différence entre Pilates Machine en petit groupe et cours privé ?",
+            "name": "Quelle différence entre Pilates Machine en groupe et cours privé sur appareils ?",
             "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Les deux formats se déroulent sur appareils Pilates (Reformer, Cadillac…). En petit groupe, vous bénéficiez de l'énergie collective et d'un tarif plus accessible (à partir de 27€/séance). En cours privé, la séance est entièrement personnalisée selon vos besoins, idéale pour un objectif précis, une douleur ou une rééducation."
+                "text": "Le format Pilates Machine en petit groupe se déroule uniquement sur Reformer, à plusieurs, pour bénéficier de l'énergie collective à un tarif accessible. Le cours privé est une séance individuelle sur tous les appareils du studio (Reformer, Cadillac, Wunda Chair…), entièrement personnalisée selon vos besoins, idéale pour un objectif précis, une douleur ou une rééducation."
             }
         }
     ]

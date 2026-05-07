@@ -26,7 +26,7 @@ get_header();
             </div>
             <h1 class="mp-hero-title">Cours de Pilates près de Lorient : votre studio à Larmor-Plage</h1>
             <p class="mp-hero-subtitle">
-                Vous habitez Lorient et cherchez un studio de Pilates dans un cadre calme, près de chez vous ? Mon Pilates vous accueille à 10 minutes du centre, dans un studio lumineux à Larmor-Plage, à deux pas de la plage de Toulhars. Trois formules au choix : <strong>Pilates Tapis</strong> en petit groupe, <strong>Pilates Machine</strong> en petit groupe, ou <strong>cours privés sur appareils</strong>, avec une enseignante certifiée FPMP.
+                Vous habitez Lorient et cherchez un studio de Pilates dans un cadre calme, près de chez vous ? Mon Pilates vous accueille à 10 minutes du centre, dans un studio lumineux à Larmor-Plage, à deux pas de la plage de Toulhars. Trois formules au choix : <strong>Pilates Tapis</strong> en petit groupe, <strong>Pilates Machine</strong> sur Reformer en petit groupe, ou <strong>cours privés sur appareils</strong>, avec une enseignante certifiée FPMP.
             </p>
         </div>
     </section>
@@ -90,8 +90,8 @@ get_header();
                                 <circle cx="18" cy="12" r="1.5"/>
                             </svg>
                         </div>
-                        <h3 class="mp-profile-title">Pilates Machine en petit groupe</h3>
-                        <p>Cours collectif sur Reformer et appareils, en groupe restreint. Le travail ciblé des appareils combiné à la dynamique d'un petit collectif, à un tarif accessible.</p>
+                        <h3 class="mp-profile-title">Pilates Machine</h3>
+                        <p>Cours collectif sur Reformer, en groupe restreint. Le travail ciblé de l'appareil combiné à la dynamique d'un petit collectif, à un tarif accessible.</p>
                         <p class="mp-profile-price">À partir de 27 € la séance</p>
                     </div>
 
@@ -195,14 +195,14 @@ get_header();
                     <details class="mp-faq-item">
                         <summary class="mp-faq-question">Quels sont les tarifs des cours de Pilates près de Lorient ?</summary>
                         <div class="mp-faq-answer">
-                            <p>Trois formats, trois gammes de prix : <strong>Pilates Tapis en petit groupe</strong> à partir de 17 € la séance, <strong>Pilates Machine en petit groupe</strong> à partir de 27 € la séance et <strong>cours privé sur appareils</strong> à partir de 55 € la séance. Des cartes de plusieurs séances sont disponibles pour un tarif encore plus avantageux. Consultez notre <a href="<?php echo esc_url(home_url('/cours-de-pilates-larmor-plage-tarifs/')); ?>">page tarifs</a> pour tous les détails.</p>
+                            <p>Trois formats, trois gammes de prix : <strong>Pilates Tapis</strong> en petit groupe à partir de 17 € la séance, <strong>Pilates Machine</strong> sur Reformer en petit groupe à partir de 27 € la séance et <strong>cours privé sur appareils</strong> à partir de 55 € la séance. Des cartes de plusieurs séances sont disponibles pour un tarif encore plus avantageux. Consultez notre <a href="<?php echo esc_url(home_url('/cours-de-pilates-larmor-plage-tarifs/')); ?>">page tarifs</a> pour tous les détails.</p>
                         </div>
                     </details>
 
                     <details class="mp-faq-item">
                         <summary class="mp-faq-question">Quelle est la différence entre les cours collectifs et le cours privé ?</summary>
                         <div class="mp-faq-answer">
-                            <p>Le studio propose deux formats <strong>collectifs</strong> en petit groupe de 5 personnes : <em>Pilates Tapis</em> (au sol avec petit matériel) et <em>Pilates Machine</em> (sur Reformer et appareils). Tous deux sont conviviaux et motivants. Le <strong>cours privé</strong> est une séance individuelle sur appareils, entièrement personnalisée selon vos besoins — idéale pour un objectif précis ou une rééducation. Découvrez nos <a href="<?php echo esc_url(home_url('/les-seances/')); ?>">différentes formules</a>.</p>
+                            <p>Le studio propose deux formats <strong>collectifs</strong> en petit groupe de 5 personnes : <em>Pilates Tapis</em> (au sol avec petit matériel) et <em>Pilates Machine</em> (sur Reformer). Tous deux sont conviviaux et motivants. Le <strong>cours privé</strong> est une séance individuelle sur tous les appareils du studio (Reformer, Cadillac, Wunda Chair…), entièrement personnalisée selon vos besoins — idéale pour un objectif précis ou une rééducation. Découvrez nos <a href="<?php echo esc_url(home_url('/les-seances/')); ?>">différentes formules</a>.</p>
                         </div>
                     </details>
 
@@ -276,7 +276,7 @@ get_header();
             "name": "Quels sont les tarifs des cours de Pilates près de Lorient ?",
             "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Trois formats, trois gammes de prix : Pilates Tapis en petit groupe à partir de 17 € la séance, Pilates Machine en petit groupe à partir de 27 € la séance et cours privé sur appareils à partir de 55 € la séance. Des cartes de plusieurs séances sont disponibles pour un tarif encore plus avantageux."
+                "text": "Trois formats, trois gammes de prix : Pilates Tapis en petit groupe à partir de 17 € la séance, Pilates Machine sur Reformer en petit groupe à partir de 27 € la séance et cours privé sur appareils à partir de 55 € la séance. Des cartes de plusieurs séances sont disponibles pour un tarif encore plus avantageux."
             }
         },
         {
@@ -284,7 +284,7 @@ get_header();
             "name": "Quelle est la différence entre les cours collectifs et le cours privé ?",
             "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Le studio propose deux formats collectifs en petit groupe de 5 personnes : Pilates Tapis (au sol avec petit matériel) et Pilates Machine (sur Reformer et appareils). Le cours privé est une séance individuelle sur appareils, entièrement personnalisée selon vos besoins, idéale pour un objectif précis ou une rééducation."
+                "text": "Le studio propose deux formats collectifs en petit groupe de 5 personnes : Pilates Tapis (au sol avec petit matériel) et Pilates Machine (sur Reformer). Le cours privé est une séance individuelle sur tous les appareils du studio (Reformer, Cadillac, Wunda Chair...), entièrement personnalisée selon vos besoins, idéale pour un objectif précis ou une rééducation."
             }
         },
         {
