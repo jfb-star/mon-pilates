@@ -230,10 +230,12 @@ function yogic_pro_scripts() {
 		wp_enqueue_style( 'yogic-pro-premium-pages', get_template_directory_uri().'/css/mp-premium-pages.css', array('yogic-pro-custom-monpilates') );
 	}
 
-	// Style pages "Séances individuelles" et "Séances en petit groupe"
+	// Style pages "Séances individuelles", "Séances en petit groupe", "Pilates Machine"
 	if ( is_page_template('template-parts/template-seance-individuelle.php') || is_page_template('template-parts/template-seance-groupe.php')
+		|| is_page_template('template-parts/template-seance-machine.php')
 		|| is_page('seances-individuelles') || is_page('seance-individuelle') || is_page('individuel')
-		|| is_page('seances-petit-groupe') || is_page('petit-groupe') || is_page('seances-groupe') ) {
+		|| is_page('seances-petit-groupe') || is_page('petit-groupe') || is_page('seances-groupe')
+		|| is_page('seances-pilates-machine') || is_page('pilates-machine') ) {
 		wp_enqueue_style( 'yogic-pro-seances-pages', get_template_directory_uri().'/css/mp-seances-styles.css', array('yogic-pro-custom-monpilates') );
 	}
 
