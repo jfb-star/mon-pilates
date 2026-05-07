@@ -936,3 +936,121 @@ body[class*="petit-groupe"] .innerbanner {
         font-size: 18px;
     }
 }
+
+/* ==========================================================================
+   PILATES MACHINE PAGE — styles spécifiques
+   ========================================================================== */
+
+/* Eyebrow "Nouveau format" au-dessus du H1 */
+.mp-hero-eyebrow {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--mp-sage, #5a9947);
+    background: rgba(127, 176, 105, 0.12);
+    padding: 6px 14px;
+    border-radius: 999px;
+    margin: 0 0 16px;
+}
+
+/* Hero variant Machine — ton sage */
+.mp-hero-machine .mp-hero-icon svg circle:first-of-type,
+.mp-hero-machine .mp-hero-icon svg rect,
+.mp-hero-machine .mp-hero-icon svg line {
+    stroke: var(--mp-sage, #7fb069);
+}
+.mp-hero-machine .mp-hero-icon svg circle:not(:first-of-type) {
+    fill: var(--mp-sage, #7fb069);
+}
+
+/* Quote variant pour la page Machine */
+.mp-quote-machine .mp-quote-box {
+    border-left-color: var(--mp-sage, #7fb069);
+}
+
+/* Section "Snapshot tarifs" sur la page Machine */
+.mp-section-pricing-snapshot {
+    background: linear-gradient(180deg, #faf7f3 0%, #fff 100%);
+    padding: 64px 24px;
+}
+
+.mp-snapshot-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    max-width: 800px;
+    margin: 32px auto 24px;
+}
+
+@media (max-width: 720px) {
+    .mp-snapshot-grid {
+        grid-template-columns: 1fr;
+        max-width: 360px;
+    }
+}
+
+.mp-snapshot-card {
+    background: white;
+    border-radius: 14px;
+    padding: 28px 22px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    border-top: 3px solid var(--mp-ocean, #7fa8b6);
+}
+
+.mp-snapshot-card-featured {
+    border-top-color: var(--mp-sage, #7fb069);
+    transform: scale(1.03);
+    box-shadow: 0 8px 28px rgba(127, 176, 105, 0.18);
+}
+
+.mp-snapshot-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #5a6c7d;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin: 0 0 8px;
+}
+
+.mp-snapshot-price {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--mp-dark, #2c2c2c);
+    margin: 0 0 8px;
+    font-family: inherit;
+}
+
+.mp-snapshot-note {
+    font-size: 13px;
+    color: #5a6c7d;
+    margin: 0;
+}
+
+.mp-snapshot-cta-text {
+    text-align: center;
+    margin: 16px 0 0;
+    font-size: 14px;
+}
+
+.mp-snapshot-cta-text a {
+    color: var(--mp-ocean-deep, #5a8a9a);
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.mp-snapshot-cta-text a:hover {
+    text-decoration: underline;
+}
+
+/* Profile card sage variant pour la page Machine (réutilise classe existante) */
+.mp-profile-sage-light {
+    background: linear-gradient(135deg, #fff 0%, #f4f9f1 100%);
+    border-top: 3px solid var(--mp-sage, #7fb069);
+}
+.mp-profile-sage-light .mp-profile-icon {
+    background: rgba(127, 176, 105, 0.12);
+    color: var(--mp-sage, #5a9947);
+}
