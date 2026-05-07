@@ -113,7 +113,7 @@
     "@type": ["SportsActivityLocation", "LocalBusiness"],
     "name": "Mon Pilates",
     "alternateName": ["Mon Pilates Larmor-Plage", "Mon Pilates à Larmor-Plage"],
-    "description": "Studio de Pilates à Larmor-Plage face à la mer, près de Lorient. Cours collectifs Pilates Tapis et Pilates Machine en petit groupe (5 personnes max), cours privés sur appareils (Reformer, Cadillac). Enseignante certifiée FPMP.",
+    "description": "Studio de Pilates à Larmor-Plage face à l'océan, à 10 minutes de Lorient. Cours en petit groupe (Pilates Tapis et Pilates Machine, 5 personnes max) et cours privés sur appareils Reformer et Cadillac. Enseignante certifiée FPMP.",
     "url": "https://mon-pilates.bzh/",
     "logo": "https://mon-pilates.bzh/wp-content/uploads/2024/08/logo-removebg-preview.png",
     "image": "https://mon-pilates.bzh/wp-content/uploads/2025/02/14-Boulevard-des-dunes-56260-Larmor-Plage-Mon-Pilates.jpg",

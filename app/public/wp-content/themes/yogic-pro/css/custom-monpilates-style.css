@@ -4408,6 +4408,54 @@ body.admin-bar .mp-header-spacer {
     animation: newBadgePulse 2.4s ease-in-out infinite;
 }
 
+/* ==========================================================================
+   BLOC "AVANT DE VENIR" — page Comment se passe une séance
+   ========================================================================== */
+
+.mp-seance-prep {
+    padding: 64px 24px;
+    background: linear-gradient(180deg, #fff 0%, #faf7f3 100%);
+}
+
+.mp-seance-prep-inner {
+    max-width: 720px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.mp-prep-intro {
+    color: #5a6c7d;
+    font-size: 16px;
+    margin: 0 0 32px;
+}
+
+.mp-prep-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    text-align: left;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px 24px;
+}
+
+.mp-prep-list li {
+    background: white;
+    padding: 14px 18px;
+    border-radius: 10px;
+    border-left: 3px solid #7fa8b6;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: #2c2c2c;
+}
+
+@media (max-width: 720px) {
+    .mp-prep-list {
+        grid-template-columns: 1fr;
+    }
+}
+
 @keyframes newBadgePulse {
     0%, 100% { transform: scale(1); }
     50% { transform: scale(1.05); }

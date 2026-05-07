@@ -26,7 +26,7 @@ get_header();
             </div>
             <h1 class="mp-hero-title">Cours de Pilates près de Lorient : votre studio à Larmor-Plage</h1>
             <p class="mp-hero-subtitle">
-                Vous habitez Lorient et vous cherchez un cours de Pilates de qualité, dans un cadre apaisant ? Mon Pilates vous accueille à 10 minutes du centre-ville, dans un studio face à la mer à Larmor-Plage. Trois formats au choix : Pilates Tapis en petit groupe, Pilates Machine en petit groupe, ou cours privés sur appareils — avec une enseignante certifiée FPMP.
+                Vous habitez Lorient et cherchez un studio de Pilates dans un cadre calme, près de chez vous ? Mon Pilates vous accueille à 10 minutes du centre, dans un studio lumineux à Larmor-Plage, à deux pas de la plage de Toulhars. Trois formules au choix : <strong>Pilates Tapis</strong> en petit groupe, <strong>Pilates Machine</strong> en petit groupe, ou <strong>cours privés sur appareils</strong>, avec une enseignante certifiée FPMP.
             </p>
         </div>
     </section>
@@ -41,7 +41,7 @@ get_header();
                     <h2 class="mp-section-title">Un studio de Pilates à deux pas de Lorient</h2>
                     <p>Situé au 14 Boulevard des Dunes à Larmor-Plage, Mon Pilates est facilement accessible depuis Lorient en seulement 10 minutes en voiture. Le trajet est simple : direction Larmor-Plage par la D29, puis tout droit jusqu'au front de mer.</p>
                     <p>Stationner est facile : un parking gratuit se trouve à proximité immédiate du studio. Vous pouvez également venir en bus (ligne T2, arrêt Dunes) ou à vélo grâce à la piste cyclable reliant Lorient à Larmor-Plage.</p>
-                    <p class="mp-text-emphasis">En quittant Lorient, vous laissez derrière vous le rythme de la ville. En arrivant au studio, face à l'océan, vous êtes déjà dans un autre état d'esprit.</p>
+                    <p class="mp-text-emphasis">En quittant Lorient, vous laissez derrière vous le rythme de la ville. En arrivant au studio, ouvert sur l'océan, vous êtes déjà dans un autre état d'esprit. Un cadre propice à la concentration, à la respiration, au relâchement.</p>
                 </div>
                 <div class="mp-section-visual">
                     <figure class="mp-section-image">
@@ -76,7 +76,7 @@ get_header();
                             </svg>
                         </div>
                         <h3 class="mp-profile-title">Pilates Tapis en petit groupe</h3>
-                        <p>5 personnes maximum sur tapis, avec petit matériel. L'énergie du collectif, avec une vraie attention individuelle. Idéal pour instaurer un rituel bien-être hebdomadaire.</p>
+                        <p>5 personnes maximum, sur tapis avec petit matériel. L'énergie du collectif, avec une vraie attention individuelle. Idéal pour installer un rituel bien-être hebdomadaire.</p>
                         <p class="mp-profile-price">À partir de 17 € la séance</p>
                     </div>
 
@@ -91,11 +91,11 @@ get_header();
                             </svg>
                         </div>
                         <h3 class="mp-profile-title">Pilates Machine en petit groupe</h3>
-                        <p>Cours collectif sur Reformer et appareils, en groupe restreint. Le travail ciblé des appareils Pilates avec la dynamique du collectif, à un tarif accessible.</p>
+                        <p>Cours collectif sur Reformer et appareils, en groupe restreint. Le travail ciblé des appareils combiné à la dynamique d'un petit collectif, à un tarif accessible.</p>
                         <p class="mp-profile-price">À partir de 27 € la séance</p>
                     </div>
 
-                    <!-- Cours privés -->
+                    <!-- Cours privé -->
                     <div class="mp-profile-card mp-profile-rose-light">
                         <div class="mp-profile-icon">
                             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -105,7 +105,7 @@ get_header();
                             </svg>
                         </div>
                         <h3 class="mp-profile-title">Cours privé sur appareils</h3>
-                        <p>Reformer, Cadillac, Wunda Chair... Une séance entièrement dédiée à vos besoins, idéale pour un travail ciblé : dos, posture, rééducation, préparation sportive.</p>
+                        <p>Reformer, Cadillac, Wunda Chair… Une séance entièrement dédiée à vos besoins, idéale pour un travail ciblé : dos, posture, reprise après une douleur ou préparation sportive.</p>
                         <p class="mp-profile-price">À partir de 55 € la séance</p>
                     </div>
 
@@ -137,7 +137,7 @@ get_header();
                             </svg>
                         </div>
                         <h3 class="mp-benefit-title">Enseignante certifiée FPMP</h3>
-                        <p>Violette est diplômée de la Fédération des Professionnels de la Méthode Pilates, la certification de référence en France. Une formation exigeante, pour un accompagnement sûr et précis.</p>
+                        <p>Violette est diplômée de la Fédération des Professionnels de la Méthode Pilates, certification de référence en France. Une formation exigeante, gage d'un enseignement précis et sécurisant.</p>
                     </div>
 
                     <div class="mp-benefit-card">
@@ -188,7 +188,7 @@ get_header();
                     <details class="mp-faq-item">
                         <summary class="mp-faq-question">Faut-il avoir déjà pratiqué le Pilates pour s'inscrire ?</summary>
                         <div class="mp-faq-answer">
-                            <p>Non, aucune expérience préalable n'est nécessaire. Les cours en petit groupe (5 personnes maximum) permettent d'adapter les exercices à chaque niveau. Les débutants sont les bienvenus et accompagnés avec bienveillance dès la première séance.</p>
+                            <p>Non, aucune expérience préalable n'est nécessaire. Les cours en petit groupe (5 personnes maximum) permettent d'adapter chaque exercice à votre niveau. Les débutants sont accueillis avec écoute et attention dès la première séance.</p>
                         </div>
                     </details>
 
@@ -268,7 +268,7 @@ get_header();
             "name": "Faut-il avoir déjà pratiqué le Pilates pour s'inscrire ?",
             "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Non, aucune expérience préalable n'est nécessaire. Les cours en petit groupe (5 personnes maximum) permettent d'adapter les exercices à chaque niveau. Les débutants sont les bienvenus et accompagnés avec bienveillance dès la première séance."
+                "text": "Non, aucune expérience préalable n'est nécessaire. Les cours en petit groupe (5 personnes maximum) permettent d'adapter chaque exercice à votre niveau. Les débutants sont accueillis avec écoute et attention dès la première séance."
             }
         },
         {

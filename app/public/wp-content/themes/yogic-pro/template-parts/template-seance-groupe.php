@@ -27,11 +27,12 @@ get_header();
             </div>
             <h1 class="mp-hero-title">Cours de Pilates en petit groupe à Larmor-Plage</h1>
             <p class="mp-hero-subtitle">
-                Ensemble, mais chacun à son rythme. Les séances en petit groupe, c'est le meilleur des deux mondes : l'énergie d'un collectif, avec l'attention d'un accompagnement personnalisé. Ici, on ne se compare pas — on avance côte à côte.
+                Des séances en très petit groupe, pour pratiquer régulièrement et progresser avec un vrai accompagnement.<br>
+                Les groupes sont volontairement limités pour que chacun soit guidé, corrigé et respecté dans ses possibilités du moment.
             </p>
             <p class="mp-hero-badge">5 personnes maximum par séance</p>
             <a href="<?php echo esc_url(mp_get_planning_url()); ?>" class="mp-btn mp-btn-outline mp-hero-cta">
-                <span>Voir les créneaux disponibles</span>
+                <span>Trouver un créneau</span>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M5 12h14M12 5l7 7-7 7"/>
                 </svg>
@@ -46,8 +47,8 @@ get_header();
         <section class="mp-section mp-section-esprit">
             <div class="mp-section-inner">
                 <div class="mp-section-header">
-                    <h2 class="mp-section-title">L'esprit des séances en petit groupe</h2>
-                    <p class="mp-section-intro">Oubliez l'image du cours collectif anonyme où l'on se perd dans la masse. Chez Mon Pilates, les groupes sont volontairement réduits pour que chacun·e puisse être vu·e, accompagné·e, corrigé·e.</p>
+                    <h2 class="mp-section-title">L'esprit du petit groupe</h2>
+                    <p class="mp-section-intro">Loin des cours collectifs où l'on se perd dans la masse. Chez Mon Pilates, les groupes sont volontairement réduits pour que chacun puisse être vu, accompagné et corrigé.</p>
                 </div>
 
                 <div class="mp-values-grid">
@@ -60,8 +61,8 @@ get_header();
                                 <path d="M16 3.13a4 4 0 010 7.75"/>
                             </svg>
                         </div>
-                        <h3 class="mp-value-title">Des groupes réduits</h3>
-                        <p>Maximum 6 personnes par séance. C'est peu — et c'est voulu. Ce nombre permet de garder une vraie qualité d'accompagnement, tout en profitant d'une dynamique de groupe.</p>
+                        <h3 class="mp-value-title">Des groupes vraiment réduits</h3>
+                        <p>5 personnes maximum par séance. Ce n'est pas un détail : c'est ce qui permet de garder une attention individuelle à chacun, tout en profitant de l'énergie d'un cours collectif.</p>
                     </div>
 
                     <div class="mp-value-card">
@@ -70,8 +71,8 @@ get_header();
                                 <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
                             </svg>
                         </div>
-                        <h3 class="mp-value-title">Une ambiance conviviale</h3>
-                        <p>Beaucoup de personnes reviennent pour l'ambiance autant que pour la pratique. On se retrouve, on échange quelques mots, on partage un moment. Sans compétition, sans jugement.</p>
+                        <h3 class="mp-value-title">Une ambiance calme et conviviale</h3>
+                        <p>Beaucoup de personnes reviennent autant pour l'ambiance que pour la pratique. On se retrouve, on échange quelques mots, on partage un moment dans un cadre apaisé. Sans comparaison, sans jugement.</p>
                     </div>
 
                     <div class="mp-value-card">
@@ -81,8 +82,8 @@ get_header();
                                 <polyline points="12 6 12 12 16 14"/>
                             </svg>
                         </div>
-                        <h3 class="mp-value-title">Le respect du rythme de chacun</h3>
-                        <p>Même en groupe, personne n'est laissé de côté. Je propose des variantes, j'adapte les exercices, je veille à ce que tout le monde se sente à sa place.</p>
+                        <h3 class="mp-value-title">Le respect de vos possibilités</h3>
+                        <p>Même en groupe, personne n'avance à la même vitesse. Je propose des variantes pour chaque exercice, j'adapte selon ce que votre corps demande, je veille à ce que vous trouviez votre place dans le mouvement.</p>
                     </div>
                 </div>
             </div>
@@ -179,7 +180,7 @@ get_header();
                     <div class="mp-deroulement-card">
                         <div class="mp-deroulement-number">4</div>
                         <h3 class="mp-deroulement-title">La fin de séance</h3>
-                        <p>On termine ensemble, dans le calme. Un moment de respiration, de relâchement. Et souvent, quelques sourires échangés avant de repartir.</p>
+                        <p>On termine ensemble, dans le calme. Quelques minutes pour respirer, relâcher les tensions, sentir le travail accompli. Et souvent, quelques sourires échangés avant de repartir.</p>
                     </div>
                 </div>
             </div>
@@ -197,13 +198,12 @@ get_header();
             <div class="mp-cta-inner">
                 <h2 class="mp-cta-title">Envie de rejoindre un groupe ?</h2>
                 <p class="mp-cta-text">
-                    Consultez le planning pour voir les créneaux en petit groupe.<br>
-                    Et si vous avez une question, n'hésitez pas à m'écrire.
+                    Consultez les créneaux disponibles ou écrivez-moi pour échanger avant de réserver.
                 </p>
-                <p class="mp-cta-reassurance">Séances accessibles à tous les niveaux – débutants bienvenus<br>Studio face à la mer à Larmor-Plage, accessible depuis <a href="<?php echo esc_url(home_url('/pilates-lorient/')); ?>">Lorient</a> (10 min), <a href="<?php echo esc_url(home_url('/pilates-ploemeur/')); ?>">Ploemeur</a> (5 min) et Guidel</p>
+                <p class="mp-cta-reassurance">Séances accessibles à tous les niveaux – débutants bienvenus<br>Studio à Larmor-Plage, à 10 min de <a href="<?php echo esc_url(home_url('/pilates-lorient/')); ?>">Lorient</a>, 5 min de <a href="<?php echo esc_url(home_url('/pilates-ploemeur/')); ?>">Ploemeur</a> et Guidel</p>
                 <div class="mp-cta-buttons">
                     <a href="<?php echo esc_url(mp_get_planning_url()); ?>" class="mp-btn mp-btn-primary">
-                        <span>Voir les créneaux en petit groupe</span>
+                        <span>Trouver un créneau</span>
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
                             <line x1="16" y1="2" x2="16" y2="6"/>
@@ -212,7 +212,7 @@ get_header();
                         </svg>
                     </a>
                     <a href="<?php echo esc_url(mp_get_contact_url()); ?>" class="mp-btn mp-btn-secondary">
-                        <span>Me poser une question</span>
+                        <span>J'ai une question avant de réserver</span>
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
                         </svg>

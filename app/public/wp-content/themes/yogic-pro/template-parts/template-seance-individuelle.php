@@ -23,9 +23,10 @@ get_header();
                     <path d="M28 32c-6 0-12 4-12 10h24c0-6-6-10-12-10z" fill="#7fa8b6" opacity="0.2"/>
                 </svg>
             </div>
-            <h1 class="mp-hero-title">Cours particulier de Pilates à Larmor-Plage</h1>
+            <h1 class="mp-hero-title">Cours privés de Pilates à Larmor-Plage</h1>
             <p class="mp-hero-subtitle">
-                Un moment rien que pour vous. Une séance individuelle sur appareils, c'est du temps offert à votre corps. Sans comparaison, sans rythme imposé. Juste vous, votre respiration, et un accompagnement attentif.
+                Une séance individuelle sur appareils Pilates pour travailler avec précision, dans un cadre calme et avec un accompagnement entièrement personnalisé.<br>
+                Vous avancez selon vos possibilités, sur des mouvements choisis pour votre corps et votre objectif du jour.
             </p>
             <p class="mp-hero-hint">Prenez quelques minutes pour découvrir si cette approche est faite pour vous.</p>
         </div>
@@ -38,43 +39,43 @@ get_header();
         <section class="mp-section mp-section-profiles">
             <div class="mp-section-inner">
                 <div class="mp-section-header">
-                    <h2 class="mp-section-title">À qui s'adresse une séance individuelle ?</h2>
-                    <p class="mp-section-intro">Certaines personnes préfèrent avancer seules, à leur rythme. D'autres ont besoin d'un cadre rassurant pour se lancer. La séance individuelle est faite pour ça.</p>
+                    <h2 class="mp-section-title">Le cours privé est particulièrement adapté si vous souhaitez…</h2>
+                    <p class="mp-section-intro">Certaines situations demandent une attention plus précise que ce qu'un cours collectif peut offrir. La séance individuelle est faite pour ça.</p>
                 </div>
 
                 <div class="mp-profiles-grid">
-                    <!-- Profil 1 : Débutants -->
+                    <!-- Profil 1 : Reprise -->
                     <div class="mp-profile-card mp-profile-blue-light">
-                        <div class="mp-profile-icon">
-                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-                            </svg>
-                        </div>
-                        <h3 class="mp-profile-title">Vous n'avez jamais fait de Pilates ?</h3>
-                        <p>Pas de souci. En individuel, on prend le temps de tout expliquer. Vous apprenez à écouter votre corps avant de le solliciter — chaque geste est accompagné.</p>
-                    </div>
-
-                    <!-- Profil 2 : Reprise -->
-                    <div class="mp-profile-card mp-profile-rose-light">
                         <div class="mp-profile-icon">
                             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                                 <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/>
                                 <path d="M12 6v6l4 2"/>
                             </svg>
                         </div>
-                        <h3 class="mp-profile-title">Votre corps a besoin de douceur en ce moment ?</h3>
-                        <p>Grossesse, blessure, fatigue... La séance individuelle permet de repartir là où vous en êtes aujourd'hui — pas où vous étiez avant. On avance ensemble, à votre rythme.</p>
+                        <h3 class="mp-profile-title">Reprendre après une douleur, une blessure ou un arrêt</h3>
+                        <p>On commence là où vous en êtes aujourd'hui, pas là où vous étiez avant. Mouvements adaptés, progression progressive, dans un cadre sécurisant.</p>
                     </div>
 
-                    <!-- Profil 3 : Sur mesure -->
+                    <!-- Profil 2 : Objectif précis -->
+                    <div class="mp-profile-card mp-profile-rose-light">
+                        <div class="mp-profile-icon">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                            </svg>
+                        </div>
+                        <h3 class="mp-profile-title">Travailler un objectif précis</h3>
+                        <p>Dos, posture, mobilité, respiration, préparation sportive, post-grossesse… La séance est construite autour de votre besoin concret du moment.</p>
+                    </div>
+
+                    <!-- Profil 3 : Découvrir les appareils -->
                     <div class="mp-profile-card mp-profile-warm-light">
                         <div class="mp-profile-icon">
                             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                                 <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
                             </svg>
                         </div>
-                        <h3 class="mp-profile-title">Vous avez envie d'un moment vraiment pour vous ?</h3>
-                        <p>Des besoins spécifiques, des tensions récurrentes, ou simplement l'envie d'un suivi personnalisé. L'individuel offre une attention que le groupe ne permet pas toujours.</p>
+                        <h3 class="mp-profile-title">Découvrir les appareils Pilates</h3>
+                        <p>Reformer, Cadillac, Wunda Chair… Une approche complète, expliquée pas à pas. Toute mon attention est centrée sur vos sensations et votre alignement.</p>
                     </div>
                 </div>
             </div>
@@ -93,7 +94,7 @@ get_header();
                         </div>
                         <div class="mp-timeline-content">
                             <h3 class="mp-timeline-title">L'accueil</h3>
-                            <p>On commence par échanger. Comment vous sentez-vous aujourd'hui ? Y a-t-il quelque chose que vous aimeriez travailler, ou au contraire éviter ? Ce moment permet d'adapter la séance à votre état du jour.</p>
+                            <p>Avant même de commencer, on échange. Comment vous sentez-vous aujourd'hui ? Y a-t-il une zone tendue à éviter, un objectif à privilégier ? Ce moment me permet d'adapter la séance à votre état du jour, pas à un programme préétabli.</p>
                         </div>
                     </div>
 
@@ -146,8 +147,8 @@ get_header();
                                 <circle cx="12" cy="12" r="3"/>
                             </svg>
                         </div>
-                        <h3 class="mp-benefit-title">Une écoute totale</h3>
-                        <p>Toute mon attention est pour vous. Pas de distraction, pas de groupe à gérer. Juste un accompagnement centré sur vos besoins.</p>
+                        <h3 class="mp-benefit-title">Une attention totale</h3>
+                        <p>Pas de distraction, pas de groupe à gérer. Je peux observer chaque mouvement, ajuster en temps réel, vous accompagner sur les détails qui font la différence.</p>
                     </div>
 
                     <div class="mp-benefit-card">
@@ -157,8 +158,8 @@ get_header();
                                 <polyline points="12 6 12 12 16 14"/>
                             </svg>
                         </div>
-                        <h3 class="mp-benefit-title">Votre propre rythme</h3>
-                        <p>Vous n'avez pas à suivre le tempo des autres. Vous avancez comme vous le sentez, sans comparaison ni pression.</p>
+                        <h3 class="mp-benefit-title">Une progression sur-mesure</h3>
+                        <p>Vous travaillez sur ce qui compte pour vous, sans suivre le tempo des autres. Selon vos possibilités du jour, avec le temps nécessaire pour bien faire.</p>
                     </div>
 
                     <div class="mp-benefit-card">
@@ -167,8 +168,8 @@ get_header();
                                 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
                             </svg>
                         </div>
-                        <h3 class="mp-benefit-title">Un espace de confiance</h3>
-                        <p>Certaines personnes ont besoin d'un cadre intime pour se sentir à l'aise. L'individuel offre cet espace où l'on peut lâcher prise en toute sécurité.</p>
+                        <h3 class="mp-benefit-title">Un cadre intimiste</h3>
+                        <p>Certaines personnes ont besoin d'un espace privé pour se sentir à l'aise — surtout après une blessure, pendant une grossesse, ou simplement pour s'autoriser un moment sans regard extérieur.</p>
                     </div>
                 </div>
             </div>
@@ -198,13 +199,12 @@ get_header();
             <div class="mp-cta-inner">
                 <h2 class="mp-cta-title">Envie d'essayer ?</h2>
                 <p class="mp-cta-text">
-                    Si vous hésitez, vous pouvez simplement m'écrire pour en parler.<br>
-                    Ou consulter le planning pour trouver un créneau qui vous convient.
+                    Réservez un créneau directement, ou écrivez-moi pour en parler avant de vous engager.
                 </p>
-                <p class="mp-cta-reassurance">Première séance découverte possible — Studio de Pilates à Larmor-Plage, près de <a href="<?php echo esc_url(home_url('/pilates-lorient/')); ?>">Lorient</a></p>
+                <p class="mp-cta-reassurance">Première séance découverte possible — Studio de Pilates à Larmor-Plage, à 10 min de <a href="<?php echo esc_url(home_url('/pilates-lorient/')); ?>">Lorient</a></p>
                 <div class="mp-cta-buttons">
                     <a href="<?php echo esc_url(mp_get_planning_url()); ?>" class="mp-btn mp-btn-primary">
-                        <span>Voir les séances disponibles</span>
+                        <span>Réserver une séance individuelle</span>
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
                             <line x1="16" y1="2" x2="16" y2="6"/>
@@ -213,7 +213,7 @@ get_header();
                         </svg>
                     </a>
                     <a href="<?php echo esc_url(mp_get_contact_url()); ?>" class="mp-btn mp-btn-secondary">
-                        <span>Me poser une question</span>
+                        <span>Échanger avant de réserver</span>
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
                         </svg>

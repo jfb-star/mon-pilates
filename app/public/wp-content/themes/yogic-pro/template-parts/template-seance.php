@@ -25,7 +25,8 @@ get_header();
             </div>
             <h1 class="mp-seance-title">Comment se passe une séance de Pilates à Larmor-Plage ?</h1>
             <p class="mp-seance-subtitle">
-                Vous n'avez jamais fait de Pilates ? C'est tout à fait normal de se poser des questions avant de pousser la porte d'un studio. Voici comment se déroule une séance chez Mon Pilates, dans notre studio face à la mer.
+                Vous venez pour la première fois&nbsp;? Voici comment se déroule une séance chez Mon Pilates, du moment où vous arrivez au studio jusqu'à la fin du cours.<br>
+                L'objectif&nbsp;: vous permettre de pratiquer sereinement, même sans expérience.
             </p>
         </div>
     </section>
@@ -112,7 +113,7 @@ get_header();
                     <div class="mp-seance-step-text">
                         <h2 class="mp-step-title">L'accompagnement</h2>
                         <p>Je reste attentive tout au long de la séance. Si un mouvement ne convient pas, on ajuste ensemble. Si vous avez besoin d'une pause, vous la prenez.</p>
-                        <p class="mp-step-highlight">Mon rôle, c'est de vous accompagner avec bienveillance, pas de vous pousser au-delà de vos limites. Chaque personne avance différemment, et c'est très bien comme ça.</p>
+                        <p class="mp-step-highlight">Mon rôle, c'est de vous accompagner avec écoute et précision, pas de vous pousser au-delà de vos possibilités. Chaque personne avance différemment, et c'est bien comme ça.</p>
                     </div>
                 </div>
                 <div class="mp-seance-step-visual">
@@ -166,29 +167,45 @@ get_header();
             </div>
         </section>
 
+        <!-- SECTION "AVANT DE VENIR" -->
+        <section class="mp-seance-prep">
+            <div class="mp-seance-prep-inner">
+                <h2 class="mp-cta-title">Avant de venir</h2>
+                <p class="mp-prep-intro">Quelques infos pratiques pour vous présenter sereinement.</p>
+
+                <ul class="mp-prep-list">
+                    <li><strong>Tenue</strong> : confortable, dans laquelle vous pouvez bouger librement. Pas besoin d'équipement spécifique.</li>
+                    <li><strong>Pieds</strong> : nus ou en chaussettes antidérapantes.</li>
+                    <li><strong>Arrivée</strong> : prévoyez d'arriver 5 à 10 minutes avant le début pour vous installer tranquillement.</li>
+                    <li><strong>Matériel</strong> : tout est fourni par le studio — tapis, petit matériel, appareils.</li>
+                    <li><strong>Niveau</strong> : aucun. Pas besoin d'être souple ni sportif. On commence là où vous en êtes.</li>
+                    <li><strong>Stationnement</strong> : possible à proximité, à deux pas de la plage de Toulhars.</li>
+                </ul>
+            </div>
+        </section>
+
         <!-- SECTION CTA -->
         <section class="mp-seance-cta">
             <div class="mp-seance-cta-inner">
                 <h2 class="mp-cta-title">Envie d'essayer ?</h2>
                 <p class="mp-cta-text">
-                    Si vous hésitez encore, vous pouvez m'écrire simplement, sans engagement.<br>
-                    Je vous répondrai avec plaisir.
+                    Réservez votre première séance ou écrivez-moi si vous avez une question avant.
                 </p>
                 <p class="mp-cta-reassurance">Séances accessibles à tous les niveaux – aucune expérience requise</p>
                 <div class="mp-cta-buttons">
-                    <a href="<?php echo esc_url(mp_get_contact_url()); ?>" class="mp-btn mp-btn-primary">
-                        <span>Me poser une question</span>
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
-                        </svg>
-                    </a>
-                    <a href="<?php echo esc_url(mp_get_planning_url()); ?>" class="mp-btn mp-btn-secondary">
-                        <span>Découvrir le planning</span>
+                    <a href="<?php echo esc_url(mp_get_planning_url()); ?>" class="mp-btn mp-btn-primary">
+                        <span>Réserver une première séance</span>
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
                             <line x1="16" y1="2" x2="16" y2="6"/>
                             <line x1="8" y1="2" x2="8" y2="6"/>
                             <line x1="3" y1="10" x2="21" y2="10"/>
+                        </svg>
+                    </a>
+                    <a href="<?php echo esc_url(mp_get_contact_url()); ?>" class="mp-btn mp-btn-secondary">
+                        <span>J'ai une question avant de venir</span>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
                         </svg>
                     </a>
                 </div>

@@ -27,14 +27,14 @@ get_header();
             </div>
             <h1 class="mp-tarifs-title">Tarifs des cours de Pilates à Larmor-Plage</h1>
             <p class="mp-tarifs-subtitle">
-                Des formules simples, adaptées à votre rythme. Pas d'abonnement, pas d'engagement.
-                Choisissez la formule qui vous correspond et venez pratiquer quand vous le souhaitez,
-                dans notre studio face à la mer, près de Lorient. Toutes nos séances sont accessibles à tous les niveaux.
+                Des formules simples, à choisir selon vos envies. Pas d'abonnement, pas d'engagement.<br>
+                Vous achetez une carte ou une séance, vous réservez quand vous voulez, dans un studio à deux pas de la plage de Toulhars.
             </p>
             <div class="mp-tarifs-badges">
                 <span class="mp-badge">Sans engagement</span>
                 <span class="mp-badge">Tous niveaux</span>
                 <span class="mp-badge">Cartes flexibles</span>
+                <span class="mp-badge">Réservation en ligne</span>
             </div>
         </div>
     </section>
@@ -357,6 +357,21 @@ get_header();
     </section>
 
     <!-- ============================================================
+         SECTION "VOUS HÉSITEZ ?" - Aide à la décision
+         ============================================================ -->
+    <section class="mp-tarifs-help">
+        <div class="mp-tarifs-help-inner">
+            <h2 class="mp-section-title">Vous hésitez entre les formules ?</h2>
+            <ul class="mp-help-list">
+                <li><strong>Pour découvrir le Pilates en douceur</strong> : commencez par une <em>Séance découverte tapis</em> (10&nbsp;€) ou une carte 5&nbsp;cours <em>Pilates Tapis</em>.</li>
+                <li><strong>Pour progresser avec les appareils sans engagement individuel</strong> : choisissez <em>Pilates Machine en petit groupe</em> (carte 5&nbsp;cours à 140&nbsp;€).</li>
+                <li><strong>Pour un besoin spécifique ou un accompagnement complet</strong> : privilégiez le <em>cours privé</em> (séance unité à 65&nbsp;€ ou carte 10&nbsp;cours à 550&nbsp;€).</li>
+            </ul>
+            <p class="mp-help-note">Vous pouvez toujours alterner les formules selon vos envies — chaque carte est valable plusieurs mois.</p>
+        </div>
+    </section>
+
+    <!-- ============================================================
          SECTION CARTES CADEAUX
          ============================================================ -->
     <section class="mp-tarifs-gift">
@@ -403,7 +418,7 @@ get_header();
                         </svg>
                     </summary>
                     <div class="mp-faq-answer">
-                        <p>Oui, chaque carte a une durée de validité indiquée. Mais si vous avez besoin d'un peu plus de temps, contactez-moi — on trouve toujours une solution.</p>
+                        <p>Oui, chaque carte a une durée de validité indiquée au moment de l'achat (de 1 à 12 mois selon la formule). En cas de situation particulière — blessure, grossesse, arrêt prolongé — vous pouvez me contacter pour en parler.</p>
                     </div>
                 </details>
 
@@ -415,7 +430,7 @@ get_header();
                         </svg>
                     </summary>
                     <div class="mp-faq-answer">
-                        <p>Bien sûr. Vous pouvez annuler ou reporter jusqu'à 12h avant le début de la séance, directement depuis votre espace Bsport.</p>
+                        <p>Oui, jusqu'à 12&nbsp;h avant le début de la séance, directement depuis votre espace de réservation en ligne.</p>
                     </div>
                 </details>
 
@@ -427,7 +442,7 @@ get_header();
                         </svg>
                     </summary>
                     <div class="mp-faq-answer">
-                        <p>Une séance découverte est idéale pour commencer. Elle vous permet de voir si le Pilates vous convient, sans engagement. Vous pouvez ensuite choisir la formule qui vous correspond.</p>
+                        <p>Le plus simple est de réserver une <strong>séance découverte</strong>&nbsp;: 10&nbsp;€ pour un cours tapis en petit groupe, ou 50&nbsp;€ pour un cours privé sur appareils. Ce premier rendez-vous permet de voir si la pratique vous convient, sans engagement.</p>
                     </div>
                 </details>
 
@@ -465,12 +480,11 @@ get_header();
         <div class="mp-tarifs-cta-inner">
             <h2 class="mp-cta-title">Prêt à commencer ?</h2>
             <p class="mp-cta-text">
-                Consultez le planning pour trouver un créneau,
-                ou contactez-moi si vous avez des questions.
+                Choisissez une formule et réservez en ligne, ou écrivez-moi si vous avez une question avant.
             </p>
             <div class="mp-cta-buttons">
                 <a href="<?php echo esc_url(mp_get_planning_url()); ?>" class="mp-btn mp-btn-primary">
-                    <span>Voir le planning</span>
+                    <span>Voir les disponibilités</span>
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
                         <line x1="16" y1="2" x2="16" y2="6"/>
@@ -501,7 +515,7 @@ get_header();
             "name": "Les cartes de cours Pilates ont-elles une date d'expiration ?",
             "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Oui, chaque carte a une durée de validité indiquée (3 à 12 mois selon la formule). Mais si vous avez besoin d'un peu plus de temps, contactez-nous — on trouve toujours une solution."
+                "text": "Oui, chaque carte a une durée de validité indiquée au moment de l'achat (de 1 à 12 mois selon la formule). En cas de situation particulière — blessure, grossesse, arrêt prolongé — vous pouvez me contacter pour en parler."
             }
         },
         {
@@ -509,7 +523,7 @@ get_header();
             "name": "Puis-je annuler ou reporter une séance de Pilates ?",
             "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Bien sûr. Vous pouvez annuler ou reporter jusqu'à 12h avant le début de la séance, directement depuis votre espace Bsport."
+                "text": "Oui, jusqu'à 12 h avant le début de la séance, directement depuis votre espace de réservation en ligne."
             }
         },
         {
@@ -517,7 +531,7 @@ get_header();
             "name": "Je n'ai jamais fait de Pilates, par quoi commencer ?",
             "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Une séance découverte est idéale pour commencer. Elle vous permet de voir si le Pilates vous convient, sans engagement. Le cours découverte tapis est à 10€ et le cours découverte privé sur appareils à 50€ au studio Mon Pilates de Larmor-Plage."
+                "text": "Le plus simple est de réserver une séance découverte : 10 € pour un cours tapis en petit groupe, ou 50 € pour un cours privé sur appareils. Ce premier rendez-vous permet de voir si la pratique vous convient, sans engagement."
             }
         },
         {
