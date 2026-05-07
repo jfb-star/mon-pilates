@@ -25,9 +25,9 @@ get_header();
                     <path d="M18 24L28 36L38 24" stroke="#7fa8b6" stroke-width="1.5" fill="none" opacity="0.5"/>
                 </svg>
             </div>
-            <h1 class="mp-hero-title">Cours de Pilates en petit groupe à Larmor-Plage</h1>
+            <h1 class="mp-hero-title">Cours de Pilates Tapis en petit groupe à Larmor-Plage</h1>
             <p class="mp-hero-subtitle">
-                Des séances en très petit groupe, pour pratiquer régulièrement et progresser avec un vrai accompagnement.<br>
+                Des séances au sol avec petit matériel, en très petit groupe, pour pratiquer régulièrement et progresser avec un vrai accompagnement.<br>
                 Les groupes sont volontairement limités pour que chacun soit guidé, corrigé et respecté dans ses possibilités du moment.
             </p>
             <p class="mp-hero-badge">5 personnes maximum par séance</p>
@@ -219,7 +219,9 @@ get_header();
                     </a>
                 </div>
                 <p class="mp-cta-alternative">
-                    <a href="<?php echo esc_url(mp_get_seances_individuelles_url()); ?>">Vous hésitez entre individuel et petit groupe ?</a>
+                    <a href="<?php echo esc_url(mp_get_seances_machine_url()); ?>">Voir aussi le Pilates Machine en petit groupe</a>
+                    &nbsp;·&nbsp;
+                    <a href="<?php echo esc_url(mp_get_seances_individuelles_url()); ?>">ou le cours privé</a>
                 </p>
             </div>
         </section>

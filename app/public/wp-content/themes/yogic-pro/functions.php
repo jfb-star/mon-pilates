@@ -1165,6 +1165,19 @@ function mp_get_seances_groupe_url() {
 }
 
 /**
+ * Fonction helper pour obtenir l'URL de la page Pilates Machine en petit groupe
+ */
+function mp_get_seances_machine_url() {
+    $page = get_page_by_path( 'seances-pilates-machine' );
+    if ( $page ) {
+        return get_permalink( $page->ID );
+    }
+
+    // Fallback : URL par défaut
+    return home_url( '/seances-pilates-machine/' );
+}
+
+/**
  * Fonction helper pour obtenir l'URL du logo
  */
 function mp_get_logo_url() {

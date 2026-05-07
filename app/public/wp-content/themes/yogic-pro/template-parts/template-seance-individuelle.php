@@ -219,6 +219,11 @@ get_header();
                         </svg>
                     </a>
                 </div>
+                <p class="mp-cta-alternative">
+                    <a href="<?php echo esc_url(mp_get_seances_machine_url()); ?>">Voir aussi le Pilates Machine en petit groupe</a>
+                    &nbsp;·&nbsp;
+                    <a href="<?php echo esc_url(mp_get_seances_groupe_url()); ?>">ou le Pilates Tapis</a>
+                </p>
             </div>
         </section>
 
