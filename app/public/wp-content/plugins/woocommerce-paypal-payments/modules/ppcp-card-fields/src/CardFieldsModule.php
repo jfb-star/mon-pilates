@@ -13,18 +13,17 @@ use WooCommerce\PayPalCommerce\Vendor\Psr\Log\LoggerInterface;
 use WooCommerce\PayPalCommerce\ApiClient\Entity\Order;
 use WooCommerce\PayPalCommerce\ApiClient\Factory\ExperienceContextBuilder;
 use WooCommerce\PayPalCommerce\CardFields\Service\CardCaptureValidator;
+use WooCommerce\PayPalCommerce\Settings\Data\SettingsProvider;
 use WooCommerce\PayPalCommerce\Vendor\Inpsyde\Modularity\Module\ExecutableModule;
-use WooCommerce\PayPalCommerce\Vendor\Inpsyde\Modularity\Module\ExtendingModule;
 use WooCommerce\PayPalCommerce\Vendor\Inpsyde\Modularity\Module\ModuleClassNameIdTrait;
 use WooCommerce\PayPalCommerce\Vendor\Inpsyde\Modularity\Module\ServiceModule;
 use WooCommerce\PayPalCommerce\Vendor\Psr\Container\ContainerInterface;
 use WooCommerce\PayPalCommerce\WcGateway\Gateway\CreditCardGateway;
-use WooCommerce\PayPalCommerce\WcGateway\Settings\Settings;
 use WooCommerce\PayPalCommerce\WcGateway\Helper\CardPaymentsConfiguration;
 /**
  * Class CardFieldsModule
  */
-class CardFieldsModule implements ServiceModule, ExtendingModule, ExecutableModule
+class CardFieldsModule implements ServiceModule, ExecutableModule
 {
     use ModuleClassNameIdTrait;
     /**
@@ -37,18 +36,24 @@ class CardFieldsModule implements ServiceModule, ExtendingModule, ExecutableModu
     /**
      * {@inheritDoc}
      */
-    public function extensions(): array
-    {
-        return require __DIR__ . '/../extensions.php';
-    }
-    /**
-     * {@inheritDoc}
-     */
     public function run(ContainerInterface $c): bool
     {
-        if (!$c->get('card-fields.eligible')) {
-            return \true;
-        }
+        add_action('init', function () use ($c): void {
+            $eligibility_check = $c->get('card-fields.eligibility.check');
+            if (!$eligibility_check()) {
+                return;
+            }
+            $this->register_hooks($c);
+        });
+        return \true;
+    }
+    /**
+     * Registers all hooks that require card-fields eligibility.
+     *
+     * @param ContainerInterface $c The DI container.
+     */
+    private function register_hooks(ContainerInterface $c): void
+    {
         add_filter('woocommerce_paypal_payments_sdk_components_hook', static function (array $components) use ($c) {
             $dcc_config = $c->get('wcgateway.configuration.card-configuration');
             assert($dcc_config instanceof CardPaymentsConfiguration);
@@ -60,18 +65,6 @@ class CardFieldsModule implements ServiceModule, ExtendingModule, ExecutableModu
             // Ensure the older "hosted-fields" component is not loaded.
             return array_filter($components, static fn(string $component) => $component !== 'hosted-fields');
         });
-        add_filter('woocommerce_paypal_payments_sdk_disabled_funding_hook', static function (array $disable_funding, array $flags) use ($c) {
-            if (\true === $flags['is_block_context']) {
-                return $disable_funding;
-            }
-            $dcc_config = $c->get('wcgateway.configuration.card-configuration');
-            assert($dcc_config instanceof CardPaymentsConfiguration);
-            if (!$dcc_config->is_acdc_enabled()) {
-                return $disable_funding;
-            }
-            // For ACDC payments we need the funding source "card"!
-            return array_filter($disable_funding, static fn(string $funding_source) => $funding_source !== 'card');
-        }, 10, 2);
         add_filter(
             'woocommerce_credit_card_form_fields',
             /**
@@ -116,12 +109,12 @@ class CardFieldsModule implements ServiceModule, ExtendingModule, ExecutableModu
             if ($payment_method !== CreditCardGateway::ID) {
                 return $data;
             }
-            $settings = $c->get('wcgateway.settings');
-            assert($settings instanceof Settings);
+            $settings = $c->get('settings.settings-provider');
+            assert($settings instanceof SettingsProvider);
             $experience_context_builder = $c->get('wcgateway.builder.experience-context');
             assert($experience_context_builder instanceof ExperienceContextBuilder);
             $payment_source_data = array('experience_context' => $experience_context_builder->with_endpoint_return_urls()->build()->to_array());
-            $three_d_secure_contingency = $settings->has('3d_secure_contingency') ? apply_filters('woocommerce_paypal_payments_three_d_secure_contingency', $settings->get('3d_secure_contingency')) : '';
+            $three_d_secure_contingency = $settings->three_d_secure_enum() ? apply_filters('woocommerce_paypal_payments_three_d_secure_contingency', $settings->three_d_secure_enum()) : '';
             if ($three_d_secure_contingency === 'SCA_ALWAYS' || $three_d_secure_contingency === 'SCA_WHEN_REQUIRED') {
                 $payment_source_data['attributes'] = array('verification' => array('method' => $three_d_secure_contingency));
             }
@@ -143,6 +136,5 @@ class CardFieldsModule implements ServiceModule, ExtendingModule, ExecutableModu
                 throw new DomainException(esc_html__('Could not capture the PayPal order.', 'woocommerce-paypal-payments'));
             }
         });
-        return \true;
     }
 }

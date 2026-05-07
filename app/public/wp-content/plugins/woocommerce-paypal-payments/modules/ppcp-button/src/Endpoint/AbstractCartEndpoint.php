@@ -10,6 +10,7 @@ namespace WooCommerce\PayPalCommerce\Button\Endpoint;
 use Exception;
 use WooCommerce\PayPalCommerce\Vendor\Psr\Log\LoggerInterface;
 use WooCommerce\PayPalCommerce\ApiClient\Exception\PayPalApiException;
+use WooCommerce\PayPalCommerce\Button\Exception\NonceValidationException;
 use WooCommerce\PayPalCommerce\Button\Helper\CartProductsHelper;
 /**
  * Abstract Class AbstractCartEndpoint
@@ -58,26 +59,22 @@ abstract class AbstractCartEndpoint implements \WooCommerce\PayPalCommerce\Butto
     }
     /**
      * Handles the request.
-     *
-     * @return bool
      */
-    public function handle_request(): bool
+    public function handle_request(): void
     {
         try {
-            return $this->handle_data();
+            $this->handle_data();
         } catch (Exception $error) {
             $this->logger->error('Cart ' . $this->logger_tag . ' failed: ' . $error->getMessage());
-            wp_send_json_error(array('name' => is_a($error, PayPalApiException::class) ? $error->name() : '', 'message' => $error->getMessage(), 'code' => $error->getCode(), 'details' => is_a($error, PayPalApiException::class) ? $error->details() : array()));
-            return \false;
+            wp_send_json_error(array('name' => $error instanceof PayPalApiException ? $error->name() : '', 'message' => $error->getMessage(), 'code' => $error->getCode(), 'details' => $error instanceof PayPalApiException ? $error->details() : array()));
         }
     }
     /**
      * Handles the request data.
      *
-     * @return bool
      * @throws Exception On error.
      */
-    abstract protected function handle_data(): bool;
+    abstract protected function handle_data(): void;
     /**
      * Adds products to cart.
      *
@@ -88,11 +85,7 @@ abstract class AbstractCartEndpoint implements \WooCommerce\PayPalCommerce\Butto
     protected function add_products(array $products): bool
     {
         $this->cart->empty_cart(\false);
-        try {
-            $this->cart_products->add_products($products);
-        } catch (Exception $e) {
-            $this->handle_error();
-        }
+        $this->cart_products->add_products($products);
         return \true;
     }
     /**
@@ -122,11 +115,14 @@ abstract class AbstractCartEndpoint implements \WooCommerce\PayPalCommerce\Butto
      */
     protected function products_from_request()
     {
-        $data = $this->request_data->read_request($this->nonce());
+        try {
+            $data = $this->request_data->read_request($this->nonce());
+        } catch (NonceValidationException $error) {
+            wp_send_json_error(array('message' => $error->getMessage()), 400);
+        }
         $products = $this->cart_products->products_from_data($data);
         if (!$products) {
             wp_send_json_error(array('name' => '', 'message' => __('Necessary fields not defined. Action aborted.', 'woocommerce-paypal-payments'), 'code' => 0, 'details' => array()));
-            return \false;
         }
         return $products;
     }

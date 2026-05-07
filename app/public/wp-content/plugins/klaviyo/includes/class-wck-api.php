@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class WCK_API {
 
-	const VERSION                    = '3.7.3';
+	const VERSION                    = '3.7.4';
 	const KLAVIYO_BASE_URL           = 'klaviyo/v1';
 	const ORDERS_ENDPOINT            = 'orders';
 	const EXTENSION_VERSION_ENDPOINT = 'version';
@@ -631,5 +631,5 @@ function kl_get_plugin_usage_meta_data() {
 }
 
 function kl_get_klaviyo_api_revision() {
-	return '2025-10-15';
+	return '2026-04-15';
 }
