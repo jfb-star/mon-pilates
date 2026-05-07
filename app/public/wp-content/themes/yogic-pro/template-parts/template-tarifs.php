@@ -139,7 +139,7 @@ get_header();
                     <p class="mp-category-desc">Essayez sans engagement, à votre rythme</p>
                 </div>
 
-                <div class="mp-pricing-cards mp-pricing-cards-2">
+                <div class="mp-pricing-cards mp-pricing-cards-3">
                     <div class="mp-pricing-card">
                         <div class="mp-card-header">
                             <h3 class="mp-card-title">Découverte Tapis</h3>
@@ -155,6 +155,25 @@ get_header();
                             <li>Tous niveaux acceptés</li>
                         </ul>
                         <a href="https://backoffice.bsport.io/customer/payment/pass/609533/?membership=3023&force=true" class="mp-card-cta" target="_blank" rel="noopener">
+                            Acheter ma séance découverte
+                        </a>
+                    </div>
+
+                    <div class="mp-pricing-card">
+                        <div class="mp-card-header">
+                            <h3 class="mp-card-title">Découverte Machine</h3>
+                            <p class="mp-card-subtitle">Cours collectif sur appareils</p>
+                        </div>
+                        <div class="mp-card-price">
+                            <span class="mp-price-amount">20</span>
+                            <span class="mp-price-currency">€</span>
+                        </div>
+                        <ul class="mp-card-features">
+                            <li>1 séance en petit groupe</li>
+                            <li>Sur Reformer et appareils</li>
+                            <li>Tous niveaux acceptés</li>
+                        </ul>
+                        <a href="https://backoffice.bsport.io/customer/payment/pass/755371/?membership=3023&force=true" class="mp-card-cta" target="_blank" rel="noopener">
                             Acheter ma séance découverte
                         </a>
                     </div>
@@ -363,7 +382,7 @@ get_header();
         <div class="mp-tarifs-help-inner">
             <h2 class="mp-section-title">Vous hésitez entre les formules ?</h2>
             <ul class="mp-help-list">
-                <li><strong>Pour découvrir le Pilates en douceur</strong> : commencez par une <em>Séance découverte tapis</em> (10&nbsp;€) ou une carte 5&nbsp;cours <em>Pilates Tapis</em>.</li>
+                <li><strong>Pour découvrir le Pilates en douceur</strong> : commencez par une <em>Séance découverte tapis</em> (10&nbsp;€), une <em>Séance découverte machine</em> (20&nbsp;€) ou une carte 5&nbsp;cours <em>Pilates Tapis</em>.</li>
                 <li><strong>Pour progresser avec les appareils sans engagement individuel</strong> : choisissez <em>Pilates Machine en petit groupe</em> (carte 5&nbsp;cours à 140&nbsp;€).</li>
                 <li><strong>Pour un besoin spécifique ou un accompagnement complet</strong> : privilégiez le <em>cours privé</em> (séance unité à 65&nbsp;€ ou carte 10&nbsp;cours à 550&nbsp;€).</li>
             </ul>
@@ -442,7 +461,7 @@ get_header();
                         </svg>
                     </summary>
                     <div class="mp-faq-answer">
-                        <p>Le plus simple est de réserver une <strong>séance découverte</strong>&nbsp;: 10&nbsp;€ pour un cours tapis en petit groupe, ou 50&nbsp;€ pour un cours privé sur appareils. Ce premier rendez-vous permet de voir si la pratique vous convient, sans engagement.</p>
+                        <p>Le plus simple est de réserver une <strong>séance découverte</strong>&nbsp;: 10&nbsp;€ pour un cours tapis en petit groupe, 20&nbsp;€ pour un cours machine en petit groupe, ou 50&nbsp;€ pour un cours privé sur appareils. Ce premier rendez-vous permet de voir si la pratique vous convient, sans engagement.</p>
                     </div>
                 </details>
 
@@ -531,7 +550,7 @@ get_header();
             "name": "Je n'ai jamais fait de Pilates, par quoi commencer ?",
             "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Le plus simple est de réserver une séance découverte : 10 € pour un cours tapis en petit groupe, ou 50 € pour un cours privé sur appareils. Ce premier rendez-vous permet de voir si la pratique vous convient, sans engagement."
+                "text": "Le plus simple est de réserver une séance découverte : 10 € pour un cours tapis en petit groupe, 20 € pour un cours machine en petit groupe, ou 50 € pour un cours privé sur appareils. Ce premier rendez-vous permet de voir si la pratique vous convient, sans engagement."
             }
         },
         {
