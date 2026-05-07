@@ -92,7 +92,17 @@
         isLoading: true,
         error: null,
         filtersDrawerOpen: false,
+        showPrivate: false,        // Cours privés cachés par défaut (toggle au-dessus du planning)
     };
+
+    /**
+     * Heuristic to detect a private course offer based on its activity name.
+     * Used to filter them out by default from the main planning view.
+     */
+    function isPrivateOffer(offer) {
+        const name = normalizeText(offer && offer.activity_name);
+        return name.includes('prive') || name.includes('individuel') || name.includes('duo');
+    }
 
     // DOM Elements
     let container = null;
@@ -259,6 +269,7 @@
         state.selectedNeed = null;
         state.selectedActivities = [];
         state.filtersDrawerOpen = false;
+        state.showPrivate = false;
 
         const dates = getUniqueDates();
         state.selectedDate = dates[0] || null;
@@ -305,6 +316,12 @@
     function getFilteredOffers() {
         return getFutureOffers().filter(offer => {
             if (offer.date !== state.selectedDate) return false;
+            // Hide private offers from the main planning view unless explicitly toggled on,
+            // OR unless the user has explicitly selected the "private" need (in which case
+            // they want to see them).
+            if (!state.showPrivate && state.selectedNeed !== 'prive' && isPrivateOffer(offer)) {
+                return false;
+            }
             if (state.selectedActivities.length > 0) {
                 if (!state.selectedActivities.includes(offer.activity_name)) {
                     return false;
@@ -312,6 +329,15 @@
             }
             return true;
         });
+    }
+
+    /**
+     * Count private offers on the currently selected date (for toggle UI label)
+     */
+    function countPrivateOffersForSelectedDate() {
+        return getFutureOffers().filter(offer =>
+            offer.date === state.selectedDate && isPrivateOffer(offer)
+        ).length;
     }
 
     /**
@@ -629,20 +655,40 @@
     }
 
     /**
-     * Render context summary
+     * Render context summary + private offers toggle
      */
     function renderContextSummary(count) {
         const dateText = formatDateLong(state.selectedDate);
         const needText = state.selectedNeed ? NEEDS_MAP[state.selectedNeed]?.title : '';
+        const privateCount = countPrivateOffersForSelectedDate();
+
+        // Toggle is irrelevant if user already filtered on the "private" need (then they see them)
+        // or if there are simply no private offers that day.
+        const showToggle = state.selectedNeed !== 'prive' && privateCount > 0;
+
+        const toggleLabel = state.showPrivate
+            ? `Cours privés affichés (${privateCount})`
+            : `Voir aussi les cours privés (${privateCount})`;
 
         return `
             <div class="mp-context">
-                <h3 class="mp-context__title">
-                    <span class="mp-context__count">${count}</span> cours disponible${count !== 1 ? 's' : ''}
-                </h3>
-                <p class="mp-context__details">
-                    ${dateText}${needText ? ` · ${needText}` : ''}
-                </p>
+                <div class="mp-context__main">
+                    <h3 class="mp-context__title">
+                        <span class="mp-context__count">${count}</span> cours disponible${count !== 1 ? 's' : ''}
+                    </h3>
+                    <p class="mp-context__details">
+                        ${dateText}${needText ? ` · ${needText}` : ''}
+                    </p>
+                </div>
+                ${showToggle ? `
+                    <button type="button"
+                            class="mp-toggle-private ${state.showPrivate ? 'mp-toggle-private--on' : ''}"
+                            data-toggle-private
+                            aria-pressed="${state.showPrivate}">
+                        <span class="mp-toggle-private__switch" aria-hidden="true"></span>
+                        <span class="mp-toggle-private__label">${toggleLabel}</span>
+                    </button>
+                ` : ''}
             </div>
         `;
     }
@@ -724,6 +770,14 @@
         // Reset filters
         container.querySelectorAll('[data-action="reset-filters"]').forEach(el => {
             el.addEventListener('click', resetFilters);
+        });
+
+        // Toggle "Voir aussi les cours privés"
+        container.querySelectorAll('[data-toggle-private]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                state.showPrivate = !state.showPrivate;
+                render();
+            });
         });
 
         // Date tabs

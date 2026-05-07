@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /**
  * Mon Pilates - Planning CSS
  * UX optimisée : Date toujours visible, filtres séparés
@@ -879,6 +880,16 @@ body:has(.monpilates-planning-section) #sitemain {
     padding: var(--mp-space-md);
     background: var(--mp-bg);
     border-radius: var(--mp-radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--mp-space-md);
+    flex-wrap: wrap;
+}
+
+.mp-context__main {
+    flex: 1;
+    min-width: 200px;
 }
 
 .mp-context__title {
@@ -898,6 +909,81 @@ body:has(.monpilates-planning-section) #sitemain {
     color: var(--mp-text-light);
     margin: 0;
     text-transform: capitalize;
+}
+
+/* Toggle "Voir aussi les cours privés" */
+.mp-toggle-private {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 14px;
+    background: var(--mp-white);
+    border: 1px solid var(--mp-border);
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--mp-text-light);
+    cursor: pointer;
+    transition: all var(--mp-transition);
+    flex-shrink: 0;
+}
+
+.mp-toggle-private:hover {
+    border-color: #B8915A;
+    color: var(--mp-text);
+    background: #fefcf8;
+}
+
+.mp-toggle-private--on {
+    background: linear-gradient(135deg, #D4BC8A 0%, #B8915A 100%);
+    border-color: transparent;
+    color: var(--mp-white);
+}
+
+.mp-toggle-private--on:hover {
+    background: linear-gradient(135deg, #C9AC75 0%, #A88149 100%);
+    color: var(--mp-white);
+}
+
+.mp-toggle-private__switch {
+    position: relative;
+    width: 28px;
+    height: 16px;
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 999px;
+    transition: background var(--mp-transition);
+}
+
+.mp-toggle-private__switch::after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 12px;
+    height: 12px;
+    background: var(--mp-white);
+    border-radius: 50%;
+    transition: transform var(--mp-transition);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.mp-toggle-private--on .mp-toggle-private__switch {
+    background: rgba(255, 255, 255, 0.4);
+}
+
+.mp-toggle-private--on .mp-toggle-private__switch::after {
+    transform: translateX(12px);
+}
+
+.mp-toggle-private__label {
+    white-space: nowrap;
+}
+
+@media (max-width: 600px) {
+    .mp-toggle-private__label {
+        white-space: normal;
+        text-align: left;
+    }
 }
 
 /* ===========================
