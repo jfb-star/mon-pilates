@@ -4467,14 +4467,16 @@ body.admin-bar .mp-header-spacer {
    Réutilisable : pages séances + pages SEO locales
    ========================================================================== */
 .mp-hero-photo {
-    max-width: 1200px;
+    max-width: 980px;
     margin: 0 auto 24px;
     padding: 0 24px;
+    box-sizing: border-box;
 }
 
 .mp-hero-photo-frame {
     position: relative;
-    aspect-ratio: 16 / 9;
+    aspect-ratio: 21 / 9;
+    max-height: 420px;
     border-radius: 16px;
     overflow: hidden;
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
