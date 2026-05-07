@@ -170,6 +170,36 @@
     }
 
     /**
+     * Per-activity color palette for time pills.
+     * Each entry : keyword(s) matched against the (normalized) activity name → light/dark hex.
+     * Keep in sync with the Bsport admin so the activity colors stay coherent
+     * between the website and the Bsport booking flow.
+     */
+    const ACTIVITY_COLORS = [
+        { match: ['doux', 'senior'],          light: '#A4C99A', dark: '#7FB069' }, // sage
+        { match: ['avance en ligne', 'en ligne'], light: '#A189C2', dark: '#8B6FB1' }, // violet (must come BEFORE 'avance' to win)
+        { match: ['avance'],                  light: '#E89489', dark: '#D4726A' }, // corail
+        { match: ['maternite', 'enceinte', 'prenatal', 'postnatal'], light: '#F0BFC9', dark: '#E8A4B8' }, // rose tendre
+        { match: ['machine', 'reformer'],     light: '#7DBA9F', dark: '#5C9982' }, // vert profond
+        { match: ['prive', 'individuel', 'duo'], light: '#B8A07A', dark: '#8B7355' }, // bronze
+        { match: ['tous niveaux', 'classique', 'tapis', 'collectif', 'mat'], light: '#A8C5CF', dark: '#7FA8B6' }, // bleu océan (default Pilates)
+    ];
+
+    /**
+     * Pick the color pair for a given activity name. Falls back to the
+     * theme's primary blue if no rule matches.
+     */
+    function getActivityColors(activityName) {
+        const norm = normalizeText(activityName);
+        for (const rule of ACTIVITY_COLORS) {
+            if (rule.match.some(kw => norm.includes(kw))) {
+                return rule;
+            }
+        }
+        return { light: '#A8C5CF', dark: '#7FA8B6' }; // fallback bleu océan
+    }
+
+    /**
      * Get activities matching a need's keywords (accent-insensitive)
      */
     function getActivitiesForNeed(needId) {
@@ -648,9 +678,12 @@
         const isFull = offer.is_full;
         const spotsText = isFull ? '' : `${offer.spots_left} place${offer.spots_left > 1 ? 's' : ''}`;
         const bookingUrl = getBookingUrl(offer);
+        const colors = getActivityColors(offer.activity_name);
+        // We only colorize when not full — full slots stay grey for visual hierarchy
+        const colorStyle = isFull ? '' : `style="--card-color-light: ${colors.light}; --card-color-dark: ${colors.dark};"`;
 
         return `
-            <article class="mp-card ${isFull ? 'mp-card--full' : ''}">
+            <article class="mp-card ${isFull ? 'mp-card--full' : ''}" ${colorStyle}>
                 <div class="mp-card__time">
                     <span class="mp-card__hour">${offer.time}</span>
                     <span class="mp-card__duration">${offer.duration} min</span>

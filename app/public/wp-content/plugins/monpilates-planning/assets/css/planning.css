@@ -956,7 +956,12 @@ body:has(.monpilates-planning-section) #sitemain {
     align-items: center;
     justify-content: center;
     padding: var(--mp-space-md);
-    background: linear-gradient(135deg, var(--mp-primary-light) 0%, var(--mp-primary) 100%);
+    /* Per-activity gradient — fallback to primary blue if no --card-color-* set */
+    background: linear-gradient(
+        135deg,
+        var(--card-color-light, var(--mp-primary-light)) 0%,
+        var(--card-color-dark, var(--mp-primary)) 100%
+    );
     color: var(--mp-white);
     min-width: 80px;
 }
