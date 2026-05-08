@@ -4737,3 +4737,16 @@ body.admin-bar .mp-header-spacer {
 .pilates-section-title {
     text-wrap: balance;
 }
+
+/* Studio chips : SVG icon */
+.studio-chip-icon-svg {
+    width: 16px;
+    height: 16px;
+    color: #7fa8b6;
+    flex-shrink: 0;
+}
+.studio-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
