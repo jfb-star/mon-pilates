@@ -4406,7 +4406,7 @@ a.cta-button:hover {
 
 .studio-cta-link a:hover {
     color: #ffffff;
-    background: #cf317c;
+    background-color: #cf317c !important;
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(207, 49, 124, 0.28);
 }

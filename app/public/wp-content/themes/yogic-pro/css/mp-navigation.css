@@ -913,7 +913,7 @@ body.front-page .mp-header[data-state="top"] .mp-logo__breath::before {
 .mp-cta:hover {
     transform: translateY(-2px) !important;
     background: var(--mp-rose-light) !important;
-    color: var(--mp-white) !important;
+    color: var(--mp-rose) !important;
     box-shadow:
         0 8px 25px rgba(207, 49, 124, 0.35),
         0 4px 10px rgba(207, 49, 124, 0.25) !important;
