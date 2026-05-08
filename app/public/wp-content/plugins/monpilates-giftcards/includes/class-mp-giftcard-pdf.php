@@ -183,14 +183,12 @@ class MPGC_PDF {
         .gift-card {
             width: 210mm;
             max-width: 100%;
-            height: 297mm;
-            max-height: 297mm;
+            min-height: 280mm; /* écran : remplit visuellement; print: taille auto pour éviter split */
             background: var(--c-paper);
             box-shadow: 0 30px 80px rgba(45, 62, 78, 0.12);
             position: relative;
             display: flex;
             flex-direction: column;
-            overflow: hidden;
             page-break-inside: avoid;
         }
 
@@ -478,18 +476,24 @@ class MPGC_PDF {
             .btn-print { padding: 9px 18px; font-size: 12px; }
         }
 
-        /* PRINT — strict 1 page A4 */
+        /* PRINT — 1 page A4 (taille auto, contenu serré) */
         @media print {
-            html, body { background: #fff; padding: 0; margin: 0; }
-            body { display: block; min-height: 0; }
+            html, body { background: #fff; padding: 0 !important; margin: 0; }
+            body { display: block; min-height: 0; padding: 0 !important; }
             .gift-card {
                 box-shadow: none;
-                width: 210mm;
-                height: 297mm;
-                max-height: 297mm;
+                width: 100%;
+                max-width: none;
+                min-height: 0; /* taille auto = pas de split forcé */
                 page-break-after: avoid;
                 page-break-inside: avoid;
+                break-inside: avoid;
             }
+            .gift-card * {
+                page-break-inside: avoid;
+                break-inside: avoid;
+            }
+            .gc-footer { margin-top: 0; }
             .print-bar, .no-print { display: none !important; }
         }
     </style>
