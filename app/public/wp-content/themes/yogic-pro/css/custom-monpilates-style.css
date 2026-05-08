@@ -1866,6 +1866,13 @@ a.morebutton:hover {
     font-size: 20px;
 }
 
+.hero-btn-icon-svg {
+    width: 18px;
+    height: 18px;
+    margin-right: 8px;
+    flex-shrink: 0;
+}
+
 /* Bouton primaire - Réservation (plus proéminent) */
 .hero-btn-primary {
     background: var(--primary-color);
