@@ -403,19 +403,26 @@ class MPGC_PDF {
             text-decoration: none;
         }
 
-        /* Barre d'impression (visible uniquement à l'écran) */
+        /* Barre d'impression (visible uniquement à l'écran)
+           position: fixed pour la sortir du flex flow de body */
         .print-bar {
-            position: sticky;
+            position: fixed;
             top: 0;
+            left: 0;
+            right: 0;
             z-index: 10;
             text-align: center;
             padding: 12px 16px;
             background: var(--c-ink);
             color: white;
             font-size: 13px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
         }
 
         .print-bar p { margin: 0 0 8px; opacity: 0.9; }
+
+        /* Espace pour ne pas que la print-bar masque le haut de la carte */
+        body.has-print-bar { padding-top: 80px; }
 
         .btn-print {
             display: inline-flex;
@@ -487,7 +494,7 @@ class MPGC_PDF {
         }
     </style>
 </head>
-<body>
+<body class="<?php echo $with_print_script ? 'has-print-bar' : ''; ?>">
     <?php if ( $with_print_script ) : ?>
     <div class="print-bar no-print">
         <p>Votre carte cadeau est prête. Cliquez pour l'imprimer ou la sauvegarder en PDF.</p>
