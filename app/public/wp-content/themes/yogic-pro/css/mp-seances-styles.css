@@ -268,6 +268,13 @@ body[class*="petit-groupe"] .innerbanner {
     gap: 24px;
 }
 
+/* Override : dans un grid, les profile-card doivent prendre la cell, pas
+   leur max-width 900px (qui est pour la page Pour-qui en col unique) */
+.mp-profiles-grid .mp-profile-card {
+    max-width: none;
+    margin: 0;
+}
+
 /* Force 4 colonnes sur desktop wide quand on a 4 cards (Lorient cours adaptés) */
 @media (min-width: 1100px) {
     .mp-profiles-grid {
