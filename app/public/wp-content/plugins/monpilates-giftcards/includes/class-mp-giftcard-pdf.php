@@ -136,20 +136,10 @@ class MPGC_PDF {
         $order_date = $order->get_date_created()->date_i18n( 'j F Y' );
         $buyer_name = $order->get_billing_first_name() . ' ' . $order->get_billing_last_name();
 
-        // Texte du nombre de séances
-        if ( $total_sessions == 1 ) {
-            $sessions_text = '1 séance de Pilates';
-        } else {
-            $sessions_text = $total_sessions . ' séances de Pilates';
-        }
-
-        // Logo en base64 ou URL
+        // Logo et palette brand
         $logo_url = MPGC_PLUGIN_URL . 'assets/images/logo-monpilates.png';
-
-        // Couleurs
         $color_ocean = MPGC_COLOR_OCEAN;
         $color_rose = MPGC_COLOR_ROSE;
-        $color_dark = MPGC_COLOR_DARK;
 
         ob_start();
         ?>
@@ -176,25 +166,32 @@ class MPGC_PDF {
             --c-cream: #f8f4ec;
         }
 
-        body {
+        html, body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             background: var(--c-cream);
+            color: var(--c-ink);
+        }
+
+        body {
             min-height: 100vh;
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             justify-content: center;
-            padding: 24px;
-            color: var(--c-ink);
+            padding: 16px;
         }
 
         .gift-card {
             width: 210mm;
-            min-height: 297mm;
+            max-width: 100%;
+            height: 297mm;
+            max-height: 297mm;
             background: var(--c-paper);
             box-shadow: 0 30px 80px rgba(45, 62, 78, 0.12);
             position: relative;
             display: flex;
             flex-direction: column;
+            overflow: hidden;
+            page-break-inside: avoid;
         }
 
         /* Bordure décorative subtile en haut */
@@ -208,20 +205,12 @@ class MPGC_PDF {
 
         /* HEADER : logo + eyebrow */
         .gc-header {
-            padding: 60px 60px 40px;
+            padding: 36px 56px 24px;
             text-align: center;
         }
 
-        .gc-logo {
-            display: inline-block;
-            margin-bottom: 32px;
-        }
-
-        .gc-logo img {
-            height: 100px;
-            width: auto;
-            display: block;
-        }
+        .gc-logo { display: inline-block; margin-bottom: 18px; }
+        .gc-logo img { height: 80px; width: auto; display: block; }
 
         .gc-eyebrow {
             font-size: 11px;
@@ -229,7 +218,7 @@ class MPGC_PDF {
             letter-spacing: 4px;
             text-transform: uppercase;
             color: var(--c-teal);
-            margin-bottom: 14px;
+            margin-bottom: 12px;
             position: relative;
             display: inline-block;
             padding: 0 36px;
@@ -245,55 +234,53 @@ class MPGC_PDF {
             background: var(--c-teal);
             opacity: 0.5;
         }
-
         .gc-eyebrow::before { left: 0; }
         .gc-eyebrow::after { right: 0; }
 
         .gc-title {
             font-family: 'Cormorant Garamond', Georgia, serif;
-            font-size: 64px;
+            font-size: 52px;
             font-weight: 500;
-            line-height: 1;
+            line-height: 1.05;
             color: var(--c-ink);
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
         .gc-subtitle {
-            font-size: 14px;
+            font-size: 13px;
             color: var(--c-ink-soft);
             font-style: italic;
-            font-weight: 400;
         }
 
-        /* VALEUR : nombre de séances en grosse typo */
+        /* VALEUR : nombre de séances */
         .gc-value {
             text-align: center;
-            padding: 30px 60px 50px;
+            padding: 16px 56px 28px;
         }
 
         .gc-value-amount {
             font-family: 'Cormorant Garamond', Georgia, serif;
-            font-size: 96px;
+            font-size: 84px;
             font-weight: 500;
             line-height: 1;
             color: var(--c-rose);
-            margin-bottom: 6px;
+            margin-bottom: 4px;
         }
 
         .gc-value-unit {
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 600;
             letter-spacing: 3px;
             text-transform: uppercase;
             color: var(--c-ink-soft);
         }
 
-        /* DESTINATAIRE — bloc épuré */
+        /* DESTINATAIRE */
         .gc-recipient {
-            margin: 0 60px 36px;
-            padding: 28px 36px;
+            margin: 0 56px 22px;
+            padding: 22px 28px;
             background: linear-gradient(135deg, rgba(127, 168, 182, 0.06) 0%, rgba(207, 49, 124, 0.04) 100%);
-            border-radius: 14px;
+            border-radius: 12px;
             text-align: center;
         }
 
@@ -303,12 +290,12 @@ class MPGC_PDF {
             letter-spacing: 3px;
             color: var(--c-teal);
             font-weight: 600;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
         .gc-recipient-name {
             font-family: 'Cormorant Garamond', Georgia, serif;
-            font-size: 38px;
+            font-size: 32px;
             font-weight: 500;
             color: var(--c-ink);
             line-height: 1.1;
@@ -316,61 +303,60 @@ class MPGC_PDF {
 
         /* MESSAGE PERSONNEL */
         .gc-message {
-            margin: 0 60px 40px;
-            padding: 28px 32px;
+            margin: 0 56px 24px;
+            padding: 18px 26px 18px 36px;
             background: var(--c-cream);
             border-left: 3px solid var(--c-rose);
-            border-radius: 0 12px 12px 0;
+            border-radius: 0 10px 10px 0;
             position: relative;
         }
 
         .gc-message-content {
             font-family: 'Cormorant Garamond', Georgia, serif;
-            font-size: 19px;
+            font-size: 17px;
             font-style: italic;
             color: var(--c-ink);
-            line-height: 1.65;
+            line-height: 1.55;
+            word-break: break-word;
+            overflow-wrap: anywhere;
         }
 
         .gc-message::before {
             content: '"';
             position: absolute;
-            top: 4px;
-            left: 18px;
+            top: 0;
+            left: 14px;
             font-family: 'Cormorant Garamond', Georgia, serif;
-            font-size: 56px;
+            font-size: 44px;
             color: var(--c-rose);
             opacity: 0.25;
-            line-height: 1;
+            line-height: 1.1;
         }
 
         /* INFOS PRATIQUES */
         .gc-info {
-            margin: 0 60px;
-            padding: 24px 0;
+            margin: 0 56px;
+            padding: 18px 0;
             border-top: 1px solid var(--c-line);
             display: flex;
             justify-content: space-around;
-            gap: 24px;
+            gap: 16px;
         }
 
-        .gc-info-item {
-            text-align: center;
-            flex: 1;
-        }
+        .gc-info-item { text-align: center; flex: 1; }
 
         .gc-info-label {
-            font-size: 10px;
+            font-size: 9px;
             text-transform: uppercase;
             letter-spacing: 2px;
             color: var(--c-ink-soft);
             font-weight: 500;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
             opacity: 0.8;
         }
 
         .gc-info-value {
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 600;
             color: var(--c-ink);
         }
@@ -378,18 +364,18 @@ class MPGC_PDF {
         /* FOOTER */
         .gc-footer {
             margin-top: auto;
-            padding: 36px 60px 44px;
+            padding: 22px 56px 26px;
             background: var(--c-cream);
             border-top: 1px solid var(--c-line);
             text-align: center;
         }
 
         .gc-footer-note {
-            font-size: 12px;
-            line-height: 1.7;
+            font-size: 11px;
+            line-height: 1.6;
             color: var(--c-ink-soft);
             max-width: 460px;
-            margin: 0 auto 16px;
+            margin: 0 auto 10px;
         }
 
         .gc-footer-note strong {
@@ -398,17 +384,17 @@ class MPGC_PDF {
         }
 
         .gc-footer-divider {
-            width: 30px;
+            width: 24px;
             height: 1px;
             background: var(--c-rose);
-            margin: 14px auto;
+            margin: 8px auto;
             opacity: 0.5;
         }
 
         .gc-footer-contact {
-            font-size: 11px;
+            font-size: 10px;
             color: var(--c-ink-soft);
-            line-height: 1.7;
+            line-height: 1.6;
             font-style: italic;
         }
 
@@ -417,22 +403,19 @@ class MPGC_PDF {
             text-decoration: none;
         }
 
-        /* Instructions impression (visible uniquement à l'écran) */
+        /* Barre d'impression (visible uniquement à l'écran) */
         .print-bar {
             position: sticky;
             top: 0;
             z-index: 10;
             text-align: center;
-            padding: 14px 20px;
+            padding: 12px 16px;
             background: var(--c-ink);
             color: white;
             font-size: 13px;
         }
 
-        .print-bar p {
-            margin: 0 0 8px;
-            opacity: 0.9;
-        }
+        .print-bar p { margin: 0 0 8px; opacity: 0.9; }
 
         .btn-print {
             display: inline-flex;
@@ -453,9 +436,53 @@ class MPGC_PDF {
 
         .btn-print:hover { background: #b82a6a; }
 
+        /* MOBILE — la carte se redimensionne, design reste lisible */
+        @media (max-width: 768px) {
+            body { padding: 8px; }
+            .gift-card {
+                width: 100%;
+                height: auto;
+                min-height: 0;
+                max-height: none;
+            }
+            .gc-header { padding: 28px 24px 18px; }
+            .gc-logo img { height: 64px; }
+            .gc-title { font-size: 38px; }
+            .gc-value { padding: 12px 24px 22px; }
+            .gc-value-amount { font-size: 64px; }
+            .gc-recipient {
+                margin: 0 24px 18px;
+                padding: 18px 20px;
+            }
+            .gc-recipient-name { font-size: 26px; }
+            .gc-message {
+                margin: 0 24px 20px;
+                padding: 14px 18px 14px 28px;
+            }
+            .gc-message-content { font-size: 15px; }
+            .gc-info {
+                margin: 0 24px;
+                flex-direction: column;
+                gap: 14px;
+                padding: 18px 0;
+            }
+            .gc-footer { padding: 20px 24px 24px; }
+            .print-bar { padding: 10px 12px; font-size: 12px; }
+            .btn-print { padding: 9px 18px; font-size: 12px; }
+        }
+
+        /* PRINT — strict 1 page A4 */
         @media print {
-            body { background: #fff; padding: 0; }
-            .gift-card { box-shadow: none; width: 100%; min-height: auto; }
+            html, body { background: #fff; padding: 0; margin: 0; }
+            body { display: block; min-height: 0; }
+            .gift-card {
+                box-shadow: none;
+                width: 210mm;
+                height: 297mm;
+                max-height: 297mm;
+                page-break-after: avoid;
+                page-break-inside: avoid;
+            }
             .print-bar, .no-print { display: none !important; }
         }
     </style>
