@@ -159,323 +159,382 @@ class MPGC_PDF {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Carte Cadeau Mon Pilates #<?php echo esc_html( $order_id ); ?></title>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@400;500&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        @page {
-            size: A4;
-            margin: 0;
+        @page { size: A4; margin: 0; }
+
+        :root {
+            --c-teal: <?php echo $color_ocean; ?>;
+            --c-teal-deep: #5a8a9a;
+            --c-rose: <?php echo $color_rose; ?>;
+            --c-ink: #2d3e4e;
+            --c-ink-soft: #6b7c8a;
+            --c-line: #e8eef0;
+            --c-paper: #fefdfb;
+            --c-cream: #f8f4ec;
         }
 
         body {
-            font-family: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: #f5f5f5;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--c-cream);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 24px;
+            color: var(--c-ink);
         }
 
         .gift-card {
             width: 210mm;
             min-height: 297mm;
-            background: #ffffff;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            background: var(--c-paper);
+            box-shadow: 0 30px 80px rgba(45, 62, 78, 0.12);
             position: relative;
-            overflow: hidden;
+            display: flex;
+            flex-direction: column;
         }
 
-        /* Header avec vague */
-        .gift-card__header {
-            background: linear-gradient(135deg, <?php echo $color_ocean; ?> 0%, #5a8a9a 100%);
-            padding: 50px 60px 80px;
-            position: relative;
-        }
-
-        .gift-card__header::after {
+        /* Bordure décorative subtile en haut */
+        .gift-card::before {
             content: '';
             position: absolute;
-            bottom: -1px;
-            left: 0;
-            right: 0;
-            height: 80px;
-            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 1200 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,60 C300,100 600,20 900,60 C1050,80 1150,70 1200,60 L1200,120 L0,120 Z' fill='%23ffffff'/%3E%3C/svg%3E") no-repeat center bottom;
-            background-size: cover;
+            top: 0; left: 0; right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, var(--c-teal) 0%, var(--c-rose) 100%);
         }
 
-        .gift-card__logo {
+        /* HEADER : logo + eyebrow */
+        .gc-header {
+            padding: 60px 60px 40px;
             text-align: center;
-            margin-bottom: 30px;
         }
 
-        .gift-card__logo img {
-            height: 80px;
-            filter: brightness(0) invert(1);
+        .gc-logo {
+            display: inline-block;
+            margin-bottom: 32px;
         }
 
-        .gift-card__logo-text {
-            font-size: 32px;
-            font-weight: 700;
-            color: #ffffff;
-            letter-spacing: 2px;
+        .gc-logo img {
+            height: 100px;
+            width: auto;
+            display: block;
         }
 
-        .gift-card__title {
+        .gc-eyebrow {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--c-teal);
+            margin-bottom: 14px;
+            position: relative;
+            display: inline-block;
+            padding: 0 36px;
+        }
+
+        .gc-eyebrow::before,
+        .gc-eyebrow::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 24px;
+            height: 1px;
+            background: var(--c-teal);
+            opacity: 0.5;
+        }
+
+        .gc-eyebrow::before { left: 0; }
+        .gc-eyebrow::after { right: 0; }
+
+        .gc-title {
             font-family: 'Cormorant Garamond', Georgia, serif;
-            font-size: 48px;
-            font-weight: 400;
-            color: #ffffff;
-            text-align: center;
-            margin-top: 10px;
-        }
-
-        /* Contenu principal */
-        .gift-card__content {
-            padding: 60px;
-            text-align: center;
-        }
-
-        .gift-card__sessions {
-            font-size: 42px;
-            font-weight: 700;
-            color: <?php echo $color_dark; ?>;
+            font-size: 64px;
+            font-weight: 500;
+            line-height: 1;
+            color: var(--c-ink);
             margin-bottom: 10px;
         }
 
-        .gift-card__sessions-subtitle {
-            font-size: 18px;
-            color: <?php echo $color_ocean; ?>;
+        .gc-subtitle {
+            font-size: 14px;
+            color: var(--c-ink-soft);
+            font-style: italic;
+            font-weight: 400;
+        }
+
+        /* VALEUR : nombre de séances en grosse typo */
+        .gc-value {
+            text-align: center;
+            padding: 30px 60px 50px;
+        }
+
+        .gc-value-amount {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 96px;
             font-weight: 500;
+            line-height: 1;
+            color: var(--c-rose);
+            margin-bottom: 6px;
+        }
+
+        .gc-value-unit {
+            font-size: 12px;
+            font-weight: 600;
             letter-spacing: 3px;
             text-transform: uppercase;
-            margin-bottom: 50px;
+            color: var(--c-ink-soft);
         }
 
-        /* Bénéficiaire */
-        .gift-card__recipient {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            border-radius: 20px;
-            padding: 40px;
-            margin: 30px 0;
+        /* DESTINATAIRE — bloc épuré */
+        .gc-recipient {
+            margin: 0 60px 36px;
+            padding: 28px 36px;
+            background: linear-gradient(135deg, rgba(127, 168, 182, 0.06) 0%, rgba(207, 49, 124, 0.04) 100%);
+            border-radius: 14px;
+            text-align: center;
         }
 
-        .gift-card__recipient-label {
-            font-size: 12px;
+        .gc-recipient-label {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--c-teal);
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .gc-recipient-name {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 38px;
+            font-weight: 500;
+            color: var(--c-ink);
+            line-height: 1.1;
+        }
+
+        /* MESSAGE PERSONNEL */
+        .gc-message {
+            margin: 0 60px 40px;
+            padding: 28px 32px;
+            background: var(--c-cream);
+            border-left: 3px solid var(--c-rose);
+            border-radius: 0 12px 12px 0;
+            position: relative;
+        }
+
+        .gc-message-content {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 19px;
+            font-style: italic;
+            color: var(--c-ink);
+            line-height: 1.65;
+        }
+
+        .gc-message::before {
+            content: '"';
+            position: absolute;
+            top: 4px;
+            left: 18px;
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 56px;
+            color: var(--c-rose);
+            opacity: 0.25;
+            line-height: 1;
+        }
+
+        /* INFOS PRATIQUES */
+        .gc-info {
+            margin: 0 60px;
+            padding: 24px 0;
+            border-top: 1px solid var(--c-line);
+            display: flex;
+            justify-content: space-around;
+            gap: 24px;
+        }
+
+        .gc-info-item {
+            text-align: center;
+            flex: 1;
+        }
+
+        .gc-info-label {
+            font-size: 10px;
             text-transform: uppercase;
             letter-spacing: 2px;
-            color: <?php echo $color_ocean; ?>;
-            margin-bottom: 10px;
-        }
-
-        .gift-card__recipient-name {
-            font-family: 'Cormorant Garamond', Georgia, serif;
-            font-size: 36px;
+            color: var(--c-ink-soft);
             font-weight: 500;
-            color: <?php echo $color_dark; ?>;
+            margin-bottom: 6px;
+            opacity: 0.8;
         }
 
-        /* Message personnel */
-        .gift-card__message {
-            font-family: 'Cormorant Garamond', Georgia, serif;
-            font-size: 22px;
-            font-style: italic;
-            color: #555;
-            line-height: 1.6;
-            margin: 40px 20px;
-            padding: 30px;
-            border-left: 4px solid <?php echo $color_rose; ?>;
-            background: #fdf7f9;
-            text-align: left;
-        }
-
-        .gift-card__message::before {
-            content: '"';
-            font-size: 60px;
-            color: <?php echo $color_rose; ?>;
-            opacity: 0.3;
-            line-height: 0;
-            vertical-align: top;
-        }
-
-        /* Infos */
-        .gift-card__info {
-            margin-top: 50px;
-            padding-top: 30px;
-            border-top: 1px solid #eee;
-        }
-
-        .gift-card__info-item {
-            display: inline-block;
-            margin: 0 30px;
-            text-align: center;
-        }
-
-        .gift-card__info-label {
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #999;
-            margin-bottom: 5px;
-        }
-
-        .gift-card__info-value {
-            font-size: 16px;
+        .gc-info-value {
+            font-size: 14px;
             font-weight: 600;
-            color: <?php echo $color_dark; ?>;
+            color: var(--c-ink);
         }
 
-        /* Footer */
-        .gift-card__footer {
-            background: <?php echo $color_dark; ?>;
-            padding: 40px 60px;
-            text-align: center;
+        /* FOOTER */
+        .gc-footer {
             margin-top: auto;
-        }
-
-        .gift-card__footer-text {
-            font-size: 14px;
-            color: rgba(255,255,255,0.9);
-            line-height: 1.8;
-        }
-
-        .gift-card__footer-highlight {
-            color: <?php echo $color_ocean; ?>;
-            font-weight: 600;
-        }
-
-        .gift-card__contact {
-            margin-top: 20px;
-            font-size: 13px;
-            color: rgba(255,255,255,0.7);
-        }
-
-        /* Instructions impression */
-        .print-instructions {
+            padding: 36px 60px 44px;
+            background: var(--c-cream);
+            border-top: 1px solid var(--c-line);
             text-align: center;
-            padding: 20px;
-            background: #fff3cd;
-            color: #856404;
-            font-size: 14px;
         }
 
-        .print-instructions a {
-            color: <?php echo $color_rose; ?>;
+        .gc-footer-note {
+            font-size: 12px;
+            line-height: 1.7;
+            color: var(--c-ink-soft);
+            max-width: 460px;
+            margin: 0 auto 16px;
+        }
+
+        .gc-footer-note strong {
+            color: var(--c-teal);
             font-weight: 600;
+        }
+
+        .gc-footer-divider {
+            width: 30px;
+            height: 1px;
+            background: var(--c-rose);
+            margin: 14px auto;
+            opacity: 0.5;
+        }
+
+        .gc-footer-contact {
+            font-size: 11px;
+            color: var(--c-ink-soft);
+            line-height: 1.7;
+            font-style: italic;
+        }
+
+        .gc-footer-contact a {
+            color: inherit;
             text-decoration: none;
+        }
+
+        /* Instructions impression (visible uniquement à l'écran) */
+        .print-bar {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            text-align: center;
+            padding: 14px 20px;
+            background: var(--c-ink);
+            color: white;
+            font-size: 13px;
+        }
+
+        .print-bar p {
+            margin: 0 0 8px;
+            opacity: 0.9;
         }
 
         .btn-print {
-            display: inline-block;
-            background: <?php echo $color_rose; ?>;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--c-rose);
             color: #fff;
-            padding: 12px 30px;
+            padding: 10px 22px;
             border-radius: 30px;
             text-decoration: none;
             font-weight: 600;
-            margin: 10px;
             cursor: pointer;
             border: none;
-            font-size: 16px;
+            font-size: 13px;
+            font-family: inherit;
+            transition: background 0.2s ease;
         }
 
-        .btn-print:hover {
-            background: #b82a6a;
-        }
+        .btn-print:hover { background: #b82a6a; }
 
         @media print {
-            body {
-                background: #fff;
-                padding: 0;
-            }
-
-            .gift-card {
-                box-shadow: none;
-                width: 100%;
-                min-height: auto;
-            }
-
-            .print-instructions,
-            .no-print {
-                display: none !important;
-            }
+            body { background: #fff; padding: 0; }
+            .gift-card { box-shadow: none; width: 100%; min-height: auto; }
+            .print-bar, .no-print { display: none !important; }
         }
     </style>
 </head>
 <body>
     <?php if ( $with_print_script ) : ?>
-    <div class="print-instructions no-print">
-        <p><strong>🎁 Votre carte cadeau est prête !</strong></p>
-        <p>Cliquez sur le bouton ci-dessous pour l'imprimer ou la sauvegarder en PDF.</p>
-        <button class="btn-print" onclick="window.print()">🖨️ Imprimer / Sauvegarder en PDF</button>
+    <div class="print-bar no-print">
+        <p>Votre carte cadeau est prête. Cliquez pour l'imprimer ou la sauvegarder en PDF.</p>
+        <button class="btn-print" onclick="window.print()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 6 2 18 2 18 9"/>
+                <path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/>
+                <rect x="6" y="14" width="12" height="8"/>
+            </svg>
+            Imprimer / Sauvegarder en PDF
+        </button>
     </div>
     <?php endif; ?>
 
     <div class="gift-card">
-        <div class="gift-card__header">
-            <div class="gift-card__logo">
-                <div class="gift-card__logo-text">MON PILATES</div>
+        <header class="gc-header">
+            <div class="gc-logo">
+                <img src="<?php echo esc_url( $logo_url ); ?>" alt="Mon Pilates">
             </div>
-            <h1 class="gift-card__title">Carte Cadeau</h1>
+            <p class="gc-eyebrow">Carte Cadeau</p>
+            <h1 class="gc-title">Une parenthèse Pilates</h1>
+            <p class="gc-subtitle">Face à la mer · Larmor-Plage</p>
+        </header>
+
+        <section class="gc-value">
+            <div class="gc-value-amount"><?php echo (int) $total_sessions; ?></div>
+            <div class="gc-value-unit"><?php echo $total_sessions > 1 ? 'séances de Pilates' : 'séance de Pilates'; ?></div>
+        </section>
+
+        <?php if ( ! empty( $recipient_name ) ) : ?>
+        <div class="gc-recipient">
+            <div class="gc-recipient-label">Offert à</div>
+            <div class="gc-recipient-name"><?php echo esc_html( $recipient_name ); ?></div>
+        </div>
+        <?php endif; ?>
+
+        <?php if ( ! empty( $personal_message ) ) : ?>
+        <div class="gc-message">
+            <div class="gc-message-content"><?php echo nl2br( esc_html( $personal_message ) ); ?></div>
+        </div>
+        <?php endif; ?>
+
+        <div class="gc-info">
+            <div class="gc-info-item">
+                <div class="gc-info-label">Date d'achat</div>
+                <div class="gc-info-value"><?php echo esc_html( $order_date ); ?></div>
+            </div>
+            <div class="gc-info-item">
+                <div class="gc-info-label">Référence</div>
+                <div class="gc-info-value">#<?php echo esc_html( $order_id ); ?></div>
+            </div>
+            <div class="gc-info-item">
+                <div class="gc-info-label">Offert par</div>
+                <div class="gc-info-value"><?php echo esc_html( $buyer_name ); ?></div>
+            </div>
         </div>
 
-        <div class="gift-card__content">
-            <div class="gift-card__sessions"><?php echo esc_html( $sessions_text ); ?></div>
-            <div class="gift-card__sessions-subtitle">Face à la mer • Larmor-Plage</div>
-
-            <?php if ( ! empty( $recipient_name ) ) : ?>
-            <div class="gift-card__recipient">
-                <div class="gift-card__recipient-label">Offert à</div>
-                <div class="gift-card__recipient-name"><?php echo esc_html( $recipient_name ); ?></div>
-            </div>
-            <?php endif; ?>
-
-            <?php if ( ! empty( $personal_message ) ) : ?>
-            <div class="gift-card__message">
-                <?php echo esc_html( $personal_message ); ?>
-            </div>
-            <?php endif; ?>
-
-            <div class="gift-card__info">
-                <div class="gift-card__info-item">
-                    <div class="gift-card__info-label">Date d'achat</div>
-                    <div class="gift-card__info-value"><?php echo esc_html( $order_date ); ?></div>
-                </div>
-                <div class="gift-card__info-item">
-                    <div class="gift-card__info-label">N° de commande</div>
-                    <div class="gift-card__info-value">#<?php echo esc_html( $order_id ); ?></div>
-                </div>
-                <div class="gift-card__info-item">
-                    <div class="gift-card__info-label">Offert par</div>
-                    <div class="gift-card__info-value"><?php echo esc_html( $buyer_name ); ?></div>
-                </div>
-            </div>
-        </div>
-
-        <div class="gift-card__footer">
-            <p class="gift-card__footer-text">
-                Cette carte cadeau sera <span class="gift-card__footer-highlight">activée lors de la première réservation</span> du bénéficiaire.<br>
-                Présentez cette carte lors de votre venue au studio ou mentionnez le numéro de commande lors de votre réservation.
+        <footer class="gc-footer">
+            <p class="gc-footer-note">
+                Cette carte sera <strong>activée à la première séance</strong>.<br>
+                Présentez-la à votre arrivée au studio, ou mentionnez la référence lors de votre réservation.
             </p>
-            <p class="gift-card__contact">
-                Mon Pilates • 14 boulevard des Dunes, 56260 Larmor-Plage<br>
-                06 99 18 32 16 • cetteviolettela@hotmail.fr
+            <div class="gc-footer-divider"></div>
+            <p class="gc-footer-contact">
+                Mon Pilates · Villa les Mouettes · 14 Boulevard des Dunes · 56260 Larmor-Plage<br>
+                06 99 18 32 16 · <a href="mailto:contact@mon-pilates.bzh">contact@mon-pilates.bzh</a>
             </p>
-        </div>
+        </footer>
     </div>
 
     <?php if ( $with_print_script ) : ?>
     <script>
-        // Auto-print si demandé via URL
         if (window.location.search.includes('print=1')) {
-            window.onload = function() {
-                window.print();
-            };
+            window.onload = function() { window.print(); };
         }
     </script>
     <?php endif; ?>
