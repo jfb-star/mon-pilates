@@ -1,0 +1,310 @@
+/**
+ * Style facture PDF Mon Pilates
+ * Brand cohérent avec le site : teal #7fa8b6 + rose #cf317c, Inter typo
+ */
+
+/* ----- BASE ----- */
+* { box-sizing: border-box; }
+
+body {
+    font-family: 'Helvetica', sans-serif;
+    color: #2d3e4e;
+    font-size: 10pt;
+    line-height: 1.5;
+    margin: 0;
+    padding: 0;
+}
+
+/* Titre principal "Facture" */
+h1.document-type-label {
+    font-size: 24pt;
+    font-weight: 600;
+    color: #2d3e4e;
+    margin: 24px 0 8px;
+    padding: 0;
+    border: none;
+    text-align: left;
+    letter-spacing: -0.5px;
+}
+
+h2, h3 {
+    color: #7fa8b6;
+    font-size: 11pt;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 16px 0 6px;
+}
+
+p { margin: 0 0 6px; }
+
+/* ----- HEAD : LOGO + SHOP INFO ----- */
+.head {
+    width: 100%;
+    border-bottom: 2px solid #7fa8b6;
+    padding-bottom: 18px;
+    margin-bottom: 8px;
+    vertical-align: top;
+}
+
+.head .header {
+    width: 50%;
+    vertical-align: middle;
+}
+
+.head .header img {
+    max-height: 90px;
+    width: auto;
+}
+
+.head .shop-info {
+    width: 50%;
+    text-align: right;
+    vertical-align: middle;
+    font-size: 9.5pt;
+    color: #6b7c8a;
+    line-height: 1.55;
+}
+
+.head .shop-name h3 {
+    color: #2d3e4e;
+    font-size: 13pt;
+    font-weight: 600;
+    text-transform: none;
+    letter-spacing: 0;
+    margin: 0 0 6px;
+}
+
+.head .shop-address,
+.head .shop-phone-number,
+.head .shop-email-address {
+    color: #6b7c8a;
+}
+
+/* ----- ADDRESSES + ORDER DATA ----- */
+.order-data-addresses {
+    width: 100%;
+    margin: 24px 0 18px;
+    border-spacing: 0;
+}
+
+.order-data-addresses td {
+    vertical-align: top;
+    padding: 0;
+}
+
+.order-data-addresses .address {
+    width: 32%;
+    padding-right: 16px;
+}
+
+.order-data-addresses .billing-address p,
+.order-data-addresses .shipping-address p {
+    margin: 6px 0;
+    line-height: 1.55;
+}
+
+.billing-address::before {
+    content: "FACTURÉ À";
+    display: block;
+    font-size: 9pt;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    color: #7fa8b6;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+}
+
+.order-data-addresses .order-data {
+    width: 36%;
+    text-align: left;
+    padding-left: 16px;
+    border-left: 1px solid #e8eef0;
+}
+
+.order-data table {
+    width: 100%;
+    font-size: 9.5pt;
+    border-collapse: collapse;
+}
+
+.order-data th,
+.order-data td {
+    text-align: left;
+    padding: 4px 0;
+    vertical-align: top;
+}
+
+.order-data th {
+    font-weight: 500;
+    color: #6b7c8a;
+    width: 50%;
+    text-transform: uppercase;
+    font-size: 8.5pt;
+    letter-spacing: 0.8px;
+}
+
+.order-data td {
+    color: #2d3e4e;
+    font-weight: 600;
+}
+
+/* ----- ORDER DETAILS TABLE ----- */
+.order-details {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 18px 0;
+    font-size: 10pt;
+}
+
+.order-details thead th {
+    background: #f8f4ec;
+    color: #2d3e4e;
+    text-align: left;
+    padding: 10px 14px;
+    font-weight: 600;
+    font-size: 9pt;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    border-bottom: 1px solid #e8eef0;
+}
+
+.order-details thead th.quantity,
+.order-details thead th.price {
+    text-align: right;
+}
+
+.order-details tbody td {
+    padding: 12px 14px;
+    border-bottom: 1px solid #f0eee9;
+    vertical-align: top;
+}
+
+.order-details tbody tr:last-child td {
+    border-bottom: 1px solid #d8dfe4;
+}
+
+.order-details .product .item-name {
+    font-weight: 600;
+    color: #2d3e4e;
+    margin: 0 0 4px;
+    font-size: 10.5pt;
+}
+
+.order-details .item-meta {
+    color: #6b7c8a;
+    font-size: 9pt;
+}
+
+.order-details .item-meta p { margin: 2px 0; }
+
+.order-details .item-meta .label {
+    color: #8b9aa8;
+    margin-right: 4px;
+}
+
+.order-details .quantity,
+.order-details .price {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+}
+
+.order-details tbody .price {
+    color: #2d3e4e;
+    font-weight: 500;
+}
+
+/* ----- TOTALS ----- */
+.notes-totals {
+    width: 100%;
+    margin-top: 12px;
+    border-collapse: collapse;
+}
+
+.notes-totals .notes-cell {
+    width: 55%;
+    vertical-align: top;
+    padding-right: 24px;
+}
+
+.notes-totals .totals-cell {
+    width: 45%;
+    vertical-align: top;
+}
+
+.notes-totals .no-borders,
+.notes-totals .no-borders td {
+    border: none !important;
+}
+
+table.totals {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table.totals th,
+table.totals td {
+    padding: 6px 0;
+    text-align: right;
+    font-size: 10pt;
+}
+
+table.totals th.description {
+    text-align: left;
+    color: #6b7c8a;
+    font-weight: 500;
+    width: 60%;
+}
+
+table.totals td.price {
+    color: #2d3e4e;
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+}
+
+/* Total final mis en valeur */
+table.totals tr.order_total th,
+table.totals tr.order_total td {
+    border-top: 2px solid #7fa8b6;
+    padding-top: 10px;
+    margin-top: 4px;
+    font-size: 12pt;
+    font-weight: 700;
+    color: #2d3e4e !important;
+}
+
+table.totals tr.order_total td.price {
+    color: #cf317c !important;
+}
+
+/* Notes (mention bénéficiaire/cadeau si présentes) */
+.document-notes,
+.customer-notes {
+    background: #faf6f8;
+    border-left: 3px solid #cf317c;
+    padding: 12px 16px;
+    margin: 16px 0;
+    border-radius: 0 6px 6px 0;
+}
+
+.document-notes h3,
+.customer-notes h3 {
+    margin: 0 0 4px;
+    color: #cf317c;
+}
+
+/* ----- SPACER ----- */
+.bottom-spacer { height: 30px; }
+
+/* ----- FOOTER (mentions légales) ----- */
+#footer {
+    border-top: 1px solid #e8eef0;
+    padding-top: 12px;
+    margin-top: 20px;
+    text-align: center;
+    font-size: 8.5pt;
+    color: #6b7c8a;
+    line-height: 1.6;
+}
+
+#footer p { margin: 2px 0; }
