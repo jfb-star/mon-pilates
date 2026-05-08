@@ -202,7 +202,12 @@ function yogic_pro_scripts() {
 	wp_enqueue_script( 'yogic-pro-owljs', get_template_directory_uri().'/testimonialsrotator/js/owl.carousel.js', array('jquery') );
 	
 	// Style personnalisé Mon Pilates
-	wp_enqueue_style( 'yogic-pro-custom-monpilates', get_template_directory_uri().'/css/custom-monpilates-style.css' );
+	wp_enqueue_style(
+		'yogic-pro-custom-monpilates',
+		get_template_directory_uri().'/css/custom-monpilates-style.css',
+		[],
+		filemtime(get_template_directory().'/css/custom-monpilates-style.css')
+	);
 
 	// Navigation Premium Mon Pilates (sans plugin)
 	wp_enqueue_style( 'mp-navigation', get_template_directory_uri().'/css/mp-navigation.css', array('yogic-pro-custom-monpilates'), '1.0.0' );
