@@ -126,17 +126,32 @@ body[class*="petit-groupe"] .innerbanner {
     font-style: italic;
 }
 
-/* Badge dans le hero */
+/* Badge dans le hero — info pill, PAS un bouton */
 .mp-hero-badge {
-    display: inline-block;
-    font-size: 13px;
-    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
     color: var(--mp-blue-dark);
-    background: rgba(127, 168, 182, 0.15);
-    padding: 8px 18px;
-    border-radius: 50px;
-    margin-top: 24px;
-    border: 1px solid rgba(127, 168, 182, 0.25);
+    background: transparent;
+    padding: 4px 0;
+    margin-top: 18px;
+    border: none;
+    border-radius: 0;
+    opacity: 0.78;
+}
+
+.mp-hero-badge::before {
+    content: '';
+    display: inline-block;
+    width: 18px;
+    height: 1px;
+    background: currentColor;
+    margin-right: 4px;
+    opacity: 0.5;
 }
 
 /* CTA discret dans le hero */
@@ -249,8 +264,15 @@ body[class*="petit-groupe"] .innerbanner {
 
 .mp-profiles-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 24px;
+}
+
+/* Force 4 colonnes sur desktop wide quand on a 4 cards (Lorient cours adaptés) */
+@media (min-width: 1100px) {
+    .mp-profiles-grid {
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    }
 }
 
 .mp-profile-card {
@@ -291,36 +313,30 @@ body[class*="petit-groupe"] .innerbanner {
     margin: 0;
 }
 
-/* Variantes couleurs profils - Individuel */
-.mp-profile-blue-light {
+/* Variantes couleurs profils — UNIFIÉ : teal + rose seulement (brand) */
+.mp-profile-blue-light,
+.mp-profile-sage-light {
     border-top: 3px solid var(--mp-blue);
 }
-.mp-profile-blue-light .mp-profile-icon {
+.mp-profile-blue-light .mp-profile-icon,
+.mp-profile-sage-light .mp-profile-icon {
     background: rgba(127, 168, 182, 0.12);
     color: var(--mp-blue-dark);
 }
 
-.mp-profile-rose-light {
+.mp-profile-rose-light,
+.mp-profile-warm-light {
     border-top: 3px solid var(--mp-rose);
 }
-.mp-profile-rose-light .mp-profile-icon {
+.mp-profile-rose-light .mp-profile-icon,
+.mp-profile-warm-light .mp-profile-icon {
     background: rgba(207, 49, 124, 0.1);
     color: var(--mp-rose);
 }
 
-.mp-profile-warm-light {
-    border-top: 3px solid var(--mp-warm);
-}
-.mp-profile-warm-light .mp-profile-icon {
+/* Anciens overrides résiduels */
+.mp-profile-warm-light-old {
     background: rgba(212, 165, 116, 0.15);
-    color: #b8875a;
-}
-
-.mp-profile-sage-light {
-    border-top: 3px solid var(--mp-sage, #7fb069);
-}
-.mp-profile-sage-light .mp-profile-icon {
-    background: rgba(127, 176, 105, 0.12);
     color: var(--mp-sage, #5a9947);
 }
 
@@ -343,13 +359,14 @@ body[class*="petit-groupe"] .innerbanner {
     color: var(--mp-rose);
 }
 
+/* warm-soft → unifié au teal-soft (brand cohérent) */
 .mp-profile-warm-soft {
-    background: linear-gradient(135deg, rgba(212, 165, 116, 0.08) 0%, white 100%);
-    border-left: 4px solid var(--mp-warm);
+    background: linear-gradient(135deg, rgba(127, 168, 182, 0.08) 0%, white 100%);
+    border-left: 4px solid var(--mp-blue);
 }
 .mp-profile-warm-soft .mp-profile-icon {
-    background: rgba(212, 165, 116, 0.15);
-    color: #b8875a;
+    background: rgba(127, 168, 182, 0.15);
+    color: var(--mp-blue-dark);
 }
 
 /* ==========================================================================
@@ -518,7 +535,7 @@ body[class*="petit-groupe"] .innerbanner {
 
 .mp-deroulement-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 24px;
 }
 
@@ -614,8 +631,8 @@ body[class*="petit-groupe"] .innerbanner {
    ========================================================================== */
 
 .mp-quote-section {
-    padding: 80px 24px;
-    background: linear-gradient(135deg, var(--mp-blue) 0%, var(--mp-blue-dark) 100%);
+    padding: 60px 24px;
+    background: linear-gradient(135deg, rgba(127, 168, 182, 0.85) 0%, rgba(207, 49, 124, 0.55) 100%);
     text-align: center;
 }
 
