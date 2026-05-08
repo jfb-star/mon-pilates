@@ -1653,6 +1653,11 @@ add_filter('style_loader_src', 'mp_remove_version_query', 9999);
 add_filter('script_loader_src', 'mp_remove_version_query', 9999);
 function mp_remove_version_query($src) {
     if (strpos($src, 'ver=')) {
+        // Préserve le ver= si c'est un timestamp Unix (≥10 digits) — utile pour
+        // le cache busting via filemtime(). Sinon, strip (versions WP génériques).
+        if (preg_match('/[?&]ver=(\d{10,})(&|$)/', $src)) {
+            return $src;
+        }
         $src = remove_query_arg('ver', $src);
     }
     return $src;
