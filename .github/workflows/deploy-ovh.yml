@@ -8,6 +8,9 @@ on:
       - 'app/public/wp-content/plugins/**'
       - 'app/public/wp-content/languages/**'
       - 'app/public/wp-content/mu-plugins/**'
+      - 'app/public/llms.txt'
+      - 'app/public/llms-full.txt'
+      - 'app/public/robots.txt'
       - 'public/**'
 
 jobs:
@@ -88,6 +91,17 @@ jobs:
               -e "$SSH_CMD" \
               ${SOURCE}/mu-plugins/ \
               ${REMOTE}:~/${TARGET}/wp-content/mu-plugins/
+
+            # Fichiers root (llms.txt, llms-full.txt, robots.txt) — versionnés pour
+            # AI-readiness et override du robots virtuel WP
+            for f in llms.txt llms-full.txt robots.txt; do
+              if [ -f "app/public/$f" ]; then
+                rsync -avz \
+                  -e "$SSH_CMD" \
+                  "app/public/$f" \
+                  ${REMOTE}:~/${TARGET}/$f
+              fi
+            done
           fi
 
       - name: Clear cache
