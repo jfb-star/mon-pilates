@@ -306,6 +306,30 @@ body.page-pour-qui .innerbanner {
     transition: transform var(--mp-transition), box-shadow var(--mp-transition);
 }
 
+/* Grid pour Lorient/Ploemeur cours adaptés (4 cards en multi-col) */
+.mp-profiles-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 24px;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+/* Override : dans un grid, les profile-card prennent la cell, pas leur max 900 */
+.mp-profiles-grid .mp-profile-card {
+    max-width: none;
+    margin: 0;
+    padding: 28px 24px;
+    border-left: none;
+    border-top: 4px solid var(--mp-blue);
+}
+
+@media (min-width: 1100px) {
+    .mp-profiles-grid {
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    }
+}
+
 .mp-profile-card:hover {
     transform: translateY(-4px);
     box-shadow: var(--mp-shadow-lg);
