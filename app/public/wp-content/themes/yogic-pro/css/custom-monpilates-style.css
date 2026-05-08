@@ -4406,23 +4406,33 @@ a.cta-button:hover {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
-    /* Style bouton proéminent avec dégradé prune */
-    padding: 16px 36px;
-    font-size: 16px;
+    gap: 8px;
+    padding: 13px 28px;
+    font-size: 15px;
     font-weight: 600;
-    color: #ffffff;
-    background: linear-gradient(135deg, #7fa8b6 0%, #cf317c 100%);
+    letter-spacing: 0.2px;
+    color: #cf317c;
+    background: #ffffff;
+    border: 1.5px solid #cf317c;
     border-radius: 50px;
     text-decoration: none;
-    box-shadow: 0 6px 24px rgba(207, 49, 124, 0.25);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 8px rgba(207, 49, 124, 0.10);
+    transition: background-color 0.25s ease, color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .studio-cta-link a:hover {
     color: #ffffff;
-    transform: translateY(-3px);
-    box-shadow: 0 10px 32px rgba(207, 49, 124, 0.35);
+    background: #cf317c;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(207, 49, 124, 0.28);
+}
+
+.studio-cta-link a svg {
+    transition: transform 0.25s ease;
+}
+
+.studio-cta-link a:hover svg {
+    transform: translateX(3px);
 }
 
 /* Responsive mobile */
