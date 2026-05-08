@@ -204,7 +204,7 @@ get_header();
             <figure class="mp-full-image">
                 <img
                     src="<?php echo esc_url(content_url('/uploads/2025/02/14-Boulevard-des-dunes-56260-Larmor-Plage-Mon-Pilates.jpg')); ?>"
-                    alt="Séance individuelle de Pilates sur appareils au studio Mon Pilates à Larmor-Plage"
+                    alt="Séance individuelle de Pilates sur Reformer avec Violette, instructrice à Larmor-Plage"
                     loading="lazy"
                     decoding="async"
                 >

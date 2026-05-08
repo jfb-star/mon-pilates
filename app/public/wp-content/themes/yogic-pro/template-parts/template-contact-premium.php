@@ -162,15 +162,18 @@ get_header();
             </div>
             <div class="mp-map-wrapper">
                 <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1342.359800050773!2d-3.377339053658207!3d47.70928113799079!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4810618512ee16d7%3A0xe8b93bc89cd46d73!2sMon%20Pilates%20Larmor-Plage!5e0!3m2!1sfr!2sfr!4v1738155405796!5m2!1sfr!2sfr"
+                    src="https://www.openstreetmap.org/export/embed.html?bbox=-3.3815%2C47.7068%2C-3.3725%2C47.7118&amp;layer=mapnik&amp;marker=47.70928%2C-3.37734"
                     width="100%"
-                    height="300"
+                    height="320"
                     style="border:0;"
-                    allowfullscreen=""
                     loading="lazy"
-                    referrerpolicy="no-referrer-when-downgrade"
-                    title="Localisation Mon Pilates Larmor-Plage">
+                    title="Localisation Mon Pilates Larmor-Plage sur OpenStreetMap">
                 </iframe>
+                <p class="mp-map-link">
+                    <a href="https://maps.google.com/?q=Mon+Pilates+Larmor-Plage,+14+Boulevard+des+dunes,+56260+Larmor-Plage" target="_blank" rel="noopener">
+                        Itinéraire sur Google Maps →
+                    </a>
+                </p>
             </div>
         </section>
 

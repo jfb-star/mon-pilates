@@ -156,12 +156,10 @@ get_header();
         <!-- SECTION IMAGE -->
         <section class="mp-section mp-section-image-ambiance">
             <figure class="mp-ambiance-image">
-                <img
-                    src="<?php echo esc_url(content_url('/uploads/2025/02/14-Boulevard-des-dunes-56260-Larmor-Plage-Mon-Pilates.jpg')); ?>"
-                    alt="Studio de Pilates avec Reformer à Larmor-Plage"
-                    loading="lazy"
-                    decoding="async"
-                >
+                <?php echo wp_get_attachment_image( 2254, 'full', false, [
+                    'loading'  => 'lazy',
+                    'decoding' => 'async',
+                ] ); ?>
             </figure>
         </section>
 
