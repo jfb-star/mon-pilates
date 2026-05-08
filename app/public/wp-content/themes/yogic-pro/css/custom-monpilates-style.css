@@ -3173,7 +3173,10 @@ a[href*="contact"].hero-btn-secondary:not(:has(span)):hover,
     }
 
     .principe-takeaway::before {
-        content: '→ '; /* Plus compact que 👉 sur mobile */
+        /* Mobile : on garde le SVG check de la version desktop, juste plus petit */
+        width: 12px;
+        height: 12px;
+        margin-right: 6px;
     }
 
     .principes-transition {
