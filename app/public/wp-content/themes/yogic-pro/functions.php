@@ -152,8 +152,10 @@ add_action( 'widgets_init', 'yogic_pro_widgets_init' );
 define( 'OPTIONS_FRAMEWORK_DIRECTORY', get_template_directory_uri() . '/inc/' );
 require_once get_template_directory() . '/inc/options-framework.php';
 
-function yogic_pro_scripts() {	
-	wp_enqueue_style( 'yogic-pro-gfonts-lato', '//fonts.googleapis.com/css?family=Lato:400,300,300italic,400italic,700,700italic' );	
+function yogic_pro_scripts() {
+	wp_enqueue_style( 'yogic-pro-gfonts-lato', '//fonts.googleapis.com/css?family=Lato:400,300,300italic,400italic,700,700italic' );
+	// Inter : utilisé partout dans custom-monpilates-style.css mais jamais chargé jusqu'ici → fallback Segoe UI sous Windows
+	wp_enqueue_style( 'yogic-pro-gfonts-inter', 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap' );
 
 	if( of_get_option('bodyfontface',true) != '' ){
 		wp_enqueue_style( 'yogic-pro-gfonts-body', '//fonts.googleapis.com/css?family='.rawurlencode(of_get_option('bodyfontface',true)) .'&subset=cyrillic,arabic,bengali,cyrillic,cyrillic-ext,devanagari,greek,greek-ext,gujarati,hebrew,latin-ext,tamil,telugu,thai,vietnamese,latin' );
