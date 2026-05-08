@@ -63,7 +63,7 @@ app/sql/
 Thumbs.db
 local-xdebuginfo.php
 app/public/local-xdebuginfo.php
-app/public/llms.txt
+# llms.txt → maintenant versionné (curé custom, pas Yoast auto-gen)
 app/public/llms.txt~
 hs_err_pid*.log
 
