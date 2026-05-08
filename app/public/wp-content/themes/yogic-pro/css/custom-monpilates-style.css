@@ -3472,9 +3472,67 @@ a[href*="contact"].hero-btn-secondary:not(:has(span)):hover,
 /* Zone carousel (garde le style Owl existant) */
 .studio-gallery {
     margin-bottom: 40px;
-    border-radius: 20px;
+}
+
+/* ==========================================================================
+   STUDIO PHOTO MOSAIC (homepage section1, V2-style asymmetric grid)
+   ========================================================================== */
+.studio-mosaic {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 200px 130px 200px;
+    gap: 14px;
+    max-width: 720px;
+    margin: 0 auto;
+}
+
+.studio-mosaic-cell {
+    margin: 0;
+    border-radius: 16px;
     overflow: hidden;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.10);
+    background: #f3f1ec;
+    transition: transform .35s ease, box-shadow .35s ease;
+}
+
+.studio-mosaic-cell:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 32px rgba(0, 0, 0, 0.14);
+}
+
+.studio-mosaic-cell img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Asymmetric placement (V2-inspired) */
+.studio-mosaic-tl { grid-column: 1; grid-row: 1 / 3; }   /* tall, top-left */
+.studio-mosaic-tr { grid-column: 2; grid-row: 1; }        /* short, top-right */
+.studio-mosaic-bl { grid-column: 1; grid-row: 3; }        /* short, bottom-left */
+.studio-mosaic-br { grid-column: 2; grid-row: 2 / 4; }    /* tall, bottom-right */
+
+.studio-mosaic-caption {
+    text-align: center;
+    margin: 18px 0 0;
+    color: #4a4a4a;
+    font-size: 14px;
+    font-style: italic;
+}
+
+@media (max-width: 600px) {
+    .studio-mosaic {
+        grid-template-rows: 140px 90px 140px;
+        gap: 10px;
+        max-width: 480px;
+    }
+    .studio-mosaic-cell {
+        border-radius: 12px;
+    }
+    .studio-mosaic-caption {
+        font-size: 13px;
+    }
 }
 
 /* Infos pratiques en ligne */
