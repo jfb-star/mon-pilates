@@ -3711,25 +3711,9 @@ a[href*="contact"].hero-btn-secondary:not(:has(span)):hover,
 }
 
 /* CTA discret */
-.studio-cta-link {
-    text-align: center;
-    margin-top: 35px;
-}
-
-.studio-cta-link a {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    color: #7fa8b6;
-    font-size: 16px;
-    font-weight: 600;
-    text-decoration: none;
-    transition: all 0.3s ease;
-}
-
-.studio-cta-link a:hover {
-    color: #cf317c;
-}
+/* (Ancienne règle .studio-cta-link supprimée — remplacée plus bas par
+   le ghost button rose. Conflit de cascade qui rendait le hover
+   instable, d'où le bug 'texte blanc sur fond blanc'.) */
 
 /* ============================================
    SECTION TÉMOIGNAGES
