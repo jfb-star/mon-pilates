@@ -151,13 +151,36 @@
         }
     ],
     "sameAs": [
-        "https://www.facebook.com/monpilates.bzh",
-        "https://www.instagram.com/monpilates.bzh/"
+        "https://www.facebook.com/MonPilatesBZH/",
+        "https://www.instagram.com/monpilates.bzh",
+        "https://www.google.com/search?q=Mon+Pilates+Larmor-Plage&stick=H4sIAAAAAAAA_-NgU1I1qDCxMDQwM7QwNTRKTTU0SzG3MqhItUiyNE5KtrBMTjEBihgvYpXwzc9TCMjMSSxJLVbwSSzKzS_SDchJTE8FANNmPQ5EAAAA"
     ],
     "founder": {
         "@type": "Person",
-        "name": "Violette",
-        "jobTitle": "Enseignante de Pilates certifiée FPMP"
+        "name": "Violette Derumigny",
+        "jobTitle": "Enseignante de Pilates certifiée FPMP",
+        "worksFor": {
+            "@type": "Organization",
+            "name": "Mon Pilates"
+        },
+        "hasCredential": {
+            "@type": "EducationalOccupationalCredential",
+            "name": "Certification FPMP",
+            "credentialCategory": "Professional certification",
+            "recognizedBy": {
+                "@type": "Organization",
+                "name": "Fédération des Professionnels de la Méthode Pilates",
+                "url": "https://www.fpmp-pilates.fr/"
+            }
+        },
+        "knowsAbout": [
+            "Pilates",
+            "Pilates sur Reformer",
+            "Pilates sur Cadillac",
+            "Méthode Pilates",
+            "Pilates pré et post-natal",
+            "Pilates de réhabilitation"
+        ]
     },
     "areaServed": [
         {"@type": "City", "name": "Larmor-Plage"},
