@@ -131,6 +131,23 @@
         "addressRegion": "Bretagne",
         "addressCountry": "FR"
     },
+    "containedInPlace": {
+        "@type": "LandmarksOrHistoricalBuildings",
+        "name": "Villa les Mouettes",
+        "description": "Maison de villégiature construite en 1905 par Georges Longepied, l'une des premières villas de l'anse de Toulhars à Larmor-Plage. Architecture en moellons de pierre, toits d'ardoise, véranda et balcon vue mer.",
+        "additionalType": "https://schema.org/Residence",
+        "dateCreated": "1905",
+        "isAccessibleForFree": false,
+        "subjectOf": {
+            "@type": "CreativeWork",
+            "name": "Inventaire du Patrimoine de Bretagne — IA56006341",
+            "url": "https://relecture.patrimoine.bzh/dossier/IA56006341",
+            "publisher": {
+                "@type": "Organization",
+                "name": "Région Bretagne — Service de l'Inventaire"
+            }
+        }
+    },
     "geo": {
         "@type": "GeoCoordinates",
         "latitude": 47.7093,
