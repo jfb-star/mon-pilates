@@ -27,6 +27,17 @@ export function ScrollReveal({
       return;
     }
 
+    // Si l'élément est DÉJÀ visible au mount (au-dessus du fold), reveal direct
+    // sans attendre l'observer — sinon les éléments en haut de page restent
+    // invisibles si l'observer rate l'intersection initiale.
+    const rect = el.getBoundingClientRect();
+    const inViewport =
+      rect.top < window.innerHeight && rect.bottom > 0;
+    if (inViewport) {
+      el.classList.add("revealed");
+      return;
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry?.isIntersecting) {
@@ -34,10 +45,21 @@ export function ScrollReveal({
           observer.unobserve(el);
         }
       },
-      { threshold: 0.15, rootMargin: "0px 0px -40px 0px" }
+      { threshold: 0.05, rootMargin: "0px 0px 0px 0px" }
     );
     observer.observe(el);
-    return () => observer.disconnect();
+
+    // Filet de sécurité : si l'observer ne fire pas dans les 2s
+    // (cas rares : iframes, mauvaise détection mobile, etc.), reveal quand même.
+    const fallback = window.setTimeout(() => {
+      el.classList.add("revealed");
+      observer.unobserve(el);
+    }, 2000);
+
+    return () => {
+      observer.disconnect();
+      window.clearTimeout(fallback);
+    };
   }, []);
 
   const delayClass = delay ? `reveal-delay-${delay}` : "";
