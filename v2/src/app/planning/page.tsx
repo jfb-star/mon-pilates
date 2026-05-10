@@ -39,17 +39,17 @@ import { SmartRecommendations } from "@/components/ui/SmartRecommendations"
 import Skeleton from "@/components/ui/Skeleton"
 import { SITE_URL } from "@/lib/env"
 
-const courseTypes = ["tapis", "doux", "intensif", "appareils", "prenatal"] as const
+const courseTypes = ["tous-niveaux", "doux-seniors", "avance", "maternite", "machine"] as const
 const instructorNames = ["Violette"]
 const levels = ["Tous niveaux", "Débutant", "Intermédiaire", "Avancé"]
 
-/** One-line descriptions per course type */
+/** One-line descriptions per course type — alignés Bsport */
 const courseTypeDescriptions: Record<string, string> = {
-  tapis: "Séance complète au tapis, tous niveaux",
-  doux: "Accessible, idéal débutants et seniors",
-  intensif: "Enchaînements soutenus, niveau avancé",
-  appareils: "Petit groupe sur Reformer et appareils",
-  prenatal: "Adapté à la grossesse et au post-partum",
+  "tous-niveaux": "Pilates Tous Niveaux — séance complète au tapis, ouverte à tous",
+  "doux-seniors": "Pilates Doux – Seniors — mouvements en douceur, idéal reprise",
+  "avance": "Pilates Avancé — rythme soutenu, pratiquants confirmés",
+  "maternite": "Pilates Maternité — adapté pré et post-natal",
+  "machine": "Pilates Machine — petit groupe sur Reformer (4 max)",
 }
 
 /** Instructor avatar colors based on name */

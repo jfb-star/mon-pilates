@@ -20,17 +20,17 @@ import { BodyMap } from "@/components/ui/BodyMap";
 import { SITE_URL } from "@/lib/env";
 
 const courseImages: Partial<Record<CourseType, string>> = {
-  tapis: "/images/illustration-cours-collectif.webp",
-  appareils: "/images/illustration-cours-machine.webp",
-  prenatal: "/images/illustration-cours-prenatal.webp",
-  doux: "/images/illustration-cours-doux.webp",
-  intensif: "/images/illustration-cours-intensif.webp",
+  "tous-niveaux": "/images/illustration-cours-collectif.webp",
+  "machine": "/images/illustration-cours-machine.webp",
+  "maternite": "/images/illustration-cours-prenatal.webp",
+  "doux-seniors": "/images/illustration-cours-doux.webp",
+  "avance": "/images/illustration-cours-intensif.webp",
 };
 
 export const metadata: Metadata = {
   title: "Nos cours de Pilates",
   description:
-    "Découvrez nos 5 types de cours : tapis doux, classique et avancé, cours collectif sur appareils et Pilates pré & post-natal. Cours privés disponibles sur réservation.",
+    "Découvrez nos 5 types de cours : tapis doux, classique et avancé, cours collectif sur appareils et Pilates Maternité. Cours privés disponibles sur réservation.",
   openGraph: {
     title: "Nos cours | Mon Pilates",
     description:
@@ -50,11 +50,11 @@ export const metadata: Metadata = {
 };
 
 const courseIcons: Record<string, React.ElementType> = {
-  tapis: Heart,
-  appareils: Sparkles,
-  prenatal: Baby,
-  doux: Leaf,
-  intensif: Flame,
+  "tous-niveaux": Heart,
+  "machine": Sparkles,
+  "maternite": Baby,
+  "doux-seniors": Leaf,
+  "avance": Flame,
 };
 
 const coursesItemListJsonLd = {
@@ -76,7 +76,7 @@ const sportsActivityLocationJsonLd = {
   name: "Mon Pilates",
   url: SITE_URL,
   description:
-    "Studio de Pilates à Larmor-Plage proposant des cours au tapis (doux, classique, avancé), des cours privés sur appareil et du Pilates pré & post-natal.",
+    "Studio de Pilates à Larmor-Plage proposant des cours au tapis (doux, classique, avancé), des cours privés sur appareil et du Pilates Maternité.",
   address: {
     "@type": "PostalAddress",
     addressLocality: "Larmor-Plage",
@@ -346,7 +346,7 @@ function CourseCard({ course }: { course: CourseInfo }) {
             </div>
             <span className="flex items-center gap-1 text-xs text-mp-text-muted font-heading">
               <Users className="w-3 h-3" aria-hidden="true" />
-              {course.slug === "appareils" ? "4 max · sur appareils" : "5 max · suivi premium"}
+              {course.slug === "machine" ? "4 max · sur appareils" : "5 max · suivi premium"}
             </span>
           </div>
         </div>

@@ -30,38 +30,38 @@ import {
 } from "@/lib/mock-data";
 
 const courseFaqs: Record<string, { q: string; a: string }[]> = {
-  tapis: [
-    { q: "Faut-il être souple pour faire du Pilates classique au tapis ?", a: "Non, la souplesse n'est pas un prérequis. Le Pilates classique au tapis s'adapte à tous les niveaux et la souplesse s'améliore naturellement avec la pratique." },
+  "tous-niveaux": [
+    { q: "Faut-il être souple pour faire du Pilates Tous Niveaux ?", a: "Non, la souplesse n'est pas un prérequis. Le cours s'adapte à tous les niveaux et la souplesse s'améliore naturellement avec la pratique." },
     { q: "Quelle est la différence avec le yoga ?", a: "Le Pilates se concentre sur le renforcement du centre (abdominaux profonds, dos, plancher pelvien) avec des mouvements précis et contrôlés, tandis que le yoga met davantage l'accent sur la méditation et les postures statiques." },
     { q: "À quelle fréquence pratiquer ?", a: "Idéalement 2 à 3 fois par semaine pour des résultats optimaux. Une fois par semaine suffit pour maintenir les bienfaits." },
   ],
-  appareils: [
-    { q: "Quelle est la différence avec le cours tapis ?", a: "Le cours sur appareils utilise le Reformer Cadillac et d'autres équipements à ressorts. La résistance variable permet un travail musculaire plus profond et progressif que le tapis, tout en restant accessible grâce aux charges ajustables." },
+  "machine": [
+    { q: "Quelle est la différence avec le cours tapis ?", a: "Le Pilates Machine utilise le Reformer Cadillac et d'autres équipements à ressorts. La résistance variable permet un travail musculaire plus profond et progressif que le tapis, tout en restant accessible grâce aux charges ajustables." },
     { q: "Combien de personnes par cours ?", a: "Maximum 4 participants — un format intermédiaire entre le tapis (5 max) et le privé (1-à-1) qui garantit un suivi rapproché par Violette tout en gardant l'émulation du collectif." },
     { q: "Faut-il avoir déjà fait du Pilates ?", a: "Non, ce cours est ouvert à tous niveaux. Violette adapte les charges et les variantes selon chaque participant. Les vrais débutants peuvent préférer commencer par le tapis ou un cours privé pour les fondamentaux." },
   ],
-  prenatal: [
-    { q: "À partir de quel mois de grossesse puis-je commencer ?", a: "Le Pilates prénatal est accessible dès le 2e trimestre (à partir de 14 semaines), avec un avis médical favorable." },
-    { q: "Y a-t-il des contre-indications ?", a: "Le Pilates prénatal est contre-indiqué en cas de grossesse à risque, de menace d'accouchement prématuré ou sur avis médical contraire. Consultez votre sage-femme ou gynécologue." },
+  "maternite": [
+    { q: "À partir de quel mois de grossesse puis-je commencer ?", a: "Le Pilates Maternité est accessible dès le 2e trimestre (à partir de 14 semaines), avec un avis médical favorable." },
+    { q: "Y a-t-il des contre-indications ?", a: "Le Pilates Maternité est contre-indiqué en cas de grossesse à risque, de menace d'accouchement prématuré ou sur avis médical contraire. Consultez votre sage-femme ou gynécologue." },
     { q: "Et après l'accouchement ?", a: "Oui, le volet post-natal accompagne la reprise en douceur : rééducation du périnée et du transverse, retour progressif à la forme. Avec accord de votre sage-femme ou médecin, généralement après la visite post-partum." },
   ],
-  doux: [
-    { q: "Quelle est la différence avec le Pilates classique au tapis ?", a: "Le Pilates doux propose un rythme plus lent, des mouvements plus accessibles et un accent sur la respiration et le relâchement. Idéal en récupération, pour les seniors ou pour les débutants." },
-    { q: "Ce cours est-il adapté aux seniors ?", a: "Oui, le Pilates doux convient très bien aux personnes souhaitant entretenir mobilité, équilibre et force en douceur, sans limite d'âge." },
-    { q: "Ce cours est-il adapté après une blessure ?", a: "Oui, le Pilates doux est particulièrement indiqué en phase de récupération. Informez Violette de votre situation pour des adaptations personnalisées." },
+  "doux-seniors": [
+    { q: "Quelle est la différence avec le Pilates Tous Niveaux ?", a: "Le Pilates Doux – Seniors propose un rythme plus lent, des mouvements plus accessibles et un accent sur la respiration et le relâchement. Idéal en récupération, pour les seniors ou pour les débutants." },
+    { q: "Ce cours est-il adapté aux seniors ?", a: "Oui, ce cours convient très bien aux personnes souhaitant entretenir mobilité, équilibre et force en douceur, sans limite d'âge." },
+    { q: "Ce cours est-il adapté après une blessure ?", a: "Oui, ce cours est particulièrement indiqué en phase de récupération. Informez Violette de votre situation pour des adaptations personnalisées." },
   ],
-  intensif: [
-    { q: "Quel niveau faut-il pour le cours avancé ?", a: "Ce cours s'adresse aux pratiquants ayant au moins 3 mois d'expérience en Pilates. Il est déconseillé aux grands débutants." },
-    { q: "Va-t-on transpirer ?", a: "Oui ! Le Pilates avancé combine enchaînements dynamiques, séries longues et temps de repos courts. C'est un vrai challenge physique." },
+  "avance": [
+    { q: "Quel niveau faut-il pour le Pilates Avancé ?", a: "Ce cours s'adresse aux pratiquants ayant au moins 3 mois d'expérience en Pilates. Il est déconseillé aux grands débutants." },
+    { q: "Va-t-on transpirer ?", a: "Oui ! Le Pilates Avancé combine enchaînements dynamiques, séries longues et temps de repos courts. C'est un vrai challenge physique." },
   ],
 }
 
 const courseHeroImages: Partial<Record<CourseType, string>> = {
-  tapis: "/images/illustration-cours-collectif.webp",
-  appareils: "/images/cours-reformer-instructrice.webp",
-  prenatal: "/images/illustration-pilates-artistique.webp",
-  doux: "/images/illustration-pilates-artistique.webp",
-  intensif: "/images/illustration-pilates-artistique.webp",
+  "tous-niveaux": "/images/illustration-cours-collectif.webp",
+  "machine": "/images/cours-reformer-instructrice.webp",
+  "maternite": "/images/illustration-pilates-artistique.webp",
+  "doux-seniors": "/images/illustration-pilates-artistique.webp",
+  "avance": "/images/illustration-pilates-artistique.webp",
 };
 
 /* ----------------------------------------------------------

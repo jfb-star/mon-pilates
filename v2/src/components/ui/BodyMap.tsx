@@ -9,11 +9,11 @@ import { ArrowRight } from "lucide-react";
    ---------------------------------------------------------- */
 
 const courseNames: Record<string, string> = {
-  tapis: "Pilates classique — Tapis",
-  appareils: "Cours collectif sur appareils",
-  prenatal: "Pré & post-natal",
-  doux: "Pilates doux — Tapis",
-  intensif: "Pilates avancé — Tapis",
+  "tous-niveaux": "Pilates Tous Niveaux",
+  "machine": "Pilates Machine",
+  "maternite": "Pré & post-natal",
+  "doux-seniors": "Pilates Doux – Seniors",
+  "avance": "Pilates Avancé",
 };
 
 interface BodyZone {
@@ -28,7 +28,7 @@ const bodyZones: BodyZone[] = [
   {
     id: "neck",
     label: "Nuque & Cervicales",
-    courses: ["tapis", "doux"],
+    courses: ["tous-niveaux", "doux-seniors"],
     benefits:
       "Relâche les tensions cervicales et améliore la mobilité du cou",
     exercises: ["Roll Down", "Neck Pull", "Chest Lift"],
@@ -36,7 +36,7 @@ const bodyZones: BodyZone[] = [
   {
     id: "shoulders",
     label: "Épaules & Bras",
-    courses: ["appareils", "tapis", "intensif"],
+    courses: ["machine", "tous-niveaux", "avance"],
     benefits:
       "Renforce la ceinture scapulaire et libère les épaules",
     exercises: ["Arm Circles", "Push-Up", "Pulling Straps"],
@@ -44,7 +44,7 @@ const bodyZones: BodyZone[] = [
   {
     id: "back",
     label: "Dos",
-    courses: ["tapis", "appareils", "doux"],
+    courses: ["tous-niveaux", "machine", "doux-seniors"],
     benefits:
       "Soulage les douleurs dorsales et renforce les muscles profonds",
     exercises: ["Swan", "Swimming", "Cat-Cow"],
@@ -52,7 +52,7 @@ const bodyZones: BodyZone[] = [
   {
     id: "core",
     label: "Abdominaux & Centre",
-    courses: ["tapis", "appareils", "intensif"],
+    courses: ["tous-niveaux", "machine", "avance"],
     benefits:
       "Renforce le powerhouse — centre de toute la méthode Pilates",
     exercises: ["The Hundred", "Teaser", "Plank"],
@@ -60,7 +60,7 @@ const bodyZones: BodyZone[] = [
   {
     id: "hips",
     label: "Hanches & Bassin",
-    courses: ["tapis", "prenatal", "doux"],
+    courses: ["tous-niveaux", "maternite", "doux-seniors"],
     benefits:
       "Stabilise le bassin et améliore la souplesse des hanches",
     exercises: ["Pelvic Curl", "Clam", "Hip Circles"],
@@ -68,7 +68,7 @@ const bodyZones: BodyZone[] = [
   {
     id: "legs",
     label: "Jambes & Pieds",
-    courses: ["appareils", "intensif", "tapis"],
+    courses: ["machine", "avance", "tous-niveaux"],
     benefits: "Tonifie les jambes et améliore l'équilibre",
     exercises: ["Footwork", "Leg Circles", "Side Kicks"],
   },

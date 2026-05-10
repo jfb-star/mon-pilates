@@ -21,7 +21,7 @@ import { clsx } from "clsx"
 /* ============================================================
    COURSE DATA
    ============================================================ */
-type CourseKey = "tapis" | "appareils" | "prenatal" | "doux" | "intensif"
+type CourseKey = "tous-niveaux" | "doux-seniors" | "avance" | "maternite" | "machine"
 
 interface CourseInfo {
   name: string
@@ -33,11 +33,11 @@ interface CourseInfo {
 }
 
 const courseData: Record<CourseKey, CourseInfo> = {
-  tapis: { name: "Pilates classique — Tapis", slug: "tapis", description: "Renforcement postural au sol, accessible à tous", level: "Tous niveaux", duration: "55 min", color: "mp-ocean" },
-  appareils: { name: "Cours collectif sur appareils", slug: "appareils", description: "Petit groupe sur Reformer et appareils, charges adaptées", level: "Tous niveaux", duration: "55 min", color: "mp-gold" },
-  prenatal: { name: "Pilates pré & post-natal", slug: "prenatal", description: "Adapté à la grossesse et au post-partum", level: "Tous niveaux", duration: "55 min", color: "mp-rose" },
-  doux: { name: "Pilates doux — Tapis", slug: "doux", description: "Mouvements en douceur, idéal débutants et seniors", level: "Débutant", duration: "55 min", color: "mp-ocean" },
-  intensif: { name: "Pilates avancé — Tapis", slug: "intensif", description: "Rythme soutenu pour pratiquants confirmés", level: "Avancé", duration: "55 min", color: "mp-charcoal" },
+  "tous-niveaux": { name: "Pilates Tous Niveaux", slug: "tous-niveaux", description: "Renforcement postural au sol, accessible à tous", level: "Tous niveaux", duration: "55 min", color: "mp-ocean" },
+  "machine": { name: "Pilates Machine", slug: "machine", description: "Petit groupe sur Reformer et appareils, charges adaptées", level: "Tous niveaux", duration: "55 min", color: "mp-gold" },
+  "maternite": { name: "Pilates Maternité", slug: "maternite", description: "Adapté à la grossesse et au post-partum", level: "Tous niveaux", duration: "55 min", color: "mp-rose" },
+  "doux-seniors": { name: "Pilates Doux – Seniors", slug: "doux-seniors", description: "Mouvements en douceur, idéal débutants et seniors", level: "Débutant", duration: "55 min", color: "mp-ocean" },
+  "avance": { name: "Pilates Avancé", slug: "avance", description: "Rythme soutenu pour pratiquants confirmés", level: "Avancé", duration: "55 min", color: "mp-charcoal" },
 }
 
 /* ============================================================
@@ -60,29 +60,29 @@ const steps: QuizStep[] = [
     id: "goal",
     question: "Quel est votre objectif principal ?",
     options: [
-      { label: "Soulager mes douleurs", icon: Heart, weights: { tapis: 2, doux: 2, appareils: 1 } },
-      { label: "Me tonifier", icon: Flame, weights: { appareils: 2, intensif: 2, tapis: 1 } },
-      { label: "Me détendre", icon: Sparkles, weights: { doux: 2, tapis: 1 } },
-      { label: "Accompagner ma grossesse", icon: Baby, weights: { prenatal: 3 } },
-      { label: "Rester actif/active", icon: Activity, weights: { doux: 2, tapis: 1 } },
+      { label: "Soulager mes douleurs", icon: Heart, weights: { "tous-niveaux": 2, "doux-seniors": 2, "machine": 1 } },
+      { label: "Me tonifier", icon: Flame, weights: { "machine": 2, "avance": 2, "tous-niveaux": 1 } },
+      { label: "Me détendre", icon: Sparkles, weights: { "doux-seniors": 2, "tous-niveaux": 1 } },
+      { label: "Accompagner ma grossesse", icon: Baby, weights: { "maternite": 3 } },
+      { label: "Rester actif/active", icon: Activity, weights: { "doux-seniors": 2, "tous-niveaux": 1 } },
     ],
   },
   {
     id: "level",
     question: "Quel est votre niveau en Pilates ?",
     options: [
-      { label: "Jamais essayé", weights: { tapis: 1, doux: 1 } },
-      { label: "Quelques cours", weights: { tapis: 1, appareils: 1 } },
-      { label: "Pratiquant régulier", weights: { appareils: 1, intensif: 1 } },
+      { label: "Jamais essayé", weights: { "tous-niveaux": 1, "doux-seniors": 1 } },
+      { label: "Quelques cours", weights: { "tous-niveaux": 1, "machine": 1 } },
+      { label: "Pratiquant régulier", weights: { "machine": 1, "avance": 1 } },
     ],
   },
   {
     id: "intensity",
     question: "Quelle intensité préférez-vous ?",
     options: [
-      { label: "Douce et progressive", weights: { doux: 2, prenatal: 1 } },
-      { label: "Modérée et équilibrée", weights: { tapis: 2, appareils: 1 } },
-      { label: "Intense et challengeante", weights: { intensif: 2, appareils: 1 } },
+      { label: "Douce et progressive", weights: { "doux-seniors": 2, "maternite": 1 } },
+      { label: "Modérée et équilibrée", weights: { "tous-niveaux": 2, "machine": 1 } },
+      { label: "Intense et challengeante", weights: { "avance": 2, "machine": 1 } },
     ],
   },
 ]
@@ -93,7 +93,7 @@ const steps: QuizStep[] = [
 type Scores = Record<CourseKey, number>
 
 function computeResults(answers: Partial<Record<string, number>>[]) {
-  const scores: Scores = { tapis: 0, appareils: 0, prenatal: 0, doux: 0, intensif: 0 }
+  const scores: Scores = { "tous-niveaux": 0, "machine": 0, "maternite": 0, "doux-seniors": 0, "avance": 0 }
 
   for (const weights of answers) {
     for (const [key, val] of Object.entries(weights)) {
@@ -103,7 +103,7 @@ function computeResults(answers: Partial<Record<string, number>>[]) {
 
   const maxScore = Object.values(scores).reduce((a, b) => a + b, 0)
   const sorted = (Object.entries(scores) as [CourseKey, number][]).sort((a, b) => b[1] - a[1])
-  const top = sorted[0] ?? (["tapis", 0] as [CourseKey, number])
+  const top = sorted[0] ?? (["tous-niveaux", 0] as [CourseKey, number])
   const runners = sorted.slice(1, 3)
 
   return {

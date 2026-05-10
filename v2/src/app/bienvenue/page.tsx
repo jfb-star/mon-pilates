@@ -17,8 +17,9 @@ import type { LucideIcon } from "lucide-react";
 
 /* ============================================================
    COURSE DATA (same as CourseQuiz)
+   Cours actuels Mon Pilates — alignés avec Bsport (planning officiel)
    ============================================================ */
-type CourseKey = "tapis" | "appareils" | "prenatal" | "doux" | "intensif";
+type CourseKey = "tous-niveaux" | "doux-seniors" | "avance" | "maternite" | "machine" | "prive";
 
 interface CourseInfo {
   name: string;
@@ -30,20 +31,21 @@ interface CourseInfo {
 }
 
 const courseData: Record<CourseKey, CourseInfo> = {
-  tapis: { name: "Pilates classique — Tapis", slug: "tapis", description: "Renforcement postural au sol, accessible à tous", level: "Tous niveaux", duration: "55 min", color: "mp-ocean" },
-  appareils: { name: "Cours collectif sur appareils", slug: "appareils", description: "Petit groupe sur Reformer et appareils, charges adaptées", level: "Tous niveaux", duration: "55 min", color: "mp-gold" },
-  prenatal: { name: "Pilates pré & post-natal", slug: "prenatal", description: "Adapté à la grossesse et au post-partum", level: "Tous niveaux", duration: "55 min", color: "mp-rose" },
-  doux: { name: "Pilates doux — Tapis", slug: "doux", description: "Mouvements en douceur, idéal débutants et seniors", level: "Débutant", duration: "55 min", color: "mp-ocean" },
-  intensif: { name: "Pilates avancé — Tapis", slug: "intensif", description: "Rythme soutenu pour pratiquants confirmés", level: "Avancé", duration: "55 min", color: "mp-charcoal" },
+  "tous-niveaux": { name: "Pilates Tous Niveaux", slug: "tous-niveaux", description: "Cours sur tapis ouvert à toutes et tous, du débutant au confirmé", level: "Tous niveaux", duration: "55 min", color: "mp-ocean" },
+  "doux-seniors": { name: "Pilates Doux – Seniors", slug: "doux-seniors", description: "Mouvements en douceur sur tapis, adaptés aux seniors et reprise en douceur", level: "Débutant", duration: "55 min", color: "mp-sage" },
+  "avance": { name: "Pilates Avancé", slug: "avance", description: "Rythme soutenu sur tapis pour pratiquants confirmés", level: "Avancé", duration: "55 min", color: "mp-charcoal" },
+  "maternite": { name: "Pilates Maternité", slug: "maternite", description: "Pilates pré & post-natal — accompagne la grossesse et la récupération", level: "Tous niveaux", duration: "55 min", color: "mp-rose" },
+  "machine": { name: "Pilates Machine", slug: "machine", description: "Cours collectif sur Reformer en petit groupe (4 max), travail des résistances", level: "Tous niveaux", duration: "55 min", color: "mp-gold" },
+  "prive": { name: "Cours privés", slug: "prive", description: "Séance individuelle sur appareils Pilates (Reformer, Cadillac, Wunda Chair)", level: "Tous niveaux", duration: "55 min", color: "mp-ocean-deep" },
 };
 
 /* ============================================================
    EXPERIENCE WEIGHTS
    ============================================================ */
 const experienceWeights: Record<string, Partial<Record<CourseKey, number>>> = {
-  never: { tapis: 1, doux: 1 },
-  some: { tapis: 1, appareils: 1 },
-  regular: { appareils: 1, intensif: 1 },
+  never: { "tous-niveaux": 1, "doux-seniors": 1 },
+  some: { "tous-niveaux": 1, "machine": 1 },
+  regular: { "machine": 1, "avance": 1 },
 };
 
 /* ============================================================
@@ -57,11 +59,11 @@ interface GoalOption {
 }
 
 const goalOptions: GoalOption[] = [
-  { id: "pain", label: "Soulager des douleurs", icon: Heart, weights: { tapis: 2, doux: 2, appareils: 1 } },
-  { id: "tone", label: "Me tonifier", icon: Flame, weights: { appareils: 2, intensif: 2, tapis: 1 } },
-  { id: "relax", label: "Me d\u00e9tendre", icon: Sparkles, weights: { doux: 2, tapis: 1 } },
-  { id: "pregnancy", label: "Accompagner ma grossesse", icon: Baby, weights: { prenatal: 3 } },
-  { id: "fitness", label: "Rester en forme", icon: Activity, weights: { doux: 2, tapis: 1 } },
+  { id: "pain", label: "Soulager des douleurs", icon: Heart, weights: { "tous-niveaux": 2, "doux-seniors": 2, "machine": 1 } },
+  { id: "tone", label: "Me tonifier", icon: Flame, weights: { "machine": 2, "avance": 2, "tous-niveaux": 1 } },
+  { id: "relax", label: "Me d\u00e9tendre", icon: Sparkles, weights: { "doux-seniors": 2, "tous-niveaux": 1 } },
+  { id: "pregnancy", label: "Accompagner ma grossesse", icon: Baby, weights: { "maternite": 3 } },
+  { id: "fitness", label: "Rester en forme", icon: Activity, weights: { "doux-seniors": 2, "tous-niveaux": 1 } },
 ];
 
 /* ============================================================
@@ -71,7 +73,14 @@ function computeResult(
   expWeights: Partial<Record<CourseKey, number>>,
   goalWeights: Partial<Record<CourseKey, number>>
 ) {
-  const scores: Record<CourseKey, number> = { tapis: 0, appareils: 0, prenatal: 0, doux: 0, intensif: 0 };
+  const scores: Record<CourseKey, number> = {
+    "tous-niveaux": 0,
+    "doux-seniors": 0,
+    "avance": 0,
+    "maternite": 0,
+    "machine": 0,
+    "prive": 0,
+  };
 
   for (const w of [expWeights, goalWeights]) {
     for (const [key, val] of Object.entries(w)) {
@@ -81,7 +90,7 @@ function computeResult(
 
   const maxScore = Object.values(scores).reduce((a, b) => a + b, 0);
   const sorted = (Object.entries(scores) as [CourseKey, number][]).sort((a, b) => b[1] - a[1]);
-  const top = sorted[0] ?? (["tapis", 0] as [CourseKey, number]);
+  const top = sorted[0] ?? (["tous-niveaux", 0] as [CourseKey, number]);
 
   return {
     key: top[0],
@@ -96,9 +105,11 @@ function computeResult(
 function colorClasses(color: string) {
   switch (color) {
     case "mp-ocean": return { bg: "bg-mp-ocean", bgLight: "bg-mp-ocean/10", text: "text-mp-ocean", border: "border-mp-ocean" };
+    case "mp-ocean-deep": return { bg: "bg-mp-ocean-deep", bgLight: "bg-mp-ocean-deep/10", text: "text-mp-ocean-deep", border: "border-mp-ocean-deep" };
     case "mp-sage": return { bg: "bg-mp-sage", bgLight: "bg-mp-sage/10", text: "text-mp-sage", border: "border-mp-sage" };
     case "mp-rose": return { bg: "bg-mp-rose", bgLight: "bg-mp-rose/10", text: "text-mp-rose", border: "border-mp-rose" };
     case "mp-gold": return { bg: "bg-mp-gold", bgLight: "bg-mp-gold/10", text: "text-mp-gold", border: "border-mp-gold" };
+    case "mp-charcoal": return { bg: "bg-mp-charcoal", bgLight: "bg-mp-charcoal/10", text: "text-mp-charcoal", border: "border-mp-charcoal" };
     default: return { bg: "bg-mp-ocean", bgLight: "bg-mp-ocean/10", text: "text-mp-ocean", border: "border-mp-ocean" };
   }
 }

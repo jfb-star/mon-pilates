@@ -33,6 +33,17 @@ const nextConfig: NextConfig = {
     // long TTL is safe and cuts re-optimization cost + improves repeat-view LCP.
     minimumCacheTTL: 31536000,
   },
+  async redirects() {
+    // Redirige les anciens slugs de cours vers les nouveaux (alignement Bsport).
+    // 308 (permanent) — préserve le SEO.
+    return [
+      { source: "/cours/tapis", destination: "/cours/tous-niveaux", permanent: true },
+      { source: "/cours/doux", destination: "/cours/doux-seniors", permanent: true },
+      { source: "/cours/intensif", destination: "/cours/avance", permanent: true },
+      { source: "/cours/appareils", destination: "/cours/machine", permanent: true },
+      { source: "/cours/prenatal", destination: "/cours/maternite", permanent: true },
+    ];
+  },
   async headers() {
     // Headers for the service worker — applied in both dev and prod so the
     // browser accepts root-scope registration (`Service-Worker-Allowed: /`)

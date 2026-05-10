@@ -126,14 +126,14 @@ function Hero() {
 /* TrustBar moved to @/components/ui/TrustBar (client component for animated counters) */
 
 /* ============================================================
-   TYPES DE COURS
+   TYPES DE COURS — alignés Bsport (planning officiel)
    ============================================================ */
 const courseTypes = [
   {
     icon: Heart,
-    name: "Pilates classique — Tapis",
-    slug: "tapis",
-    description: "Séance complète au tapis, en petit groupe de 5. Renforcez votre centre et améliorez votre posture.",
+    name: "Pilates Tous Niveaux",
+    slug: "tous-niveaux",
+    description: "Cours sur tapis ouvert à toutes et tous, en petit groupe de 5. Renforcez votre centre et améliorez votre posture.",
     color: "text-mp-ocean",
     bg: "bg-mp-ocean/8",
     border: "group-hover:border-mp-ocean/30",
@@ -141,9 +141,9 @@ const courseTypes = [
   },
   {
     icon: Leaf,
-    name: "Pilates doux — Tapis",
-    slug: "doux",
-    description: "Une pratique lente et accessible, idéale pour débuter, récupérer ou se réconcilier avec son corps.",
+    name: "Pilates Doux – Seniors",
+    slug: "doux-seniors",
+    description: "Une pratique lente et accessible sur tapis, idéale pour les seniors et la reprise en douceur.",
     color: "text-mp-ocean-light",
     bg: "bg-mp-ocean-light/10",
     border: "group-hover:border-mp-ocean-light/30",
@@ -151,9 +151,9 @@ const courseTypes = [
   },
   {
     icon: Flame,
-    name: "Pilates avancé",
-    slug: "intensif",
-    description: "Enchaînements soutenus et exercices complexes pour pratiquants confirmés. Contrôle, précision, fluidité.",
+    name: "Pilates Avancé",
+    slug: "avance",
+    description: "Enchaînements soutenus et exercices complexes sur tapis pour pratiquants confirmés. Contrôle, précision, fluidité.",
     color: "text-mp-charcoal",
     bg: "bg-mp-charcoal/8",
     border: "group-hover:border-mp-charcoal/30",
@@ -161,9 +161,9 @@ const courseTypes = [
   },
   {
     icon: Sparkles,
-    name: "Cours collectif sur appareils",
-    slug: "appareils",
-    description: "Petit groupe de 4 sur Reformer et appareils. L'efficacité de la machine, l'émulation du collectif.",
+    name: "Pilates Machine",
+    slug: "machine",
+    description: "Petit groupe de 4 sur Reformer Cadillac premium. L'efficacité de la machine, l'émulation du collectif.",
     color: "text-mp-gold",
     bg: "bg-mp-gold/10",
     border: "group-hover:border-mp-gold/30",
@@ -171,9 +171,9 @@ const courseTypes = [
   },
   {
     icon: Baby,
-    name: "Pilates femmes enceintes",
-    slug: "prenatal",
-    description: "Adapté à chaque trimestre. Maintenez votre forme, soulagez votre dos et préparez votre corps en toute sécurité.",
+    name: "Pilates Maternité",
+    slug: "maternite",
+    description: "Adapté pré et post-natal. Maintenez votre forme, soulagez votre dos et préparez votre corps en toute sécurité.",
     color: "text-mp-rose",
     bg: "bg-mp-rose/8",
     border: "group-hover:border-mp-rose/30",
