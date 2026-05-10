@@ -1,0 +1,103 @@
+# Mon Pilates à Larmor-Plage — Studio de Pilates face à la mer
+
+> Mon Pilates est un studio de Pilates situé à Larmor-Plage, en Bretagne, à 10 minutes de Lorient et 5 minutes de Ploemeur. Le studio est ouvert face à la mer, à deux pas de la plage de Toulhars.
+>
+> Trois formules sont proposées : Pilates Tapis en petit groupe (5 personnes max), Pilates Machine sur Reformer en petit groupe (4 personnes max), et cours privés sur appareils (Reformer, Cadillac, Wunda Chair).
+>
+> Lorsque la météo le permet, les séances ont lieu en plein air, au bord de la piscine, face à l'océan. L'enseignante Violette Derumigny est certifiée FPMP (Fédération des Professionnels de la Méthode Pilates).
+
+## Identité
+
+- Nom : Mon Pilates — Violette Derumigny
+- Activité : Studio de Pilates
+- Adresse : Villa les Mouettes, 14 Boulevard des Dunes, 56260 Larmor-Plage
+- Téléphone : 06 99 18 32 16
+- Email : contact@mon-pilates.bzh
+- Statut juridique : Auto-entrepreneur
+- SIRET : 948 461 686 00024
+- TVA non applicable, art. 293 B du CGI
+- Localisation : Larmor-Plage (Morbihan, Bretagne, France)
+- Zones desservies : Lorient, Ploemeur, Larmor-Plage, Guidel, Quéven
+- Public : tous niveaux (débutants, confirmés, reprise post-blessure ou grossesse, seniors, sportifs)
+
+## Le lieu — Villa les Mouettes
+
+Le studio Mon Pilates est installé dans la **Villa les Mouettes**, une maison de villégiature historique construite en **1905** par Georges Longepied. Elle figure parmi les premières villas de l'anse de Toulhars à Larmor-Plage et est classée **"immeuble remarquable"** par Patrimoine BZH (Région Bretagne).
+
+L'architecture sobre en moellons et toits d'ardoise, la véranda fermée et le balcon en bois orienté mer, donnent au studio un cadre unique : pierre ancienne, lumière naturelle généreuse, vue directe sur l'océan.
+
+Référence patrimoniale : https://relecture.patrimoine.bzh/dossier/IA56006341
+
+## Réseaux sociaux & profils
+
+- Facebook : https://www.facebook.com/MonPilatesBZH/
+- Instagram : https://www.instagram.com/monpilates.bzh
+- Google Business Profile : https://www.google.com/search?q=Mon+Pilates+Larmor-Plage
+
+## Pages essentielles
+
+- Accueil : https://mon-pilates.bzh/
+- Le studio : https://mon-pilates.bzh/le-studio/
+- Pour qui ? : https://mon-pilates.bzh/pour-qui/
+- Comment se passe une séance ? : https://mon-pilates.bzh/comment-se-passe-une-seance/
+
+## Les séances
+
+- Séances individuelles (cours privés sur appareils) : https://mon-pilates.bzh/seances-individuelles/
+- Séances en petit groupe (Pilates Tapis) : https://mon-pilates.bzh/seances-petit-groupe/
+- Pilates Machine en petit groupe (Reformer) : https://mon-pilates.bzh/seances-pilates-machine/
+
+## Pages locales (SEO)
+
+- Cours de Pilates près de Lorient : https://mon-pilates.bzh/pilates-lorient/
+- Pilates à Ploemeur : https://mon-pilates.bzh/pilates-ploemeur/
+
+## Tarifs & cartes de cours
+
+- Tarifs et cartes de cours Pilates : https://mon-pilates.bzh/cours-de-pilates-larmor-plage-tarifs/
+
+Trois gammes de prix : Pilates Tapis dès 17 € la séance, Pilates Machine dès 27 € la séance, cours privé dès 55 € la séance. Cartes 5/10/20 séances disponibles avec tarif dégressif. Sans engagement.
+
+## Réservation
+
+- Planning & réservation en ligne : https://mon-pilates.bzh/planning-des-cours-de-pilates-larmor-plage/
+
+Les réservations sont gérées via la plateforme Bsport, intégrée au site.
+
+## Cartes cadeaux
+
+- Cartes cadeaux Pilates : https://mon-pilates.bzh/offrez-du-bien-etre-avec-nos-cartes-cadeaux-pilates-a-larmor-plage-pres-de-lorient/
+
+Cartes cadeaux dématérialisées (1, 5 ou 10 séances), valides 12 mois, offertes par email avec un message personnel.
+
+## Pilates en entreprise
+
+- Pilates en entreprise à Lorient et Morbihan : https://mon-pilates.bzh/pilates-entreprise-lorient/
+
+Séances de Pilates organisées sur site pour les entreprises du Morbihan (cohésion d'équipe, prévention TMS, bien-être au travail).
+
+## Contact
+
+- Contact : https://mon-pilates.bzh/contact/
+
+Horaires d'ouverture : du lundi au vendredi, de 8h à 20h. Le samedi de 9h à 14h. Réponse aux messages sous 24 heures.
+
+## Pages légales
+
+- Mentions légales : https://mon-pilates.bzh/mentions-legales/
+- Politique de confidentialité : https://mon-pilates.bzh/politique-de-confidentialite/
+- Conditions générales de vente : https://mon-pilates.bzh/conditions-generales-de-vente/
+- Politique de cookies : https://mon-pilates.bzh/politique-de-cookies-ue/
+
+## Notes techniques
+
+- Réservations gérées via Bsport
+- Paiements sécurisés via Stripe
+- Aucune donnée bancaire n'est stockée sur le site
+- Hébergement OVH (serveurs Europe, conformes RGPD)
+- Site WordPress avec thème sur-mesure
+
+## Sitemap
+
+- Sitemap principal : https://mon-pilates.bzh/sitemap_index.xml
+- Version condensée pour LLM : https://mon-pilates.bzh/llms-full.txt
