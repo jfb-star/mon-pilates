@@ -6,11 +6,12 @@ import { useIsFirstTimer } from "@/hooks/useIsFirstTimer"
 import { PricingCard } from "./PricingCard"
 import type { PricingPlan } from "@/lib/pricing-plans"
 
-type Category = "tapis" | "prive"
+type Category = "tapis" | "machine" | "prive"
 
 const TABS: { value: Category; label: string; sub: string }[] = [
-  { value: "tapis", label: "Cours collectifs", sub: "Tapis (5 max)" },
-  { value: "prive", label: "Cours privés", sub: "Reformer 1-à-1" },
+  { value: "tapis", label: "Tapis", sub: "Petit groupe (5 max)" },
+  { value: "machine", label: "Machine", sub: "Reformer (4 max)" },
+  { value: "prive", label: "Privés", sub: "Sur appareils 1-à-1" },
 ]
 
 export function PricingGrid({ plans }: { plans: PricingPlan[] }) {
@@ -73,7 +74,7 @@ export function PricingGrid({ plans }: { plans: PricingPlan[] }) {
 
       {/* Desktop / tablet: full grid with category headers for clarity */}
       <div className="hidden md:block space-y-12">
-        {(["tapis", "prive"] as const).map((cat) => {
+        {(["tapis", "machine", "prive"] as const).map((cat) => {
           const items = visiblePlans.filter((p) => p.category === cat)
           if (items.length === 0) return null
           const tab = TABS.find((t) => t.value === cat)!

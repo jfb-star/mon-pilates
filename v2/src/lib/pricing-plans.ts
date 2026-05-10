@@ -25,8 +25,8 @@ export type PricingPlan = {
   cardType?: "5" | "10" | "20"
   href?: string
   isTrial?: boolean
-  /** Used on /tarifs to group plans into mobile tabs (Tapis vs Privé). */
-  category: "tapis" | "prive"
+  /** Used on /tarifs to group plans into mobile tabs (Tapis / Machine / Privé). */
+  category: "tapis" | "machine" | "prive"
 }
 
 export const pricingPlans: PricingPlan[] = [
@@ -136,6 +136,96 @@ export const pricingPlans: PricingPlan[] = [
     ],
     category: "tapis",
   },
+  // ===========================================================================
+  // PILATES MACHINE — Cours collectif sur Reformer en petit groupe (4 max)
+  // ===========================================================================
+  {
+    name: "Découverte — Pilates Machine",
+    price: 20,
+    priceLabel: "20€",
+    perSession: null,
+    validity: null,
+    badge: "Première fois",
+    badgeColor: "bg-mp-sage text-white",
+    highlighted: false,
+    cta: "Essayer pour 20€",
+    savings: null,
+    href: "/planning",
+    isTrial: true,
+    features: [
+      "1 cours sur Reformer au choix",
+      "Réservé aux nouveaux élèves",
+      "Reformer Cadillac premium",
+      "Petit groupe (4 max)",
+    ],
+    category: "machine",
+  },
+  {
+    name: "Séance Machine à l'unité",
+    price: 30,
+    priceLabel: "30€",
+    perSession: null,
+    validity: "Valable 1 mois",
+    badge: null,
+    badgeColor: "",
+    highlighted: false,
+    cta: "Réserver une séance",
+    savings: null,
+    href: "/planning",
+    features: [
+      "1 cours sur Reformer",
+      "Sans engagement",
+      "Reformer Cadillac premium",
+      "Petit groupe (4 max)",
+    ],
+    category: "machine",
+  },
+  {
+    name: "Carte 5 cours Machine",
+    price: 140,
+    priceLabel: "140€",
+    perSession: "28€/séance",
+    validity: "Valable 5 mois",
+    badge: null,
+    badgeColor: "",
+    highlighted: false,
+    cta: "Acheter 5 cours",
+    savings: "Économisez 10€",
+    checkoutMode: "course-card",
+    cardType: "5",
+    features: [
+      "5 séances Pilates Machine",
+      "Valable 5 mois",
+      "Reformer Cadillac premium",
+      "Petit groupe (4 max)",
+    ],
+    category: "machine",
+  },
+  {
+    name: "Carte 10 cours Machine",
+    price: 270,
+    priceLabel: "270€",
+    perSession: "27€/séance",
+    validity: "Valable 10 mois",
+    badge: "Le + choisi",
+    badgeColor: "bg-mp-ocean text-white",
+    highlighted: true,
+    cta: "Acheter cette carte",
+    savings: "Économisez 30€",
+    checkoutMode: "course-card",
+    cardType: "10",
+    features: [
+      "10 séances Pilates Machine",
+      "Valable 10 mois",
+      "Reformer Cadillac premium",
+      "Petit groupe (4 max)",
+      "Le meilleur rapport qualité-prix",
+    ],
+    category: "machine",
+  },
+  // ===========================================================================
+  // COURS PRIVÉS — Séances individuelles sur appareils
+  // ===========================================================================
   {
     name: "Découverte Privé sur équipement",
     price: 50,
