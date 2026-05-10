@@ -20,11 +20,11 @@ import { BodyMap } from "@/components/ui/BodyMap";
 import { SITE_URL } from "@/lib/env";
 
 const courseImages: Partial<Record<CourseType, string>> = {
-  "tous-niveaux": "/images/illustration-cours-collectif.webp",
-  "machine": "/images/illustration-cours-machine.webp",
+  "tous-niveaux": "/images/photos/studio-pilates-reformers-larmor-plage.webp",
+  "machine": "/images/photos/pilates-machines.jpg",
   "maternite": "/images/illustration-cours-prenatal.webp",
-  "doux-seniors": "/images/illustration-cours-doux.webp",
-  "avance": "/images/illustration-cours-intensif.webp",
+  "doux-seniors": "/images/photos/studio-pilates-cosy-larmor-plage.webp",
+  "avance": "/images/photos/reformer-pilates-cours-individuel-larmor.webp",
 };
 
 export const metadata: Metadata = {

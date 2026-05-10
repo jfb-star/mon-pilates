@@ -147,7 +147,7 @@ const courseTypes = [
     color: "text-mp-ocean-light",
     bg: "bg-mp-ocean-light/10",
     border: "group-hover:border-mp-ocean-light/30",
-    image: null,
+    image: "/images/photos/studio-pilates-cosy-larmor-plage.webp",
   },
   {
     icon: Flame,
@@ -157,7 +157,7 @@ const courseTypes = [
     color: "text-mp-charcoal",
     bg: "bg-mp-charcoal/8",
     border: "group-hover:border-mp-charcoal/30",
-    image: null,
+    image: "/images/photos/reformer-pilates-cours-individuel-larmor.webp",
   },
   {
     icon: Sparkles,
