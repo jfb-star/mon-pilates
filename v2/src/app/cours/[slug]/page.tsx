@@ -57,11 +57,14 @@ const courseFaqs: Record<string, { q: string; a: string }[]> = {
 }
 
 const courseHeroImages: Partial<Record<CourseType, string>> = {
-  "tous-niveaux": "/images/photos/studio-pilates-reformers-larmor-plage.webp",
-  "machine": "/images/photos/pilates-machines.jpg",
+  // Cours sur tapis → photo tapis (sans Reformer visible)
+  "tous-niveaux": "/images/photos/tapis-piscine-mer.jpg",
+  "doux-seniors": "/images/photos/tapis-piscine-mer.jpg",
+  "avance": "/images/photos/tapis-piscine-mer.jpg",
+  // Pilates Maternité : illustration (pas de photo dédiée)
   "maternite": "/images/illustration-pilates-artistique.webp",
-  "doux-seniors": "/images/photos/studio-pilates-cosy-larmor-plage.webp",
-  "avance": "/images/photos/reformer-pilates-cours-individuel-larmor.webp",
+  // Cours sur Reformer → photo Reformer
+  "machine": "/images/photos/pilates-machines.jpg",
 };
 
 /* ----------------------------------------------------------

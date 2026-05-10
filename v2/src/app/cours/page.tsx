@@ -20,11 +20,14 @@ import { BodyMap } from "@/components/ui/BodyMap";
 import { SITE_URL } from "@/lib/env";
 
 const courseImages: Partial<Record<CourseType, string>> = {
-  "tous-niveaux": "/images/photos/studio-pilates-reformers-larmor-plage.webp",
-  "machine": "/images/photos/pilates-machines.jpg",
+  // Cours sur tapis → photo tapis (sans Reformer visible)
+  "tous-niveaux": "/images/photos/tapis-piscine-mer.jpg",
+  "doux-seniors": "/images/photos/tapis-piscine-mer.jpg",
+  "avance": "/images/photos/tapis-piscine-mer.jpg",
+  // Pilates Maternité : illustration (pas de photo dédiée)
   "maternite": "/images/illustration-cours-prenatal.webp",
-  "doux-seniors": "/images/photos/studio-pilates-cosy-larmor-plage.webp",
-  "avance": "/images/photos/reformer-pilates-cours-individuel-larmor.webp",
+  // Cours sur Reformer → photo Reformer
+  "machine": "/images/photos/pilates-machines.jpg",
 };
 
 export const metadata: Metadata = {
