@@ -77,8 +77,8 @@ export default function AboutPage() {
       {/* Hero */}
       <section className="relative h-[55vh] min-h-[380px] flex items-center overflow-hidden">
         <Image
-          src="/images/studio-reformer-ocean.webp"
-          alt="Studio Mon Pilates face à l'océan à Larmor-Plage"
+          src="/images/photos/studio-pilates-reformers-larmor-plage.webp"
+          alt="Studio Mon Pilates face à l'océan à Larmor-Plage — 3 Reformers Cadillac, lustre cristal"
           fill
           className="object-cover"
           priority

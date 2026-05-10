@@ -591,8 +591,8 @@ export default function PlanningPage() {
       {/* Hero */}
       <section className="relative h-[40vh] min-h-[320px] flex items-center overflow-hidden">
         <Image
-          src="/images/studio-reformer-ocean.webp"
-          alt="Reformer Pilates au soleil"
+          src="/images/photos/pilates-machines.jpg"
+          alt="Cours de Pilates Machine en plein air — 3 Reformers face à l'océan à Larmor-Plage"
           fill
           className="object-cover"
           priority

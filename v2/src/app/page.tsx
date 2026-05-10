@@ -42,8 +42,8 @@ function Hero() {
     <section className="relative min-h-[100svh] flex items-center overflow-hidden">
       {/* Full-bleed background image */}
       <Image
-        src="/images/studio-reformer-ocean.webp"
-        alt="Studio Mon Pilates face à l'océan — Reformer avec vue sur la mer à Larmor-Plage"
+        src="/images/photos/studio-vue-mer-portes-ouvertes-larmor.webp"
+        alt="Studio Mon Pilates à Larmor-Plage — vue directe sur l'océan depuis l'intérieur"
         fill
         className="object-cover"
         priority
@@ -276,7 +276,7 @@ function CourseTypes() {
                   <div className="relative h-52 overflow-hidden">
                     <Image
                       src={course.image}
-                      alt={`Illustration du cours ${course.name} au studio Mon Pilates`}
+                      alt={`${course.name} au studio Mon Pilates à Larmor-Plage`}
                       fill
                       loading="lazy"
                       className="object-cover group-hover:scale-105 transition-transform duration-500"

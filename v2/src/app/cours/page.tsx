@@ -126,7 +126,7 @@ export default function CoursPage() {
         {/* Decorative background — opacity-10, not the LCP element. Lazy-loaded so the hero H1 paints first. */}
         <div className="absolute inset-0 opacity-10">
           <Image
-            src="/images/studio-reformer-ocean.webp"
+            src="/images/photos/pilates-machines.jpg"
             alt=""
             aria-hidden="true"
             fill
@@ -272,7 +272,7 @@ function CourseCard({ course }: { course: CourseInfo }) {
           <div className="relative w-full aspect-[16/10] overflow-hidden rounded-t-2xl">
             <Image
               src={image}
-              alt={`Illustration du cours ${course.name} — séance en petit groupe au studio`}
+              alt={`${course.name} — Mon Pilates Larmor-Plage`}
               fill
               loading="lazy"
               className="object-cover transition-transform duration-500 group-hover:scale-105"

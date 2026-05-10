@@ -296,7 +296,7 @@ export default async function CourseDetailPage({
               <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-lg hidden lg:block">
                 <Image
                   src={heroImage}
-                  alt={`Illustration du cours ${course.name}`}
+                  alt={`${course.name} — studio Mon Pilates à Larmor-Plage`}
                   title={course.name}
                   fill
                   className="object-cover"
