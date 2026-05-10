@@ -57,11 +57,11 @@ const courseFaqs: Record<string, { q: string; a: string }[]> = {
 }
 
 const courseHeroImages: Partial<Record<CourseType, string>> = {
-  "tous-niveaux": "/images/illustration-cours-collectif.webp",
-  "machine": "/images/cours-reformer-instructrice.webp",
+  "tous-niveaux": "/images/photos/studio-pilates-reformers-larmor-plage.webp",
+  "machine": "/images/photos/pilates-machines.jpg",
   "maternite": "/images/illustration-pilates-artistique.webp",
-  "doux-seniors": "/images/illustration-pilates-artistique.webp",
-  "avance": "/images/illustration-pilates-artistique.webp",
+  "doux-seniors": "/images/photos/studio-pilates-cosy-larmor-plage.webp",
+  "avance": "/images/photos/reformer-pilates-cours-individuel-larmor.webp",
 };
 
 /* ----------------------------------------------------------
@@ -75,30 +75,35 @@ export function generateStaticParams() {
    Dynamic metadata — per-course SEO tuned for local + service queries
    ---------------------------------------------------------- */
 const courseSeoMeta: Record<string, { title: string; description: string }> = {
-  tapis: {
-    title: "Pilates tapis à Larmor-Plage — cours Lorient Morbihan",
+  "tous-niveaux": {
+    title: "Pilates Tous Niveaux à Larmor-Plage — cours Lorient Morbihan",
     description:
-      "Cours de Pilates classique au tapis à Larmor-Plage, près de Lorient. Groupes de 5 max face à l'océan. Essai à 10€, réservez votre première séance en ligne.",
+      "Pilates Tous Niveaux sur tapis à Larmor-Plage, près de Lorient. Petit groupe de 5 max face à l'océan. Essai à 10€, réservez votre première séance en ligne.",
   },
-  appareils: {
-    title: "Pilates collectif sur appareils — Larmor-Plage Lorient",
+  "machine": {
+    title: "Pilates Machine en petit groupe — Larmor-Plage Lorient",
     description:
-      "Cours collectif sur Reformer Cadillac à Larmor-Plage (Lorient, Morbihan). Petit groupe de 4, charges adaptées. Essai à 10€, réservez votre séance en ligne.",
+      "Pilates Machine sur Reformer Cadillac à Larmor-Plage (Lorient, Morbihan). Petit groupe de 4, charges adaptées. Essai à 20€, réservez votre séance en ligne.",
   },
-  prenatal: {
-    title: "Pilates prénatal à Larmor-Plage — Lorient Morbihan",
+  "maternite": {
+    title: "Pilates Maternité à Larmor-Plage — pré et post-natal",
     description:
-      "Cours de Pilates prénatal et post-natal à Larmor-Plage, près de Lorient. Séances adaptées à chaque trimestre par une instructrice FPMP. Réservez votre essai.",
+      "Pilates Maternité (pré et post-natal) à Larmor-Plage, près de Lorient. Séances adaptées à chaque trimestre par une instructrice FPMP. Réservez votre essai.",
   },
-  doux: {
-    title: "Pilates doux à Larmor-Plage — seniors Lorient Morbihan",
+  "doux-seniors": {
+    title: "Pilates Doux – Seniors à Larmor-Plage — Lorient Morbihan",
     description:
-      "Pilates doux à Larmor-Plage : idéal seniors, récupération et débutants en Morbihan. Petits groupes face à l'océan, à 10 min de Lorient. Essai 10€, réservez.",
+      "Pilates Doux – Seniors à Larmor-Plage : idéal reprise en douceur, récupération et débutants en Morbihan. Petits groupes face à l'océan. Essai à 10€.",
   },
-  intensif: {
-    title: "Pilates avancé à Larmor-Plage — cours Lorient Bretagne",
+  "avance": {
+    title: "Pilates Avancé à Larmor-Plage — cours Lorient Bretagne",
     description:
-      "Cours de Pilates avancé au tapis à Larmor-Plage, près de Lorient. Enchaînements dynamiques en petit groupe pour pratiquants confirmés. Essai à 10€ en ligne.",
+      "Pilates Avancé sur tapis à Larmor-Plage, près de Lorient. Enchaînements dynamiques en petit groupe pour pratiquants confirmés. Réservez en ligne.",
+  },
+  "prive": {
+    title: "Cours privés de Pilates — Larmor-Plage face à la mer",
+    description:
+      "Cours privés sur appareils Pilates (Reformer, Cadillac, Wunda Chair) à Larmor-Plage. Accompagnement individuel sur-mesure. Découverte à 50€.",
   },
 };
 

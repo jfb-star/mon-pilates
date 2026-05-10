@@ -137,7 +137,7 @@ const courseTypes = [
     color: "text-mp-ocean",
     bg: "bg-mp-ocean/8",
     border: "group-hover:border-mp-ocean/30",
-    image: "/images/illustration-cours-collectif.webp",
+    image: "/images/photos/studio-pilates-reformers-larmor-plage.webp",
   },
   {
     icon: Leaf,
@@ -167,7 +167,7 @@ const courseTypes = [
     color: "text-mp-gold",
     bg: "bg-mp-gold/10",
     border: "group-hover:border-mp-gold/30",
-    image: "/images/illustration-cours-machine.webp",
+    image: "/images/photos/pilates-machines.jpg",
   },
   {
     icon: Baby,
