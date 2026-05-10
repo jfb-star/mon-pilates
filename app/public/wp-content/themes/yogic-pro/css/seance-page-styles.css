@@ -1,0 +1,817 @@
+@charset "UTF-8";
+/**
+ * Styles pour la page "Comment se passe une séance"
+ * Mon Pilates - Larmor-Plage
+ *
+ * Design: UX premium, parcours visuel étape par étape
+ * Mobile-first, transitions douces, univers calme et bienveillant
+ */
+
+/* ==========================================================================
+   VARIABLES CSS - Cohérence avec le design system existant
+   ========================================================================== */
+
+.mp-seance-page {
+    --mp-blue: #7fa8b6;
+    --mp-blue-dark: #5a8a9a;
+    --mp-blue-light: #a8c9d4;
+    --mp-rose: #cf317c;
+    --mp-rose-light: #e85a9c;
+    --mp-ink: #2c2c2c;
+    --mp-text: #4a4a4a;
+    --mp-text-muted: #6b7280;
+    --mp-bg-white: #ffffff;
+    --mp-bg-soft: #f7f9fb;
+    --mp-bg-warm: #faf9f7;
+    --mp-border: #e8e8e8;
+
+    --mp-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+    --mp-shadow-md: 0 4px 20px rgba(0, 0, 0, 0.06);
+    --mp-shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.08);
+    --mp-shadow-blue: 0 8px 30px rgba(127, 168, 182, 0.25);
+
+    --mp-radius-sm: 12px;
+    --mp-radius-md: 16px;
+    --mp-radius-lg: 20px;
+    --mp-radius-xl: 24px;
+
+    --mp-transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --mp-transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+
+    font-family: 'Manrope', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--mp-bg-white);
+}
+
+/* ==========================================================================
+   MASQUER LA BANNIÈRE SUR CETTE PAGE (garder le menu)
+   ========================================================================== */
+
+/* Cacher la bannière des pages intérieures - multiples sélecteurs pour compatibilité */
+body.page-template-template-parts-template-seance-php .innerbanner,
+body.page-template-template-seance .innerbanner,
+body[class*="template-seance"] .innerbanner,
+body.page-comment-se-passe-une-seance .innerbanner,
+body[class*="comment-se-passe"] .innerbanner,
+body[class*="page-seance"] .innerbanner {
+    display: none !important;
+}
+
+/* ==========================================================================
+   RESET & BASE - Page container
+   ========================================================================== */
+
+.mp-seance-page {
+    margin-top: 85px; /* Compensation header fixe */
+    overflow-x: hidden;
+}
+
+.mp-seance-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* ==========================================================================
+   HERO SECTION - Doux et respirant
+   ========================================================================== */
+
+.mp-seance-hero {
+    background: linear-gradient(180deg, #ffffff 0%, #f7fafc 50%, #eef5f7 100%);
+    padding: 60px 20px 80px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Motif décoratif subtil */
+.mp-seance-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 5c-2 4-8 8-8 15s6 12 8 18c2-6 8-11 8-18s-6-11-8-15z' fill='%237fa8b6' fill-opacity='0.03'/%3E%3C/svg%3E");
+    background-size: 120px 120px;
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.mp-seance-hero-inner {
+    position: relative;
+    z-index: 1;
+    max-width: 720px;
+    margin: 0 auto;
+}
+
+.mp-seance-hero-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 80px;
+    background: var(--mp-bg-white);
+    border-radius: 50%;
+    box-shadow: var(--mp-shadow-md);
+    margin-bottom: 32px;
+    animation: fadeInDown 0.6s ease-out;
+}
+
+.mp-seance-hero-icon svg {
+    width: 48px;
+    height: 48px;
+}
+
+.mp-seance-title {
+    font-size: clamp(32px, 5vw, 48px);
+    font-weight: 600;
+    color: var(--mp-ink);
+    line-height: 1.2;
+    margin: 0 0 24px;
+    letter-spacing: -0.02em;
+    animation: fadeInUp 0.6s ease-out 0.1s both;
+}
+
+.mp-seance-subtitle {
+    font-size: clamp(17px, 2.5vw, 20px);
+    font-weight: 400;
+    color: var(--mp-text);
+    line-height: 1.8;
+    margin: 0;
+    animation: fadeInUp 0.6s ease-out 0.2s both;
+}
+
+/* ==========================================================================
+   TIMELINE STEPS - Parcours visuel
+   ========================================================================== */
+
+.mp-seance-step {
+    padding: 60px 0;
+    position: relative;
+}
+
+/* Alternance des fonds */
+.mp-seance-step:nth-child(odd) {
+    background: var(--mp-bg-white);
+}
+
+.mp-seance-step:nth-child(even) {
+    background: var(--mp-bg-soft);
+}
+
+.mp-seance-step-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+    align-items: center;
+}
+
+/* Desktop: 2 colonnes avec alternance */
+@media (min-width: 769px) {
+    .mp-seance-step-inner {
+        grid-template-columns: 1fr 1fr;
+        gap: 60px;
+    }
+
+    /* Étapes paires : image à gauche */
+    .mp-seance-step-reverse .mp-seance-step-visual {
+        order: -1;
+    }
+}
+
+/* ==========================================================================
+   STEP CONTENT - Texte et marqueur
+   ========================================================================== */
+
+.mp-seance-step-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.mp-seance-step-marker {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px; /* Plus d'espace avant le titre */
+    opacity: 0.85; /* Légèrement atténué pour ne pas voler la vedette au texte */
+}
+
+.mp-step-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px; /* Réduit de 36 à 28 */
+    height: 28px;
+    background: linear-gradient(135deg, var(--mp-blue) 0%, var(--mp-blue-dark) 100%);
+    color: white;
+    font-size: 13px; /* Réduit */
+    font-weight: 600;
+    border-radius: 50%;
+    box-shadow: 0 4px 12px rgba(127, 168, 182, 0.2); /* Ombre plus subtile */
+}
+
+.mp-step-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px; /* Réduit de 36 à 28 */
+    height: 28px;
+    background: var(--mp-bg-soft);
+    border-radius: 50%;
+    color: var(--mp-blue);
+}
+
+.mp-step-icon svg {
+    width: 16px; /* Réduit de 20 à 16 */
+    height: 16px;
+}
+
+.mp-seance-step-text {
+    padding-left: 0;
+}
+
+.mp-step-title {
+    font-size: clamp(24px, 3.5vw, 32px);
+    font-weight: 600;
+    color: var(--mp-ink);
+    margin: 0 0 16px;
+    letter-spacing: -0.01em;
+}
+
+.mp-seance-step-text p {
+    font-size: 17px;
+    line-height: 1.75;
+    color: var(--mp-text);
+    margin: 0 0 16px;
+}
+
+.mp-seance-step-text p:last-child {
+    margin-bottom: 0;
+}
+
+/* Paragraphes spéciaux */
+.mp-step-highlight {
+    background: linear-gradient(90deg, rgba(127, 168, 182, 0.08) 0%, transparent 100%);
+    border-left: 3px solid var(--mp-blue);
+    padding: 16px 20px;
+    border-radius: 0 var(--mp-radius-sm) var(--mp-radius-sm) 0;
+    font-style: normal;
+}
+
+.mp-step-reassurance {
+    color: var(--mp-text-muted);
+    font-size: 16px;
+    padding-top: 8px;
+    border-top: 1px solid var(--mp-border);
+}
+
+.mp-step-result {
+    background: linear-gradient(135deg, rgba(127, 168, 182, 0.1) 0%, rgba(207, 49, 124, 0.05) 100%);
+    padding: 20px;
+    border-radius: var(--mp-radius-md);
+}
+
+/* ==========================================================================
+   STEP VISUAL - Images
+   ========================================================================== */
+
+.mp-seance-step-visual {
+    position: relative;
+}
+
+.mp-step-image {
+    margin: 0;
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--mp-radius-lg);
+    box-shadow: var(--mp-shadow-lg);
+    transition: transform var(--mp-transition), box-shadow var(--mp-transition);
+}
+
+.mp-step-image::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(180deg, transparent 60%, rgba(0, 0, 0, 0.05) 100%);
+    pointer-events: none;
+    border-radius: var(--mp-radius-lg);
+}
+
+.mp-step-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    transition: transform var(--mp-transition-slow);
+}
+
+.mp-step-image:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--mp-shadow-lg), 0 20px 50px rgba(127, 168, 182, 0.15);
+}
+
+.mp-step-image:hover img {
+    transform: scale(1.02);
+}
+
+/* Placeholder si pas d'image */
+.mp-step-image img[src=""],
+.mp-step-image img:not([src]) {
+    background: linear-gradient(135deg, var(--mp-bg-soft) 0%, #e8eff2 100%);
+    min-height: 280px;
+}
+
+/* ==========================================================================
+   QUOTE SECTION - Citation de réassurance
+   ========================================================================== */
+
+.mp-seance-quote {
+    padding: 80px 20px;
+    background: var(--mp-bg-white);
+}
+
+.mp-quote-box {
+    max-width: 800px;
+    margin: 0 auto;
+    background: linear-gradient(135deg, var(--mp-blue) 0%, var(--mp-blue-dark) 100%);
+    padding: 50px 40px;
+    border-radius: var(--mp-radius-xl);
+    box-shadow: var(--mp-shadow-blue), 0 20px 60px rgba(127, 168, 182, 0.3);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.mp-quote-box::before {
+    content: '"';
+    position: absolute;
+    top: 20px;
+    left: 30px;
+    font-size: 120px;
+    font-family: Georgia, serif;
+    color: rgba(255, 255, 255, 0.1);
+    line-height: 1;
+    pointer-events: none;
+}
+
+.mp-quote-box p {
+    font-size: clamp(20px, 3vw, 28px);
+    font-weight: 500;
+    color: white;
+    line-height: 1.6;
+    margin: 0;
+    position: relative;
+    z-index: 1;
+    letter-spacing: -0.01em;
+}
+
+/* Version compacte de la citation (après L'accompagnement) */
+.mp-seance-quote-compact {
+    padding: 50px 20px;
+    background: var(--mp-bg-soft);
+}
+
+.mp-seance-quote-compact .mp-quote-box {
+    max-width: 700px;
+    padding: 32px 30px;
+    box-shadow: var(--mp-shadow-blue), 0 12px 40px rgba(127, 168, 182, 0.25);
+}
+
+.mp-seance-quote-compact .mp-quote-box::before {
+    font-size: 80px;
+    top: 10px;
+    left: 20px;
+}
+
+.mp-seance-quote-compact .mp-quote-box p {
+    font-size: clamp(18px, 2.5vw, 22px);
+}
+
+/* ==========================================================================
+   CTA SECTION - Appel à l'action doux
+   ========================================================================== */
+
+.mp-seance-cta {
+    padding: 100px 20px 120px; /* Plus d'espace vertical - dernier souffle */
+    background: var(--mp-bg-white); /* Fond blanc pour contraster avec la section précédente */
+    border-top: 1px solid rgba(127, 168, 182, 0.1); /* Ligne subtile de séparation */
+}
+
+.mp-seance-cta-inner {
+    max-width: 700px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.mp-cta-title {
+    font-size: clamp(28px, 4vw, 38px);
+    font-weight: 600;
+    color: var(--mp-ink);
+    margin: 0 0 20px;
+    letter-spacing: -0.02em;
+}
+
+.mp-cta-text {
+    font-size: 18px;
+    line-height: 1.8;
+    color: var(--mp-text);
+    margin: 0 0 16px;
+}
+
+/* Phrase de réassurance finale */
+.mp-cta-reassurance {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--mp-blue-dark);
+    background: rgba(127, 168, 182, 0.1);
+    padding: 10px 20px;
+    border-radius: 50px;
+    margin: 0 0 32px;
+    border: 1px solid rgba(127, 168, 182, 0.2);
+}
+
+.mp-cta-reassurance::before {
+    content: '\2713';
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    background: var(--mp-blue);
+    color: white;
+    border-radius: 50%;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.mp-cta-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+}
+
+@media (min-width: 500px) {
+    .mp-cta-buttons {
+        flex-direction: row;
+        justify-content: center;
+    }
+}
+
+/* ==========================================================================
+   BUTTONS - Style cohérent avec le design system
+   ========================================================================== */
+
+.mp-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 16px 32px;
+    font-size: 16px;
+    font-weight: 600;
+    font-family: inherit;
+    text-decoration: none;
+    border-radius: var(--mp-radius-md);
+    cursor: pointer;
+    transition: all var(--mp-transition);
+    border: 2px solid transparent;
+    position: relative;
+    overflow: hidden;
+}
+
+.mp-btn svg {
+    flex-shrink: 0;
+    transition: transform var(--mp-transition);
+}
+
+/* Bouton Principal */
+.mp-btn-primary {
+    background: linear-gradient(135deg, var(--mp-blue) 0%, var(--mp-blue-dark) 100%);
+    color: white;
+    box-shadow: var(--mp-shadow-blue);
+}
+
+.mp-btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.mp-btn-primary:hover {
+    background: linear-gradient(135deg, var(--mp-blue-dark) 0%, #4a7a8a 100%);
+    transform: translateY(-2px);
+    box-shadow: var(--mp-shadow-blue), 0 15px 40px rgba(127, 168, 182, 0.35);
+}
+
+.mp-btn-primary:hover::before {
+    left: 100%;
+}
+
+.mp-btn-primary:hover svg {
+    transform: translateX(2px);
+}
+
+/* Bouton Secondaire */
+.mp-btn-secondary {
+    background: transparent;
+    color: var(--mp-rose);
+    border-color: var(--mp-rose);
+}
+
+.mp-btn-secondary:hover {
+    background: var(--mp-rose);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(207, 49, 124, 0.25);
+}
+
+.mp-btn-secondary:hover svg {
+    transform: scale(1.1);
+}
+
+/* ==========================================================================
+   ANIMATIONS
+   ========================================================================== */
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Animation au scroll (classe ajoutée par JS si nécessaire) */
+.mp-animate-on-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.mp-animate-on-scroll.mp-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ==========================================================================
+   RESPONSIVE - Mobile First Adjustments
+   ========================================================================== */
+
+/* Tablette */
+@media (max-width: 768px) {
+    .mp-seance-hero {
+        padding: 50px 20px 60px;
+    }
+
+    .mp-seance-hero-icon {
+        width: 70px;
+        height: 70px;
+        margin-bottom: 24px;
+    }
+
+    .mp-seance-hero-icon svg {
+        width: 40px;
+        height: 40px;
+    }
+
+    .mp-seance-step {
+        padding: 50px 0;
+    }
+
+    .mp-seance-step-inner {
+        gap: 30px;
+    }
+
+    .mp-quote-box {
+        padding: 40px 30px;
+    }
+
+    .mp-seance-cta {
+        padding: 60px 20px 80px;
+    }
+}
+
+/* Mobile */
+@media (max-width: 500px) {
+    .mp-seance-page {
+        margin-top: 85px;
+    }
+
+    .mp-seance-hero {
+        padding: 40px 16px 50px;
+    }
+
+    .mp-seance-hero-icon {
+        width: 60px;
+        height: 60px;
+        margin-bottom: 20px;
+    }
+
+    .mp-seance-hero-icon svg {
+        width: 32px;
+        height: 32px;
+    }
+
+    .mp-seance-title {
+        margin-bottom: 20px;
+    }
+
+    .mp-seance-step {
+        padding: 40px 0;
+    }
+
+    .mp-seance-step-inner {
+        padding: 0 16px;
+        gap: 24px;
+    }
+
+    .mp-step-title {
+        font-size: 24px;
+        margin-bottom: 12px;
+    }
+
+    .mp-seance-step-text p {
+        font-size: 16px;
+        line-height: 1.7;
+        margin-bottom: 12px;
+    }
+
+    .mp-step-highlight {
+        padding: 14px 16px;
+    }
+
+    .mp-step-image {
+        border-radius: var(--mp-radius-md);
+    }
+
+    .mp-step-image img {
+        aspect-ratio: 16 / 10;
+        max-height: 60vh; /* Limite hauteur à 60% écran pour garder le rythme lecture */
+        object-fit: cover;
+        object-position: center;
+    }
+
+    .mp-seance-quote {
+        padding: 50px 16px;
+    }
+
+    .mp-quote-box {
+        padding: 32px 24px;
+        border-radius: var(--mp-radius-lg);
+    }
+
+    .mp-quote-box::before {
+        font-size: 80px;
+        top: 10px;
+        left: 15px;
+    }
+
+    .mp-seance-cta {
+        padding: 60px 16px 80px;
+    }
+
+    .mp-cta-text {
+        font-size: 16px;
+        margin-bottom: 12px;
+    }
+
+    .mp-cta-reassurance {
+        font-size: 12px;
+        padding: 8px 16px;
+        margin-bottom: 24px;
+    }
+
+    .mp-cta-reassurance::before {
+        width: 18px;
+        height: 18px;
+        font-size: 10px;
+    }
+
+    .mp-cta-buttons {
+        width: 100%;
+    }
+
+    .mp-btn {
+        width: 100%;
+        padding: 14px 24px;
+        font-size: 15px;
+    }
+}
+
+/* ==========================================================================
+   ACCESSIBILITÉ
+   ========================================================================== */
+
+/* Focus visible */
+.mp-btn:focus-visible {
+    outline: 3px solid var(--mp-blue);
+    outline-offset: 3px;
+}
+
+/* Réduction des mouvements */
+@media (prefers-reduced-motion: reduce) {
+    .mp-seance-hero-icon,
+    .mp-seance-title,
+    .mp-seance-subtitle {
+        animation: none;
+    }
+
+    .mp-step-image,
+    .mp-step-image img,
+    .mp-btn {
+        transition: none;
+    }
+
+    .mp-btn-primary::before {
+        display: none;
+    }
+
+    .mp-step-image:hover,
+    .mp-btn:hover {
+        transform: none;
+    }
+}
+
+/* Contraste élevé */
+@media (prefers-contrast: high) {
+    .mp-seance-step-text p {
+        color: var(--mp-ink);
+    }
+
+    .mp-step-reassurance {
+        color: var(--mp-ink);
+    }
+
+    .mp-btn-secondary {
+        border-width: 3px;
+    }
+}
+
+/* ==========================================================================
+   PRINT STYLES
+   ========================================================================== */
+
+@media print {
+    .mp-seance-page {
+        margin-top: 0;
+    }
+
+    .mp-seance-hero {
+        background: none;
+        padding: 20px 0;
+    }
+
+    .mp-seance-hero::before {
+        display: none;
+    }
+
+    .mp-step-image {
+        box-shadow: none;
+        border: 1px solid #ccc;
+    }
+
+    .mp-quote-box {
+        background: #f5f5f5;
+        color: #000;
+        box-shadow: none;
+    }
+
+    .mp-quote-box p {
+        color: #000;
+    }
+
+    .mp-seance-cta {
+        display: none;
+    }
+}

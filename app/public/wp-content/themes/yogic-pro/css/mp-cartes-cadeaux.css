@@ -1,0 +1,777 @@
+@charset "UTF-8";
+/**
+ * Mon Pilates - Page Cartes Cadeaux Premium
+ * Design émotionnel, focus sur l'intention du cadeau
+ */
+
+/* ==========================================================================
+   VARIABLES LOCALES
+   ========================================================================== */
+
+.mp-gift-page {
+    --gift-ocean: #7fa8b6;
+    --gift-ocean-deep: #5a8a9a;
+    --gift-ocean-light: #e8f1f4;
+    --gift-rose: #cf317c;
+    --gift-rose-light: #fdf2f7;
+    --gift-beige: #faf8f5;
+    --gift-beige-warm: #f5f0e8;
+    --gift-dark: #2c3e50;
+    --gift-dark-soft: #4a5568;
+    --gift-gray: #718096;
+    --gift-white: #ffffff;
+    --gift-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    --gift-shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.1);
+    --gift-radius: 20px;
+    --gift-radius-sm: 12px;
+}
+
+/* ==========================================================================
+   HERO ÉMOTIONNEL
+   ========================================================================== */
+
+.mp-gift-hero {
+    position: relative;
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: linear-gradient(135deg, var(--gift-ocean-light) 0%, var(--gift-beige) 100%);
+}
+
+.mp-gift-hero__background {
+    position: absolute;
+    inset: 0;
+    background-image: url('../images/gift-hero-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.15;
+}
+
+.mp-gift-hero__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 0%, rgba(255, 255, 255, 0.4) 100%);
+}
+
+.mp-gift-hero__content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 60px 24px;
+    max-width: 700px;
+}
+
+.mp-gift-hero__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    height: 100px;
+    background: var(--gift-white);
+    border-radius: 50%;
+    margin-bottom: 32px;
+    box-shadow: var(--gift-shadow);
+}
+
+.mp-gift-hero__icon svg {
+    color: var(--gift-rose);
+}
+
+.mp-gift-hero__title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(2.5rem, 6vw, 3.5rem);
+    font-weight: 500;
+    color: var(--gift-dark);
+    margin: 0 0 20px;
+    line-height: 1.2;
+}
+
+.mp-gift-hero__subtitle {
+    font-size: 1.25rem;
+    color: var(--gift-dark-soft);
+    margin: 0 0 40px;
+    line-height: 1.6;
+}
+
+.mp-gift-hero__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 32px;
+    background: var(--gift-rose);
+    color: var(--gift-white);
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 50px;
+    box-shadow: 0 4px 15px rgba(207, 49, 124, 0.3);
+    transition: all 0.3s ease;
+}
+
+.mp-gift-hero__cta:hover {
+    background: #b82a6d;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(207, 49, 124, 0.4);
+    color: var(--gift-white);
+}
+
+.mp-gift-hero__cta svg {
+    animation: bounce-down 2s ease-in-out infinite;
+}
+
+@keyframes bounce-down {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(4px); }
+}
+
+/* ==========================================================================
+   TITRES DE SECTION
+   ========================================================================== */
+
+.mp-gift-section-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(1.75rem, 4vw, 2.25rem);
+    font-weight: 500;
+    color: var(--gift-dark);
+    text-align: center;
+    margin: 0 0 16px;
+}
+
+.mp-gift-section-subtitle {
+    font-size: 1.1rem;
+    color: var(--gift-gray);
+    text-align: center;
+    margin: 0 0 48px;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* ==========================================================================
+   POURQUOI OFFRIR
+   ========================================================================== */
+
+.mp-gift-why {
+    padding: 100px 24px;
+    background: var(--gift-white);
+}
+
+.mp-gift-why__inner {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.mp-gift-why__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+}
+
+@media (max-width: 768px) {
+    .mp-gift-why__grid {
+        grid-template-columns: 1fr;
+        gap: 32px;
+    }
+}
+
+.mp-gift-why__card {
+    padding: 32px;
+    background: var(--gift-beige);
+    border-radius: var(--gift-radius);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.mp-gift-why__card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--gift-shadow);
+}
+
+.mp-gift-why__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    background: var(--gift-white);
+    border-radius: 50%;
+    margin-bottom: 20px;
+    color: var(--gift-ocean);
+}
+
+.mp-gift-why__title {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--gift-dark);
+    margin: 0 0 12px;
+}
+
+.mp-gift-why__text {
+    font-size: 0.95rem;
+    color: var(--gift-dark-soft);
+    line-height: 1.7;
+    margin: 0;
+}
+
+/* ==========================================================================
+   CARTES CADEAUX
+   ========================================================================== */
+
+.mp-gift-cards {
+    padding: 100px 24px;
+    background: var(--gift-beige);
+}
+
+.mp-gift-cards__inner {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.mp-gift-cards__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    margin-bottom: 48px;
+}
+
+@media (max-width: 1024px) {
+    .mp-gift-cards__grid {
+        grid-template-columns: 1fr;
+        max-width: 450px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+/* Carte individuelle */
+.mp-gift-card {
+    position: relative;
+    background: var(--gift-white);
+    border-radius: var(--gift-radius);
+    box-shadow: var(--gift-shadow);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.mp-gift-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--gift-shadow-hover);
+}
+
+/* Carte mise en avant */
+.mp-gift-card--featured {
+    border: 2px solid var(--gift-rose);
+}
+
+.mp-gift-card__badge {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    padding: 6px 14px;
+    background: var(--gift-rose-light);
+    color: var(--gift-rose);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-radius: 20px;
+}
+
+.mp-gift-card__header {
+    padding: 32px 28px 20px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.mp-gift-card__label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--gift-ocean);
+    margin-bottom: 8px;
+}
+
+.mp-gift-card__name {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: var(--gift-dark);
+    margin: 0 0 8px;
+}
+
+.mp-gift-card__tagline {
+    font-size: 0.95rem;
+    font-style: italic;
+    color: var(--gift-gray);
+    margin: 0;
+}
+
+.mp-gift-card__body {
+    padding: 24px 28px;
+    flex: 1;
+}
+
+.mp-gift-card__description {
+    font-size: 0.9rem;
+    color: var(--gift-dark-soft);
+    line-height: 1.7;
+    margin: 0 0 20px;
+}
+
+.mp-gift-card__features {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.mp-gift-card__features li {
+    position: relative;
+    padding-left: 24px;
+    font-size: 0.85rem;
+    color: var(--gift-dark-soft);
+    margin-bottom: 10px;
+}
+
+.mp-gift-card__features li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 6px;
+    width: 8px;
+    height: 8px;
+    background: var(--gift-ocean-light);
+    border-radius: 50%;
+}
+
+.mp-gift-card__footer {
+    padding: 24px 28px 28px;
+    background: var(--gift-beige);
+    text-align: center;
+}
+
+.mp-gift-card__price {
+    margin-bottom: 16px;
+}
+
+.mp-gift-card__amount {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 2.5rem;
+    font-weight: 500;
+    color: var(--gift-dark);
+}
+
+.mp-gift-card__currency {
+    font-size: 1.25rem;
+    color: var(--gift-gray);
+    margin-left: 2px;
+}
+
+.mp-gift-card__cta {
+    display: block;
+    width: 100%;
+    padding: 14px 24px;
+    background: var(--gift-rose);
+    color: var(--gift-white);
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-decoration: none;
+    text-align: center;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+}
+
+.mp-gift-card__cta:hover {
+    background: #b82a6d;
+    color: var(--gift-white);
+}
+
+.mp-gift-card__validity {
+    display: block;
+    margin-top: 12px;
+    font-size: 0.75rem;
+    color: var(--gift-gray);
+}
+
+/* Option cours privé */
+.mp-gift-private {
+    background: var(--gift-white);
+    border-radius: var(--gift-radius);
+    padding: 32px;
+    box-shadow: var(--gift-shadow);
+}
+
+.mp-gift-private__content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 32px;
+}
+
+@media (max-width: 768px) {
+    .mp-gift-private__content {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
+.mp-gift-private__title {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--gift-dark);
+    margin: 0 0 8px;
+}
+
+.mp-gift-private__description {
+    font-size: 0.9rem;
+    color: var(--gift-dark-soft);
+    line-height: 1.6;
+    margin: 0;
+}
+
+.mp-gift-private__action {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+    .mp-gift-private__action {
+        flex-direction: column;
+        gap: 12px;
+    }
+}
+
+.mp-gift-private__price {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.75rem;
+    font-weight: 500;
+    color: var(--gift-dark);
+    white-space: nowrap;
+}
+
+.mp-gift-private__cta {
+    display: inline-flex;
+    padding: 12px 24px;
+    background: transparent;
+    color: var(--gift-rose);
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    border: 2px solid var(--gift-rose);
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.mp-gift-private__cta:hover {
+    background: var(--gift-rose);
+    color: var(--gift-white);
+}
+
+/* ==========================================================================
+   COMMENT ÇA MARCHE
+   ========================================================================== */
+
+.mp-gift-how {
+    padding: 100px 24px;
+    background: var(--gift-white);
+}
+
+.mp-gift-how__inner {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.mp-gift-how__steps {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 0;
+}
+
+@media (max-width: 768px) {
+    .mp-gift-how__steps {
+        flex-direction: column;
+        align-items: center;
+        gap: 32px;
+    }
+}
+
+.mp-gift-how__step {
+    flex: 1;
+    max-width: 260px;
+    text-align: center;
+    padding: 0 20px;
+}
+
+.mp-gift-how__number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    background: var(--gift-ocean);
+    color: var(--gift-white);
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.5rem;
+    font-weight: 500;
+    border-radius: 50%;
+    margin-bottom: 20px;
+}
+
+.mp-gift-how__title {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--gift-dark);
+    margin: 0 0 10px;
+}
+
+.mp-gift-how__text {
+    font-size: 0.9rem;
+    color: var(--gift-dark-soft);
+    line-height: 1.6;
+    margin: 0;
+}
+
+.mp-gift-how__connector {
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--gift-ocean-light), var(--gift-ocean));
+    margin-top: 28px;
+    flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+    .mp-gift-how__connector {
+        width: 2px;
+        height: 40px;
+        background: linear-gradient(180deg, var(--gift-ocean-light), var(--gift-ocean));
+        margin: 0;
+    }
+}
+
+/* ==========================================================================
+   RASSURANCE
+   ========================================================================== */
+
+.mp-gift-trust {
+    padding: 80px 24px;
+    background: var(--gift-beige);
+}
+
+.mp-gift-trust__inner {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.mp-gift-trust__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+}
+
+@media (max-width: 600px) {
+    .mp-gift-trust__grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.mp-gift-trust__item {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 20px 24px;
+    background: var(--gift-white);
+    border-radius: var(--gift-radius-sm);
+}
+
+.mp-gift-trust__item svg {
+    flex-shrink: 0;
+    color: var(--gift-ocean);
+    margin-top: 2px;
+}
+
+.mp-gift-trust__item strong {
+    display: block;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--gift-dark);
+    margin-bottom: 4px;
+}
+
+.mp-gift-trust__item span {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--gift-gray);
+    line-height: 1.5;
+}
+
+/* ==========================================================================
+   CTA FINAL
+   ========================================================================== */
+
+.mp-gift-final {
+    padding: 100px 24px;
+    background: linear-gradient(135deg, var(--gift-rose-light) 0%, var(--gift-ocean-light) 100%);
+    text-align: center;
+}
+
+.mp-gift-final__inner {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.mp-gift-final__quote {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    font-style: italic;
+    color: var(--gift-dark);
+    margin: 0 0 40px;
+    line-height: 1.5;
+}
+
+.mp-gift-final__actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+.mp-gift-final__cta-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 36px;
+    background: var(--gift-rose);
+    color: var(--gift-white);
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 50px;
+    box-shadow: 0 4px 15px rgba(207, 49, 124, 0.3);
+    transition: all 0.3s ease;
+}
+
+.mp-gift-final__cta-primary:hover {
+    background: #b82a6d;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(207, 49, 124, 0.4);
+    color: var(--gift-white);
+}
+
+.mp-gift-final__cta-secondary {
+    font-size: 0.9rem;
+    color: var(--gift-dark-soft);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    transition: color 0.3s ease;
+}
+
+.mp-gift-final__cta-secondary:hover {
+    color: var(--gift-dark);
+}
+
+/* ==========================================================================
+   RESPONSIVE AJUSTEMENTS
+   ========================================================================== */
+
+@media (max-width: 480px) {
+    .mp-gift-hero {
+        min-height: 60vh;
+    }
+
+    .mp-gift-hero__icon {
+        width: 80px;
+        height: 80px;
+    }
+
+    .mp-gift-hero__icon svg {
+        width: 40px;
+        height: 40px;
+    }
+
+    .mp-gift-why,
+    .mp-gift-cards,
+    .mp-gift-how,
+    .mp-gift-final {
+        padding: 60px 20px;
+    }
+
+    .mp-gift-trust {
+        padding: 50px 20px;
+    }
+
+    .mp-gift-why__card {
+        padding: 24px;
+    }
+
+    .mp-gift-card__header,
+    .mp-gift-card__body,
+    .mp-gift-card__footer {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+}
+
+/* ==========================================================================
+   PAYMENT INFO BOX
+   ========================================================================== */
+
+.mp-gift-payment-info {
+    margin-top: 40px;
+    padding: 0 20px;
+}
+
+.mp-gift-payment-info__inner {
+    max-width: 600px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 20px 30px;
+    background: var(--gift-ocean-light);
+    border-radius: var(--gift-radius-sm);
+    border-left: 4px solid var(--gift-ocean);
+}
+
+.mp-gift-payment-info__inner svg {
+    flex-shrink: 0;
+    color: var(--gift-ocean-deep);
+}
+
+.mp-gift-payment-info__inner p {
+    margin: 0;
+    font-size: 14px;
+    color: var(--gift-dark-soft);
+    line-height: 1.5;
+}
+
+@media (max-width: 640px) {
+    .mp-gift-payment-info__inner {
+        flex-direction: column;
+        text-align: center;
+        padding: 20px;
+    }
+}
+
+/* ==========================================================================
+   RESEND SECTION
+   ========================================================================== */
+
+.mp-gift-resend {
+    padding: 60px 20px;
+    background: var(--gift-beige);
+}
+
+.mp-gift-resend__inner {
+    max-width: 800px;
+    margin: 0 auto;
+}

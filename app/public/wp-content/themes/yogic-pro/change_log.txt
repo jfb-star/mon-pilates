@@ -1,0 +1,18 @@
+Version Pro 1.0
+1) Initial version Release
+
+Version Pro 1.1
+1) Services section link issue solved
+2) Boxed layout sticky header issue solved
+3) Mobile version issue solved
+4) Font Awesome Icon version updated
+5) Added code to support latest WooCommerce product gallery
+
+Version Pro 1.2
+1) Updated with latest version of WordPress and WooCommerce
+2) Compatibility checked with latest PHP version
+3) Fixed read more button target link issue
+4) Removed unsupported Google Fonts
+5) Removed unused js and css code
+6) Slider image ALT tag issue solved
+

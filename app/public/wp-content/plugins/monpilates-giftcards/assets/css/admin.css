@@ -1,0 +1,191 @@
+/**
+ * Mon Pilates Gift Cards - Admin Styles
+ *
+ * @package MonPilates_GiftCards
+ */
+
+/* ==========================================================================
+   LISTE COMMANDES - Colonnes
+   ========================================================================== */
+
+.column-mpgc_gift_card {
+    width: 100px;
+}
+
+.column-mpgc_recipient {
+    width: 150px;
+}
+
+.column-mpgc_activation {
+    width: 100px;
+}
+
+.mpgc-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.mpgc-badge--gift {
+    background: linear-gradient(135deg, #fce4ec 0%, #f8bbd9 100%);
+    color: #c2185b;
+}
+
+.mpgc-badge--none {
+    color: #ccc;
+}
+
+.mpgc-status {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.mpgc-status--pending {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.mpgc-status--activated {
+    background: #d4edda;
+    color: #155724;
+}
+
+/* ==========================================================================
+   META BOX
+   ========================================================================== */
+
+#mpgc_gift_card_details .inside {
+    padding: 0;
+    margin: 0;
+}
+
+.mpgc-admin-box {
+    padding: 15px;
+}
+
+.mpgc-admin-section {
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.mpgc-admin-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.mpgc-admin-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 8px;
+    font-size: 13px;
+}
+
+.mpgc-admin-label {
+    color: #666;
+    flex-shrink: 0;
+}
+
+.mpgc-admin-value {
+    text-align: right;
+    max-width: 60%;
+    word-break: break-word;
+}
+
+.mpgc-admin-message {
+    font-style: italic;
+    font-size: 12px;
+    color: #888;
+}
+
+.mpgc-admin-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin: 15px 0;
+}
+
+.mpgc-admin-actions .button {
+    flex: 1;
+    text-align: center;
+    min-width: 100px;
+}
+
+/* ==========================================================================
+   LISTE PRODUITS
+   ========================================================================== */
+
+.column-mpgc_gift_card {
+    width: 40px;
+    text-align: center;
+}
+
+/* ==========================================================================
+   PAGE ADMIN
+   ========================================================================== */
+
+.mpgc-admin-page {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.mpgc-admin-page .card {
+    padding: 20px;
+    background: #fff;
+    border: 1px solid #c3c4c7;
+    border-radius: 4px;
+    box-shadow: 0 1px 1px rgba(0,0,0,.04);
+}
+
+.mpgc-admin-page .card h2 {
+    margin-top: 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.mpgc-admin-page .card p {
+    margin-bottom: 15px;
+}
+
+.mpgc-admin-page .card ul {
+    margin-left: 20px;
+    margin-bottom: 15px;
+}
+
+/* ==========================================================================
+   DASHBOARD WIDGET
+   ========================================================================== */
+
+.mpgc-dashboard-stats {
+    display: flex;
+    justify-content: space-around;
+    padding: 15px 0;
+}
+
+.mpgc-stat {
+    text-align: center;
+}
+
+.mpgc-stat-number {
+    display: block;
+    font-size: 32px;
+    font-weight: 700;
+    color: #cf317c;
+    line-height: 1;
+}
+
+.mpgc-stat-label {
+    font-size: 12px;
+    color: #666;
+    margin-top: 5px;
+}

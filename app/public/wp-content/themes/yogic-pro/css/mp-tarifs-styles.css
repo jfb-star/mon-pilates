@@ -1,0 +1,873 @@
+@charset "UTF-8";
+/**
+ * Mon Pilates - Styles page Tarifs Premium
+ *
+ * Design épuré, élégant, rassurant
+ * Cartes visuelles, hiérarchie claire, pas de tableaux
+ */
+
+/* ==========================================================================
+   VARIABLES & BASE
+   ========================================================================== */
+
+.mp-tarifs-page {
+    --mp-ocean: #7fa8b6;
+    --mp-ocean-light: #a8c5cf;
+    --mp-ocean-deep: #5a8a9a;
+    --mp-rose: #cf317c;
+    --mp-rose-light: #e85a9c;
+    --mp-white: #ffffff;
+    --mp-cream: #faf9f7;
+    --mp-dark: #2c3e50;
+    --mp-gray: #64748b;
+    --mp-gray-light: #e2e8f0;
+    --mp-success: #10b981;
+
+    background: var(--mp-white);
+    color: var(--mp-dark);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+/* ==========================================================================
+   HERO
+   ========================================================================== */
+
+.mp-tarifs-hero {
+    padding: 100px 20px 80px;
+    background: linear-gradient(180deg, var(--mp-cream) 0%, var(--mp-white) 100%);
+    text-align: center;
+}
+
+.mp-tarifs-hero-inner {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.mp-tarifs-hero-icon {
+    margin-bottom: 24px;
+    opacity: 0.8;
+}
+
+.mp-tarifs-hero-icon svg {
+    width: 48px;
+    height: 48px;
+}
+
+.mp-tarifs-title {
+    font-size: clamp(28px, 5vw, 42px);
+    font-weight: 600;
+    color: var(--mp-dark);
+    margin: 0 0 20px;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+}
+
+.mp-tarifs-subtitle {
+    font-size: 17px;
+    line-height: 1.7;
+    color: var(--mp-gray);
+    margin: 0 0 32px;
+}
+
+.mp-tarifs-badges {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+}
+
+.mp-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 16px;
+    background: var(--mp-white);
+    border: 1px solid var(--mp-gray-light);
+    border-radius: 50px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--mp-ocean-deep);
+}
+
+/* ==========================================================================
+   SECTION "COMMENT CHOISIR ?"
+   ========================================================================== */
+
+.mp-tarifs-choose {
+    padding: 80px 20px;
+    background: var(--mp-white);
+}
+
+.mp-tarifs-choose-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.mp-section-title {
+    font-size: clamp(24px, 4vw, 32px);
+    font-weight: 600;
+    color: var(--mp-dark);
+    text-align: center;
+    margin: 0 0 16px;
+}
+
+.mp-section-intro {
+    font-size: 16px;
+    color: var(--mp-gray);
+    text-align: center;
+    max-width: 500px;
+    margin: 0 auto 48px;
+}
+
+.mp-choose-cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+}
+
+@media (max-width: 1100px) {
+    .mp-choose-cards {
+        grid-template-columns: repeat(2, 1fr);
+        max-width: 720px;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 600px) {
+    .mp-choose-cards {
+        grid-template-columns: 1fr;
+        max-width: 400px;
+    }
+}
+
+.mp-choose-card {
+    background: var(--mp-cream);
+    border-radius: 20px;
+    padding: 32px 28px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.mp-choose-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+}
+
+.mp-choose-icon {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--mp-white);
+    border-radius: 50%;
+    color: var(--mp-ocean);
+}
+
+.mp-choose-card-discovery .mp-choose-icon {
+    color: var(--mp-ocean);
+}
+
+.mp-choose-card-group .mp-choose-icon {
+    color: var(--mp-ocean-deep);
+}
+
+.mp-choose-card-machine .mp-choose-icon {
+    color: var(--mp-sage, #7fb069);
+}
+
+.mp-choose-card-private .mp-choose-icon {
+    color: var(--mp-rose);
+}
+
+/* ==========================================================================
+   SECTION "VOUS HÉSITEZ ?" — aide à la décision
+   ========================================================================== */
+
+.mp-tarifs-help {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 64px 24px;
+    background: linear-gradient(180deg, var(--mp-cream, #faf7f3) 0%, #fff 100%);
+}
+
+.mp-tarifs-help-inner {
+    display: block;
+    max-width: 760px;
+    margin: 0 auto;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.mp-tarifs-help-inner .mp-section-title {
+    text-align: center !important;
+    margin: 0 auto 32px !important;
+    display: block;
+    width: 100%;
+}
+
+.mp-help-list {
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 0 0 24px !important;
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.mp-help-list li {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    background: #fff;
+    padding: 18px 22px;
+    margin: 0 0 14px;
+    border-radius: 12px;
+    border-left: 3px solid var(--mp-ocean, #7fa8b6);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--mp-dark, #2c2c2c);
+    text-align: left;
+}
+
+.mp-help-list li:last-child {
+    margin-bottom: 0;
+}
+
+.mp-help-list li em {
+    font-style: normal;
+    color: var(--mp-ocean-deep, #5a8a9a);
+    font-weight: 500;
+}
+
+.mp-help-note {
+    display: block;
+    text-align: center;
+    font-size: 14px;
+    color: var(--mp-text-light, #666);
+    font-style: italic;
+    margin: 24px 0 0;
+}
+
+.mp-choose-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--mp-dark);
+    margin: 0 0 12px;
+}
+
+.mp-choose-desc {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--mp-gray);
+    margin: 0 0 16px;
+}
+
+.mp-choose-for {
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--mp-ocean-deep);
+    background: rgba(127, 168, 182, 0.15);
+    padding: 6px 14px;
+    border-radius: 50px;
+}
+
+/* ==========================================================================
+   TARIFS - CATÉGORIES & CARTES
+   ========================================================================== */
+
+.mp-tarifs-pricing {
+    padding: 60px 20px 80px;
+    background: var(--mp-white);
+}
+
+.mp-tarifs-pricing-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+/* Catégorie */
+.mp-pricing-category {
+    margin-bottom: 80px;
+}
+
+.mp-pricing-category:last-child {
+    margin-bottom: 0;
+}
+
+.mp-category-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.mp-category-label {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--mp-ocean);
+    margin-bottom: 12px;
+}
+
+.mp-category-title {
+    font-size: clamp(22px, 3.5vw, 28px);
+    font-weight: 600;
+    color: var(--mp-dark);
+    margin: 0 0 8px;
+}
+
+.mp-category-desc {
+    font-size: 15px;
+    color: var(--mp-gray);
+    margin: 0;
+}
+
+/* Grilles de cartes */
+.mp-pricing-cards {
+    display: grid;
+    gap: 20px;
+    margin-bottom: 32px;
+}
+
+.mp-pricing-cards-2 {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.mp-pricing-cards-3 {
+    grid-template-columns: repeat(3, 1fr);
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.mp-pricing-cards-4 {
+    grid-template-columns: repeat(4, 1fr);
+}
+
+@media (max-width: 900px) {
+    .mp-pricing-cards-2,
+    .mp-pricing-cards-3,
+    .mp-pricing-cards-4 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .mp-pricing-cards-2,
+    .mp-pricing-cards-3,
+    .mp-pricing-cards-4 {
+        grid-template-columns: 1fr;
+        max-width: 340px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+/* Carte de prix - Standard */
+.mp-pricing-card {
+    position: relative;
+    background: var(--mp-white);
+    border: 1px solid var(--mp-gray-light);
+    border-radius: 16px;
+    padding: 28px 24px;
+    text-align: center;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.mp-pricing-card:hover {
+    border-color: var(--mp-ocean-light);
+    box-shadow: 0 8px 30px rgba(127, 168, 182, 0.15);
+}
+
+/* Carte mise en avant */
+.mp-pricing-card-highlight {
+    border-color: var(--mp-ocean);
+    background: linear-gradient(180deg, rgba(127, 168, 182, 0.05) 0%, var(--mp-white) 100%);
+}
+
+.mp-pricing-card-popular {
+    border-color: var(--mp-rose);
+}
+
+.mp-card-badge {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--mp-ocean);
+    color: var(--mp-white);
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 5px 14px;
+    border-radius: 50px;
+    white-space: nowrap;
+}
+
+.mp-pricing-card-popular .mp-card-badge {
+    background: var(--mp-rose);
+}
+
+.mp-card-header {
+    margin-bottom: 16px;
+}
+
+.mp-card-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--mp-dark);
+    margin: 0 0 4px;
+}
+
+.mp-card-subtitle {
+    font-size: 13px;
+    color: var(--mp-gray);
+    margin: 0;
+}
+
+.mp-card-price {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.mp-price-amount {
+    font-size: 42px;
+    font-weight: 700;
+    color: var(--mp-dark);
+    line-height: 1;
+}
+
+.mp-price-currency {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--mp-gray);
+    margin-left: 4px;
+}
+
+.mp-card-features {
+    list-style: none;
+    margin: 0 0 24px;
+    padding: 0;
+    text-align: left;
+}
+
+.mp-card-features li {
+    position: relative;
+    padding-left: 24px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: var(--mp-gray);
+    line-height: 1.4;
+}
+
+.mp-card-features li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 5px;
+    width: 14px;
+    height: 14px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237fa8b6' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.mp-card-cta {
+    display: block;
+    width: 100%;
+    padding: 14px 20px;
+    background: var(--mp-ocean);
+    color: var(--mp-white);
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 50px;
+    transition: background 0.3s ease;
+}
+
+.mp-card-cta:hover {
+    background: var(--mp-ocean-deep);
+    color: var(--mp-white);
+}
+
+/* Carte simple (pour grilles 3-4) */
+.mp-pricing-card-simple {
+    padding: 24px 20px;
+}
+
+.mp-pricing-card-simple .mp-card-title {
+    font-size: 15px;
+    margin-bottom: 12px;
+}
+
+.mp-pricing-card-simple .mp-card-price {
+    margin-bottom: 8px;
+}
+
+.mp-pricing-card-simple .mp-price-amount {
+    font-size: 36px;
+}
+
+.mp-card-note {
+    font-size: 13px;
+    color: var(--mp-gray);
+    margin: 0 0 4px;
+}
+
+.mp-card-validity {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--mp-ocean-deep);
+    background: rgba(127, 168, 182, 0.12);
+    padding: 4px 10px;
+    border-radius: 50px;
+    margin-top: 8px;
+}
+
+/* Bouton d'achat direct Bsport */
+.mp-card-buy-btn {
+    display: inline-block;
+    margin-top: 16px;
+    padding: 10px 24px;
+    background: var(--mp-ocean);
+    color: var(--mp-white);
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+}
+
+.mp-card-buy-btn:hover {
+    background: var(--mp-ocean-deep);
+    color: var(--mp-white);
+    transform: translateY(-1px);
+}
+
+.mp-pricing-card-popular .mp-card-buy-btn {
+    background: var(--mp-rose);
+}
+
+.mp-pricing-card-popular .mp-card-buy-btn:hover {
+    background: var(--mp-rose-light);
+}
+
+/* CTA catégorie */
+.mp-category-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 14px 28px;
+    background: var(--mp-ocean);
+    color: var(--mp-white);
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 50px;
+    margin: 0 auto;
+    transition: background 0.3s ease;
+}
+
+.mp-category-cta:hover {
+    background: var(--mp-ocean-deep);
+    color: var(--mp-white);
+}
+
+.mp-category-cta-secondary {
+    background: transparent;
+    color: var(--mp-dark);
+    border: 1px solid var(--mp-gray-light);
+}
+
+.mp-category-cta-secondary:hover {
+    background: var(--mp-cream);
+    color: var(--mp-dark);
+    border-color: var(--mp-gray);
+}
+
+.mp-pricing-category {
+    text-align: center;
+}
+
+/* ==========================================================================
+   SECTION CARTES CADEAUX
+   ========================================================================== */
+
+.mp-tarifs-gift {
+    padding: 60px 20px;
+    background: linear-gradient(135deg, rgba(207, 49, 124, 0.03) 0%, rgba(207, 49, 124, 0.08) 100%);
+}
+
+.mp-tarifs-gift-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+}
+
+@media (max-width: 700px) {
+    .mp-tarifs-gift-inner {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
+.mp-gift-content {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+@media (max-width: 700px) {
+    .mp-gift-content {
+        flex-direction: column;
+    }
+}
+
+.mp-gift-icon {
+    flex-shrink: 0;
+    width: 72px;
+    height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--mp-white);
+    border-radius: 50%;
+    box-shadow: 0 4px 20px rgba(207, 49, 124, 0.15);
+}
+
+.mp-gift-title {
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--mp-dark);
+    margin: 0 0 8px;
+}
+
+.mp-gift-desc {
+    font-size: 15px;
+    color: var(--mp-gray);
+    margin: 0;
+    line-height: 1.5;
+}
+
+.mp-gift-cta {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 28px;
+    background: var(--mp-rose);
+    color: var(--mp-white);
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 50px;
+    transition: background 0.3s ease;
+}
+
+.mp-gift-cta:hover {
+    background: var(--mp-rose-light);
+    color: var(--mp-white);
+}
+
+/* ==========================================================================
+   FAQ
+   ========================================================================== */
+
+.mp-tarifs-faq {
+    padding: 80px 20px;
+    background: var(--mp-cream);
+}
+
+.mp-tarifs-faq-inner {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.mp-tarifs-faq .mp-section-title {
+    margin-bottom: 40px;
+}
+
+.mp-faq-items {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.mp-faq-item {
+    background: var(--mp-white);
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid transparent;
+    transition: border-color 0.3s ease;
+}
+
+.mp-faq-item[open] {
+    border-color: var(--mp-ocean-light);
+}
+
+.mp-faq-question {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px;
+    cursor: pointer;
+    list-style: none;
+}
+
+.mp-faq-question::-webkit-details-marker {
+    display: none;
+}
+
+.mp-faq-question span {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--mp-dark);
+}
+
+.mp-faq-question svg {
+    flex-shrink: 0;
+    color: var(--mp-gray);
+    transition: transform 0.3s ease;
+}
+
+.mp-faq-item[open] .mp-faq-question svg {
+    transform: rotate(180deg);
+}
+
+.mp-faq-answer {
+    padding: 0 24px 20px;
+}
+
+.mp-faq-answer p {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--mp-gray);
+    margin: 0;
+}
+
+/* ==========================================================================
+   CTA FINAL
+   ========================================================================== */
+
+.mp-tarifs-cta-final {
+    padding: 80px 20px;
+    background: var(--mp-white);
+    text-align: center;
+}
+
+.mp-tarifs-cta-inner {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.mp-tarifs-cta-final .mp-cta-title {
+    font-size: clamp(24px, 4vw, 32px);
+    font-weight: 600;
+    color: var(--mp-dark);
+    margin: 0 0 16px;
+}
+
+.mp-tarifs-cta-final .mp-cta-text {
+    font-size: 16px;
+    color: var(--mp-gray);
+    margin: 0 0 32px;
+    line-height: 1.6;
+}
+
+.mp-tarifs-cta-final .mp-cta-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+}
+
+/* Boutons (réutilisation des styles existants) */
+.mp-tarifs-page .mp-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 28px;
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+}
+
+.mp-tarifs-page .mp-btn-primary {
+    background: var(--mp-rose);
+    color: var(--mp-white);
+}
+
+.mp-tarifs-page .mp-btn-primary:hover {
+    background: var(--mp-rose-light);
+    color: var(--mp-white);
+}
+
+.mp-tarifs-page .mp-btn-secondary {
+    background: transparent;
+    color: var(--mp-dark);
+    border: 1px solid var(--mp-gray-light);
+}
+
+.mp-tarifs-page .mp-btn-secondary:hover {
+    background: var(--mp-cream);
+    border-color: var(--mp-gray);
+}
+
+/* ==========================================================================
+   RESPONSIVE MOBILE
+   ========================================================================== */
+
+@media (max-width: 600px) {
+    .mp-tarifs-hero {
+        padding: 80px 20px 60px;
+    }
+
+    .mp-tarifs-choose,
+    .mp-tarifs-pricing,
+    .mp-tarifs-faq,
+    .mp-tarifs-cta-final {
+        padding: 60px 20px;
+    }
+
+    .mp-choose-card {
+        padding: 28px 24px;
+    }
+
+    .mp-pricing-card {
+        padding: 24px 20px;
+    }
+
+    .mp-faq-question {
+        padding: 16px 20px;
+    }
+
+    .mp-faq-answer {
+        padding: 0 20px 16px;
+    }
+
+    .mp-tarifs-cta-final .mp-cta-buttons {
+        flex-direction: column;
+    }
+
+    .mp-tarifs-page .mp-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}

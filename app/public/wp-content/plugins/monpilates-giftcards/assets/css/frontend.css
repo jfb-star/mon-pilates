@@ -1,0 +1,169 @@
+/**
+ * Mon Pilates Gift Cards - Frontend Styles
+ *
+ * @package MonPilates_GiftCards
+ */
+
+/* ==========================================================================
+   CHECKOUT - Champs carte cadeau
+   ========================================================================== */
+
+#mpgc-gift-card-fields {
+    background: linear-gradient(135deg, #fdf7f9 0%, #f8f9fa 100%);
+    border: 2px solid #f0e6ea;
+    border-radius: 16px;
+    padding: 30px;
+    margin: 30px 0;
+}
+
+#mpgc-gift-card-fields h3 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #2c3e50;
+    margin: 0 0 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #e0d6da;
+}
+
+.mpgc-gift-summary {
+    background: #fff;
+    border-radius: 10px;
+    padding: 15px 20px;
+    margin-bottom: 25px;
+}
+
+.mpgc-summary-intro {
+    margin: 0;
+    font-size: 15px;
+    color: #555;
+}
+
+.mpgc-summary-intro strong {
+    color: #cf317c;
+}
+
+#mpgc-gift-card-fields .form-row {
+    margin-bottom: 20px;
+}
+
+#mpgc-gift-card-fields label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 8px;
+}
+
+#mpgc-gift-card-fields label .optional {
+    font-weight: 400;
+    color: #888;
+    font-size: 12px;
+}
+
+#mpgc-gift-card-fields .input-text,
+#mpgc-gift-card-fields textarea {
+    width: 100%;
+    padding: 14px 18px;
+    font-size: 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    background: #fff;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#mpgc-gift-card-fields .input-text:focus,
+#mpgc-gift-card-fields textarea:focus {
+    outline: none;
+    border-color: #7fa8b6;
+    box-shadow: 0 0 0 3px rgba(127, 168, 182, 0.15);
+}
+
+#mpgc-gift-card-fields .input-text.mpgc-error {
+    border-color: #dc3545;
+}
+
+.mpgc-field-note {
+    display: block;
+    font-size: 12px;
+    color: #888;
+    margin-top: 6px;
+}
+
+.mpgc-char-count {
+    display: block;
+    text-align: right;
+    font-size: 12px;
+    color: #888;
+    margin-top: 5px;
+}
+
+.mpgc-error-msg {
+    display: block;
+    color: #dc3545;
+    font-size: 13px;
+    margin-top: 5px;
+}
+
+.mpgc-checkbox-row {
+    margin-top: 15px !important;
+}
+
+.mpgc-checkbox-text {
+    font-size: 14px;
+    color: #555;
+}
+
+.mpgc-info-box {
+    background: #e8f4f8;
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 20px;
+    border-left: 4px solid #7fa8b6;
+}
+
+.mpgc-info-box p {
+    margin: 0;
+    font-size: 14px;
+    color: #2c3e50;
+    line-height: 1.6;
+}
+
+.mpgc-info-box strong {
+    color: #5a8a9a;
+}
+
+/* ==========================================================================
+   BADGES & STATUS
+   ========================================================================== */
+
+.mpgc-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.mpgc-badge--gift {
+    background: linear-gradient(135deg, #fce4ec 0%, #f8bbd9 100%);
+    color: #c2185b;
+}
+
+.mpgc-badge--none {
+    color: #ccc;
+}
+
+/* ==========================================================================
+   RESPONSIVE
+   ========================================================================== */
+
+@media (max-width: 768px) {
+    #mpgc-gift-card-fields {
+        padding: 20px;
+        margin: 20px 0;
+    }
+
+    #mpgc-gift-card-fields h3 {
+        font-size: 18px;
+    }
+}

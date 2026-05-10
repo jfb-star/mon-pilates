@@ -1,0 +1,79 @@
+# Mon Pilates — robots.txt
+
+User-agent: *
+Disallow: /wp-content/uploads/wc-logs/
+Disallow: /wp-content/uploads/woocommerce_transient_files/
+Disallow: /wp-content/uploads/woocommerce_uploads/
+Disallow: /*?add-to-cart=
+Disallow: /*?*add-to-cart=
+Disallow: /wp-admin/
+Allow: /wp-admin/admin-ajax.php
+
+# ============================================================================
+# IA / LLMs — autorisations explicites pour visibilité dans les outils IA
+# ============================================================================
+
+# OpenAI (ChatGPT, GPT-4o, search, training)
+User-agent: GPTBot
+Allow: /
+User-agent: OAI-SearchBot
+Allow: /
+User-agent: ChatGPT-User
+Allow: /
+
+# Anthropic (Claude, Claude.ai search, Claude indexing)
+User-agent: ClaudeBot
+Allow: /
+User-agent: anthropic-ai
+Allow: /
+User-agent: Claude-Web
+Allow: /
+
+# Google AI Overviews / Gemini (séparé du Googlebot classique)
+User-agent: Google-Extended
+Allow: /
+
+# Perplexity
+User-agent: PerplexityBot
+Allow: /
+User-agent: Perplexity-User
+Allow: /
+
+# Microsoft / Bing AI / Copilot
+User-agent: bingbot
+Allow: /
+User-agent: cohere-ai
+Allow: /
+
+# Meta / Llama
+User-agent: FacebookBot
+Allow: /
+User-agent: meta-externalagent
+Allow: /
+
+# Common Crawl (training data foundation)
+User-agent: CCBot
+Allow: /
+
+# Apple Intelligence
+User-agent: Applebot
+Allow: /
+User-agent: Applebot-Extended
+Allow: /
+
+# Mistral
+User-agent: MistralAI-User
+Allow: /
+
+# DuckDuckGo AI
+User-agent: DuckAssistBot
+Allow: /
+
+# ============================================================================
+Sitemap: https://mon-pilates.bzh/sitemap_index.xml
+
+# Optimisation LLMs
+# Le site expose un fichier llms.txt structuré pour les modèles de langage :
+# https://mon-pilates.bzh/llms.txt
+# Version étendue (contenu condensé) :
+# https://mon-pilates.bzh/llms-full.txt

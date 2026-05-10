@@ -1,0 +1,480 @@
+@charset "UTF-8";
+/**
+ * Mon Pilates - Footer Premium
+ * "Un footer qui respire" - Calme, clair, rassurant
+ *
+ * Structure :
+ * 1. Bloc Identité (logo + signature)
+ * 2. Bloc Navigation (Explorer)
+ * 3. Bloc Contact (Nous trouver)
+ * 4. Bandeau légal minimal
+ */
+
+/* ==========================================================================
+   VARIABLES CSS - Palette Footer
+   ========================================================================== */
+
+:root {
+    --mp-footer-bg: #1a2632;
+    --mp-footer-bg-bottom: #151d26;
+    --mp-footer-text: #f7f7f5;
+    --mp-footer-text-muted: #94a3b8;
+    --mp-footer-accent: #7fa8b6;
+    --mp-footer-border: rgba(255, 255, 255, 0.08);
+}
+
+/* ==========================================================================
+   NEUTRALISATION - Masquer l'ancien footer
+   ========================================================================== */
+
+#footer-wrapper:not(.mp-footer) {
+    display: none !important;
+}
+
+.copyright-wrapper {
+    display: none !important;
+}
+
+/* ==========================================================================
+   FOOTER PRINCIPAL
+   ========================================================================== */
+
+.mp-footer {
+    background-color: var(--mp-footer-bg);
+    color: var(--mp-footer-text);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.mp-footer *,
+.mp-footer *::before,
+.mp-footer *::after {
+    box-sizing: border-box;
+}
+
+/* Container principal */
+.mp-footer__main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 80px 40px 60px;
+    display: grid;
+    grid-template-columns: 1.2fr 1fr 1fr;
+    gap: 60px;
+}
+
+/* ==========================================================================
+   BLOC IDENTITE - Logo + Signature
+   ========================================================================== */
+
+.mp-footer__identity {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.mp-footer__logo {
+    display: inline-block;
+    max-width: 180px;
+    transition: opacity 0.3s ease;
+}
+
+.mp-footer__logo:hover {
+    opacity: 0.85;
+}
+
+.mp-footer__logo img {
+    width: 100%;
+    height: auto;
+    filter: brightness(0) invert(1);
+}
+
+.mp-footer__tagline {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--mp-footer-text-muted);
+    letter-spacing: 0.3px;
+    margin: 0;
+}
+
+.mp-footer__signature {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 20px;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--mp-footer-text);
+    line-height: 1.5;
+    margin: 10px 0 0;
+    opacity: 0.9;
+}
+
+/* ==========================================================================
+   BLOC NAVIGATION - Explorer
+   ========================================================================== */
+
+.mp-footer__nav {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.mp-footer__title {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--mp-footer-text-muted);
+    margin: 0;
+}
+
+.mp-footer__links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.mp-footer__links li {
+    margin: 0;
+    padding: 0;
+}
+
+.mp-footer__links a {
+    color: var(--mp-footer-text);
+    font-size: 15px;
+    font-weight: 400;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    display: inline-block;
+    position: relative;
+}
+
+.mp-footer__links a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background-color: var(--mp-footer-accent);
+    transition: width 0.3s ease;
+}
+
+.mp-footer__links a:hover {
+    color: var(--mp-footer-accent);
+}
+
+.mp-footer__links a:hover::after {
+    width: 100%;
+}
+
+/* Labels catégorie (non-cliquables) */
+.mp-footer__category {
+    color: var(--mp-footer-accent);
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 10px;
+    padding-bottom: 2px;
+    cursor: default;
+}
+
+.mp-footer__category:first-child {
+    margin-top: 0;
+}
+
+/* Sous-pages indentées sous une catégorie */
+.mp-footer__category + li {
+    padding-left: 14px;
+}
+
+.mp-footer__category + li + li:not(.mp-footer__category) {
+    padding-left: 14px;
+}
+
+/* ==========================================================================
+   BLOC CONTACT - Nous trouver
+   ========================================================================== */
+
+.mp-footer__contact {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.mp-footer__address {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.7;
+    color: var(--mp-footer-text);
+}
+
+.mp-footer__address-highlight {
+    display: block;
+    color: var(--mp-footer-accent);
+    font-style: italic;
+    margin-top: 4px;
+}
+
+.mp-footer__contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.mp-footer__contact-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--mp-footer-text);
+    font-size: 15px;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.mp-footer__contact-link:hover {
+    color: var(--mp-footer-accent);
+}
+
+.mp-footer__contact-link svg {
+    width: 16px;
+    height: 16px;
+    opacity: 0.7;
+    flex-shrink: 0;
+}
+
+/* Réseaux sociaux */
+.mp-footer__social {
+    display: flex;
+    gap: 16px;
+    margin-top: 8px;
+}
+
+.mp-footer__social-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--mp-footer-text);
+    transition:
+        background-color 0.3s ease,
+        color 0.3s ease,
+        transform 0.3s ease;
+}
+
+.mp-footer__social-link:hover {
+    background: var(--mp-footer-accent);
+    color: var(--mp-footer-bg);
+    transform: translateY(-3px);
+}
+
+.mp-footer__social-link svg {
+    width: 18px;
+    height: 18px;
+}
+
+/* ==========================================================================
+   BANDEAU LEGAL - Bas de footer
+   ========================================================================== */
+
+.mp-footer__bottom {
+    background-color: var(--mp-footer-bg-bottom);
+    border-top: 1px solid var(--mp-footer-border);
+}
+
+.mp-footer__bottom-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.mp-footer__copyright {
+    font-size: 13px;
+    color: var(--mp-footer-text-muted);
+    margin: 0;
+}
+
+.mp-footer__legal {
+    display: flex;
+    gap: 24px;
+}
+
+.mp-footer__legal a {
+    font-size: 13px;
+    color: var(--mp-footer-text-muted);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.mp-footer__legal a:hover {
+    color: var(--mp-footer-text);
+}
+
+/* ==========================================================================
+   RESPONSIVE - Tablettes
+   ========================================================================== */
+
+@media (max-width: 1024px) {
+    .mp-footer__main {
+        padding: 60px 30px 50px;
+        gap: 40px;
+    }
+}
+
+@media (max-width: 900px) {
+    .mp-footer__main {
+        grid-template-columns: 1fr 1fr;
+        gap: 50px 40px;
+    }
+
+    .mp-footer__identity {
+        grid-column: 1 / -1;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 16px;
+        padding-bottom: 30px;
+        border-bottom: 1px solid var(--mp-footer-border);
+    }
+
+    .mp-footer__identity-text {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .mp-footer__signature {
+        margin: 0;
+    }
+}
+
+/* ==========================================================================
+   RESPONSIVE - Mobile
+   ========================================================================== */
+
+@media (max-width: 640px) {
+    .mp-footer__main {
+        grid-template-columns: 1fr;
+        padding: 50px 24px 40px;
+        gap: 40px;
+    }
+
+    .mp-footer__identity {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .mp-footer__identity-text {
+        align-items: center;
+    }
+
+    .mp-footer__logo {
+        max-width: 150px;
+    }
+
+    .mp-footer__signature {
+        font-size: 18px;
+    }
+
+    .mp-footer__nav,
+    .mp-footer__contact {
+        align-items: center;
+        text-align: center;
+    }
+
+    .mp-footer__links {
+        align-items: center;
+    }
+
+    .mp-footer__address {
+        text-align: center;
+    }
+
+    .mp-footer__contact-info {
+        align-items: center;
+    }
+
+    .mp-footer__social {
+        justify-content: center;
+    }
+
+    .mp-footer__bottom-inner {
+        flex-direction: column;
+        text-align: center;
+        padding: 20px 24px;
+        gap: 16px;
+    }
+
+    .mp-footer__legal {
+        gap: 16px;
+    }
+}
+
+/* ==========================================================================
+   BOUTON TELEPHONE FLOTTANT (conservé)
+   ========================================================================== */
+
+.floating-phone {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 56px;
+    height: 56px;
+    background: linear-gradient(135deg, #cf317c 0%, #e85a9c 100%);
+    border-radius: 50%;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 22px;
+    box-shadow:
+        0 4px 20px rgba(207, 49, 124, 0.4),
+        0 2px 8px rgba(0, 0, 0, 0.15);
+    z-index: 999;
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+    text-decoration: none;
+}
+
+.floating-phone:hover {
+    transform: scale(1.08);
+    box-shadow:
+        0 6px 28px rgba(207, 49, 124, 0.5),
+        0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 768px) {
+    .floating-phone {
+        display: flex;
+    }
+}
+
+/* ==========================================================================
+   ACCESSIBILITE
+   ========================================================================== */
+
+.mp-footer a:focus-visible {
+    outline: 2px solid var(--mp-footer-accent);
+    outline-offset: 3px;
+    border-radius: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .mp-footer *,
+    .mp-footer *::before,
+    .mp-footer *::after {
+        transition-duration: 0.01ms !important;
+    }
+}
