@@ -261,7 +261,7 @@ get_header();
                 <div class="mp-duo-offer">
                     <div class="mp-duo-offer-price">
                         <span class="mp-duo-offer-amount">80&nbsp;€</span>
-                        <span class="mp-duo-offer-unit">la séance de 55 minutes, pour deux personnes</span>
+                        <span class="mp-duo-offer-unit">la séance de 55 min à 1 h, pour deux personnes</span>
                         <span class="mp-duo-offer-per">soit 40&nbsp;€ par personne — carte valable 3&nbsp;mois</span>
                     </div>
                     <div class="mp-duo-offer-action">

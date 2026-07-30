@@ -219,7 +219,7 @@ get_header();
                     <details class="mp-faq-item">
                         <summary class="mp-faq-question">Quelle est la différence entre les cours collectifs, le cours privé et le cours duo ?</summary>
                         <div class="mp-faq-answer">
-                            <p>Le studio propose deux formats <strong>collectifs</strong> en petit groupe : <em>Pilates Tapis</em> (au sol avec petit matériel, 5 personnes max) et <em>Pilates Machine</em> (sur Reformer, 4 personnes max). Tous deux sont conviviaux et motivants. Le <strong>cours privé</strong> est une séance individuelle sur tous les appareils du studio (Reformer, Cadillac, Wunda Chair…), entièrement personnalisée selon vos besoins — idéale pour un objectif précis ou une rééducation. Le <strong>cours duo</strong> reprend exactement ce format, mais à deux : même accompagnement sur appareils, tarif partagé. Découvrez nos <a href="<?php echo esc_url(mp_get_seances_individuelles_url()); ?>">différentes formules</a>.</p>
+                            <p>Le studio propose deux formats <strong>collectifs</strong> en petit groupe : <em>Pilates Tapis</em> (au sol avec petit matériel, 5 personnes max) et <em>Pilates Machine</em> (sur Reformer, 3 personnes max). Tous deux sont conviviaux et motivants. Le <strong>cours privé</strong> est une séance individuelle sur tous les appareils du studio (Reformer, Cadillac, Wunda Chair…), entièrement personnalisée selon vos besoins — idéale pour un objectif précis ou une rééducation. Le <strong>cours duo</strong> reprend exactement ce format, mais à deux : même accompagnement sur appareils, tarif partagé. Découvrez nos <a href="<?php echo esc_url(mp_get_seances_individuelles_url()); ?>">différentes formules</a>.</p>
                         </div>
                     </details>
 
@@ -301,7 +301,7 @@ get_header();
             "name": "Quelle est la différence entre les cours collectifs, le cours privé et le cours duo ?",
             "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Le studio propose deux formats collectifs en petit groupe : Pilates Tapis (au sol avec petit matériel, 5 personnes max) et Pilates Machine (sur Reformer, 4 personnes max). Le cours privé est une séance individuelle sur tous les appareils du studio (Reformer, Cadillac, Wunda Chair...), entièrement personnalisée selon vos besoins, idéale pour un objectif précis ou une rééducation. Le cours duo reprend exactement ce format, mais à deux : même accompagnement sur appareils, tarif partagé à 80 € la séance pour deux."
+                "text": "Le studio propose deux formats collectifs en petit groupe : Pilates Tapis (au sol avec petit matériel, 5 personnes max) et Pilates Machine (sur Reformer, 3 personnes max). Le cours privé est une séance individuelle sur tous les appareils du studio (Reformer, Cadillac, Wunda Chair...), entièrement personnalisée selon vos besoins, idéale pour un objectif précis ou une rééducation. Le cours duo reprend exactement ce format, mais à deux : même accompagnement sur appareils, tarif partagé à 80 € la séance pour deux."
             }
         },
         {

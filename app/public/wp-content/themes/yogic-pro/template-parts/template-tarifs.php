@@ -343,7 +343,7 @@ get_header();
                             <span class="mp-price-amount">65</span>
                             <span class="mp-price-currency">€</span>
                         </div>
-                        <p class="mp-card-note">55 minutes</p>
+                        <p class="mp-card-note">55 min à 1 h</p>
                         <a href="https://backoffice.bsport.io/customer/payment/pass/639559/?membership=3023&force=true" class="mp-card-buy-btn" target="_blank" rel="noopener">
                             Acheter
                         </a>
@@ -370,7 +370,7 @@ get_header();
                             <span class="mp-price-amount">80</span>
                             <span class="mp-price-currency">€</span>
                         </div>
-                        <p class="mp-card-note">40&nbsp;€ / personne — 55 minutes</p>
+                        <p class="mp-card-note">40&nbsp;€ / personne — 55 min à 1 h</p>
                         <span class="mp-card-validity">Valable 3 mois</span>
                         <a href="https://backoffice.bsport.io/customer/payment/pass/779204/?membership=3023&force=true" class="mp-card-buy-btn" target="_blank" rel="noopener">
                             Acheter

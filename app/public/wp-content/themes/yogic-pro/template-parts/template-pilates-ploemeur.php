@@ -108,7 +108,7 @@ get_header();
                             </svg>
                         </div>
                         <h3 class="mp-profile-title">Cours collectifs en petit groupe</h3>
-                        <p>En petit groupe restreint, dans une ambiance conviviale : <strong>Pilates Tapis</strong> au sol avec petit matériel (5 personnes max), ou <strong>Pilates Machine</strong> sur Reformer (4 personnes max). Un format chaleureux pour inscrire le mouvement dans sa routine.</p>
+                        <p>En petit groupe restreint, dans une ambiance conviviale : <strong>Pilates Tapis</strong> au sol avec petit matériel (5 personnes max), ou <strong>Pilates Machine</strong> sur Reformer (3 personnes max). Un format chaleureux pour inscrire le mouvement dans sa routine.</p>
                         <a href="<?php echo esc_url(mp_get_seances_groupe_url()); ?>" class="mp-profile-link">En savoir plus sur les séances</a>
                     </div>
 
