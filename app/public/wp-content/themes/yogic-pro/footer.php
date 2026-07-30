@@ -114,7 +114,7 @@
     "@type": ["SportsActivityLocation", "LocalBusiness"],
     "name": "Mon Pilates",
     "alternateName": ["Mon Pilates Larmor-Plage", "Mon Pilates à Larmor-Plage"],
-    "description": "Studio de Pilates à Larmor-Plage face à l'océan, à 10 minutes de Lorient. Pilates Tapis en petit groupe (5 personnes max), Pilates Machine sur Reformer (4 personnes max) et cours privés sur appareils Reformer et Cadillac. Enseignante certifiée FPMP.",
+    "description": "Studio de Pilates à Larmor-Plage face à l'océan, à 10 minutes de Lorient. Pilates Tapis en petit groupe (5 personnes max), Pilates Machine sur Reformer (4 personnes max) et cours privés sur appareils Reformer et Cadillac, en individuel ou en duo. Enseignante certifiée FPMP.",
     "url": "https://mon-pilates.bzh/",
     "logo": "https://mon-pilates.bzh/wp-content/uploads/2024/08/logo-removebg-preview.png",
     "image": "https://mon-pilates.bzh/wp-content/uploads/2025/02/14-Boulevard-des-dunes-56260-Larmor-Plage-Mon-Pilates.jpg",
@@ -259,6 +259,26 @@
                 },
                 "price": "55.00",
                 "priceCurrency": "EUR"
+            },
+            {
+                "@type": "Offer",
+                "itemOffered": {
+                    "@type": "Service",
+                    "name": "Cours duo sur appareils",
+                    "description": "Séance de Pilates à deux sur Reformer, Cadillac et autres appareils, avec le même accompagnement personnalisé qu'un cours privé"
+                },
+                "price": "80.00",
+                "priceCurrency": "EUR",
+                "priceSpecification": {
+                    "@type": "UnitPriceSpecification",
+                    "price": "80.00",
+                    "priceCurrency": "EUR",
+                    "referenceQuantity": {
+                        "@type": "QuantitativeValue",
+                        "value": "1",
+                        "unitText": "séance pour 2 personnes"
+                    }
+                }
             }
         ]
     }

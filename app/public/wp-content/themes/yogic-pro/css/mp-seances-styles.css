@@ -1079,3 +1079,103 @@ body[class*="petit-groupe"] .innerbanner {
     background: rgba(127, 176, 105, 0.12);
     color: var(--mp-sage, #5a9947);
 }
+
+/* ==========================================================================
+   SECTION COURS DUO (page Cours privés)
+   ========================================================================== */
+
+.mp-hero-badge a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.mp-hero-badge a:hover {
+    color: var(--mp-ocean-deep, #5a8a9a);
+}
+
+.mp-section-eyebrow {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--mp-white, #fff);
+    background: var(--mp-ocean, #7fa8b6);
+    padding: 5px 14px;
+    border-radius: 50px;
+    margin-bottom: 14px;
+}
+
+/* Encart offre duo : prix à gauche, action à droite */
+.mp-duo-offer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 28px;
+    max-width: 860px;
+    margin: 36px auto 0;
+    padding: 28px 32px;
+    background: white;
+    border-radius: 16px;
+    border-top: 3px solid var(--mp-ocean, #7fa8b6);
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.06);
+}
+
+.mp-duo-offer-price {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    text-align: left;
+}
+
+.mp-duo-offer-amount {
+    font-size: 40px;
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--mp-dark, #2c2c2c);
+}
+
+.mp-duo-offer-unit {
+    font-size: 15px;
+    color: var(--mp-dark, #2c2c2c);
+}
+
+.mp-duo-offer-per {
+    font-size: 13px;
+    color: #5a6c7d;
+}
+
+.mp-duo-offer-action {
+    flex: 1 1 300px;
+    max-width: 380px;
+    text-align: left;
+}
+
+.mp-duo-offer-note {
+    font-size: 13px;
+    line-height: 1.55;
+    color: #5a6c7d;
+    margin: 14px 0 0;
+}
+
+.mp-duo-offer-note a {
+    color: var(--mp-ocean-deep, #5a8a9a);
+    font-weight: 500;
+}
+
+@media (max-width: 720px) {
+    .mp-duo-offer {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+        padding: 24px 22px;
+    }
+
+    .mp-duo-offer-action {
+        flex: 1 1 auto;
+        max-width: none;
+        width: 100%;
+    }
+}

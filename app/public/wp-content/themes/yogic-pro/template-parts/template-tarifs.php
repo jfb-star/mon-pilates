@@ -114,12 +114,12 @@ get_header();
                             <path d="M16 3l2 2-2 2"/>
                         </svg>
                     </div>
-                    <h3 class="mp-choose-title">Cours privés</h3>
+                    <h3 class="mp-choose-title">Cours privés — solo ou duo</h3>
                     <p class="mp-choose-desc">
                         Un accompagnement 100% personnalisé, sur appareils Pilates.
-                        Pour un objectif précis ou un suivi sur-mesure.
+                        Seul·e pour un objectif précis, ou <strong>à deux</strong> avec la séance duo.
                     </p>
-                    <span class="mp-choose-for">Idéal pour : objectifs précis, reprise après douleur</span>
+                    <span class="mp-choose-for">Idéal pour : objectifs précis, reprise après douleur, pratiquer à deux</span>
                 </div>
             </div>
         </div>
@@ -328,15 +328,15 @@ get_header();
                 </a>
             </div>
 
-            <!-- PRIVÉ - INDIVIDUEL -->
+            <!-- PRIVÉ - INDIVIDUEL & DUO -->
             <div class="mp-pricing-category mp-pricing-private">
                 <div class="mp-category-header">
-                    <span class="mp-category-label">Accompagnement 100% personnalisé</span>
+                    <span class="mp-category-label">Accompagnement 100% personnalisé — solo ou à deux</span>
                     <h2 class="mp-category-title">Cours privés</h2>
-                    <p class="mp-category-desc">Séances individuelles sur Reformer, Cadillac et autres appareils Pilates</p>
+                    <p class="mp-category-desc">Séances sur Reformer, Cadillac et autres appareils Pilates, en individuel ou en duo</p>
                 </div>
 
-                <div class="mp-pricing-cards mp-pricing-cards-2">
+                <div class="mp-pricing-cards mp-pricing-cards-3">
                     <div class="mp-pricing-card mp-pricing-card-simple">
                         <h3 class="mp-card-title">À l'unité</h3>
                         <div class="mp-card-price">
@@ -362,10 +362,29 @@ get_header();
                             Acheter
                         </a>
                     </div>
+
+                    <div class="mp-pricing-card mp-pricing-card-simple">
+                        <div class="mp-card-badge">Nouveau</div>
+                        <h3 class="mp-card-title">Séance duo</h3>
+                        <div class="mp-card-price">
+                            <span class="mp-price-amount">80</span>
+                            <span class="mp-price-currency">€</span>
+                        </div>
+                        <p class="mp-card-note">40&nbsp;€ / personne — 55 minutes</p>
+                        <span class="mp-card-validity">Valable 3 mois</span>
+                        <a href="https://backoffice.bsport.io/customer/payment/pass/779204/?membership=3023&force=true" class="mp-card-buy-btn" target="_blank" rel="noopener">
+                            Acheter
+                        </a>
+                    </div>
                 </div>
 
+                <p class="mp-pricing-note">
+                    <strong>La séance duo</strong> se déroule à deux, sur les appareils, avec le même accompagnement personnalisé qu'un cours privé.
+                    Le créneau se cale directement avec moi : après l'achat, écrivez-moi et on trouve le moment qui vous arrange à tous les deux.
+                </p>
+
                 <a href="<?php echo esc_url(mp_get_contact_url()); ?>" class="mp-category-cta mp-category-cta-secondary">
-                    <span>Une question sur les cours privés ?</span>
+                    <span>Une question sur les cours privés ou le duo ?</span>
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
                     </svg>
@@ -385,6 +404,7 @@ get_header();
                 <li><strong>Pour découvrir le Pilates en douceur</strong> : commencez par une <em>Séance découverte tapis</em> (10&nbsp;€), une <em>Séance découverte machine</em> (20&nbsp;€) ou une carte 5&nbsp;cours <em>Pilates Tapis</em>.</li>
                 <li><strong>Pour progresser sur Reformer sans cours individuel</strong> : choisissez <em>Pilates Machine</em> en petit groupe (carte 5&nbsp;cours à 140&nbsp;€).</li>
                 <li><strong>Pour un besoin spécifique ou un accompagnement complet</strong> : privilégiez le <em>cours privé</em> (séance unité à 65&nbsp;€ ou carte 10&nbsp;cours à 550&nbsp;€).</li>
+                <li><strong>Pour venir à deux</strong> : la <em>séance duo</em> (80&nbsp;€ la séance, soit 40&nbsp;€ par personne) offre le même accompagnement sur appareils, à partager avec votre conjoint·e, un ami, un parent.</li>
             </ul>
             <p class="mp-help-note">Vous pouvez toujours alterner les formules selon vos envies — chaque carte est valable plusieurs mois.</p>
         </div>
@@ -488,6 +508,18 @@ get_header();
                         <p>Le format <strong>Pilates Machine en petit groupe</strong> se déroule uniquement sur <strong>Reformer</strong>, à plusieurs, pour bénéficier de l'énergie collective à un tarif accessible. Le <strong>cours privé</strong> est une séance individuelle sur tous les appareils du studio (Reformer, Cadillac, Wunda Chair…), entièrement personnalisée selon vos besoins — idéale pour un objectif précis, une douleur ou une rééducation.</p>
                     </div>
                 </details>
+
+                <details class="mp-faq-item">
+                    <summary class="mp-faq-question">
+                        <span>Comment fonctionne la séance duo ?</span>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M6 9l6 6 6-6"/>
+                        </svg>
+                    </summary>
+                    <div class="mp-faq-answer">
+                        <p>La <strong>séance duo</strong> est un cours privé partagé à deux, sur les appareils du studio. Le tarif est de <strong>80&nbsp;€ la séance pour deux personnes</strong>, soit 40&nbsp;€ par personne — une façon plus accessible de bénéficier d'un accompagnement personnalisé. Une seule personne achète la séance pour les deux, puis on convient ensemble du créneau : il suffit de me contacter après l'achat. C'est idéal en couple, entre amis, ou parent-enfant, à condition d'avoir des objectifs et un niveau compatibles.</p>
+                    </div>
+                </details>
             </div>
         </div>
     </section>
@@ -567,6 +599,14 @@ get_header();
             "acceptedAnswer": {
                 "@type": "Answer",
                 "text": "Le format Pilates Machine en petit groupe se déroule uniquement sur Reformer, à plusieurs, pour bénéficier de l'énergie collective à un tarif accessible. Le cours privé est une séance individuelle sur tous les appareils du studio (Reformer, Cadillac, Wunda Chair…), entièrement personnalisée selon vos besoins, idéale pour un objectif précis, une douleur ou une rééducation."
+            }
+        },
+        {
+            "@type": "Question",
+            "name": "Comment fonctionne la séance duo de Pilates ?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "La séance duo est un cours privé partagé à deux, sur les appareils du studio. Le tarif est de 80 € la séance pour deux personnes, soit 40 € par personne. Une seule personne achète la séance pour les deux, puis le créneau est convenu directement avec l'enseignante après l'achat. C'est idéal en couple, entre amis ou parent-enfant, à condition d'avoir des objectifs et un niveau compatibles."
             }
         }
     ]

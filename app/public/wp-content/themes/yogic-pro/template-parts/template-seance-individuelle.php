@@ -25,9 +25,10 @@ get_header();
             </div>
             <h1 class="mp-hero-title">Cours privés de Pilates à Larmor-Plage</h1>
             <p class="mp-hero-subtitle">
-                Une séance individuelle sur appareils Pilates pour travailler avec précision, dans un cadre calme et avec un accompagnement entièrement personnalisé.<br>
+                Une séance sur appareils Pilates pour travailler avec précision, dans un cadre calme et avec un accompagnement entièrement personnalisé.<br>
                 Vous avancez selon vos possibilités, sur des mouvements choisis pour votre corps et votre objectif du jour.
             </p>
+            <p class="mp-hero-badge">En individuel ou à deux — <a href="#cours-duo">découvrir la séance duo</a></p>
             <p class="mp-hero-hint">Prenez quelques minutes pour découvrir si cette approche est faite pour vous.</p>
         </div>
     </section>
@@ -211,6 +212,75 @@ get_header();
             </figure>
         </section>
 
+        <!-- SECTION DUO -->
+        <section class="mp-section mp-section-duo mp-section-alt" id="cours-duo">
+            <div class="mp-section-inner">
+                <div class="mp-section-header">
+                    <span class="mp-section-eyebrow">Nouveau</span>
+                    <h2 class="mp-section-title">Le cours duo : à deux, sur les appareils</h2>
+                    <p class="mp-section-intro">Vous préférez ne pas venir seul·e ? La séance duo reprend tout ce qui fait un cours privé — les appareils, l'attention portée à chaque mouvement, l'adaptation à votre corps — mais à deux. Le tarif est partagé, et il y a quelqu'un à côté de vous.</p>
+                </div>
+
+                <div class="mp-benefits-grid">
+                    <div class="mp-benefit-card">
+                        <div class="mp-benefit-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#7fa8b6" stroke-width="1.5">
+                                <circle cx="9" cy="8" r="3.5"/>
+                                <circle cx="16.5" cy="8" r="3.5"/>
+                                <path d="M2.5 20v-1.5A4 4 0 016.5 15h5"/>
+                                <path d="M13 20v-1.5A4 4 0 0117 15h.5a4 4 0 014 3.5V20"/>
+                            </svg>
+                        </div>
+                        <h3 class="mp-benefit-title">À deux, à votre rythme</h3>
+                        <p>En couple, entre amies, parent et enfant adulte… On travaille en alternance et en parallèle sur les appareils, chacun avec ses réglages et ses adaptations. Personne ne suit le tempo de l'autre.</p>
+                    </div>
+
+                    <div class="mp-benefit-card">
+                        <div class="mp-benefit-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#7fa8b6" stroke-width="1.5">
+                                <path d="M12 2v20"/>
+                                <path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/>
+                            </svg>
+                        </div>
+                        <h3 class="mp-benefit-title">Un tarif partagé</h3>
+                        <p>80&nbsp;€ la séance pour deux, soit 40&nbsp;€ par personne. C'est la façon la plus accessible de bénéficier d'un accompagnement sur appareils, sans passer en cours collectif.</p>
+                    </div>
+
+                    <div class="mp-benefit-card">
+                        <div class="mp-benefit-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#7fa8b6" stroke-width="1.5">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                                <path d="M9 12l2 2 4-4"/>
+                            </svg>
+                        </div>
+                        <h3 class="mp-benefit-title">Rassurant pour débuter</h3>
+                        <p>Franchir la porte d'un studio pour la première fois est plus simple accompagné. Le duo est souvent le bon compromis entre l'intimité du privé et la convivialité du groupe.</p>
+                    </div>
+                </div>
+
+                <div class="mp-duo-offer">
+                    <div class="mp-duo-offer-price">
+                        <span class="mp-duo-offer-amount">80&nbsp;€</span>
+                        <span class="mp-duo-offer-unit">la séance de 55 minutes, pour deux personnes</span>
+                        <span class="mp-duo-offer-per">soit 40&nbsp;€ par personne — carte valable 3&nbsp;mois</span>
+                    </div>
+                    <div class="mp-duo-offer-action">
+                        <a href="https://backoffice.bsport.io/customer/payment/pass/779204/?membership=3023&force=true" class="mp-btn mp-btn-primary" target="_blank" rel="noopener">
+                            <span>Acheter une séance duo</span>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12h14M12 5l7 7-7 7"/>
+                            </svg>
+                        </a>
+                        <p class="mp-duo-offer-note">Une seule personne achète pour les deux. Ensuite, <a href="<?php echo esc_url(mp_get_contact_url()); ?>">écrivez-moi</a> et on cale ensemble le créneau qui vous arrange à tous les deux.</p>
+                    </div>
+                </div>
+
+                <p class="mp-snapshot-cta-text">
+                    <a href="<?php echo esc_url(home_url('/cours-de-pilates-larmor-plage-tarifs/')); ?>">Voir tous les tarifs et formules →</a>
+                </p>
+            </div>
+        </section>
+
         <!-- SECTION CTA -->
         <section class="mp-cta-section">
             <div class="mp-cta-inner">
@@ -218,7 +288,7 @@ get_header();
                 <p class="mp-cta-text">
                     Réservez un créneau directement, ou écrivez-moi pour en parler avant de vous engager.
                 </p>
-                <p class="mp-cta-reassurance">Première séance découverte possible — Studio de Pilates à Larmor-Plage, à 10 min de <a href="<?php echo esc_url(home_url('/pilates-lorient/')); ?>">Lorient</a></p>
+                <p class="mp-cta-reassurance">Première séance découverte possible, seul·e ou <a href="#cours-duo">à deux en duo</a> — Studio de Pilates à Larmor-Plage, à 10 min de <a href="<?php echo esc_url(home_url('/pilates-lorient/')); ?>">Lorient</a></p>
                 <div class="mp-cta-buttons">
                     <a href="<?php echo esc_url(mp_get_planning_url()); ?>" class="mp-btn mp-btn-primary">
                         <span>Réserver une séance individuelle</span>

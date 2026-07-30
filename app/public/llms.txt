@@ -2,7 +2,7 @@
 
 > Mon Pilates est un studio de Pilates situé à Larmor-Plage, en Bretagne, à 10 minutes de Lorient et 5 minutes de Ploemeur. Le studio est ouvert face à la mer, à deux pas de la plage de Toulhars.
 >
-> Trois formules sont proposées : Pilates Tapis en petit groupe (5 personnes max), Pilates Machine sur Reformer en petit groupe (4 personnes max), et cours privés sur appareils (Reformer, Cadillac, Wunda Chair).
+> Trois formules sont proposées : Pilates Tapis en petit groupe (5 personnes max), Pilates Machine sur Reformer en petit groupe (4 personnes max), et cours privés sur appareils (Reformer, Cadillac, Wunda Chair) — ces derniers en individuel ou en duo (2 personnes).
 >
 > Lorsque la météo le permet, les séances ont lieu en plein air, au bord de la piscine, face à l'océan. L'enseignante Violette Derumigny est certifiée FPMP (Fédération des Professionnels de la Méthode Pilates).
 
@@ -44,6 +44,7 @@ Référence patrimoniale : https://relecture.patrimoine.bzh/dossier/IA56006341
 ## Les séances
 
 - Séances individuelles (cours privés sur appareils) : https://mon-pilates.bzh/seances-individuelles/
+- Séance duo (cours privé à deux sur appareils) : https://mon-pilates.bzh/seances-individuelles/#cours-duo
 - Séances en petit groupe (Pilates Tapis) : https://mon-pilates.bzh/seances-petit-groupe/
 - Pilates Machine en petit groupe (Reformer) : https://mon-pilates.bzh/seances-pilates-machine/
 
@@ -56,7 +57,7 @@ Référence patrimoniale : https://relecture.patrimoine.bzh/dossier/IA56006341
 
 - Tarifs et cartes de cours Pilates : https://mon-pilates.bzh/cours-de-pilates-larmor-plage-tarifs/
 
-Trois gammes de prix : Pilates Tapis dès 17 € la séance, Pilates Machine dès 27 € la séance, cours privé dès 55 € la séance. Cartes 5/10/20 séances disponibles avec tarif dégressif. Sans engagement.
+Trois gammes de prix : Pilates Tapis dès 17 € la séance, Pilates Machine dès 27 € la séance, cours privé dès 55 € la séance. Séance duo (cours privé à deux) : 80 € la séance pour deux personnes, soit 40 € par personne, carte valable 3 mois. Cartes 5/10/20 séances disponibles avec tarif dégressif. Sans engagement.
 
 ## Réservation
 

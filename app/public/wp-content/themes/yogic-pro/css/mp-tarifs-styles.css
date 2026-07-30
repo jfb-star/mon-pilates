@@ -563,6 +563,41 @@
     background: var(--mp-rose-light);
 }
 
+/* Grille Cours privés : la carte « À l'unité » n'affiche pas de mention de
+   validité — on aligne quand même les boutons d'achat en bas de chaque carte */
+.mp-pricing-private .mp-pricing-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.mp-pricing-private .mp-card-note,
+.mp-pricing-private .mp-card-validity {
+    margin-bottom: 16px;
+}
+
+.mp-pricing-private .mp-card-buy-btn {
+    margin-top: auto;
+}
+
+/* Note explicative sous une grille de cartes (ex : modalités du duo) */
+.mp-pricing-note {
+    max-width: 720px;
+    margin: -12px auto 28px;
+    padding: 16px 20px;
+    background: rgba(127, 168, 182, 0.07);
+    border-left: 3px solid var(--mp-ocean);
+    border-radius: 0 10px 10px 0;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--mp-gray);
+    text-align: left;
+}
+
+.mp-pricing-note strong {
+    color: var(--mp-dark);
+}
+
 /* CTA catégorie */
 .mp-category-cta {
     display: inline-flex;

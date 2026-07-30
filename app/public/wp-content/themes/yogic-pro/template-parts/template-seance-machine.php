@@ -147,7 +147,7 @@ get_header();
                             </svg>
                         </div>
                         <h3 class="mp-profile-title">Vous cherchez une alternative au cours privé</h3>
-                        <p>Le cours privé sur appareils est très complet, mais pas accessible à tous les budgets pour une pratique régulière. Le format en petit groupe offre une bonne partie des bénéfices, à un tarif plus doux.</p>
+                        <p>Le cours privé sur appareils est très complet, mais pas accessible à tous les budgets pour une pratique régulière. Le format en petit groupe offre une bonne partie des bénéfices, à un tarif plus doux. Autre piste si vous venez à deux : la <a href="<?php echo esc_url(mp_get_seances_individuelles_url()); ?>#cours-duo">séance duo</a>, à 40&nbsp;€ par personne.</p>
                     </div>
                 </div>
             </div>
@@ -258,7 +258,7 @@ get_header();
                 <p class="mp-cta-alternative">
                     <a href="<?php echo esc_url(mp_get_seances_groupe_url()); ?>">Vous préférez le tapis ?</a>
                     &nbsp;·&nbsp;
-                    <a href="<?php echo esc_url(mp_get_seances_individuelles_url()); ?>">Vous voulez un cours privé ?</a>
+                    <a href="<?php echo esc_url(mp_get_seances_individuelles_url()); ?>">Vous voulez un cours privé ou en duo ?</a>
                 </p>
             </div>
         </section>

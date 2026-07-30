@@ -229,7 +229,7 @@ get_header();
                 <p class="mp-cta-alternative">
                     <a href="<?php echo esc_url(mp_get_seances_machine_url()); ?>">Voir aussi le Pilates Machine en petit groupe</a>
                     &nbsp;·&nbsp;
-                    <a href="<?php echo esc_url(mp_get_seances_individuelles_url()); ?>">ou le cours privé</a>
+                    <a href="<?php echo esc_url(mp_get_seances_individuelles_url()); ?>">ou le cours privé, seul·e ou en duo</a>
                 </p>
             </div>
         </section>

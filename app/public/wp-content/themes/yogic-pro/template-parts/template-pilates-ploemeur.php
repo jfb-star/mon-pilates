@@ -27,7 +27,7 @@ get_header();
             </div>
             <h1 class="mp-hero-title">Pilates à Ploemeur : votre studio à 5 minutes</h1>
             <p class="mp-hero-subtitle">
-                Vous vivez à Ploemeur et cherchez un lieu calme pour prendre soin de vous ? Mon Pilates vous accueille à Larmor-Plage, à 5 minutes de chez vous. Un studio lumineux à deux pas de la plage de Toulhars, des cours en petit groupe ou en individuel, et un accompagnement attentif qui respecte vos possibilités.
+                Vous vivez à Ploemeur et cherchez un lieu calme pour prendre soin de vous ? Mon Pilates vous accueille à Larmor-Plage, à 5 minutes de chez vous. Un studio lumineux à deux pas de la plage de Toulhars, des cours en petit groupe, en individuel ou en duo, et un accompagnement attentif qui respecte vos possibilités.
             </p>
         </div>
     </section>
@@ -109,7 +109,7 @@ get_header();
                         </div>
                         <h3 class="mp-profile-title">Cours collectifs en petit groupe</h3>
                         <p>En petit groupe restreint, dans une ambiance conviviale : <strong>Pilates Tapis</strong> au sol avec petit matériel (5 personnes max), ou <strong>Pilates Machine</strong> sur Reformer (4 personnes max). Un format chaleureux pour inscrire le mouvement dans sa routine.</p>
-                        <a href="<?php echo esc_url(home_url('/les-seances/')); ?>" class="mp-profile-link">En savoir plus sur les séances</a>
+                        <a href="<?php echo esc_url(mp_get_seances_groupe_url()); ?>" class="mp-profile-link">En savoir plus sur les séances</a>
                     </div>
 
                     <!-- Cours privé -->
@@ -121,9 +121,9 @@ get_header();
                                 <path d="M12 13v3"/>
                             </svg>
                         </div>
-                        <h3 class="mp-profile-title">Cours privé sur appareils</h3>
-                        <p>Reformer, Cadillac, Wunda Chair... Un accompagnement 100 % personnalisé. Idéal si vous avez des douleurs, un objectif précis, ou simplement envie d'un moment rien que pour vous.</p>
-                        <a href="<?php echo esc_url(mp_get_seances_individuelles_url()); ?>" class="mp-profile-link">Découvrir les cours privés</a>
+                        <h3 class="mp-profile-title">Cours privé ou duo sur appareils</h3>
+                        <p>Reformer, Cadillac, Wunda Chair... Un accompagnement 100 % personnalisé, seul·e ou à deux avec la <strong>séance duo</strong> (80 € pour deux, soit 40 € par personne). Idéal si vous avez des douleurs, un objectif précis, ou simplement envie d'un moment rien que pour vous.</p>
+                        <a href="<?php echo esc_url(mp_get_seances_individuelles_url()); ?>" class="mp-profile-link">Découvrir les cours privés et le duo</a>
                     </div>
 
                     <!-- Cartes cadeaux -->
@@ -180,7 +180,7 @@ get_header();
                     <details class="mp-faq-item">
                         <summary class="mp-faq-question">Comment réserver un cours de Pilates depuis Ploemeur ?</summary>
                         <div class="mp-faq-answer">
-                            <p>La réservation se fait en ligne via notre <a href="<?php echo esc_url(mp_get_planning_url()); ?>">planning en ligne</a>. Vous pouvez voir les créneaux disponibles et réserver en quelques clics. Pour les séances individuelles, vous pouvez aussi nous <a href="<?php echo esc_url(mp_get_contact_url()); ?>">contacter directement</a>.</p>
+                            <p>La réservation se fait en ligne via notre <a href="<?php echo esc_url(mp_get_planning_url()); ?>">planning en ligne</a>. Vous pouvez voir les créneaux disponibles et réserver en quelques clics. Pour les séances individuelles et les séances duo, vous pouvez aussi nous <a href="<?php echo esc_url(mp_get_contact_url()); ?>">contacter directement</a> pour convenir d'un créneau.</p>
                         </div>
                     </details>
 
@@ -262,7 +262,7 @@ get_header();
             "name": "Comment réserver un cours de Pilates depuis Ploemeur ?",
             "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "La réservation se fait en ligne via le planning en ligne. Vous pouvez voir les créneaux disponibles et réserver en quelques clics. Pour les séances individuelles, vous pouvez aussi contacter directement le studio."
+                "text": "La réservation se fait en ligne via le planning en ligne. Vous pouvez voir les créneaux disponibles et réserver en quelques clics. Pour les séances individuelles et les séances duo, vous pouvez aussi contacter directement le studio pour convenir d'un créneau."
             }
         },
         {
