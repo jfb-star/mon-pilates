@@ -95,7 +95,8 @@ function monpilates_bandeau_head(): void {
    règles ci-dessous sans effet. Affinée au pixel par le script du pied de page. */
 :root{--mp-notice-h:0px}
 html[data-mp-notice="on"]{--mp-notice-h:52px}
-@media (max-width:640px){html[data-mp-notice="on"]{--mp-notice-h:64px}}
+/* 56px = deux lignes de texte court + les marges, cas le plus haut sous 640px. */
+@media (max-width:640px){html[data-mp-notice="on"]{--mp-notice-h:56px}}
 
 /* Toujours présent dans le HTML, masqué jusqu'à ce que le script valide la
    période : une page servie depuis le cache reste ainsi correcte. */
@@ -139,7 +140,7 @@ html[data-mp-notice="on"] .sitewrapper{padding-top:var(--mp-notice-h)}
 /* Sous 640px la phrase complète tiendrait sur quatre lignes : on bascule sur la
    version courte. */
 @media (max-width:640px){
-	.mp-notice__inner{min-height:64px;padding:10px 46px 10px 16px}
+	.mp-notice__inner{min-height:56px;padding:10px 46px 10px 16px}
 	.mp-notice__text{font-size:13px}
 	.mp-notice__long{display:none}
 	.mp-notice__court{display:block}
