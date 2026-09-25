@@ -125,6 +125,109 @@
         loadData();
     }
 
+    const BSPORT_API = 'https://api.production.bsport.io/api/v1';
+    const TZ = 'Europe/Paris';
+
+    const parisDateFmt = new Intl.DateTimeFormat('en-CA', { timeZone: TZ, year: 'numeric', month: '2-digit', day: '2-digit' });
+    const parisTimeFmt = new Intl.DateTimeFormat('fr-FR', { timeZone: TZ, hour: '2-digit', minute: '2-digit', hourCycle: 'h23' });
+
+    /**
+     * YYYY-MM-DD of a Date, in Paris time (not the visitor's timezone)
+     */
+    function parisDate(date) {
+        const p = Object.fromEntries(parisDateFmt.formatToParts(date).map(x => [x.type, x.value]));
+        return `${p.year}-${p.month}-${p.day}`;
+    }
+
+    /**
+     * Same mapping as transform_offers() in monpilates-planning.php
+     */
+    function transformBsportOffer(offer) {
+        const start = new Date(offer.date_start);
+        const capacity = offer.effectif || 0;
+        const booked = offer.validated_booking_count || 0;
+        const spotsLeft = Math.max(0, capacity - booked);
+
+        return {
+            id: offer.id,
+            activity_name: offer.activity_name || 'Cours',
+            date: parisDate(start),
+            time: parisTimeFmt.format(start),
+            datetime: offer.date_start,
+            duration: offer.duration_minute || 60,
+            coach_id: offer.coach ?? null,
+            coach_name: offer.coach_name ?? null,
+            establishment_id: offer.establishment ?? null,
+            establishment_name: offer.establishment_name ?? null,
+            capacity: capacity,
+            booked: booked,
+            spots_left: spotsLeft,
+            is_full: offer.full ?? (spotsLeft === 0),
+            is_available: offer.available ?? true,
+            has_waitlist: !(offer.is_waiting_list_full ?? true),
+            level: offer.level_name ?? null,
+            meta_activity: offer.meta_activity ?? null,
+        };
+    }
+
+    /**
+     * Fetch straight from the Bsport public API (CORS: *).
+     * Bsport's load balancer answers 403 to the OVH shared-hosting egress IP,
+     * so the WordPress proxy can come back empty: the browser has to ask itself.
+     */
+    async function fetchFromBsport() {
+        const now = new Date();
+        const minDate = parisDate(now);
+        const maxDate = parisDate(new Date(now.getTime() + (parseInt(config.daysToShow, 10) || 90) * 86400000));
+        const headers = { Accept: 'application/json' };
+
+        const establishmentsPromise = fetch(`${BSPORT_API}/establishment/?company=${config.companyId}`, { headers })
+            .then(res => res.ok ? res.json() : { results: [] })
+            .catch(() => ({ results: [] }));
+
+        const rawOffers = [];
+        let page = 1;
+        let hasNext = false;
+        do {
+            const res = await fetch(`${BSPORT_API}/offer/?company=${config.companyId}&min_date=${minDate}&max_date=${maxDate}&page=${page}&o=date_start`, { headers });
+            if (!res.ok) throw new Error(`Bsport API ${res.status}`);
+            const body = await res.json();
+            if (!Array.isArray(body.results)) throw new Error('Bsport API: unexpected payload');
+            rawOffers.push(...body.results);
+            hasNext = !!body.next_page;
+            page++;
+        } while (hasNext && page <= 10);
+
+        const establishmentsBody = await establishmentsPromise;
+        const establishments = (establishmentsBody.results || []).map(est => ({
+            id: est.id,
+            name: est.title || est.name || `Lieu ${est.id}`,
+            address: est.address || '',
+            city: est.city || '',
+        }));
+
+        return { offers: rawOffers.map(transformBsportOffer), establishments };
+    }
+
+    /**
+     * Fallback: WordPress REST proxy
+     */
+    async function fetchFromProxy() {
+        const [offersRes, establishmentsRes] = await Promise.all([
+            fetch(`${config.ajaxUrl}offers`),
+            fetch(`${config.ajaxUrl}establishments`)
+        ]);
+
+        if (!offersRes.ok || !establishmentsRes.ok) {
+            throw new Error('API request failed');
+        }
+
+        const offersData = await offersRes.json();
+        const establishmentsData = await establishmentsRes.json();
+
+        return { offers: offersData.offers || [], establishments: establishmentsData || [] };
+    }
+
     /**
      * Load data from API
      */
@@ -135,20 +238,16 @@
         try {
             log('Fetching data from API...');
 
-            const [offersRes, establishmentsRes] = await Promise.all([
-                fetch(`${config.ajaxUrl}offers`),
-                fetch(`${config.ajaxUrl}establishments`)
-            ]);
-
-            if (!offersRes.ok || !establishmentsRes.ok) {
-                throw new Error('API request failed');
+            let data;
+            try {
+                data = await fetchFromBsport();
+            } catch (bsportErr) {
+                log('Direct Bsport fetch failed, falling back to WP proxy:', bsportErr);
+                data = await fetchFromProxy();
             }
 
-            const offersData = await offersRes.json();
-            const establishmentsData = await establishmentsRes.json();
-
-            state.offers = offersData.offers || [];
-            state.establishments = establishmentsData || [];
+            state.offers = data.offers;
+            state.establishments = data.establishments;
 
             log(`Loaded ${state.offers.length} offers`);
 

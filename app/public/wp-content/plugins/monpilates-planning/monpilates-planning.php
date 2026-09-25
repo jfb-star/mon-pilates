@@ -74,7 +74,8 @@ class MonPilates_Planning {
             'monpilates-planning',
             plugin_dir_url(__FILE__) . 'assets/js/planning.js',
             [],
-            '1.0.0',
+            // Timestamp : seul format de ver= conservé par mp_remove_version_query (thème)
+            filemtime(plugin_dir_path(__FILE__) . 'assets/js/planning.js'),
             true
         );
 
@@ -194,6 +195,15 @@ class MonPilates_Planning {
                 ], 500);
             }
 
+            // Bsport renvoie 403 à l'IP de sortie OVH : ne pas cacher un planning vide
+            $code = wp_remote_retrieve_response_code($response);
+            if ($code !== 200) {
+                return new WP_REST_Response([
+                    'error' => true,
+                    'message' => 'Bsport API HTTP ' . $code,
+                ], 502);
+            }
+
             $body = json_decode(wp_remote_retrieve_body($response), true);
 
             if (!isset($body['results'])) {
@@ -254,6 +264,14 @@ class MonPilates_Planning {
                 'error' => true,
                 'message' => $response->get_error_message(),
             ], 500);
+        }
+
+        $code = wp_remote_retrieve_response_code($response);
+        if ($code !== 200) {
+            return new WP_REST_Response([
+                'error' => true,
+                'message' => 'Bsport API HTTP ' . $code,
+            ], 502);
         }
 
         $body = json_decode(wp_remote_retrieve_body($response), true);
