@@ -1,0 +1,7 @@
+# Plugins tiers et traductions : octets identiques a wordpress.org / a la prod.
+# Aucune conversion de fin de ligne, sinon le deploiement rsync pousse des
+# fichiers modifies (checksums wordpress.org KO, .mo binaires corrompus).
+app/public/wp-content/plugins/** -text
+app/public/wp-content/languages/** -text
+# Nos plugins maison gardent le comportement par defaut (core.autocrlf).
+app/public/wp-content/plugins/monpilates-*/** !text
