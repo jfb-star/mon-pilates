@@ -22,8 +22,8 @@
             id: 'doux',
             icon: '🌿',
             title: 'Je cherche de la douceur',
-            subtitle: 'Mobilité, seniors, dos sensible, reprise',
-            keywords: ['doux', 'senior', 'mobilité', 'adapté'],
+            subtitle: 'Fondamentaux, mobilité, dos sensible, reprise',
+            keywords: ['doux', 'fondamentaux', 'senior', 'mobilité', 'adapté'],
             color: '#7FB069',
             isSpecial: false
         },
@@ -285,7 +285,7 @@
      * between the website and the Bsport booking flow.
      */
     const ACTIVITY_COLORS = [
-        { match: ['doux', 'senior'],          light: '#A4C99A', dark: '#7FB069' }, // sage
+        { match: ['doux', 'fondamentaux', 'senior'], light: '#A4C99A', dark: '#7FB069' }, // sage
         { match: ['avance', 'avancé'],        light: '#E89489', dark: '#D4726A' }, // corail
         { match: ['maternite', 'enceinte', 'prenatal', 'postnatal'], light: '#F0BFC9', dark: '#E8A4B8' }, // rose tendre
         { match: ['machine', 'reformer'],     light: '#7DBA9F', dark: '#5C9982' }, // vert profond
