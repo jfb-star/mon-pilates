@@ -32,6 +32,7 @@ class Subscriber implements SubscriberInterface {
 			'admin_enqueue_scripts' => [
 				[ 'add_backwpup_job_script' ],
 				[ 'add_backwpup_onboarding_script' ],
+				[ 'add_delete_restore_files_script' ],
 			],
 			'admin_init'            => [
 				[ 'backwpup_redirect' ],
@@ -49,7 +50,7 @@ class Subscriber implements SubscriberInterface {
 	public function add_backwpup_job_script() {
 		$screen           = get_current_screen();
 		$screen_id        = isset( $screen->id ) ? (string) $screen->id : '';
-		$is_backwpup_page = ! empty( $screen_id ) && str_contains( $screen_id, 'backwpup' );
+		$is_backwpup_page = ! empty( $screen_id ) && strpos( $screen_id, 'backwpup' ) !== false;
 
 		if ( ! $is_backwpup_page ) {
 			return;
@@ -73,7 +74,7 @@ class Subscriber implements SubscriberInterface {
 	public function add_backwpup_onboarding_script() {
 		$screen                      = get_current_screen();
 		$screen_id                   = isset( $screen->id ) ? (string) $screen->id : '';
-		$is_backwpup_onboarding_page = ! empty( $screen_id ) && str_contains( $screen_id, 'backwpuponboarding' );
+		$is_backwpup_onboarding_page = ! empty( $screen_id ) && strpos( $screen_id, 'backwpuponboarding' ) !== false;
 
 		if ( ! $is_backwpup_onboarding_page ) {
 			return;
@@ -88,6 +89,29 @@ class Subscriber implements SubscriberInterface {
 	}
 
 	/**
+	 * Enqueue the delete-restore-files script on all admin pages.
+	 *
+	 * The stale-restore-files notice can appear on any admin screen, so the
+	 * associated script must be available everywhere in the admin area.
+	 *
+	 * @since 5.7.3
+	 *
+	 * @return void
+	 */
+	public function add_delete_restore_files_script(): void {
+		$plugin_url  = $this->backwpup->get_plugin_data( 'URL' );
+		$assets_path = $plugin_url . '/assets/js/delete-restore-files.js';
+
+		wp_enqueue_script(
+			'backwpup-delete-restore-files',
+			$assets_path,
+			[],
+			$this->backwpup->get_plugin_data( 'Version' ),
+			true
+		);
+	}
+
+	/**
 	 * Handle redirection based on query parameters.
 	 * If bwu_event is set, trigger Mixpanel event.
 	 * Use bwu_event_property_{key} for event properties.
@@ -95,27 +119,71 @@ class Subscriber implements SubscriberInterface {
 	 * @return void
 	 */
 	public function backwpup_redirect() {
-		if ( isset( $_GET['bwu_redirect'] ) && filter_var( wp_unslash( $_GET['bwu_redirect'] ), FILTER_VALIDATE_URL ) ) {
-			// Verify nonce for security.
-			if ( ! isset( $_GET['_wpnonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ) ), 'backwpup_redirect_nonce' ) ) {
-				wp_die( esc_html__( 'Security check failed.', 'backwpup' ) );
-			}
-			// If event is set, trigger it.
-			if ( isset( $_GET['bwu_event'] ) ) {
-				$event      = sanitize_text_field( wp_unslash( $_GET['bwu_event'] ) );
-				$properties = [];
-				foreach ( $_GET as $key => $value ) {
-					if ( 0 === strpos( $key, 'bwu_event_property_' ) ) {
-						$clean_key                = str_replace( 'bwu_event_property_', '', $key );
-						$properties[ $clean_key ] = sanitize_text_field( wp_unslash( $value ) );
-					}
-				}
-				// Trigger Mixpanel event.
-				do_action( 'backwpup_link_clicked', $event, $properties );
-			}
+		$destination = $this->resolve_redirect_destination();
 
-			wp_redirect( sanitize_url( wp_unslash( $_GET['bwu_redirect'] ) ) ); // phpcs:ignore WordPress.Security.SafeRedirect.wp_redirect_wp_redirect
-			exit();
+		if ( '' === $destination ) {
+			return;
 		}
+
+		Redirect::to( $destination );
+		exit();
+	}
+
+	/**
+	 * Works out where the current request wants to go.
+	 *
+	 * Fires the tracking event on the way, since that is the reason these links
+	 * bounce through the admin at all. Returns an empty string when the request
+	 * carries no redirect, and dies when the nonce does not match.
+	 *
+	 * @return string Destination to send the user to, empty when there is nothing to do.
+	 */
+	public function resolve_redirect_destination(): string {
+		if ( ! isset( $_GET['bwu_redirect'] ) ) {
+			return '';
+		}
+
+		// Keep the raw value around: the nonce action is built from it on both sides.
+		$requested = (string) wp_unslash( $_GET['bwu_redirect'] ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitized on the next line, nonce verified right after.
+		$target    = sanitize_url( $requested );
+
+		if ( ! filter_var( $target, FILTER_VALIDATE_URL ) ) {
+			return '';
+		}
+
+		// Verify nonce for security. The action is bound to the destination.
+		if ( ! isset( $_GET['_wpnonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ) ), Redirect::nonce_action( $requested ) ) ) {
+			wp_die( esc_html__( 'Security check failed.', 'backwpup' ) );
+		}
+
+		$this->track_link_click();
+
+		// Only our own hosts are reachable, anything else lands on the dashboard.
+		$destination = Redirect::validate( $target );
+
+		return '' === $destination ? admin_url() : $destination;
+	}
+
+	/**
+	 * Forwards the bwu_event parameters to Mixpanel, when the link carries them.
+	 *
+	 * @return void
+	 */
+	private function track_link_click(): void {
+		if ( ! isset( $_GET['bwu_event'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce already verified by the caller.
+			return;
+		}
+
+		$event      = sanitize_text_field( wp_unslash( $_GET['bwu_event'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce already verified by the caller.
+		$properties = [];
+
+		foreach ( $_GET as $key => $value ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce already verified by the caller.
+			if ( 0 === strpos( $key, 'bwu_event_property_' ) ) {
+				$clean_key                = str_replace( 'bwu_event_property_', '', $key );
+				$properties[ $clean_key ] = sanitize_text_field( wp_unslash( $value ) );
+			}
+		}
+
+		do_action( 'backwpup_link_clicked', $event, $properties );
 	}
 }

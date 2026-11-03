@@ -326,8 +326,31 @@ class Settings {
 
 					// Apply document number formatting.
 					if ( $document_number ) {
-						if ( ! empty( $document->settings['number_format'] ) && is_array( $document->settings['number_format'] ) ) {
-							$document_number->load_number_data( $document->settings['number_format'] );
+						$number_data = array();
+
+						if (
+							isset( $document->settings['display_number'] ) &&
+							'order_number' === $document->settings['display_number']
+						) {
+							$order_number = $order->get_order_number();
+							$number_data  = array(
+								'number'           => (int) preg_replace( '/\D/', '', $order_number ),
+								'formatted_number' => "{$order_number}",
+							);
+						}
+
+						if (
+							! empty( $document->settings['number_format'] ) &&
+							is_array( $document->settings['number_format'] )
+						) {
+							$number_data = array_merge(
+								$number_data,
+								$document->settings['number_format']
+							);
+						}
+
+						if ( ! empty( $number_data ) ) {
+							$document_number->load_number_data( $number_data );
 						}
 
 						$document_number->apply_formatting( $document, $order );
@@ -1480,7 +1503,7 @@ class Settings {
 	 * @return array
 	 */
 	public function get_search_index( string $page ): array {
-		global $wp_settings_fields;
+		global $wp_settings_fields, $wp_settings_sections;
 
 		$index = array();
 
@@ -1489,6 +1512,10 @@ class Settings {
 		}
 
 		foreach ( $wp_settings_fields[ $page ] as $section_id => $fields ) {
+			$section_title = isset( $wp_settings_sections[ $page ][ $section_id ]['title'] )
+				? wp_strip_all_tags( $wp_settings_sections[ $page ][ $section_id ]['title'] )
+				: '';
+
 			foreach ( $fields as $field_id => $field ) {
 				$title = wp_strip_all_tags( $field['title'] );
 
@@ -1499,6 +1526,7 @@ class Settings {
 				$index[] = array(
 					'id'       => $field_id,
 					'label'    => $title,
+					'section'  => $section_title,
 					'category' => $section_id,
 				);
 			}

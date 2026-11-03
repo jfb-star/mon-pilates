@@ -3,9 +3,9 @@ Contributors: pomegranate, alexmigf, yordansoares, kluver, dpeyou, dwpriv, moham
 Donate link: https://wpovernight.com/downloads/woocommerce-pdf-invoices-packing-slips-bundle/
 Tags: woocommerce, pdf, ubl, invoices, packing slips
 Requires at least: 4.4
-Tested up to: 7.0
+Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 5.11.0
+Stable tag: 5.16.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -109,6 +109,107 @@ There's a setting on the Advanced tab of the settings page that allows you to to
 6. Set shop name, address, header logo, etc.
 
 == Changelog ==
+
+= 5.16.6 (2026-10-22) =
+- Fix: Prevent wrong invoice attachments in customer emails
+- Translations: Updated translation template (POT)
+
+= 5.16.5 (2026-10-20) =
+- Fix: Harden document output and shortcode order access
+- Translations: Updated translation template (POT)
+
+= 5.16.4 (2026-10-08) =
+- Fix: PHP warning on settings page when no EDI format is selected
+- Fix: Permission check in the document number preview AJAX handler
+- Fix: Prevent a fatal error when a refund ID is passed to the refund lookup
+- Translations: Updated translation template (POT)
+- Tested: Compatibility confirmed with WooCommerce 11.2
+
+= 5.16.3 (2026-09-22) =
+- Fix: Use V5 admin accessor in backported security fix
+- Translations: Updated translation template (POT)
+
+= 5.16.2 (2026-09-22) =
+- Fix: Inconsistent billing name/company output handling
+- Fix: Refund AJAX order permission checks
+- Translations: Updated translation template (POT)
+- Tested: Compatibility confirmed with WooCommerce 11.1
+
+= 5.16.1 (2026-08-21) =
+- Fix: Add seller identification for category O invoices in EDI
+- Fix: Selector for checked checkboxes in order script
+- Fix: Disabled Composer runtime platform check
+- Translations: Updated translation template (POT)
+
+= 5.16.0 (2026-08-17) =
+- New: Add logging for automatic Peppol Endpoint ID derivation
+- New: Add version 6 upgrade readiness notice
+- New: Update DOMPDF to version 3.1.6
+- New: Include settings sections in search results, making related options easier to find
+- Fix: Peppol Endpoint derivation with EU VAT for WooCommerce
+- Fix: CII seller party generation when VAT number is missing
+- Fix: EDI VAT identifiers for category O invoices
+- Fix: EDI line totals for high-quantity items
+- Translations: Updated translation template (POT)
+- Tested: Compatibility confirmed with WooCommerce 11.0
+- Tested: Tested up WordPress 7.1
+
+= 5.15.2 (2026-07-13) =
+- Fix: UBL Supplier `PartyLegalEntity` to omit empty values
+- Fix: Deprecated emoji styles callback in setup wizard
+- Fix: Add CII supplier registration number support
+- Fix: Relax the type hint to prevent a fatal error in `Main::apply_template_color_styles()`
+- Translations: Updated translation template (POT)
+
+= 5.15.1 (2026-07-08) =
+- Fix: Empty UBL `IssueDate` when document date meta is missing
+- Fix: EDI total reconciliation with emitted line amounts
+- Fix: Make cancelled/failed order email labels distinct between admin and customer
+- Translations: Updated translation template (POT)
+- Tested: Compatibility confirmed with WooCommerce 10.9
+
+= 5.15.0 (2026-06-29) =
+- New: Add global template color setting
+- New: Add BIC support to UBL payment means
+- New: Improve Peppol endpoint derivation from VAT numbers
+- Fix: Normalize UBL/Peppol Credit Note signs
+- Fix: Validate order access before generating shortcode links
+- Fix: Automatic “Mark as printed” options
+- Translations: Updated translation template (POT)
+- Tested: Compatibility confirmed with WooCommerce 10.9
+
+= 5.14.0 (2026-06-08) =
+- New: Add partial invoice number search setting
+- Fix: Empty order item prices when WooCommerce subtotal is filtered
+- Fix: Prevent fatal when REST invoice number lookup returns bulk document
+- Fix: Document number display setting not respected in preview
+- Fix: Bulk Document: “Mark as printed” not applied to all orders in bulk export
+- Translations: Updated translation template (POT)
+
+= 5.13.0 (2026-06-01) =
+- New: Add email attachment success/failure logging to order notes
+- New: Add WC EU VAT Number plugin support
+- Fix: XML action button color in order meta box
+- Fix: Include account number in EDI payment means data
+- Translations: Updated translation template (POT)
+- Tested: Compatibility confirmed with WooCommerce 10.8
+
+= 5.12.2 (2026-05-25) =
+- Fix: UBL payable amount for unpaid renewal orders
+- Fix: Order selection and XML behavior in document preview
+- Fix: Fatal error when locale value is missing
+- Fix: EDI price rounding for discounted multi-quantity lines
+- Translations: Updated translation template (POT)
+
+= 5.12.1 (2026-05-18) =
+- Tweak: Normalize VAT numbers for EDI output
+- Fix: Preview document selection panel can't be closed
+- Translations: Updated translation template (POT)
+
+= 5.12.0 (2026-05-11) =
+- New: Add PHP 8.1 upgrade notice for version 6
+- Tweak: Remove "PDF" prefix from document title in order meta box
+- Translations: Updated translation template (POT)
 
 = 5.11.0 (2026-05-05) =
 - New: My Account display helper to order documents

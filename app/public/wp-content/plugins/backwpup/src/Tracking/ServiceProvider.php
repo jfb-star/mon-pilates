@@ -3,10 +3,14 @@ declare(strict_types=1);
 
 namespace WPMedia\BackWPup\Tracking;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 use BackWPup;
 use WPMedia\BackWPup\Dependencies\League\Container\ServiceProvider\AbstractServiceProvider;
-use WPMedia\Mixpanel\Optin;
-use WPMedia\Mixpanel\TrackingPlugin;
+use WPMedia\BackWPup\Dependencies\WPMedia\Mixpanel\Optin;
+use WPMedia\BackWPup\Dependencies\WPMedia\Mixpanel\TrackingPlugin;
 
 class ServiceProvider extends AbstractServiceProvider {
 
@@ -24,8 +28,11 @@ class ServiceProvider extends AbstractServiceProvider {
 		Optin::class,
 		TrackingPlugin::class,
 		Tracking::class,
+		McpTracking::class,
 		Subscriber::class,
+		McpTrackingSubscriber::class,
 		Notices::class,
+		NudgeTracking::class,
 	];
 
 	/**
@@ -35,6 +42,7 @@ class ServiceProvider extends AbstractServiceProvider {
 	 */
 	public $subscribers = [
 		Subscriber::class,
+		McpTrackingSubscriber::class,
 	];
 
 	/**
@@ -83,10 +91,26 @@ class ServiceProvider extends AbstractServiceProvider {
 				]
 			);
 
+		$this->getContainer()->add( McpTracking::class )
+			->addArguments(
+				[
+					$this->getContainer()->get( Optin::class ),
+					$this->getContainer()->get( TrackingPlugin::class ),
+				]
+			);
+
 		$this->getContainer()->add( Notices::class )
 			->addArguments(
 				[
 					$this->getContainer()->get( Optin::class ),
+				]
+			);
+
+		$this->getContainer()->addShared( NudgeTracking::class )
+			->addArguments(
+				[
+					$this->getContainer()->get( Optin::class ),
+					$this->getContainer()->get( TrackingPlugin::class ),
 				]
 			);
 
@@ -95,6 +119,14 @@ class ServiceProvider extends AbstractServiceProvider {
 				[
 					$this->getContainer()->get( Tracking::class ),
 					$this->getContainer()->get( Notices::class ),
+					$this->getContainer()->get( NudgeTracking::class ),
+				]
+			);
+
+		$this->getContainer()->addShared( McpTrackingSubscriber::class )
+			->addArguments(
+				[
+					$this->getContainer()->get( McpTracking::class ),
 				]
 			);
 	}

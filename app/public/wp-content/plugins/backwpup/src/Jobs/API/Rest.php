@@ -15,6 +15,7 @@ use WP_REST_Request;
 use WP_REST_Response;
 use WP_Error;
 use WPMedia\BackWPup\API\Rest as RestInterface;
+use WPMedia\BackWPup\API\Capability;
 
 /**
  * REST API handler for BackWPup jobs.
@@ -85,7 +86,7 @@ class Rest implements RestInterface {
 	 * @return bool
 	 */
 	public function has_permission(): bool {
-		return current_user_can( 'backwpup' );
+		return current_user_can( Capability::JOBS_EDIT );
 	}
 
 	/**
@@ -335,7 +336,7 @@ class Rest implements RestInterface {
 				'methods'             => 'POST',
 				'callback'            => [ $this, 'save_site_option' ],
 				'permission_callback' => function () {
-					return current_user_can( 'backwpup_jobs_edit' ) || current_user_can( 'backwpup_settings' );
+					return current_user_can( Capability::JOBS_EDIT ) || current_user_can( Capability::SETTINGS );
 				},
 			]
 		);
@@ -530,7 +531,8 @@ class Rest implements RestInterface {
 
 		$cron_next = $this->cron_adapter->cron_next( $job['cron'] );
 
-		wp_schedule_single_event( $cron_next, 'backwpup_cron', [ 'arg' => $job_id ] );
+		wp_clear_scheduled_hook( 'backwpup_cron', [ 'arg' => (int) $job_id ] );
+		wp_schedule_single_event( $cron_next, 'backwpup_cron', [ 'arg' => (int) $job_id ] );
 
 		/**
 		 * Fires after a new job is added.
@@ -620,8 +622,9 @@ class Rest implements RestInterface {
 
 			if ( 'link' === $frequency ) {
 				$next_backup = __( 'External link', 'backwpup' );
-				// Update activetype.
+				// Update active type.
 				$this->option_adapter->update( $job_id, 'activetype', $frequency );
+				wp_clear_scheduled_hook( 'backwpup_cron', [ 'arg' => (int) $job_id ] );
 
 			} else {
 				// Generate new cron expression based on the selected frequency and time settings.

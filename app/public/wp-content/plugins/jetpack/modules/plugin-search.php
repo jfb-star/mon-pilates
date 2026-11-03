@@ -319,8 +319,19 @@ class Jetpack_Plugin_Search {
 				'module'              => 'sharing-block',
 				'sort'                => '13',
 				'learn_more_button'   => Redirect::get_url( 'jetpack-support-sharing-block' ),
-				'configure_url'       => admin_url( 'site-editor.php?path=%2Fwp_template' ),
+				'configure_url'       => $this->get_sharing_block_editor_url(),
 			),
+		);
+	}
+
+	/**
+	 * Site Editor URL for the template the Sharing Buttons block goes in.
+	 *
+	 * @return string
+	 */
+	private function get_sharing_block_editor_url() {
+		return admin_url(
+			'site-editor.php?p=' . rawurlencode( '/wp_template/' . get_stylesheet() . '//single' ) . '&canvas=edit'
 		);
 	}
 
@@ -365,6 +376,17 @@ class Jetpack_Plugin_Search {
 				$searchable_modules[] = 'sharing-block';
 			} else {
 				$searchable_modules[] = 'sharedaddy';
+			}
+
+			/*
+			 * Only surface the SEO Tools hint when the new Jetpack SEO admin page is
+			 * available and registered, so its CTA never points to a missing page.
+			 */
+			if (
+				\Automattic\Jetpack\SEO\Initializer::is_available()
+				&& \Automattic\Jetpack\SEO\Initializer::is_seo_surface_visible()
+			) {
+				$searchable_modules[] = 'seo-tools';
 			}
 
 			require_once JETPACK__PLUGIN_DIR . 'class.jetpack-admin.php';
@@ -517,12 +539,9 @@ class Jetpack_Plugin_Search {
 				$configure_url = Redirect::get_url( 'calypso-marketing-connections' );
 				break;
 			case 'seo-tools':
-				$configure_url = Redirect::get_url(
-					'calypso-marketing-traffic',
-					array(
-						'anchor' => 'seo',
-					)
-				);
+				// Jetpack SEO has its own wp-admin page (the new SEO home base);
+				// send users there rather than the legacy Traffic page.
+				$configure_url = admin_url( 'admin.php?page=jetpack-seo' );
 				break;
 			case 'google-analytics':
 				$configure_url = Redirect::get_url(
@@ -559,7 +578,7 @@ class Jetpack_Plugin_Search {
 			$links['jp_get_started'] = '<a
 				id="plugin-select-settings"
 				class="jetpack-plugin-search__primary jetpack-plugin-search__get-started button"
-				href="' . esc_url( admin_url( 'site-editor.php?path=%2Fwp_template' ) ) . '"
+				href="' . esc_url( $this->get_sharing_block_editor_url() ) . '"
 				data-module="' . esc_attr( $plugin['module'] ) . '"
 				data-track="get_started"
 				>' . esc_html__( 'Add block', 'jetpack' ) . '</a>';
@@ -601,6 +620,18 @@ class Jetpack_Plugin_Search {
 				data-track="configure"
 				>' . esc_html__( 'Configure', 'jetpack' ) . '</a>';
 			// Module is active, doesn't have options to configure.
+		} elseif ( 'seo-tools' === $plugin['module'] && Jetpack::is_module_active( $plugin['module'] ) ) {
+			// Jetpack SEO has its own wp-admin page; send users there (same tab)
+			// rather than a jetpack.com doc redirect, which isn't registered for
+			// this module. Reuse get_configure_url() so the destination stays in
+			// one place.
+			$links['jp_get_started'] = '<a
+				id="plugin-select-settings"
+				class="jetpack-plugin-search__primary jetpack-plugin-search__get-started button"
+				href="' . esc_url( $this->get_configure_url( $plugin['module'], $plugin['configure_url'] ) ) . '"
+				data-module="' . esc_attr( $plugin['module'] ) . '"
+				data-track="get_started"
+				>' . esc_html__( 'Get started', 'jetpack' ) . '</a>';
 		} elseif ( Jetpack::is_module_active( $plugin['module'] ) ) {
 			$links['jp_get_started'] = '<a
 				id="plugin-select-settings"

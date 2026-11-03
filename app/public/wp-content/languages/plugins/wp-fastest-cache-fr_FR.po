@@ -1,15 +1,173 @@
-# Translation of Plugins - WP Fastest Cache - Stable (latest release) in French (France)
-# This file is distributed under the same license as the Plugins - WP Fastest Cache - Stable (latest release) package.
+# Translation of Plugins - WP Fastest Cache &#8211; WordPress Cache Plugin - Stable (latest release) in French (France)
+# This file is distributed under the same license as the Plugins - WP Fastest Cache &#8211; WordPress Cache Plugin - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2025-12-29 09:00:22+0000\n"
+"PO-Revision-Date: 2026-10-31 15:05:23+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: GlotPress/4.0.3\n"
+"X-Generator: GlotPress/4.1.0\n"
 "Language: fr\n"
-"Project-Id-Version: Plugins - WP Fastest Cache - Stable (latest release)\n"
+"Project-Id-Version: Plugins - WP Fastest Cache &#8211; WordPress Cache Plugin - Stable (latest release)\n"
+
+#: inc/security.php:1274 inc/security.php:1279
+msgid "Remove from whitelist"
+msgstr "Retirer de la liste d’autorisation"
+
+#: inc/security.php:1274 inc/security.php:1279
+msgid "Unblock"
+msgstr "Débloquer"
+
+#: inc/security.php:1274 inc/security.php:1282
+msgid "Whitelist IP"
+msgstr "Ajouter l’adresse IP à la liste d’autorisation"
+
+#: inc/security.php:1274 inc/security.php:1276
+msgid "Block IP"
+msgstr "Bloquer l’adresse IP"
+
+#: inc/security.php:1273
+msgid "%1$s events · Last activity: %2$s"
+msgstr "%1$s évènements · Dernière activité : %2$s"
+
+#: inc/security.php:1271
+msgid "IP history"
+msgstr "Historique des adresses IP"
+
+#: inc/security.php:1269 inc/security.php:1272
+msgid "Active"
+msgstr "Actif"
+
+#: inc/security.php:1269 inc/security.php:1272
+msgid "Blocked"
+msgstr "Bloqué"
+
+#: inc/security.php:907
+msgid "IP address unblocked."
+msgstr "L’adresse IP a été débloquée."
+
+#: inc/security.php:907
+msgid "IP address whitelisted."
+msgstr "L’adresse IP a été ajoutée à la liste d’autorisation."
+
+#: inc/security.php:907
+msgid "IP address blocked."
+msgstr "L’adresse IP a été bloquée."
+
+#: inc/security.php:904
+msgid "Could not update this IP address."
+msgstr "Impossible de mettre à jour cette adresse IP."
+
+#: inc/security.php:901
+msgid "Invalid IP address or status."
+msgstr "Adresse IP ou état non valide."
+
+#: inc/security.php:1269 inc/security.php:1272
+msgid "Whitelisted"
+msgstr "Sur la liste d’autorisation"
+
+#: inc/admin.php:2008 templates/exclude.php:115
+msgid "has Facebook Click ID Parameters"
+msgstr "contient des paramètres Facebook Click ID"
+
+#: inc/admin.php:2007 templates/exclude.php:114
+msgid "has Yandex Metrica Parameters"
+msgstr "contient des paramètres Yandex Metrica"
+
+#: inc/security.php:1427
+msgid "No logs found for this view."
+msgstr "Aucun journal trouvé pour cette vue."
+
+#: inc/security.php:1265
+msgid "Whitelisted IPs"
+msgstr "Adresses IP sur liste d’autorisation"
+
+#: inc/security.php:1264
+msgid "Blocked IPs"
+msgstr "Adresses IP bloquées"
+
+#: inc/security.php:1263
+msgid "Activity logs"
+msgstr "Journaux d’activité"
+
+#: inc/security.php:1255
+msgid "Disable Security"
+msgstr "Désactiver la sécurité"
+
+#: inc/security.php:1251
+msgid "Review suspicious requests, manage blocked IP addresses, and keep your activity log under control."
+msgstr "Examinez les requêtes suspectes, gérez les adresses IP bloquées et gardez le contrôle de votre journal d’activité."
+
+#: inc/security.php:1063
+msgid "Enable Security"
+msgstr "Activer la sécurité"
+
+#: inc/security.php:1058 inc/security.php:1251
+msgid "Security Center"
+msgstr "Centre de sécurité"
+
+#: inc/security.php:1055
+msgid "Security has been enabled."
+msgstr "La sécurité a été activée."
+
+#: inc/security.php:1035
+msgid "Security has been disabled."
+msgstr "La sécurité a été désactivée."
+
+#: inc/security.php:932
+msgid "Invalid security action."
+msgstr "Action de sécurité non valide."
+
+#: inc/security.php:926
+msgid "Selected logs updated."
+msgstr "Les journaux sélectionnés ont été mis à jour."
+
+#: inc/security.php:922
+msgid "Selected logs deleted."
+msgstr "Les journaux sélectionnés ont été supprimés."
+
+#: inc/security.php:914
+msgid "Select at least one log and an action."
+msgstr "Sélectionnez au moins un journal et une action."
+
+#: inc/security.php:873
+msgid "You do not have permission to manage security logs."
+msgstr "Vous n’avez pas le droit de gérer les journaux de sécurité."
+
+#: inc/security.php:75
+msgid "<strong>ERROR</strong>: Security check failed. Please try again."
+msgstr "<strong>ERREUR</strong> : la vérification de sécurité a échoué. Veuillez réessayer."
+
+#: inc/admin.php:2391
+msgid "Security module could not be loaded."
+msgstr "Le module de sécurité n’a pas pu être chargé."
+
+#: inc/admin.php:1120
+msgid "Security (Beta)"
+msgstr "Sécurité (bêta)"
+
+#: inc/security.php:1260
+msgid "Security trial: %d day remaining."
+msgid_plural "Security trial: %d days remaining."
+msgstr[0] "Période d’essai de sécurité : encore %d jour."
+msgstr[1] "Période d’essai de sécurité : encore %d jours."
+
+#: inc/security.php:1059
+msgid "Security is currently disabled. Enable it to start your 14-day trial and log suspicious requests, block abusive IP addresses, and reduce the server load caused by repeated attacks."
+msgstr "« Sécurité » est actuellement désactivée. Activez-la pour commencer votre période d’essai de 14 jours, journaliser les requêtes suspectes, bloquer les adresses IP malveillantes et réduire la charge du serveur causée par des attaques répétées."
+
+#: inc/security.php:1043
+msgid "Get Premium"
+msgstr "Obtenir la version premium"
+
+#: inc/security.php:1042
+msgid "Your 14-day Security trial has ended. Upgrade to WP Fastest Cache Premium to continue using Security."
+msgstr "Votre période d’essai de 14 jours de sécurité est terminée. Passez à WP Fastest Cache Premium pour continuer à utiliser « Sécurité »."
+
+#: inc/security.php:1041
+msgid "Security trial ended"
+msgstr "Période d’essai de sécurité terminée"
 
 #: templates/toolbar_settings.php:34
 msgid "The WP Fastest Cache menu on the admin toolbar will be visible to the selected user roles below."
@@ -60,30 +218,26 @@ msgstr "Choisir une méthode"
 msgid "Preload Settings"
 msgstr "Réglages des préchargements"
 
-#: inc/admin.php:1488 inc/admin.php:1495
+#: inc/admin.php:1510 inc/admin.php:1517
+msgid "Delay Js"
+msgstr "Temporisation JS"
+
+#: inc/admin.php:1511 inc/admin.php:1518
 msgid "Some js sources will not be loaded until scrolling or moving the mouse"
 msgstr ""
 "Certaines sources JS ne seront pas chargées tant que le défilement \n"
 "ou le déplacement de la souris n’aura pas eu lieu."
 
-#: inc/admin.php:1487 inc/admin.php:1494
-msgid "Delay Js"
-msgstr "Temporisation JS"
-
-#: inc/admin.php:1104
+#: inc/admin.php:1092
 msgid "WP Fastest Cache Options"
 msgstr "Options de WP Fastest Cache"
-
-#: inc/admin.php:1984 templates/exclude.php:114
-msgid "has Yandex Click ID Parameters"
-msgstr "possède des paramètres Yandex Click ID"
 
 #. Author URI of the plugin
 #: wpFastestCache.php
 msgid "https://www.wpfastestcache.com/"
 msgstr "https://www.wpfastestcache.com/"
 
-#: inc/admin.php:1779
+#: inc/admin.php:1802
 msgid "Clearing Specific Pages"
 msgstr "Vider le cache de certaines pages"
 
@@ -103,254 +257,102 @@ msgstr "Réglages de la barre d’outils"
 msgid "Clear Cache of All Sites"
 msgstr "Vider le cache de tous les sites"
 
-#: wpFastestCache.php:439
+#: wpFastestCache.php:472
 msgid "<a href=\"%s\">Settings</a>"
 msgstr "<a href=\"%s\">Réglages</a>"
 
-#: inc/admin.php:1113 inc/admin.php:1624 inc/column.php:15
+#: inc/admin.php:1109 inc/admin.php:1647 inc/column.php:15
 msgid "Clear Cache"
 msgstr "Vider le cache"
 
-#: inc/admin.php:1400 inc/admin.php:1406 inc/admin.php:1413
+#: inc/admin.php:1423 inc/admin.php:1429 inc/admin.php:1436
 msgid "Eliminate render-blocking JavaScript resources"
 msgstr "Élimine les ressources JavaScript bloquant le rendu (Premium)"
 
-#: inc/admin.php:2224
+#: inc/admin.php:2248
 msgid "Database Cleanup"
 msgstr "Nettoyage de la base de données"
 
-#: inc/admin.php:2113
-msgid "CDN Settings"
-msgstr "Réglages CDN"
-
-#: inc/admin.php:2076
-msgid "Exclude JS"
-msgstr "Exclure les JS"
-
-#: inc/admin.php:2056
-msgid "Exclude CSS"
-msgstr "Exclure les CSS"
-
-#: inc/admin.php:2038
-msgid "Exclude Cookies"
-msgstr "Exclure les cookies"
-
-#: inc/admin.php:2019
-msgid "Exclude User-Agents"
-msgstr "Exclure les agents utilisateurs"
-
-#: inc/admin.php:2002
-msgid "Exclude Pages"
-msgstr "Exclure les pages"
-
-#: inc/admin.php:1836
-msgid "Optimize Image Tool"
-msgstr "Outil optimisation d’image"
-
-#: inc/admin.php:1711 inc/admin.php:1783 inc/admin.php:2006 inc/admin.php:2023
-#: inc/admin.php:2042 inc/admin.php:2060 inc/admin.php:2080
-msgid "Add New Rule"
-msgstr "Ajouter une nouvelle règle"
-
-#: inc/admin.php:1666
-msgid "Timeout Rules"
-msgstr "Règles de délai d’expiration"
-
-#: inc/admin.php:1650
-msgid "All cache files will be removed as well"
-msgstr "Tous les fichiers de cache seront également supprimés"
-
-#: inc/admin.php:1649
-msgid "If you modify any css file, you have to delete minified css files"
-msgstr "Si vous modifiez un fichier CSS, vous devez supprimer les fichiers CSS minifiés"
-
-#: inc/admin.php:1637 inc/admin.php:1651 inc/admin.php:1652
-msgid "Target folder"
-msgstr "Dossier cible"
-
-#: inc/admin.php:1636
-msgid "You can delete all cache files"
-msgstr "Vide tous les fichiers cache"
-
-#: inc/admin.php:1584
-msgid "Cache Statistics"
-msgstr "Statistiques de cache"
-
-#: inc/admin.php:1577 inc/admin.php:2251 inc/admin.php:2496
-msgid "Only available in Premium version"
-msgstr "Disponible uniquement avec la version Premium"
-
-#: inc/admin.php:1455 inc/admin.php:1477
-msgid "Load images and iframes when they enter the browsers viewport"
-msgstr "Charge les images et les iframes quand ils entrent dans la fenêtre du navigateur (Premium)"
-
-#: inc/admin.php:1426 inc/admin.php:1432 inc/admin.php:1439
-msgid "Load Google Fonts asynchronously"
-msgstr "Charge les polices Google de façon asynchrone (Premium)"
-
-#: inc/admin.php:1425 inc/admin.php:1431 inc/admin.php:1438
-msgid "Google Fonts"
-msgstr "Polices Google "
-
-#: inc/admin.php:1399 inc/admin.php:1405 inc/admin.php:1412
-msgid "Render Blocking Js"
-msgstr "Blocage de rendu JS "
-
-#: inc/admin.php:1391
-msgid "You can remove the emoji inline css and wp-emoji-release.min.js"
-msgstr "Retire les émojis CSS en ligne et wp-emoji-release.min.js"
-
-#: inc/admin.php:1390
-msgid "Disable Emojis"
-msgstr "Désactiver les émojis"
-
-#: inc/admin.php:1385
-msgid "Reduce page load times for repeat visitors"
-msgstr "Réduit les temps de chargement des pages pour les visiteurs réguliers"
-
-#: inc/admin.php:1384
-msgid "Browser Caching"
-msgstr "Cache navigateur"
-
-#: inc/admin.php:1373
-msgid "Reduce the size of files sent from your server"
-msgstr "Réduit la taille des fichiers envoyés depuis votre serveur"
-
-#: inc/admin.php:1372
-msgid "Gzip"
-msgstr "Gzip"
-
-#: inc/admin.php:1353 inc/admin.php:1360 inc/admin.php:1366
-msgid "Combine Js Plus"
-msgstr "Combiner le JS Plus "
-
-#: inc/admin.php:1347 inc/admin.php:1355 inc/admin.php:1361 inc/admin.php:1367
-msgid "Reduce HTTP requests through combined js files"
-msgstr "Réduit les requêtes HTTP grâce aux fichiers JS combinés"
-
-#: inc/admin.php:1346
-msgid "Combine Js"
-msgstr "Combiner le JS "
-
-#: inc/admin.php:1330 inc/admin.php:1335 inc/admin.php:1341
-msgid "You can decrease the size of js files"
-msgstr "Diminue la taille des fichiers JS (Premium)"
-
-#: inc/admin.php:1329 inc/admin.php:1334 inc/admin.php:1340
-msgid "Minify Js"
-msgstr "Minifier le JS "
-
-#: inc/admin.php:1322
-msgid "Reduce HTTP requests through combined css files"
-msgstr "Réduit les requêtes HTTP grâce aux fichiers CSS combinés"
-
-#: inc/admin.php:1321
-msgid "Combine Css"
-msgstr "Combiner le CSS "
-
-#: inc/admin.php:1310 inc/admin.php:1315
-msgid "More powerful minify css"
-msgstr "Minification CSS plus puissante  (Premium)"
-
-#: inc/admin.php:1309 inc/admin.php:1314
-msgid "Minify Css Plus"
-msgstr "Minifier le CSS Plus "
-
-#: inc/admin.php:1301
-msgid "You can decrease the size of css files"
-msgstr "Diminue la taille des fichiers CSS"
-
-#: inc/admin.php:1300
-msgid "Minify Css"
-msgstr "Minifier le CSS "
-
-#: inc/admin.php:1288 inc/admin.php:1293
-msgid "More powerful minify html"
-msgstr "Minification HTML plus puissante (Premium)"
-
-#: inc/admin.php:1287 inc/admin.php:1292
-msgid "Minify HTML Plus"
-msgstr "Minifier le HTML Plus "
-
-#: inc/admin.php:1281
-msgid "You can decrease the size of page"
-msgstr "Diminue la taille de la page"
-
-#: inc/admin.php:1280
-msgid "Minify HTML"
-msgstr "Minifier le HTML "
-
-#: inc/admin.php:1272
-msgid "Clear cache files when a post or page is updated"
-msgstr "Vide les fichiers de cache lors de la mise à jour d’un article ou d’une page"
-
-#: inc/admin.php:1265
-msgid "Clear cache files when a post or page is published"
-msgstr "Vide les fichiers de cache lors de la publication d’un article ou d’une page"
-
-#: inc/admin.php:1232 inc/admin.php:1258
-msgid "Create cache for mobile theme"
-msgstr "Crée un cache pour le thème mobile (Premium)"
-
-#: inc/admin.php:1231 inc/admin.php:1257
-msgid "Mobile Theme"
-msgstr "Thème mobile "
-
-#: inc/admin.php:1226
-msgid "Don't show the cached version for desktop to mobile devices"
-msgstr "N’affiche pas la version mise en cache pour les ordinateurs sur les mobiles"
-
-#: inc/admin.php:1225
-msgid "Mobile"
-msgstr "Mobile"
-
-#: inc/admin.php:1221
-msgid "Don't show the cached version for logged-in users"
-msgstr "N’affiche pas la version mise en cache pour les utilisateurs connectés"
-
-#: inc/admin.php:1220
-msgid "Logged-in Users"
-msgstr "Utilisateurs connectés "
-
-#: inc/admin.php:1188
-msgid "Create the cache of all the site automatically"
-msgstr "Crée automatiquement le cache pour tout le site"
-
-#: inc/admin.php:1159 inc/admin.php:1165 inc/admin.php:1172 inc/admin.php:1179
-msgid "Reduce the number of SQL queries"
-msgstr "Réduit le nombre de requêtes SQL (Premium)"
-
-#: inc/admin.php:1158 inc/admin.php:1164 inc/admin.php:1171 inc/admin.php:1178
-msgid "Widget Cache"
-msgstr "Cache de widget "
-
-#: inc/admin.php:1149
-msgid "Enable"
-msgstr "Actif"
-
-#: inc/admin.php:1148
-msgid "Cache System"
-msgstr "Système de cache"
-
-#: inc/admin.php:1120
-msgid "Exclude"
-msgstr "Exclure"
-
-#: inc/admin.php:1114
-msgid "Image Optimization"
-msgstr "Optimisation d’images"
-
-#: inc/admin.php:1112
+#: inc/admin.php:1108
 msgid "Settings"
 msgstr "Réglages"
 
-#: inc/admin.php:500 inc/admin.php:503
+#: templates/update_success.php:9
+msgid "Success"
+msgstr "Succès"
+
+#: inc/admin.php:1994 templates/exclude.php:96 templates/preload.php:110
+msgid "Categories"
+msgstr "Catégories"
+
+#: templates/newpost.php:68 templates/updatepost.php:64
+msgid "OK"
+msgstr "OK"
+
+#: inc/admin.php:1696 templates/timeout.php:95
+msgid "All"
+msgstr "Tous"
+
+#: inc/admin.php:1996 templates/exclude.php:100
+msgid "Archives"
+msgstr "Archives"
+
+#: inc/admin.php:1998 templates/exclude.php:99 templates/preload.php:114
+msgid "Pages"
+msgstr "Pages"
+
+#: inc/admin.php:1116
+msgid "Exclude"
+msgstr "Exclure"
+
+#: inc/admin-toolbar.php:60 inc/admin-toolbar.php:96 inc/admin.php:1655
+#: templates/newpost.php:51 templates/updatepost.php:49
+msgid "Clear All Cache"
+msgstr "Nettoyer tout le cache"
+
+#: templates/disable_wp_cron.php:20
+msgid "Warning"
+msgstr "Avertissement"
+
+#: inc/admin.php:1407
+msgid "Browser Caching"
+msgstr "Cache navigateur"
+
+#: inc/admin.php:2062
+msgid "Exclude Cookies"
+msgstr "Exclure les cookies"
+
+#: inc/admin.php:2137
+msgid "CDN Settings"
+msgstr "Réglages CDN"
+
+#: inc/admin.php:2043
+msgid "Exclude User-Agents"
+msgstr "Exclure les agents utilisateurs"
+
+#: inc/admin.php:1859
+msgid "Optimize Image Tool"
+msgstr "Outil optimisation d’image"
+
+#: inc/admin.php:1673
+msgid "All cache files will be removed as well"
+msgstr "Tous les fichiers de cache seront également supprimés"
+
+#: inc/admin.php:1672
+msgid "If you modify any css file, you have to delete minified css files"
+msgstr "Si vous modifiez un fichier CSS, vous devez supprimer les fichiers CSS minifiés"
+
+#: inc/admin.php:1660 inc/admin.php:1674 inc/admin.php:1675
+msgid "Target folder"
+msgstr "Dossier cible"
+
+#: inc/admin.php:1607
+msgid "Cache Statistics"
+msgstr "Statistiques de cache"
+
+#: inc/admin.php:488 inc/admin.php:491
 msgid "Options have been saved"
 msgstr "Les options ont été enregistrées"
-
-#: inc/admin-toolbar.php:104 inc/admin.php:1645
-msgid "Clear Cache and Minified CSS/JS"
-msgstr "Vider le cache et les CSS/JS minifiés"
 
 #: templates/preload.php:215
 msgid "Restart After Completed"
@@ -367,22 +369,6 @@ msgstr "Taxonomies personnalisées"
 #: templates/preload.php:127
 msgid "Custom Post Types"
 msgstr "Types de publications personnalisés"
-
-#: templates/preload.php:102
-msgid "Homepage"
-msgstr "Page d’accueil "
-
-#: inc/admin.php:1187
-msgid "Preload"
-msgstr "Préchargement "
-
-#: templates/update_success.php:9
-msgid "Success"
-msgstr "Succès"
-
-#: templates/disable_wp_cron.php:20
-msgid "Warning"
-msgstr "Avertissement"
 
 #: templates/nginx_gzip.php:9
 msgid "Enable Gzip"
@@ -404,62 +390,38 @@ msgstr "Choisissez-en un"
 msgid "Then"
 msgstr "Alors"
 
-#: inc/admin.php:1673 templates/timeout.php:95
-msgid "All"
-msgstr "Tous"
-
 #: templates/timeout.php:68
 msgid "Cache Timeout Wizard"
 msgstr "Assistant d’expiration du cache"
 
-#: inc/admin.php:1985 templates/exclude.php:115
+#: inc/admin.php:2009 templates/exclude.php:116
 msgid "has Woocommerce Items in Cart"
 msgstr "a des articles WooCommerce dans le panier"
 
-#: inc/admin.php:1983 templates/exclude.php:113
+#: inc/admin.php:2006 templates/exclude.php:113
 msgid "has Google Analytics Parameters"
 msgstr "a des paramètres Google Analytics"
 
-#: inc/admin.php:1677 inc/admin.php:1979 templates/exclude.php:107
+#: inc/admin.php:1700 inc/admin.php:2002 templates/exclude.php:107
 #: templates/timeout.php:98
 msgid "Is Equal To"
 msgstr "Est égal à"
 
-#: inc/admin.php:1676 inc/admin.php:1978 templates/exclude.php:106
+#: inc/admin.php:1699 inc/admin.php:2001 templates/exclude.php:106
 #: templates/timeout.php:99
 msgid "Contains"
 msgstr "Contient"
 
-#: inc/admin.php:1675 inc/admin.php:1977 templates/exclude.php:105
+#: inc/admin.php:1698 inc/admin.php:2000 templates/exclude.php:105
 #: templates/timeout.php:97
 msgid "Starts With"
 msgstr "Commence par"
 
-#: inc/admin.php:1976 templates/exclude.php:101 templates/preload.php:122
-msgid "Attachments"
-msgstr "Fichiers joints"
-
-#: inc/admin.php:1973 templates/exclude.php:100
-msgid "Archives"
-msgstr "Archives"
-
-#: inc/admin.php:1975 templates/exclude.php:99 templates/preload.php:114
-msgid "Pages"
-msgstr "Pages"
-
-#: inc/admin.php:1974 templates/exclude.php:98 templates/preload.php:106
-msgid "Posts"
-msgstr "Articles"
-
-#: inc/admin.php:1972 templates/exclude.php:97 templates/preload.php:118
+#: inc/admin.php:1995 templates/exclude.php:97 templates/preload.php:118
 msgid "Tags"
 msgstr "Étiquettes"
 
-#: inc/admin.php:1971 templates/exclude.php:96 templates/preload.php:110
-msgid "Categories"
-msgstr "Catégories"
-
-#: inc/admin.php:1674 inc/admin.php:1970 templates/exclude.php:95
+#: inc/admin.php:1697 inc/admin.php:1993 templates/exclude.php:95
 #: templates/timeout.php:96
 msgid "Home Page"
 msgstr "Page d’accueil"
@@ -480,14 +442,6 @@ msgstr "Vider le cache d’article/page"
 msgid "What do you want to happen after update a post or a page?"
 msgstr "Que voulez-vous qu’il se passe après la mise à jour d’une publication ou d’une page ?"
 
-#: inc/admin.php:1271 templates/updatepost.php:18
-msgid "Update Post"
-msgstr "Màj de publication"
-
-#: templates/newpost.php:68 templates/updatepost.php:64
-msgid "OK"
-msgstr "OK"
-
 #: templates/newpost.php:58
 msgid "Clear Cache of Pagination"
 msgstr "Vider le cache de pagination"
@@ -500,42 +454,297 @@ msgstr "Vider le cache des étiquettes de publication"
 msgid "Clear Cache of Post Categories"
 msgstr "Vider le cache des catégories de publication"
 
-#: templates/newpost.php:55 templates/updatepost.php:56
-msgid "Clear Cache of Home page"
-msgstr "Vider le cache de la page d’accueil"
-
-#: inc/admin-toolbar.php:60 inc/admin-toolbar.php:96 inc/admin.php:1632
-#: templates/newpost.php:51 templates/updatepost.php:49
-msgid "Clear All Cache"
-msgstr "Nettoyer tout le cache"
-
 #: templates/newpost.php:29
 msgid "What do you want to happen after publishing the new post?"
 msgstr "Que voulez-vous qu’il se passe après la mise en ligne d’une nouvelle publication ?"
-
-#: inc/admin.php:1264 templates/newpost.php:18
-msgid "New Post"
-msgstr "Nouvelle publication"
 
 #: templates/update_now.php:9
 msgid "Please Update"
 msgstr "Veuillez mettre à jour"
 
+#: inc/admin.php:1600 inc/admin.php:2275 inc/admin.php:2536
+msgid "Only available in Premium version"
+msgstr "Disponible uniquement avec la version Premium"
+
+#: inc/admin.php:1211
+msgid "Create the cache of all the site automatically"
+msgstr "Crée automatiquement le cache pour tout le site"
+
+#: inc/admin.php:1288
+msgid "Clear cache files when a post or page is published"
+msgstr "Vide les fichiers de cache lors de la publication d’un article ou d’une page"
+
+#: inc/admin.php:1304
+msgid "You can decrease the size of page"
+msgstr "Diminue la taille de la page"
+
+#: inc/admin.php:1324
+msgid "You can decrease the size of css files"
+msgstr "Diminue la taille des fichiers CSS"
+
+#: inc/admin.php:1345
+msgid "Reduce HTTP requests through combined css files"
+msgstr "Réduit les requêtes HTTP grâce aux fichiers CSS combinés"
+
+#: inc/admin.php:1414
+msgid "You can remove the emoji inline css and wp-emoji-release.min.js"
+msgstr "Retire les émojis CSS en ligne et wp-emoji-release.min.js"
+
+#: inc/admin.php:1352 inc/admin.php:1357 inc/admin.php:1363
+msgid "Minify Js"
+msgstr "Minifier le JS "
+
+#: inc/admin.php:1376 inc/admin.php:1383 inc/admin.php:1389
+msgid "Combine Js Plus"
+msgstr "Combiner le JS Plus "
+
+#: inc/admin.php:1369
+msgid "Combine Js"
+msgstr "Combiner le JS "
+
+#: inc/admin.php:1344
+msgid "Combine Css"
+msgstr "Combiner le CSS "
+
+#: inc/admin.php:1332 inc/admin.php:1337
+msgid "Minify Css Plus"
+msgstr "Minifier le CSS Plus "
+
+#: inc/admin.php:1323
+msgid "Minify Css"
+msgstr "Minifier le CSS "
+
+#: inc/admin.php:1310 inc/admin.php:1315
+msgid "Minify HTML Plus"
+msgstr "Minifier le HTML Plus "
+
+#: inc/admin.php:1303
+msgid "Minify HTML"
+msgstr "Minifier le HTML "
+
+#: inc/admin.php:1181 inc/admin.php:1187 inc/admin.php:1194 inc/admin.php:1201
+msgid "Widget Cache"
+msgstr "Cache de widget "
+
+#: inc/admin.php:1210
+msgid "Preload"
+msgstr "Préchargement "
+
+#: inc/admin.php:1172
+msgid "Enable"
+msgstr "Actif"
+
+#: inc/admin.php:1254 inc/admin.php:1280
+msgid "Mobile Theme"
+msgstr "Thème mobile "
+
+#: inc/admin.php:1243
+msgid "Logged-in Users"
+msgstr "Utilisateurs connectés "
+
+#: inc/admin.php:1370 inc/admin.php:1378 inc/admin.php:1384 inc/admin.php:1390
+msgid "Reduce HTTP requests through combined js files"
+msgstr "Réduit les requêtes HTTP grâce aux fichiers JS combinés"
+
+#: inc/admin.php:1396
+msgid "Reduce the size of files sent from your server"
+msgstr "Réduit la taille des fichiers envoyés depuis votre serveur"
+
+#: inc/admin.php:1408
+msgid "Reduce page load times for repeat visitors"
+msgstr "Réduit les temps de chargement des pages pour les visiteurs réguliers"
+
+#: inc/admin.php:1422 inc/admin.php:1428 inc/admin.php:1435
+msgid "Render Blocking Js"
+msgstr "Blocage de rendu JS "
+
+#: inc/admin.php:1659
+msgid "You can delete all cache files"
+msgstr "Vide tous les fichiers cache"
+
+#: inc/admin.php:1110
+msgid "Image Optimization"
+msgstr "Optimisation d’images"
+
+#: inc/admin.php:1244
+msgid "Don't show the cached version for logged-in users"
+msgstr "N’affiche pas la version mise en cache pour les utilisateurs connectés"
+
+#: inc/admin.php:1249
+msgid "Don't show the cached version for desktop to mobile devices"
+msgstr "N’affiche pas la version mise en cache pour les ordinateurs sur les mobiles"
+
+#: inc/admin.php:1295
+msgid "Clear cache files when a post or page is updated"
+msgstr "Vide les fichiers de cache lors de la mise à jour d’un article ou d’une page"
+
+#: inc/admin.php:1311 inc/admin.php:1316
+msgid "More powerful minify html"
+msgstr "Minification HTML plus puissante (Premium)"
+
+#: inc/admin.php:1333 inc/admin.php:1338
+msgid "More powerful minify css"
+msgstr "Minification CSS plus puissante  (Premium)"
+
+#: inc/admin.php:1255 inc/admin.php:1281
+msgid "Create cache for mobile theme"
+msgstr "Crée un cache pour le thème mobile (Premium)"
+
+#: inc/admin.php:1353 inc/admin.php:1358 inc/admin.php:1364
+msgid "You can decrease the size of js files"
+msgstr "Diminue la taille des fichiers JS (Premium)"
+
+#: inc/admin.php:1449 inc/admin.php:1455 inc/admin.php:1462
+msgid "Load Google Fonts asynchronously"
+msgstr "Charge les polices Google de façon asynchrone (Premium)"
+
+#: inc/admin.php:1478 inc/admin.php:1500
+msgid "Load images and iframes when they enter the browsers viewport"
+msgstr "Charge les images et les iframes quand ils entrent dans la fenêtre du navigateur (Premium)"
+
+#: inc/admin.php:1182 inc/admin.php:1188 inc/admin.php:1195 inc/admin.php:1202
+msgid "Reduce the number of SQL queries"
+msgstr "Réduit le nombre de requêtes SQL (Premium)"
+
+#: inc/admin.php:1395
+msgid "Gzip"
+msgstr "Gzip"
+
+#: inc/admin.php:1294 templates/updatepost.php:18
+msgid "Update Post"
+msgstr "Màj de publication"
+
+#: inc/admin.php:1171
+msgid "Cache System"
+msgstr "Système de cache"
+
+#: inc/admin.php:1413
+msgid "Disable Emojis"
+msgstr "Désactiver les émojis"
+
+#: inc/admin.php:1689
+msgid "Timeout Rules"
+msgstr "Règles de délai d’expiration"
+
 #: templates/lazy_load.php:9
 msgid "Lazy Load Settings"
 msgstr "Réglages pour le chargement différé"
 
-#: wpFastestCache.php:2363
-msgid "Once Every 15 Days"
-msgstr "Tous les 15 jours"
+#: inc/admin.php:2026
+msgid "Exclude Pages"
+msgstr "Exclure les pages"
 
-#: wpFastestCache.php:2351
+#: inc/admin.php:1734 inc/admin.php:1806 inc/admin.php:2030 inc/admin.php:2047
+#: inc/admin.php:2066 inc/admin.php:2084 inc/admin.php:2104
+msgid "Add New Rule"
+msgstr "Ajouter une nouvelle règle"
+
+#: inc/admin.php:2100
+msgid "Exclude JS"
+msgstr "Exclure les JS"
+
+#: inc/admin.php:2080
+msgid "Exclude CSS"
+msgstr "Exclure les CSS"
+
+#: templates/newpost.php:55 templates/updatepost.php:56
+msgid "Clear Cache of Home page"
+msgstr "Vider le cache de la page d’accueil"
+
+#: inc/admin-toolbar.php:104 inc/admin.php:1668
+msgid "Clear Cache and Minified CSS/JS"
+msgstr "Vider le cache et les CSS/JS minifiés"
+
+#: inc/admin.php:1999 templates/exclude.php:101 templates/preload.php:122
+msgid "Attachments"
+msgstr "Fichiers joints"
+
+#: inc/admin.php:1248
+msgid "Mobile"
+msgstr "Mobile"
+
+#: inc/admin.php:1287 templates/newpost.php:18
+msgid "New Post"
+msgstr "Nouvelle publication"
+
+#: inc/admin.php:1997 templates/exclude.php:98 templates/preload.php:106
+msgid "Posts"
+msgstr "Articles"
+
+#: templates/preload.php:102
+msgid "Homepage"
+msgstr "Page d’accueil"
+
+#: inc/admin.php:1448 inc/admin.php:1454 inc/admin.php:1461
+msgid "Google Fonts"
+msgstr "Polices Google"
+
+#: wpFastestCache.php:2571
 msgid "Once Every 7 Days"
 msgstr "Tous les 7 jours"
 
-#: wpFastestCache.php:2345
+#: wpFastestCache.php:2583
+msgid "Once Every 15 Days"
+msgstr "Tous les 15 jours"
+
+#: wpFastestCache.php:2565
 msgid "Once Every 3 Days"
 msgstr "Tous les 3 jours"
+
+#: wpFastestCache.php:2505
+msgid "Once Every 2 Hours"
+msgstr "Toutes les 2 heures"
+
+#: wpFastestCache.php:2577
+msgid "Once Every 10 Days"
+msgstr "Tous les 10 jours"
+
+#: wpFastestCache.php:2475
+msgid "Once Every 1 Minute"
+msgstr "Toutes les minutes"
+
+#: wpFastestCache.php:2481
+msgid "Once Every 5 Minutes"
+msgstr "Toutes les 5 minutes"
+
+#: wpFastestCache.php:2487
+msgid "Once Every 15 Minutes"
+msgstr "Toutes les 15 minutes"
+
+#: wpFastestCache.php:2493
+msgid "Twice an Hour"
+msgstr "Deux fois par heure"
+
+#: wpFastestCache.php:2499
+msgid "Once an Hour"
+msgstr "Toutes les heures"
+
+#: wpFastestCache.php:2529
+msgid "Once Every 6 Hours"
+msgstr "Toutes les 6 heures"
+
+#: wpFastestCache.php:2559
+msgid "Once a Day"
+msgstr "Une fois par jour"
+
+#: wpFastestCache.php:2589
+msgid "Once a Month"
+msgstr "Une fois par mois"
+
+#: wpFastestCache.php:2595
+msgid "Once a Year"
+msgstr "Une fois par an"
+
+#. Plugin URI of the plugin
+#: wpFastestCache.php
+msgid "http://wordpress.org/plugins/wp-fastest-cache/"
+msgstr "http://wordpress.org/plugins/wp-fastest-cache/"
+
+#. Plugin Name of the plugin
+#: wpFastestCache.php inc/security.php:1041 inc/security.php:1058
+#: inc/security.php:1251
+msgid "WP Fastest Cache"
+msgstr "WP Fastest Cache"
 
 #. Author of the plugin
 #: wpFastestCache.php
@@ -547,84 +756,30 @@ msgstr "Emre Vona"
 msgid "The simplest and fastest WP Cache system"
 msgstr "Le plus simple et le plus rapide des systèmes de cache pour WordPress"
 
-#. Plugin URI of the plugin
-#: wpFastestCache.php
-msgid "http://wordpress.org/plugins/wp-fastest-cache/"
-msgstr "http://wordpress.org/plugins/wp-fastest-cache/"
-
-#. Plugin Name of the plugin
-#: wpFastestCache.php
-msgid "WP Fastest Cache"
-msgstr "WP Fastest Cache"
-
-#: wpFastestCache.php:2375
-msgid "Once a Year"
-msgstr "Une fois par an"
-
-#: wpFastestCache.php:2369
-msgid "Once a Month"
-msgstr "Une fois par mois"
-
-#: wpFastestCache.php:2357
-msgid "Once Every 10 Days"
-msgstr "Tous les 10 jours"
-
-#: wpFastestCache.php:2339
-msgid "Once a Day"
-msgstr "Une fois par jour"
-
-#: wpFastestCache.php:2333
+#: wpFastestCache.php:2553
 msgid "Once Every 10 Hours"
 msgstr "Toutes les 10 heures"
 
-#: wpFastestCache.php:2327
+#: wpFastestCache.php:2547
 msgid "Once Every 9 Hours"
 msgstr "Toutes les 9 heures"
 
-#: wpFastestCache.php:2321
+#: wpFastestCache.php:2541
 msgid "Once Every 8 Hours"
 msgstr "Toutes les 8 heures"
 
-#: wpFastestCache.php:2315
+#: wpFastestCache.php:2535
 msgid "Once Every 7 Hours"
 msgstr "Toutes les 7 heures"
 
-#: wpFastestCache.php:2309
-msgid "Once Every 6 Hours"
-msgstr "Toutes les 6 heures"
-
-#: wpFastestCache.php:2303
+#: wpFastestCache.php:2523
 msgid "Once Every 5 Hours"
 msgstr "Toutes les 5 heures"
 
-#: wpFastestCache.php:2297
+#: wpFastestCache.php:2517
 msgid "Once Every 4 Hours"
 msgstr "Toutes les 4 heures"
 
-#: wpFastestCache.php:2291
+#: wpFastestCache.php:2511
 msgid "Once Every 3 Hours"
 msgstr "Toutes les 3 heures"
-
-#: wpFastestCache.php:2285
-msgid "Once Every 2 Hours"
-msgstr "Toutes les 2 heures"
-
-#: wpFastestCache.php:2279
-msgid "Once an Hour"
-msgstr "Toutes les heures"
-
-#: wpFastestCache.php:2273
-msgid "Twice an Hour"
-msgstr "Deux fois par heure"
-
-#: wpFastestCache.php:2267
-msgid "Once Every 15 Minutes"
-msgstr "Toutes les 15 minutes"
-
-#: wpFastestCache.php:2261
-msgid "Once Every 5 Minutes"
-msgstr "Toutes les 5 minutes"
-
-#: wpFastestCache.php:2255
-msgid "Once Every 1 Minute"
-msgstr "Toutes les minutes"

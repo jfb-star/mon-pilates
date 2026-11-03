@@ -5,7 +5,7 @@ Description: Block excessive login attempts and protect your site against brute 
 Author: Limit Login Attempts Reloaded
 Author URI: https://www.limitloginattempts.com/
 Text Domain: limit-login-attempts-reloaded
-Version: 3.2.1
+Version: 3.4.0
 
 Copyright 2008-2012 Johan Eenfeldt, 2016–present Limit Login Attempts Reloaded
 */
@@ -137,6 +137,50 @@ define( 'LLA_PROXY_ADDR', 'HTTP_X_FORWARDED_FOR' );
 
 /* Notify value checked against these in limit_login_sanitize_variables() */
 define( 'LLA_LOCKOUT_NOTIFY_ALLOWED', 'log,email' );
+defined( 'LLA_LOCKOUT_HISTORY_RETENTION_DAYS' ) || define( 'LLA_LOCKOUT_HISTORY_RETENTION_DAYS', 60 );
+defined( 'LLA_DIGEST_DISPATCH_HOUR_LOCAL' ) || define( 'LLA_DIGEST_DISPATCH_HOUR_LOCAL', 10 );
+
+/**
+ * Digest definitions (interval, templates). Default on/off profiles for new vs
+ * existing installs are defined in Config::get_digest_defaults_for_*_install().
+ * Format: {key: {interval_seconds: int, is_default: bool, ...}}
+ *
+ * Translatable digest strings (labels and email preheaders) are not stored here.
+ * Add or change them in DigestUiController::get_digest_label() and
+ * DigestUiController::get_digest_preview_text() so i18n tools can extract literals.
+ */
+defined( 'LLA_DIGEST_DEFINITIONS' ) || define(
+	'LLA_DIGEST_DEFINITIONS',
+	array(
+		'daily' => array(
+			'interval_seconds' => DAY_IN_SECONDS,
+			'is_default' => true,
+			'email_template' => 'digest-daily-content.php',
+			'show_threat_level' => false,
+			'intro_text' => '',
+			'unsubscribe_text' => '{unsubscribe}',
+			'title_mode' => 'date',
+		),
+		'weekly' => array(
+			'interval_seconds' => WEEK_IN_SECONDS,
+			'is_default' => true,
+			'email_template' => 'digest-weekly-content.php',
+			'show_threat_level' => true,
+			'intro_text' => '',
+			'unsubscribe_text' => '{unsubscribe}',
+			'title_mode' => 'range',
+		),
+		'monthly' => array(
+			'interval_seconds' => MONTH_IN_SECONDS,
+			'is_default' => true,
+			'email_template' => 'digest-monthly-content.php',
+			'show_threat_level' => true,
+			'intro_text' => '',
+			'unsubscribe_text' => '{unsubscribe}',
+			'title_mode' => 'month',
+		),
+	)
+);
 
 /** Regex: valid email for obfuscation (1=first, 2=middle, 3=last, 4=domain). */
 define( 'LLA_EMAIL_OBFUSCATE_REGEX', '/^(.)([^@]*)(.?)@(.*)$/' );
@@ -179,7 +223,7 @@ defined( 'LLA_MFA_FLOW_OTP_TTL' ) || define( 'LLA_MFA_FLOW_OTP_TTL', 180 );
 defined( 'LLA_MFA_FLOW_HANDSHAKE_RATE_LIMIT_PERIOD' ) || define( 'LLA_MFA_FLOW_HANDSHAKE_RATE_LIMIT_PERIOD', 60 );
 defined( 'LLA_MFA_FLOW_HANDSHAKE_RATE_LIMIT_MAX' ) || define( 'LLA_MFA_FLOW_HANDSHAKE_RATE_LIMIT_MAX', 5 );
 defined( 'LLA_MFA_FLOW_LOG_PREFIX' ) || define( 'LLA_MFA_FLOW_LOG_PREFIX', 'LLAR MFA Flow: ' );
-/* POST field name for confirming a suspected-prefetch rescue request (value 1 + WP nonce). */
+/* POST field name for confirming a suspected-prefetch rescue request (value 1). */
 defined( 'LLA_MFA_RESCUE_PREFETCH_BYPASS_ARG' ) || define( 'LLA_MFA_RESCUE_PREFETCH_BYPASS_ARG', 'llar_rescue_confirm' );
 
 /** MFA Flow: API and session (values from constants, no UI settings). */
@@ -219,9 +263,8 @@ if ( file_exists( LLA_PLUGIN_DIR . 'autoload.php' ) ) {
 			wp_schedule_event( time(), 'daily', 'llar_mfa_daily_cleanup' );
 		}
 
-		if ( class_exists( 'LLAR\\Core\\Helpers' ) ) {
-			\LLAR\Core\Helpers::persist_stored_plugin_version();
-		}
+		\LLAR\Core\Helpers::persist_stored_plugin_version();
+		\LLAR\Core\Config::apply_digest_defaults_on_fresh_activation();
 	}
 
 	/**

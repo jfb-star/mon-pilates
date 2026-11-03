@@ -3,8 +3,8 @@ Contributors: emrevona
 Donate link: https://profiles.wordpress.org/emrevona/
 Tags: cache, Optimize, performance, PageSpeed, core web vitals
 Requires at least: 5.7
-Tested up to: 6.9
-Stable tag: 1.4.8
+Tested up to: 7.1
+Stable tag: 1.5.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -117,6 +117,54 @@ Chinese Simplified (China), Chinese Traditional (Taiwan), Czech, Dutch (Belgium)
 18. Database Cleanup
 
 == Changelog ==
+
+= 1.5.4 =
+* Fixed: The plugin language selector now works independently of the WordPress site language
+* to update the translations 
+* Removed unused static assets
+* Preserve the Security tab when navigating its links by keeping #wpfc-security in the URL
+* <strong>[FEATURE]</strong> Added the WPFC_CACHE_QUERYSTRING_PARAMS constant to cache allowlisted query-string URLs separately [<a target="_blank" href="https://www.wpfastestcache.com/tutorial/cache-url-with-querystring/#wpft-enable-cache-for-urls-with-query-strings">Details</a>]
+* Fixed: Prevented sitemap preload from saving an empty sitemap list when no child sitemaps could be extracted
+* Fixed: Incorrect term totals for custom taxonomies in preload
+* <strong>[FEATURE]</strong> Preloading for paginated home, category, tag and custom taxonomy archive pages
+* Test CDN connectivity using the active theme’s style.css URL instead of the CDN URL alone
+* Security Tool: Added detection and blocking for ICEcoder terminal command injection attempts
+* Security Tool: Added detection and blocking for React2Shell
+* Security Tool: Added detection and blocking for Oversized POST Parameter Attacks
+* Fixed: Deleting an IP from Security Center now removes all associated child log entries along with the parent record, preventing orphaned security logs
+* Fixed: Prevented unnecessary cache clearing when Flamingo saves contact form submissions as posts
+* Prevent caching of WordPress activation pages (wp-activate.php) by excluding activation requests based on both the request URL and WordPress’s current page context
+* Skip cache generation during WordPress installation and for requests carrying activation-related cookies (wp-activate-*)
+* Prevent caching responses that include private or non-cacheable HTTP headers, including Cache-Control: no-store, private, no-cache, expired Expires, and Set-Cookie
+
+= 1.5.3 =
+* <strong>[FEATURE]</strong> Added an Exclude Pages rule to exclude URLs containing Facebook Click ID (fbclid) parameters from cache
+* Updated Yandex parameter handling to include etext, alongside yclid, yadclid, ymclid, ysclid, yzclid, yqrid, and ybaip
+* <strong>[FEATURE]</strong> Added the Security tool to help protect your site from malicious scans, brute-force attacks, SQL injection attempts, XSS, path traversal attacks and other suspicious activity [<a target="_blank" href="https://www.wpfastestcache.com/blog/security-tool-detect-and-block-suspicious-activity/">Details</a>]
+* Fixed: The active settings tab now stays selected after a page refresh, and its change handlers run when restored
+* Updated the .htaccess admin cookie exclusion rules only when the affected user is an administrator
+* Added handling for deleted administrator accounts so their exclusion rules are refreshed after deletion.
+* Added locking and safer file replacement when updating .htaccess, and skip writes when the file cannot be read, the marker is missing, or the content is unchanged
+
+= 1.5.2 =
+* Security Enhancements
+* Allow Author role and above for the Auto Cache feature
+* <strong>[FEATURE]</strong> Added support for clearing the cache by URL [<a target="_blank" href="https://www.wpfastestcache.com/tutorial/delete-the-cache-by-calling-the-function/#wpft-5-clear-cache-by-url">Details</a>]
+* Fixed: Incorrect cache expiration header configuration
+* Added manage_options capability checks to Varnish cache AJAX actions, preventing unauthorized users from modifying, pausing, resuming, removing, or purging Varnish cache settings
+* Added administrator-only access checks for specific page cache actions, preventing unauthorized users from viewing, adding, or removing cache-clearing rules
+
+= 1.5.1 =
+* <strong>[Improvement]</strong> Validates Polylang domain mappings against an allowlist to prevent security risks
+* <strong>[Improvement]</strong> Added protection against feed cache poisoning via query string parameters
+* Prevent caching URLs that contain query strings
+
+= 1.5.0 =
+* Fixed: Replaced the non-standard text/js MIME type with a valid JavaScript content type for missing minified JS file responses
+* Fixed: Resolved an issue where the preload tool could fail while processing the sitemap.
+
+= 1.4.9 =
+* Tested and confirmed full compatibility with WordPress 7.0 to ensure smooth and reliable plugin performance
 
 = 1.4.8 =
 * to fix PHP Warning: unlink(), scandir(), rmdir() No such file or directory in wpFastestCache.php on lines 2285, 2291, 2294

@@ -126,6 +126,7 @@ jQuery( function( $ ) {
 	let $previewNonceInput        = $( '#wpo-wcpdf-preview-wrapper input[name="nonce"]' );
 	let $previewSettingsForm      = $( '#wpo-wcpdf-settings' );
 	let previewXhr                = null;
+	let previewSearchXhr          = null;
 
 	// variables
 	let previewOrderId, previewDocumentType, previewOutputFormat, previewNonce, previewSettingsFormData, previewTimeout, previewSearchTimeout, previousWindowWidth;
@@ -146,8 +147,45 @@ jQuery( function( $ ) {
 		$previewOrderIdInput.val( '' ).trigger( 'change' );
 	}
 
+	function getPreviewOrderIdFromUrl() {
+		const params = new URLSearchParams( window.location.search );
+		return params.get( 'preview_order' ) || '';
+	}
+
+	function setPreviewOrderIdInUrl( orderId ) {
+		function updateParams( params ) {
+			if ( orderId ) {
+				params.set( 'preview_order', orderId );
+			} else {
+				params.delete( 'preview_order' );
+			}
+			return params;
+		}
+
+		const params = updateParams( new URLSearchParams( window.location.search ) );
+		history.replaceState( null, '', '?' + params.toString() );
+
+		// Update document section links so they carry the param on navigation
+		$( '.wcpdf_document_settings_sections a, .doc-output-toggle-group .doc-output-toggle' ).each( function() {
+			const href       = $( this ).attr( 'href' );
+			const [ path ]   = href.split( '?' );
+			const linkParams = updateParams( new URLSearchParams( href.split( '?' )[1] ) );
+			$( this ).attr( 'href', path + '?' + linkParams.toString() );
+		} );
+	}
+
 	resetDocumentType();      // force document type reset
-	resetOrderId();           // force order ID reset
+
+	let urlOrderId = parseInt( getPreviewOrderIdFromUrl(), 10 ) || '';
+	if ( urlOrderId ) {
+		$previewOrderIdInput.val( urlOrderId );
+		$( '.preview-document .order-search-label' ).text( '#' + urlOrderId );
+		$( '.preview-document p.last-order' ).hide();
+		$( '.preview-document p.order-search' ).show();
+	} else {
+		resetOrderId();       // force order ID reset
+	}
+
 	loadPreviewData();        // load preview data
 
 	previousWindowWidth = $( window ).width();
@@ -284,7 +322,7 @@ jQuery( function( $ ) {
 		$previewData.find( 'ul' ).toggleClass( 'active' );
 	} );
 
-	$( '.preview-document .preview-data ul > li' ).on( 'click', function() {
+	$( '.preview-document .preview-order-data ul > li' ).on( 'click', function() {
 		let $previewData = $( this ).closest( '.preview-data' );
 		$previewData.find( 'ul' ).toggleClass( 'active' );
 		if ( $( this ).hasClass( 'order-search' ) ) {
@@ -297,6 +335,7 @@ jQuery( function( $ ) {
 			$previewData.find( 'input[name="preview-order-search"]' ).removeClass( 'active' ).val( '' );
 			$previewData.find( '#preview-order-search-results' ).hide();
 			$previewData.find( 'img.preview-order-search-clear' ).hide(); // remove the clear button
+			setPreviewOrderIdInUrl( '' );
 			resetOrderId()    // force order ID reset
 			triggerPreview(); // trigger preview
 		}
@@ -319,8 +358,10 @@ jQuery( function( $ ) {
 	// Preview on user click in search result
 	$( document ).on( 'click', '#preview-order-search-results a', function( event ) {
 		event.preventDefault();
-		$( '.preview-document .order-search-label').text( '#' + $( this ).data( 'order_id' ) );
-		$previewOrderIdInput.val( $( this ).data( 'order_id' ) ).trigger( 'change' );
+		let selectedOrderId = $( this ).data( 'order_id' );
+		setPreviewOrderIdInUrl( selectedOrderId );
+		$( '.preview-document .order-search-label' ).text( '#' + selectedOrderId );
+		$previewOrderIdInput.val( selectedOrderId ).trigger( 'change' );
 		$( this ).closest( 'div' ).hide();                   // hide results div
 		$( this ).closest( 'div' ).children( 'a' ).remove(); // remove all results
 		triggerPreview();
@@ -328,7 +369,7 @@ jQuery( function( $ ) {
 
 	// Check for settings change
 	$( document ).on( 'keyup paste', '#wpo-wcpdf-settings input, #wpo-wcpdf-settings textarea', settingsChanged );
-	$( document ).on( 'change', '#wpo-wcpdf-settings input[type="checkbox"], #wpo-wcpdf-settings input[type="radio"], #wpo-wcpdf-settings select', function( event ) {
+	$( document ).on( 'change', '#wpo-wcpdf-settings input[type="checkbox"], #wpo-wcpdf-settings input[type="radio"], #wpo-wcpdf-settings select, #wpo-wcpdf-settings input[type="color"]', function( event ) {
 		if ( 'shop_address_country' === event.target.id || ! event.isTrigger ) { // exclude programmatic triggers that aren't actually changing anything
 			settingsChanged( event );
 		}
@@ -515,10 +556,35 @@ jQuery( function( $ ) {
 	$previewDocumentTypeInput.on( 'change', function() {
 		let inputValue = $( this ).val();
 		if ( inputValue.length ) {
-			let inputName  = $( this ).attr( 'name' );
-			let $ul        = $( '#wpo-wcpdf-preview-wrapper ul.preview-data-option-list[data-input-name='+inputName+']' );
-			let $li        = $ul.find( 'li[data-value='+inputValue+']' );
+			let inputName   = $( this ).attr( 'name' );
+			let $ul         = $( '#wpo-wcpdf-preview-wrapper ul.preview-data-option-list[data-input-name='+inputName+']' );
+			let $li         = $ul.find( 'li[data-value='+inputValue+']' );
+			let xmlDocTypes = wpo_wcpdf_admin.xml_document_types || [];
+			let supportsXml = xmlDocTypes.indexOf( inputValue ) !== -1;
+			let $xmlToggle  = $( '.doc-output-toggle-group .doc-output-toggle' ).filter( function() {
+				return $( this ).text().trim().toLowerCase() === 'xml';
+			} );
+
 			$ul.parent().find( '.current-label' ).text( $li.text() );
+
+			// show/hide XML toggle based on whether the document type supports it
+			$xmlToggle.toggle( supportsXml );
+
+			// if XML is not supported and the current format is XML, fall back to PDF
+			if ( ! supportsXml && $previewOutputFormatInput.val() === 'xml' ) {
+				$previewOutputFormatInput.val( 'pdf' );
+
+				$preview.empty();
+
+				const formatParams = new URLSearchParams( window.location.search );
+				formatParams.delete( 'output_format' );
+				history.replaceState( null, '', '?' + formatParams.toString() );
+
+				$( '.doc-output-toggle-group .doc-output-toggle' ).removeClass( 'active' ).filter( function() {
+					return $( this ).text().trim().toLowerCase() === 'pdf';
+				} ).addClass( 'active' );
+			}
+
 			triggerPreview();
 		}
 	} ).trigger( 'change' );
@@ -657,6 +723,10 @@ jQuery( function( $ ) {
 		previewSearchTimeout = setTimeout( function() { previewOrderSearch( $elem ) }, duration );
 	} );
 
+	function decodeHtmlEntities( str ) {
+		return $( '<textarea />' ).html( str ).text();
+	}
+
 	// Preview order search
 	function previewOrderSearch( $elem ) {
 		let $div   = $elem.closest( '.preview-data' ).find( '#preview-order-search-results' );
@@ -674,12 +744,17 @@ jQuery( function( $ ) {
 		$div.parent().find( 'img.preview-order-search-clear' ).hide(); // hide the clear button
 		$div.children( '.error' ).remove();                            // remove previous errors
 		$div.children( 'a' ).remove();                                 // remove previous results
-		$div.hide();                                                   // hide search results
+		$div.hide();
 
-		$.ajax( {
-			type:    'POST',
-			url:     wpo_wcpdf_admin.ajaxurl,
-			data:    data,
+		previewSearchXhr = $.ajax( {
+			type: 'POST',
+			url:  wpo_wcpdf_admin.ajaxurl,
+			data: data,
+			beforeSend: function( jqXHR, settings ) {
+				if ( previewSearchXhr != null ) {
+					previewSearchXhr.abort();
+				}
+			},
 			success: function( response ) {
 				if ( response.data ) {
 					if ( response.data.error ) {
@@ -687,12 +762,33 @@ jQuery( function( $ ) {
 						$div.show();
 					} else {
 						$.each( response.data, function( i, item ) {
-							let firstLine = '<a data-order_id="'+i+'"><span class="order-number">#'+item.order_number+'</span> - '+item.billing_first_name+' '+item.billing_last_name;
+							const $result = $( '<a>' ).attr( 'data-order_id', i );
+
+							$result.append(
+								$( '<span>' ).addClass( 'order-number' ).text( '#' + item.order_number )
+							);
+
+							$result.append(
+								document.createTextNode(
+									' - ' + decodeHtmlEntities( item.billing_first_name ) + ' ' + decodeHtmlEntities( item.billing_last_name )
+								)
+							);
+
 							if ( item.billing_company.length > 0 ) {
-								firstLine = firstLine+', '+item.billing_company;
+								$result.append(
+									document.createTextNode( ', ' + decodeHtmlEntities( item.billing_company ) )
+								);
 							}
-							let secondLine = '<br><span class="date">'+item.date_created+'</span><span class="total">'+item.total+'</span></a>';
-							$div.append( firstLine+secondLine );
+
+							$result.append( '<br>' );
+							$result.append(
+								$( '<span>' ).addClass( 'date' ).html( item.date_created )
+							);
+							$result.append(
+								$( '<span>' ).addClass( 'total' ).html( item.total )
+							);
+
+							$div.append( $result );
 							$div.show();
 						} );
 					}
@@ -700,7 +796,14 @@ jQuery( function( $ ) {
 
 				$elem.removeClass( 'ajax-waiting' );
 				$elem.closest( 'div' ).find( 'img.preview-order-search-clear' ).show();
-			}
+			},
+			error: function( jqXHR, textStatus ) {
+				if ( textStatus !== 'abort' ) {
+					$div.append( '<span class="error">' + jqXHR.status + ': ' + jqXHR.statusText + '</span>' );
+					$div.show();
+					$elem.removeClass( 'ajax-waiting' );
+				}
+			},
 		} );
 	}
 
@@ -870,8 +973,13 @@ jQuery( function( $ ) {
 				return;
 			}
 
+			const needle = query.toLowerCase().trim();
+
 			matches = wpo_wcpdf_admin.search_index.filter( function ( item ) {
-				return item.label.toLowerCase().indexOf( query.toLowerCase().trim() ) !== -1;
+				const label   = item.label ? item.label.toLowerCase() : '';
+				const section = item.section ? item.section.toLowerCase() : '';
+
+				return label.indexOf( needle ) !== -1 || section.indexOf( needle ) !== -1;
 			} );
 
 			if ( ! matches.length ) {
@@ -881,12 +989,18 @@ jQuery( function( $ ) {
 
 			$.each( matches, function ( index, item ) {
 				const $item = $( '<li class="settings-search-item"></li>' )
-					.text( item.label )
 					.attr( 'data-index', index )
 					.on( 'mousedown', function ( e ) {
 						e.preventDefault();
 						navigateToSetting( item );
 					} );
+
+				$( '<span class="settings-search-item-label"></span>' ).text( item.label ).appendTo( $item );
+
+				if ( item.section ) {
+					$( '<span class="settings-search-item-section"></span>' ).text( item.section ).appendTo( $item );
+				}
+
 				$dropdown.append( $item );
 			} );
 
@@ -1173,4 +1287,16 @@ jQuery( function( $ ) {
 
 	//----------> /Sync Address <----------//
 
+	document.querySelector( '[name="wpo_wcpdf_settings_general[template_path]"]' )
+		?.addEventListener( 'change', function() {
+			const selectedTemplate = this.value;
+			const $colorInput      = $( '#template_color' );
+			const defaults         = $colorInput.data( 'template_color_defaults' ) || {};
+			const savedValue       = $colorInput.data( 'saved_value' ) || '';
+			const defaultColor     = defaults[ selectedTemplate ] || '';
+
+			if ( ! savedValue && defaultColor ) {
+				$colorInput.val( defaultColor );
+			}
+		}, true ); // true = capture phase, fires before jQuery handlers
 } );

@@ -153,8 +153,9 @@ class Jetpack_Slideshow_Shortcode {
 			 * @module shortcodes
 			 *
 			 * @since 2.3.0
+			 * @since $$next-version$$ Captions render as plain text, so markup returned here is discarded.
 			 *
-			 * @param string wptexturize( strip_tags( $attachment->post_excerpt ) ) Post excerpt.
+			 * @param string wptexturize( wp_strip_all_tags( $attachment->post_excerpt ) ) Post excerpt.
 			 * @param string $attachment ->ID Attachment ID.
 			 */
 			$caption = apply_filters( 'jetpack_slideshow_slide_caption', wptexturize( wp_strip_all_tags( $attachment->post_excerpt ) ), $attachment->ID );
@@ -206,9 +207,11 @@ class Jetpack_Slideshow_Shortcode {
 			/*
 			 * Blocks can be disabled in Jetpack Settings.
 			 * If that's the case, we need to include the slideshow block manually.
+			 * render_amp() lives in the block's render.php, which is loaded lazily,
+			 * so make sure it is available before calling it.
 			 */
-			if ( ! class_exists( 'Automattic\Jetpack\Extensions\Slideshow' ) ) {
-				require_once JETPACK__PLUGIN_DIR . 'extensions/blocks/slideshow/slideshow.php';
+			if ( ! function_exists( 'Automattic\Jetpack\Extensions\Slideshow\render_amp' ) ) {
+				require_once JETPACK__PLUGIN_DIR . 'extensions/blocks/slideshow/render.php';
 			}
 
 			return Slideshow\render_amp( $amp_args );
@@ -276,7 +279,7 @@ class Jetpack_Slideshow_Shortcode {
 			'jetpack-slideshow',
 			Assets::get_file_url_for_environment( '_inc/build/shortcodes/js/slideshow-shortcode.min.js', 'modules/shortcodes/js/slideshow-shortcode.js' ),
 			array( 'jquery', 'jetpack-shortcode-deps' ),
-			'20160119.1',
+			'20260915',
 			true
 		);
 		wp_enqueue_style(

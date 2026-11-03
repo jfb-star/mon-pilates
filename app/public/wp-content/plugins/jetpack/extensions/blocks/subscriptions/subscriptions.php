@@ -79,10 +79,18 @@ function register_block() {
 		'post',
 		META_NAME_FOR_POST_LEVEL_ACCESS_SETTINGS,
 		array(
-			'show_in_rest'  => true,
-			'single'        => true,
-			'type'          => 'string',
-			'auth_callback' => function () {
+			'show_in_rest'      => true,
+			'single'            => true,
+			'type'              => 'string',
+			// The REST schema already rejects non-strings, but non-REST writers
+			// (importers, XML-RPC, WP-CLI, direct update_post_meta, sync) only pass
+			// through sanitize_meta(). Coerce anything that isn't a string to ''
+			// ("everybody") so a corrupt value can't be persisted and later fatal the
+			// strict string-typed access checks.
+			'sanitize_callback' => function ( $value ) {
+				return is_string( $value ) ? $value : '';
+			},
+			'auth_callback'     => function () {
 				return wp_get_current_user()->has_cap( 'edit_posts' );
 			},
 		)
@@ -233,7 +241,8 @@ function add_paywalled_content_post_meta( int $post_id, \WP_Post $post ) {
 
 	$access_level = get_post_meta( $post_id, META_NAME_FOR_POST_LEVEL_ACCESS_SETTINGS, true );
 
-	$is_paywalled = false;
+	// A Paywall block gates the post whatever the stored access level; see Jetpack_Memberships::get_post_access_level().
+	$is_paywalled = has_block( \Automattic\Jetpack\Extensions\Paywall\BLOCK_NAME, $post );
 	switch ( $access_level ) {
 		case Abstract_Token_Subscription_Service::POST_ACCESS_LEVEL_PAID_SUBSCRIBERS_ALL_TIERS:
 		case Abstract_Token_Subscription_Service::POST_ACCESS_LEVEL_PAID_SUBSCRIBERS:
@@ -259,7 +268,7 @@ function render_newsletter_access_rows( $column_id, $post_id ) {
 		return;
 	}
 
-	$access_level = get_post_meta( $post_id, META_NAME_FOR_POST_LEVEL_ACCESS_SETTINGS, true );
+	$access_level = Jetpack_Memberships::get_post_access_level( $post_id );
 
 	switch ( $access_level ) {
 		case Abstract_Token_Subscription_Service::POST_ACCESS_LEVEL_PAID_SUBSCRIBERS_ALL_TIERS:
@@ -309,7 +318,7 @@ function fetch_subscriber_counts() {
 					'status'  => 'failed',
 					'code'    => $xml->getErrorCode(),
 					'message' => $xml->getErrorMessage(),
-					'value'   => ( isset( $subs_count['value'] ) ) ? $subs_count['value'] : array(
+					'value'   => $subs_count['value'] ?? array(
 						'total_subscribers' => 0,
 						'email_subscribers' => 0,
 						'social_followers'  => 0,

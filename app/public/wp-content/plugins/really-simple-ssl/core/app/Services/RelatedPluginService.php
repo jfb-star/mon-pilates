@@ -18,16 +18,22 @@ final class RelatedPluginService
     public function __construct(RelatedConfig $relatedConfig)
     {
         $this->relatedConfig = $relatedConfig;
+        $this->setPluginConfig([]);
     }
 
     public function setPluginConfigBySlug(string $slug): void
     {
+        if ($slug === '') {
+            $this->setPluginConfig([]);
+            return;
+        }
+
         $plugins = $this->relatedConfig->get('plugins', []);
         $plugins = array_filter($plugins, static function($plugin) use ($slug) {
             return isset($plugin['slug']) && ($plugin['slug'] === $slug);
         });
 
-        $plugin = reset($plugins);
+        $plugin = (reset($plugins) ?: []);
         $this->setPluginConfig($plugin);
     }
 
@@ -47,9 +53,6 @@ final class RelatedPluginService
      * configuration.
      *
      * @return array List of plugin items with their status, actions and UI properties
-     *
-     * @todo: Plugins that are already installed and activated are still listed
-     * in the onboarding.
      */
     public function getOnboardingConfig(): array
     {
@@ -62,15 +65,25 @@ final class RelatedPluginService
             }
 
             $this->setPluginConfig($config);
+            $availableAction = $this->getAvailablePluginAction();
+
+            // Skip plugins that are already installed
+            // We need to use pluginFileExists because plugins with a premium
+            // variant like Complianz have action 'upgrade-to-premium' instead
+            // of 'installed'.
+            if ($this->pluginFileExists()) {
+                continue;
+            }
+
             $activated = $this->pluginConfig->getBoolean('pre_checked');
 
             $checkboxes[] = [
                 'id' => $config['slug'],
                 'title' => $config['title'],
-                'action' => ($activated ? $this->getAvailablePluginAction() : 'none'),
+                'action' => ($activated ? $availableAction : 'none'),
                 'activated' => $activated,
                 'current_action' => 'none',
-                'default_action' => ($activated ? null : $this->getAvailablePluginAction()),
+                'default_action' => ($activated ? null : $availableAction),
             ];
         }
 
@@ -119,6 +132,10 @@ final class RelatedPluginService
      */
     public function executeAction(string $action): bool
     {
+        if ($this->pluginConfig->isEmpty()) {
+            return false;
+        }
+
         ob_start();
 
         switch ($action) {
@@ -143,12 +160,17 @@ final class RelatedPluginService
      */
     protected function downloadCurrentPlugin(): bool
     {
+        $slug = $this->pluginConfig->getString('slug');
+        if ($slug === '') {
+            return false;
+        }
+
         $transientName = 'rsp_plugin_download_active';
-        if (get_transient($transientName) === $this->pluginConfig->getString('slug')) {
+        if (get_transient($transientName) === $slug) {
             return true;
         }
 
-        set_transient($transientName, $this->pluginConfig->getString('slug'), MINUTE_IN_SECONDS);
+        set_transient($transientName, $slug, MINUTE_IN_SECONDS);
 
         try {
             $pluginInfo = $this->getCurrentPluginInfo();
@@ -182,6 +204,9 @@ final class RelatedPluginService
     protected function activateCurrentPlugin(): bool
     {
         $slug = $this->pluginConfig->getString('activation_slug');
+        if ($slug === '') {
+            return false;
+        }
 
         //when activated from the network admin, we assume the user wants network activated
         $networkwide = is_multisite() && is_network_admin();
@@ -263,7 +288,12 @@ final class RelatedPluginService
      */
     protected function getCurrentPluginInfo(): object
     {
-        $transientName = 'rsp_' . $this->pluginConfig->getString('slug') . '_plugin_info';
+        $slug = $this->pluginConfig->getString('slug');
+        if ($slug === '') {
+            throw new \Exception('Unable to get plugin info without a slug');
+        }
+
+        $transientName = 'rsp_' . $slug . '_plugin_info';
         $pluginInfo = get_transient($transientName);
 
         if (!empty($pluginInfo)) {
@@ -275,7 +305,7 @@ final class RelatedPluginService
         }
 
         $pluginInfo = plugins_api('plugin_information', [
-            'slug' => $this->pluginConfig->getString('slug'),
+            'slug' => $slug,
         ]);
 
         if (is_wp_error($pluginInfo)) {

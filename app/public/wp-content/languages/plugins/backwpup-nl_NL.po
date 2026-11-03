@@ -2,14 +2,840 @@
 # This file is distributed under the same license as the Plugins - BackWPup – WordPress Backup &amp; Restore Plugin - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2026-03-25 12:28:19+0000\n"
+"PO-Revision-Date: 2026-10-16 20:04:51+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: GlotPress/4.0.3\n"
+"X-Generator: GlotPress/4.1.0\n"
 "Language: nl\n"
 "Project-Id-Version: Plugins - BackWPup – WordPress Backup &amp; Restore Plugin - Stable (latest release)\n"
+
+#. Translators: %1$s = opening link tag, %2$s = closing link tag.
+#: views/notice/notice_mcp_adapter_migration.php:24
+msgid "BackWPup no longer bundles the MCP Adapter, which is now available as a standalone plugin on WordPress.org. To keep managing BackWPup via MCP, please install and activate the %1$sMCP Adapter plugin%2$s."
+msgstr "BackWPup bundelt de MCP Adapter niet meer, die nu beschikbaar is als een standalone plugin op WordPress.org. Om BackWPup via MCP te blijven beheren, installeer en activeer je de %1$sMCP Adapter plugin%2$s."
+
+#: views/notice/notice_mcp_adapter_migration.php:16
+msgid "MCP Adapter plugin required"
+msgstr "MCP Adapter plugin vereist"
+
+#: views/notice/stale_restore_files.php:34
+msgid "BackWPup also periodically checks for and automatically removes abandoned restore files, but deleting them now is safer while they remain on disk."
+msgstr "BackWPup controleert ook periodiek of er verlaten terugzetten bestanden zijn en verwijdert deze automatisch, maar het is veiliger om ze nu te verwijderen terwijl ze nog op de schijf staan."
+
+#. translators: %s: file name in archive.
+#: inc/class-create-archive.php:1291
+msgid "Skipping \"%s\": already present in archive at a different size and cannot be safely rewritten mid-stream."
+msgstr "Overslaan \"%s\": al aanwezig in archief met een andere grootte en kan niet veilig halverwege de stream worden herschreven."
+
+#: inc/class-create-archive.php:1105
+msgid "Tar duplicate-entry index sidecar does not match its archive file (the archive is smaller than the sidecar expects); discarding the stale sidecar instead of trusting it, so no file already marked done is silently skipped from the new archive."
+msgstr "De Tar dupliceren vermelding index sidecar komt niet overeen met het archiefbestand (het archief is kleiner dan de sidecar verwacht); de verouderde sidecar wordt verworpen in plaats van te vertrouwen, zodat geen bestand dat al als afgerond is gemarkeerd, stilzwijgend wordt overgeslagen in het nieuwe archief."
+
+#: inc/class-create-archive.php:1062
+msgid "Skipping corrupt line in Tar duplicate-entry index sidecar file."
+msgstr "Corrupte regel in het tar dupliceren vermelding index sidecarbestand wordt overgeslagen."
+
+#: inc/class-create-archive.php:1034
+msgid "Tar duplicate-entry index sidecar file could not be opened; duplicate-entry protection is disabled for this run."
+msgstr "Het tar dupliceren vermelding index sidecar bestand kon niet worden geopend; dupliceren bescherming is uitgeschakeld voor deze uitvoering."
+
+#: inc/class-create-archive.php:1023
+msgid "Tar duplicate-entry index sidecar file is missing or unreadable; duplicate-entry protection is disabled for this run."
+msgstr "Het dupliceren vermelding index sidecarbestand voor tar ontbreekt of is niet leesbaar; dupliceren bescherming is uitgeschakeld voor deze uitvoering."
+
+#: views/notice/stale_restore_files.php:48
+msgid "Delete restore files"
+msgstr "Terugzet bestanden verwijderen"
+
+#: views/notice/stale_restore_files.php:26
+msgid "BackWPup detected leftover files from a previous restore operation in the restore working directory. These files may contain your database credentials in plain text. It is strongly recommended to delete them immediately."
+msgstr "BackWPup heeft overgebleven bestanden gedetecteerd van een vorige terugzetbewerking in de terugzet werk folder. Deze bestanden kunnen je database referenties in platte tekst bevatten. Het wordt sterk aangeraden om ze direct te verwijderen."
+
+#: views/notice/stale_restore_files.php:17
+msgid "Security Warning: Sensitive restore files detected"
+msgstr "Beveiligingswaarschuwing: gevoelige terugzet bestanden gedetecteerd"
+
+#: src/Admin/Notices/Subscriber.php:152
+msgid "Some restore files could not be deleted. Please delete them manually."
+msgstr "Sommige terugzet bestanden konden niet verwijderd worden. Verwijder ze handmatig."
+
+#: src/Admin/Notices/Subscriber.php:139
+msgid "You do not have permission to perform this action."
+msgstr "Je hebt geen toestemming om deze actie uit te voeren."
+
+#: src/MCP/ConfigSubscriber.php:38
+msgid "This is the BackWPup MCP server. For context and quick-start guidance, read the resource at groupone-backwpup-plugin://docs/overview before calling any tools."
+msgstr "Dit is de BackWPup MCP server. Voor context en snelle startgids lees je de bron bij groupone-BackWPup-plugin://docs/overview voordat je tools aanroept."
+
+#: src/Jobs/Abilities/Subscriber.php:93
+msgid "Backup management tools for WordPress. Before performing any risky action (plugin updates, theme changes, core updates, database operations), use these tools to check backup status and offer the user a backup."
+msgstr "Back-upbeheertools voor WordPress. Voordat je risicovolle acties uitvoert (pluginupdates, themawijzigingen, core-updates, databasebewerkingen), gebruik je deze tools om de back-upstatus te controleren en de gebruiker een back-up aan te bieden."
+
+#: src/Jobs/Abilities/Subscriber.php:92
+msgid "BackWPup Jobs"
+msgstr "BackWPup taken"
+
+#: src/Abilities/MCP/DocsOverview.php:44
+msgid "Overview documentation for the BackWPup MCP server"
+msgstr "Overzichtsdocumentatie voor de BackWPup MCP server"
+
+#: src/Abilities/MCP/DocsOverview.php:42
+msgid "BackWPup Documentation Overview"
+msgstr "Overzicht BackWPup documentatie"
+
+#. translators: %s: Job name.
+#: src/Abilities/Jobs/RunJob.php:374
+msgid "Job \"%s\" started successfully."
+msgstr "Taak \"%s\" is succesvol gestart."
+
+#: src/Abilities/Jobs/RunJob.php:350
+msgid "The backup process could not be started! Please try again or contact support."
+msgstr "Het back-upproces kon niet worden gestart! Probeer het opnieuw of neem contact op met ondersteuning."
+
+#: src/Abilities/Jobs/RunJob.php:279
+msgid "Unable to retrieve job data."
+msgstr "Kan taakgegevens niet ophalen."
+
+#. translators: %d: Job ID.
+#: src/Abilities/Jobs/RunJob.php:207
+msgid "Job ID %d does not exist."
+msgstr "Taak ID %d bestaat niet."
+
+#: src/Abilities/Jobs/RunJob.php:177
+msgid "A backup job is already running. Please wait for it to complete before starting another."
+msgstr "Er wordt al een back-up uitgevoerd. Wacht tot deze is afgerond voordat je een andere start."
+
+#: src/Abilities/Jobs/RunJob.php:129
+msgid "Name of the job that was triggered"
+msgstr "Naam van de taak die is getriggerd"
+
+#: src/Abilities/Jobs/RunJob.php:125
+msgid "Whether the job was successfully triggered"
+msgstr "Of de taak succesvol is getriggerd"
+
+#: src/Abilities/Jobs/RunJob.php:116
+msgid "Job ID to run. Omit to trigger default \"Backup Now\" job."
+msgstr "Taak ID om uit te voeren. Weglaten om de standaard \"Back-up nu\" taak te activeren."
+
+#: src/Abilities/Jobs/RunJob.php:108
+msgid "Triggers an immediate backup. Pass a job_id from backwpup_list_jobs to run a specific job (e.g., Dropbox, S3). Omit job_id to trigger a default backup (files + database to local folder). Check backwpup_get_backup_history first to avoid starting a duplicate if one is already running."
+msgstr "Trigger een directe back-up. Geef een job_id op vanuit backwpup_list_jobs om een specifieke taak uit te voeren (bijv. Dropbox, S3). Laat job_id leeg om een standaardback-up te triggeren (bestanden + database naar lokale map). Controleer eerst backwpup_get_backup_history om te voorkomen dat een duplicaat wordt gestart als er al een actief is."
+
+#: src/Abilities/Jobs/RunJob.php:106
+msgid "Run Backup Job"
+msgstr "Back-uptaak uitvoeren"
+
+#: src/Abilities/Jobs/GetJobsList.php:76
+msgid "Returns all configured BackWPup backup jobs with their destinations (local folder, Dropbox, S3, etc.). Call this tool before performing any risky action on the website (plugin updates, theme changes, core updates, database migrations) to offer the user a backup first."
+msgstr "Retourneert alle geconfigureerde BackWPup back-uptaken met hun bestemmingen (lokale map, Dropbox, S3, enz.). Roep deze tool aan voordat je riskante acties op de site uitvoert (pluginupdates, themawijzigingen, core updates, databasemigraties) om de gebruiker eerst een back-up aan te bieden."
+
+#: src/Abilities/Jobs/GetJobsList.php:74
+msgid "List Backup Jobs"
+msgstr "Lijst Back-uptaken"
+
+#: src/Abilities/Jobs/GetBackupLogs.php:507
+msgid "Failed to read log file content."
+msgstr "Kan inhoud van logbestand niet lezen."
+
+#: src/Abilities/Jobs/GetBackupLogs.php:497
+msgid "Log file exists but cannot be read."
+msgstr "Logbestand bestaat maar kan niet worden gelezen."
+
+#: src/Abilities/Jobs/GetBackupLogs.php:192
+msgid "No backup log found matching the criteria. Try using backwpup_get_backup_history to see available backups."
+msgstr "Geen back-uplog gevonden dat overeenkomt met de criteria. Probeer backwpup_get_backup_history te gebruiken om beschikbare back-ups te zien."
+
+#: src/Abilities/Jobs/GetBackupLogs.php:137
+msgid "Whether the log was truncated"
+msgstr "Of de log is afgekapt"
+
+#: src/Abilities/Jobs/GetBackupLogs.php:133
+msgid "Number of lines returned"
+msgstr "Aantal regels geretourneerd"
+
+#: src/Abilities/Jobs/GetBackupLogs.php:129
+msgid "Total number of lines in the log"
+msgstr "Totaal aantal regels in de log"
+
+#: src/Abilities/Jobs/GetBackupLogs.php:125
+msgid "How long the backup took"
+msgstr "Hoe lang de back-up duurde"
+
+#: src/Abilities/Jobs/GetBackupLogs.php:121
+msgid "Number of warnings in the log"
+msgstr "Aantal waarschuwingen in de log"
+
+#: src/Abilities/Jobs/GetBackupLogs.php:117
+msgid "Number of errors in the log"
+msgstr "Aantal fouten in de log"
+
+#: src/Abilities/Jobs/GetBackupLogs.php:113
+msgid "When the backup ran"
+msgstr "Wanneer de back-up werd uitgevoerd"
+
+#: src/Abilities/Jobs/GetBackupLogs.php:109
+msgid "Job ID"
+msgstr "Taak ID"
+
+#: src/Abilities/Jobs/GetBackupLogs.php:105
+msgid "Name of the backup job"
+msgstr "Naam van de back-uptaak"
+
+#: src/Abilities/Jobs/GetBackupLogs.php:97
+msgid "Additional information about the backup"
+msgstr "Aanvullende informatie over de back-up"
+
+#: src/Abilities/Jobs/GetBackupLogs.php:93
+msgid "The log content (plain text)"
+msgstr "De loginhoud (platte tekst)"
+
+#: src/Abilities/Jobs/GetBackupLogs.php:89
+msgid "Whether the log was retrieved successfully"
+msgstr "Of de log succesvol is opgehaald"
+
+#: src/Abilities/Jobs/GetBackupLogs.php:78
+msgid "Number of lines to return (default 200, max 1000)"
+msgstr "Aantal regels om terug te geven (standaard 200, max 1000)"
+
+#: src/Abilities/Jobs/GetBackupLogs.php:74
+msgid "Job ID - returns latest log from this job"
+msgstr "Taak ID - Retourneert het nieuwste log van deze taak"
+
+#: src/Abilities/Jobs/GetBackupLogs.php:70
+msgid "Backup filename (e.g., \"backwpup_1_2024-04-23_10-30-00_ABC123.zip\")"
+msgstr "Back-upbestandsnaam (bijv. \"backwpup_1_2024-04-23_10-30-00_ABC123.Zip\")"
+
+#: src/Abilities/Jobs/GetBackupLogs.php:66
+msgid "Backup ID from backup history (most specific)"
+msgstr "Back-up ID uit back-upgeschiedenis (meest specifiek)"
+
+#: src/Abilities/Jobs/GetBackupLogs.php:58
+msgid "Retrieves backup log content for troubleshooting. Can get logs by backup ID, filename, or job ID. Use this when users ask to see backup logs or need to diagnose backup failures."
+msgstr "Haalt back-uploginhoud op voor probleemoplossing. Kan logs krijgen op basis van back-up ID, bestandsnaam of taak ID. Gebruik dit wanneer gebruikers vragen om back-uplogs te zien of om back-upstoringen te diagnosticeren."
+
+#: src/Abilities/Jobs/GetBackupLogs.php:56
+msgid "Get Backup Logs"
+msgstr "Back-up Logs ophalen"
+
+#: src/Abilities/Jobs/GetBackupHistory.php:143
+msgid "List of recent backups"
+msgstr "Lijst van recente back-ups"
+
+#: src/Abilities/Jobs/GetBackupHistory.php:139
+msgid "Information about the currently running job, if any"
+msgstr "Informatie over de momenteel uitgevoerde taak, indien van toepassing"
+
+#: src/Abilities/Jobs/GetBackupHistory.php:135
+msgid "Whether a backup job is currently active"
+msgstr "Of een back-uptaak op dit moment actief is"
+
+#: src/Abilities/Jobs/GetBackupHistory.php:123
+msgid "Maximum number of recent backups to return"
+msgstr "Maximum aantal recente back-ups om terug te geven"
+
+#: src/Abilities/Jobs/GetBackupHistory.php:112
+msgid "Returns recent backup history and whether a backup is currently running. Call this before triggering a new backup to avoid duplicates, and to inform the user of their latest backup status."
+msgstr "Retourneert recente back-upgeschiedenis en of een back-up op dit moment wordt uitgevoerd. Roep dit aan voordat je een nieuwe back-up triggert om duplicaten te voorkomen en om de gebruiker te informeren over zijn/haar laatste back-upstatus."
+
+#: src/Abilities/Jobs/GetBackupHistory.php:110
+msgid "Get Backup History"
+msgstr "Back-upgeschiedenis ophalen"
+
+#. translators: %s: Job name.
+#: src/Abilities/Jobs/CancelJob.php:153
+msgid "Job \"%s\" has been cancelled successfully."
+msgstr "Taak \"%s\" is succesvol geannuleerd."
+
+#: src/Abilities/Jobs/CancelJob.php:144
+#: src/Abilities/Jobs/GetBackupHistory.php:235
+#: src/Abilities/Jobs/GetBackupHistory.php:329
+#: src/Abilities/Jobs/GetBackupHistory.php:367
+#: src/Abilities/Jobs/GetBackupHistory.php:490
+#: src/Abilities/Jobs/RunJob.php:372 src/Abilities/Jobs/RunJob.php:381
+msgid "Unknown Job"
+msgstr "Onbekende taak"
+
+#: src/Abilities/Jobs/CancelJob.php:126
+msgid "No backup job is currently running. Nothing to cancel."
+msgstr "Er wordt op dit moment geen back-uptaak uitgevoerd. Niets om te annuleren."
+
+#: src/Abilities/Jobs/CancelJob.php:81 src/Abilities/Jobs/RunJob.php:133
+msgid "Human-readable status message"
+msgstr "Een voor mensen begrijpelijk statusbericht"
+
+#: src/Abilities/Jobs/CancelJob.php:77
+msgid "Name of the job that was cancelled"
+msgstr "Naam van de taak die is geannuleerd"
+
+#: src/Abilities/Jobs/CancelJob.php:73
+msgid "Whether the job was successfully cancelled"
+msgstr "Of de taak succesvol is geannuleerd"
+
+#: src/Abilities/Jobs/CancelJob.php:61
+msgid "Cancels a currently running backup job. Use this when a backup is stuck, taking too long, or needs to be stopped before starting a new one. Check backwpup_get_backup_history first to verify a job is running."
+msgstr "Annuleert een momenteel uitgevoerde back-uptaak. Gebruik dit wanneer een back-up vastloopt, te lang duurt of moet worden gestopt voordat een nieuwe wordt gestart. Controleer eerst backwpup_get_backup_history om te verifiëren of een taak wordt uitgevoerd."
+
+#: src/Abilities/Jobs/CancelJob.php:59
+msgid "Cancel Running Backup Job"
+msgstr "Annuleren van back-up taak die wordt uitgevoerd."
+
+#: views/notice/notice_upgrade_to_pro.php:53
+msgid "Upgrade to Pro for one-click restores, more cloud destinations, and priority support."
+msgstr "Upgrade naar Pro voor een-klik terugzetting, meer cloudbestemmingen en prioritaire ondersteuning."
+
+#: views/notice/notice_upgrade_to_pro.php:46
+msgid "Your backups run automatically, but restoring them manually can be slow."
+msgstr "Je back-ups worden automatisch uitgevoerd, maar het handmatig terugzetten ervan kan traag zijn."
+
+#: views/notice/notice_upgrade_to_pro.php:38
+msgid "Backup Scheduled!"
+msgstr "Back-up ingepland!"
+
+#. Translators: %1$d = number of backup runs.
+#: views/notice/notice_debug_log_level.php:12
+msgid ""
+"Debug logging is currently enabled for BackWPup. This mode is intended for troubleshooting purposes only and should not be left on during normal operation.\n"
+"Be aware that log files may contain sensitive information, such as file paths, database details, and server configuration data. Make sure log files are stored securely and deleted once they are no longer needed.\n"
+"Debug logging will automatically disable itself after %1$d backup runs. If your issue is resolved, it is recommended to turn it off manually right away."
+msgstr ""
+"Foutopsporing is momenteel ingeschakeld voor BackWPup. Deze modus is alleen bedoeld voor probleemoplossing en moet niet worden gebruikt tijdens normaal bedrijf.\n"
+"Wees je ervan bewust dat logbestanden gevoelige informatie kunnen bevatten, zoals bestandspaden, database details en serverconfiguratiegegevens. Zorg ervoor dat logbestanden veilig worden opgeslagen en worden verwijderd zodra ze niet langer nodig zijn.\n"
+"Foutopsporing wordt automatisch uitgeschakeld na %1$d back-upruns. Als je probleem is opgelost, wordt aanbevolen om het handmatig uit te schakelen."
+
+#: views/notice/notice_debug_log_level.php:7
+msgid "Debug Logging is Active"
+msgstr "Foutopsporing is actief"
+
+#: src/Backup/FailureReasonResolver.php:113
+msgid "server unreachable"
+msgstr "server niet bereikbaar"
+
+#. translators: %s: storage destination name, e.g. Dropbox, Google Drive, FTP,
+#. SFTP.
+#: src/Backup/FailureContext/AbstractFailureDisplayDetailsProvider.php:358
+msgid "Check the job log for details, verify your %s settings, and try again."
+msgstr "Controleer het taak log voor details, verifieer je %s instellingen en probeer opnieuw."
+
+#. translators: %s: storage destination name, e.g. Dropbox, Google Drive, FTP,
+#. SFTP.
+#: src/Backup/FailureContext/AbstractFailureDisplayDetailsProvider.php:353
+msgid "The backup to %s failed with an unknown error."
+msgstr "De back-up naar %s is mislukt met een onbekende fout."
+
+#: src/Backup/FailureContext/AbstractFailureDisplayDetailsProvider.php:350
+#: src/Backup/FailureReasonResolver.php:123
+msgid "unknown error"
+msgstr "onbekende fout"
+
+#. translators: %s: storage destination name, e.g. Dropbox, Google Drive, FTP,
+#. SFTP.
+#: src/Backup/FailureContext/AbstractFailureDisplayDetailsProvider.php:336
+msgid "Review the security warning from %s and resolve it before rerunning the backup."
+msgstr "De beveiligingswaarschuwing beoordelen van %s en los deze op voordat je de back-up opnieuw uitvoert."
+
+#. translators: %s: storage destination name, e.g. Dropbox, Google Drive, FTP,
+#. SFTP.
+#: src/Backup/FailureContext/AbstractFailureDisplayDetailsProvider.php:331
+msgid "%s rejected the backup because malware was detected."
+msgstr "%s wees de back-up af omdat malware werd gedetecteerd."
+
+#: src/Backup/FailureContext/AbstractFailureDisplayDetailsProvider.php:328
+#: src/Backup/FailureReasonResolver.php:119
+msgid "malware detected"
+msgstr "malware gedetecteerd"
+
+#. translators: %s: storage destination name, e.g. Dropbox, Google Drive, FTP,
+#. SFTP.
+#: src/Backup/FailureContext/AbstractFailureDisplayDetailsProvider.php:314
+msgid "Review the account status for %s with the provider and rerun the backup after access is restored."
+msgstr "De accountstatus beoordelen voor %s bij de provider en voer de back-up opnieuw uit nadat de toegang is teruggezet."
+
+#. translators: %s: storage destination name, e.g. Dropbox, Google Drive, FTP,
+#. SFTP.
+#: src/Backup/FailureContext/AbstractFailureDisplayDetailsProvider.php:309
+msgid "%s account is disabled or suspended."
+msgstr "%s account is uitgeschakeld of opgeschort."
+
+#: src/Backup/FailureContext/AbstractFailureDisplayDetailsProvider.php:306
+#: src/Backup/FailureReasonResolver.php:117
+msgid "account disabled or suspended"
+msgstr "account uitgeschakeld of opgeschort"
+
+#. translators: %s: storage destination name, e.g. Dropbox, Google Drive, FTP,
+#. SFTP.
+#: src/Backup/FailureContext/AbstractFailureDisplayDetailsProvider.php:292
+msgid "Check the network connection to %s and rerun the backup."
+msgstr "Controleer de netwerkverbinding naar %s en voer de back-up opnieuw uit."
+
+#. translators: %s: storage destination name, e.g. Dropbox, Google Drive, FTP,
+#. SFTP.
+#: src/Backup/FailureContext/AbstractFailureDisplayDetailsProvider.php:287
+msgid "The backup failed because the connection to %s timed out or was interrupted."
+msgstr "De back-up is mislukt omdat de verbinding met %s is verlopen of werd onderbroken."
+
+#: src/Backup/FailureContext/AbstractFailureDisplayDetailsProvider.php:284
+#: src/Backup/FailureReasonResolver.php:115
+msgid "network or timeout error"
+msgstr "netwerk of time-out fout"
+
+#. translators: %s: storage destination name, e.g. Dropbox, Google Drive, FTP,
+#. SFTP.
+#: src/Backup/FailureContext/AbstractFailureDisplayDetailsProvider.php:270
+msgid "Check the provider status or connection for %s and rerun the backup when the service is available."
+msgstr "Controleer de status van de provider of de verbinding voor %s en voer de back-up opnieuw uit wanneer de dienst beschikbaar is."
+
+#. translators: %s: storage destination name, e.g. Dropbox, Google Drive, FTP,
+#. SFTP.
+#: src/Backup/FailureContext/AbstractFailureDisplayDetailsProvider.php:265
+msgid "%s is temporarily unavailable."
+msgstr "%s is tijdelijk niet beschikbaar."
+
+#: src/Backup/FailureContext/AbstractFailureDisplayDetailsProvider.php:262
+msgid "service unavailable"
+msgstr "dienst niet beschikbaar"
+
+#. translators: %s: storage destination name, e.g. Dropbox, Google Drive, FTP,
+#. SFTP.
+#: src/Backup/FailureContext/AbstractFailureDisplayDetailsProvider.php:248
+msgid "Increase the storage quota or free up space on %s, then rerun the backup."
+msgstr "Vergroot de opslagquota of maak ruimte vrij op %s en voer de back-up opnieuw uit."
+
+#. translators: %s: storage destination name, e.g. Dropbox, Google Drive, FTP,
+#. SFTP.
+#: src/Backup/FailureContext/AbstractFailureDisplayDetailsProvider.php:243
+msgid "%s quota has been exceeded."
+msgstr "%s quotum is overschreden."
+
+#: src/Backup/FailureContext/AbstractFailureDisplayDetailsProvider.php:240
+#: src/Backup/FailureReasonResolver.php:111
+msgid "quota exceeded"
+msgstr "quota overschreden"
+
+#: src/Backup/FailureContext/AbstractFailureDisplayDetailsProvider.php:228
+msgid "Wait a moment and rerun the backup."
+msgstr "Wacht even en voer de back-up opnieuw uit."
+
+#. translators: %s: storage destination name, e.g. Dropbox, Google Drive, FTP,
+#. SFTP.
+#: src/Backup/FailureContext/AbstractFailureDisplayDetailsProvider.php:225
+msgid "%s temporarily rejected the backup because too many requests were sent."
+msgstr "%s wees de back-up tijdelijk af omdat er te veel aanvragen waren verzonden."
+
+#: src/Backup/FailureContext/AbstractFailureDisplayDetailsProvider.php:222
+#: src/Backup/FailureReasonResolver.php:109
+msgid "rate limited"
+msgstr "snelheid beperkt"
+
+#. translators: %s: storage destination name, e.g. Dropbox, Google Drive, FTP,
+#. SFTP.
+#: src/Backup/FailureContext/AbstractFailureDisplayDetailsProvider.php:208
+msgid "Reduce the backup size or verify the upload limits for %s, then rerun the backup."
+msgstr "Verminder de back-upgrootte of verifieer de uploadbeperkingen voor %s en voer de back-up opnieuw uit."
+
+#. translators: %s: storage destination name, e.g. Dropbox, Google Drive, FTP,
+#. SFTP.
+#: src/Backup/FailureContext/AbstractFailureDisplayDetailsProvider.php:203
+msgid "%s rejected the backup because the file is too large."
+msgstr "%s wees de back-up af omdat het bestand te groot is."
+
+#: src/Backup/FailureContext/AbstractFailureDisplayDetailsProvider.php:200
+#: src/Backup/FailureReasonResolver.php:107
+msgid "file too large"
+msgstr "bestand te groot"
+
+#. translators: %s: storage destination name, e.g. Dropbox, Google Drive, FTP,
+#. SFTP.
+#: src/Backup/FailureContext/AbstractFailureDisplayDetailsProvider.php:186
+msgid "Check the configured path and naming rules for %s, then rerun the backup."
+msgstr "Controleer de geconfigureerde pad en naamgevingsregels voor %s en voer de back-up opnieuw uit."
+
+#. translators: %s: storage destination name, e.g. Dropbox, Google Drive, FTP,
+#. SFTP.
+#: src/Backup/FailureContext/AbstractFailureDisplayDetailsProvider.php:181
+msgid "%s rejected the backup because the path or filename is invalid."
+msgstr "%s wees de back-up af omdat het pad of de bestandsnaam ongeldig is."
+
+#: src/Backup/FailureContext/AbstractFailureDisplayDetailsProvider.php:178
+#: src/Backup/FailureReasonResolver.php:105
+msgid "invalid path or name"
+msgstr "ongeldig pad of naam"
+
+#. translators: %s: storage destination name, e.g. Dropbox, Google Drive, FTP,
+#. SFTP.
+#: src/Backup/FailureContext/AbstractFailureDisplayDetailsProvider.php:164
+msgid "Check the destination configuration for %s and rerun the backup."
+msgstr "Controleer de configuratie van de bestemming voor %s en voer de back-up opnieuw uit."
+
+#. translators: %s: storage destination name, e.g. Dropbox, Google Drive, FTP,
+#. SFTP.
+#: src/Backup/FailureContext/AbstractFailureDisplayDetailsProvider.php:159
+msgid "%s rejected the backup request as invalid."
+msgstr "%s wees de back-up aanvraag af als ongeldig."
+
+#: src/Backup/FailureContext/AbstractFailureDisplayDetailsProvider.php:156
+#: src/Backup/FailureReasonResolver.php:103
+msgid "invalid request"
+msgstr "ongeldige aanvraag"
+
+#. translators: %s: storage destination name, e.g. Dropbox, Google Drive, FTP,
+#. SFTP.
+#: src/Backup/FailureContext/AbstractFailureDisplayDetailsProvider.php:142
+msgid "Review the destination path or filename for %s and rerun the backup."
+msgstr "Beoordeel het doelpad of bestandsnaam voor %s en voer de back-up opnieuw uit."
+
+#. translators: %s: storage destination name, e.g. Dropbox, Google Drive, FTP,
+#. SFTP.
+#: src/Backup/FailureContext/AbstractFailureDisplayDetailsProvider.php:137
+msgid "%s rejected the backup because the target resource is in conflict."
+msgstr "%s wees de back-up af omdat de gegevensbron in conflict is."
+
+#: src/Backup/FailureContext/AbstractFailureDisplayDetailsProvider.php:134
+#: src/Backup/FailureReasonResolver.php:101
+msgid "conflict"
+msgstr "conflict"
+
+#. translators: %s: storage destination name, e.g. Dropbox, Google Drive, FTP,
+#. SFTP.
+#: src/Backup/FailureContext/AbstractFailureDisplayDetailsProvider.php:120
+msgid "Check the configured destination path or folder for %s and rerun the backup."
+msgstr "Controleer het geconfigureerde bestemming pad of de map voor %s en voer de back-up opnieuw uit."
+
+#. translators: %s: storage destination name, e.g. Dropbox, Google Drive, FTP,
+#. SFTP.
+#: src/Backup/FailureContext/AbstractFailureDisplayDetailsProvider.php:115
+msgid "The target file or folder could not be found on %s."
+msgstr "Het doelbestand of map kon niet worden gevonden op %s."
+
+#: src/Backup/FailureContext/AbstractFailureDisplayDetailsProvider.php:112
+#: src/Backup/FailureReasonResolver.php:99
+msgid "path not found"
+msgstr "pad niet gevonden"
+
+#. translators: %s: storage destination name, e.g. Dropbox, Google Drive, FTP,
+#. SFTP.
+#: src/Backup/FailureContext/AbstractFailureDisplayDetailsProvider.php:98
+msgid "Check that the connected account can create folders and upload files to %s, then rerun the backup."
+msgstr "Controleer of het verbonden account mappen en bestanden kan maken naar %s en voer de back-up opnieuw uit."
+
+#. translators: %s: storage destination name, e.g. Dropbox, Google Drive, FTP,
+#. SFTP.
+#: src/Backup/FailureContext/AbstractFailureDisplayDetailsProvider.php:93
+msgid "%s rejected the backup because permissions are insufficient."
+msgstr "%s wees de back-up af omdat de machtigingen onvoldoende zijn."
+
+#: src/Backup/FailureContext/AbstractFailureDisplayDetailsProvider.php:90
+#: src/Backup/FailureReasonResolver.php:121
+msgid "permission denied"
+msgstr "rechten geweigerd"
+
+#. translators: %s: storage destination name, e.g. Dropbox, Google Drive, FTP,
+#. SFTP.
+#: src/Backup/FailureContext/AbstractFailureDisplayDetailsProvider.php:76
+msgid "Free up space or increase the storage quota for %s, then rerun the backup."
+msgstr "Ruimte vrij of verhoog de opslagquota voor %s en voer de back-up opnieuw uit maken."
+
+#. translators: %s: storage destination name, e.g. Dropbox, Google Drive, FTP,
+#. SFTP.
+#: src/Backup/FailureContext/AbstractFailureDisplayDetailsProvider.php:71
+msgid "%s does not have enough free space for this backup."
+msgstr "%s heeft onvoldoende vrije ruimte voor deze back-up."
+
+#. translators: %s: storage destination name, e.g. Dropbox, Google Drive, FTP,
+#. SFTP.
+#: src/Backup/FailureContext/AbstractFailureDisplayDetailsProvider.php:54
+msgid "Check the connection settings for %s, reconnect it if needed, and rerun the backup."
+msgstr "Controleer de verbinding instellingen voor %s, reconnect het indien nodig en voer de back-up opnieuw uit."
+
+#. translators: %s: storage destination name, e.g. Dropbox, Google Drive, FTP,
+#. SFTP.
+#: src/Backup/FailureContext/AbstractFailureDisplayDetailsProvider.php:49
+msgid "%s authentication failed (credentials rejected)."
+msgstr "%s authenticatie mislukt (referenties afgewezen)."
+
+#: parts/sidebar/sugar-sync-parts/root-folder.php:47
+msgid "Could not connect to SugarSync. Please re-authenticate."
+msgstr "Kon niet verbinden met SugarSync. Authenticeer opnieuw."
+
+#: parts/sidebar/storages.php:75
+msgid "Unlock more storage options"
+msgstr "Ontgrendel meer opslagopties"
+
+#: parts/sidebar/settings-logs.php:93
+msgid "Because of <code>WP_DEBUG</code> is active, automatic disabling is inactive!"
+msgstr "Omdat <code>WP_DEBUG</code> Actief is, is automatische uitschakeling inactief!"
+
+#. translators: %1$d: number of backups with debug log active, %2$s: WP_DEBUG
+#. is enabled text.
+#: parts/sidebar/settings-logs.php:91
+msgid "Debug logging provides detailed information for troubleshooting. Use with caution as it may contain sensitive data. It will automatically be disabled after <strong>%1$d</strong> backups. %2$s"
+msgstr "Foutopsporing biedt gedetailleerde informatie voor probleemoplossing. Gebruik met voorzichtigheid omdat het gevoelige gegevens kan bevatten. Het wordt automatisch uitgeschakeld na <strong>%1$d</strong> Back-ups. %2$s"
+
+#: parts/modal/delete-failed-backup.php:37
+msgid "This removes the aborted entry from the backup history. Any partial backup file will also be deleted."
+msgstr "Dit verwijdert de afgebroken invoer uit de back-up geschiedenis. Elk gedeeltelijk back-upbestand wordt ook verwijderd."
+
+#: parts/modal/delete-failed-backup.php:25
+msgid "Delete Aborted Backup Entry"
+msgstr "Verwijderen van afgebroken back-up invoer"
+
+#: parts/modal/backup-log.php:156
+msgid "Aborted Backup"
+msgstr "Afgebroken back-up"
+
+#: parts/alerts/backup-success-nudge.php:35
+msgid "Don't risk losing it—store your backup safely in the cloud and restore anytime."
+msgstr "Riskeer niet dat je hem verliest - Sla je back-up veilig op in de cloud en zet hem op elk moment terug."
+
+#: parts/alerts/backup-success-nudge.php:32
+msgid "Backup completed successfully!"
+msgstr "Back-up succesvol afgerond!"
+
+#. translators: %d: HTTP status code.
+#: inc/class-page-settings.php:1421
+msgid "Unexpected HTTP status code \"%d\" while testing authentication."
+msgstr "Onverwacht HTTP statuscode \"%d\" tijdens het testen van authenticatie."
+
+#: inc/class-page-settings.php:1416
+msgid "The Basic Auth username or password is incorrect."
+msgstr "De Basic Auth gebruikersnaam of het wachtwoord is incorrect."
+
+#. translators: %s: Error message.
+#: inc/class-page-settings.php:1410
+msgid "Error testing authentication: $s"
+msgstr "Fout bij het testen van authenticatie: $s"
+
+#. translators: %s: folder name.
+#: inc/class-job.php:2485
+msgid "After restart on folder: %s"
+msgstr "Na opnieuw opstarten in de map: %s"
+
+#. translators: %d: number of runs before debug log mode will be set to normal.
+#: inc/class-job.php:1332
+msgid "Resetting log level from debug to normal mode after %d more executions."
+msgstr "Log niveau wordt gereset van debug naar normale modus na %d extra uitvoeringen."
+
+#: inc/class-job.php:1326
+msgid "Resetting log level from debug to normal mode."
+msgstr "Log niveau wordt gereset van debug naar normale modus."
+
+#. translators: %s: backup file and path.
+#: inc/class-job.php:794
+msgid "[INFO] Backup file is located at: %s"
+msgstr "[INFORMATIE] Back-up bestand is gelegen op: %s"
+
+#: inc/class-destination-dropbox.php:328
+msgid "Dropbox free space could not be determined from the quota response."
+msgstr "Gratis ruimte van Dropbox kon niet worden bepaald uit de quota reactie."
+
+#. translators: %s: encoded Dropbox 409 error payload.
+#: inc/class-destination-dropbox-api.php:1200
+msgid "Dropbox API 409 payload: %s"
+msgstr "Payload voor Dropbox API 409: %s"
+
+#: inc/class-destination-dropbox-api.php:1189
+msgid "Dropbox API 409 payload could not be encoded for debug logging."
+msgstr "Payload voor Dropbox API 409 kon niet worden gecodeerd voor foutopsporing."
+
+#: components/table-row-backups.php:44
+msgid "SFTP"
+msgstr "SFTP"
+
+#: components/table-row-backups-empty.php:10
+msgid "Backups created will be listed here."
+msgstr "Gemaakte back-ups worden hier vermeld."
+
+#: components/restore/upgrade-banner.php:64 parts/sidebar/storages.php:85
+#: views/notice/notice_upgrade_to_pro.php:65
+msgid "Upgrade to PRO"
+msgstr "Upgrade naar PRO"
+
+#: components/restore/upgrade-banner.php:53
+msgid "No manual uploads needed."
+msgstr "Geen handmatige uploads nodig."
+
+#: components/restore/upgrade-banner.php:50
+msgid "Restore backups directly with 1 click"
+msgstr "Zet back-ups direct terug met 1 klik"
+
+#: views/notice/wordpress.php:10
+msgid "<a href=\"https://backwpup.com/support/?utm_source=backwpup_plugin&utm_medium=plugin&utm_campaign=in_product&utm_content=get_support\" target=\"_blank\">Contact our support team here</a> if any questions remain."
+msgstr "<a href=\"https://backwpup.com/support/?utm_source=backwpup_plugin&utm_medium=plugin&utm_campaign=in_product&utm_content=get_support\" target=\"_blank\">Neem contact op met ons ondersteuningsteam hier</a> Als er nog vragen zijn."
+
+#: src/Jobs/API/Rest.php:704
+msgid "The selected archive format is not available on this server."
+msgstr "Het geselecteerde archief format is niet beschikbaar op deze server."
+
+#. translators: %d: job id.
+#: src/Backups/History/Frontend/API/Rest.php:341
+msgid "Unknown job"
+msgstr "Onbekende taak"
+
+#. translators: %d: job id.
+#: src/Backups/History/Frontend/API/Rest.php:341
+msgid "Job #%d"
+msgstr "Taak #%d"
+
+#: src/Backups/API/Rest.php:507
+msgid "Failed to delete backup entry."
+msgstr "Kan back-up invoer niet verwijderen."
+
+#: src/Backups/API/Rest.php:501
+msgid "Invalid failed backup entry."
+msgstr "Ongeldige mislukte back-up vermelding."
+
+#. translators: %s is used for the backup ID
+#: src/Backup/Database.php:251
+msgid "Backup record with ID %s not found in database, skipping status update."
+msgstr "Back-up record met ID %s niet gevonden in database, statusupdate wordt overgeslagen."
+
+#: src/Admin/Chatbot/Chatbot.php:51 src/Admin/Chatbot/Chatbot.php:67
+#: views/chatbot/button.php:12
+msgid "Get Help"
+msgstr "Krijg hulp"
+
+#. translators: %s: archive format (e.g. .zip)
+#: parts/sidebar/settings-jobs.php:26
+msgid "The default archive format \"%s\" is no longer available on this server. .tar will be used instead."
+msgstr "Het standaard archief format \"%s\" is niet langer beschikbaar op deze server. .tar zal in plaats daarvan worden gebruikt."
+
+#: parts/sidebar/parts/archive-format-selector.php:45
+msgid "Only one archive format is available on this server."
+msgstr "Slechts één archief format is beschikbaar op deze server."
+
+#: parts/modal/delete-failed-backup.php:49
+msgid "Delete Entry"
+msgstr "Invoer verwijderen"
+
+#: parts/modal/delete-failed-backup.php:38
+msgid "This removes the failed entry from the backup history. No backup files will be deleted."
+msgstr "Dit verwijdert de mislukte invoer uit de back-upgeschiedenis. Er worden geen back-upbestanden verwijderd."
+
+#: parts/modal/delete-failed-backup.php:25
+msgid "Delete Failed Backup Entry"
+msgstr "Verwijderen van mislukte back-up invoer"
+
+#: parts/modal/bulk-delete-backups.php:27
+msgid "Delete Backups"
+msgstr "Back-ups verwijderen"
+
+#: parts/modal/bulk-delete-backups.php:10
+msgid "Bulk Delete Backups"
+msgstr "Meerdere back-ups verwijderen"
+
+#: parts/modal/backup-log.php:203
+msgid "Log content is not available for this backup."
+msgstr "Log inhoud is niet beschikbaar voor deze back-up."
+
+#: parts/modal/backup-log.php:198
+msgid "Showing the last 200 lines of the log."
+msgstr "De laatste 200 regels van de log worden weergegeven."
+
+#: parts/modal/backup-log.php:188
+msgid "Log details"
+msgstr "Log details"
+
+#: parts/modal/backup-log.php:156
+msgid "Failed Backup Details"
+msgstr "Mislukte back-up details"
+
+#: parts/modal/backup-log.php:36 parts/modal/backup-log.php:96
+msgid "Backup failed"
+msgstr "Back-up mislukt"
+
+#. translators: %s: failure reason.
+#: parts/modal/backup-log.php:99
+msgid "Backup failed – %s"
+msgstr "Back-up mislukt - %s"
+
+#: parts/modal/backup-log.php:23
+msgid "You are not allowed to view logs for this backup."
+msgstr "Je hebt geen toestemming om de logs voor deze back-up te bekijken."
+
+#: parts/modal/backup-log.php:17 parts/modal/backup-log.php:156
+msgid "Backup Log"
+msgstr "Back-ups loggen"
+
+#: inc/class-page-logs.php:275
+msgid "Failed"
+msgstr "Mislukt"
+
+#: inc/class-page-about.php:724 inc/class-page-settings.php:78
+#: inc/class-page-settings.php:1244
+msgid "https://backwpup.com/?utm_source=backwpup_plugin&utm_medium=plugin&utm_campaign=in_product&utm_content=upgrade_cta_plugin"
+msgstr "https://backwpup.com/?utm_source=backwpup_plugin&utm_medium=plugin&utm_campaign=in_product&utm_content=upgrade_cta_plugin"
+
+#: inc/class-page-about.php:353 inc/class-page-about.php:388
+msgid "https://backwpup.com/?utm_source=backwpup_plugin&utm_medium=plugin&utm_campaign=in_product&utm_content=pro_banner"
+msgstr "https://backwpup.com/?utm_source=backwpup_plugin&utm_medium=plugin&utm_campaign=in_product&utm_content=pro_banner"
+
+#: inc/class-mysqldump.php:770
+msgid "Database connection lost while reading table data."
+msgstr "Verbinding met database verloren tijdens het lezen van tabelgegevens."
+
+#: inc/class-mysqldump.php:342
+msgid "Database backup requires a mysqli connection."
+msgstr "Database back-up vereist een mysqli verbinding."
+
+#: inc/class-jobtypes.php:133
+msgid "Files & Database"
+msgstr "Bestanden en database"
+
+#. translators: 1: Archive format extension, 2: Filter name.
+#: inc/class-job.php:503
+msgid "Archive format \"%1$s\" is not allowed and was changed to .tar. Use the %2$s filter to control available formats."
+msgstr "Archief format \"%1$s\" is niet toegestaan en is gewijzigd in .tar. Gebruik de %2$s filter om beschikbare formaten te controleren."
+
+#: inc/class-destination-dropbox.php:535
+msgid "You do not have enough space in your Dropbox."
+msgstr "Je hebt niet genoeg ruimte in je Dropbox."
+
+#: inc/class-destination-dropbox.php:520
+msgid "Dropbox API: Upload failed."
+msgstr "Dropbox API: upload mislukt."
+
+#. translators: %s: WordPress version number.
+#: inc/class-admin.php:1011
+msgid "WordPress version %s"
+msgstr "WordPress versie %s"
+
+#. translators: %s: BackWPup website URL.
+#: inc/class-admin.php:966
+msgid "<a class=\"backwpup-get-pro\" href=\"%s\" target=\"_blank\">Get BackWPup Pro now.</a>"
+msgstr "<a class=\"backwpup-get-pro\" href=\"%s\" target=\"_blank\">Krijg nu BackWPup Pro.</a>"
+
+#. translators: 1: archive format (e.g. .zip), 2: job name
+#: inc/class-admin.php:198
+msgid "The archive format \"%1$s\" configured for job \"%2$s\" is no longer available. .tar will be used instead."
+msgstr "Het archief format \"%1$s\" dat is geconfigureerd voor taak \"%2$s\" is niet langer beschikbaar. .tar zal in plaats daarvan worden gebruikt."
+
+#: components/table-row-backups.php:95 components/table-row-backups.php:283
+#: components/table-row-backups.php:321
+msgid "View log"
+msgstr "Log bekijken"
+
+#. translators: %s: storage label.
+#: components/table-row-backups.php:75
+msgid "%s backup failed"
+msgstr "%s back-up mislukt"
+
+#. translators: 1: storage label. 2: failure reason.
+#: components/table-row-backups.php:72
+msgid "%1$s backup failed – %2$s"
+msgstr "%1$s back-up mislukt - %2$s"
+
+#: parts/modal/backup-log.php:40
+#: src/Backup/FailureContext/AbstractFailureDisplayDetailsProvider.php:46
+#: src/Backup/FailureReasonResolver.php:97
+msgid "incorrect login"
+msgstr "incorrecte login"
+
+#: parts/modal/backup-log.php:39
+#: src/Backup/FailureContext/AbstractFailureDisplayDetailsProvider.php:68
+#: src/Backup/FailureReasonResolver.php:95
+msgid "not enough storage"
+msgstr "niet genoeg opslagruimte"
 
 #. translators: 1: line break tag, 2: <strong> opening tag, 3: </strong>
 #. closing tag.
@@ -21,20 +847,20 @@ msgstr "Om Pro functies te ontgrendelen en updates te ontvangen, moet je je lice
 msgid "Select All"
 msgstr "Alles selecteren"
 
-#: inc/class-job.php:1378
+#: inc/class-job.php:1601
 msgid "Backup aborted!"
 msgstr "Back-up afgebroken!"
 
-#: inc/class-destination-dropbox-api.php:1201
+#: inc/class-destination-dropbox-api.php:1295
 msgid "Cannot read file contents."
 msgstr "Kan inhoud van bestand niet lezen."
 
-#: inc/class-destination-dropbox-api.php:1194
+#: inc/class-destination-dropbox-api.php:1288
 msgid "File system could not be initialized."
 msgstr "Bestandssysteem kon niet worden geïnitialiseerd."
 
 #. translators: %s: File name added to the archive.
-#: inc/class-create-archive.php:417
+#: inc/class-create-archive.php:495
 msgid "Cannot read \"%s\" for zip archive!"
 msgstr "Kan \"%s\" niet lezen voor zip archief!"
 
@@ -62,15 +888,15 @@ msgstr "Hoe je deze back-up wil terugzetten selecteren. Beschikbare opties zijn 
 msgid "Files Only"
 msgstr "Alleen bestanden"
 
-#: views/rating/rating.php:46
+#: views/rating/rating.php:50
 msgid "Remind me later"
 msgstr "Herinner mij later"
 
-#: views/rating/rating.php:43
+#: views/rating/rating.php:47
 msgid "Leave a review"
 msgstr "Laat een beoordeling achter"
 
-#: views/rating/rating.php:28
+#: views/rating/rating.php:32
 msgid "Dismiss this notice."
 msgstr "Dit bericht negeren."
 
@@ -81,49 +907,9 @@ msgstr "Kan niet verbinden met MySQL database (%1$d: %2$s)"
 
 #. translators: %s is the name of the service that doesn't exist in the
 #. container.
-#: src/Infrastructure/Restore/commons.php:284
+#: src/Infrastructure/Restore/commons.php:377
 msgid "Invalid data request for container. %s doesn't exist in the container"
 msgstr "Ongeldige aanvraag voor gegevens voor container. %s bestaat niet in de container"
-
-#. Translators: %s is the service name.
-#: src/Dependencies/League/Container/ServiceProvider/ServiceProviderAggregate.php:62
-msgid "(%s) is not provided by a service provider"
-msgstr "(%s) wordt niet geleverd door een dienstprovider"
-
-#. Translators: %s is the alias of the class that cannot be instantiated.
-#: src/Dependencies/League/Container/ReflectionContainer.php:54
-msgid "Alias (%s) has a non-public constructor and therefore cannot be instantiated"
-msgstr "Alias (%s) heeft een niet-openbare constructor en kan daarom niet worden geïnstantieerd"
-
-#. Translators: %s is the alias of the class that cannot be resolved.
-#: src/Dependencies/League/Container/ReflectionContainer.php:44
-msgid "Alias (%s) is not an existing class and therefore cannot be resolved"
-msgstr "Alias (%s) is geen bestaande klasse en kan daarom niet worden opgelost"
-
-#. translators: %s is the alias of the definition that cannot be found.
-#: src/Dependencies/League/Container/Definition/DefinitionAggregate.php:79
-msgid "Alias (%s) is not being handled as a definition."
-msgstr "Alias (%s) wordt niet behandeld als een definitie."
-
-#. translators: %s is the alias of the definition that cannot be resolved.
-#: src/Dependencies/League/Container/Container.php:211
-msgid "Alias (%s) is not being managed by the container or delegates"
-msgstr "Alias (%s) wordt niet beheerd door de container of delegates"
-
-#. translators: %s is the alias of the service that was not found.
-#: src/Dependencies/League/Container/Container.php:197
-msgid "Service provider lied about providing (%s) service"
-msgstr "Dienstverlener loog over het leveren van (%s) dienst"
-
-#. Translators: %s is the alias of the definition that cannot be extended.
-#: src/Dependencies/League/Container/Container.php:99
-msgid "Unable to extend alias (%s) as it is not being managed as a definition"
-msgstr "Kan alias (%s) niet uitbreiden omdat deze niet als definitie wordt beheerd"
-
-#. translators: 1: parameter name, 2: function/method name.
-#: src/Dependencies/League/Container/Argument/ArgumentResolverTrait.php:102
-msgid "Unable to resolve a value for parameter (%1$s) in the function/method (%2$s)"
-msgstr "Kan geen waarde oplossen voor parameter (%1$s) in de functie/methode (%2$s)"
 
 #: src/Admin/Rating/RatingNoticeMessageProvider.php:46
 msgid "We hope BackWPup has been a valuable tool in managing your WordPress backups. If you've found our plugin helpful, please take a moment to leave a review. Your feedback helps us improve and serve you better!"
@@ -163,7 +949,7 @@ msgid "%1$sAll set!%2$s Automatic backups are now saved and scheduled for your w
 msgstr "%1$sAlles is ingesteld!%2$s Automatische back-ups worden nu opgeslagen en ingepland voor je site. ✅"
 
 #. translators: 1: <a> opening tag, 2: </a> closing tag.
-#: src/Admin/Notices/LicenseNoticeFactory.php:147
+#: src/Admin/Notices/LicenseNoticeFactory.php:152
 msgid "%1$sRenew your subscription%2$s to continue receiving updates and Pro features."
 msgstr "%1$sVerleng je abonnement%2$s om updates en Pro functies te blijven ontvangen."
 
@@ -245,7 +1031,7 @@ msgstr "Kan de locatie van de template %s in de template functie niet vinden."
 msgid "Invalid or malformed file path %s: for template function."
 msgstr "Ongeldig of onjuist bestandspad %s: voor template functie."
 
-#: inc/class-page-editjob.php:523
+#: inc/class-page-editjob.php:530
 msgid "Note:"
 msgstr "Let op:"
 
@@ -258,16 +1044,16 @@ msgid "Premium support"
 msgstr "Premium ondersteuning"
 
 #. translators: %s: database identifier.
-#: inc/class-mysqldump.php:1056
+#: inc/class-mysqldump.php:1090
 msgid "Invalid database identifier \"%s\"."
 msgstr "Ongeldige database identifier \"%s\"."
 
 #. translators: %s: table name.
-#: inc/class-mysqldump.php:1035
+#: inc/class-mysqldump.php:1069
 msgid "Invalid table name \"%s\"."
 msgstr "Ongeldige tabelnaam \"%s\"."
 
-#: inc/class-mysqldump.php:330
+#: inc/class-mysqldump.php:329
 #: src/Infrastructure/Restore/WpdbDatabaseType.php:52
 msgid "Unknown database error"
 msgstr "Onbekende fout in database"
@@ -277,7 +1063,7 @@ msgstr "Onbekende fout in database"
 msgid "XML ERROR (%1$s): %2$s"
 msgstr "XML FOUT (%1$s): %2$s"
 
-#: inc/class-job.php:951
+#: inc/class-job.php:1011
 msgid "Cannot initialize WP Filesystem. Job will be aborted."
 msgstr "Kan WP bestandssysteem niet initialiseren. Taak wordt afgebroken."
 
@@ -291,38 +1077,38 @@ msgstr "De gegeven string is versleuteld met een aangepaste sleutel, maar de con
 msgid "Give string was encrypted using %s but it is not currently supported in this system."
 msgstr "De gegeven string is versleuteld met %s , maar dat wordt nu niet ondersteund in dit systeem."
 
-#: inc/class-destination-sugarsync-api.php:218
+#: inc/class-destination-sugarsync-api.php:223
 msgid "Failed to create SugarSync account."
 msgstr "Mislukt bij het maken van SugarSync account."
 
 #. translators: %1$s: HTTP status code, %2$s: HTTP response message.
-#: inc/class-destination-sugarsync-api.php:133
+#: inc/class-destination-sugarsync-api.php:137
 msgid "SugarSync error: (%1$s) %2$s"
 msgstr "SugarSync fout: (%1$s) %2$s"
 
 #. translators: %1$s: HTTP response error message.
-#: inc/class-destination-sugarsync-api.php:113
+#: inc/class-destination-sugarsync-api.php:117
 msgid "SugarSync error: %1$s"
 msgstr "Fout in SugarSync: %1$s"
 
 #. translators: %s: FTP error message.
-#: inc/class-destination-ftp.php:300
+#: inc/class-destination-ftp.php:320
 msgid "FTP server error: %s"
 msgstr "Fout in FTP server: %s"
 
-#: inc/class-destination-ftp.php:211
+#: inc/class-destination-ftp.php:226
 msgid "Backup not correctly transferred to FTP server! Filesize not match."
 msgstr "Back-up niet correct overgebracht naar FTP server! Bestandsgrootte komt niet overeen."
 
-#: inc/class-destination-ftp.php:192
+#: inc/class-destination-ftp.php:207
 msgid "Looks like the FTP Server do not support upload files in chunks. Try to upload it at once without restarts."
 msgstr "Het lijkt erop dat de FTP-server het uploaden van bestanden in brokken niet ondersteunt. Probeer het in één keer te uploaden zonder opnieuw op te starten."
 
-#: inc/class-destination-ftp-type-ftp.php:482
+#: inc/class-destination-ftp-type-ftp.php:535
 msgid "FTP server response: Failed to download file."
 msgstr "FTP-server reactie: kan het bestand niet downloaden."
 
-#: inc/class-destination-ftp-type-ftp.php:272
+#: inc/class-destination-ftp-type-ftp.php:326
 msgid "FTP server response: Failed to upload file."
 msgstr "FTP-server reactie: kan het bestand niet uploaden."
 
@@ -337,12 +1123,12 @@ msgid "Connected to FTP server: %1$s:%2$d"
 msgstr "Verbonden met FTP server: %1$s:%2$d"
 
 #. translators: %s = File name.
-#: inc/class-destination-dropbox-api.php:173
-#: inc/class-destination-dropbox-api.php:209
+#: inc/class-destination-dropbox-api.php:183
+#: inc/class-destination-dropbox-api.php:219
 msgid "Error: File \"%s\" is not readable or doesn't exist."
 msgstr "Fout: bestand \"%s\" is niet leesbaar of bestaat niet."
 
-#: inc/class-destination-dropbox-api.php:118
+#: inc/class-destination-dropbox-api.php:127
 msgid "No App key or App Secret specified."
 msgstr "Er is geen sleutel of geheim opgegeven."
 
@@ -351,11 +1137,11 @@ msgstr "Er is geen sleutel of geheim opgegeven."
 msgid "No way to instantiate class %s. Class doesn't exist."
 msgstr "Geen manier om de klasse %ste instantiëren. Klasse bestaat niet."
 
-#: inc/class-admin.php:751 inc/class-admin.php:752
+#: inc/class-admin.php:780 inc/class-admin.php:781
 msgid "Restore backup"
 msgstr "Back-up terugzetten"
 
-#: components/table-row-backups.php:20
+#: components/table-row-backups.php:85
 msgid "Link"
 msgstr "Link"
 
@@ -368,22 +1154,17 @@ msgstr "Wanneer maak je automatisch je back-up? %1$s*%2$s"
 msgid "Chatbot URL not configured yet."
 msgstr "Chatbot URL is nog niet geconfigureerd."
 
-#: src/Admin/Chatbot/Chatbot.php:48 src/Admin/Chatbot/Chatbot.php:64
-#: views/chatbot/button.php:12
-msgid "Contact Support"
-msgstr "Neem contact op met ondersteuning"
-
 #: src/Admin/Chatbot/API/ChatbotRest.php:150
 msgid "Context not found or expired."
 msgstr "Context niet gevonden of verlopen."
 
 #. translators: %s = site option name.
-#: src/Jobs/API/Rest.php:804
+#: src/Jobs/API/Rest.php:811
 msgid "Invalid data format for site option \"%s\"."
 msgstr "Ongeldig gegevensformat voor site optie \"%s\"."
 
 #. translators: %s = site option name.
-#: src/Jobs/API/Rest.php:800
+#: src/Jobs/API/Rest.php:807
 msgid "Update of site option with name is \"%s\" not allowed!"
 msgstr "Updaten of site optie met naam is \"%s\" niet toegestaan!"
 
@@ -397,7 +1178,7 @@ msgid "Cloud Files endpoint not found for region \"%s\". Please check your regio
 msgstr "Cloud Files endpoint niet gevonden voor regio \"%s\". Controleer je regio-instelling."
 
 #. translators: 1: <strong> opening tag, 2: </strong> closing tag.
-#: src/Admin/Notices/LicenseNoticeFactory.php:141
+#: src/Admin/Notices/LicenseNoticeFactory.php:146
 msgid "⚠️ %1$sYour BackWPup Pro Plan Has Expired%2$s"
 msgstr "⚠️ %1$sJe BackWPup Pro abonnement is verlopen%2$s"
 
@@ -411,40 +1192,40 @@ msgstr "Je betaalmethode is verouderd. Update het om je Pro functies terug te ze
 msgid "⚠️ %1$sAction Required – %2$sUpdate Your Payment Method%3$s%4$s"
 msgstr "⚠️ %1$sActie vereist – %2$sWijzig je betaalmethode%3$s%4$s"
 
-#: src/Admin/Frontend/Subscriber.php:101
+#: src/Admin/Frontend/Subscriber.php:156 src/Admin/Notices/Subscriber.php:132
 msgid "Security check failed."
 msgstr "Beveiligingscontrole mislukt."
 
-#: src/Admin/Beacon/Beacon.php:68
+#: src/Admin/Beacon/Beacon.php:70
 msgid "Contact BackWPup support"
 msgstr "Neem contact op met BackWPup ondersteuning"
 
-#: src/Admin/Beacon/Beacon.php:60 src/Admin/Beacon/Beacon.php:64
+#: src/Admin/Beacon/Beacon.php:62 src/Admin/Beacon/Beacon.php:66
 msgid "Manage your BackWPup license"
 msgstr "Beheer je BackWPup licentie"
 
 #: parts/sidebar/storage-DROPBOX.php:95 parts/sidebar/storage-FOLDER.php:82
 #: parts/sidebar/storage-FTP.php:262 parts/sidebar/storage-MSAZURE.php:164
 #: parts/sidebar/storage-RSC.php:212 parts/sidebar/storage-S3.php:356
-#: parts/sidebar/storage-SUGARSYNC.php:84
+#: parts/sidebar/storage-SUGARSYNC.php:83
 msgid "Limits the number of stored backups. When exceeded, the oldest backup is removed. Setting this to 0 keeps unlimited backups and may increase storage usage."
 msgstr "Beperkt het aantal opgeslagen back-ups. Wanneer dit wordt overschreden, wordt de oudste back-up verwijderd. Deze instelling op 0 houden bewaart onbeperkt back-ups en kan het opslaggebruik verhogen."
 
 #. translators: %s: Job name.
-#: src/Backups/API/Rest.php:293
+#: src/Backups/API/Rest.php:328
 msgid "Job \"%s\" executed."
 msgstr "Taak \"%s\" uitgevoerd."
 
-#: src/Backups/API/Rest.php:270
+#: src/Backups/API/Rest.php:305
 msgid "The backup process could not be started! Please try to contact our support."
 msgstr "Het back-upproces kon niet worden gestart! Probeer contact op te nemen met onze ondersteuning."
 
-#: src/Backups/API/Rest.php:257
+#: src/Backups/API/Rest.php:292
 msgid "WP-Cron does not seem to be working properly, because it has not run in the last hour. Please check your server settings."
 msgstr "WP-Cron lijkt niet goed te werken, want het heeft het afgelopen uur niet gedraaid. Controleer je server instellingen."
 
 #. translators: %s: Job name.
-#: src/Backups/API/Rest.php:244
+#: src/Abilities/Jobs/RunJob.php:320 src/Backups/API/Rest.php:279
 msgid "No backup destination available for \"%s\" or properly configured!"
 msgstr "Geen back-up bestemming beschikbaar voor \"%s\" of goed geconfigureerd!"
 
@@ -456,20 +1237,16 @@ msgstr "Gebruik de bovenstaande link om deze back-up te activeren. De link blijf
 msgid "Custom"
 msgstr "Aangepast"
 
-#: inc/class-job.php:1928
-msgid "Run aborted because no PID given!"
-msgstr "Uitvoeren afgebroken omdat er geen PID is opgegeven!"
-
-#: inc/class-job.php:1919
+#: inc/class-job.php:2190
 msgid "Backup can't be started because it is not created!"
 msgstr "Back-up kan niet worden gestart omdat hij niet is gemaakt!"
 
-#: inc/class-job.php:249
+#: inc/class-job.php:275
 msgid "Can`t write a file to temporary folder"
 msgstr "Kan geen bestand naar tijdelijke map schrijven"
 
 #. translators: %s = job id.
-#: inc/class-job.php:228
+#: inc/class-job.php:254
 msgid "Job with ID %s not exists"
 msgstr "Taken met ID %s bestaan niet"
 
@@ -634,17 +1411,17 @@ msgstr "Het negeren van --ouder-dan omdat er een <file> argument werd gegeven."
 msgid "Ignoring --all because a <file> argument was provided."
 msgstr "Negeren --alles omdat er een <file> argument werd gegeven."
 
-#: src/Cli/Commands/JobActivate.php:136
+#: src/Cli/Commands/JobActivate.php:135
 msgid "No jobs found!"
 msgstr "Geen taken gevonden!"
 
 #. translators: %1$d: Job ID. %2$s: Active type.
-#: src/Cli/Commands/JobActivate.php:132
+#: src/Cli/Commands/JobActivate.php:131
 msgid "Job with ID %1$d changed to active type %2$s"
 msgstr "Taak met ID %1$d gewijzigd in actief type %2$s"
 
 #. translators: %1$d: Job ID.
-#: src/Cli/Commands/JobActivate.php:128
+#: src/Cli/Commands/JobActivate.php:127
 msgid "Job with ID %1$d deactivated"
 msgstr "Taak met ID %1$d gedeactiveerd"
 
@@ -694,7 +1471,7 @@ msgstr "Back-up bestand %1$s verwijderen op %2$s?"
 
 #. translators: %1$s: link tag to backwpup.com, %2$s: closing link tag, %3$s:
 #. link tag to wp-cli.org.
-#: parts/sidebar/frequency.php:209
+#: parts/sidebar/frequency.php:210
 msgid "Use %1$sWP-CLI%2$s to run backups from the command line."
 msgstr "Gebruik %1$sWP-CLI%2$s om back-ups uit te voeren vanaf de opdrachtregel."
 
@@ -707,12 +1484,12 @@ msgid "Triggered by link"
 msgstr "Getriggerd door link"
 
 #. translators: %s = job name.
-#: inc/class-job.php:375
+#: inc/class-job.php:401
 msgid "Start of job \"%s\" forbidden!"
 msgstr "Start van taak \"%s\" verboden!"
 
 #. translators: %s: backup file path.
-#: inc/class-destination-folder.php:78
+#: inc/class-destination-folder.php:79
 msgid "Could not delete backup archive \"%s\", check permissions!"
 msgstr "Kon back-uparchief \"%s\" niet verwijderen, controleer rechten!"
 
@@ -750,19 +1527,19 @@ msgstr "Kinsta limiet bereikt: slechts één databaseback-up elke 7 dagen. Volge
 msgid "Kinsta limit reached: one full site backup every 30 days. Next available: %s"
 msgstr "Kinsta limiet bereikt: één volledige siteback-up elke 30 dagen. Volgende beschikbaar: %s"
 
-#: inc/class-page-settings.php:279
+#: inc/class-page-settings.php:280
 msgid "Yes"
 msgstr "Ja"
 
-#: inc/class-page-settings.php:281
+#: inc/class-page-settings.php:282
 msgid "No"
 msgstr "Nee"
 
-#: inc/class-page-settings.php:278
+#: inc/class-page-settings.php:279
 msgid "WP Cron is working"
 msgstr "WP Cron werkt"
 
-#: inc/class-admin.php:284
+#: inc/class-admin.php:336
 msgid "Debug Information"
 msgstr "Foutopsporingsinformatie"
 
@@ -851,11 +1628,11 @@ msgstr "Authenticatie mislukt met HTTP %1$s %2$s "
 msgid "Authentication request failed: %s "
 msgstr "Authenticatie aanvraag mislukt %s "
 
-#: parts/sidebar/settings-jobs.php:139
+#: parts/sidebar/settings-jobs.php:159
 msgid "With this option, you will receive beta updates of the BackWPUp plugin. Beta versions might be unstable and their use is discouraged on production websites."
 msgstr "Met deze optie ontvang je beta updates van de BackWPUp plugin. Bètaversies kunnen onstabiel zijn en het gebruik ervan wordt afgeraden op productiesites."
 
-#: parts/sidebar/settings-jobs.php:138
+#: parts/sidebar/settings-jobs.php:158
 msgid "Receive beta updates"
 msgstr "Bèta updates ontvangen"
 
@@ -887,27 +1664,23 @@ msgstr "Chunk download mislukt met status: "
 msgid "Chunk download failed: "
 msgstr "Chunk download mislukt: "
 
-#: src/Jobs/API/Rest.php:705
+#: src/Jobs/API/Rest.php:712
 msgid "The archive name must be shorter then 200 chars."
 msgstr "De naam van het archief moet korter zijn dan 200 karakters."
 
-#: src/Jobs/API/Rest.php:701
+#: src/Jobs/API/Rest.php:708
 msgid "The hash must be defined in archive name."
 msgstr "De hash moet worden gedefinieerd in de naam van het archief."
 
-#: src/Jobs/API/Rest.php:697
-msgid "Invalid job archive format."
-msgstr "Ongeldig format van taakarchief."
-
-#: src/Jobs/API/Rest.php:693
+#: src/Jobs/API/Rest.php:700
 msgid "Invalid parameter(s): archiveformat"
 msgstr "Ongeldige parameter(s): archiefformat"
 
-#: src/Jobs/API/Rest.php:689
+#: src/Jobs/API/Rest.php:696
 msgid "Invalid parameter(s): job_id"
 msgstr "Ongeldige parameter(s): job_id"
 
-#: src/Beta/Subscriber.php:111
+#: src/Beta/Subscriber.php:114
 msgid "This update is a beta version."
 msgstr "Deze update is een bètaversie."
 
@@ -916,36 +1689,36 @@ msgstr "Deze update is een bètaversie."
 msgid "You can now set the archive format and name for each backup for better flexibility and more control. We've also added opt-in beta release among other improvements. Check out our %1$sblog post%2$s to learn more and see what’s coming next for BackWPup!"
 msgstr "Je kunt nu voor elke back-up het format en de naam van het archief instellen voor meer flexibiliteit en controle. We hebben ook opt-in beta release toegevoegd naast andere verbeteringen. Bekijk onze %1$sblog bericht%2$s om verder te lezen en te zien wat de volgende stap is voor BackWPup!"
 
-#: parts/sidebar/settings-jobs.php:75
+#: parts/sidebar/settings-jobs.php:95
 msgid "Default Archive format"
 msgstr "Standaard archief format"
 
-#: parts/sidebar/parts/archive-format-selector.php:31
+#: parts/sidebar/parts/archive-format-selector.php:58
 msgid "ZIP format may increase server load (higher CUP & RAM usage) during backup."
 msgstr "ZIP format kan de belasting van de server verhogen (hoger CUP & RAM gebruik) tijdens de back-up."
 
-#: parts/sidebar/parts/archive-format-selector.php:21
+#: parts/sidebar/parts/archive-format-selector.php:16
 msgid "ZIP (.zip)"
 msgstr "ZIP (.zip)"
 
-#: parts/sidebar/parts/archive-format-selector.php:20
+#: parts/sidebar/parts/archive-format-selector.php:15
 msgid "TAR GZIP (.tar.gz)"
 msgstr "TAR GZIP (.tar.gz)"
 
-#: parts/sidebar/parts/archive-format-selector.php:19
+#: parts/sidebar/parts/archive-format-selector.php:14
 msgid "TAR (.tar)"
 msgstr "TAR (.tar)"
 
-#: parts/sidebar/format.php:77
+#: parts/sidebar/format.php:94
 msgid "What do these placeholders mean?"
 msgstr "Wat betekenen deze plaatshouders?"
 
-#: parts/sidebar/format.php:71
+#: parts/sidebar/format.php:88
 msgid "Archive name preview:"
 msgstr "Voorbeeld van archiefnaam:"
 
 #. translators: %hash%: Archive name hash placeholder.
-#: parts/sidebar/format.php:53
+#: parts/sidebar/format.php:54
 msgid "In order for backup history to work, %hash% must be included anywhere in the archive name."
 msgstr "Om de back-upgeschiedenis te laten werken, moet %hash% ergens in de naam van het archief worden opgenomen."
 
@@ -953,7 +1726,7 @@ msgstr "Om de back-upgeschiedenis te laten werken, moet %hash% ergens in de naam
 msgid "Job Format Settings"
 msgstr "Instellingen voor job format"
 
-#: components/job-item.php:226
+#: components/job-item.php:227
 msgid "Format"
 msgstr "Format"
 
@@ -962,12 +1735,12 @@ msgid "Include in backup"
 msgstr "Opnemen in back-up"
 
 #. translators: %s: Directory path.
-#: inc/class-jobtype-file.php:403
+#: inc/class-jobtype-file.php:425
 msgid "\"%s\" is not a folder and will be ignored"
 msgstr "\"%s\" is geen map en wordt genegeerd"
 
 #. translators: %s: Directory path.
-#: inc/class-jobtype-file.php:399
+#: inc/class-jobtype-file.php:421
 msgid "Added \"%s\" folder to backup"
 msgstr "Map \"%s\" toegevoegd aan back-up"
 
@@ -975,36 +1748,36 @@ msgstr "Map \"%s\" toegevoegd aan back-up"
 msgid "Help Us Improve BackWPup!"
 msgstr "Help ons BackWPup te verbeteren!"
 
-#: src/Tracking/Tracking.php:362
+#: src/Tracking/Tracking.php:348
 msgid "Missing opt-in value"
 msgstr "Ontbrekende opt-in waarde"
 
 #. translators: %1$s = strong opening tag, %2$s = strong closing tag.
-#: src/Tracking/Notices.php:91
+#: src/Tracking/Notices.php:95
 msgid "📈 %1$sHelp Us Improve BackWPup! %2$s"
 msgstr "📈 %1$sHelp ons BackWPup te verbeteren! %2$s"
 
-#: src/Tracking/Notices.php:81 views/notice/notice_tracking_opt_in.php:19
+#: src/Tracking/Notices.php:85 views/notice/notice_tracking_opt_in.php:19
 msgid "You can change this setting at any time in the plugin settings."
 msgstr "Je kunt deze instelling op elk moment wijzigen in de instellingen van de plugin."
 
-#: src/Tracking/Notices.php:80 views/notice/notice_tracking_opt_in.php:17
+#: src/Tracking/Notices.php:84 views/notice/notice_tracking_opt_in.php:17
 msgid "No, thanks."
 msgstr "Nee, bedankt."
 
-#: src/Tracking/Notices.php:79 views/notice/notice_tracking_opt_in.php:16
+#: src/Tracking/Notices.php:83 views/notice/notice_tracking_opt_in.php:16
 msgid "Yes, help improve BackWPup!"
 msgstr "Ja, help BackWPup te verbeteren!"
 
-#: src/Tracking/Notices.php:78 views/notice/notice_tracking_opt_in.php:13
+#: src/Tracking/Notices.php:82 views/notice/notice_tracking_opt_in.php:13
 msgid "Why: To understand what works, fix bugs faster, and prioritize new features."
 msgstr "Waarom: om te begrijpen wat werkt, bugs sneller op te lossen en prioriteit te geven aan nieuwe functies."
 
-#: src/Tracking/Notices.php:77 views/notice/notice_tracking_opt_in.php:12
+#: src/Tracking/Notices.php:81 views/notice/notice_tracking_opt_in.php:12
 msgid "What we track: Only features usage, onboarding, errors, & environment info."
 msgstr "Wat we volgen: alleen uitgelichte functies, onboarding, fouten, & omgevingsinfo."
 
-#: src/Tracking/Notices.php:76 views/notice/notice_tracking_opt_in.php:9
+#: src/Tracking/Notices.php:80 views/notice/notice_tracking_opt_in.php:9
 msgid "Can we collect anonymous data to make BackWPup better?"
 msgstr "Kunnen we anonieme gegevens verzamelen om BackWPup beter te maken?"
 
@@ -1014,11 +1787,11 @@ msgid "📣 %1$sBackWPup 5.5 is here! %2$s"
 msgstr "📣 %1$sBackWPup 5.5 is hier! %2$s"
 
 #. translators: 1: Opening anchor tag. 2: Closing anchor tag.
-#: parts/sidebar/settings-jobs.php:124
+#: parts/sidebar/settings-jobs.php:144
 msgid "By checking this box, I agree to share anonymous usage data with the BackWPup development team to help improve the plugin. %1$sWhat info will we collect?%2$s"
 msgstr "Door dit vakje aan te vinken, ga ik akkoord met het delen van anonieme gebruiksgegevens met het BackWPup ontwikkelingsteam om de plugin te helpen verbeteren. %1$sWelke info verzamelen we? %2$s"
 
-#: parts/sidebar/settings-jobs.php:121
+#: parts/sidebar/settings-jobs.php:141
 msgid "BackWPUp analytics"
 msgstr "BackWPUp analyse"
 
@@ -1035,7 +1808,7 @@ msgstr "De update van de plugin is gelukt, maar we zijn een onverwacht probleem 
 msgid "Your data is corrupted"
 msgstr "Je gegevens zijn beschadigd"
 
-#: src/Admin/Beacon/Beacon.php:56
+#: src/Admin/Beacon/Beacon.php:58
 msgid "BackWPup 5.5 is here!"
 msgstr "BackWPup 5.5 is er!"
 
@@ -1056,7 +1829,7 @@ msgstr "GDrive: geen verversen token ontvangen. Probeer opnieuw te authenticeren
 msgid "GDrive: Authenticated."
 msgstr "GDrive: geauthenticeerd."
 
-#: src/Jobs/API/Rest.php:412
+#: src/Jobs/API/Rest.php:413
 msgid "First job not found"
 msgstr "Eerste baan niet gevonden"
 
@@ -1068,7 +1841,7 @@ msgstr "Je kunt kiezen wat je wilt opslaan in je back-up"
 msgid "Data Settings"
 msgstr "Gegevens instellingen"
 
-#: components/job-item.php:93
+#: components/job-item.php:92
 msgid "Edit title"
 msgstr "Titel bewerken"
 
@@ -1088,24 +1861,24 @@ msgstr "Je kunt nu de standaard site server als opslagbestemming deselecteren. W
 msgid "BackWPup 5.2.2 is here!"
 msgstr "BackWPup 5.2.2 is hier!"
 
-#: src/StorageProviders/API/Rest.php:351
+#: src/StorageProviders/API/Rest.php:365
 msgid "At least one storage is required for a job to run"
 msgstr "Er is ten minste één opslag vereist om een taak uit te voeren"
 
-#: src/StorageProviders/API/Rest.php:330
+#: src/StorageProviders/API/Rest.php:344
 msgid "Job id not set"
 msgstr "Taak ID niet ingesteld"
 
-#: src/StorageProviders/API/Rest.php:326
+#: src/StorageProviders/API/Rest.php:340
 msgid "Storage not found"
 msgstr "Opslag niet gevonden"
 
-#: src/StorageProviders/API/Rest.php:320
+#: src/StorageProviders/API/Rest.php:334
 msgid "Storage not set"
 msgstr "Opslag niet ingesteld"
 
 #. translators: %s is the error message.
-#: inc/class-destination-dropbox.php:110
+#: inc/class-destination-dropbox.php:113
 msgid "Failed to revoke Dropbox token: %s"
 msgstr "Dropbox token niet ingetrokken: %s"
 
@@ -1134,7 +1907,7 @@ msgstr "Je back-up wordt gemaakt met de gegevens en de opslaglocatie die je hebt
 msgid "Backup now: "
 msgstr "Nu een back-up maken: "
 
-#: components/job-item.php:155
+#: components/job-item.php:156
 msgid "Backup now"
 msgstr "Nu een back-up maken"
 
@@ -1165,23 +1938,23 @@ msgstr "Activeer met link"
 msgid "Activate with CRON"
 msgstr "Activeren met cron"
 
-#: parts/sidebar/settings-jobs.php:149
+#: parts/sidebar/settings-jobs.php:169
 msgid "Access to Legacy Jobs"
 msgstr "Toegang tot verouderde taken"
 
-#: inc/class-page-jobs.php:1298
+#: inc/class-page-jobs.php:1318
 msgid "Filter"
 msgstr "Filteren"
 
-#: inc/class-page-jobs.php:1294
+#: inc/class-page-jobs.php:1314
 msgid "Disabled"
 msgstr "Uitgeschakeld"
 
-#: inc/class-page-jobs.php:1292
+#: inc/class-page-jobs.php:1312
 msgid "All Statuses"
 msgstr "Alle statussen"
 
-#: inc/class-page-jobs.php:1289
+#: inc/class-page-jobs.php:1309
 msgid "Filter by Status"
 msgstr "Filteren op status"
 
@@ -1195,11 +1968,11 @@ msgid "No Legacy Jobs."
 msgstr "Geen oude banen."
 
 #. translators: 1: Cron schedule. 2: Next scheduled run.
-#: inc/class-job.php:650
+#: inc/class-job.php:686
 msgid "[INFO] Cron: %1$s; Next: %2$s "
 msgstr "[INFO] Cron: %1$s; volgende: %2$s "
 
-#: inc/class-admin.php:544 inc/class-admin.php:545
+#: inc/class-admin.php:573 inc/class-admin.php:574
 msgid "Legacy Jobs"
 msgstr "Banen uit het verleden"
 
@@ -1233,27 +2006,27 @@ msgstr "Titel bewerken"
 msgid "Backup all your files and database in one click. <br />Your backup will be stored on your website’s server and you will be able to download it on your computer."
 msgstr "Back-up al je bestanden en database met één klik. <br />Je back-up wordt opgeslagen op de server van je site en je kunt het downloaden op je computer."
 
-#: src/Jobs/API/Rest.php:572
+#: src/Jobs/API/Rest.php:578
 msgid "Failed to delete job"
 msgstr "Verwijderen van taak mislukt"
 
-#: src/Jobs/API/Rest.php:557
+#: src/Jobs/API/Rest.php:563
 msgid "Job deleted successfully."
 msgstr "Taak succesvol verwijderd."
 
-#: src/Jobs/API/Rest.php:478
+#: src/Jobs/API/Rest.php:483
 msgid "Job title updated successfully."
 msgstr "Taaktitel succesvol geüpdatet."
 
-#: src/Jobs/API/Rest.php:541
+#: src/Jobs/API/Rest.php:547
 msgid "You scheduled a new backup successfully!<br>Now you can configure it as you wish."
 msgstr "Je hebt succesvol een nieuwe back-up gepland!<br>Nu kun je het configureren zoals je wilt."
 
-#: src/Backups/History/Frontend/API/Rest.php:217
+#: src/Backups/History/Frontend/API/Rest.php:250
 msgid "Scheduled"
 msgstr "Gepland"
 
-#: components/storage-list-compact.php:30
+#: components/storage-list-compact.php:29 components/table-row-backups.php:46
 msgid "Website Server"
 msgstr "Site server"
 
@@ -1269,11 +2042,11 @@ msgstr "Site opslag"
 msgid "Add a new backup"
 msgstr "Een nieuwe back-up toevoegen"
 
-#: components/job-item.php:208
+#: components/job-item.php:209
 msgid "Storage"
 msgstr "Opslag"
 
-#: src/Jobs/API/Rest.php:655 src/Jobs/API/Rest.php:712
+#: src/Jobs/API/Rest.php:662 src/Jobs/API/Rest.php:719
 msgid "Job settings saved successfully."
 msgstr "Taak instellingen succesvol opgeslagen."
 
@@ -1303,7 +2076,7 @@ msgstr "Back-up gemaakt in %s seconden."
 msgid "Hourly"
 msgstr "Elk uur"
 
-#: parts/sidebar/format.php:64
+#: parts/sidebar/format.php:81
 msgid "Archive format"
 msgstr "Archief format"
 
@@ -1323,7 +2096,7 @@ msgstr "1e maandag van de maand"
 msgid "Start day"
 msgstr "Start dag"
 
-#: src/StorageProviders/API/Rest.php:294
+#: src/StorageProviders/API/Rest.php:308
 msgid "Connection failed"
 msgstr "Verbinding mislukt"
 
@@ -1331,11 +2104,11 @@ msgstr "Verbinding mislukt"
 msgid "More info."
 msgstr "Meer info."
 
-#: src/Admin/Beacon/Beacon.php:52
+#: src/Admin/Beacon/Beacon.php:54
 msgid "Welcome to BackWPup 5.4!"
 msgstr "Welkom bij BackWPup 5.4!"
 
-#: parts/sidebar/sugar-sync-parts/root-folder.php:29
+#: parts/sidebar/sugar-sync-parts/root-folder.php:30
 msgid "Sugar Sync Root"
 msgstr "Sugar synchronisatie root"
 
@@ -1351,11 +2124,11 @@ msgstr "Authenticeren met SugarSync"
 msgid "Email Address"
 msgstr "E-mailadres"
 
-#: parts/sidebar/storages.php:48
+#: parts/sidebar/storages.php:51
 msgid "You can select where to store your backups and configure each storage."
 msgstr "Je kunt selecteren waar je je back-ups wilt opslaan en elke opslag configureren."
 
-#: parts/sidebar/storages.php:20
+#: parts/sidebar/storages.php:22
 msgid "Storages Settings"
 msgstr "Instellingen opslag"
 
@@ -1466,20 +2239,20 @@ msgstr "Map instellingen"
 #: parts/sidebar/storage-DROPBOX.php:106 parts/sidebar/storage-FOLDER.php:93
 #: parts/sidebar/storage-FTP.php:288 parts/sidebar/storage-MSAZURE.php:175
 #: parts/sidebar/storage-RSC.php:226 parts/sidebar/storage-S3.php:419
-#: parts/sidebar/storage-SUGARSYNC.php:96
+#: parts/sidebar/storage-SUGARSYNC.php:95
 msgid "Save & Test connection"
 msgstr "Opslaan & verbinding testen"
 
 #: parts/sidebar/storage-DROPBOX.php:86 parts/sidebar/storage-FOLDER.php:73
 #: parts/sidebar/storage-FTP.php:250 parts/sidebar/storage-MSAZURE.php:155
 #: parts/sidebar/storage-RSC.php:200 parts/sidebar/storage-S3.php:344
-#: parts/sidebar/storage-SUGARSYNC.php:77
+#: parts/sidebar/storage-SUGARSYNC.php:76
 msgid "Max backups to retain"
 msgstr "Maximaal te bewaren back-ups"
 
 #: parts/sidebar/storage-DROPBOX.php:59 parts/sidebar/storage-FOLDER.php:50
 #: parts/sidebar/storage-FTP.php:221 parts/sidebar/storage-MSAZURE.php:132
-#: parts/sidebar/storage-RSC.php:171 parts/sidebar/storage-SUGARSYNC.php:56
+#: parts/sidebar/storage-RSC.php:171 parts/sidebar/storage-SUGARSYNC.php:55
 msgid "Backup Settings"
 msgstr "Back-up instellingen"
 
@@ -1494,84 +2267,84 @@ msgstr "Terug naar opslag"
 msgid "Dropbox Settings"
 msgstr "Instellingen Dropbox"
 
-#: parts/sidebar/settings-network.php:72
+#: parts/sidebar/settings-network.php:76
 msgid "If you protected your blog with HTTP basic authentication (.htaccess), or you use a plugin to secure wp-cron.php, then use the authentication methods above."
 msgstr "Is je blog beveiligd met HTTP basis authenticatie (.htaccess)? Of gebruik je een plugin om wp-cron.php te beveiligen? Gebruik dan de authenticatie methodes hier onder."
 
-#: parts/sidebar/settings-network.php:46
+#: parts/sidebar/settings-network.php:50
 msgid "Authentication for"
 msgstr "Authenticatie voor"
 
-#: parts/sidebar/settings-network.php:20
+#: parts/sidebar/settings-network.php:24
 msgid "Network Settings"
 msgstr "Instellingen netwerk"
 
-#: parts/sidebar/settings-logs.php:122
+#: parts/sidebar/settings-logs.php:143
 msgid "Access to Logs"
 msgstr "Toegang tot logs"
 
-#: parts/sidebar/settings-logs.php:112
+#: parts/sidebar/settings-logs.php:133
 msgid "Send email with log only when errors occur during job execution"
 msgstr "Verzend e-mail met log alleen als er fouten optreden tijdens het uitvoeren van de taak"
 
-#: parts/sidebar/settings-logs.php:104
+#: parts/sidebar/settings-logs.php:125
 msgid "Email from field"
 msgstr "E-mail uit het veld"
 
-#: parts/sidebar/settings-logs.php:84
+#: parts/sidebar/settings-logs.php:105
 msgid "Log notification"
 msgstr "Log melding"
 
-#: parts/sidebar/settings-logs.php:67
+#: parts/sidebar/settings-logs.php:72
 msgid "Logging level"
 msgstr "Logging niveau"
 
-#: parts/sidebar/settings-logs.php:57
+#: parts/sidebar/settings-logs.php:61
 msgid "Maximum log files in folder"
 msgstr "Maximale logbestanden in map"
 
-#: parts/sidebar/settings-logs.php:37
+#: parts/sidebar/settings-logs.php:41
 msgid "Logs settings"
 msgstr "Logs instellingen"
 
-#: parts/sidebar/settings-logs.php:9
+#: parts/sidebar/settings-logs.php:13
 msgid "Logs Settings"
 msgstr "Logs instellingen"
 
-#: parts/sidebar/settings-jobs.php:112
+#: parts/sidebar/settings-jobs.php:132
 msgid "This ensures the backup will run smoothly on IIS without errors."
 msgstr "Dit zorgt ervoor dat de back-up soepel zonder fouten wordt uitgevoerd op IIS."
 
-#: parts/sidebar/settings-jobs.php:111
+#: parts/sidebar/settings-jobs.php:131
 msgid "Enable compatibility with IIS on Windows"
 msgstr "Compatibiliteit met IIS op Windows inschakelen"
 
-#: parts/sidebar/settings-jobs.php:102
+#: parts/sidebar/settings-jobs.php:122
 msgid "Allow the backup to complete successfully even if the backup results in an empty output (i.e., no files or data are backed up)"
 msgstr "De back-up met succes laten voltooien, zelfs als de back-up resulteert in een lege uitvoer (d.w.z. dat er geen bestanden of gegevens zijn geback-upt)"
 
-#: parts/sidebar/settings-jobs.php:101
+#: parts/sidebar/settings-jobs.php:121
 msgid "Enable an empty output on backup working"
 msgstr "Schakel een lege uitvoer in bij het werken aan een back-up"
 
-#: parts/sidebar/settings-jobs.php:64
+#: parts/sidebar/settings-jobs.php:84
 msgid "Key to start a job externally with an URL"
 msgstr "Sleutel om een opdracht extern te starten met een URL"
 
-#: parts/sidebar/settings-jobs.php:55
+#: parts/sidebar/settings-jobs.php:75
 msgid "Job will restart before hitting maximum execution time. Restarts will be disabled on CLI usage. if <strong>ALTERNATE_WP_CRON</strong> has been defined, WordPress Cron will be used for restarts, so it can take a while. 0 means no maximum."
 msgstr "Taken worden opnieuw gestart voordat de maximale uitvoeringstijd is bereikt. Herstarten wordt uitgeschakeld bij CLI-gebruik. Als <strong>ALTERNATE_WP_CRON</strong> is gedefinieerd, wordt WordPress cron gebruikt voor herstarts, dus het kan even duren. 0 betekent geen maximum."
 
-#: parts/sidebar/settings-jobs.php:51
+#: parts/sidebar/settings-jobs.php:71
 msgid "Maximum number script execution time (in seconds)"
 msgstr "Maximale scriptuitvoeringstijd (in seconden)"
 
-#: parts/sidebar/settings-jobs.php:19 parts/sidebar/settings-logs.php:18
-#: parts/sidebar/settings-network.php:29
+#: parts/sidebar/settings-jobs.php:39 parts/sidebar/settings-logs.php:22
+#: parts/sidebar/settings-network.php:33
 msgid "Back to Advanced Settings"
 msgstr "Terug naar geavanceerde instellingen"
 
-#: parts/sidebar/settings-jobs.php:9
+#: parts/sidebar/settings-jobs.php:13
 msgid "Jobs Settings"
 msgstr "Instellingen voor vacatures"
 
@@ -1611,7 +2384,7 @@ msgstr "Bestanden uitsluiten"
 msgid "Add folders, files or extensions you want to exclude"
 msgstr "Voeg mappen, bestanden of extensies toe die je wilt uitsluiten"
 
-#: parts/sidebar/format.php:97 parts/sidebar/frequency.php:220
+#: parts/sidebar/format.php:114 parts/sidebar/frequency.php:221
 #: parts/sidebar/select-files.php:70 parts/sidebar/select-tables.php:138
 msgid "Save settings"
 msgstr "Instellingen opslaan"
@@ -1652,7 +2425,7 @@ msgstr "Dropbox verificatiecode toevoegen"
 msgid "Not authenticated"
 msgstr "Niet geverifieerd"
 
-#: parts/sidebar/advanced-settings.php:9
+#: parts/sidebar/advanced-settings.php:13
 msgid "Advanced Settings"
 msgstr "Geavanceerde instellingen"
 
@@ -1752,8 +2525,8 @@ msgstr "Anderen in root"
 #: parts/modal/exclude-files-themes.php:42
 #: parts/modal/exclude-files-uploads.php:53
 #: parts/modal/exclude-files-wp-content.php:42 parts/sidebar/edit-title.php:47
-#: parts/sidebar/settings-jobs.php:164 parts/sidebar/settings-logs.php:137
-#: parts/sidebar/settings-network.php:113
+#: parts/sidebar/settings-jobs.php:184 parts/sidebar/settings-logs.php:158
+#: parts/sidebar/settings-network.php:117
 msgid "Save"
 msgstr "Opslaan"
 
@@ -1782,15 +2555,16 @@ msgstr "Voor een goede werking van de plugin is het essentieel om het authentica
 msgid "Please complete the authentication to continue."
 msgstr "Voltooi de authenticatie om verder te gaan."
 
-#: parts/modal/delete-backup.php:35 parts/modal/restore-backup.php:35
+#: parts/modal/bulk-delete-backups.php:37 parts/modal/delete-backup.php:35
+#: parts/modal/delete-failed-backup.php:64 parts/modal/restore-backup.php:35
 msgid "Cancel"
 msgstr "Annuleren"
 
-#: parts/modal/delete-backup.php:18
+#: parts/modal/bulk-delete-backups.php:19 parts/modal/delete-backup.php:18
 msgid "This means you will lose the ability to restore your site to the state captured in this backup."
 msgstr "Dit betekent dat je de mogelijkheid verliest om je site terug te zetten naar de staat die is vastgelegd in deze back-up."
 
-#: parts/modal/delete-backup.php:17
+#: parts/modal/bulk-delete-backups.php:18 parts/modal/delete-backup.php:17
 msgid "Deleting a backup is permanent and cannot be undone."
 msgstr "Het verwijderen van een back-up is permanent en kan niet ongedaan worden gemaakt."
 
@@ -1810,19 +2584,19 @@ msgstr "Back-up wordt opgeslagen op:"
 msgid "Next Scheduled Backups"
 msgstr "Volgende geplande back-ups"
 
-#: parts/backup/upgrade.php:34
+#: parts/backup/upgrade.php:35
 msgid "Get BackWPup Pro now"
 msgstr "Verkrijg nu BackWPup PRO"
 
-#: parts/backup/upgrade.php:26
+#: parts/backup/upgrade.php:27
 msgid "See all features"
 msgstr "Alle functies bekijken"
 
-#: parts/backup/upgrade.php:14
+#: parts/backup/upgrade.php:15
 msgid "Give your website data the protection it deserves with BackWPup Pro."
 msgstr "Geef je site de bescherming die het verdient met BackWPup Pro."
 
-#: parts/backup/upgrade.php:10
+#: parts/backup/upgrade.php:11
 msgid "Upgrade to a Complete BackWPup Experience!"
 msgstr "Upgrade naar een complete backWPup ervaring!"
 
@@ -1876,19 +2650,19 @@ msgstr "Ga naar mijn back-ups"
 msgid "We are creating a backup of your site…"
 msgstr "We maken een back-up van je site…"
 
-#: pages/backups.php:96
+#: pages/backups.php:94
 msgid "Apply"
 msgstr "Toepassen"
 
-#: pages/backups.php:88
+#: pages/backups.php:86
 msgid "Delete permanently"
 msgstr "Permanent verwijderen"
 
-#: pages/backups.php:83
+#: pages/backups.php:81
 msgid "Bulk Actions"
 msgstr "Bulkacties"
 
-#: pages/backups.php:62
+#: pages/backups.php:67
 msgid "Backups History"
 msgstr "Back-ups geschiedenis"
 
@@ -1900,90 +2674,90 @@ msgstr "Verkeerd type blok ingesteld."
 msgid "No block name set."
 msgstr "Geen bloknaam ingesteld."
 
-#: src/Jobs/API/Rest.php:745
+#: src/Jobs/API/Rest.php:752
 msgid "File exclusions saved successfully."
 msgstr "Bestandsuitsluitingen succesvol opgeslagen."
 
-#: src/Jobs/API/Rest.php:773
+#: src/Jobs/API/Rest.php:780
 msgid "Excluded tables saved successfully."
 msgstr "Uitgesloten tabellen met succesvol opgeslagen."
 
-#: src/Backups/API/Rest.php:416
+#: src/Backups/API/Rest.php:459
 msgid "Invalid destination class."
 msgstr "Ongeldige klasse van bestemming."
 
-#: src/Backups/API/Rest.php:406
+#: src/Backups/API/Rest.php:449
 msgid "Missing required parameters."
 msgstr "Ontbrekende vereiste parameter."
 
-#: src/Backups/API/Rest.php:397
+#: src/Backups/API/Rest.php:440
 msgid "Invalid backup data."
 msgstr "Ongeldige back-upgegevens."
 
-#: src/Backups/API/Rest.php:381
+#: src/Backups/API/Rest.php:424
 msgid "Bulk action processed."
 msgstr "Bulkactie verwerkt."
 
-#: src/Jobs/API/Rest.php:815
+#: src/Jobs/API/Rest.php:822
 msgid "Site option saved successfully."
 msgstr "Site optie succesvol opgeslagen."
 
-#: src/StorageProviders/API/Rest.php:296 src/StorageProviders/API/Rest.php:356
+#: src/StorageProviders/API/Rest.php:310 src/StorageProviders/API/Rest.php:370
 msgid "Connection successful"
 msgstr "Verbinding succesvol"
 
 #: src/Backups/Onboarding/Onboarding.php:130
-#: src/StorageProviders/API/Rest.php:273
+#: src/StorageProviders/API/Rest.php:287
 msgid "Cloud not found"
 msgstr "Cloud niet gevonden"
 
-#: src/StorageProviders/API/Rest.php:269
+#: src/StorageProviders/API/Rest.php:283
 msgid "Cloud not set"
 msgstr "Cloud niet ingesteld"
 
-#: src/Jobs/API/Rest.php:419
+#: src/Jobs/API/Rest.php:420
 msgid "Backup updated."
 msgstr "Back-up geüpdatet."
 
-#: src/StorageProviders/API/Rest.php:279
+#: src/StorageProviders/API/Rest.php:293
 msgid "Files job not found"
 msgstr "Bestanden taak niet gevonden"
 
-#: components/job-item.php:16 src/Jobs/API/Rest.php:393
+#: components/job-item.php:16 src/Jobs/API/Rest.php:394
 msgid "No backup scheduled"
 msgstr "Geen back-up gepland"
 
-#: src/Backups/History/Frontend/API/Rest.php:283
+#: src/Backups/History/Frontend/API/Rest.php:458
 msgid "No pagination found."
 msgstr "Geen paginering gevonden."
 
-#: src/Backups/History/Frontend/API/Rest.php:235
-msgid "No backups found."
-msgstr "Geen back-ups gevonden."
+#: components/table-row-backups-empty.php:9
+msgid "No backup was found."
+msgstr "Geen back-up gevonden."
 
-#: inc/Utils/BackWPupHelpers.php:178 inc/Utils/BackWPupHelpers.php:192
+#: inc/Utils/BackWPupHelpers.php:198 inc/Utils/BackWPupHelpers.php:212
 #: parts/modal/restore-backup.php:9
 msgid "Restore Backup"
 msgstr "Back-up terugzetten"
 
-#: src/StorageProviders/SugarSync/SugarSyncProvider.php:123
+#: src/StorageProviders/SugarSync/SugarSyncProvider.php:149
 msgid "No password set."
 msgstr "Geen wachtwoord ingesteld."
 
-#: src/StorageProviders/SugarSync/SugarSyncProvider.php:120
+#: src/StorageProviders/SugarSync/SugarSyncProvider.php:146
 msgid "No email set."
 msgstr "Geen e-mail ingesteld."
 
-#: src/StorageProviders/API/Rest.php:163 src/StorageProviders/API/Rest.php:200
-#: src/StorageProviders/API/Rest.php:237
+#: src/StorageProviders/API/Rest.php:177 src/StorageProviders/API/Rest.php:214
+#: src/StorageProviders/API/Rest.php:251
 msgid "No cloud name set."
 msgstr "Geen cloud naam ingesteld."
 
-#: src/StorageProviders/API/Rest.php:157
+#: src/StorageProviders/API/Rest.php:171
 #: src/StorageProviders/Dropbox/DropboxProvider.php:95
 #: src/StorageProviders/Frontend/API/Rest.php:81
 #: src/StorageProviders/HiDrive/HiDriveProvider.php:87
-#: src/StorageProviders/SugarSync/SugarSyncProvider.php:150
+#: src/StorageProviders/SugarSync/SugarSyncProvider.php:176
 msgid "No backup jobs set."
 msgstr "Geen back-uptaken ingesteld."
 
@@ -1991,23 +2765,24 @@ msgstr "Geen back-uptaken ingesteld."
 msgid "Accessing your logs"
 msgstr "Je logs openen"
 
-#: inc/class-admin.php:664 inc/class-admin.php:665
+#: inc/class-admin.php:693 inc/class-admin.php:694
 msgid "Onboarding"
 msgstr "Onboarding"
 
-#: inc/class-admin.php:521 inc/class-admin.php:522
+#: inc/class-admin.php:550 inc/class-admin.php:551
 msgid "First Backup"
 msgstr "Eerste back-up"
 
-#: inc/class-admin.php:485 inc/class-admin.php:486
+#: inc/class-admin.php:514 inc/class-admin.php:515
+#: parts/alerts/backup-success-nudge.php:46
 msgid "Upgrade to Pro"
 msgstr "Upgraden naar pro"
 
-#: inc/class-admin.php:470 inc/class-admin.php:471
+#: inc/class-admin.php:499 inc/class-admin.php:500
 msgid "Docs"
 msgstr "Documentatie"
 
-#: inc/class-admin.php:415
+#: inc/class-admin.php:444
 msgid "View details"
 msgstr "Bekijk details"
 
@@ -2015,12 +2790,13 @@ msgstr "Bekijk details"
 msgid "Actions"
 msgstr "Acties"
 
-#: components/job-item.php:170 components/table-backups.php:24
-#: components/table-row-backups.php:95
+#: components/job-item.php:171 components/table-backups.php:24
+#: components/table-row-backups.php:236
 msgid "Data"
 msgstr "Gegevens"
 
-#: components/table-backups.php:23 components/table-row-backups.php:85
+#: components/table-backups.php:23 components/table-row-backups.php:200
+#: components/table-row-backups.php:226
 msgid "Stored on"
 msgstr "Opgeslagen op"
 
@@ -2028,7 +2804,7 @@ msgstr "Opgeslagen op"
 msgid "Created at"
 msgstr "Gemaakt op"
 
-#: components/storage-list-compact.php:48
+#: components/storage-list-compact.php:52
 msgid "Warning: No storage method is configured. Your backup will not work!"
 msgstr "Waarschuwing: er is geen opslagmethode geconfigureerd. Je back-up werkt niet!"
 
@@ -2036,7 +2812,8 @@ msgstr "Waarschuwing: er is geen opslagmethode geconfigureerd. Je back-up werkt 
 msgid "Include your WordPress database in the backup"
 msgstr "Je WordPress database opnemen in de back-up"
 
-#: components/selector-file-db.php:72 components/table-row-backups.php:106
+#: components/selector-file-db.php:72 components/table-row-backups.php:247
+#: inc/class-jobtypes.php:124
 msgid "Database"
 msgstr "Database"
 
@@ -2048,15 +2825,15 @@ msgstr "Je WordPress bestanden opnemen in de back-up"
 msgid "Display Logs"
 msgstr "Logs weergeven"
 
-#: components/onboarding/step3.php:76
+#: components/onboarding/step3.php:77
 msgid "Back to When"
 msgstr "Terug naar toen"
 
-#: components/onboarding/step3.php:58
+#: components/onboarding/step3.php:59
 msgid "Store your backup on your favorite cloud storage platforms"
 msgstr "Sla je back-up op je favoriete platforms voor cloud opslag op"
 
-#: components/onboarding/step3.php:57
+#: components/onboarding/step3.php:58
 msgid "Cloud Storages"
 msgstr "Opslag in de cloud"
 
@@ -2091,7 +2868,7 @@ msgstr "Wekelijks"
 msgid "Daily"
 msgstr "Dagelijks"
 
-#: components/job-item.php:190 components/onboarding/step2.php:52
+#: components/job-item.php:191 components/onboarding/step2.php:52
 #: components/onboarding/step2.php:93 parts/sidebar/frequency.php:67
 msgid "Frequency"
 msgstr "Frequentie"
@@ -2107,7 +2884,7 @@ msgid "Files backup scheduled"
 msgstr "Bestanden back-up schema"
 
 #: components/onboarding/step1.php:24 components/onboarding/step2.php:126
-#: components/onboarding/step3.php:86
+#: components/onboarding/step3.php:87
 msgid "Save & Continue"
 msgstr "Opslaan & doorgaan"
 
@@ -2272,19 +3049,19 @@ msgstr "Als je je site wilt migreren naar een nieuwe URL, schakel dan hieronder 
 msgid "Website Migration"
 msgstr "Migratie van sites"
 
-#: views/restore/steps/step4_action.php:35
+#: views/restore/steps/step4_action.php:56
 msgid "New URL"
 msgstr "Nieuwe URL"
 
-#: views/restore/steps/step4_action.php:29
+#: views/restore/steps/step4_action.php:44
 msgid "Old URL"
 msgstr "Oude URL"
 
-#: views/restore/steps/step4_action.php:23
+#: views/restore/steps/step4_action.php:30
 msgid "Migrate URL"
 msgstr "URL migreren"
 
-#: views/restore/steps/step4_action.php:17
+#: views/restore/steps/step4_action.php:20
 msgid "Migration Settings"
 msgstr "Instellingen voor migratie"
 
@@ -2330,7 +3107,7 @@ msgstr "Er lijkt een probleem te zijn met het archief. Het is geen archief en oo
 
 #: views/restore/steps/step2_action.php:65
 #: views/restore/steps/step3_action.php:103
-#: views/restore/steps/step4_action.php:44
+#: views/restore/steps/step4_action.php:66
 msgid "Continue"
 msgstr "Doorgaan"
 
@@ -2391,7 +3168,7 @@ msgid "Download Log"
 msgstr "Log downloaden"
 
 #. Translators: $1 is the name of the plugin.
-#: inc/class-page-restore.php:218
+#: inc/class-page-restore.php:235
 msgid "%s &rsaquo; Restore"
 msgstr "%s &rsaquo; Terugzetten"
 
@@ -2481,7 +3258,7 @@ msgstr "Amazon S3: Azië Pacific (Jakarta)"
 msgid "Amazon S3: Africa (Cape Town)"
 msgstr "Amazon S3: Afrika (Cape Town)"
 
-#: inc/class-job.php:2413
+#: inc/class-job.php:2716
 msgid "Could not initialize encryptor."
 msgstr "Kon encryptor niet initialiseren."
 
@@ -2540,7 +3317,7 @@ msgid "URI must not be empty."
 msgstr "URI mag niet leeg zijn."
 
 #. translators: 1: database error message, 2: SQL query.
-#: inc/class-mysqldump.php:368
+#: inc/class-mysqldump.php:373
 msgid "Database error: %1$s. Query: %2$s"
 msgstr "Databasefout: %1$s. Query: %2$s"
 
@@ -2549,57 +3326,57 @@ msgstr "Databasefout: %1$s. Query: %2$s"
 msgid "Cannot set DB charset to %s"
 msgstr "Kan DB-tekenset niet instellen op %s"
 
-#: inc/class-destination-dropbox-api.php:1103
+#: inc/class-destination-dropbox-api.php:1156
 msgid "(429) Requests are being rate limited. Please try again later."
 msgstr "(429) Aanvragen worden beperkt. Probeer het later opnieuw."
 
 #. translators: %s is the response error.
-#: inc/class-destination-dropbox-api.php:1079
+#: inc/class-destination-dropbox-api.php:1131
 msgid "(409) Endpoint-specific error. Response from server: %s"
 msgstr "(409) Eindpunt specifieke fout. Antwoord van server: %s"
 
 #. translators: %s is the response error.
-#: inc/class-destination-dropbox-api.php:1057
+#: inc/class-destination-dropbox-api.php:1095
 msgid "(403) You do not have permission to access this resource. Response from server: %s"
 msgstr "(403) Je hebt geen toestemming om toegang te krijgen tot deze bron. Antwoord van server: %s"
 
-#: inc/class-destination-dropbox-api.php:1045
+#: inc/class-destination-dropbox-api.php:1080
 msgid "(403) You do not have permission to access this feature."
 msgstr "(403) Je hebt geen toestemming om toegang te krijgen tot deze functie."
 
-#: inc/class-destination-dropbox-api.php:1037
+#: inc/class-destination-dropbox-api.php:1069
 msgid "(403) You do not have permission to access this endpoint."
 msgstr "(403) Je hebt geen toestemming om toegang te krijgen tot dit endpoint."
 
 #. translators: %s is the response error.
-#: inc/class-destination-dropbox-api.php:1013
+#: inc/class-destination-dropbox-api.php:1041
 msgid "(401) Bad or expired token. Response from server: %s"
 msgstr "(401) Slecht of verlopen token. Antwoord van server: %s"
 
 #. translators: %s is the response body.
-#: inc/class-destination-dropbox-api.php:989
+#: inc/class-destination-dropbox-api.php:1014
 msgid "(400) Bad input parameter. Response from server: %s"
 msgstr "(400) Slechte invoerparameter. Antwoord van server: %s"
 
 #. translators: %1$d is the error code, %2$s is the response body.
-#: inc/class-destination-dropbox-api.php:968
+#: inc/class-destination-dropbox-api.php:990
 msgid "(%1$d) An unexpected server error was encountered. Response from server: %2$s"
 msgstr "(%1$d) Er is een onverwachte serverfout opgetreden. Antwoord van server: %2$s"
 
 #. translators: %1$s is the error code, %2$s is the response body.
-#: inc/class-destination-dropbox-api.php:944
+#: inc/class-destination-dropbox-api.php:966
 msgid "(%1$s) An unknown error has occurred. Response from server: %2$s"
 msgstr "(%1$s) Er is een onbekende fout opgetreden. Antwoord van server: %2$s"
 
-#: inc/class-destination-dropbox-api.php:362
+#: inc/class-destination-dropbox-api.php:373
 msgid "OAuth tokens have not been set."
 msgstr "OAuth tokens zijn niet ingesteld."
 
-#: inc/class-destination-dropbox-api.php:332
+#: inc/class-destination-dropbox-api.php:343
 msgid "No refresh token provided. You may need to reauthenticate with Dropbox"
 msgstr "Geen vernieuwingstoken opgegeven. Mogelijk moet je opnieuw verifiëren met Dropbox"
 
-#: inc/class-destination-dropbox-api.php:326
+#: inc/class-destination-dropbox-api.php:337
 msgid "No access token provided"
 msgstr "Geen toegangs token verstrekt"
 
@@ -2623,15 +3400,15 @@ msgstr "Back-up maken naar HiDrive"
 msgid "Backup to OneDrive"
 msgstr "Back-up maken naar OneDrive"
 
-#: inc/class-page-editjob.php:543
+#: inc/class-page-editjob.php:550
 msgid "%H = Two-digit hour in 24-hour format, with leading zeros"
 msgstr "%H = Tweecijferig uur in 24-uur format, met voorloopnullen"
 
-#: inc/class-page-editjob.php:542
+#: inc/class-page-editjob.php:549
 msgid "%h = Two-digit hour in 12-hour format, with leading zeros"
 msgstr "%h = Tweecijferig uur in 12-uur format, met voorloopnullen"
 
-#: inc/class-page-editjob.php:533
+#: inc/class-page-editjob.php:540
 msgid "%m = Two-digit representation of the month, with leading zeros"
 msgstr "%m = Tweecijferige weergave van de maand, met voorloopnullen"
 
@@ -2644,13 +3421,9 @@ msgid "BackWPup is dropping support for PHP versions less than 7.4. As such, usi
 msgstr "BackWPup laat de ondersteuning voor PHP versies minder dan 7.4 vallen. Als zodanig kan het gebruik van verouderde en niet-ondersteunde versies van PHP je site blootstellen aan beveiligingsproblemen. Update PHP naar de nieuwste versie. Vraag je hoster als je niet weet hoe."
 
 #. translators: %1$s: Class name, %2$s: Method name.
-#: inc/Notice/NoticeView.php:104
+#: inc/Notice/NoticeView.php:115
 msgid "Call to undefined method %1$s::%2$s()"
 msgstr "Aanroep naar ongedefinieerde methode %1$s::%2$s()"
-
-#: views/notice/wordpress.php:10
-msgid "<a href=\"https://backwpup.com/support/\" target=\"_blank\">Contact our support team here</a> if any questions remain."
-msgstr "<a href=\"https://backwpup.com/support/\" target=\"_blank\">Neem hier contact op met ons ondersteuningsteam</a> als er nog vragen zijn."
 
 #: views/notice/wordpress.php:6
 msgid "BackWPup is dropping support for WordPress versions less than 5.0. Please update WordPress to the latest version. Without an update, you will not receive any new features."
@@ -2684,12 +3457,12 @@ msgstr "Regio"
 msgid "Endpoint"
 msgstr "Endpoint"
 
-#: inc/class-page-settings.php:612 parts/sidebar/advanced-settings.php:57
+#: inc/class-page-settings.php:624 parts/sidebar/advanced-settings.php:62
 msgid "License"
 msgstr "Licentie"
 
 #. translators: %s: Destination string.
-#: inc/class-destination-msazure.php:727
+#: inc/class-destination-msazure.php:732
 msgid "Could not extract job id from destination %s."
 msgstr "Kon taak ID niet extraheren uit bestemming %s."
 
@@ -2702,7 +3475,7 @@ msgstr "Microsoft Azure configuratie: "
 msgid "Could not write data to file %s."
 msgstr "Kan geen gegevens schrijven naar bestand %s."
 
-#: inc/class-install.php:163
+#: inc/class-install.php:164
 msgid "BackWPup jobs functions"
 msgstr "Functies van BackWPup taken"
 
@@ -2751,11 +3524,11 @@ msgstr "Amazon S3: US Oost (N. Virginia)"
 msgid "Custom S3 destination"
 msgstr "Aangepaste S3 bestemming"
 
-#: inc/class-page-settings.php:1225
+#: inc/class-page-settings.php:1237
 msgid "<strong>Note</strong>: Would you like faster, more streamlined support? Pro users can contact BackWPup from right within the plugin."
 msgstr "<strong>Opmerking</strong>: wil je snellere, meer gestroomlijnde ondersteuning? Pro gebruikers kunnen rechtstreeks vanuit de plugin contact opnemen met BackWPup."
 
-#: inc/class-admin.php:355 inc/class-page-settings.php:403
+#: inc/class-admin.php:384 inc/class-page-settings.php:404
 msgid "Please download the key before continuing. If you do not save it locally, you cannot decrypt your backups later."
 msgstr "Download de sleutel voordat je verdergaat. Als je het niet lokaal opslaat, kan je je back-ups later niet decoderen."
 
@@ -2788,7 +3561,7 @@ msgstr "Gebruik je back-up archieven om je volledige WordPress installatie op te
 msgid "BackWPup banner"
 msgstr "BackWPup banner"
 
-#: inc/class-page-editjob.php:528
+#: inc/class-page-editjob.php:535
 msgid "Preview: "
 msgstr "Voorbeeld: "
 
@@ -2811,40 +3584,40 @@ msgstr "Kan gegevens niet naar doelbestand schrijven."
 msgid "Could not read data from source file."
 msgstr "Kan gegevens uit bronbestand niet lezen."
 
-#: inc/class-page-settings.php:605 parts/sidebar/advanced-settings.php:66
+#: inc/class-page-settings.php:617 parts/sidebar/advanced-settings.php:71
 msgid "Encryption"
 msgstr "Versleuteling"
 
-#: inc/class-admin.php:351 inc/class-page-settings.php:399
+#: inc/class-admin.php:380 inc/class-page-settings.php:400
 msgid "Please download the private key before continuing. If you do not save it locally, you cannot decrypt your backups later."
 msgstr "Download de privé sleutel voordat je doorgaat. Als je het niet lokaal opslaat, dan kan je later je back-ups niet decoderen."
 
-#: inc/class-admin.php:345 inc/class-page-settings.php:393
+#: inc/class-admin.php:374 inc/class-page-settings.php:394
 msgid "Public key is invalid."
 msgstr "Openbare sleutel is ongeldig."
 
-#: inc/class-admin.php:344 inc/class-page-settings.php:392
+#: inc/class-admin.php:373 inc/class-page-settings.php:393
 msgid "Public key is valid."
 msgstr "Openbare sleutel is geldig."
 
-#: inc/class-admin.php:346 inc/class-page-settings.php:394
+#: inc/class-admin.php:375 inc/class-page-settings.php:395
 msgid "Please enter your private key."
 msgstr "Voer je private sleutel in."
 
-#: inc/class-admin.php:347 inc/class-page-settings.php:395
+#: inc/class-admin.php:376 inc/class-page-settings.php:396
 msgid "Please enter a public key first, or generate a key pair."
 msgstr "Voer eerst een openbare sleutel in of genereer een sleutelpaar."
 
-#: inc/class-page-editjob.php:602
+#: inc/class-page-editjob.php:628
 msgid "You must generate your encryption key in BackWPup Settings before you can enable this option."
 msgstr "Je moet je versleuteling sleutel genereren in BackWPup instellingen voordat je deze optie kunt inschakelen."
 
-#: inc/class-page-editjob.php:576 inc/class-page-editjob.php:581
-#: inc/class-page-editjob.php:598
+#: inc/class-page-editjob.php:602 inc/class-page-editjob.php:607
+#: inc/class-page-editjob.php:624
 msgid "Encrypt Archive"
 msgstr "Archief versleutelen"
 
-#: inc/class-page-jobs.php:950 pages/backups.php:17
+#: inc/class-page-jobs.php:950 pages/backups.php:18
 msgid "Your download has been generated. It should begin downloading momentarily."
 msgstr "Je download is gegenereerd. Het zou even moeten beginnen met downloaden."
 
@@ -2852,7 +3625,7 @@ msgstr "Je download is gegenereerd. Het zou even moeten beginnen met downloaden.
 msgid "Your download is being generated &hellip;"
 msgstr "Je download wordt gegenereert &hellip;\""
 
-#: inc/class-page-jobs.php:946 pages/backups.php:14
+#: inc/class-page-jobs.php:946 pages/backups.php:15
 msgid "Please wait &hellip;"
 msgstr "Please wait &hellip;\""
 
@@ -2876,41 +3649,41 @@ msgstr "Herstellen vanuit Google Drive"
 msgid "Restore from Folder"
 msgstr "Herstellen vanuit map"
 
-#: inc/class-job.php:2463
+#: inc/class-job.php:2766
 msgid "Archive has been successfully encrypted."
 msgstr "Archief is succesvol versleuteld."
 
-#: inc/class-job.php:2457
+#: inc/class-job.php:2760
 msgid "Unable to rename encrypted archive."
 msgstr "Kan versleuteld archief niet hernoemen."
 
-#: inc/class-job.php:2449
+#: inc/class-job.php:2752
 msgid "Unable to delete unencrypted archive."
 msgstr "Kan niet-versleuteld archief niet verwijderen."
 
 #. translators: %s: encrypted data size.
-#: inc/class-job.php:2441
+#: inc/class-job.php:2744
 msgid "Encrypted %s of data."
 msgstr "%s van gegevens versleuteld."
 
-#: inc/class-job.php:2392
+#: inc/class-job.php:2695
 msgid "Cannot write the encrypted archive. Aborting encryption."
 msgstr "Kan het versleutelde archief niet schrijven. Versleuteling afbreken."
 
-#: inc/class-job.php:2384
+#: inc/class-job.php:2687
 msgid "Cannot open the archive for reading. Aborting encryption."
 msgstr "Kan het archief niet openen om te lezen. Versleuteling afbreken."
 
 #. translators: %d: attempt number.
-#: inc/class-job.php:2374
+#: inc/class-job.php:2677
 msgid "%d. Trying to encrypt archive &hellip;"
 msgstr "%d. Proberen om het archief te versleutelen &hellip;\""
 
-#: inc/class-job.php:2363
+#: inc/class-job.php:2666
 msgid "No encryption key was provided. Aborting encryption."
 msgstr "Er is geen versleuteling sleutel opgegeven. Versleuteling afbreken."
 
-#: inc/class-job.php:485
+#: inc/class-job.php:521
 msgid "Encrypts the archive"
 msgstr "Versleutelt het archief"
 
@@ -2983,7 +3756,7 @@ msgctxt "%1 = extension name, %2 = file suffix"
 msgid "We recommend to install the %1$s extension to generate %2$s archives."
 msgstr "We raden aan om de extensie %1$s te installeren om %2$s archieven te genereren."
 
-#: inc/class-page-settings.php:249
+#: inc/class-page-settings.php:250
 msgid "BackWPup maximum script execution time"
 msgstr "BackWPup maximale script uitvoeringstijd"
 
@@ -2999,13 +3772,13 @@ msgstr "404 - Bestand niet gevonden."
 msgid "Ops! Unfortunately the file doesn't exists. May be was deleted?"
 msgstr "Oeps! Helaas, dat bestand bestaat niet. Misschien is het verwijderd?"
 
-#: components/table-row-backups.php:151 inc/class-page-backups.php:436
+#: components/table-row-backups.php:359 inc/class-page-backups.php:436
 #: parts/restore/start.php:39 views/restore/steps/step5_top.php:7
 msgid "Restore"
 msgstr "Herstellen"
 
 #. translators: %s: FTP Folder.
-#: inc/class-destination-ftp-type-ftp.php:348
+#: inc/class-destination-ftp-type-ftp.php:407
 msgid "FTP Folder \"%s\" cannot be created! Parent directory may be not writable."
 msgstr "FTP map \"%s\" kan niet worden gemaakt! Hoofdmap is misschien niet schrijfbaar."
 
@@ -3027,98 +3800,101 @@ msgid "File could not be opened for writing."
 msgstr "Het bestand kon niet worden geopend voor schrijven."
 
 #. translators: %s: Filename.
-#: inc/class-create-archive.php:906
+#: inc/class-create-archive.php:1348
 msgid "Cannot open source file %s."
 msgstr "Kan het bronbestand %s niet openen."
 
 #. translators: %s: File path.
-#: inc/class-create-archive.php:641
+#: inc/class-create-archive.php:727
 msgid "Cannot open source file %s for archiving. Writing an empty file."
 msgstr "Kan het bronbestand %s niet openen voor archivering. Een leeg bestand schrijven."
 
-#: inc/class-page-editjob.php:560
+#: inc/class-page-editjob.php:568
 msgid "ZipArchive PHP class is missing, so BackWPUp will use PclZip instead."
 msgstr "ZipArchive PHP klasse ontbreekt, dus BackWPUp zal in plaats daarvan PclZip gebruiken."
 
-#: inc/class-page-editjob.php:523
+#: inc/class-page-editjob.php:530
 msgid "In order for backup file tracking to work, %hash% must be included anywhere in the archive name."
 msgstr "Om back-upbestanden goed te kunnen volgen, moet %hash% ergens in de naam van het archief zitten."
 
 #. translators: %d: time in seconds.
-#: inc/class-page-settings.php:244 inc/class-page-settings.php:255
+#: inc/class-page-settings.php:245 inc/class-page-settings.php:256
 msgid "%d seconds"
 msgstr "%d seconden"
 
 #. translators: %s: log folder path.
-#: inc/class-page-settings.php:206
+#: inc/class-page-settings.php:207
 msgid "Log folder %s does not exist."
 msgstr "Log map %s bestaat niet."
 
 #. translators: %s: response content.
-#: inc/class-page-settings.php:161
+#: inc/class-page-settings.php:162
 msgid "Content: %s"
 msgstr "Inhoud: %s"
 
 #. translators: %d: HTTP status code.
-#: inc/class-page-settings.php:140
+#: inc/class-page-settings.php:141
 msgid "Status-Code: %d"
 msgstr "Status code: %d"
 
 #. translators: %s: HTTP error message.
-#: inc/class-page-settings.php:129
+#: inc/class-page-settings.php:130
 msgid "WP Http Error: %s"
 msgstr "WP Http fout: %s"
 
-#: inc/class-page-settings.php:121
+#: inc/class-page-settings.php:122
 msgid "Not expected HTTP response:"
 msgstr "Onverwachte HTTP reactie:"
 
-#: inc/class-page-settings.php:1264
+#: inc/class-page-settings.php:1276
 msgid "Could not copy debug info. You can simply press ctrl+C to copy it."
 msgstr "Kan fout opsporingsinformatie niet kopiëren. Je kunt eenvoudig op ctrl + C drukken om het te kopiëren."
 
-#: inc/class-page-settings.php:1253
+#: inc/class-page-settings.php:1265
 msgid "Debug info copied to clipboard."
 msgstr "Fout opsporingsinformatie gekopieerd naar klembord."
 
-#: inc/class-page-settings.php:1246
+#: inc/class-page-settings.php:1258
 msgid "Copy Debug Info"
 msgstr "Kopieer debug informatie"
 
-#: inc/class-page-settings.php:1233
+#: inc/class-page-settings.php:1245
 msgid "Get Pro"
 msgstr "Verkrijg Pro"
 
 #. Author URI of the plugin
-#: backwpup.php inc/class-page-settings.php:1232
+#: backwpup.php inc/class-job.php:625 inc/class-jobtype-dbcheck.php:11
+#: inc/class-jobtype-file.php:12 inc/class-jobtype-wpexp.php:19
+#: inc/class-jobtype-wpplugin.php:11 inc/class-page-backwpup.php:248
+#: inc/class-page-backwpup.php:256 inc/class-page-backwpup.php:260
 msgid "https://backwpup.com"
 msgstr "https://backwpup.com"
 
-#: inc/class-page-settings.php:1216
+#: inc/class-page-settings.php:1228
 msgid "You will find debug information below. Click the button to copy the debug info to send to support."
 msgstr "Je vind de debug informatie hieronder. Klik op de knop om de debug informatie te kopiëren en naar ondersteuning te sturen."
 
-#: inc/class-page-settings.php:1208
+#: inc/class-page-settings.php:1220
 msgid "Get Debug Info"
 msgstr "Verkrijg debug informatie"
 
-#: inc/class-page-settings.php:1202 inc/class-page-settings.php:1318
+#: inc/class-page-settings.php:1214 inc/class-page-settings.php:1330
 msgid "Debug Info"
 msgstr "Debug informatie"
 
-#: inc/class-page-settings.php:1192
+#: inc/class-page-settings.php:1204
 msgid "Experiencing an issue and need to contact BackWPup support? Click the link below to get debug information you can send to us."
 msgstr "Kom je iets tegen dat niet goed werkt en wil je contact opnemen met BackWPup ondersteuning? Klik op de link hieronder om debug informatie op te vragen die je naar ons kunt sturen."
 
-#: inc/class-page-settings.php:948
+#: inc/class-page-settings.php:960
 msgid "There is a PHP bug (<a href=\"https://bugs.php.net/43817\">bug #43817</a>), which is triggered on some versions of Windows and IIS. Checking this box will enable a workaround for that bug. Only enable if you are getting errors about &ldquo;Permission denied&rdquo; in your logs."
 msgstr "Er is een PHP bug (<a href=\"https://bugs.php.net/43817\">bug #43817</a>) die problemen veroorzaakt in sommige versies van Windows en IIS. Als je dit selectievakje aanvinkt wordt een workaround voor deze bug gebruikt. Gebruik dit alleen als je foutmeldingen in je logs krijgt over &ldquo;Permission denied&rdquo;."
 
-#: inc/class-page-settings.php:927 inc/class-page-settings.php:943
+#: inc/class-page-settings.php:939 inc/class-page-settings.php:955
 msgid "Enable compatibility with IIS on Windows."
 msgstr "Zet compatibiliteit aan met IIS op Windows."
 
-#: inc/class-page-settings.php:921
+#: inc/class-page-settings.php:933
 msgid "Windows IIS compatibility"
 msgstr "Windows IIS compatibiliteit"
 
@@ -3127,25 +3903,25 @@ msgid "Could not open log folder: %s"
 msgstr "Kon de log map niet openen: %s"
 
 #. translators: %s is the size of the data.
-#: inc/class-destination-dropbox-api.php:292
+#: inc/class-destination-dropbox-api.php:303
 msgid "Finishing upload session with a total of %s uploaded"
 msgstr "De upload sessie aan het afmaken met een totaal van %s geüpload"
 
 #. translators: %s is the size of the data.
-#: inc/class-destination-dropbox-api.php:246
+#: inc/class-destination-dropbox-api.php:256
 msgid "Uploading %s of data"
 msgstr "%s aan gegevens aan het uploaden"
 
-#: inc/class-destination-dropbox-api.php:223
+#: inc/class-destination-dropbox-api.php:233
 msgid "Beginning new file upload session"
 msgstr "Een nieuwe bestand upload sessie aan het starten"
 
 #. translators: %s: Error message.
 #. translators: %s: path.
 #. translators: %s: folder name.
-#: inc/class-cron.php:130 inc/class-destination-folder.php:190
-#: inc/class-job.php:1401 inc/class-job.php:1660 inc/class-job.php:2604
-#: inc/class-jobtype-file.php:535
+#: inc/class-cron.php:133 inc/class-destination-folder.php:191
+#: inc/class-job.php:1631 inc/class-job.php:1884 inc/class-job.php:2906
+#: inc/class-jobtype-file.php:524
 msgid "Could not open path: %s"
 msgstr "Kon het pad: %s niet openen"
 
@@ -3173,8 +3949,11 @@ msgstr "Back-up naar S3 diensten (Amazon, Google Storage, Hosteurope en meer)"
 #: inc/class-message-box.php:101 views/notice/legacy_disabled_tasks.php:7
 #: views/notice/notice_5_2.php:7 views/notice/notice_5_2_2.php:7
 #: views/notice/notice_data_corrupted.php:7
+#: views/notice/notice_mcp_adapter_migration.php:18
 #: views/notice/notice_missing_curl.php:7
 #: views/notice/notice_tracking_opt_in.php:7
+#: views/notice/notice_upgrade_to_pro.php:41
+#: views/notice/stale_restore_files.php:21
 msgid "Dismiss"
 msgstr "Negeren"
 
@@ -3184,172 +3963,166 @@ msgid "Job \"%1$s\" has started, but not responded for 10 seconds. Please check 
 msgstr "Taak \"%1$s\" is begonnen, maar heeft 10 seconden niet gereageerd. Controleer de <a href=\"%2$s\">informatie</a>."
 
 #. translators: 1: signal name, 2: signal description.
-#: inc/class-job.php:3098
+#: inc/class-job.php:3423
 msgid "Signal \"%1$s\" (%2$s) is sent to script!"
 msgstr "Signaal \"%1$s\" (%2$s) is verzonden naar script!"
 
-#: inc/class-job.php:3084
+#: inc/class-job.php:3409
 msgctxt "SIGSYS: Please see http://man7.org/linux/man-pages/man7/signal.7.html for details"
 msgid "Bad argument to routine"
 msgstr "Slecht argument voor routine"
 
-#: inc/class-job.php:3076
+#: inc/class-job.php:3401
 msgctxt "SIGPWR: Please see http://man7.org/linux/man-pages/man7/signal.7.html for details"
 msgid "Power failure"
 msgstr "Stroomstoring"
 
-#: inc/class-job.php:3068
+#: inc/class-job.php:3393
 msgctxt "SIGXFSZ: Please see http://man7.org/linux/man-pages/man7/signal.7.html for details"
 msgid "File size limit exceeded"
 msgstr "Maximale bestandsgrootte overschreden"
 
-#: inc/class-job.php:3060
+#: inc/class-job.php:3385
 msgctxt "SIGXCPU: Please see http://man7.org/linux/man-pages/man7/signal.7.html for details"
 msgid "CPU time limit exceeded"
 msgstr "Maximale CPU tijd overschreden"
 
-#: inc/class-job.php:3052
+#: inc/class-job.php:3377
 msgctxt "SIGURG: Please see http://man7.org/linux/man-pages/man7/signal.7.html for details"
 msgid "Urgent condition on socket"
 msgstr "Dringende toestand op socket"
 
-#: inc/class-job.php:3044
+#: inc/class-job.php:3369
 msgctxt "SIGUSR2: Please see http://man7.org/linux/man-pages/man7/signal.7.html for details"
 msgid "User-defined signal 2"
 msgstr "Door gebruiker gedefinieerd signaal 2"
 
-#: inc/class-job.php:3036
+#: inc/class-job.php:3361
 msgctxt "SIGUSR1: Please see http://man7.org/linux/man-pages/man7/signal.7.html for details"
 msgid "User-defined signal 1"
 msgstr "Door gebruiker gedefinieerd signaal 1"
 
-#: inc/class-job.php:3028
+#: inc/class-job.php:3353
 msgctxt "SIGSTKFLT: Please see http://man7.org/linux/man-pages/man7/signal.7.html for details"
 msgid "Stack fault on coprocessor"
 msgstr "Stapelfout op coprocessor"
 
-#: inc/class-job.php:3020
+#: inc/class-job.php:3345
 msgctxt "SIGTERM: Please see http://man7.org/linux/man-pages/man7/signal.7.html for details"
 msgid "Termination signal"
 msgstr "Beëindiging signaal"
 
-#: inc/class-job.php:3012
+#: inc/class-job.php:3337
 msgctxt "SIGSEGV: Please see http://man7.org/linux/man-pages/man7/signal.7.html for details"
 msgid "Invalid memory reference"
 msgstr "Ongeldige geheugenreferentie"
 
-#: inc/class-job.php:3004
+#: inc/class-job.php:3329
 msgctxt "SIGFPE: Please see http://man7.org/linux/man-pages/man7/signal.7.html for details"
 msgid "Floating point exception"
 msgstr "Drijvende komma uitzondering"
 
-#: inc/class-job.php:2996
+#: inc/class-job.php:3321
 msgctxt "SIGBUS: Please see http://man7.org/linux/man-pages/man7/signal.7.html for details"
 msgid "Bus error (bad memory access)"
 msgstr "Busfout (slechte geheugentoegang)"
 
-#: inc/class-job.php:2988
+#: inc/class-job.php:3313
 msgctxt "SIGABRT: Please see http://man7.org/linux/man-pages/man7/signal.7.html for details"
 msgid "Abort signal from abort(3)"
 msgstr "Signaal afbreken van afbreken (3)"
 
-#: inc/class-job.php:2980
+#: inc/class-job.php:3305
 msgctxt "SIGILL: Please see http://man7.org/linux/man-pages/man7/signal.7.html for details"
 msgid "Illegal Instruction"
 msgstr "Illegale instructie"
 
-#: inc/class-job.php:2972
+#: inc/class-job.php:3297
 msgctxt "SIGQUIT: Please see http://man7.org/linux/man-pages/man7/signal.7.html for details"
 msgid "Quit from keyboard"
 msgstr "Stoppen met toetsenbord"
 
-#: inc/class-job.php:2964
+#: inc/class-job.php:3289
 msgctxt "SIGINT: Please see http://man7.org/linux/man-pages/man7/signal.7.html for details"
 msgid "Interrupt from keyboard"
 msgstr "Onderbreken vanaf toetsenbord"
 
-#: inc/class-job.php:2956
+#: inc/class-job.php:3281
 msgctxt "SIGHUP: Please see http://man7.org/linux/man-pages/man7/signal.7.html for details"
 msgid "Hangup detected on controlling terminal or death of controlling process"
 msgstr "Hangup gedetecteerd op controlerende terminal of dood van controleproces"
 
-#: inc/class-job.php:1718
+#: inc/class-job.php:1963
 msgid "Restart after getting signal."
 msgstr "Herstart na het ontvangst van het signaal."
 
-#: inc/class-admin.php:945 inc/class-job.php:589
-#: inc/class-jobtype-dbcheck.php:11 inc/class-jobtype-dbdump.php:11
-#: inc/class-jobtype-file.php:12 inc/class-jobtype-wpexp.php:19
-#: inc/class-jobtype-wpplugin.php:11 inc/class-page-about.php:353
-#: inc/class-page-about.php:388 inc/class-page-about.php:724
-#: inc/class-page-backwpup.php:248 inc/class-page-backwpup.php:256
-#: inc/class-page-backwpup.php:260 inc/class-page-settings.php:77
+#: inc/class-jobtype-dbdump.php:11
 msgid "http://backwpup.com"
 msgstr "http://backwpup.com"
 
-#: inc/class-page-settings.php:237
+#: inc/class-page-settings.php:238
 msgid "Function Disabled"
 msgstr "Functie uitgeschakeld"
 
-#: inc/class-page-settings.php:874 parts/sidebar/settings-jobs.php:92
+#: inc/class-page-settings.php:886 parts/sidebar/settings-jobs.php:112
 msgid "This adds short pauses to the process. Can be used to reduce the CPU load."
 msgstr "Hiermee wordt een korte pauze aan het proces toegevoegd. Kan gebruikt worden om de CPU-belasting te verminderen."
 
-#: inc/class-page-settings.php:819 parts/sidebar/settings-jobs.php:68
+#: inc/class-page-settings.php:831 parts/sidebar/settings-jobs.php:88
 msgid "Will be used to protect job starts from unauthorized person."
 msgstr "Wordt gebruikt om te voorkomen dat een onbevoegd persoon een taak begint."
 
-#: inc/class-page-settings.php:791
+#: inc/class-page-settings.php:803
 msgid "Job will restart before hitting maximum execution time. Restarts will be disabled on CLI usage. If <code>ALTERNATE_WP_CRON</code> has been defined, WordPress Cron will be used for restarts, so it can take a while. 0 means no maximum."
 msgstr "Taak wordt opnieuw gestart voor de maximale uitvoertijd is bereikt. Herstart is uitgeschakeld bij gebruik van CLI. Als <code>ALTERNATE_WP_CRON</code> is gedefinieerd, wordt WordPress Cron gebruikt voor herstarts dus dat kan even duren. 0 betekent geen maximum."
 
-#: inc/class-page-settings.php:787
+#: inc/class-page-settings.php:799
 msgid "seconds."
 msgstr "seconden."
 
-#: inc/class-page-settings.php:691
+#: inc/class-page-settings.php:703
 msgid "Maximum log files in folder."
 msgstr "Maximum aantal logbestanden in map."
 
-#: inc/class-page-settings.php:679
+#: inc/class-page-settings.php:691
 msgid "Maximum log files"
 msgstr "Maximum aantal logbestanden"
 
 #. translators: %s: plugin name.
-#: inc/class-page-settings.php:596
+#: inc/class-page-settings.php:608
 msgid "%s &rsaquo; Settings"
 msgstr "%s &rsaquo; Instellingen"
 
 #. translators: %s: plugin name.
-#: inc/class-page-logs.php:493
+#: inc/class-page-logs.php:528
 msgid "%s &rsaquo; Logs"
-msgstr "%s &rsaquo; Logbestanden"
+msgstr "%s &rsaquo; Logs"
 
 #. translators: %s: response content.
-#: inc/class-page-settings.php:166
+#: inc/class-page-settings.php:167
 msgid "Content: <code>%s</code>"
 msgstr "Inhoud: <code>%s</code>"
 
 #. translators: %d: HTTP status code.
-#: inc/class-page-settings.php:145
+#: inc/class-page-settings.php:146
 msgid "Status-Code: <code>%d</code>"
 msgstr "Status-Code: <code>%d</code>"
 
 #. translators: %s: HTTP error message.
-#: inc/class-page-settings.php:134
+#: inc/class-page-settings.php:135
 msgid "WP Http Error: <code>%s</code>"
 msgstr "WP http fout: <code>%s</code>"
 
-#: inc/class-page-settings.php:123
+#: inc/class-page-settings.php:124
 msgid "<strong>Not expected HTTP response:</strong><br>"
 msgstr "<strong>Onverwacht HTTP-reactie:</strong><br>"
 
-#: inc/class-page-editjob.php:649
+#: inc/class-page-editjob.php:675
 msgid "Your Name &lt;mail@domain.tld&gt;"
 msgstr "Je naam &lt;mail@domain.tld&gt;"
 
 #. translators: %1$s: BackWPup plugin name, %2$s: Backup job name.
-#: inc/class-page-editjob.php:405
+#: inc/class-page-editjob.php:412
 msgid "%1$s &rsaquo; Job: %2$s"
 msgstr "%1$s &rsaquo; Taak: %2$s"
 
@@ -3362,24 +4135,24 @@ msgid "Backup wp-config.php, robots.txt, nginx.conf, .htaccess, .htpasswd, favic
 msgstr "Maak een back-up van de volgende bestanden in de hoofdmap, ook als deze geen deel uitmaken van de te maken backup: wp-config.php, robots.txt, Nginx.conf, .htaccess, .htpasswd, favicon.ico en Web.config."
 
 #. translators: 1: log level, 2: translation flag.
-#: inc/class-job.php:607
+#: inc/class-job.php:643
 msgid "[INFO] Log Level: %1$s %2$s"
 msgstr "[INFO] log niveau %1$s %2$s"
 
-#: inc/class-job.php:603
+#: inc/class-job.php:639
 msgid "(translated)"
 msgstr "(vertaald)"
 
-#: inc/class-job.php:600
+#: inc/class-job.php:636
 msgid "Debug"
 msgstr "Verhelpen"
 
-#: inc/class-job.php:597
+#: inc/class-job.php:633
 msgid "Normal"
 msgstr "Normaal"
 
 #: components/job-item.php:30 inc/class-page-jobs.php:418
-#: src/Jobs/API/Rest.php:618
+#: src/Jobs/API/Rest.php:624
 msgid "External link"
 msgstr "externe link"
 
@@ -3387,7 +4160,7 @@ msgstr "externe link"
 msgid "Amazon S3: Asia Pacific (Seoul)"
 msgstr "Amazon S3: Asia Pacific (Seoul)"
 
-#: inc/class-page-logs.php:555
+#: inc/class-page-logs.php:592
 msgid "Logfile not found!"
 msgstr "Logbestand niet gevonden!"
 
@@ -3423,90 +4196,90 @@ msgstr "Standard-Infrequent Access"
 msgid "Standard"
 msgstr "Standaard"
 
-#: inc/class-page-settings.php:1160
+#: inc/class-page-settings.php:1172
 #: parts/sidebar/parts/network-query-argument-authentication.php:21
 msgid "Query arg key=value:"
 msgstr "Query arg key=value:"
 
-#: inc/class-page-settings.php:1114 inc/class-page-settings.php:1119
+#: inc/class-page-settings.php:1126 inc/class-page-settings.php:1131
 #: parts/sidebar/parts/network-user-authentication.php:32
 msgid "Select WordPress User"
 msgstr "WordPress gebruiker selecteren"
 
-#: inc/class-page-settings.php:1090
+#: inc/class-page-settings.php:1102
 #: parts/sidebar/parts/network-basic-authentication.php:30
 msgid "Basic Auth Password:"
 msgstr "Basis Auth wachtwoord:"
 
-#: inc/class-page-settings.php:1062
+#: inc/class-page-settings.php:1074
 #: parts/sidebar/parts/network-basic-authentication.php:21
 msgid "Basic Auth Username:"
 msgstr "Basis Auth gebruikersnaam:"
 
-#: inc/class-page-settings.php:1046
+#: inc/class-page-settings.php:1058
 msgid "Query argument"
 msgstr "Query argument"
 
-#: inc/class-page-settings.php:1038
+#: inc/class-page-settings.php:1050
 msgid "WordPress User"
 msgstr "WordPress gebruiker"
 
-#: inc/class-page-settings.php:1030
+#: inc/class-page-settings.php:1042
 msgid "Basic auth"
 msgstr "Basis verificatie"
 
-#: inc/class-page-settings.php:1005 inc/class-page-settings.php:1010
-#: parts/sidebar/settings-network.php:56
+#: inc/class-page-settings.php:1017 inc/class-page-settings.php:1022
+#: parts/sidebar/settings-network.php:60
 msgid "Authentication method"
 msgstr "Authenticatie methode"
 
-#: inc/class-page-settings.php:985
+#: inc/class-page-settings.php:997
 msgid "If you protected your blog with HTTP basic authentication (.htaccess), or you use a Plugin to secure wp-cron.php, then use the authentication methods below."
 msgstr "Is je blog beveiligd met HTTP basis authenticatie ( .htaccess)? Of gebruik je een plugin om wp-cron.php te beveiligen? Gebruik dan de authenticatie methodes hier onder."
 
 #. translators: %s: wp-cron.php URL.
-#: inc/class-page-settings.php:976
+#: inc/class-page-settings.php:988
 msgid "Authentication for <code>%s</code>"
 msgstr "Geverifieerd voor <code>%s</code>"
 
-#: inc/class-page-settings.php:911
+#: inc/class-page-settings.php:923
 msgid "This do an empty output on job working. This can help in some situations or can break the working. You must test it."
 msgstr "Dit zorgt voor een lege output op de werkende taak. Dit kan in sommige gevallen handig zijn maar kan een werkende taak ook stuk maken. Je moet dit testen."
 
-#: inc/class-page-settings.php:890 inc/class-page-settings.php:907
+#: inc/class-page-settings.php:902 inc/class-page-settings.php:919
 msgid "Enable an empty Output on backup working."
 msgstr "Lege Output aanzetten op werkende back-up."
 
-#: inc/class-page-settings.php:884
+#: inc/class-page-settings.php:896
 msgid "Empty output on working"
 msgstr "Lege output op huidige"
 
-#: inc/class-page-settings.php:736
+#: inc/class-page-settings.php:748
 msgid "Debug (not translated)"
 msgstr "Debug (niet vertaald)"
 
-#: inc/class-page-settings.php:728
+#: inc/class-page-settings.php:740
 msgid "Debug (translated)"
 msgstr "Debug (vertaald)"
 
-#: inc/class-page-settings.php:720
+#: inc/class-page-settings.php:732
 msgid "Normal (not translated)"
 msgstr "Normaal (niet vertaald)"
 
-#: inc/class-page-settings.php:712
+#: inc/class-page-settings.php:724
 msgid "Normal (translated)"
 msgstr "Normaal (vertaald)"
 
-#: inc/class-page-settings.php:741
+#: inc/class-page-settings.php:753
 msgid "Debug log has much more information than normal logs. It is for support and should be handled carefully. For support is the best to use a not translated log file. Usage of not translated logs can reduce the PHP memory usage too."
 msgstr "De debug log bevat veel meer informatie dan normale logbestanden. Dit log is voor ondersteuning en moet voorzichtig behandeld worden. Voor ondersteuning kan het best een niet vertaald logbestand gebruikt worden. Gebruik van niet vertaalde logs kan het gebruik van PHP memory verminderen."
 
-#: inc/class-page-settings.php:695 inc/class-page-settings.php:700
+#: inc/class-page-settings.php:707 inc/class-page-settings.php:712
 msgid "Logging Level"
 msgstr "Loggingniveau"
 
 #. translators: %s: WordPress content directory path.
-#: inc/class-page-settings.php:660
+#: inc/class-page-settings.php:672
 msgid "You can use absolute or relative path! Relative path is relative to %s."
 msgstr "Je kunt zowel absolute als relatieve paden gebruiken. Het relatieve pad is relatief ten opzichte van %s."
 
@@ -3520,11 +4293,11 @@ msgstr "De bestemmingen van de taak \"%s\" moeten correct ingesteld worden om ui
 msgid "The job \"%1$s\" destination \"%2$s\" is not configured properly"
 msgstr "De bestemming \"%1$s\" van de taak \"%2$s\" is niet goed ingesteld"
 
-#: inc/class-page-editjob.php:702
+#: inc/class-page-editjob.php:728
 msgid "Use <a href=\"http://wp-cli.org/\">WP-CLI</a> to run jobs from commandline."
 msgstr "Gebruik <a href=\"http://wp-cli.org/\">WP-CLI</a> om taken uit te voeren via de commandline."
 
-#: inc/class-page-editjob.php:643
+#: inc/class-page-editjob.php:669
 msgid "Leave empty to not have log sent. Or separate with , for more than one receiver."
 msgstr "Leeg laten om de log niet te verzenden. Of scheid met , voor meer dan één ontvanger."
 
@@ -3544,70 +4317,70 @@ msgstr "Gebruik een map er boven als WP-installatiemap"
 msgid "Backup WordPress install folder"
 msgstr "Back-up WordPress installatie map"
 
-#: inc/class-job.php:2298
+#: inc/class-job.php:2601
 msgid "The Backup archive will be too large for file operations with this PHP Version. You might want to consider splitting the backup job in multiple jobs with less files each."
 msgstr "Het back-up archief wordt te groot voor bestand bewerkingen met deze PHP versie. Je zou kunnen overwegen om de back-up taak op te delen in meerdere taken met elk minder bestanden."
 
 #. translators: %s: folder path.
-#: inc/class-job.php:2213
+#: inc/class-job.php:2506
 msgid "Archiving Folder: %s"
 msgstr "Archiefmap: %s"
 
-#: inc/class-job.php:2174
+#: inc/class-job.php:2451
 msgid "Adding Extra files to Archive"
 msgstr "Extra bestanden aan archief toevoegen"
 
 #. translators: %s: system error.
-#: inc/class-job.php:3142 inc/class-job.php:3162
+#: inc/class-job.php:3467 inc/class-job.php:3487
 msgid "System: %s"
 msgstr "Systeem: %s"
 
-#: inc/class-job.php:773
+#: inc/class-job.php:814
 msgid "Could not write log file"
 msgstr "Kon niet naar het logbestand schrijven"
 
 #. translators: 1: user login, 2: user ID.
-#: inc/class-job.php:624
+#: inc/class-job.php:660
 msgid "[INFO] Runs with user: %1$s (%2$d) "
 msgstr "[INFO] Loopt met gebruiker: %1$s (%2$d) "
 
 #. translators: %s: job name.
-#: inc/class-job.php:617
+#: inc/class-job.php:653
 msgid "[INFO] BackWPup job: %1$s"
 msgstr "[INFO] BackWPup taak: %1$s"
 
 #. translators: 1: WordPress version, 2: site URL.
-#: inc/class-job.php:593
+#: inc/class-job.php:629
 msgctxt "WordPress Version; Blog url"
 msgid "[INFO] WordPress %1$s on %2$s"
 msgstr "[INFO] WordPress %1$s op %2$s"
 
 #. translators: %1$s: plugin name, %2$s: plugin version, %3$s: plugin URL.
-#: inc/class-job.php:582
+#: inc/class-job.php:618
 msgctxt "Plugin name; Plugin Version; plugin url"
 msgid "[INFO] %1$s %2$s; A project of WP Media"
 msgstr "[INFO] %1$s %2$s; Een project van WP Media"
 
 #. translators: %s: folder path.
-#: inc/class-file.php:170
+#: inc/class-file.php:219
 msgid "Folder %1$s is not in open basedir, please use another folder."
 msgstr "Map %1$s is niet in open basedir, gebruik een andere map."
 
-#: inc/class-destination-dropbox-api.php:219
+#: inc/class-destination-dropbox-api.php:229
 #: inc/class-destination-msazure.php:268 inc/class-destination-s3.php:527
-#: inc/class-destination-s3.php:573
+#: inc/class-destination-s3.php:575
 msgid "Can not open source file for transfer."
 msgstr "Kan bronbestand niet openen voor overzetting."
 
-#: inc/class-create-archive.php:384
+#: inc/class-create-archive.php:462
 msgid "ZIP archive cannot be closed correctly"
 msgstr "ZIP bestand kan niet op de goede manier worden afgesloten"
 
-#: inc/class-admin.php:1031
+#: inc/class-admin.php:1060
 msgid "&mdash; No additional role for BackWPup &mdash;"
 msgstr "&mdash; Geen aanvullende rol voor BackWPup &mdash;"
 
-#: inc/class-admin.php:1024
+#: inc/class-admin.php:1053
 msgid "Add BackWPup Role"
 msgstr "BackWPup rol toevoegen"
 
@@ -3637,260 +4410,260 @@ msgstr "Taak ID bestaat niet!"
 msgid "A job is already running."
 msgstr "Er loopt al een taak."
 
-#: inc/class-page-settings.php:1361
+#: inc/class-page-settings.php:1373
 msgid "Reset all settings to default"
 msgstr "Zet alles terug naar de basisinstellingen"
 
-#: inc/class-page-settings.php:1351
+#: inc/class-page-settings.php:1363
 msgid "Save Changes"
 msgstr "Wijzigingen opslaan"
 
-#: inc/class-page-settings.php:346
+#: inc/class-page-settings.php:347
 msgid "Loaded PHP Extensions:"
 msgstr "Geladen PHP-extensies"
 
-#: inc/class-page-settings.php:341
+#: inc/class-page-settings.php:342
 msgid "Disabled PHP Functions:"
 msgstr "Uitgeschakelde PHP functies:"
 
-#: inc/class-page-settings.php:334
+#: inc/class-page-settings.php:335
 msgid "Memory in use"
 msgstr "Geheugen in gebruik"
 
-#: inc/class-page-settings.php:330
+#: inc/class-page-settings.php:331
 msgid "WP maximum memory limit"
 msgstr "WP maximale geheugen limiet"
 
-#: inc/class-page-settings.php:326
+#: inc/class-page-settings.php:327
 msgid "WP memory limit"
 msgstr "WP geheugen limiet"
 
-#: inc/class-page-settings.php:322
+#: inc/class-page-settings.php:323
 msgid "PHP Memory limit"
 msgstr "PHP geheugen limiet"
 
-#: inc/class-page-settings.php:318
+#: inc/class-page-settings.php:319
 msgid "MySQL Client encoding"
 msgstr "MySQL client encoding"
 
-#: inc/class-page-settings.php:314
+#: inc/class-page-settings.php:315
 msgid "Blog language"
 msgstr "Blogtaal"
 
 #. translators: %s: hours offset.
-#: inc/class-page-settings.php:309
+#: inc/class-page-settings.php:310
 msgid "%s hours"
 msgstr "%s uur"
 
-#: inc/class-page-settings.php:306
+#: inc/class-page-settings.php:307
 msgid "Blog Time offset"
 msgstr "Basis blogtijd"
 
-#: inc/class-page-settings.php:302
+#: inc/class-page-settings.php:303
 msgid "Blog Timezone"
 msgstr "Tijdzone van het blog"
 
-#: inc/class-page-settings.php:298
+#: inc/class-page-settings.php:299
 msgid "Blog Time"
 msgstr "Tijdstip van het blog"
 
-#: inc/class-page-settings.php:293
+#: inc/class-page-settings.php:294
 msgid "Server Time"
 msgstr "Servertijd"
 
-#: inc/class-page-settings.php:285
+#: inc/class-page-settings.php:286
 msgid "CHMOD Dir"
 msgstr "CHMOD Dir"
 
-#: inc/class-page-settings.php:268
+#: inc/class-page-settings.php:269
 msgid "Disabled WP Cron"
 msgstr "WP Cron uitgeschakeld"
 
-#: inc/class-page-settings.php:260
+#: inc/class-page-settings.php:261
 msgid "Alternative WP Cron"
 msgstr "Alternatieve WP Cron"
 
-#: inc/class-page-settings.php:241
+#: inc/class-page-settings.php:242
 msgid "Maximum execution time"
 msgstr "Maximale uitvoertijd"
 
-#: inc/class-page-settings.php:264 inc/class-page-settings.php:272
+#: inc/class-page-settings.php:265 inc/class-page-settings.php:273
 msgid "Off"
 msgstr "Uit"
 
-#: inc/class-page-settings.php:262 inc/class-page-settings.php:270
+#: inc/class-page-settings.php:263 inc/class-page-settings.php:271
 msgid "On"
 msgstr "Aan"
 
-#: inc/class-page-settings.php:233
+#: inc/class-page-settings.php:234
 msgid "Current PHP user"
 msgstr "Huidige PHP-gebruiker"
 
-#: inc/class-page-settings.php:229
+#: inc/class-page-settings.php:230
 msgid "PHP SAPI"
 msgstr "PHP SAPI"
 
-#: inc/class-page-settings.php:225
+#: inc/class-page-settings.php:226
 msgid "Operating System"
 msgstr "Besturingssysteem"
 
-#: inc/class-page-settings.php:220 parts/sidebar/storage-FTP.php:113
+#: inc/class-page-settings.php:221 parts/sidebar/storage-FTP.php:113
 msgid "Server"
 msgstr "Server"
 
 #. translators: %s: log folder path.
-#: inc/class-page-settings.php:212
+#: inc/class-page-settings.php:213
 msgid "Log folder %s is not writable."
 msgstr "Log map %s niet beschrijfbaar."
 
-#: inc/class-page-settings.php:199
+#: inc/class-page-settings.php:200
 msgid "Log folder"
 msgstr "Log map"
 
 #. translators: %s: temporary folder path.
-#: inc/class-page-settings.php:191
+#: inc/class-page-settings.php:192
 msgid "Temporary folder %s is not writable."
 msgstr "Tijdelijke map %s is niet beschrijfbaar."
 
 #. translators: %s: temporary folder path.
-#: inc/class-page-settings.php:185
+#: inc/class-page-settings.php:186
 msgid "Temp folder %s doesn't exist."
 msgstr "Tempmap %s bestaat niet."
 
-#: inc/class-page-settings.php:181
+#: inc/class-page-settings.php:182
 msgid "Temp folder"
 msgstr "Tijdelijke map"
 
-#: inc/class-page-settings.php:171
+#: inc/class-page-settings.php:172
 msgid "Response Test O.K."
 msgstr "Reactie test oké."
 
-#: inc/class-page-settings.php:115
+#: inc/class-page-settings.php:116
 msgid "Server self connect"
 msgstr "Server zelfverbinding"
 
-#: inc/class-page-settings.php:110
+#: inc/class-page-settings.php:111
 msgid "WP-Cron url"
 msgstr "WP-Cron URL"
 
-#: inc/class-page-settings.php:106
+#: inc/class-page-settings.php:107
 msgid "unavailable"
 msgstr "niet beschikbaar"
 
-#: inc/class-page-settings.php:103
+#: inc/class-page-settings.php:104
 msgid "cURL SSL version"
 msgstr "cURL SSL versie"
 
-#: inc/class-page-settings.php:99
+#: inc/class-page-settings.php:100
 msgid "cURL version"
 msgstr "cURL versie"
 
-#: inc/class-page-settings.php:95
+#: inc/class-page-settings.php:96
 msgid "MySQL version"
 msgstr "MySQL versie"
 
-#: inc/class-page-settings.php:85
+#: inc/class-page-settings.php:86
 msgid "PHP version"
 msgstr "PHP versie"
 
-#: inc/class-page-settings.php:80
+#: inc/class-page-settings.php:81
 msgid "BackWPup Pro version"
 msgstr "BackWPup Pro versie"
 
-#: inc/class-page-settings.php:78
+#: inc/class-page-settings.php:79
 msgid "Get pro."
 msgstr "Koop pro."
 
-#: inc/class-page-settings.php:74
+#: inc/class-page-settings.php:75
 msgid "BackWPup version"
 msgstr "BackWPup versie"
 
-#: inc/class-page-settings.php:69
+#: inc/class-page-settings.php:70
 msgid "WordPress version"
 msgstr "WordPress versie"
 
-#: inc/class-page-settings.php:1327 inc/class-page-settings.php:1331
+#: inc/class-page-settings.php:1339 inc/class-page-settings.php:1343
 msgid "Value"
 msgstr "Waarde"
 
-#: inc/class-page-settings.php:1327 inc/class-page-settings.php:1331
+#: inc/class-page-settings.php:1339 inc/class-page-settings.php:1343
 msgid "Setting"
 msgstr "Instelling"
 
-#: inc/class-page-settings.php:869
+#: inc/class-page-settings.php:881
 msgid "maximum"
 msgstr "maximum"
 
-#: inc/class-page-settings.php:861
+#: inc/class-page-settings.php:873
 msgid "medium"
 msgstr "medium"
 
-#: inc/class-page-settings.php:853
+#: inc/class-page-settings.php:865
 msgid "minimum"
 msgstr "minimum"
 
-#: inc/class-page-settings.php:845
+#: inc/class-page-settings.php:857
 msgid "disabled"
 msgstr "uitgeschakeld"
 
-#: inc/class-page-settings.php:828 inc/class-page-settings.php:833
-#: parts/sidebar/settings-jobs.php:83
+#: inc/class-page-settings.php:840 inc/class-page-settings.php:845
+#: parts/sidebar/settings-jobs.php:103
 msgid "Reduce server load"
 msgstr "Verminder serverload"
 
-#: inc/class-page-settings.php:806
+#: inc/class-page-settings.php:818
 msgid "Key to start jobs externally with an URL"
 msgstr "Sleutel om taken extern met een URL te starten"
 
-#: inc/class-page-settings.php:781
+#: inc/class-page-settings.php:793
 msgid "Maximum PHP Script execution time"
 msgstr "Maximum tijd om PHP-script uit te voeren"
 
-#: inc/class-page-settings.php:776
+#: inc/class-page-settings.php:788
 msgid "Maximum script execution time"
 msgstr "Maximale tijd waarin het script moet worden uitgevoerd"
 
-#: inc/class-page-settings.php:767 parts/sidebar/settings-jobs.php:40
+#: inc/class-page-settings.php:779 parts/sidebar/settings-jobs.php:60
 msgid "Maximum number of retries for job steps"
 msgstr "Maximum aantal pogingen voor stappen van de taak"
 
-#: inc/class-page-settings.php:757
+#: inc/class-page-settings.php:769
 msgid "There are a couple of general options for backup jobs. Set them here."
 msgstr "Er is een aantal algemene opties voor back-up-taken. Stel ze hier in."
 
-#: inc/class-page-settings.php:644 parts/sidebar/settings-logs.php:46
+#: inc/class-page-settings.php:656 parts/sidebar/settings-logs.php:50
 msgid "Log file folder"
 msgstr "Logbestanden map"
 
-#: inc/class-page-settings.php:634
+#: inc/class-page-settings.php:646
 msgid "Every time BackWPup runs a backup job, a log file is being generated. Choose where to store your log files and how many of them."
 msgstr "Elke keer dat BackWPup een back-up taak uitvoert, wordt er een logbestand gegenereerd. Bepaal waar je de logbestanden wilt opslaan en hoeveel."
 
-#: inc/class-page-settings.php:610
+#: inc/class-page-settings.php:622
 msgid "Information"
 msgstr "Informatie"
 
-#: inc/class-page-settings.php:609
+#: inc/class-page-settings.php:621
 msgid "API Keys"
 msgstr "API-sleutels"
 
-#: inc/class-page-settings.php:608 parts/sidebar/advanced-settings.php:44
+#: inc/class-page-settings.php:620 parts/sidebar/advanced-settings.php:48
 msgid "Network"
 msgstr "Netwerk"
 
-#: inc/class-page-settings.php:580
+#: inc/class-page-settings.php:592
 msgid "Settings saved"
 msgstr "Instellingen opgeslagen"
 
-#: inc/class-page-settings.php:458
+#: inc/class-page-settings.php:459
 msgid "Settings reset to default"
 msgstr "Instellingen teruggezet naar de standaardwaarden"
 
-#: inc/class-page-logs.php:314
+#: inc/class-page-logs.php:349
 msgid "Log only"
 msgstr "Alleen log"
 
-#: inc/class-page-logs.php:296 src/Cli/Helpers/CommandsLogHelpersTrait.php:113
+#: inc/class-page-logs.php:305 src/Cli/Helpers/CommandsLogHelpersTrait.php:113
 msgid "O.K."
 msgstr "O.K."
 
@@ -3902,7 +4675,7 @@ msgstr "Toon"
 msgid "Runtime"
 msgstr "Looptijd"
 
-#: inc/class-page-logs.php:181
+#: components/table-row-backups.php:210 inc/class-page-logs.php:181
 msgid "Status"
 msgstr "Status"
 
@@ -3920,9 +4693,9 @@ msgid "Job completed"
 msgstr "Taak afgerond"
 
 #: components/progress-box.php:50 inc/class-page-jobs.php:915
-#: parts/sidebar/advanced-settings.php:82
-#: parts/sidebar/settings-data-type.php:60 parts/sidebar/storages.php:68
-#: src/Admin/Chatbot/Chatbot.php:65
+#: parts/sidebar/advanced-settings.php:87
+#: parts/sidebar/settings-data-type.php:60 parts/sidebar/storages.php:100
+#: src/Admin/Chatbot/Chatbot.php:68
 msgid "Close"
 msgstr "Sluiten"
 
@@ -3957,11 +4730,11 @@ msgstr "Taak wordt beëindigd."
 
 #. translators: %s: Job name
 #. translators: %s: Job name.
-#: inc/class-page-jobs.php:678 src/Backups/API/Rest.php:282
+#: inc/class-page-jobs.php:678 src/Backups/API/Rest.php:317
 msgid "Job \"%s\" started."
 msgstr "Taak \"%s\" is gestart."
 
-#: inc/class-job.php:3386 inc/class-page-jobs.php:567
+#: inc/class-job.php:3711 inc/class-page-jobs.php:567
 msgid "Copy of"
 msgstr "Kopie van"
 
@@ -4027,377 +4800,377 @@ msgstr "Volgende run"
 msgid "Destinations"
 msgstr "Bestemmingen"
 
-#: inc/class-page-editjob.php:940
+#: inc/class-page-editjob.php:966
 msgid "Save changes"
 msgstr "Wijzigingen opslaan"
 
-#: inc/class-page-editjob.php:907
+#: inc/class-page-editjob.php:933
 msgid "Day of Week:"
 msgstr "Dag van de week:"
 
-#: inc/class-page-editjob.php:902
+#: inc/class-page-editjob.php:928
 msgid "December"
 msgstr "december"
 
-#: inc/class-page-editjob.php:901
+#: inc/class-page-editjob.php:927
 msgid "November"
 msgstr "november"
 
-#: inc/class-page-editjob.php:900
+#: inc/class-page-editjob.php:926
 msgid "October"
 msgstr "oktober"
 
-#: inc/class-page-editjob.php:899
+#: inc/class-page-editjob.php:925
 msgid "September"
 msgstr "september"
 
-#: inc/class-page-editjob.php:898
+#: inc/class-page-editjob.php:924
 msgid "August"
 msgstr "Augustus"
 
-#: inc/class-page-editjob.php:897
+#: inc/class-page-editjob.php:923
 msgid "July"
 msgstr "juli"
 
-#: inc/class-page-editjob.php:896
+#: inc/class-page-editjob.php:922
 msgid "June"
 msgstr "juni"
 
-#: inc/class-page-editjob.php:895
+#: inc/class-page-editjob.php:921
 msgid "May"
 msgstr "mei"
 
-#: inc/class-page-editjob.php:894
+#: inc/class-page-editjob.php:920
 msgid "April"
 msgstr "april"
 
-#: inc/class-page-editjob.php:893
+#: inc/class-page-editjob.php:919
 msgid "March"
 msgstr "maart"
 
-#: inc/class-page-editjob.php:892
+#: inc/class-page-editjob.php:918
 msgid "February"
 msgstr "februari"
 
-#: inc/class-page-editjob.php:891
+#: inc/class-page-editjob.php:917
 msgid "January"
 msgstr "januari"
 
-#: inc/class-page-editjob.php:885
+#: inc/class-page-editjob.php:911
 msgid "Month:"
 msgstr "Maand:"
 
-#: inc/class-page-editjob.php:871
+#: inc/class-page-editjob.php:897
 msgid "Day of Month:"
 msgstr "Dag van de maand:"
 
-#: inc/class-page-editjob.php:857
+#: inc/class-page-editjob.php:883
 msgid "Hours:"
 msgstr "Uren:"
 
-#: inc/class-page-editjob.php:846 inc/class-page-editjob.php:860
-#: inc/class-page-editjob.php:873 inc/class-page-editjob.php:887
-#: inc/class-page-editjob.php:909
+#: inc/class-page-editjob.php:872 inc/class-page-editjob.php:886
+#: inc/class-page-editjob.php:899 inc/class-page-editjob.php:913
+#: inc/class-page-editjob.php:935
 msgid "Any (*)"
 msgstr "Elke (*)"
 
-#: inc/class-page-editjob.php:844
+#: inc/class-page-editjob.php:870
 msgid "Minutes:"
 msgstr "Minuten:"
 
-#: inc/class-page-editjob.php:828
+#: inc/class-page-editjob.php:854
 msgid "hourly"
 msgstr "ieder uur"
 
-#: inc/class-page-editjob.php:818
+#: inc/class-page-editjob.php:844
 msgid "daily"
 msgstr "dagelijks"
 
-#: inc/class-page-editjob.php:808 inc/class-page-editjob.php:919
+#: inc/class-page-editjob.php:834 inc/class-page-editjob.php:945
 #: parts/sidebar/frequency.php:141
 msgid "Saturday"
 msgstr "Zaterdag"
 
-#: inc/class-page-editjob.php:807 inc/class-page-editjob.php:918
+#: inc/class-page-editjob.php:833 inc/class-page-editjob.php:944
 #: parts/sidebar/frequency.php:140
 msgid "Friday"
 msgstr "Vrijdag"
 
-#: inc/class-page-editjob.php:806 inc/class-page-editjob.php:917
+#: inc/class-page-editjob.php:832 inc/class-page-editjob.php:943
 #: parts/sidebar/frequency.php:139
 msgid "Thursday"
 msgstr "Donderdag"
 
-#: inc/class-page-editjob.php:805 inc/class-page-editjob.php:916
+#: inc/class-page-editjob.php:831 inc/class-page-editjob.php:942
 #: parts/sidebar/frequency.php:138
 msgid "Wednesday"
 msgstr "Woensdag"
 
-#: inc/class-page-editjob.php:804 inc/class-page-editjob.php:915
+#: inc/class-page-editjob.php:830 inc/class-page-editjob.php:941
 #: parts/sidebar/frequency.php:137
 msgid "Tuesday"
 msgstr "Dinsdag"
 
-#: inc/class-page-editjob.php:803 inc/class-page-editjob.php:914
+#: inc/class-page-editjob.php:829 inc/class-page-editjob.php:940
 #: parts/sidebar/frequency.php:136
 msgid "Monday"
 msgstr "Maandag"
 
-#: inc/class-page-editjob.php:802 inc/class-page-editjob.php:913
+#: inc/class-page-editjob.php:828 inc/class-page-editjob.php:939
 #: parts/sidebar/frequency.php:142
 msgid "Sunday"
 msgstr "Zondag"
 
-#: inc/class-page-editjob.php:800
+#: inc/class-page-editjob.php:826
 msgid "weekly"
 msgstr "wekelijks"
 
-#: inc/class-page-editjob.php:780
+#: inc/class-page-editjob.php:806
 msgid "on"
 msgstr "aan"
 
-#: inc/class-page-editjob.php:776
+#: inc/class-page-editjob.php:802
 msgid "monthly"
 msgstr "maandelijks"
 
-#: inc/class-page-editjob.php:772
+#: inc/class-page-editjob.php:798
 msgid "Minute"
 msgstr "Minuut"
 
-#: inc/class-page-editjob.php:769
+#: inc/class-page-editjob.php:795
 msgid "Hour"
 msgstr "Uur"
 
-#: components/table-backups.php:22 components/table-row-backups.php:72
-#: inc/class-page-editjob.php:764 inc/class-page-jobs.php:230
+#: components/table-backups.php:22 components/table-row-backups.php:186
+#: inc/class-page-editjob.php:790 inc/class-page-jobs.php:230
 #: inc/class-page-logs.php:182
 msgid "Type"
 msgstr "Soort"
 
-#: inc/class-page-editjob.php:759 inc/class-page-editjob.php:841
+#: inc/class-page-editjob.php:785 inc/class-page-editjob.php:867
 msgid "Scheduler"
 msgstr "Planner"
 
-#: inc/class-page-editjob.php:722
+#: inc/class-page-editjob.php:748
 msgid "advanced"
 msgstr "uitgebreid"
 
-#: inc/class-page-editjob.php:718
+#: inc/class-page-editjob.php:744
 msgid "basic"
 msgstr "eenvoudig"
 
-#: inc/class-page-editjob.php:711 inc/class-page-editjob.php:714
+#: inc/class-page-editjob.php:737 inc/class-page-editjob.php:740
 msgid "Scheduler type"
 msgstr "Soort planner"
 
-#: inc/class-page-editjob.php:707
+#: inc/class-page-editjob.php:733
 msgid "Schedule execution time"
 msgstr "Uitvoertijd van het schema"
 
-#: inc/class-page-editjob.php:699
+#: inc/class-page-editjob.php:725
 msgid "Start job with CLI"
 msgstr "Taak starten met CLI"
 
-#: inc/class-page-editjob.php:691
+#: inc/class-page-editjob.php:717
 msgid "with a link"
 msgstr "met een link"
 
-#: inc/class-page-editjob.php:692
+#: inc/class-page-editjob.php:718
 msgid "Copy the link for an external start. This option has to be activated to make the link work."
 msgstr "Kopieer de link voor een externe start. Deze optie moet geactiveerd om de link te laten werken."
 
-#: inc/class-page-editjob.php:685
+#: inc/class-page-editjob.php:711
 msgid "with WordPress cron"
 msgstr "met WordPress cron"
 
-#: inc/class-page-editjob.php:681
+#: inc/class-page-editjob.php:707
 msgid "manually only"
 msgstr "alleen handmatig"
 
-#: inc/class-page-editjob.php:674 inc/class-page-editjob.php:677
+#: inc/class-page-editjob.php:700 inc/class-page-editjob.php:703
 msgid "Start job"
 msgstr "Begin taak"
 
-#: inc/class-page-editjob.php:670
+#: inc/class-page-editjob.php:696
 msgid "Job Schedule"
 msgstr "Takenschema"
 
-#: inc/class-page-editjob.php:658
+#: inc/class-page-editjob.php:684
 msgid "Send email with log only when errors occur during job execution."
 msgstr "Stuur e-mail met log alleen als de fouten optreden tijdens het uitvoeren van de taak."
 
-#: inc/class-page-editjob.php:653
+#: inc/class-page-editjob.php:679
 msgid "Errors only"
 msgstr "Alleen fouten"
 
-#: inc/class-page-editjob.php:647
+#: inc/class-page-editjob.php:673
 msgid "Email FROM field"
 msgstr "E-mail Van veld"
 
-#: inc/class-page-editjob.php:640 parts/sidebar/settings-logs.php:95
+#: inc/class-page-editjob.php:666 parts/sidebar/settings-logs.php:116
 msgid "Send log to email address"
 msgstr "Verstuur logbestand naar e-mailadres"
 
-#: inc/class-page-editjob.php:636
+#: inc/class-page-editjob.php:662
 msgid "Log Files"
 msgstr "Logbestanden"
 
-#: inc/class-page-editjob.php:615 inc/class-page-editjob.php:618
+#: inc/class-page-editjob.php:641 inc/class-page-editjob.php:644
 msgid "Where should your backup file be stored?"
 msgstr "Waar moeten je back-up bestanden opgeslagen worden?"
 
-#: inc/class-page-editjob.php:611
+#: inc/class-page-editjob.php:637
 msgid "Job Destination"
 msgstr "Bestemming van de taak"
 
-#: inc/class-page-editjob.php:564 inc/class-page-editjob.php:566
+#: inc/class-page-editjob.php:577
 msgid "Tar GZip"
 msgstr "Tar GZip"
 
-#: inc/class-page-editjob.php:562
+#: inc/class-page-editjob.php:571
 msgid "Tar"
 msgstr "Tar"
 
-#: inc/class-page-editjob.php:567
+#: inc/class-page-editjob.php:580
 msgid "Disabled due to missing %s PHP function."
 msgstr "Uitgeschakeld vanwege ontbrekende PHP functie %s."
 
-#: inc/class-page-editjob.php:557 inc/class-page-editjob.php:559
+#: inc/class-page-editjob.php:565
 msgid "Zip"
 msgstr "Zip"
 
-#: inc/class-page-editjob.php:551 inc/class-page-editjob.php:554
+#: inc/class-page-editjob.php:558 inc/class-page-editjob.php:561
 msgid "Archive Format"
 msgstr "Archief format"
 
-#: inc/class-page-editjob.php:545
+#: inc/class-page-editjob.php:552
 msgid "%s = Two digit representation of the second"
 msgstr "%s = twee-cijferige weergave van de seconde"
 
-#: inc/class-page-editjob.php:544
+#: inc/class-page-editjob.php:551
 msgid "%i = Two digit representation of the minute"
 msgstr "%i = Tweecijferige weergave van de minuut"
 
-#: inc/class-page-editjob.php:541
+#: inc/class-page-editjob.php:548
 msgid "%G = Hour in 24-hour format, without leading zeros"
 msgstr "%G = uur in 24-uurs format zonder voorloop nul"
 
-#: inc/class-page-editjob.php:540
+#: inc/class-page-editjob.php:547
 msgid "%g = Hour in 12-hour format, without leading zeros"
 msgstr "%g = uur in 12-uur format, zonder voorloop nul"
 
-#: inc/class-page-editjob.php:539
+#: inc/class-page-editjob.php:546
 msgid "%B = Swatch Internet Time"
 msgstr "%B = Swatch Internet Time"
 
-#: inc/class-page-editjob.php:538
+#: inc/class-page-editjob.php:545
 msgid "%A = Uppercase ante meridiem (AM) and post meridiem (PM)"
 msgstr "%A = Hoofdletter ante meridiem (AM) en bericht meridiem (PM)"
 
-#: inc/class-page-editjob.php:537
+#: inc/class-page-editjob.php:544
 msgid "%a = Lowercase ante meridiem (am) and post meridiem (pm)"
 msgstr "%a = Kleine letter ante meridiem (am) en bericht meridiem (pm)"
 
-#: inc/class-page-editjob.php:536
+#: inc/class-page-editjob.php:543
 msgid "%y = Two digit representation of the year"
 msgstr "%y = tweecijferige weergave voor het jaar"
 
-#: inc/class-page-editjob.php:535
+#: inc/class-page-editjob.php:542
 msgid "%Y = Four digit representation of the year"
 msgstr "%Y = viercijferige weergave voor het jaar"
 
-#: inc/class-page-editjob.php:534
+#: inc/class-page-editjob.php:541
 msgid "%n = Representation of the month (without leading zeros)"
 msgstr "%n = weergave van de maand (zonder voorloop-nul)"
 
-#: inc/class-page-editjob.php:532
+#: inc/class-page-editjob.php:539
 msgid "%j = Day of the month, without leading zeros"
 msgstr "%j = dag van de maand zonder voorloopnul"
 
-#: inc/class-page-editjob.php:531
+#: inc/class-page-editjob.php:538
 msgid "%d = Two digit day of the month, with leading zeros"
 msgstr "%d = tweecijferige dag van de maand met voorloop nul"
 
-#: inc/class-page-editjob.php:530
+#: inc/class-page-editjob.php:537
 msgid "Replacement patterns:"
 msgstr "Vervangingspatronen:"
 
-#: inc/class-page-editjob.php:520 parts/sidebar/format.php:36
+#: inc/class-page-editjob.php:527 parts/sidebar/format.php:37
 msgid "Archive name"
 msgstr "Archiefnaam"
 
-#: inc/class-page-editjob.php:512
+#: inc/class-page-editjob.php:519
 msgid "Create a backup archive"
 msgstr "Back-up archief aanmaken"
 
-#: inc/class-page-editjob.php:507
+#: inc/class-page-editjob.php:514
 msgid "Synchronize file by file to destination"
 msgstr "Synchroniseer bestand per bestand naar bestemming"
 
-#: inc/class-page-editjob.php:501 inc/class-page-editjob.php:504
+#: inc/class-page-editjob.php:508 inc/class-page-editjob.php:511
 msgid "Backup type"
 msgstr "Type back-up"
 
-#: inc/class-page-editjob.php:496
+#: inc/class-page-editjob.php:503
 msgid "Backup File Creation"
 msgstr "Back-up bestand aanmaak"
 
-#: inc/class-page-editjob.php:478
+#: inc/class-page-editjob.php:485
 msgid "Job tasks"
 msgstr "Taakonderdeel"
 
-#: inc/class-page-editjob.php:475
+#: inc/class-page-editjob.php:482
 msgid "This job is a&#160;&hellip;"
 msgstr "Deze taak is een&#160;&hellip;"
 
-#: inc/class-page-editjob.php:472
+#: inc/class-page-editjob.php:479
 msgid "Job Tasks"
 msgstr "Taakonderdelen"
 
-#: inc/class-page-editjob.php:465
+#: inc/class-page-editjob.php:472
 msgid "Please name this job."
 msgstr "Geef de taak een naam."
 
-#: inc/class-page-editjob.php:462 inc/class-page-editjob.php:467
+#: inc/class-page-editjob.php:469 inc/class-page-editjob.php:474
 #: inc/class-page-jobs.php:229
 msgid "Job Name"
 msgstr "Taaknaam"
 
-#: inc/class-page-editjob.php:414
+#: inc/class-page-editjob.php:421
 msgid "Schedule"
 msgstr "Schema"
 
-#: inc/class-page-editjob.php:410
+#: inc/class-page-editjob.php:417
 msgid "General"
 msgstr "Algemeen"
 
-#: inc/class-page-editjob.php:1065
+#: inc/class-page-editjob.php:1091
 msgid "Next runtime:"
 msgstr "Volgende uitvoeringsmoment:"
 
-#: inc/class-page-editjob.php:1063
+#: inc/class-page-editjob.php:1089
 msgid "ATTENTION: Can't calculate cron!"
 msgstr "LET OP: cron kan niet berekend worden!"
 
 #. translators: %d: number of minutes.
-#: inc/class-page-editjob.php:1059
+#: inc/class-page-editjob.php:1085
 msgid "ATTENTION: Job runs every %d minutes!"
 msgstr "ATTENTIE: taak loopt elke %d minuten!"
 
-#: inc/class-page-editjob.php:1040
+#: inc/class-page-editjob.php:1066
 msgid "Working as <a href=\"http://wikipedia.org/wiki/Cron\">Cron</a> schedule:"
 msgstr "Uitgevoerd als <a href=\"http://wikipedia.org/wiki/Cron\">Cron</a> schema:"
 
-#: inc/class-page-editjob.php:276 inc/class-page-jobs.php:304
+#: inc/class-page-editjob.php:272 inc/class-page-jobs.php:304
 msgid "Run now"
 msgstr "Nu uitvoeren"
 
-#: inc/class-page-editjob.php:276
+#: inc/class-page-editjob.php:272
 msgid "Jobs overview"
 msgstr "Takenoverzicht"
 
 #. translators: %s: job name.
-#: inc/class-page-editjob.php:274
+#: inc/class-page-editjob.php:270
 msgid "Changes for job <i>%s</i> saved."
 msgstr "Wijzigingen voor taak <i>%s</i> opgeslagen."
 
@@ -4423,12 +5196,12 @@ msgstr "bezig sinds %d seconden"
 msgid "Next scheduled jobs"
 msgstr "Volgende ingeplande taken"
 
-#: inc/class-page-backwpup.php:419
+#: inc/class-page-backwpup.php:415
 msgid "OK"
 msgstr "OK"
 
 #. translators: %d: number of warnings.
-#: inc/class-page-backwpup.php:412 inc/class-page-logs.php:287
+#: inc/class-page-backwpup.php:408 inc/class-page-logs.php:296
 #: src/Cli/Helpers/CommandsLogHelpersTrait.php:103
 msgid "%d WARNING"
 msgid_plural "%d WARNINGS"
@@ -4436,7 +5209,7 @@ msgstr[0] "%d WAARSCHUWING"
 msgstr[1] "%d WAARSCHUWINGEN"
 
 #. translators: %d: number of errors.
-#: inc/class-page-backwpup.php:401 inc/class-page-logs.php:276
+#: inc/class-page-backwpup.php:397 inc/class-page-logs.php:285
 #: src/Cli/Helpers/CommandsLogHelpersTrait.php:110
 msgid "%d ERROR"
 msgid_plural "%d ERRORS"
@@ -4592,11 +5365,11 @@ msgstr "Je hebt geen toestemming om dat te doen."
 #. translators: %1$s = date, %2$s = time.
 #. translators: %1$s: date, %2$s: time.
 #: components/job-item.php:24 inc/class-page-backups.php:481
-#: inc/class-page-backwpup.php:321 inc/class-page-backwpup.php:389
-#: inc/class-page-jobs.php:412 inc/class-page-jobs.php:443
-#: inc/class-page-logs.php:210 src/Hosting/Kinsta.php:175
-#: src/Hosting/Kinsta.php:222 src/Jobs/API/Rest.php:399
-#: src/Jobs/API/Rest.php:647
+#: inc/class-page-backwpup.php:321 inc/class-page-jobs.php:412
+#: inc/class-page-jobs.php:443 inc/class-page-logs.php:210
+#: src/Hosting/Kinsta.php:175 src/Hosting/Kinsta.php:222
+#: src/Jobs/API/Rest.php:400 src/Jobs/API/Rest.php:654
+#: src/Log/WpDateLogFormatter.php:44
 msgid "%1$s at %2$s"
 msgstr "%1$s om %2$s"
 
@@ -4604,7 +5377,7 @@ msgstr "%1$s om %2$s"
 msgid "?"
 msgstr "?"
 
-#: components/table-row-backups.php:29 components/table-row-backups.php:140
+#: components/table-row-backups.php:131 components/table-row-backups.php:346
 #: inc/class-page-backups.php:419 inc/class-page-backups.php:831
 #: inc/class-page-jobs.php:463 inc/class-page-jobs.php:514
 #: inc/class-page-logs.php:258
@@ -4634,7 +5407,8 @@ msgstr "Tijd"
 msgid "Change destination"
 msgstr "Verander de bestemming"
 
-#: components/job-item.php:107 components/table-row-backups.php:39
+#: components/job-item.php:107 components/table-row-backups.php:114
+#: components/table-row-backups.php:141 components/table-row-backups.php:302
 #: inc/class-page-backups.php:246 inc/class-page-backups.php:801
 #: inc/class-page-jobs.php:216 inc/class-page-jobs.php:300
 #: inc/class-page-logs.php:168 inc/class-page-logs.php:256
@@ -4745,7 +5519,7 @@ msgstr "Totale bestand back-up"
 msgid "Complete database backup"
 msgstr "Complete database back-up"
 
-#: inc/class-page-about.php:494
+#: components/storage-item-locked.php:42 inc/class-page-about.php:494
 msgid "PRO"
 msgstr "PRO"
 
@@ -4832,28 +5606,28 @@ msgstr "BackWPup's taak wizards maken het instellen en inplannen van je back-up 
 msgid "Welcome to BackWPup Pro"
 msgstr "Welkom bij BackWPup Pro"
 
-#: inc/class-option.php:282 inc/class-page-editjob.php:119
-#: inc/class-page-editjob.php:467
+#: inc/class-option.php:284 inc/class-page-editjob.php:119
+#: inc/class-page-editjob.php:474
 msgid "New Job"
 msgstr "Nieuwe taak"
 
-#: inc/class-mysqldump.php:989
+#: inc/class-mysqldump.php:1023
 msgid "Error while writing file!"
 msgstr "Er ging iets mis bij wegschrijven bestand!"
 
 #. translators: %s: requested length.
-#: inc/class-mysqldump.php:671
+#: inc/class-mysqldump.php:685
 msgid "Length for table backup is not correctly set: %1$s"
 msgstr "De lengte van de tabel back-up is niet correct ingesteld: %1$s"
 
 #. translators: %s: start offset.
-#: inc/class-mysqldump.php:661
+#: inc/class-mysqldump.php:675
 msgid "Start for table backup is not correctly set: %1$s"
 msgstr "De start van de tabel back-up is niet juist ingesteld: %1$s"
 
 #. translators: 1: database error message, 2: SQL query.
-#: inc/class-mysqldump.php:527 inc/class-mysqldump.php:568
-#: inc/class-mysqldump.php:613 inc/class-mysqldump.php:690
+#: inc/class-mysqldump.php:534 inc/class-mysqldump.php:574
+#: inc/class-mysqldump.php:618 inc/class-mysqldump.php:704
 #: src/Infrastructure/Restore/WpdbDatabaseType.php:103
 msgid "Database error %1$s for query %2$s"
 msgstr "Databasefout %1$s voor query %2$s"
@@ -4863,7 +5637,7 @@ msgid "Cannot open SQL backup file"
 msgstr "Kan SQL back-up bestand niet openen"
 
 #. translators: 1: error code, 2: error message.
-#: inc/class-mysqldump.php:334
+#: inc/class-mysqldump.php:333
 msgid "Cannot connect to MySQL database (%1$d: %2$s)"
 msgstr "Kan niet verbinden met MySQL database (%1$d: %2$s)"
 
@@ -4902,7 +5676,7 @@ msgstr "Bestandsnaam van de pluginslijst"
 msgid "Installed plugins list"
 msgstr "Lijst van geïnstalleerde plugins"
 
-#: components/table-row-backups.php:110 inc/class-jobtype-wpplugin.php:9
+#: components/table-row-backups.php:251 inc/class-jobtype-wpplugin.php:9
 #: parts/modal/exclude-files-plugins.php:20
 #: parts/sidebar/parts/files-content-selector-pro.php:47
 msgid "Plugins"
@@ -4993,23 +5767,23 @@ msgid "XML export"
 msgstr "XML-export"
 
 #. translators: %s: folder name.
-#: inc/class-jobtype-file.php:504
+#: inc/class-jobtype-file.php:548
 msgid "Folder \"%s\" is not readable!"
 msgstr "Map \"%s\" is niet leesbaar!"
 
 #. translators: %d: number of folders.
-#: inc/class-jobtype-file.php:466
+#: inc/class-jobtype-file.php:498
 msgid "%1$d folders to backup."
 msgstr "%1$d mappen om te back-uppen."
 
-#: inc/class-jobtype-file.php:461
+#: inc/class-jobtype-file.php:493
 msgid "No files/folder for the backup."
 msgstr "Geen bestanden/mappen voor de back-up."
 
 #. translators: %s: File name.
 #. translators: %s: file name.
-#: inc/class-jobtype-file.php:427 inc/class-jobtype-file.php:432
-#: inc/class-jobtype-file.php:452
+#: inc/class-jobtype-file.php:459 inc/class-jobtype-file.php:464
+#: inc/class-jobtype-file.php:484
 msgid "Added \"%s\" to backup file list"
 msgstr "Toegevoegd \"%s\" aan de back-up bestanden lijst"
 
@@ -5071,16 +5845,16 @@ msgstr "Back-up plugins"
 msgid "Backup content folder"
 msgstr "Back-up inhoud map"
 
-#: inc/class-jobtype-file.php:612
+#: inc/class-jobtype-file.php:647
 msgid "Excluded by .donotbackup file!"
 msgstr "Uitgesloten door .donotbackup bestand"
 
-#: inc/class-jobtype-file.php:598
+#: inc/class-jobtype-file.php:633
 msgid "Exclude:"
 msgstr "Uitsluiten:"
 
 #. translators: %s: Path as set by user (symlink?).
-#: inc/class-jobtype-file.php:590
+#: inc/class-jobtype-file.php:625
 msgid "Path as set by user (symlink?): %s"
 msgstr "Pad zoals ingesteld door gebruiker (symlink?): %s"
 
@@ -5092,8 +5866,8 @@ msgstr "Folders die geback-upt moeten worden"
 msgid "File backup"
 msgstr "Bestand back-up"
 
-#: components/selector-file-db.php:23 components/table-row-backups.php:102
-#: inc/class-jobtype-file.php:10
+#: components/selector-file-db.php:23 components/table-row-backups.php:243
+#: inc/class-jobtype-file.php:10 inc/class-jobtypes.php:115
 msgid "Files"
 msgstr "Bestanden"
 
@@ -5133,6 +5907,10 @@ msgstr "%d. Probeer de database te back-uppen#160;&hellip;"
 #: inc/class-jobtype-wpplugin.php:61 inc/class-jobtype-wpplugin.php:63
 msgid "GZip"
 msgstr "GZip"
+
+#: src/Abilities/Jobs/GetBackupLogs.php:101
+msgid "Backup filename"
+msgstr "Back-up bestandsnaam"
 
 #: inc/class-jobtype-dbdump.php:82
 msgid "all"
@@ -5216,363 +5994,362 @@ msgid "DB Check"
 msgstr "DB-controle"
 
 #. translators: 1: number of files, 2: total size.
-#: inc/class-job.php:2319
+#: inc/class-job.php:2622
 msgid "%1$d Files with %2$s in Archive."
 msgstr "%1$d bestanden met %2$s in archief."
 
 #. translators: %s: archive size.
-#: inc/class-job.php:2309
+#: inc/class-job.php:2612
 msgid "Archive size is %s."
 msgstr "Archiefgrootte is %s."
 
-#: inc/class-job.php:2284
+#: inc/class-job.php:2583
 msgid "Backup archive created."
 msgstr "Back-up archief aangemaakt."
 
-#: inc/class-job.php:2190 inc/class-job.php:2270
+#: inc/class-job.php:2468 inc/class-job.php:2568
 msgid "Cannot create backup archive correctly. Aborting creation."
 msgstr "Kan back-up-archief niet correct aanmaken. De handeling wordt afgebroken."
 
 #. translators: %s: archive compression method.
-#: inc/class-job.php:2160
+#: inc/class-job.php:2437
 msgctxt "Archive compression method"
 msgid "Compressing files as %s. Please be patient, this may take a moment."
 msgstr "Bestand comprimeren als %s. Even geduld , dit kan even duren."
 
 #. translators: %d: attempt number.
-#: inc/class-job.php:2145
+#: inc/class-job.php:2421
 msgid "%d. Trying to create backup archive &hellip;"
 msgstr "%d. Bezig met het aanmaken van een back-up archief&hellip;"
 
 #. translators: %s: file size.
-#: inc/class-job.php:2777
+#: inc/class-job.php:3085
 msgid "Added manifest.json file with %1$s to backup file list."
 msgstr "Er is een manifest.json bestand toegevoegd met %1$s om bestanden lijst te back-uppen."
 
-#: inc/class-job.php:2761
+#: inc/class-job.php:3069
 msgid "Please leave manifest.json untouched and in place. Otherwise it is safe to be ignored."
 msgstr "Laat manifest.json waar het staat en bewerk het niet. Zo is het veilig om genegeerd te worden."
 
-#: inc/class-job.php:2757
+#: inc/class-job.php:3065
 msgid "manifest.json might be needed for later restoring a backup from this archive."
 msgstr "manifest.json zou nodig kunnen zijn om later een back-up te kunnen herstellen uit dit archief."
 
-#: inc/class-job.php:2756
+#: inc/class-job.php:3064
 msgid "You may have noticed the manifest.json file in this archive."
 msgstr "Wellicht heb je het manifest.json bestand in dit archief opgemerkt."
 
 #. translators: %d: attempt number.
-#: inc/class-job.php:2683
+#: inc/class-job.php:2991
 msgid "%d. Trying to generate a manifest file&#160;&hellip;"
 msgstr "%d. Bezig met het genereren van een manifest bestand&#160;&hellip;"
 
 #. translators: %s: file path and size.
-#: inc/class-job.php:2585
+#: inc/class-job.php:2887
 msgid "File size of “%s” cannot be retrieved. File might be too large and will not be added to queue."
 msgstr "Grootte van bestand \"%s\" kan niet bepaald worden. Bestand is wellicht te groot en zal niet aan de wachtrij worden toegevoegd."
 
 #. translators: %s: file path.
-#: inc/class-job.php:2574
+#: inc/class-job.php:2876
 msgid "File \"%s\" is not readable!"
 msgstr "Bestand \"%s\" is niet leesbaar!"
 
 #. translators: %s: file path.
-#: inc/class-job.php:2565
+#: inc/class-job.php:2867
 msgid "Link \"%s\" not following."
 msgstr "Link \"%s\" niet gevolgd."
 
 #. translators: %s: folder path.
-#: inc/class-job.php:2525
+#: inc/class-job.php:2827
 msgctxt "Folder name"
 msgid "Folder %s is not readable"
 msgstr "Map %s is niet leesbaar"
 
 #. translators: %s: folder path.
-#: inc/class-job.php:2512
+#: inc/class-job.php:2814
 msgctxt "Folder name"
 msgid "Folder %s does not exist"
 msgstr "Map %s bestaat niet"
 
 #. translators: %1$s = Date, %2$s = job name, %3$s = job status.
-#: inc/class-job.php:1545
+#: inc/class-job.php:1775
 msgid "[%3$s] BackWPup log %1$s: %2$s"
 msgstr "[%3$s] BackWPup log %1$s: %2$s"
 
-#: inc/class-job.php:1540
+#: inc/class-job.php:1770
 msgid "ERROR"
 msgstr "FOUT"
 
-#: inc/class-job.php:1537
+#: inc/class-job.php:1767
 msgid "WARNING"
 msgstr "WAARSCHUWING"
 
-#: inc/class-job.php:1535
+#: inc/class-job.php:1765
 msgid "SUCCESSFUL"
 msgstr "SUCCESVOL"
 
 #. translators: %s: runtime in seconds.
-#: inc/class-job.php:1468
+#: inc/class-job.php:1698
 msgid "Job done in %s seconds."
 msgstr "Taak uitgevoerd in %s seconden."
 
 #. translators: %s: runtime in seconds.
-#: inc/class-job.php:1456
+#: inc/class-job.php:1686
 msgid "Job finished with warnings in %s seconds. Please resolve them for correct execution."
 msgstr "Taak is afgerond met waarschuwingen in %s seconden. Los deze op zodat de taak correct kan worden uitgevoerd."
 
 #. translators: %s: runtime in seconds.
 #. Translators: %s is duration in seconds.
-#: inc/class-job.php:1444 inc/class-page-jobs.php:1173
+#: inc/class-job.php:1674 inc/class-page-jobs.php:1173
 msgid "Job has ended with errors in %s seconds. You must resolve the errors for correct execution."
 msgstr "Taak is afgerond met fouten in %s seconden. Je moet deze fouten oplossen voor een correcte uitvoering."
 
 #. translators: %d: number of log files.
-#: inc/class-job.php:1425
+#: inc/class-job.php:1655
 msgid "%d old log deleted"
 msgid_plural "%d old logs deleted"
 msgstr[0] "%d oude log verwijderd"
 msgstr[1] "%d oude logs verwijderd"
 
-#: inc/class-job.php:962
+#: components/table-row-backups.php:80 parts/modal/backup-log.php:69
+msgid "Aborted by user"
+msgstr "Afgebroken door gebruiker"
+
+#: inc/class-job.php:1022
 msgid "Cannot write progress to working file. Job will be aborted."
 msgstr "Kan de voortgang niet wegschrijven naar het werkbestand. Taak wordt afgebroken."
 
-#: inc/class-job.php:1064
+#: inc/class-job.php:1125
 msgid "RECOVERABLE ERROR:"
 msgstr "HERSTELBARE FOUT:"
 
-#: inc/class-job.php:1058
+#: inc/class-job.php:1119
 msgid "STRICT NOTICE:"
 msgstr "STRIKT BERICHT:"
 
-#: inc/class-job.php:1054
+#: inc/class-job.php:1115
 msgid "DEPRECATED:"
 msgstr "VEROUDERD:"
 
 #. Translators: %s is duration in seconds.
-#: inc/class-job.php:1049 inc/class-page-jobs.php:1173
+#: inc/class-job.php:1110 inc/class-page-jobs.php:1173
 msgid "ERROR:"
 msgstr "FOUT:"
 
 #. Translators: %s is duration in seconds.
-#: inc/class-job.php:1039 inc/class-page-jobs.php:1176
+#: inc/class-job.php:1100 inc/class-page-jobs.php:1176
 msgid "WARNING:"
 msgstr "WAARSCHUWING:"
 
 #. translators: 1: exception class, 2: exception message.
-#: inc/class-job.php:3182
+#: inc/class-job.php:3507
 msgid "Exception caught in %1$s: %2$s"
 msgstr "Uitzondering gevangen in %1$s: %2$s"
 
-#: inc/class-file.php:353
+#: inc/class-file.php:414
 msgid "BackWPup will not backup folders and its sub folders when this file is inside."
 msgstr "BackWPup zal de mappen en de submappen niet back-uppen waar dit bestand in staat."
 
 #. translators: %s: folder path.
-#: inc/class-file.php:198
+#: inc/class-file.php:247
 msgid "Folder \"%1$s\" is not writable"
 msgstr "Map \"%1$s\" is niet schrijfbaar"
 
 #. translators: %s: folder path.
-#: inc/class-file.php:189
+#: inc/class-file.php:238
 msgid "Cannot create folder: %1$s"
 msgstr "Kan map niet aanmaken: %1$s"
 
 #. translators: %s: folder path.
-#: inc/class-file.php:161
+#: inc/class-file.php:210
 msgid "Folder %1$s not allowed, please use another folder."
 msgstr "Map %1$s is niet toegestaan, kies een andere map."
 
 #. translators: %d: time in seconds.
-#: inc/class-job.php:1713
+#: inc/class-job.php:1958
 msgid "Restart after %1$d seconds."
 msgstr "Herstart na %1$d seconden."
 
-#: inc/class-job.php:2051
+#: inc/class-job.php:2327
 msgid "Step aborted: too many attempts!"
 msgstr "Stap afgebroken: te veel pogingen!"
 
-#: inc/class-job.php:1926
+#: inc/class-job.php:2197
 msgid "Job restarts due to inactivity for more than 5 minutes."
 msgstr "Taak is opnieuw gestart omdat er meer dan 5 minuten niets gebeurde."
 
-#: inc/class-job.php:2819
+#: inc/class-job.php:3127
 msgid "A BackWPup job is already running"
 msgstr "Er loopt al een BackWPup taak"
 
-#: inc/class-job.php:2806
+#: inc/class-job.php:3114
 msgid "Wrong BackWPup JobID"
 msgstr "Verkeerde BackWPup taak ID"
 
-#: inc/class-job.php:787
+#: inc/class-job.php:828
 msgid "No destination correctly defined for backup! Please correct job settings."
 msgstr "Er is geen correcte bestemming ingesteld voor de back-up! Corrigeer dit ."
 
-#. translators: %s: backup file name.
-#: inc/class-job.php:753
-msgid "[INFO] Backup file is: %s"
-msgstr "[INFO] Back-up bestand is: %s"
-
 #. translators: %s: backup type.
-#: inc/class-job.php:759
+#: inc/class-job.php:800
 msgid "[INFO] Backup type is: %s"
 msgstr "[INFO] Back-up-soort is: %s"
 
 #. translators: %s: log file name.
-#: inc/class-job.php:742
+#: inc/class-job.php:778
 msgid "[INFO] Logfile is: %s"
 msgstr "[INFO] Logbestand is: %s"
 
 #. translators: %s: temporary folder path.
-#: inc/class-job.php:731
+#: inc/class-job.php:767
 msgid "[INFO] Temp folder is: %s"
 msgstr "[INFO] Temp-map is: %s"
 
 #. translators: 1: cURL version, 2: SSL version.
-#: inc/class-job.php:724
+#: inc/class-job.php:760
 msgid "[INFO] curl ver.: %1$s; %2$s"
 msgstr "[INFO] curl versie: %1$s; %2$s"
 
 #. translators: %s: web server info.
-#: inc/class-job.php:716
+#: inc/class-job.php:752
 msgid "[INFO] Web Server: %s"
 msgstr "[INFO] Webserver: %s"
 
 #. translators: %s: MySQL version.
-#: inc/class-job.php:709
+#: inc/class-job.php:745
 msgid "[INFO] MySQL ver.: %s"
 msgstr "[INFO] MySQL versie: %s"
 
 #. translators: %d: time in seconds.
-#: inc/class-job.php:694
+#: inc/class-job.php:730
 msgid "[INFO] Script restart time is configured to %1$d seconds"
 msgstr "[INFO] aantal seconden waarna het script opnieuw start is ingesteld op %1$d"
 
 #. translators: %d: time in seconds.
-#: inc/class-job.php:686
+#: inc/class-job.php:722
 msgid "[INFO] Maximum PHP script execution time is %1$d seconds"
 msgstr "[INFO] Maximum tijd om het PHP-script uit te voeren is %1$d seconden"
 
-#: inc/class-job.php:680
+#: inc/class-job.php:716
 msgid "[INFO] PHP ver.:"
 msgstr "[INFO] PHP-ver.:"
 
-#: inc/class-job.php:668
+#: inc/class-job.php:704
 msgid "[INFO] BackWPup job started form commandline interface"
 msgstr "[INFO] BackWPup-taak gestart vanaf de commandline omgeving"
 
-#: inc/class-job.php:666
+#: inc/class-job.php:702
 msgid "[INFO] BackWPup job started from external url"
 msgstr "[INFO] BackWPup-taak werd gestart vanaf een externe url"
 
-#: inc/class-job.php:664
+#: inc/class-job.php:700
 msgid "[INFO] BackWPup job started manually"
 msgstr "[INFO] BackWPup-taak is handmatig gestart"
 
-#: inc/class-job.php:662
+#: inc/class-job.php:698
 msgid "[INFO] BackWPup job started from wp-cron"
 msgstr "[INFO] BackWPup-taak opgestart door wp-cron"
 
-#: inc/class-job.php:658
+#: inc/class-job.php:694
 msgid "[INFO] BackWPup no automatic job start configured"
 msgstr "[INFO] BackWPup automatische start van taken niet ingesteld"
 
-#: inc/class-job.php:656
+#: inc/class-job.php:692
 msgid "[INFO] BackWPup job start with link is active"
 msgstr "[INFO] BackWPup-taak start met link is actief"
 
-#: inc/class-job.php:641 inc/class-page-backwpup.php:326
+#: inc/class-job.php:677 inc/class-page-backwpup.php:326
 #: inc/class-page-jobs.php:415
 msgid "Not scheduled!"
 msgstr "Niet ingepland!"
 
 #. translators: %1$s = job name, %2$s = date, %3$s = time.
-#: inc/class-job.php:559
+#: inc/class-job.php:595
 msgid "BackWPup log for %1$s from %2$s at %3$s"
 msgstr "BackWPup log voor %1$s van %2$s bij %3$s"
 
-#: inc/class-job.php:531
+#: inc/class-job.php:567
 msgid "End of Job"
 msgstr "Einde van de taak"
 
-#: inc/class-job.php:479
+#: inc/class-job.php:515
 msgid "Creates archive"
 msgstr "Maakt een archief aan"
 
-#: inc/class-job.php:440
+#: inc/class-job.php:466
 msgid "Creates manifest file"
 msgstr "Inhoudsopgave bestand wordt aangemaakt"
 
-#: inc/class-job.php:415
+#: inc/class-job.php:441
 msgid "Job Start"
 msgstr "Start van de taak"
 
-#: inc/class-job.php:384
+#: inc/class-job.php:410
 msgid "Starting job"
 msgstr "Taak wordt gestart"
 
-#: inc/class-install.php:144
+#: inc/class-install.php:145
 msgid "BackWPup jobs checker"
 msgstr "BackWPup taken-controle"
 
-#: inc/class-install.php:125
+#: inc/class-install.php:126
 msgid "BackWPup Admin"
 msgstr "BackWPup-beheerder"
 
-#: components/table-row-backups.php:23
+#: components/table-row-backups.php:88
 msgid "Manual"
 msgstr "Handmatige"
 
 #. translators: %s: error message.
-#: inc/class-destination-sugarsync.php:321
+#: inc/class-destination-sugarsync.php:335
 msgid "SugarSync API: %s"
 msgstr "SugarSync API: %s"
 
 #. translators: %d: number of files.
-#: inc/class-destination-sugarsync.php:301
+#: inc/class-destination-sugarsync.php:314
 msgid "%d file deleted on SugarSync folder"
 msgid_plural "%d files deleted on SugarSync folder"
 msgstr[0] "%d bestand verwijderd van de SugarSync map"
 msgstr[1] "%d bestanden verwijderd van de SugarSync map"
 
-#: inc/class-destination-sugarsync.php:243
+#: inc/class-destination-sugarsync.php:256
 msgid "Cannot transfer backup to SugarSync!"
 msgstr "Kan de back-up niet naar SugarSync verplaatsen!"
 
-#: inc/class-destination-sugarsync.php:215
+#: inc/class-destination-sugarsync.php:228
 msgid "Starting upload to SugarSync&#160;&hellip;"
 msgstr "Upload naar SugarSync wordt gestart&#160;&hellip;"
 
 #. translators: %s: available space on SugarSync.
-#: inc/class-destination-sugarsync.php:208
+#: inc/class-destination-sugarsync.php:221
 msgid "%s available at SugarSync"
 msgstr "%s beschikbaar op SugarSync"
 
 #. translators: %s: available space on SugarSync.
-#: inc/class-destination-sugarsync.php:197
+#: inc/class-destination-sugarsync.php:203
 msgctxt "Available space on SugarSync"
 msgid "Not enough disk space available on SugarSync. Available: %s."
 msgstr "Niet genoeg schijfruimte beschikbaar op SugarSync. Nog vrij: %s."
 
 #. translators: %s: SugarSync nickname.
-#: inc/class-destination-sugarsync.php:186
+#: inc/class-destination-sugarsync.php:192
 msgid "Authenticated to SugarSync with nickname %s"
 msgstr "Aangemeld bij SugarSync met nickname %s"
 
 #. translators: %d: attempt number.
-#: inc/class-destination-sugarsync.php:172
+#: inc/class-destination-sugarsync.php:178
 msgid "%d. Try to send backup to SugarSync&#160;&hellip;"
 msgstr "%d. Probeer de back-up naar SugarSync te sturen&#160;&hellip;"
 
-#: inc/class-destination-sugarsync.php:61
+#: inc/class-destination-sugarsync.php:67
 msgid "Delete Sugarsync authentication!"
 msgstr "Verwijder Sugarsync verificatie!"
 
-#: inc/class-destination-sugarsync.php:67
+#: inc/class-destination-sugarsync.php:73
 msgid "Create Sugarsync account"
 msgstr "SugarSync account aanmaken"
 
-#: inc/class-destination-sugarsync.php:47
+#: inc/class-destination-sugarsync.php:53
 msgid "Authenticate with Sugarsync!"
 msgstr "Aanmelden met SugarSync!"
 
@@ -5606,11 +6383,11 @@ msgstr[1] "%d bestanden verwijderd van S3 Bucket"
 msgid "Cannot delete backup from %s."
 msgstr "Kan de back-up niet verwijderen van %s."
 
-#: inc/class-destination-s3.php:698
+#: inc/class-destination-s3.php:702
 msgid "Cannot transfer backup to S3! (%1$d) %2$s"
 msgstr "Kan de back-up niet overzetten naar S3! (%1$d) %2$s"
 
-#: inc/class-destination-s3.php:683
+#: inc/class-destination-s3.php:687
 msgid "Backup transferred to %s."
 msgstr "Back-up verplaatst naar %s."
 
@@ -5630,9 +6407,9 @@ msgstr "Verbonden met S3 bucket \"%1$s\" in %2$s"
 msgid "%d. Trying to send backup file to S3 Service&#160;&hellip;"
 msgstr "%d. Bezig om het back-up bestand naar S3 dienst te sturen&#160;&hellip;"
 
-#: inc/class-destination-s3.php:322 inc/class-destination-s3.php:559
-#: inc/class-destination-s3.php:651 inc/class-destination-s3.php:712
-#: inc/class-destination-s3.php:729
+#: inc/class-destination-s3.php:322 inc/class-destination-s3.php:560
+#: inc/class-destination-s3.php:654 inc/class-destination-s3.php:717
+#: inc/class-destination-s3.php:736
 msgid "S3 Service API: %s"
 msgstr "S3 dienst API: %s"
 
@@ -5648,8 +6425,8 @@ msgstr "Veminderde redundancy"
 msgid "Amazon: Storage Class"
 msgstr "Amazon: Storage Class"
 
-#: inc/class-destination-msazure.php:530 inc/class-destination-s3.php:148
-#: parts/sidebar/sugar-sync-parts/root-folder.php:37
+#: inc/class-destination-msazure.php:535 inc/class-destination-s3.php:148
+#: parts/sidebar/sugar-sync-parts/root-folder.php:38
 msgid "Bucket selection"
 msgstr "Bucket selectie"
 
@@ -5701,21 +6478,21 @@ msgstr "Amazon S3: US West (Oregon)"
 msgid "Amazon S3: US West (N. California)"
 msgstr "Amazon S3: US West (N. California)"
 
-#: inc/class-destination-rsc.php:477
+#: inc/class-destination-rsc.php:492
 msgid "A container could not be found!"
 msgstr "Een container kon niet worden gevonden!"
 
-#: inc/class-destination-rsc.php:473
+#: inc/class-destination-rsc.php:488
 msgid "Missing API Key!"
 msgstr "API-sleutel ontbreekt!"
 
-#: inc/class-destination-rsc.php:471
+#: inc/class-destination-rsc.php:486
 msgid "Missing username!"
 msgstr "Gebruikersnaam ontbreekt!"
 
 #. Translators: %d is the number of files deleted from the Rackspace cloud
 #. container.
-#: inc/class-destination-rsc.php:299
+#: inc/class-destination-rsc.php:306
 msgid "%d file deleted on Rackspace cloud container."
 msgid_plural "%d files deleted on Rackspace cloud container."
 msgstr[0] "%d bestand verwijderd op Rackspace cloud container."
@@ -5739,14 +6516,14 @@ msgid "Connected to Rackspace cloud files container %s"
 msgstr "Verbonden met de Rackspace cloud bestanden container %s"
 
 #. translators: %d: attempt number.
-#: inc/class-destination-rsc.php:338
+#: inc/class-destination-rsc.php:352
 msgid "%d. Trying to send backup file to Rackspace cloud &hellip;"
 msgstr "%d. Bezig om het back-up bestand naar Backspace cloud te sturen&hellip;"
 
 #. translators: %s: error message.
 #. translators: %s: Error message.
-#: inc/class-destination-rsc.php:101 inc/class-destination-rsc.php:224
-#: inc/class-destination-rsc.php:317
+#: inc/class-destination-rsc.php:101 inc/class-destination-rsc.php:226
+#: inc/class-destination-rsc.php:326
 msgid "Rackspace Cloud API: %s"
 msgstr "Rackspace Cloud API: %s"
 
@@ -5787,27 +6564,27 @@ msgstr "Rackspace Cloud Files Regio"
 msgid "API Key"
 msgstr "API-sleutel"
 
-#: inc/class-destination-msazure.php:516
+#: inc/class-destination-msazure.php:521
 msgid "No container found!"
 msgstr "Geen container gevonden!"
 
-#: inc/class-destination-msazure.php:512 inc/class-destination-s3.php:128
+#: inc/class-destination-msazure.php:517 inc/class-destination-s3.php:128
 msgid "Missing access key!"
 msgstr "Accesskey ontbreekt!"
 
-#: inc/class-destination-msazure.php:510
+#: inc/class-destination-msazure.php:515
 msgid "Missing account name!"
 msgstr "Accountnaam ontbreekt!"
 
 #. translators: %d: number of files.
-#: inc/class-destination-msazure.php:370
+#: inc/class-destination-msazure.php:372
 msgid "%d file deleted on Microsoft Azure container."
 msgid_plural "%d files deleted on Microsoft Azure container."
 msgstr[0] "%d bestand verwijderd van Microsoft Azure container."
 msgstr[1] "%d bestanden verwijderd van Microsoft Azure container."
 
 #. translators: %s: error message.
-#: inc/class-destination-msazure.php:300 inc/class-destination-msazure.php:391
+#: inc/class-destination-msazure.php:301 inc/class-destination-msazure.php:394
 msgid "Microsoft Azure API: %s"
 msgstr "Microsoft Azure API: %s"
 
@@ -5844,7 +6621,7 @@ msgstr "MS Azure container \"%s\" aangemaakt."
 msgid "Create a new container"
 msgstr "Nieuwe container aanmaken"
 
-#: inc/class-destination-rsc.php:488
+#: inc/class-destination-rsc.php:503
 msgid "Container selection"
 msgstr "Container selectie"
 
@@ -5857,23 +6634,23 @@ msgid "Account name"
 msgstr "Accountnaam"
 
 #. translators: %d: number of deleted files.
-#: inc/class-destination-ftp.php:279
+#: inc/class-destination-ftp.php:294
 msgid "One file deleted on FTP server"
 msgid_plural "%d files deleted on FTP server"
 msgstr[0] "Eén bestand verwijderd van de FTP server"
 msgstr[1] "%d bestanden verwijderd van de FTP server"
 
 #. translators: %s: file name.
-#: inc/class-destination-ftp.php:268
+#: inc/class-destination-ftp.php:283
 msgid "Cannot delete \"%s\" on FTP server!"
 msgstr "Kan \"%s\" niet verwijderen van de FTP server!"
 
 #. translators: %s: backup file name.
-#: inc/class-destination-ftp.php:219
+#: inc/class-destination-ftp.php:234
 msgid "Backup transferred to FTP server: %s"
 msgstr "Back-up overgezet naar FTP server: %s"
 
-#: inc/class-destination-ftp.php:186
+#: inc/class-destination-ftp.php:201
 msgid "Starting upload to FTP &#160;&hellip;"
 msgstr "Start upload naar FTP &#160;&hellip;"
 
@@ -5898,17 +6675,17 @@ msgid "Entering passive mode"
 msgstr "Passive mode gebruiken"
 
 #. translators: %s: current FTP folder.
-#: inc/class-destination-ftp.php:179
+#: inc/class-destination-ftp.php:194
 msgid "FTP current folder is: %s"
 msgstr "Huidge FTP map is: %s"
 
 #. translators: %s: FTP Folder.
-#: inc/class-destination-ftp-type-ftp.php:367
+#: inc/class-destination-ftp-type-ftp.php:423
 msgid "FTP Folder \"%s\" cannot be created!"
 msgstr "FTP map \"%s\" kan niet worden aangemaakt!"
 
 #. translators: %s: FTP Folder.
-#: inc/class-destination-ftp-type-ftp.php:380
+#: inc/class-destination-ftp-type-ftp.php:433
 msgid "FTP Folder \"%s\" created!"
 msgstr "FTP map \"%s\" aangemaakt!"
 
@@ -5929,8 +6706,10 @@ msgid "FTP server reply: %s"
 msgstr "FTP server antwoord: %s"
 
 #. translators: %s: FTP server response.
+#. translators: %s: FTP server warning message.
 #: inc/class-destination-ftp-type-ftp.php:155
 #: inc/class-destination-ftp-type-ftp.php:165
+#: inc/class-destination-ftp-type-ftp.php:333
 msgid "FTP server response: %s"
 msgstr "FTP server reactie: %s"
 
@@ -5959,18 +6738,18 @@ msgid "Connected via explicit SSL-FTP to server: %1$s:%2$d"
 msgstr "Verbonden via SSL-FTP met server: %1$s:%2$d"
 
 #. translators: %d: try number.
-#: inc/class-destination-ftp.php:150
+#: inc/class-destination-ftp.php:160
 msgid "%d. Try to send backup file to an FTP server&#160;&hellip;"
 msgstr "%d. Probeer het back-up bestand verzenden naar een FTP server&#160;&hellip;"
 
-#: inc/class-page-logs.php:325
+#: inc/class-page-logs.php:360
 msgid "seconds"
 msgstr "seconden"
 
 #: parts/sidebar/storage-DROPBOX.php:70 parts/sidebar/storage-FOLDER.php:61
 #: parts/sidebar/storage-FTP.php:235 parts/sidebar/storage-MSAZURE.php:143
 #: parts/sidebar/storage-RSC.php:185 parts/sidebar/storage-S3.php:329
-#: parts/sidebar/storage-SUGARSYNC.php:67
+#: parts/sidebar/storage-SUGARSYNC.php:66
 msgid "Folder to store files in"
 msgstr "Map om bestanden in op te slaan"
 
@@ -5984,25 +6763,25 @@ msgid "Username"
 msgstr "Gebruikersnaam"
 
 #. translators: %d: number of backup files.
-#: inc/class-destination-folder.php:223
+#: inc/class-destination-folder.php:225
 msgid "%d backup file deleted"
 msgid_plural "%d backup files deleted"
 msgstr[0] "%d back-upbestand verwijderd"
 msgstr[1] "%d back-up bestanden verwijderd"
 
-#: inc/class-destination-email.php:369
+#: inc/class-destination-email.php:388
 msgid "If this message reaches your inbox, sending backup archives via email should work for you."
 msgstr "Als dit bericht in je inbox is beland betekent het dat het verzenden van back-up archieven via e-mail zou moeten werken."
 
-#: inc/class-destination-email.php:366
+#: inc/class-destination-email.php:385
 msgid "BackWPup archive sending TEST Message"
 msgstr "BackWPup archief verzenden TEST Bericht"
 
-#: inc/class-destination-email.php:257 inc/class-destination-email.php:379
+#: inc/class-destination-email.php:275 inc/class-destination-email.php:398
 msgid "Email sent."
 msgstr "E-mail verzonden."
 
-#: inc/class-destination-email.php:252 inc/class-destination-email.php:377
+#: inc/class-destination-email.php:270 inc/class-destination-email.php:396
 msgid "Error while sending email!"
 msgstr "Fout bij het verzenden van de e-mail!"
 
@@ -6032,52 +6811,52 @@ msgstr "%d. Probeer de back-up te verzenden via e-mail&#160;&hellip;"
 
 #: inc/class-jobtype-dbdump.php:83 inc/class-jobtype-wpexp.php:91
 #: inc/class-jobtype-wpplugin.php:59 inc/class-page-backwpup.php:333
-#: inc/class-page-backwpup.php:428 inc/class-page-settings.php:1022
+#: inc/class-page-backwpup.php:424 inc/class-page-settings.php:1034
 msgid "none"
 msgstr "geen"
 
 #. translators: %d: number of files.
-#: inc/class-destination-dropbox.php:247
+#: inc/class-destination-dropbox.php:248
 msgid "%d file deleted from Dropbox"
 msgid_plural "%d files deleted on Dropbox"
 msgstr[0] "%d bestand van Dropbox verwijderd"
 msgstr[1] "%d bestanden van Dropbox verwijderd"
 
 #. translators: %s: destination service name.
-#: inc/class-destination-dropbox.php:372
+#: inc/class-destination-dropbox.php:408
 msgid "Error transfering backup to %s."
 msgstr "Fout bij het verzenden van de back-up naar %s."
 
-#: inc/class-destination-dropbox.php:365
+#: inc/class-destination-dropbox.php:401
 msgid "Uploaded file size and local file size don't match."
 msgstr "De grootte van het geüploade bestand en het lokale bestand zijn niet hetzelfde."
 
 #. translators: %s: destination path.
-#: inc/class-destination-dropbox.php:357 inc/class-destination-msazure.php:287
-#: inc/class-destination-sugarsync.php:237
+#: inc/class-destination-dropbox.php:393 inc/class-destination-msazure.php:287
+#: inc/class-destination-sugarsync.php:250
 msgid "Backup transferred to %s"
 msgstr "Back-up verzonden naar %s"
 
-#: inc/class-destination-dropbox.php:331
+#: inc/class-destination-dropbox.php:346
 msgid "Uploading to Dropbox&#160;&hellip;"
 msgstr "Bezig met uploaden naar Dropbox&#160;&hellip;"
 
-#: inc/class-destination-dropbox.php:327
+#: inc/class-destination-dropbox.php:333
 msgid "Not Authenticated with Dropbox!"
 msgstr "Niet aangemeld bij Dropbox!"
 
 #. translators: %s: available space.
-#: inc/class-destination-dropbox.php:321
+#: inc/class-destination-dropbox.php:323
 msgid "%s available on your Dropbox"
 msgstr "%s beschikbaar op je Dropbox"
 
 #. translators: %s: Dropbox user.
-#: inc/class-destination-dropbox.php:309
+#: inc/class-destination-dropbox.php:310
 msgid "Authenticated with Dropbox of user: %s"
 msgstr "Geverifieerd met Dropbox van gebruiker: %s"
 
 #. translators: %d: attempt number.
-#: inc/class-destination-dropbox.php:288
+#: inc/class-destination-dropbox.php:289
 msgid "%d. Try to send backup file to Dropbox&#160;&hellip;"
 msgstr "%d. Probeer back-up bestand naar Dropbox te verzenden&#160;&hellip;"
 
@@ -6131,92 +6910,94 @@ msgid "Login"
 msgstr "Inloggen"
 
 #. translators: %s: error message.
-#: inc/class-destination-dropbox.php:388
+#: inc/class-destination-dropbox.php:424
 msgid "Dropbox API: %s"
 msgstr "Dropbox API: %s"
 
-#: inc/class-cron.php:74
+#: inc/class-cron.php:77
 msgid "Aborted, because no progress for one hour!"
 msgstr "Afgebroken omdat er geen voortgang was gedurende een uur!"
 
 #. translators: %s: File path.
-#: inc/class-create-archive.php:750
+#: inc/class-create-archive.php:846
 msgid "If %s will be added to your backup archive, the archive will be too large for operations with this PHP Version. You might want to consider splitting the backup job in multiple jobs with less files each."
 msgstr "Als %s aan je back-up archief wordt toegevoegd zal het archief te groot worden om te verwerken met deze versie van PHP. Je kunt overwegen om de back-up op te delen in verschillende taken met elk minder bestanden."
 
-#: inc/class-create-archive.php:871 inc/class-create-archive.php:872
+#: inc/class-create-archive.php:1313 inc/class-create-archive.php:1314
+#: src/Abilities/Jobs/GetBackupLogs.php:557
+#: src/Abilities/Jobs/GetBackupLogs.php:568
 msgid "Unknown"
 msgstr "Onbekend"
 
 #. translators: %s: ZipArchive status message.
-#: inc/class-create-archive.php:579
+#: inc/class-create-archive.php:657
 msgctxt "Text of ZipArchive status Message"
 msgid "ZipArchive returns status: %s"
 msgstr "ZipArchive geeft status %s terug"
 
 #. translators: %s: Folder path.
-#: inc/class-create-archive.php:509
+#: inc/class-create-archive.php:587
 msgctxt "Folder path to add to archive"
 msgid "Folder %s does not exist or is not readable"
 msgstr "Map %s bestaat niet of is niet leesbaar"
 
-#: inc/class-create-archive.php:498
+#: inc/class-create-archive.php:576
 msgid "Folder name cannot be empty"
 msgstr "Mapnaam mag niet leeg zijn"
 
 #. translators: %s: File name added to the archive.
-#: inc/class-create-archive.php:430 inc/class-create-archive.php:446
-#: inc/class-create-archive.php:549
+#: inc/class-create-archive.php:508 inc/class-create-archive.php:524
+#: inc/class-create-archive.php:627
 msgid "Cannot add \"%s\" to zip archive!"
 msgstr "Kan \"%s\" niet toevoegen aan zip archief!"
 
-#: inc/class-create-archive.php:319 inc/class-create-archive.php:532
+#: inc/class-create-archive.php:397 inc/class-create-archive.php:610
 msgid "This archive method can only add one file"
 msgstr "Deze manier van archiveren kan maar één bestand per keer toevoegen"
 
 #. translators: %s: File path.
-#: inc/class-create-archive.php:298
+#: inc/class-create-archive.php:376
 msgctxt "File to add to archive"
 msgid "File %s does not exist or is not readable"
 msgstr "Bestand %s bestaat niet of is niet leesbaar"
 
-#: inc/class-create-archive.php:285
+#: inc/class-create-archive.php:363
 msgid "File name cannot be empty."
 msgstr "Bestandsnaam mag niet leeg zijn."
 
 #. translators: %s: PclZip error message.
-#: inc/class-create-archive.php:212 inc/class-create-archive.php:469
+#: inc/class-create-archive.php:248 inc/class-create-archive.php:547
 msgid "PclZip archive add error: %s"
 msgstr "PclZip archief toevoegen fout: %s"
 
-#: inc/class-create-archive.php:195
+#: inc/class-create-archive.php:231
 msgid "Cannot open archive file"
 msgstr "Kan archiefbestand niet openen"
 
 #. translators: %s: Archive file name.
-#: inc/class-create-archive.php:188
+#: inc/class-create-archive.php:224
 msgctxt "%s = file name"
 msgid "Method to archive file %s not detected"
 msgstr "Methode om bestand %s te archiveren niet gedetecteerd"
 
 #. translators: %d: ZipArchive open() result.
-#: inc/class-create-archive.php:149
+#: inc/class-create-archive.php:185
 msgctxt "ZipArchive open() result"
 msgid "Cannot create zip archive: %d"
 msgstr "Kan zip archief %d niet aanmaken"
 
-#: inc/class-create-archive.php:108 inc/class-create-archive.php:135
-#: inc/class-create-archive.php:175 inc/class-mysqldump.php:100
+#: inc/class-create-archive.php:138 inc/class-create-archive.php:171
+#: inc/class-create-archive.php:211 inc/class-mysqldump.php:100
 msgid "Functions for gz compression not available"
 msgstr "Functionaliteit voor gz compressie niet beschikbaar"
 
 #. translators: %s: Folder path.
-#: inc/class-create-archive.php:93
+#: inc/class-create-archive.php:123
 msgctxt "%s = Folder name"
 msgid "Folder %s for archive not found"
 msgstr "Map %s voor archief niet gevonden"
 
-#: inc/class-create-archive.php:84
+#: inc/class-create-archive.php:114
 msgid "The file name of an archive cannot be empty."
 msgstr "De naam van een archief mag niet leeg blijven."
 
@@ -6233,42 +7014,37 @@ msgid "running"
 msgstr "bezig"
 
 #. translators: %s: BackWPup version.
-#: inc/class-admin.php:981
+#: inc/class-admin.php:1004
 msgid "version %s"
 msgstr "versie %s"
 
-#. translators: %s: BackWPup website URL.
-#: inc/class-admin.php:941
-msgid "<a class=\"backwpup-get-pro\" href=\"%s\">Get BackWPup Pro now.</a>"
-msgstr "<a class=\"backwpup-get-pro\" href=\"%s\">BackWPup Pro nu aanschaffen.</a>"
-
-#: inc/class-admin.php:845 inc/class-admin.php:852
+#: inc/class-admin.php:874 inc/class-admin.php:881
 msgid "Cheating, huh?"
 msgstr "Valsspelen?"
 
-#: inc/class-admin.php:793 inc/class-admin.php:794
+#: inc/class-admin.php:822 inc/class-admin.php:823
 msgid "About"
 msgstr "Over"
 
-#: inc/class-admin.php:431 inc/class-admin.php:508 inc/class-admin.php:726
-#: inc/class-admin.php:727
+#: inc/class-admin.php:460 inc/class-admin.php:537 inc/class-admin.php:755
+#: inc/class-admin.php:756
 msgid "Settings"
 msgstr "Instellingen"
 
-#: inc/class-admin.php:686 inc/class-admin.php:687 inc/class-adminbar.php:108
+#: inc/class-admin.php:715 inc/class-admin.php:716 inc/class-adminbar.php:108
 msgid "Backups"
 msgstr "Back-ups"
 
-#: inc/class-admin.php:622 inc/class-admin.php:623 inc/class-page-logs.php:431
-#: inc/class-page-settings.php:607 parts/sidebar/advanced-settings.php:32
+#: inc/class-admin.php:651 inc/class-admin.php:652 inc/class-page-logs.php:466
+#: inc/class-page-settings.php:619 parts/sidebar/advanced-settings.php:36
 msgid "Logs"
 msgstr "Logs"
 
-#: inc/class-admin.php:583 inc/class-admin.php:584
+#: inc/class-admin.php:612 inc/class-admin.php:613
 msgid "Add new job"
 msgstr "Nieuwe taak aanmaken"
 
-#: inc/class-page-settings.php:603 parts/sidebar/advanced-settings.php:20
+#: inc/class-page-settings.php:615 parts/sidebar/advanced-settings.php:24
 msgid "Jobs"
 msgstr "Taken"
 
@@ -6323,7 +7099,7 @@ msgstr "S3 dienst"
 msgid "Backup to Dropbox"
 msgstr "Back-up naar Dropbox"
 
-#: inc/BackWPup.php:246 inc/class-destination-dropbox.php:373
+#: inc/BackWPup.php:246 inc/class-destination-dropbox.php:409
 msgid "Dropbox"
 msgstr "Dropbox"
 
@@ -6348,11 +7124,12 @@ msgid "Backup to Folder"
 msgstr "Back-up naar map"
 
 #: inc/BackWPup.php:201 inc/class-page-backups.php:314
+#: src/Abilities/Jobs/GetBackupHistory.php:422
 msgid "Folder"
 msgstr "Map"
 
 #. translators: %1$s is the minimum PHP version, %2$s is the minimum WordPress
 #. version.
-#: backwpup.php:59
+#: backwpup.php:116
 msgid "BackWPup requires PHP version %1$s with spl extension or greater and WordPress %2$s or greater."
 msgstr "BackWPup vereist PHP versie %1$s met spl extensie of hoger en WordPress %2$s of hoger."

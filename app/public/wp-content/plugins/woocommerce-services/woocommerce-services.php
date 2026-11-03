@@ -8,13 +8,15 @@
  * Author URI: https://woocommerce.com/
  * Text Domain: woocommerce-services
  * Domain Path: /i18n/languages/
- * Version: 3.6.1
+ * License: GPLv2 or later
+ * License URI: https://www.gnu.org/licenses/gpl-2.0.html
+ * Version: 3.7.4
  * Requires Plugins: woocommerce
  * Requires PHP: 7.4
- * Requires at least: 6.8
- * Tested up to: 6.9
- * WC requires at least: 10.5
- * WC tested up to: 10.7
+ * Requires at least: 7.0
+ * Tested up to: 7.1
+ * WC requires at least: 11.0
+ * WC tested up to: 11.2
  *
  * Copyright (c) 2017-2023 Automattic
  *
@@ -52,6 +54,7 @@ use Automattic\WCServices\Integrations\WooCommerceBlocksIntegration;
 use Automattic\WCServices\StoreApi\Extensions\StoreNoticesExtension;
 use Automattic\WCServices\StoreApi\StoreApiExtendSchema;
 use Automattic\WCServices\StoreApi\StoreApiExtensionController;
+use Automattic\WooCommerce\StoreApi\Schemas\ExtendSchema;
 use Automattic\WooCommerce\Utilities\OrderUtil;
 
 if ( ! class_exists( 'WC_Connect_Loader' ) ) {
@@ -73,6 +76,32 @@ if ( ! class_exists( 'WC_Connect_Loader' ) ) {
 	define( 'WCSERVICES_STYLESHEETS_DIR', WCSERVICES_ASSETS_DIR . 'stylesheets/' );
 
 	class WC_Connect_Loader {
+
+		/**
+		 * Nonce action prefix guarding the "dismiss this notice" links on server-supplied notices.
+		 *
+		 * The notice id is appended, so a nonce only dismisses the notice it was issued for.
+		 *
+		 * @var string
+		 */
+		const DISMISS_SERVER_NOTICE_NONCE_ACTION = 'wc_connect_dismiss_server_notice';
+
+		/**
+		 * Query argument carrying the server-notice dismissal nonce.
+		 *
+		 * A dedicated name (rather than `_wpnonce`) so the dismiss link cannot overwrite a
+		 * nonce the surrounding admin screen already put on the current URL.
+		 *
+		 * @var string
+		 */
+		const DISMISS_SERVER_NOTICE_NONCE_NAME = '_wc_connect_notice_nonce';
+
+		/**
+		 * Most bytes of a request body log_rest_api_errors() writes to the log.
+		 *
+		 * @var int
+		 */
+		private const REST_ERROR_LOG_BODY_LIMIT = 1024;
 
 		/**
 		 * @var WC_Connect_Logger
@@ -293,8 +322,16 @@ if ( ! class_exists( 'WC_Connect_Loader' ) ) {
 			require_once __DIR__ . '/classes/class-wc-connect-tracks.php';
 			require_once __DIR__ . '/classes/class-wc-connect-wcst-to-wcshipping-migration-state-enum.php';
 
+			/*
+			 * Deactivation can run while WooCommerce is inactive - for example through the
+			 * WordPress.com plugin management API - and recording the event needs WooCommerce:
+			 * WC_Logger here, and wc_clean() inside WC_Connect_Tracks::record_user_event().
+			 * Skip the event rather than fatal inside the deactivate_ hook, which WordPress runs
+			 * before it saves the new active-plugins list - a fatal there leaves the plugin
+			 * impossible to turn off.
+			 */
 			$migration_state = intval( get_option( 'wcshipping_migration_state' ) );
-			if ( $migration_state === WC_Connect_WCST_To_WCShipping_Migration_State_Enum::COMPLETED ) {
+			if ( WC_Connect_WCST_To_WCShipping_Migration_State_Enum::COMPLETED === $migration_state && class_exists( 'WC_Logger' ) ) {
 				$core_logger = new WC_Logger();
 				$logger      = new WC_Connect_Logger( $core_logger );
 				$tracks      = new WC_Connect_Tracks( $logger, __FILE__ );
@@ -702,6 +739,7 @@ if ( ! class_exists( 'WC_Connect_Loader' ) ) {
 			}
 
 			add_action( 'woocommerce_blocks_loaded', array( $this, 'register_blocks_integration' ) );
+			add_action( 'woocommerce_blocks_loaded', array( $this, 'extend_store_api' ) );
 			add_action( 'before_woocommerce_init', array( $this, 'pre_wc_init' ) );
 		}
 
@@ -712,13 +750,13 @@ if ( ! class_exists( 'WC_Connect_Loader' ) ) {
 			add_action(
 				'woocommerce_blocks_checkout_block_registration',
 				function ( $integration_registry ) {
-					$integration_registry->register( new WooCommerceBlocksIntegration( $this->wc_connect_base_url ) );
+					$integration_registry->register( new WooCommerceBlocksIntegration() );
 				}
 			);
 			add_action(
 				'woocommerce_blocks_cart_block_registration',
 				function ( $integration_registry ) {
-					$integration_registry->register( new WooCommerceBlocksIntegration( $this->wc_connect_base_url ) );
+					$integration_registry->register( new WooCommerceBlocksIntegration() );
 				}
 			);
 		}
@@ -817,7 +855,6 @@ if ( ! class_exists( 'WC_Connect_Loader' ) ) {
 			$this->service_settings_store->migrate_legacy_services();
 			$this->attach_hooks();
 			$this->init_store_notices();
-			$this->extend_store_api();
 		}
 
 		/**
@@ -924,8 +961,16 @@ if ( ! class_exists( 'WC_Connect_Loader' ) ) {
 			$settings_pages = new WC_Connect_Settings_Pages( $this->api_client, $this->get_service_schemas_store() );
 			$this->set_settings_pages( $settings_pages );
 
-			// Add WC Admin Notices.
-			if ( ! self::is_wc_shipping_activated() && self::can_add_wc_admin_notice() ) {
+			/*
+			 * Add WC Admin Notices.
+			 *
+			 * Skipped while serving admin-ajax.php: `is_admin()` is also true there, so without
+			 * this check every admin AJAX request pays for a service-schema read and an Inbox
+			 * note lookup that nothing in an AJAX response can display. Ordinary wp-admin page
+			 * loads are unaffected, so eligible legacy stores still get the note the first time
+			 * they open the admin.
+			 */
+			if ( ! wp_doing_ajax() && ! self::is_wc_shipping_activated() && self::can_add_wc_admin_notice() ) {
 				require_once __DIR__ . '/classes/class-wc-connect-note-dhl-live-rates-available.php';
 				WC_Connect_Note_DHL_Live_Rates_Available::init( $schema );
 			}
@@ -976,10 +1021,72 @@ if ( ! class_exists( 'WC_Connect_Loader' ) ) {
 		}
 
 		/**
-		 * Extend the Store API.
+		 * Extend the Store API when it is available.
+		 *
+		 * Registered on `woocommerce_blocks_loaded` - the same hook the block
+		 * integration uses - because the Store API only exists once Blocks load and
+		 * our extension only surfaces notices in the block cart/checkout. On a
+		 * WooCommerce too old to ship Blocks the hook never fires, so nothing runs.
+		 *
+		 * The `class_exists()` guard covers the in-between case: WooCommerce versions
+		 * that ship Blocks (firing this hook) but predate the top-level
+		 * `Automattic\WooCommerce\StoreApi\StoreApi` class this plugin depends on.
+		 * Without the guard those versions would still fatal with `Class not found`.
 		 */
 		public function extend_store_api() {
-			$store_api_extend_schema        = StoreApiExtendSchema::instance();
+			if ( ! $this->is_store_api_available() ) {
+				$this->log_store_api_unavailable();
+				return;
+			}
+
+			$this->register_store_api_extensions();
+		}
+
+		/**
+		 * Whether the WooCommerce Store API is available on this installation.
+		 *
+		 * @return bool
+		 */
+		protected function is_store_api_available() {
+			return class_exists( '\Automattic\WooCommerce\StoreApi\StoreApi' );
+		}
+
+		/**
+		 * Log, at most once per day, that the Store API is unavailable.
+		 *
+		 * `extend_store_api()` runs on `woocommerce_blocks_loaded`, which fires on
+		 * nearly every request. On installs missing the StoreApi class the notice
+		 * would otherwise be written on every page load, so it is throttled to once
+		 * per day via a transient.
+		 */
+		protected function log_store_api_unavailable() {
+			$transient_key = 'wcservices_store_api_unavailable_logged';
+
+			if ( get_transient( $transient_key ) ) {
+				return;
+			}
+
+			wc_get_logger()->notice(
+				'StoreApi class not found. Store API extensions will not be registered.',
+				array( 'source' => 'woocommerce-services' )
+			);
+
+			set_transient( $transient_key, 1, DAY_IN_SECONDS );
+		}
+
+		/**
+		 * Register the plugin's Store API extensions.
+		 */
+		protected function register_store_api_extensions() {
+			$store_api_extend_schema = $this->get_store_api_extend_schema();
+
+			// The container can fail to resolve ExtendSchema on a partial or broken
+			// WooCommerce install even when the top-level StoreApi class exists. Skip
+			// registration quietly rather than passing null into typed constructors.
+			if ( ! $store_api_extend_schema instanceof ExtendSchema ) {
+				return;
+			}
+
 			$store_api_extension_controller = new StoreApiExtensionController( $store_api_extend_schema );
 
 			// Register Store API extensions.
@@ -987,6 +1094,18 @@ if ( ! class_exists( 'WC_Connect_Loader' ) ) {
 
 			// Extend the Store API.
 			$store_api_extension_controller->extend_store();
+		}
+
+		/**
+		 * Resolve the plugin's ExtendSchema wrapper.
+		 *
+		 * Extracted as a seam so tests can substitute an unavailable schema
+		 * (returning null) without exercising the WooCommerce container.
+		 *
+		 * @return ExtendSchema|null
+		 */
+		protected function get_store_api_extend_schema(): ?ExtendSchema {
+			return StoreApiExtendSchema::instance();
 		}
 
 		/**
@@ -1087,6 +1206,9 @@ if ( ! class_exists( 'WC_Connect_Loader' ) ) {
 				return;
 			}
 
+			// Read once: on a disconnected store this runs an uncached query on every REST request.
+			$has_only_tax_functionality = self::has_only_tax_functionality();
+
 			require_once __DIR__ . '/classes/class-wc-rest-connect-base-controller.php';
 
 			require_once __DIR__ . '/classes/class-wc-rest-connect-account-settings-controller.php';
@@ -1109,7 +1231,8 @@ if ( ! class_exists( 'WC_Connect_Loader' ) ) {
 			$rest_service_data_refresh_controller->set_service_schemas_store( $this->get_service_schemas_store() );
 			$rest_service_data_refresh_controller->register_routes();
 
-			if ( ! self::is_wc_shipping_activated() ) {
+			// Same as should_load_shipping_features(), reusing the value read above.
+			if ( ! self::is_wc_shipping_activated() && ! $has_only_tax_functionality ) {
 
 				require_once __DIR__ . '/classes/class-wc-rest-connect-packages-controller.php';
 				$rest_packages_controller = new WC_REST_Connect_Packages_Controller( $this->api_client, $settings_store, $logger, $this->service_schemas_store );
@@ -1176,20 +1299,24 @@ if ( ! class_exists( 'WC_Connect_Loader' ) ) {
 				$this->set_carrier_types_controller( $rest_carrier_types_controller );
 				$rest_carrier_types_controller->register_routes();
 			}
-			require_once __DIR__ . '/classes/class-wc-rest-connect-migration-flag-controller.php';
-			$rest_migration_flag_controller = new WC_REST_Connect_Migration_Flag_Controller( $this->api_client, $settings_store, $logger, $this->tracks );
-			$this->set_rest_migration_flag_controller( $rest_migration_flag_controller );
-			$rest_migration_flag_controller->register_routes();
 
-			require_once __DIR__ . '/classes/class-wc-rest-connect-shipping-carriers-controller.php';
-			$rest_carriers_controller = new WC_REST_Connect_Shipping_Carriers_Controller( $this->api_client, $settings_store, $logger );
-			$this->set_rest_carriers_controller( $rest_carriers_controller );
-			$rest_carriers_controller->register_routes();
+			// Kept outside the WC Shipping check: the migration posts its flag after it activates WC Shipping.
+			if ( ! $has_only_tax_functionality ) {
+				require_once __DIR__ . '/classes/class-wc-rest-connect-migration-flag-controller.php';
+				$rest_migration_flag_controller = new WC_REST_Connect_Migration_Flag_Controller( $this->api_client, $settings_store, $logger, $this->tracks );
+				$this->set_rest_migration_flag_controller( $rest_migration_flag_controller );
+				$rest_migration_flag_controller->register_routes();
 
-			require_once __DIR__ . '/classes/class-wc-rest-connect-subscriptions-controller.php';
-			$rest_subscriptions_controller = new WC_REST_Connect_Subscriptions_Controller( $this->api_client, $settings_store, $logger );
-			$this->set_rest_subscriptions_controller( $rest_subscriptions_controller );
-			$rest_subscriptions_controller->register_routes();
+				require_once __DIR__ . '/classes/class-wc-rest-connect-shipping-carriers-controller.php';
+				$rest_carriers_controller = new WC_REST_Connect_Shipping_Carriers_Controller( $this->api_client, $settings_store, $logger );
+				$this->set_rest_carriers_controller( $rest_carriers_controller );
+				$rest_carriers_controller->register_routes();
+
+				require_once __DIR__ . '/classes/class-wc-rest-connect-subscriptions-controller.php';
+				$rest_subscriptions_controller = new WC_REST_Connect_Subscriptions_Controller( $this->api_client, $settings_store, $logger );
+				$this->set_rest_subscriptions_controller( $rest_subscriptions_controller );
+				$rest_subscriptions_controller->register_routes();
+			}
 
 			require_once __DIR__ . '/classes/class-wc-rest-connect-shipping-label-eligibility-controller.php';
 			$rest_shipping_label_eligibility_controller = new WC_REST_Connect_Shipping_Label_Eligibility_Controller(
@@ -1198,7 +1325,7 @@ if ( ! class_exists( 'WC_Connect_Loader' ) ) {
 				$logger,
 				$this->shipping_label,
 				$this->payment_methods_store,
-				self::has_only_tax_functionality()
+				$has_only_tax_functionality
 			);
 
 			$rest_shipping_label_eligibility_controller->register_routes();
@@ -1223,9 +1350,27 @@ if ( ! class_exists( 'WC_Connect_Loader' ) ) {
 		 * Delete this when the "v3" REST API is included in all the WC versions we support.
 		 */
 		public function wc_api_dev_init() {
+			/*
+			 * Ask whether WooCommerce *provides* the endpoint, not whether it happens to be in the
+			 * route table for this request.
+			 *
+			 * Since WooCommerce 9.2 the wc/v3 namespace is registered lazily: Server::get_rest_namespaces()
+			 * consults wc_rest_should_load_namespace(), which returns false whenever the current request
+			 * targets a different known namespace (wc/store, wc-analytics, wc-admin, ...). On all of those
+			 * requests /wc/v3/data/continents is legitimately absent even though core supplies it, so
+			 * registering our bundled copy there is dead work: the request cannot dispatch to the route,
+			 * and route registrations do not outlive the request that made them.
+			 */
+			if ( $this->core_provides_continents_controller() ) {
+				return;
+			}
+
 			$rest_server     = rest_get_server();
 			$existing_routes = $rest_server->get_routes();
 			if ( ! isset( $existing_routes['/wc/v3/data/continents'] ) ) {
+				// The controller below constructs WC_Connect_Continents; keep the fallback self-contained
+				// rather than relying on load_dependencies() having already required it.
+				require_once __DIR__ . '/classes/class-wc-connect-continents.php';
 				require_once __DIR__ . '/classes/wc-api-dev/class-wc-rest-dev-data-controller.php';
 				require_once __DIR__ . '/classes/wc-api-dev/class-wc-rest-dev-data-continents-controller.php';
 				$continents = new WC_REST_Dev_Data_Continents_Controller();
@@ -1234,29 +1379,121 @@ if ( ! class_exists( 'WC_Connect_Loader' ) ) {
 		}
 
 		/**
+		 * Whether WooCommerce core supplies the /wc/v3/data/continents controller.
+		 *
+		 * Answered with class_exists(), which resolves through WooCommerce's autoloader — its
+		 * wc_rest_ branch searches includes/rest-api/Controllers/Version{1,2,3}/ — so the answer
+		 * does not depend on what the current request has loaded so far. Core has shipped this
+		 * controller since WC 3.5.
+		 *
+		 * Kept as its own method so the fallback branch of wc_api_dev_init() is reachable from a
+		 * test: on any supported WooCommerce the class does exist, and class_exists() cannot be
+		 * made to answer otherwise within a process.
+		 *
+		 * @return bool
+		 */
+		protected function core_provides_continents_controller() {
+			return class_exists( 'WC_REST_Data_Continents_Controller' );
+		}
+
+		/**
 		 * Log any WP_Errors encountered before our REST API callbacks
 		 *
 		 * Note: intended to be hooked into 'rest_request_before_callbacks'
 		 *
-		 * @param WP_HTTP_Response $response Result to send to the client. Usually a WP_REST_Response.
-		 * @param WP_REST_Server   $handler  ResponseHandler instance (usually WP_REST_Server).
-		 * @param WP_REST_Request  $request  Request used to generate the response.
+		 * WordPress applies that filter before the route's permission check, and skips the
+		 * check when the request already failed (invalid JSON, missing or invalid params).
+		 * So only requests the route itself allows are logged. The error line is always
+		 * written; the request body only when debug logging is on, shortened and escaped.
+		 * The admin error notice is not touched.
+		 *
+		 * @param WP_REST_Response|WP_HTTP_Response|WP_Error|mixed $response Result to send to the client. Usually a WP_REST_Response.
+		 * @param array                                            $handler  Route handler used for the request.
+		 * @param WP_REST_Request                                  $request  Request used to generate the response.
 		 *
 		 * @return mixed - pass through value of $response.
 		 */
 		public function log_rest_api_errors( $response, $handler, $request ) {
-			if ( ! is_wp_error( $response ) ) {
+			if ( ! is_wp_error( $response ) || ! $request instanceof WP_REST_Request ) {
 				return $response;
 			}
 
-			if ( 0 === strpos( $request->get_route(), '/wc/v1/connect/' ) ) {
-				$route_info = $request->get_method() . ' ' . $request->get_route();
+			if ( 0 !== strpos( $request->get_route(), '/wc/v1/connect/' ) || ! $this->rest_route_allows_request( $handler, $request ) ) {
+				return $response;
+			}
 
-				$this->get_logger()->error( $response, $route_info );
-				$this->get_logger()->error( $route_info, $request->get_body() );
+			$logger     = $this->get_logger();
+			$route_info = $request->get_method() . ' ' . $this->encode_for_log( $request->get_route() );
+
+			// log() rather than error(): a REST error must not replace the admin error notice.
+			$logger->log( $response, $route_info, true );
+
+			// A request with no body has nothing to add.
+			if ( $logger->is_logging_enabled() && '' !== (string) $request->get_body() ) {
+				$logger->log( $route_info, $this->format_rest_body_for_log( $request->get_body() ) );
 			}
 
 			return $response;
+		}
+
+		/**
+		 * Whether the route's own permission check allows a request.
+		 *
+		 * WordPress skips its own check for a request that failed validation. It still
+		 * calls the callback afterwards to build the Allow header, which does not decide
+		 * access. A missing or non-callable check counts as denied.
+		 *
+		 * @param array|mixed     $handler Route handler used for the request.
+		 * @param WP_REST_Request $request Request used to generate the response.
+		 *
+		 * @return bool
+		 */
+		private function rest_route_allows_request( $handler, $request ) {
+			if ( ! is_array( $handler ) || empty( $handler['permission_callback'] ) || ! is_callable( $handler['permission_callback'] ) ) {
+				return false;
+			}
+
+			$permission = call_user_func( $handler['permission_callback'], $request );
+
+			return ! is_wp_error( $permission ) && false !== $permission && null !== $permission;
+		}
+
+		/**
+		 * JSON-encode request text for the log.
+		 *
+		 * ASCII line breaks and control characters are escaped, so the text cannot add lines
+		 * of its own to the log. Invalid UTF-8 is replaced rather than dropping the text.
+		 *
+		 * @param string $text Text taken from the request.
+		 *
+		 * @return string The quoted, escaped text.
+		 */
+		private function encode_for_log( $text ) {
+			$encoded = wp_json_encode( (string) $text, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE );
+
+			return false === $encoded ? '""' : $encoded;
+		}
+
+		/**
+		 * Describe a request body for the log: its length and an encoded excerpt.
+		 *
+		 * @param string $body Raw request body.
+		 *
+		 * @return string
+		 */
+		private function format_rest_body_for_log( $body ) {
+			$body    = (string) $body;
+			$length  = strlen( $body );
+			$is_long = $length > self::REST_ERROR_LOG_BODY_LIMIT;
+			$excerpt = $body;
+
+			if ( $is_long ) {
+				$excerpt = function_exists( 'mb_strcut' )
+					? mb_strcut( $body, 0, self::REST_ERROR_LOG_BODY_LIMIT, 'UTF-8' )
+					: substr( $body, 0, self::REST_ERROR_LOG_BODY_LIMIT );
+			}
+
+			return sprintf( 'body, %d bytes: %s%s', $length, $this->encode_for_log( $excerpt ), $is_long ? '...' : '' );
 		}
 
 		/**
@@ -1636,6 +1873,7 @@ if ( ! class_exists( 'WC_Connect_Loader' ) ) {
 			}
 
 			// Order list page doesn't have the action parameter in the querystring.
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only: distinguishes WooCommerce's order list screen from the single order screen, which is the only one that carries the action arg. It only gates which assets are enqueued.
 			if ( isset( $_GET['action'] ) ) {
 				return false;
 			}
@@ -1692,9 +1930,9 @@ if ( ! class_exists( 'WC_Connect_Loader' ) ) {
 				);
 			}
 
-			wp_register_script( 'wc_services_admin_pointers', $this->wc_connect_base_url . 'woocommerce-services-admin-pointers-' . $plugin_version . '.js', array( 'wp-pointer', 'jquery' ), null );
-			wp_register_style( 'wc_connect_banner', $this->wc_connect_base_url . 'woocommerce-services-banner-' . $plugin_version . '.css', array(), null );
-			wp_register_script( 'wc_connect_banner', $this->wc_connect_base_url . 'woocommerce-services-banner-' . $plugin_version . '.js', array(), null );
+			wp_register_script( 'wc_services_admin_pointers', $this->wc_connect_base_url . 'woocommerce-services-admin-pointers-' . $plugin_version . '.js', array( 'wp-pointer', 'jquery' ), null ); // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion, WordPress.WP.EnqueuedResourceParameters.NotInFooter -- Served from the Connect Server and the version is already in the file name, so no ?ver= is wanted. Registered in the head because the wp-pointer it drives runs before the footer.
+			wp_register_style( 'wc_connect_banner', $this->wc_connect_base_url . 'woocommerce-services-banner-' . $plugin_version . '.css', array(), null ); // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion -- Served from the Connect Server and the version is already in the file name, so no ?ver= is wanted.
+			wp_register_script( 'wc_connect_banner', $this->wc_connect_base_url . 'woocommerce-services-banner-' . $plugin_version . '.js', array(), null ); // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion, WordPress.WP.EnqueuedResourceParameters.NotInFooter -- Served from the Connect Server and the version is already in the file name, so no ?ver= is wanted. Registered in the head so the banner is styled and wired before first paint.
 
 			$i18n_json = $this->get_i18n_json();
 			// JS translations loaded from i18n/languages/woocommerce-services-{LOCALE}.json via get_i18n_json().
@@ -1722,6 +1960,7 @@ if ( ! class_exists( 'WC_Connect_Loader' ) ) {
 			$shipping_service_ids     = $this->get_service_schemas_store()->get_all_shipping_method_ids();
 
 			foreach ( $shipping_service_ids as $shipping_service_id ) {
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Asks only whether an enabled zone method row exists for this method id; WC_Shipping_Zones has no such reader and would instantiate every shipping method to answer it. Not cached because zone methods are enabled and disabled from WooCommerce's own screens with no hook this plugin could invalidate on, and a stale answer would misreport the store's active services to the Connect server.
 				$is_active = $wpdb->get_var(
 					$wpdb->prepare(
 						"SELECT instance_id FROM {$wpdb->prefix}woocommerce_shipping_zone_methods WHERE is_enabled = 1 AND method_id = %s LIMIT 1;",
@@ -1924,6 +2163,7 @@ if ( ! class_exists( 'WC_Connect_Loader' ) ) {
 
 			$meta_table_to_check = OrderUtil::get_table_for_order_meta();
 
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Indexed EXISTS probe on the order meta table; core offers no "does any order carry this meta key" API, and wc_get_orders() cannot run this early (the check is reachable from the all_plugins filter). Left uncached deliberately: the answer decides whether the plugin's shipping features load at all, and the meta is also written by the WooCommerce Shipping migration, so there is no write this plugin could hang invalidation on, and serving a stale "no labels" would hide shipping from a store that has it.
 			return (bool) $wpdb->get_var(
 				$wpdb->prepare(
 					'SELECT EXISTS (
@@ -2021,7 +2261,7 @@ if ( ! class_exists( 'WC_Connect_Loader' ) ) {
 				'sift-science',
 				'https://cdn.sift.com/s.js',
 				array(),
-				null,
+				null, // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion -- Third-party script served from Sift's CDN, which versions it server side; a ?ver= we invent would be wrong.
 				array(
 					'strategy'  => 'defer',
 					'in_footer' => true,
@@ -2105,9 +2345,12 @@ if ( ! class_exists( 'WC_Connect_Loader' ) ) {
 
 			$encoded_arguments = wp_json_encode( $extra_args );
 			?>
-				<div class="wcc-root woocommerce <?php echo esc_attr( $root_view ); ?>" data-args="<?php echo wc_esc_json( $encoded_arguments ); ?>">
+				<div class="wcc-root woocommerce <?php echo esc_attr( $root_view ); ?>" data-args="<?php echo wc_esc_json( $encoded_arguments ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- wc_esc_json() escapes JSON for use in an HTML attribute. ?>">
 					<span class="form-troubles" style="opacity: 0">
-						<?php printf( esc_html__( 'Section not loading? Visit the <a href="%s">status page</a> for troubleshooting steps.', 'woocommerce-services' ), esc_url( $debug_page_uri ) ); ?>
+						<?php
+						/* translators: %s: URL of the status page */
+						printf( esc_html__( 'Section not loading? Visit the <a href="%s">status page</a> for troubleshooting steps.', 'woocommerce-services' ), esc_url( $debug_page_uri ) );
+						?>
 					</span>
 				</div>
 			<?php
@@ -2127,8 +2370,21 @@ if ( ! class_exists( 'WC_Connect_Loader' ) ) {
 				$dismissible = false;
 				// check if the notice is dismissible.
 				if ( property_exists( $notice, 'id' ) && ! empty( $notice->id ) && property_exists( $notice, 'dismissible' ) && $notice->dismissible ) {
-					// check if the notice is being dismissed right now.
-					if ( isset( $_GET['wc-connect-dismiss-server-notice'] ) && $_GET['wc-connect-dismiss-server-notice'] === $notice->id ) {
+					$dismiss_nonce_action = self::DISMISS_SERVER_NOTICE_NONCE_ACTION . '_' . $notice->id;
+					$dismiss_requested    = isset( $_GET['wc-connect-dismiss-server-notice'] )
+						? sanitize_text_field( wp_unslash( $_GET['wc-connect-dismiss-server-notice'] ) )
+						: '';
+					$dismiss_nonce        = isset( $_GET[ self::DISMISS_SERVER_NOTICE_NONCE_NAME ] )
+						? sanitize_text_field( wp_unslash( $_GET[ self::DISMISS_SERVER_NOTICE_NONCE_NAME ] ) )
+						: '';
+
+					// Check if the notice is being dismissed right now. A dismissal without a valid
+					// nonce, or from a user who cannot manage the store, is ignored so the notice stays.
+					if (
+						$dismiss_requested === $notice->id
+						&& current_user_can( 'manage_woocommerce' )
+						&& wp_verify_nonce( $dismiss_nonce, $dismiss_nonce_action )
+					) {
 						set_transient( 'wcc_notice_dismissed_' . $notice->id, true, MONTH_IN_SECONDS );
 						continue;
 					}
@@ -2138,7 +2394,11 @@ if ( ! class_exists( 'WC_Connect_Loader' ) ) {
 					}
 
 					$dismissible  = true;
-					$link_dismiss = add_query_arg( array( 'wc-connect-dismiss-server-notice' => $notice->id ) );
+					$link_dismiss = wp_nonce_url(
+						add_query_arg( array( 'wc-connect-dismiss-server-notice' => $notice->id ) ),
+						$dismiss_nonce_action,
+						self::DISMISS_SERVER_NOTICE_NONCE_NAME
+					);
 				}
 				?>
 				<div class='<?php echo esc_attr( 'notice notice-' . $notice->type ); ?>' style="position: relative;">
@@ -2225,7 +2485,7 @@ if ( ! class_exists( 'WC_Connect_Loader' ) ) {
 				) .
 				sprintf(
 					/* translators: %s: documentation URL */
-					__( $banner->message, 'woocommerce-services' ),
+					__( $banner->message, 'woocommerce-services' ), // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText -- The message is supplied by the WooCommerce Tax server.
 					'https://woocommerce.com/document/woocommerce-shipping-and-tax/woocommerce-shipping/#how-do-i-migrate-from-wcst'
 				) .
 				sprintf(
@@ -2243,7 +2503,7 @@ if ( ! class_exists( 'WC_Connect_Loader' ) ) {
 		public function register_wcshipping_migration_modal() {
 			$plugin_version = self::get_wcs_version();
 			wp_register_style( 'wcst_wcshipping_migration_admin_notice', $this->wc_connect_base_url . 'woocommerce-services-wcshipping-migration-admin-notice-' . $plugin_version . '.css', array(), null ); // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
-			wp_register_script( 'wcst_wcshipping_migration_admin_notice', $this->wc_connect_base_url . 'woocommerce-services-wcshipping-migration-admin-notice-' . $plugin_version . '.js', array(), null );
+			wp_register_script( 'wcst_wcshipping_migration_admin_notice', $this->wc_connect_base_url . 'woocommerce-services-wcshipping-migration-admin-notice-' . $plugin_version . '.js', array(), null ); // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion, WordPress.WP.EnqueuedResourceParameters.NotInFooter -- Served from the Connect Server and the version is already in the file name, so no ?ver= is wanted. Registered in the head alongside the stylesheet above, which carries the same note.
 			wp_localize_script(
 				'wcst_wcshipping_migration_admin_notice',
 				'wcsPluginData',

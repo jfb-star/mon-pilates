@@ -7,18 +7,14 @@
  *
  */
 
-use LLAR\Core\Config;
-
 if ( ! defined( 'ABSPATH' ) ) {
 	exit();
 }
 
-$setup_code = Config::get( 'app_setup_code' );
-$is_local_no_empty_setup_code = ( ! $is_active_app_custom && ! empty( $setup_code ) );
-
-$min_plan = 'Premium';
+$min_plan = 'Personal';
 $plans = $this->array_name_plans();
-$is_premium = ( $is_active_app_custom && $plans[$block_sub_group] >= $plans[$min_plan] );
+$current_plan_rate = isset( $plans[ $block_sub_group ] ) ? $plans[ $block_sub_group ] : 0;
+$is_premium = ( $is_active_app_custom && $current_plan_rate >= $plans[ $min_plan ] );
 ?>
 
 <div id="llar-setting-page-premium" class="llar-premium-page-wrapper">
@@ -30,7 +26,7 @@ $is_premium = ( $is_active_app_custom && $plans[$block_sub_group] >= $plans[$min
             <path opacity="0.7" d="M38.9531 12.3636C39.025 11.8567 39.0625 11.3405 39.0625 10.8182C39.0625 4.85273 34.1562 0 28.125 0C24.2531 0 20.6781 2.06164 18.7437 5.27927C17.7687 4.85582 16.7156 4.63636 15.625 4.63636C11.3187 4.63636 7.8125 8.10436 7.8125 12.3636C7.8125 12.5213 7.81563 12.6758 7.82813 12.8273C3.26875 14.1347 0 18.3322 0 23.1818C0 29.1473 4.90625 34 10.9375 34H39.0625C45.0938 34 50 29.1473 50 23.1818C50 17.1824 45.0812 12.3142 38.9531 12.3636Z" fill="#ECFAFB"/>
         </svg>
         <div class="llar-notification-premium-text">
-		    <?php _e( 'New users receive <span>37% OFF</span> their first year when they upgrade to Premium', 'limit-login-attempts-reloaded' ); ?>
+		    <?php _e( 'New users receive <span>50% OFF</span> their first year when they upgrade to Personal', 'limit-login-attempts-reloaded' ); ?>
         </div>
         <svg class="llar-cloud-right" xmlns="http://www.w3.org/2000/svg" width="50" height="34" viewBox="0 0 50 34" fill="none">
             <path opacity="0.7" d="M38.9531 12.3636C39.025 11.8567 39.0625 11.3405 39.0625 10.8182C39.0625 4.85273 34.1562 0 28.125 0C24.2531 0 20.6781 2.06164 18.7437 5.27927C17.7687 4.85582 16.7156 4.63636 15.625 4.63636C11.3187 4.63636 7.8125 8.10436 7.8125 12.3636C7.8125 12.5213 7.81563 12.6758 7.82813 12.8273C3.26875 14.1347 0 18.3322 0 23.1818C0 29.1473 4.90625 34 10.9375 34H39.0625C45.0938 34 50 29.1473 50 23.1818C50 17.1824 45.0812 12.3142 38.9531 12.3636Z" fill="#ECFAFB"/>
@@ -43,41 +39,32 @@ $is_premium = ( $is_active_app_custom && $plans[$block_sub_group] >= $plans[$min
         <div class="section-1">
             <div class="text">
                 <div class="title">
-                    <?php if ( $block_sub_group && $block_sub_group === 'Micro Cloud' ) : ?>
+                    <?php if ( 'Micro Cloud' === $block_sub_group ) : ?>
                         <?php _e( 'Limit Login Attempts Reloaded <strong>Micro Cloud</strong>', 'limit-login-attempts-reloaded' ); ?>
+                    <?php elseif ( \LLAR\Core\LimitLoginAttempts::trial_plan_name() === $block_sub_group ) : ?>
+                        <?php _e( 'Limit Login Attempts Reloaded <strong>Free Trial</strong>', 'limit-login-attempts-reloaded' ); ?>
                     <?php else : ?>
 	                    <?php _e( 'Limit Login Attempts Reloaded <strong>Premium</strong>', 'limit-login-attempts-reloaded' ); ?>
                     <?php endif; ?>
                 </div>
-                <ul class="links mt-1_5">
-                    <li class="button tags tags_add">
-                        <a href="https://www.limitloginattempts.com/info.php?id=16" class="link__style_unlink gdpr-information-link" target="_blank">
-                            <?php _e( 'Full feature list', 'limit-login-attempts-reloaded' ); ?>
-                        </a>
-                    </li>
-                    <li class="button tags tags_add">
-                        <a href="https://www.limitloginattempts.com/info.php?id=17" class="link__style_unlink gdpr-information-link" target="_blank">
-                            <?php _e( 'Pre-sales FAQs', 'limit-login-attempts-reloaded' ); ?>
-                        </a>
-                    </li>
-                    <li class="button tags tags_add">
-                        <a href="https://www.limitloginattempts.com/info.php?id=18" class="link__style_unlink gdpr-information-link" target="_blank">
-                            <?php _e( 'Ask a pre-sales question', 'limit-login-attempts-reloaded' ); ?>
-                        </a>
-                    </li>
-                    <li class="button tags tags_add">
-                        <a href="https://www.limitloginattempts.com/info.php?id=19" class="link__style_unlink gdpr-information-link" target="_blank">
-                            <?php _e( 'Support', 'limit-login-attempts-reloaded' ); ?>
-                        </a>
-                    </li>
-                </ul>
             </div>
             <?php if ( ! $is_premium ) : ?>
                 <div class="action">
-                    <a class="button menu__item button__orange" href="<?php echo esc_url( ( $block_sub_group === 'Micro Cloud' )
-                        ? add_query_arg('id', '8', $this->info_upgrade_url())
-                        : 'https://www.limitloginattempts.com/info.php?id=23' ); ?>" target="_blank">
-                        <?php _e( 'Get It Here', 'limit-login-attempts-reloaded' ); ?>
+                    <?php if ( \LLAR\Core\LimitLoginAttempts::trial_plan_name() !== $block_sub_group
+                        && 'Micro Cloud' !== $block_sub_group
+                        && empty( \LLAR\Core\Config::get( 'app_setup_code' ) ) ) : ?>
+                        <a href="<?php echo esc_url( \LLAR\Core\TrialLanding::cta_landing_url( \LLAR\Core\TrialLanding::INFO_ID_PREMIUM, 'premium' ) ); ?>"
+                           data-llar-info-id="<?php echo esc_attr( \LLAR\Core\TrialLanding::INFO_ID_PREMIUM ); ?>"
+                           class="button menu__item button__transparent_orange llar-trial-start-cta">
+		                    <?php echo esc_html( \LLAR\Core\LimitLoginAttempts::trial_label() ); ?>
+                        </a>
+                    <?php endif; ?>
+                    <a class="button menu__item button__orange" href="<?php echo esc_url( ( \LLAR\Core\LimitLoginAttempts::trial_plan_name() === $block_sub_group )
+                        ? add_query_arg( 'id', '41', $this->info_upgrade_url() )
+                        : ( ( $block_sub_group === 'Micro Cloud' )
+                            ? add_query_arg( 'id', '31', $this->info_upgrade_url() )
+                            : 'https://www.limitloginattempts.com/info.php?id=29' ) ); ?>" target="_blank">
+                        <?php _e( 'Upgrade to Personal – $1.25/mo', 'limit-login-attempts-reloaded' ); ?>
                     </a>
                 </div>
 	        <?php endif; ?>
@@ -89,10 +76,20 @@ $is_premium = ( $is_active_app_custom && $plans[$block_sub_group] >= $plans[$min
                     <?php _e( 'If you purchased a premium plan, check your email for setup instructions (Setup Code included)', 'limit-login-attempts-reloaded' ); ?>
                 </span>
             <?php elseif( $block_sub_group ) : ?>
-                <?php if( $block_sub_group === 'Micro Cloud' ) : ?>
+                <?php if( 'Micro Cloud' === $block_sub_group ) : ?>
                     <?php _e( 'You are currently using Micro Cloud, which provides access to premium cloud app on a limited basis. To prevent interruption, upgrade to one of our paid plans below.', 'limit-login-attempts-reloaded' ); ?>
+                <?php elseif( \LLAR\Core\LimitLoginAttempts::trial_plan_name() === $block_sub_group ) : ?>
+                    <?php
+                    /* translators: %d: trial length in days. */
+                    printf( esc_html__( 'You are currently using the %d day free trial, which provides access to the premium cloud app on a limited basis. To prevent interruption, upgrade to one of our paid plans below.', 'limit-login-attempts-reloaded' ), \LLAR\Core\LimitLoginAttempts::TRIAL_DAYS );
+                    ?>
                 <?php else : ?>
-                    <?php _e( 'You are currently using the premium version of Limit Login Attempts Reloaded.', 'limit-login-attempts-reloaded' ); ?>
+                    <?php
+                    /* translators: %s: current plan name. */
+                    printf(
+                        esc_html__( 'You are currently using the %s version of Limit Login Attempts Reloaded.', 'limit-login-attempts-reloaded' ),
+                        '<strong>' . esc_html( ucfirst( $block_sub_group ) ) . '</strong>'
+                    ); ?>
 	            <?php endif ?>
             <?php endif ?>
         </div>
@@ -115,22 +112,36 @@ $is_premium = ( $is_active_app_custom && $plans[$block_sub_group] >= $plans[$min
     </h3>
 
     <?php
-        $features = array(
-            'Features',
-            'Free',
-            'Micro Cloud',
-            'Premium',
-            'Premium +',
-            'Professional',
-        );
+        $trial_plan_name = \LLAR\Core\LimitLoginAttempts::trial_plan_name();
+        $plans_order     = array( 'Free', $trial_plan_name, 'Micro Cloud', 'Personal', 'Premium', 'Premium +', 'Professional', 'Business', 'Agency' );
+        $base_plans      = array( 'Free', $trial_plan_name, 'Personal', 'Business' );
+        $extra_plans     = array( 'Micro Cloud', 'Premium', 'Premium +', 'Professional', 'Agency' );
 
-        if ( $is_local_no_empty_setup_code ) {
-	        $key = array_search('Micro Cloud', $features);
+        $actual_plan = ( 'custom' === $active_app ) ? $block_sub_group : 'Free';
 
-	        if ($key !== false) {
-		        unset($features[$key]);
-	        }
+        $display_plans = array();
+        foreach ( $plans_order as $plan ) {
+            // Professional (Pro) users do not see Business as an upgrade path.
+            if ( 'Business' === $plan && 'Professional' === $actual_plan ) {
+                continue;
+            }
+
+            // Trial column is only for Free users and active trial accounts.
+            if ( $trial_plan_name === $plan && 'Free' !== $actual_plan && $trial_plan_name !== $actual_plan ) {
+                continue;
+            }
+
+            $is_installed_extra_plan = ( $plan === $actual_plan && in_array( $plan, $extra_plans, true ) );
+
+            if ( in_array( $plan, $base_plans, true ) || $is_installed_extra_plan ) {
+                $display_plans[] = $plan;
+            }
         }
+
+        $features = array_merge( array( 'Features' ), $display_plans );
+
+        // Rows that render UI chrome (buttons/pricing), not a feature category label.
+        $compare_rows_without_label = array( 'buttons_header', 'buttons_footer', 'pricing' );
 
         $compare_list = require LLA_PLUGIN_DIR . '/resources/compare-plans-data.php';
     ?>
@@ -141,7 +152,7 @@ $is_premium = ( $is_active_app_custom && $plans[$block_sub_group] >= $plans[$min
                 <thead>
                 <tr>
                     <?php foreach ($features as $item) : ?>
-                        <td scope="col"><?php echo $item ?></td>
+                        <td scope="col"><?php echo esc_html( $trial_plan_name === $item ? \LLAR\Core\LimitLoginAttempts::trial_label() : $item ); ?></td>
                     <?php endforeach; ?>
                 </tr>
                 </thead>
@@ -150,7 +161,7 @@ $is_premium = ( $is_active_app_custom && $plans[$block_sub_group] >= $plans[$min
                     <tr>
                         <td>
                             <div class="category">
-	                            <?php echo ($category === 'buttons_header' || $category === 'buttons_footer') ? '' : $category ?>
+	                            <?php echo in_array( $category, $compare_rows_without_label, true ) ? '' : $category; ?>
                             </div>
                             <div class="description">
                                 <?php echo !empty($list['description']) ? $list['description'] : '' ?>

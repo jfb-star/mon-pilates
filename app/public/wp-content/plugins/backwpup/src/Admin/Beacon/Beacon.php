@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace WPMedia\BackWPup\Admin\Beacon;
 
 use Inpsyde\BackWPup\Pro\License\License;
+use WPMedia\BackWPup\Admin\Frontend\Redirect;
 use WPMedia\BackWPup\Common\AbstractRender;
 
 class Beacon extends AbstractRender {
@@ -98,12 +99,14 @@ class Beacon extends AbstractRender {
 					$prefixed_track_data[ 'bwu_event_property_' . $key ] = $value;
 				}
 			}
-			$selected_suggest['url'] = add_query_arg(
+			$destination                         = $selected_suggest['url'];
+			$prefixed_track_data['bwu_redirect'] = rawurlencode( $destination );
+			$selected_suggest['url']             = add_query_arg(
 				$prefixed_track_data,
-				'?bwu_redirect=' . $selected_suggest['url']
+				admin_url( 'admin.php' )
 			);
-			// Add nonce for security.
-			$selected_suggest['url'] = wp_nonce_url( $selected_suggest['url'], 'backwpup_redirect_nonce' );
+			// Add nonce for security, bound to the destination it authorizes.
+			$selected_suggest['url'] = wp_nonce_url( $selected_suggest['url'], Redirect::nonce_action( $destination ) );
 		}
 
 		return $selected_suggest;

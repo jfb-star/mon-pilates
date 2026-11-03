@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName
+use Automattic\Jetpack\VideoPress\Inline_Player;
 use Automattic\Jetpack\VideoPress\Jwt_Token_Bridge;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -635,20 +636,8 @@ class VideoPress_Player {
 		if ( isset( $_SERVER['HTTP_USER_AGENT'] ) && stristr( sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) ), 'Trident/7.0; rv:11.0' ) ) {
 			$iframe_embed = false;
 		} else {
-
-			/**
-			 * Filter the VideoPress iframe embed
-			 *
-			 * This filter allows you to control whether the videos will be embedded using an iframe.
-			 * Set this to false in order to use an in-page embed rather than an iframe.
-			 *
-			 * @module videopress
-			 *
-			 * @since 3.7.0
-			 *
-			 * @param boolean $videopress_player_use_iframe
-			 */
-			$iframe_embed = apply_filters( 'jetpack_videopress_player_use_iframe', true );
+			// The site setting and the `jetpack_videopress_player_use_iframe` filter decide; see Inline_Player::is_enabled().
+			$iframe_embed = ! Inline_Player::is_enabled();
 		}
 
 		if ( ! array_key_exists( 'hd', $this->options ) ) {
@@ -712,9 +701,10 @@ class VideoPress_Player {
 				}
 			}
 
-			$cover  = $videopress_options['cover'] ? ' data-resize-to-parent="true"' : '';
-			$js_url = 'https://s0.wp.com/wp-content/plugins/video/assets/js/next/videopress-iframe.js';
-			// phpcs:disable WordPress.WP.EnqueuedResources.NonEnqueuedScript
+			$cover = $videopress_options['cover'] ? ' data-resize-to-parent="true"' : '';
+
+			wp_enqueue_script( 'videopress-iframe', 'https://videopress.com/videopress-iframe.js', array(), JETPACK__VERSION, true );
+
 			return "<iframe title='" . __( 'VideoPress Video Player', 'jetpack' )
 				. "' aria-label='" . __( 'VideoPress Video Player', 'jetpack' )
 				. "' width='" . esc_attr( $videopress_options['width'] )
@@ -722,19 +712,44 @@ class VideoPress_Player {
 				. "' src='" . esc_attr( $iframe_url )
 				. "' frameborder='0' allowfullscreen"
 				. $cover
-				. " allow='clipboard-write'></iframe>"
-				. "<script src='" . esc_attr( $js_url ) . "'></script>";
+				. " allow='clipboard-write; presentation'></iframe>";
 
 		} else {
-			$videopress_options = wp_json_encode( $videopress_options, JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP );
-			$js_url             = 'https://s0.wp.com/wp-content/plugins/video/assets/js/videojs/videopress.js';
+			$attributes = array(
+				'autoplay'        => $videopress_options['autoPlay'] ?? false,
+				'controls'        => $videopress_options['controls'] ?? true,
+				'loop'            => $videopress_options['loop'] ?? false,
+				'muted'           => $videopress_options['muted'] ?? false,
+				'playsinline'     => $videopress_options['playsinline'] ?? false,
+				'useAverageColor' => $videopress_options['useAverageColor'] ?? true,
+				'cover'           => $videopress_options['cover'],
+				'hd'              => $videopress_options['hd'],
+				'at'              => $videopress_options['at'] ?? 0,
+				'preload'         => $videopress_options['preloadContent'] ?? 'metadata',
+				'defaultLangCode' => $videopress_options['defaultLangCode'] ?? '',
+			);
+			$ratio      = $videopress_options['width'] > 0
+				? ( $videopress_options['height'] / $videopress_options['width'] ) * 100
+				: null;
 
-			return "<div id='{$video_container_id}'></div>
-				<script src='{$js_url}'></script>
-				<script>
-					videopress('{$this->video->guid}', document.querySelector('#{$video_container_id}'), {$videopress_options});
-				</script>";
-			// phpcs:enable WordPress.WP.EnqueuedResources.NonEnqueuedScript
+			$guid = (string) $this->video->guid;
+
+			// The video data already carries the poster frame VideoPress serves for this site.
+			$poster = ! empty( $this->video->poster_frame_uri ) && is_string( $this->video->poster_frame_uri )
+				? $this->video->poster_frame_uri
+				: Inline_Player::get_poster_url( $guid );
+
+			return "<div id='" . esc_attr( $video_container_id ) . "'>"
+				. Inline_Player::render(
+					$guid,
+					Inline_Player::get_player_options( $attributes ),
+					$ratio,
+					array(
+						'poster' => $poster,
+						'title'  => isset( $this->video->title ) ? (string) $this->video->title : '',
+					)
+				)
+				. '</div>';
 		}
 	}
 

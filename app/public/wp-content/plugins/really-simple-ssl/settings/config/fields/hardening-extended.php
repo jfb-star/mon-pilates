@@ -2,6 +2,8 @@
 defined( 'ABSPATH' ) or die();
 
 add_filter( 'rsssl_fields', function( $fields ) {
+	$applicationPasswordsBlockReason = rsssl_get_disable_application_passwords_block_reason();
+
 	return array_merge( $fields,
 		[
 
@@ -27,6 +29,8 @@ add_filter( 'rsssl_fields', function( $fields ) {
 				'group_id' => 'hardening-extended',
 				'type'     => 'checkbox',
 				'label'    => __( "Disable application passwords", 'really-simple-ssl' ),
+				'warning'  => $applicationPasswordsBlockReason !== '',
+				'tooltip'  => $applicationPasswordsBlockReason,
 				'disabled' => false,
 				'default'  => false,
 			],
@@ -57,22 +61,22 @@ add_filter( 'rsssl_fields', function( $fields ) {
 				'disabled' => false,
 				'default'  => false,
 			],
-			[
-				'id'       => 'rename_db_prefix',
-				'menu_id'  => 'hardening-extended',
-				'group_id' => 'hardening-extended',
-				'email'            => [
-					'title'   => __( "Settings update: Database prefix changed", 'really-simple-ssl' ),
-					'message' => __( "Security through obscurity. Your site is no longer using the default wp_ prefix for database tables. The process has been designed to only complete and replace the tables after all wp_ tables are successfully renamed. In the unlikely event that this does lead to database issues on your site, please navigate to our troubleshooting article.", 'really-simple-ssl' ),
-					'url'     => 'instructions/database-issues-after-changing-prefix',
-				],
-				'tooltip'  => __( "This will permanently change your database prefixes and you can NOT rollback this feature. Please make sure you have a back-up.", 'really-simple-ssl' ),
-				'warning'  => __( "This will permanently change your database prefixes and you can NOT rollback this feature. Please make sure you have a back-up.", 'really-simple-ssl' ),
-				'type'     => 'checkbox',
-				'label'    => __( "Rename and randomize your database prefix", 'really-simple-ssl' ),
-				'disabled' => false,
-				'default'  => false,
-			],
+//			[
+//				'id'       => 'rename_db_prefix',
+//				'menu_id'  => 'hardening-extended',
+//				'group_id' => 'hardening-extended',
+//				'email'            => [
+//					'title'   => __( "Settings update: Database prefix changed", 'really-simple-ssl' ),
+//					'message' => __( "Security through obscurity. Your site is no longer using the default wp_ prefix for database tables. The process has been designed to only complete and replace the tables after all wp_ tables are successfully renamed. In the unlikely event that this does lead to database issues on your site, please navigate to our troubleshooting article.", 'really-simple-ssl' ),
+//					'url'     => 'instructions/database-issues-after-changing-prefix',
+//				],
+//				'tooltip'  => __( "This will permanently change your database prefixes and you can NOT rollback this feature. Please make sure you have a back-up.", 'really-simple-ssl' ),
+//				'warning'  => __( "This will permanently change your database prefixes and you can NOT rollback this feature. Please make sure you have a back-up.", 'really-simple-ssl' ),
+//				'type'     => 'checkbox',
+//				'label'    => __( "Rename and randomize your database prefix", 'really-simple-ssl' ),
+//				'disabled' => false,
+//				'default'  => false,
+//			],
 			[
 				'id'       => 'permission_detection',
 				'menu_id'  => 'hardening-extended',
@@ -87,7 +91,6 @@ add_filter( 'rsssl_fields', function( $fields ) {
 				'id'       => 'change_login_url_enabled',
 				'menu_id'  => 'hardening-extended',
 				'group_id' => 'hardening-extended',
-				'warning'  => true,
 				'type'     => 'checkbox',
 				'tooltip'  => __( "Allows you to enter a custom login URL.", 'really-simple-ssl' ),
 				'label'    => __( "Enable Custom login URL", 'really-simple-ssl' ),

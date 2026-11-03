@@ -32,7 +32,6 @@ class Main {
 		add_action( 'wp_ajax_generate_wpo_wcpdf', array( $this, 'generate_document_ajax' ) );
 		add_action( 'wp_ajax_nopriv_generate_wpo_wcpdf', array( $this, 'generate_document_ajax' ) );
 		add_action( 'wp_ajax_wpo_ips_get_refund_order_ids', array( $this, 'get_refund_order_ids_ajax' ) );
-		add_action( 'wp_ajax_nopriv_wpo_ips_get_refund_order_ids', array( $this, 'get_refund_order_ids_ajax' ) );
 
 		// mark/unmark printed
 		add_action( 'wp_ajax_printed_wpo_wcpdf', array( $this, 'document_printed_ajax' ) );
@@ -75,6 +74,9 @@ class Main {
 
 		// set ink saving mode
 		add_filter( 'wpo_wcpdf_template_custom_styles', array( $this, 'apply_ink_saving_styles' ), 10, 2 );
+
+		// apply template color
+		add_filter( 'wpo_wcpdf_template_styles', array( $this, 'apply_template_color_styles' ), 10, 2 );
 
 		// show notice of missing required directories
 		add_action( 'admin_notices', array( $this, 'no_dir_notice' ), 1 );
@@ -165,7 +167,6 @@ class Main {
 						add_action( 'wpo_wcpdf_init_document', function( $document ) {
 							$this->log_document_creation_to_order_notes( $document, 'email_attachment' );
 							$this->log_document_creation_trigger_to_order_meta( $document, 'email_attachment' );
-							$this->mark_document_printed( $document, 'email_attachment' );
 						} );
 
 						// prepare document
@@ -177,11 +178,36 @@ class Main {
 							continue;
 						}
 
+						if ( ! $document->exists() ) {
+							wcpdf_log_error( "Document initialization failed for email attachment. document type: {$document_type}, output format: {$output_format}, email order ID: #{$email_order_id}", 'critical' );
+							continue;
+						}
+
 						$attachment = wcpdf_get_document_file( $document, $output_format );
 
 						if ( $attachment ) {
 							$attachments[] = $attachment;
+							$this->mark_document_printed( $document, 'email_attachment' );
+
+							if ( ! empty( WPO_WCPDF()->settings->debug_settings['log_to_order_notes'] ) ) {
+								$email_title = $email_id;
+
+								if ( is_object( $email ) && is_callable( array( $email, 'get_title' ) ) ) {
+									$email_title = $email->get_title();
+								}
+
+								$note = sprintf(
+									/* translators: 1. output format, 2. document title, 3. email title */
+									__( '%1$s %2$s successfully attached to the %3$s email.', 'woocommerce-pdf-invoices-packing-slips' ),
+									strtoupper( $output_format ),
+									$document->get_title(),
+									$email_title
+								);
+
+								$this->log_to_order_notes( $note, $document );
+							}
 						} else {
+							wcpdf_log_error( sprintf( 'PDF %1$s could not be attached to email (%2$s).', $document->get_title(), $email_id ), 'critical' );
 							continue;
 						}
 
@@ -216,63 +242,81 @@ class Main {
 
 	public function get_document_pdf_attachment( $document, $tmp_path ) {
 		$filename         = $document->get_filename();
-		$pdf_path         = $tmp_path . $filename;
 		$document_type    = $document->get_type();
 		$order_id         = isset( $document->order ) ? $document->order->get_id() : 0;
 		$lock_file        = apply_filters( 'wpo_wcpdf_lock_attachment_file', true );
 		$reuse_attachment = apply_filters( 'wpo_wcpdf_reuse_document_attachment', true, $document );
 		$max_reuse_age    = apply_filters( 'wpo_wcpdf_reuse_attachment_age', 60 );
 		$lock_acquired    = false;
+		$writing_file     = false;
+
+		if ( $order_id <= 0 || empty( $filename ) || wp_basename( str_replace( '\\', '/', $filename ) ) !== $filename || in_array( $filename, array( '.', '..' ), true ) ) {
+			wcpdf_log_error( 'Cannot create a PDF attachment without an order ID and a valid filename.', 'critical' );
+			return false;
+		}
+
+		// Custom filenames are not necessarily unique. Keep each order/document in its own directory.
+		$identity  = hash( 'sha256', get_current_blog_id() . '|' . $document_type . '|' . $order_id );
+		$tmp_path  = trailingslashit( $tmp_path ) . 'document-' . $identity . '/';
+		$pdf_path  = $tmp_path . $filename;
+		$semaphore = new Semaphore( "get_{$document_type}_document_pdf_attachment_for_order_{$order_id}", $max_reuse_age );
 
 		try {
+			// Lock before checking the cache so an unfinished write cannot be reused.
+			if ( $lock_file ) {
+				$lock_acquired = $semaphore->lock();
+
+				if ( ! $lock_acquired ) {
+					$semaphore->log( "Couldn't get the lock for the PDF attachment", 'critical' );
+					return false;
+				}
+			}
+
+			// Another request may have created the directory between the check and mkdir.
+			if ( ! WPO_WCPDF()->file_system->is_dir( $tmp_path ) && ! WPO_WCPDF()->file_system->mkdir( $tmp_path ) && ! WPO_WCPDF()->file_system->is_dir( $tmp_path ) ) {
+				wcpdf_log_error( "Couldn't create the PDF attachment directory {$tmp_path}", 'critical' );
+				return false;
+			}
+
 			// Check if the file can be reused
 			if ( WPO_WCPDF()->file_system->exists( $pdf_path ) && $reuse_attachment && $max_reuse_age > 0 ) {
 				$filemtime = WPO_WCPDF()->file_system->mtime( $pdf_path );
+
 				if ( $filemtime && ( time() - $filemtime < $max_reuse_age ) ) {
 					return $pdf_path;
 				}
 			}
 
-			// Get PDF data and set up the Semaphore
-			$pdf_data  = $document->get_pdf();
-			$semaphore = new Semaphore( "get_{$document_type}_document_pdf_attachment_for_order_{$order_id}", $max_reuse_age );
-
-			// Attempt to acquire the lock if needed
-			if ( $lock_file ) {
-				$lock_acquired = $semaphore->lock();
+			$pdf_data = $document->get_pdf();
+			if ( empty( $pdf_data ) ) {
+				wcpdf_log_error( "Couldn't generate the PDF attachment for order #{$order_id} ({$document_type}).", 'critical' );
+				return false;
 			}
 
-			$write_file = ( $lock_file && $lock_acquired ) || ! $lock_file;
-
-			// Write the file
-			if ( $write_file ) {
-				$file_written = WPO_WCPDF()->file_system->put_contents( $pdf_path, $pdf_data, FS_CHMOD_FILE );
-				$semaphore->log( "PDF attachment written to {$pdf_path}", 'info' );
-			} else {
-				$semaphore->log( "PDF attachment not written to {$pdf_path} because the lock was not acquired", 'info' );
+			$writing_file = true;
+			$file_written = WPO_WCPDF()->file_system->put_contents( $pdf_path, $pdf_data, FS_CHMOD_FILE );
+			if ( ! $file_written || ( is_int( $file_written ) && strlen( $pdf_data ) !== $file_written ) ) {
+				// Do not leave a partial file available for the next cache lookup.
+				WPO_WCPDF()->file_system->delete( $pdf_path );
+				wcpdf_log_error( "Couldn't write the PDF attachment to {$pdf_path}", 'critical' );
+				return false;
 			}
 
-			// Log if the lock was not acquired
-			if ( $lock_file && ! $lock_acquired ) {
-				$semaphore->log( "Couldn't get the lock for the PDF attachment", 'critical' );
+			$semaphore->log( "PDF attachment written to {$pdf_path}", 'info' );
+
+		} catch ( \Throwable $e ) {
+			if ( $writing_file ) {
+				WPO_WCPDF()->file_system->delete( $pdf_path );
 			}
-		} catch ( \Exception $e ) {
 			wcpdf_log_error( "Exception occurred: " . $e->getMessage(), 'critical' );
 			return false;
+
 		} finally {
 			// Release the lock if it was acquired
 			if ( $lock_acquired ) {
 				$semaphore->release();
 				$semaphore->log( 'Lock released for the PDF attachment.', 'info' );
 			}
-		}
-
-		// Check if the file was written successfully
-		if ( ! $file_written ) {
-			$message = "Couldn't write the PDF attachment to {$pdf_path}";
-			$semaphore->log( $message, 'critical' );
-			wcpdf_log_error( $message, 'critical' );
-			return false;
 		}
 
 		return $pdf_path;
@@ -489,25 +533,19 @@ class Main {
 
 		// if we got here, we're safe to go!
 		try {
-			// log document creation to order notes
-			if ( count( $order_ids ) > 1 && isset( $request['bulk'] ) ) {
-				add_action( 'wpo_wcpdf_init_document', function( $document ) use ( $request ) {
-					$this->log_document_creation_to_order_notes( $document, 'bulk' );
-					$this->log_document_creation_trigger_to_order_meta( $document, 'bulk', false, $request );
-					$this->mark_document_printed( $document, 'bulk' );
-				} );
+			if ( isset( $request['bulk'] ) ) {
+				$trigger = 'bulk';
 			} elseif ( isset( $request['my-account'] ) ) {
-				add_action( 'wpo_wcpdf_init_document', function( $document ) use ( $request ) {
-					$this->log_document_creation_to_order_notes( $document, 'my_account' );
-					$this->log_document_creation_trigger_to_order_meta( $document, 'my_account', false, $request );
-					$this->mark_document_printed( $document, 'my_account' );
-				} );
+				$trigger = 'my_account';
 			} else {
-				add_action( 'wpo_wcpdf_init_document', function( $document ) use ( $request ) {
-					$this->log_document_creation_to_order_notes( $document, 'single' );
-					$this->log_document_creation_trigger_to_order_meta( $document, 'single', false, $request );
-					$this->mark_document_printed( $document, 'single' );
-				} );
+				$trigger = 'single';
+			}
+
+			// Snapshot pre-existing documents so we only log creation for documents actually created in this flow.
+			$pre_existing = array();
+			foreach ( $order_ids as $check_order_id ) {
+				$check_doc = wcpdf_get_document( $document_type, $check_order_id );
+				$pre_existing[ $check_order_id ] = $check_doc && is_callable( array( $check_doc, 'exists' ) ) && $check_doc->exists();
 			}
 
 			// get document
@@ -515,6 +553,25 @@ class Main {
 
 			if ( $document ) {
 				do_action( 'wpo_wcpdf_document_created_manually', $document, $order_ids ); // note that $order_ids is filtered and may not be the same as the order IDs used for the document (which can be fetched from the document object itself with $document->order_ids)
+
+				// Iterate explicitly so pre-existing documents are also processed; wpo_wcpdf_init_document only fires for newly created docs.
+				$document_order_ids = property_exists( $document, 'order_ids' ) && ! empty( $document->order_ids )
+					? $document->order_ids
+					: ( ! empty( $document->order ) ? array( $document->order->get_id() ) : array() );
+
+				foreach ( $document_order_ids as $individual_order_id ) {
+					$individual_document = wcpdf_get_document( $document_type, $individual_order_id, true );
+					if ( ! $individual_document || ! is_callable( array( $individual_document, 'exists' ) ) || ! $individual_document->exists() ) {
+						continue;
+					}
+
+					if ( empty( $pre_existing[ $individual_order_id ] ) ) {
+						$this->log_document_creation_to_order_notes( $individual_document, $trigger );
+					}
+
+					$this->log_document_creation_trigger_to_order_meta( $individual_document, $trigger, false, $request );
+					$this->mark_document_printed( $individual_document, $trigger );
+				}
 
 				$output_format = WPO_WCPDF()->settings->get_output_format( $document, $request );
 
@@ -588,7 +645,32 @@ class Main {
 			);
 		}
 
-		$order_ids  = array_map( 'absint', (array) $_POST['order_ids'] );
+		$order_ids = array_map( 'absint', (array) wp_unslash( $_POST['order_ids'] ) );
+
+		// Check the user privileges
+		$full_permission = WPO_WCPDF()->admin->user_can_manage_document( 'credit-note' );
+
+		if ( ! $full_permission ) {
+			foreach ( $order_ids as $order_id ) {
+				if ( ! current_user_can( 'view_order', $order_id ) ) {
+					wp_send_json_error(
+						array(
+							'message' => __( 'You do not have permission to access one or more of these orders.', 'woocommerce-pdf-invoices-packing-slips' ),
+						),
+						403
+					);
+				}
+			}
+		}
+
+		if ( empty( $order_ids ) ) {
+			wp_send_json_error(
+				array(
+					'message' => __( 'No orders were provided.', 'woocommerce-pdf-invoices-packing-slips' ),
+				)
+			);
+		}
+
 		$refund_ids = \wpo_ips_get_refund_ids( $order_ids );
 
 		if ( empty( $refund_ids ) ) {
@@ -768,7 +850,9 @@ class Main {
 		);
 
 		try {
-			$iterator = new \FilesystemIterator( $tmp_path, \FilesystemIterator::SKIP_DOTS );
+			$iterator = 'attachments' === $subfolder
+				? new \RecursiveIteratorIterator( new \RecursiveDirectoryIterator( $tmp_path, \FilesystemIterator::SKIP_DOTS ) )
+				: new \FilesystemIterator( $tmp_path, \FilesystemIterator::SKIP_DOTS );
 
 			foreach ( $iterator as $file ) {
 				// If we don't have a file extension restriction, return true immediately
@@ -1229,15 +1313,19 @@ class Main {
 			'log.htm',
 		) );
 		apply_filters_deprecated( 'wpo_wcpdf_cleanup_folders_level', array( 3 ), '3.9.1', '', 'This filter is no longer necessary.' );
-		$files            = array();
-		$success          = 0;
-		$error            = 0;
-		$output           = array();
+
+		$files       = array();
+		$directories = array();
+		$success     = 0;
+		$error       = 0;
+		$output      = array();
 
 		// Gather all files from the paths
-		foreach ( $paths_to_cleanup as $path ) {
+		while ( ! empty( $paths_to_cleanup ) ) {
+			$path = array_pop( $paths_to_cleanup );
+
 			if ( WPO_WCPDF()->file_system->is_dir( $path ) ) {
-				$listed_files = WPO_WCPDF()->file_system->dirlist( $path, true, true );
+				$listed_files = WPO_WCPDF()->file_system->dirlist( $path );
 
 				if ( $listed_files ) {
 					foreach ( $listed_files as $fileinfo ) {
@@ -1245,19 +1333,22 @@ class Main {
 						$file_path = trailingslashit( $path ) . $name;
 						$basename  = wp_basename( $file_path );
 
-						// Exclude specific files before adding to list
-						if ( ! in_array( $basename, $excluded_files ) && WPO_WCPDF()->file_system->exists( $file_path ) && ! WPO_WCPDF()->file_system->is_dir( $file_path ) ) {
+						if ( in_array( $basename, $excluded_files, true ) ) {
+							continue;
+						}
+
+						// Include only the attachment directories created by this plugin, without following symlinks.
+						if ( preg_match( '/^document-[a-f0-9]{64}$/D', $basename ) && ! is_link( $file_path ) && WPO_WCPDF()->file_system->is_dir( $file_path ) ) {
+							$paths_to_cleanup[]        = $file_path;
+							$directories[ $file_path ] = WPO_WCPDF()->file_system->mtime( $file_path );
+						}
+
+						if ( WPO_WCPDF()->file_system->exists( $file_path ) && ! WPO_WCPDF()->file_system->is_dir( $file_path ) ) {
 							$files[] = $file_path;
 						}
 					}
 				}
 			}
-		}
-
-		// No files to delete
-		if ( empty( $files ) ) {
-			$output['success'] = esc_html__( 'Nothing to delete!', 'woocommerce-pdf-invoices-packing-slips' );
-			return $output;
 		}
 
 		// Process and delete files
@@ -1272,6 +1363,32 @@ class Main {
 					$error++;
 				}
 			}
+		}
+
+		foreach ( $directories as $directory => $modified ) {
+			if ( $modified && $modified < $delete_before ) {
+				$contents = WPO_WCPDF()->file_system->dirlist( $directory );
+				if ( false === $contents ) {
+					continue;
+				}
+
+				$contents = array_filter( $contents, static function( $entry ) {
+					$name = is_array( $entry ) ? $entry['name'] : $entry;
+					return ! in_array( $name, array( '.', '..' ), true );
+				} );
+
+				if ( ! empty( $contents ) ) {
+					continue;
+				}
+
+				// Non-recursive removal preserves any files created by a concurrent request.
+				WPO_WCPDF()->file_system->rmdir( $directory );
+			}
+		}
+
+		if ( empty( $files ) ) {
+			$output['success'] = esc_html__( 'Nothing to delete!', 'woocommerce-pdf-invoices-packing-slips' );
+			return $output;
 		}
 
 		if ( $error > 0 ) {
@@ -2061,6 +2178,48 @@ class Main {
 		if ( ! empty( trim( $ink_saving_css ) ) ) {
 			$css .= "\n\n" . $ink_saving_css . "\n";
 		}
+
+		return $css;
+	}
+
+	/**
+	 * Apply template color styles to supported templates when a color is set.
+	 *
+	 * @param string  $css
+	 * @param object  $document
+	 * @return string
+	 */
+	public function apply_template_color_styles( string $css, $document ): string {
+		$settings = WPO_WCPDF()->settings->general_settings ?? array();
+
+		$template_color   = $settings['template_color'] ?? '';
+		$current_template = $settings['template_path'] ?? '';
+
+		$supported_templates = apply_filters(
+			'wpo_ips_template_color_supported_templates',
+			array()
+		);
+
+		// Bail if template not supported.
+		if ( ! in_array( $current_template, $supported_templates, true ) ) {
+			return $css;
+		}
+
+		$defaults_map  = apply_filters( 'wpo_ips_template_color_defaults_map', array() );
+		$default_color = $defaults_map[ $current_template ] ?? '';
+
+		// Bail if no color set, or it matches the template's own default (not a user customization).
+		if ( empty( $template_color ) || $template_color === $default_color ) {
+			return $css;
+		}
+
+		$css = apply_filters(
+			'wpo_ips_template_color_css',
+			$css,
+			$document,
+			$current_template,
+			$template_color
+		);
 
 		return $css;
 	}

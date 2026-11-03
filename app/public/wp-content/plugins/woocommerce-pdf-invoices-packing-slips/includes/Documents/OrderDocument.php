@@ -73,6 +73,12 @@ abstract class OrderDocument {
 	public $order_settings;
 
 	/**
+	 * Whether customer text must be protected from the document-wide decode.
+	 * @var bool
+	 */
+	protected $protect_from_decode = false;
+
+	/**
 	 * TRUE if PDF document is enabled.
 	 * @var bool
 	 */
@@ -1681,21 +1687,32 @@ abstract class OrderDocument {
 
 		$default_args = array (
 			'wrap_html_content'	=> true,
+			'decode_html'       => true,
 		);
 		$args = $args + $default_args;
 
-		$html = $this->render_template( $this->locate_template_file( "{$this->type}.php" ), array(
-				'order'    => $this->order,
-				'order_id' => $this->order_id,
-			)
-		);
+		$decode_html = (bool) apply_filters( 'wpo_wcpdf_convert_encoding', function_exists( 'htmlspecialchars_decode' ) );
+
+		$this->protect_from_decode = $decode_html;
+
+		try {
+			$html = $this->render_template(
+				$this->locate_template_file( "{$this->type}.php" ),
+				array(
+					'order'    => $this->order,
+					'order_id' => $this->order_id,
+				)
+			);
+		} finally {
+			$this->protect_from_decode = false;
+		}
 
 		if ( $args['wrap_html_content'] ) {
 			$html = $this->wrap_html_content( $html );
 		}
 
 		// clean up special characters
-		if ( apply_filters( 'wpo_wcpdf_convert_encoding', function_exists( 'htmlspecialchars_decode' ) ) ) {
+		if ( $decode_html && $args['decode_html'] ) {
 			$html = htmlspecialchars_decode( wcpdf_convert_encoding( $html ), ENT_QUOTES );
 		}
 
@@ -1705,6 +1722,28 @@ abstract class OrderDocument {
 		\wpo_ips_remove_filters( $html_filters );
 
 		return apply_filters( 'wpo_wcpdf_get_html', $html, $this );
+	}
+
+	/**
+	 * Escape ampersands so the document-wide decode in get_html() leaves the value as it was.
+	 *
+	 * @param mixed $value
+	 * @return mixed
+	 */
+	public function protect_from_document_decode( $value ) {
+		if ( ! $this->protect_from_decode ) {
+			return $value;
+		}
+
+		if ( is_string( $value ) ) {
+			return str_replace( '&', '&amp;', $value );
+		}
+
+		if ( is_array( $value ) ) {
+			return array_map( array( $this, 'protect_from_document_decode' ), $value );
+		}
+
+		return $value;
 	}
 
 	public function output_pdf( $output_mode = 'download' ) {
@@ -1849,11 +1888,11 @@ abstract class OrderDocument {
 	*/
 
 	/**
-	 * get all emails registered in WooCommerce
-	 * @param  boolean $remove_defaults switch to remove default woocommerce emails
-	 * @return array   $emails       list of all email ids/slugs and names
+	 * Get all emails registered in WooCommerce
+	 * 
+	 * @return array
 	 */
-	public function get_wc_emails() {
+	public function get_wc_emails(): array {
 		// only run this in the context of the settings page or setup wizard
 		// prevents WPML language mixups
 		$request = stripslashes_deep( $_GET ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
@@ -1863,7 +1902,7 @@ abstract class OrderDocument {
 		}
 
 		// get emails from WooCommerce
-		if (function_exists('WC')) {
+		if ( function_exists( 'WC' ) ) {
 			$mailer = WC()->mailer();
 		} else {
 			global $woocommerce;
@@ -1874,6 +1913,7 @@ abstract class OrderDocument {
 
 			$mailer = $woocommerce->mailer();
 		}
+
 		$wc_emails = $mailer->get_emails();
 
 		$non_order_emails = array(
@@ -1882,20 +1922,26 @@ abstract class OrderDocument {
 		);
 
 		$emails = array();
-		foreach ($wc_emails as $class => $email) {
-			if ( !is_object( $email ) ) {
+
+		foreach ( $wc_emails as $class => $email ) {
+			if ( ! is_object( $email ) ) {
 				continue;
 			}
-			if ( !in_array( $email->id, $non_order_emails ) ) {
-				switch ($email->id) {
+
+			if ( ! in_array( $email->id, $non_order_emails ) ) {
+				switch ( $email->id ) {
 					case 'new_order':
-						$emails[$email->id] = sprintf('%s (%s)', $email->title, __( 'Admin email', 'woocommerce-pdf-invoices-packing-slips' ) );
+						$emails[ $email->id ] = sprintf( '%s (%s)', $email->title, __( 'Admin email', 'woocommerce-pdf-invoices-packing-slips' ) );
 						break;
 					case 'customer_invoice':
-						$emails[$email->id] = sprintf('%s (%s)', $email->title, __( 'Manual email', 'woocommerce-pdf-invoices-packing-slips' ) );
+						$emails[ $email->id ] = sprintf( '%s (%s)', $email->title, __( 'Manual email', 'woocommerce-pdf-invoices-packing-slips' ) );
+						break;
+					case 'cancelled_order':
+					case 'failed_order':
+						$emails[ $email->id ] = sprintf( '%s (%s)', $email->title, __( 'Admin email', 'woocommerce-pdf-invoices-packing-slips' ) );
 						break;
 					default:
-						$emails[$email->id] = $email->title;
+						$emails[ $email->id ] = $email->title;
 						break;
 				}
 			}

@@ -66,14 +66,14 @@ class ServiceProvider extends AbstractServiceProvider {
 					'backwpup_adapter',
 					'encryption_adapter',
 				]
-				);
+			);
 
 		$this->getContainer()->addShared( 'job_api_subscriber', JobApiSubscriber::class )
 			->addArguments(
 				[
 					'job_api_rest',
 				]
-				);
+			);
 
 		$this->getContainer()->addShared( 'job_api_frontend_rest', JobApiFrontendRest::class )
 			->addArguments(
@@ -81,13 +81,14 @@ class ServiceProvider extends AbstractServiceProvider {
 					'backwpup_helpers_adapter',
 					'job_adapter',
 				]
-				);
+			);
+
 		$this->getContainer()->addShared( 'job_api_frontend_subscriber', JobApiFrontendSubscriber::class )
 			->addArguments(
 				[
 					'job_api_frontend_rest',
 				]
-				);
+			);
 	}
 
 	/**

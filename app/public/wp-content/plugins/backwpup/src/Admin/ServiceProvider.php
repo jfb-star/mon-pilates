@@ -11,6 +11,10 @@ use WPMedia\BackWPup\Admin\Notices\Notices;
 use WPMedia\BackWPup\Admin\Notices\Notices\Notice52;
 use WPMedia\BackWPup\Admin\Notices\Notices\Notice522;
 use WPMedia\BackWPup\Admin\Notices\Notices\NoticeDataCorrupted;
+use WPMedia\BackWPup\Admin\Notices\Notices\NoticeMcpAdapterMigration;
+use WPMedia\BackWPup\Admin\Notices\Notices\NoticeStaleRestoreFiles;
+use WPMedia\BackWPup\Admin\Notices\Notices\NoticeUpgradeToPro;
+use WPMedia\BackWPup\Admin\Notices\StaleRestoreFilesDetector;
 use WPMedia\BackWPup\Admin\Notices\Subscriber as NoticeSubscriber;
 use WPMedia\BackWPup\Admin\Notices\Notices\Notice513;
 use Inpsyde\BackWPup\Notice\NoticeView;
@@ -28,10 +32,10 @@ use WPMedia\BackWPup\Common\ErrorSignals\ErrorSignalsContextStore;
 use WPMedia\BackWPup\Common\ErrorSignals\ErrorSignalsContextSubscriber;
 use WPMedia\BackWPup\Dependencies\League\Container\Argument\Literal\StringArgument;
 use WPMedia\BackWPup\Dependencies\League\Container\ServiceProvider\AbstractServiceProvider;
+use WPMedia\BackWPup\Dependencies\WPMedia\Mixpanel\Optin;
+use WPMedia\BackWPup\Dependencies\WPMedia\Mixpanel\TrackingPlugin;
 use WPMedia\BackWPup\License\WpOptionsLicenseStateProvider;
 use WPMedia\BackWPup\License\WpOptionsPaymentMethodProvider;
-use WPMedia\Mixpanel\Optin;
-use WPMedia\Mixpanel\TrackingPlugin;
 
 class ServiceProvider extends AbstractServiceProvider {
 	/**
@@ -42,6 +46,9 @@ class ServiceProvider extends AbstractServiceProvider {
 	protected $provides = [
 		'notice_subscriber',
 		'notice_view_factory',
+		NoticeStaleRestoreFiles::class,
+		NoticeMcpAdapterMigration::class,
+		StaleRestoreFilesDetector::class,
 		SettingSubscriber::class,
 		AdminFrontendSubscriber::class,
 		'options',
@@ -144,6 +151,15 @@ class ServiceProvider extends AbstractServiceProvider {
 					'backwpup_adapter',
 				]
 			);
+		// Notice for debug log alert.
+		$this->getContainer()->add( 'notice_debug_log_view', NoticeView::class )
+			->addArgument( Notices\NoticeDebugLogLevel::ID );
+		$this->getContainer()->addShared( Notices\NoticeDebugLogLevel::class, Notices\NoticeDebugLogLevel::class )
+			->addArguments(
+				[
+					'notice_debug_log_view',
+				]
+			);
 		// Notice for data corrupted alert.
 		$this->getContainer()->add( 'notice_data_corrupted_view', NoticeView::class )
 			->addArgument( NoticeDataCorrupted::ID );
@@ -154,13 +170,34 @@ class ServiceProvider extends AbstractServiceProvider {
 					'job_adapter',
 				]
 			);
-
+		// Notice for upgrade to pro alert.
+		$this->getContainer()->add( 'notice_upgrade_to_pro_view', NoticeView::class )
+			->addArgument( NoticeUpgradeToPro::ID );
+		$this->getContainer()->addShared( NoticeUpgradeToPro::class, NoticeUpgradeToPro::class )
+			->addArgument( NoticeUpgradeToPro::ID . '_view' );
+		// Notice for missing cURL alert.
 		$this->getContainer()->add( Notices\NoticeMissingCurl::ID . '_view', NoticeView::class )
 			->addArgument( Notices\NoticeMissingCurl::ID );
 		$this->getContainer()->addShared( Notices\NoticeMissingCurl::class, Notices\NoticeMissingCurl::class )
 			->addArgument( Notices\NoticeMissingCurl::ID . '_view' );
+		// Notice for MCP Adapter migration.
+		$this->getContainer()->add( NoticeMcpAdapterMigration::ID . '_view', NoticeView::class )
+			->addArgument( NoticeMcpAdapterMigration::ID );
+		$this->getContainer()->addShared( NoticeMcpAdapterMigration::class, NoticeMcpAdapterMigration::class )
+			->addArgument( NoticeMcpAdapterMigration::ID . '_view' );
+		// Notice for stale restore files.
+		$this->getContainer()->addShared( StaleRestoreFilesDetector::class, StaleRestoreFilesDetector::class );
+		$this->getContainer()->add( NoticeStaleRestoreFiles::ID . '_view', NoticeView::class )
+			->addArgument( NoticeStaleRestoreFiles::ID );
+		$this->getContainer()->addShared( NoticeStaleRestoreFiles::class, NoticeStaleRestoreFiles::class )
+			->addArguments(
+				[
+					NoticeStaleRestoreFiles::ID . '_view',
+					StaleRestoreFilesDetector::class,
+				]
+			);
 
-		// Register the Subscriber with an array of notice instances.
+		// Register the Subscriber with an array of notice instances and banner instances.
 		$this->getContainer()->addShared( 'notice_subscriber', NoticeSubscriber::class )
 			->addArguments(
 				[
@@ -170,7 +207,13 @@ class ServiceProvider extends AbstractServiceProvider {
 						$this->getContainer()->get( 'notice_52' ),
 						$this->getContainer()->get( 'notice_513' ),
 						$this->getContainer()->get( 'notice_datacorrupted' ),
+						$this->getContainer()->get( Notices\NoticeDebugLogLevel::class ),
 						$this->getContainer()->get( Notices\NoticeMissingCurl::class ),
+						$this->getContainer()->get( NoticeStaleRestoreFiles::class ),
+						$this->getContainer()->get( NoticeMcpAdapterMigration::class ),
+					],
+					[
+						$this->getContainer()->get( NoticeUpgradeToPro::class ),
 					],
 				]
 				);
@@ -262,7 +305,8 @@ class ServiceProvider extends AbstractServiceProvider {
 
 		$this->getContainer()->addShared( 'rating_initializer', RatingInstallStateInitializer::class );
 		$this->getContainer()->addShared( 'rating_notice_message_provider', RatingNoticeMessageProvider::class );
-		$this->getContainer()->addShared( 'rating_notice_decider', RatingNoticeDecider::class );
+		$this->getContainer()->addShared( 'rating_notice_decider', RatingNoticeDecider::class )
+			->addArgument( \BackWPup::is_pro() );
 		$this->getContainer()->addShared( 'rating_events', RatingEvents::class )->addArguments(
 			[
 				$this->getContainer()->get( 'backwpup_adapter' ),

@@ -133,8 +133,12 @@ class AccountingCustomerPartyHandler extends AbstractUblHandler implements UblPa
 	 * @return array|null
 	 */
 	public function get_party_tax_scheme(): ?array {
+		if ( $this->has_tax_category( 'O' ) ) {
+			return null;
+		}
+
 		$order      = \wpo_ips_edi_get_parent_order( $this->document->order );
-		$vat_number = $this->get_order_customer_vat_number( $order );
+		$vat_number = \wpo_ips_edi_get_order_customer_vat_number( $order );
 
 		// B2C (no VAT): omit PartyTaxScheme entirely
 		if ( empty( $vat_number ) ) {
@@ -154,7 +158,7 @@ class AccountingCustomerPartyHandler extends AbstractUblHandler implements UblPa
 		$values   = array();
 		$values[] = array(
 			'name'  => 'cbc:CompanyID',
-			'value' => strtoupper( preg_replace( '/\s+/', '', $vat_number ) ),
+			'value' => $vat_number,
 		);
 		$values[] = array(
 			'name'  => 'cac:TaxScheme',
@@ -184,7 +188,7 @@ class AccountingCustomerPartyHandler extends AbstractUblHandler implements UblPa
 		$billing_company   = $order->get_billing_company();
 		$billing_name      = $order->get_formatted_billing_full_name();
 		$registration_name = ! empty( $billing_company ) ? $billing_company : $billing_name;
-		$vat_number        = $this->get_order_customer_vat_number( $order );
+		$vat_number        = \wpo_ips_edi_get_order_customer_vat_number( $order );
 
 		if ( empty( $registration_name ) ) {
 			wpo_ips_edi_log(
@@ -216,7 +220,7 @@ class AccountingCustomerPartyHandler extends AbstractUblHandler implements UblPa
 			}
 			$values[] = array(
 				'name'  => 'cbc:CompanyID',
-				'value' => strtoupper( preg_replace( '/\s+/', '', $vat_number ) ),
+				'value' => $vat_number,
 			);
 		}
 

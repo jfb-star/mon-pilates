@@ -281,7 +281,13 @@ class Jetpack_Network {
 	 * @since 2.9
 	 */
 	public function add_network_admin_menu() {
-		$icon = ( new Logo() )->get_base64_logo();
+		$logo = new Logo();
+		// Another plugin may load an older Logo class before all Jetpack autoloaders register.
+		if ( method_exists( $logo, 'get_base64_admin_menu_logo' ) ) {
+			$icon = $logo->get_base64_admin_menu_logo();
+		} else {
+			$icon = $logo->get_base64_logo();
+		}
 		add_menu_page( 'Jetpack', 'Jetpack', 'jetpack_network_admin_page', 'jetpack', array( $this, 'wrap_network_admin_page' ), $icon, 3 );
 		$jetpack_sites_page_hook    = add_submenu_page( 'jetpack', __( 'Jetpack Sites', 'jetpack' ), __( 'Sites', 'jetpack' ), 'jetpack_network_sites_page', 'jetpack', array( $this, 'wrap_network_admin_page' ) );
 		$jetpack_settings_page_hook = add_submenu_page( 'jetpack', __( 'Settings', 'jetpack' ), __( 'Settings', 'jetpack' ), 'jetpack_network_settings_page', 'jetpack-settings', array( $this, 'wrap_render_network_admin_settings_page' ) );
@@ -476,7 +482,7 @@ class Jetpack_Network {
 
 		$network = get_network();
 
-		switch_to_blog( $network->blog_id );
+		switch_to_blog( (int) $network->blog_id );
 		// The blog id on WordPress.com of the primary network site.
 		$network_wpcom_blog_id = Jetpack_Options::get_option( 'id' );
 		restore_current_blog();
@@ -512,6 +518,15 @@ class Jetpack_Network {
 	 */
 	public function admin_init_network_page() {
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_network_admin_scripts' ) );
+
+		// Match the modernized single-site dashboards (e.g. Jetpack Forms): the
+		// network Sites/Settings pages render as full-viewport AdminPage shells,
+		// so strip core admin notices that would otherwise break the pinned
+		// layout. Network Admin fires `network_admin_notices`/`all_admin_notices`
+		// (not `admin_notices`). Jetpack's own notices use the `jetpack_notices`
+		// hook and are unaffected.
+		remove_all_actions( 'network_admin_notices' );
+		remove_all_actions( 'all_admin_notices' );
 	}
 
 	/**

@@ -1,5 +1,9 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 if ( ! class_exists( 'WC_Connect_Functions' ) ) {
 	class WC_Connect_Functions {
 		/**
@@ -18,6 +22,7 @@ if ( ! class_exists( 'WC_Connect_Functions' ) ) {
 				// Skip during REST API or XMLRPC requests.
 				( defined( 'REST_REQUEST' ) || defined( 'REST_API_REQUEST' ) || defined( 'XMLRPC_REQUEST' ) ) ||
 				// Skip during Jetpack REST API proxy requests.
+				// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only routing check: it only detects that the current request is Jetpack's REST proxy so the cart API call is skipped. Nothing is written and there is no form submission to carry a nonce.
 				( isset( $_GET['rest_route'] ) && isset( $_GET['_for'] ) && ( 'jetpack' === $_GET['_for'] ) )
 			);
 		}
@@ -28,6 +33,7 @@ if ( ! class_exists( 'WC_Connect_Functions' ) ) {
 		 * @return array|WP_Error
 		 */
 		public static function get_wc_helper_auth_info() {
+			$helper_auth_data = false;
 			if ( class_exists( 'WC_Helper_Options' ) && is_callable( 'WC_Helper_Options::get' ) ) {
 				$helper_auth_data = WC_Helper_Options::get( 'auth' );
 			}
@@ -151,6 +157,7 @@ if ( ! class_exists( 'WC_Connect_Functions' ) ) {
 			global $wpdb;
 
 			// Export Tax Rates
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Full dump of WooCommerce's tax rate table for the CSV backup taken right before the CA rate deletion tool wipes rows; core exposes no reader for the whole table, and a cached copy would defeat the point of backing up the current contents.
 			$rates = $wpdb->get_results(
 				$wpdb->prepare(
 					"SELECT * FROM {$wpdb->prefix}woocommerce_tax_rates
@@ -166,101 +173,48 @@ if ( ! class_exists( 'WC_Connect_Functions' ) ) {
 				return false;
 			}
 
-			ob_start();
-			$header =
-				__( 'Country Code', 'woocommerce' ) . ',' .
-				__( 'State Code', 'woocommerce' ) . ',' .
-				__( 'ZIP/Postcode', 'woocommerce' ) . ',' .
-				__( 'City', 'woocommerce' ) . ',' .
-				__( 'Rate %', 'woocommerce' ) . ',' .
-				__( 'Tax Name', 'woocommerce' ) . ',' .
-				__( 'Priority', 'woocommerce' ) . ',' .
-				__( 'Compound', 'woocommerce' ) . ',' .
-				__( 'Shipping', 'woocommerce' ) . ',' .
-				__( 'Tax Class', 'woocommerce' ) . "\n";
-
-			echo $header; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			$rows = array(
+				array(
+					__( 'Country Code', 'woocommerce-services' ),
+					__( 'State Code', 'woocommerce-services' ),
+					__( 'ZIP/Postcode', 'woocommerce-services' ),
+					__( 'City', 'woocommerce-services' ),
+					__( 'Rate %', 'woocommerce-services' ),
+					__( 'Tax Name', 'woocommerce-services' ),
+					__( 'Priority', 'woocommerce-services' ),
+					__( 'Compound', 'woocommerce-services' ),
+					__( 'Shipping', 'woocommerce-services' ),
+					__( 'Tax Class', 'woocommerce-services' ),
+				),
+			);
 
 			foreach ( $rates as $rate ) {
-				if ( $rate->tax_rate_country ) {
-					echo esc_attr( $rate->tax_rate_country );
-				} else {
-					echo '*';
-				}
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reads WooCommerce's tax rate locations table, which has no core reader for a single rate's postcodes/cities. Part of the one-shot CSV backup above, so each rate is read once and a cache would never be reused.
+				$postcodes = $wpdb->get_col( $wpdb->prepare( "SELECT location_code FROM {$wpdb->prefix}woocommerce_tax_rate_locations WHERE location_type='postcode' AND tax_rate_id = %d ORDER BY location_code", $rate->tax_rate_id ) );
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Same one-shot CSV backup read as the postcode query above, for the rate's city locations.
+				$cities = $wpdb->get_col( $wpdb->prepare( "SELECT location_code FROM {$wpdb->prefix}woocommerce_tax_rate_locations WHERE location_type='city' AND tax_rate_id = %d ORDER BY location_code", $rate->tax_rate_id ) );
 
-				echo ',';
-
-				if ( $rate->tax_rate_state ) {
-					echo esc_attr( $rate->tax_rate_state );
-				} else {
-					echo '*';
-				}
-
-				echo ',';
-
-				$locations = $wpdb->get_col( $wpdb->prepare( "SELECT location_code FROM {$wpdb->prefix}woocommerce_tax_rate_locations WHERE location_type='postcode' AND tax_rate_id = %d ORDER BY location_code", $rate->tax_rate_id ) );
-
-				if ( $locations ) {
-					echo esc_attr( implode( '; ', $locations ) );
-				} else {
-					echo '*';
-				}
-
-				echo ',';
-
-				$locations = $wpdb->get_col( $wpdb->prepare( "SELECT location_code FROM {$wpdb->prefix}woocommerce_tax_rate_locations WHERE location_type='city' AND tax_rate_id = %d ORDER BY location_code", $rate->tax_rate_id ) );
-				if ( $locations ) {
-					echo esc_attr( implode( '; ', $locations ) );
-				} else {
-					echo '*';
-				}
-
-				echo ',';
-
-				if ( $rate->tax_rate ) {
-					echo esc_attr( $rate->tax_rate );
-				} else {
-					echo '0';
-				}
-
-				echo ',';
-
-				if ( $rate->tax_rate_name ) {
-					echo esc_attr( $rate->tax_rate_name );
-				} else {
-					echo '*';
-				}
-
-				echo ',';
-
-				if ( $rate->tax_rate_priority ) {
-					echo esc_attr( $rate->tax_rate_priority );
-				} else {
-					echo '1';
-				}
-
-				echo ',';
-
-				if ( $rate->tax_rate_compound ) {
-					echo esc_attr( $rate->tax_rate_compound );
-				} else {
-					echo '0';
-				}
-
-				echo ',';
-
-				if ( $rate->tax_rate_shipping ) {
-					echo esc_attr( $rate->tax_rate_shipping );
-				} else {
-					echo '0';
-				}
-
-				echo ',';
-
-				echo "\n";
+				$rows[] = array(
+					$rate->tax_rate_country ? $rate->tax_rate_country : '*',
+					$rate->tax_rate_state ? $rate->tax_rate_state : '*',
+					$postcodes ? implode( '; ', $postcodes ) : '*',
+					$cities ? implode( '; ', $cities ) : '*',
+					$rate->tax_rate ? $rate->tax_rate : '0',
+					$rate->tax_rate_name ? $rate->tax_rate_name : '*',
+					$rate->tax_rate_priority ? $rate->tax_rate_priority : '1',
+					$rate->tax_rate_compound ? $rate->tax_rate_compound : '0',
+					$rate->tax_rate_shipping ? $rate->tax_rate_shipping : '0',
+					// Tax Class is left empty, as it has always been in this export.
+					'',
+				);
 			} // End foreach().
 
-			$csv        = ob_get_clean();
+			$csv = self::rows_to_csv( $rows );
+
+			if ( '' === $csv ) {
+				return false;
+			}
+
 			$upload_dir = wp_upload_dir();
 			$backup_dir = $upload_dir['basedir'] . '/woocommerce_uploads/taxes';
 
@@ -283,6 +237,84 @@ if ( ! class_exists( 'WC_Connect_Functions' ) ) {
 			$backed_up   = file_put_contents( $backup_dir . '/' . $base_name . '-' . $hash_suffix . '.csv', $csv ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents
 
 			return (bool) $backed_up;
+		}
+
+		/**
+		 * Serialises rows of values into CSV text.
+		 *
+		 * Uses PHP's own CSV writer so that separators, quotes and line breaks inside a value
+		 * are quoted correctly instead of splitting the row, and neutralises every cell against
+		 * spreadsheet formula evaluation on the way out. Escaping is applied here, in one place,
+		 * so no caller can forget it for an individual column.
+		 *
+		 * @param array $rows List of rows; each row is a list of cell values.
+		 * @return string The CSV text, or an empty string if the temporary stream is unavailable.
+		 */
+		public static function rows_to_csv( $rows ) {
+			if ( ! is_array( $rows ) || empty( $rows ) ) {
+				return '';
+			}
+
+			// The explicit maxmemory is the stream default (2 MB), spelled out so large exports
+			// visibly spill to a temporary file rather than growing in memory.
+			$stream = fopen( 'php://temp/maxmemory:2097152', 'r+' );
+
+			if ( false === $stream ) {
+				return '';
+			}
+
+			foreach ( $rows as $row ) {
+				if ( ! is_array( $row ) ) {
+					continue;
+				}
+
+				// The empty escape character keeps backslashes literal and avoids relying on the
+				// escaping behaviour PHP deprecated in 8.4.
+				fputcsv( $stream, array_map( array( __CLASS__, 'escape_csv_value' ), $row ), ',', '"', '' );
+			}
+
+			rewind( $stream );
+			$csv = stream_get_contents( $stream );
+			fclose( $stream ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose
+
+			return false === $csv ? '' : $csv;
+		}
+
+		/**
+		 * Neutralises a single CSV cell against spreadsheet formula evaluation.
+		 *
+		 * Excel, Numbers and Google Sheets start evaluating a cell as a formula when its first
+		 * character is `=`, `+`, `-`, `@`, a tab or a carriage return. Values in the tax rate
+		 * tables come from customer checkout addresses and from remote API responses, so a cell
+		 * can be planted that runs when the merchant opens the downloaded file. Prefixing the
+		 * value with a single quote makes spreadsheet applications treat the cell as text.
+		 *
+		 * Numeric values are returned untouched: a number cannot open a formula, and prefixing it
+		 * would corrupt the value when the file is imported back (a negative tax rate is the
+		 * realistic case). Quoting of separators, quotes and line breaks is left to the CSV
+		 * writer; this function only removes the formula leader.
+		 *
+		 * @param mixed $value The raw cell value.
+		 * @return string The value, safe to hand to a CSV writer.
+		 */
+		public static function escape_csv_value( $value ) {
+			if ( is_array( $value ) || is_object( $value ) ) {
+				return '';
+			}
+
+			$value = (string) $value;
+
+			if ( '' === $value || is_numeric( $value ) ) {
+				return $value;
+			}
+
+			$formula_leaders = array( '=', '+', '-', '@', "\t", "\r" );
+
+			if ( in_array( $value[0], $formula_leaders, true ) ) {
+				return "'" . $value;
+			}
+
+			return $value;
 		}
 
 		/**
@@ -313,10 +345,10 @@ if ( ! class_exists( 'WC_Connect_Functions' ) ) {
 
 			foreach ( $files as $file ) {
 				if ( ! file_exists( trailingslashit( $file['base'] ) . $file['file'] ) ) {
-					$file_handle = @fopen( trailingslashit( $file['base'] ) . $file['file'], 'wb' ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged, WordPress.WP.AlternativeFunctions.file_system_read_fopen
+					$file_handle = @fopen( trailingslashit( $file['base'] ) . $file['file'], 'wb' ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged, WordPress.WP.AlternativeFunctions.file_system_operations_fopen
 					if ( $file_handle ) {
-						fwrite( $file_handle, $file['content'] ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fwrite
-						fclose( $file_handle ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fclose
+						fwrite( $file_handle, $file['content'] ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fwrite
+						fclose( $file_handle ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose
 					}
 				}
 			}

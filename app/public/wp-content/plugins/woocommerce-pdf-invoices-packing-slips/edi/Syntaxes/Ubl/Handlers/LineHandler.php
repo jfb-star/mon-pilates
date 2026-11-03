@@ -59,23 +59,16 @@ class LineHandler extends AbstractUblHandler {
 			// Price parts
 			$parts = $this->compute_item_price_parts( $item, (bool) $include_coupon_lines );
 
-			$price_decimal_places = 2;
-			$qty                  = (float) $parts['qty'];
-
-			// When WooCommerce rounds tax at subtotal level, derive the XML unit
-			// prices from the line totals to keep PriceAmount consistent with the
-			// final line extension amount.
-			if ( 'yes' === get_option( 'woocommerce_tax_round_at_subtotal' ) && $qty > 0 ) {
-				$price_decimal_places = 4;
-			}
+			$price_decimal_places = $this->get_line_price_decimal_places( $parts );
+			$qty                  = abs( (float) $parts['qty'] );
 
 			$xml_gross_unit_f = $qty > 0
-				? (float) $this->format_decimal( (float) $parts['gross_total'] / $qty, $price_decimal_places )
+				? (float) $this->format_decimal( abs( (float) $parts['gross_total'] ) / $qty, $price_decimal_places )
 				: 0.0;
 
 			$xml_net_unit_f = $qty > 0
-				? (float) $this->format_decimal( (float) $parts['net_total'] / $qty, $price_decimal_places )
-				: (float) $this->format_decimal( $parts['net_total'], $price_decimal_places );
+				? (float) $this->format_decimal( abs( (float) $parts['net_total'] ) / $qty, $price_decimal_places )
+				: (float) $this->format_decimal( abs( (float) $parts['net_total'] ), $price_decimal_places );
 
 			$xml_unit_discount_f = $xml_gross_unit_f - $xml_net_unit_f;
 			if ( $xml_unit_discount_f < 0 ) {
@@ -178,10 +171,9 @@ class LineHandler extends AbstractUblHandler {
 				}
 			}
 
-			$quantity_value = $parts['qty'];
+			$quantity_value = abs( (float) $parts['qty'] );
 
-			// For credit notes: quantity must carry the sign, price stays positive
-			if ( 'Credited' === $quantity_role && $parts['net_total'] < 0 ) {
+			if ( (float) $parts['net_total'] < 0 ) {
 				$quantity_value = -abs( $quantity_value );
 			}
 
@@ -313,6 +305,8 @@ class LineHandler extends AbstractUblHandler {
 		$root_element  = $this->document->get_root_element();
 		$quantity_role = $this->document->get_quantity_role();
 
+		$quantity_value = $net_total < 0 ? -1 : 1;
+
 		$line = array(
 			'name'  => "cac:{$root_element}Line",
 			'value' => array(
@@ -322,7 +316,7 @@ class LineHandler extends AbstractUblHandler {
 				),
 				array(
 					'name'       => "cbc:{$quantity_role}Quantity",
-					'value'      => 1,
+					'value'      => $quantity_value,
 					'attributes' => array(
 						'unitCode' => 'C62',
 					),
@@ -352,7 +346,7 @@ class LineHandler extends AbstractUblHandler {
 					'value' => array(
 						array(
 							'name'       => 'cbc:PriceAmount',
-							'value'      => $this->format_decimal( $net_total ), // unit price (negative)
+							'value'      => $this->format_decimal( abs( $net_total ) ),
 							'attributes' => array(
 								'currencyID' => $currency,
 							),

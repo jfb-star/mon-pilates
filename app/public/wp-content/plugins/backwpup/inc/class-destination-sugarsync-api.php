@@ -1,5 +1,9 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 require_once __DIR__ . '/class-destination-sugarsync-api-exception.php';
 
 use Inpsyde\BackWPupShared\File\MimeTypeExtractor;
@@ -135,7 +139,8 @@ class BackWPup_Destination_SugarSync_API {
 				esc_html(
 					wp_remote_retrieve_response_message( $request )
 				)
-			)
+			),
+			(int) $response_status
 		);
 	}
 
@@ -258,7 +263,7 @@ class BackWPup_Destination_SugarSync_API {
 					}
 				}
 				if ( ! $isdir ) {
-					throw new BackWPup_Destination_SugarSync_API_Exception( 'chdir: Folder ' . esc_html( $folder ) . ' not exitst' );
+					throw new BackWPup_Destination_SugarSync_API_Exception( 'chdir: Folder ' . esc_html( $folder ) . ' does not exist' );
 				}
 			}
 		}
@@ -506,7 +511,10 @@ class BackWPup_Destination_SugarSync_API {
 		fclose( $data_file_fd ); //phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose
 
 		if ( $curl_info['http_code'] < 200 || $curl_info['http_code'] >= 300 ) {
-			throw new BackWPup_Destination_SugarSync_API_Exception( 'Http Error: ' . esc_html( $curl_info['http_code'] ) );
+			throw new BackWPup_Destination_SugarSync_API_Exception(
+				'Http Error: ' . esc_html( $curl_info['http_code'] ),
+				(int) $curl_info['http_code']
+			);
 		}
 
 		return $file_data;

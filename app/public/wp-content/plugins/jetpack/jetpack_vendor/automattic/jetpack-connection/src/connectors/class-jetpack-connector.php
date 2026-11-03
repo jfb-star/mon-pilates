@@ -11,7 +11,10 @@
 
 namespace Automattic\Jetpack\Connection;
 
+use Automattic\Jetpack\Assets;
+use Automattic\Jetpack\Identity_Crisis;
 use Automattic\Jetpack\Modules;
+use Automattic\Jetpack\Status;
 use Automattic\Jetpack\Status\Host;
 
 /**
@@ -74,8 +77,7 @@ class Jetpack_Connector {
 	 * @param \WP_Connector_Registry $registry Connector registry instance.
 	 */
 	public static function register_connector( $registry ) {
-		// @phan-suppress-previous-line PhanUndeclaredTypeParameter -- WP 7.0+ class.
-		$registry->register( // @phan-suppress-current-line PhanUndeclaredClassMethod -- WP 7.0+ class.
+		$registry->register(
 			'wordpress_com',
 			array(
 				'name'           => 'Jetpack Connection',
@@ -113,6 +115,7 @@ class Jetpack_Connector {
 			(string) @filemtime( $css_path ) // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- fallback to empty string if file is missing.
 		);
 
+		$js_path = __DIR__ . '/js/connectors-card.js';
 		wp_register_script_module(
 			static::MODULE_ID,
 			plugins_url( 'js/connectors-card.js', __FILE__ ),
@@ -121,9 +124,15 @@ class Jetpack_Connector {
 					'id'     => '@wordpress/connectors',
 					'import' => 'static',
 				),
-			)
+			),
+			(string) @filemtime( $js_path ) // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- fallback to empty string if file is missing.
 		);
 		wp_enqueue_script_module( static::MODULE_ID );
+
+		// Assets::enqueue_script also loads the stylesheet registered with the handle.
+		if ( static::should_enqueue_protected_owner_dialogs( new Manager() ) ) {
+			Assets::enqueue_script( 'jetpack-connection' );
+		}
 
 		add_filter(
 			'script_module_data_' . static::MODULE_ID,
@@ -146,6 +155,7 @@ class Jetpack_Connector {
 
 		$data['isConnected']          = $is_connected;
 		$data['isRegistered']         = $is_registered;
+		$data['isOfflineMode']        = ( new Status() )->is_offline_mode();
 		$data['isFirstConnection']    = ! $is_registered && ! (bool) \Jetpack_Options::get_option( 'id' );
 		$data['apiRoot']              = esc_url_raw( rest_url() );
 		$data['apiNonce']             = wp_create_nonce( 'wp_rest' );
@@ -166,11 +176,18 @@ class Jetpack_Connector {
 			if ( in_array( 'jetpack', array_column( $data['connectedPlugins'], 'slug' ), true ) ) {
 				$data['ssoStatus'] = ( new Modules() )->is_active( 'sso', false );
 			}
+
+			static::add_identity_crisis_data( $data );
 		}
 
 		if ( $is_connected ) {
 			$data['currentUser']     = static::get_current_user_data( $manager );
 			$data['connectionOwner'] = static::get_connection_owner_data( $manager );
+		}
+
+		$protected_owner = static::get_protected_owner_card_state( $manager );
+		if ( null !== $protected_owner ) {
+			$data['protectedOwner'] = $protected_owner;
 		}
 
 		$host              = new Host();
@@ -183,6 +200,111 @@ class Jetpack_Connector {
 		}
 
 		return $data;
+	}
+
+	/**
+	 * Add Jetpack Identity Crisis (Safe Mode) data to the script module data.
+	 *
+	 * The connector card uses this to swap the status badge to "Safe Mode" and
+	 * to render IDC resolution options (migrate / start fresh / stay in safe
+	 * mode) in the expanded details. Mirrors the data assembled by
+	 * \Automattic\Jetpack\IdentityCrisis\UI::get_initial_state_data().
+	 *
+	 * @since 8.7.0
+	 *
+	 * @param array $data Script module data passed by reference.
+	 */
+	private static function add_identity_crisis_data( &$data ) {
+		if ( ! class_exists( Identity_Crisis::class ) ) {
+			return;
+		}
+
+		$in_safe_mode = ( new Status() )->in_safe_mode();
+
+		$data['isInSafeMode'] = $in_safe_mode;
+
+		if ( ! $in_safe_mode ) {
+			return;
+		}
+
+		$idc_urls = Identity_Crisis::get_mismatched_urls();
+
+		$data['isSafeModeConfirmed'] = (bool) Identity_Crisis::$is_safe_mode_confirmed;
+		$data['idc']                 = array(
+			'currentUrl'                     => ( is_array( $idc_urls ) && array_key_exists( 'current_url', $idc_urls ) ) ? $idc_urls['current_url'] : home_url(),
+			'wpcomHomeUrl'                   => ( is_array( $idc_urls ) && array_key_exists( 'wpcom_url', $idc_urls ) ) ? $idc_urls['wpcom_url'] : '',
+			'isDevelopmentSite'              => (bool) Status::is_development_site(),
+			'possibleDynamicSiteUrlDetected' => (bool) Identity_Crisis::detect_possible_dynamic_site_url(),
+		);
+	}
+
+	/**
+	 * Protected-owner state for the connector card.
+	 *
+	 * Omitted when nothing requests a protected owner and no anchor is stored,
+	 * so the card keeps its current account sections. The status is
+	 * Manager::resolve_protected_owner_state(), which the card switches on.
+	 *
+	 * `viewerIsConfirmedOwner` is that method's `is_current_user_the_po`. It tells the recovery
+	 * copy apart: an owner whose own token broke is asked to reconnect, not to connect.
+	 *
+	 * @since 9.9.0
+	 *
+	 * @param Manager $manager Connection manager instance.
+	 * @return array{status: string, viewerIsConfirmedOwner: bool}|null
+	 */
+	private static function get_protected_owner_card_state( $manager ) {
+		$requires = $manager->requires_protected_owner();
+		$anchor   = Protected_Owner::get_locked();
+
+		if ( ! $requires && ! $anchor ) {
+			return null;
+		}
+
+		$state = $manager->resolve_protected_owner_state();
+
+		// No anchor and this viewer cannot confirm: leave the card as it is.
+		if ( ! $anchor && Manager::PO_STATE_NOT_ELIGIBLE === $state['status'] ) {
+			return null;
+		}
+
+		return array(
+			'status'                 => $state['status'],
+			'viewerIsConfirmedOwner' => $state['is_current_user_the_po'],
+		);
+	}
+
+	/**
+	 * Whether the card can open one of the shared protected-owner dialogs.
+	 *
+	 * Confirming is only reachable for a connected administrator, on a site that has asked for a
+	 * protected owner and does not have one yet. Releasing is only reachable for the confirmed
+	 * owner, and deliberately does not depend on a consumer still asking: a site has to be able
+	 * to give up a lock after the plugin that wanted it is gone.
+	 *
+	 * Both read the one state call rather than asking again, so neither adds a WordPress.com
+	 * round trip to a screen load.
+	 *
+	 * The card always uses the package dialogs. `jetpack_connection_protected_owner_default_ui`
+	 * is for a consumer's own surface, not this one.
+	 *
+	 * @since 9.9.0
+	 *
+	 * @param Manager $manager Connection manager instance.
+	 * @return bool
+	 */
+	private static function should_enqueue_protected_owner_dialogs( $manager ) {
+		$state = $manager->resolve_protected_owner_state();
+
+		if ( $manager->requires_protected_owner() && Manager::PO_STATE_CAN_ESTABLISH === $state['status'] ) {
+			return true;
+		}
+
+		// `RE_EVALUATE` is the anchored state where the connection owner matches the anchor, so
+		// pinning the viewer to that owner is the same gate the release endpoint applies — a
+		// matching binding alone would offer a dialog the endpoint then refuses.
+		return Manager::PO_STATE_RE_EVALUATE === $state['status']
+			&& get_current_user_id() === (int) $manager->get_connection_owner_id();
 	}
 
 	/**
@@ -411,19 +533,13 @@ class Jetpack_Connector {
 	}
 
 	/**
-	 * Determine the connector card logo based on which plugin families are connected.
+	 * Detect which plugin families are using the connection.
 	 *
-	 * Priority:
-	 * 1. Both Woo-family and A4A plugins → jetpack-connect-all.svg
-	 * 2. Woo-family only                 → jetpack-connect-woo.svg
-	 * 3. A4A only                        → jetpack-connect-a8c.svg
-	 * 4. Default (Jetpack only or other) → jetpack-connect.svg
+	 * @since 8.5.0
 	 *
-	 * @since 8.3.2
-	 *
-	 * @return string Logo URL.
+	 * @return array{has_woo: bool, has_a4a: bool}
 	 */
-	private static function get_connector_logo_url() {
+	public static function get_connected_plugin_families() {
 		$plugins = Plugin_Storage::get_all();
 
 		$has_woo = false;
@@ -440,16 +556,66 @@ class Jetpack_Connector {
 			}
 		}
 
-		if ( $has_woo && $has_a4a ) {
+		return array(
+			'has_woo' => $has_woo,
+			'has_a4a' => $has_a4a,
+		);
+	}
+
+	/**
+	 * Determine the connector card logo based on which plugin families are connected.
+	 *
+	 * Priority:
+	 * 1. Both Woo-family and A4A plugins → jetpack-connect-all.svg
+	 * 2. Woo-family only                 → jetpack-connect-woo.svg
+	 * 3. A4A only                        → jetpack-connect-a8c.svg
+	 * 4. Default (Jetpack only or other) → jetpack-connect.svg
+	 *
+	 * @since 8.3.2
+	 *
+	 * @return string Logo URL.
+	 */
+	public static function get_connector_logo_url() {
+		$families = self::get_connected_plugin_families();
+
+		if ( $families['has_woo'] && $families['has_a4a'] ) {
 			return plugins_url( 'images/jetpack-connect-all.svg', __FILE__ );
 		}
 
-		if ( $has_woo ) {
+		if ( $families['has_woo'] ) {
 			return plugins_url( 'images/jetpack-connect-woo.svg', __FILE__ );
 		}
 
-		if ( $has_a4a ) {
+		if ( $families['has_a4a'] ) {
 			return plugins_url( 'images/jetpack-connect-a8c.svg', __FILE__ );
+		}
+
+		return plugins_url( 'images/jetpack-connect.svg', __FILE__ );
+	}
+
+	/**
+	 * Get the inline (single-row) connector logo for use in compact contexts like table cells.
+	 *
+	 * All circles are arranged horizontally in a single row, unlike the card
+	 * logos which stack circles vertically for 3+ plugins.
+	 *
+	 * @since 8.5.0
+	 *
+	 * @return string Logo URL.
+	 */
+	public static function get_inline_connector_logo_url() {
+		$families = self::get_connected_plugin_families();
+
+		if ( $families['has_woo'] && $families['has_a4a'] ) {
+			return plugins_url( 'images/jetpack-connect-all-inline.svg', __FILE__ );
+		}
+
+		if ( $families['has_woo'] ) {
+			return plugins_url( 'images/jetpack-connect-woo-inline.svg', __FILE__ );
+		}
+
+		if ( $families['has_a4a'] ) {
+			return plugins_url( 'images/jetpack-connect-a8c-inline.svg', __FILE__ );
 		}
 
 		return plugins_url( 'images/jetpack-connect.svg', __FILE__ );

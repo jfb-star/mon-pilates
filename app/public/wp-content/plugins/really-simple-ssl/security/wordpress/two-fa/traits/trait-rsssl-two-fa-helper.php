@@ -62,20 +62,6 @@ trait Rsssl_Two_Fa_Helper {
 	}
 
     /**
-     * Checks if the requested namespace matches our specific namespace and bypasses authentication.
-     *
-     * @param WP_REST_Request $request The REST request object.
-     */
-    private function check_custom_validation( WP_REST_Request $request ): bool {
-        // first check if the $-REQUEST['rest_route'] is set.
-        $params = new Rsssl_Request_Parameters( $request );
-        if ( ! isset( $params->login_nonce ) ) {
-            return false;
-        }
-        return Rsssl_Two_Fa_Authentication::verify_login_nonce( $params->user_id, $params->login_nonce );
-    }
-
-    /**
      * Verifies a login nonce, gets user by the user id, and returns an error response if any steps fail.
      *
      * @param int    $user_id The user ID.
@@ -98,8 +84,16 @@ trait Rsssl_Two_Fa_Helper {
     public function authenticate_and_redirect( int $user_id, string $redirect_to = '' ): WP_REST_Response {
         // Okay checked the provider now authenticate the user.
         wp_set_auth_cookie( $user_id, true );
+        $user = get_userdata( $user_id );
+        if ( $user instanceof \WP_User ) {
+            do_action( 'rsssl_two_factor_user_authenticated', $user->user_login, $user );
+        }
         // Finally redirect the user to the redirect_to page or to the home page if the redirect_to is not set.
         $redirect_to = $redirect_to ?: home_url();
+        if ( function_exists( '\RSSSL\Pro\Security\WordPress\rsssl_maybe_get_expired_password_redirect' ) ) {
+            $redirect_to = \RSSSL\Pro\Security\WordPress\rsssl_maybe_get_expired_password_redirect( $redirect_to, $user_id );
+        }
+        $redirect_to = wp_validate_redirect( $redirect_to, admin_url() );
         return new WP_REST_Response( array( 'redirect_to' => $redirect_to ), 200 );
     }
 

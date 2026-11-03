@@ -46,10 +46,17 @@ function ce_filter( $content ) {
 	$found_pos  = strpos( $content, $options['opening_ident'] . $options['keyword_ident'], 0 );
 	$prefix_len = strlen( $options['opening_ident'] . $options['keyword_ident'] );
 
+	// Whether the author of the post being rendered may output raw, unfiltered HTML.
+
+	// This one decision gates raw output for both local and global embeds, so an untrusted author's page
+	// can never emit unsanitized markup - regardless of who authored the post a global embed is stored on.
+
+	$post_author       = get_post_field( 'post_author', $post->ID );
+	$author_allows_raw = user_can( $post_author, 'unfiltered_html' );
+
 	// Loop around the post content looking for all requests for code embeds.
 
 	while ( false !== $found_pos ) {
-
 		// Get the position of the closing identifier - ignore if one is not found!
 
 		$end_pos = strpos( $content, $options['closing_ident'], $found_pos + $prefix_len );
@@ -98,10 +105,16 @@ function ce_filter( $content ) {
 
 			$post_meta = get_post_meta( $post->ID, $options['keyword_ident'] . $suffix, false );
 			if ( isset( $post_meta[0] ) ) {
-				$html = $post_meta[0];
+				// Only a string can be embed markup; anything else (e.g. an array meta value) is neutralized.
+				$value = is_string( $post_meta[0] ) ? $post_meta[0] : '';
+				if ( '' !== $value && $author_allows_raw ) {
+					$html = $value;
+				} else {
+					$html = wp_kses_post( $value );
+				}
 			} else {
 				// No meta found, so look for it elsewhere.
-				$html = ce_get_embed_code( $options['keyword_ident'], $suffix );
+				$html = ce_get_embed_code( $options['keyword_ident'], $suffix, $author_allows_raw );
 			}
 
 			// Build the string to search for.
@@ -122,17 +135,40 @@ function ce_filter( $content ) {
 
 	// Loop around the post content looking for HTTP addresses.
 
-	$content = ce_quick_replace( $content, $options, 'http://' );
+	if ( '1' === get_post_meta( $post->ID, '_ce_allow_url_embeds', true ) ) {
+		$content = ce_quick_replace( $content, $options, 'http://' );
 
-	// Loop around the post content looking for HTTPS addresses.
+		// Loop around the post content looking for HTTPS addresses.
 
-	$content = ce_quick_replace( $content, $options, 'https://' );
+		$content = ce_quick_replace( $content, $options, 'https://' );
+	}
 
 	return $content;
 }
 
 add_filter( 'the_content', 'ce_filter' );
 add_filter( 'widget_text_content', 'ce_filter' );
+add_action( 'save_post', 'ce_save_url_embed_permission' );
+
+/**
+ * Save URL Embed Permission
+ *
+ * On post save, records whether the post author has the unfiltered_html
+ * capability, so that URL embed tokens are only expanded at render time
+ * for content authored by trusted users.
+ *
+ * @param    string $post_id    The post ID.
+ */
+function ce_save_url_embed_permission( $post_id ) {
+
+	if ( wp_is_post_revision( $post_id ) ) {
+		return;
+	}
+
+	$post    = get_post( $post_id );
+	$allowed = user_can( $post->post_author, 'unfiltered_html' ) ? '1' : '0';
+	update_post_meta( $post_id, '_ce_allow_url_embeds', $allowed );
+}
 
 /**
  * Quick Replace
@@ -158,7 +194,7 @@ function ce_quick_replace( $content = '', $options = '', $search = '' ) {
 			if ( false === $file ) {
 				$file = ce_report_error( __( 'File could not be fetched', 'simple-embed-code' ), 'Code Embed', false );
 			}
-			$content   = str_replace( $options['opening_ident'] . $url . $options['closing_ident'], $file, $content );
+			$content   = str_replace( $options['opening_ident'] . $url . $options['closing_ident'], wp_kses_post( $file ), $content );
 			$start_pos = strpos( $content, $options['opening_ident'] . $search, 0 );
 		} else {
 			$start_pos = strpos( $content, $options['opening_ident'] . $search, $start_pos + 1 );
@@ -212,15 +248,16 @@ function ce_generate_code( $html, $responsive = false, $max_width = false ) {
  *
  * @param  string $ident       The embed code opening identifier.
  * @param  string $suffix      The embed code suffix.
+ * @param  bool   $allow_raw   Whether the current post's author may output raw HTML.
  * @return string              The embed code (or error).
  */
-function ce_get_embed_code( $ident, $suffix ) {
+function ce_get_embed_code( $ident, $suffix, $allow_raw = false ) {
 
 	// Meta was not found in the current post, so look across the meta table.
 
 	$meta_name = $ident . $suffix;
 	global $wpdb;
-	$meta = $wpdb->get_results( $wpdb->prepare( "SELECT meta_value, post_title, ID FROM $wpdb->postmeta INNER JOIN $wpdb->posts ON post_id = ID WHERE meta_key = %s AND post_status NOT IN ('trash', 'auto-draft', 'inherit')", $meta_name ) ); // @codingStandardsIgnoreLine -- requires the latest data when called, so caching is inappropriate
+	$meta = $wpdb->get_results( $wpdb->prepare( "SELECT meta_value, post_title, ID FROM $wpdb->postmeta INNER JOIN $wpdb->posts ON post_id = ID WHERE BINARY meta_key = %s AND post_status = 'publish' ORDER BY ID", $meta_name ) ); // @codingStandardsIgnoreLine -- requires the latest data when called, so caching is inappropriate
 
 	$total_records = count( $meta );
 
@@ -233,9 +270,12 @@ function ce_get_embed_code( $ident, $suffix ) {
 		if ( 1 === $records ) {
 
 			// Only one unique code result returned, so assume this is the global embed.
-
-			$html = $meta[0]->meta_value;
-
+			$value = is_string( $meta[0]->meta_value ) ? $meta[0]->meta_value : '';
+			if ( '' !== $value && $allow_raw ) {
+				$html = $value;
+			} else {
+				$html = wp_kses_post( $value );
+			}
 		} else {
 
 			// More than one unique code result returned, so output the list of posts.
@@ -293,19 +333,22 @@ function ce_get_file( $filein ) {
  *
  * @param  string $error            Error message.
  * @param  string $plugin_name      The name of the plugin.
- * @param  bool   $echo_out         True or false, depending on whether you wish to return or echo the results.
- * @return bool|string              Returns the error message or true when echoing or if not a user with edit capabilities.
+ * @param  bool   $echo_out         True to echo the error, false to return it.
+ * @return string                   The error message (empty string when echoing, or when the viewer cannot edit posts).
  */
 function ce_report_error( $error, $plugin_name, $echo_out = true ) {
 
 	$output = '<p role="alert" style="color: #b91c1c; font-weight: bold;">' . esc_html( $plugin_name ) . ': ' . esc_html( $error ) . "</p>\n";
 
-	if ( $echo_out || ! current_user_can( 'edit_posts' ) ) {
-		if ( current_user_can( 'edit_posts' ) ) {
-			echo $output; // @codingStandardsIgnoreLine -- being escaped above so this is a false positive
-		}
-		return true;
-	} else {
-		return $output;
+	// Plugin errors are only ever surfaced to users who can edit posts; visitors see nothing.
+	if ( ! current_user_can( 'edit_posts' ) ) {
+		return '';
 	}
+
+	if ( $echo_out ) {
+		echo $output; // @codingStandardsIgnoreLine -- being escaped above so this is a false positive
+		return '';
+	}
+
+	return $output;
 }

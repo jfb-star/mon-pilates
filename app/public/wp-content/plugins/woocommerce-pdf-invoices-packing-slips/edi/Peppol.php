@@ -33,10 +33,12 @@ class Peppol {
 			return;
 		}
 		
-		// Peppol My Account
 		add_filter( 'woocommerce_account_menu_items', array( $this, 'peppol_account_menu_item' ), 10, 2 );
 		add_action( 'rest_api_init', array( $this, 'peppol_register_checkout_autofill_endpoint_route' ) );
-		add_action( 'woocommerce_new_order', array( $this, 'peppol_handle_new_order_automatic_endpoint_id_derivation' ), 20, 2 );
+
+		// Peppol Endpoint Derivation
+		add_action( 'woocommerce_checkout_order_created', array( $this, 'peppol_handle_new_order_automatic_endpoint_id_derivation' ), 999, 1 );
+		add_action( 'woocommerce_store_api_checkout_order_processed', array( $this, 'peppol_handle_new_order_automatic_endpoint_id_derivation' ), 999, 1 );
 
 		add_action( 'template_redirect', array( $this, 'save_peppol_settings' ) );
 		add_action( 'woocommerce_account_peppol_endpoint', array( $this, 'peppol_settings_account_page' ) );
@@ -694,7 +696,7 @@ class Peppol {
 						);
 					}
 
-					$result = wpo_ips_edi_build_peppol_endpoint_from_vat( $billing_country, $value );
+					$result = $this->peppol_find_valid_endpoint_from_vat( $billing_country, $value );
 					if ( empty( $result['endpoint_id'] ) || empty( $result['eas'] ) ) {
 						return rest_ensure_response(
 							array(
@@ -721,47 +723,71 @@ class Peppol {
 	/**
 	 * Handle automatic Peppol Endpoint ID derivation on new order creation.
 	 *
-	 * @param int $order_id
 	 * @param \WC_Order $order
 	 * @return void
 	 */
-	public function peppol_handle_new_order_automatic_endpoint_id_derivation( int $order_id, $order ): void {
-		if (
-			! (bool) wpo_ips_edi_get_settings( 'peppol_automatic_endpoint_id_derivation' ) ||
-			wpo_ips_edi_peppol_enabled_for_location( 'checkout' )
-		) {
+	public function peppol_handle_new_order_automatic_endpoint_id_derivation( \WC_Order $order ): void {
+		$order_id = $order->get_id();
+
+		if ( ! (bool) wpo_ips_edi_get_settings( 'peppol_automatic_endpoint_id_derivation' ) ) {
 			return;
 		}
 
-		if ( is_null( $order ) ) {
-			$order = wc_get_order( $order_id );
-		}
-
-		// check if we have an order object
-		if ( empty( $order ) ) {
+		if ( wpo_ips_edi_peppol_enabled_for_location( 'checkout' ) ) {
 			return;
 		}
+
+		$order->read_meta_data( true );
 
 		$billing_country = $order->get_billing_country();
 		$vat_number      = wpo_wcpdf_get_order_customer_vat_number( $order );
 
 		if ( empty( $billing_country ) || empty( $vat_number ) ) {
+			wpo_ips_edi_log(
+				sprintf(
+					'Automatic Peppol Endpoint ID derivation skipped for order #%d: missing billing country or VAT number.',
+					$order_id
+				)
+			);
+
 			return;
 		}
 
-		$result = wpo_ips_edi_build_peppol_endpoint_from_vat( $billing_country, $vat_number );
-		if ( empty( $result['endpoint_id'] ) ) {
+		wpo_ips_edi_log(
+			sprintf(
+				'Attempting automatic Peppol Endpoint ID derivation for order #%d using billing country "%s".',
+				$order_id,
+				$billing_country
+			)
+		);
+
+		$result = $this->peppol_find_valid_endpoint_from_vat( $billing_country, $vat_number );
+
+		if ( empty( $result['endpoint_id'] ) || empty( $result['eas'] ) ) {
+			wpo_ips_edi_log(
+				sprintf(
+					'Automatic Peppol Endpoint ID derivation failed for order #%d: no valid Endpoint ID or EAS was found.',
+					$order_id
+				),
+				'warning'
+			);
+
 			return;
 		}
 
-		$validation = $this->peppol_validate_identifier_value( $result['endpoint_id'] );
-		if ( is_wp_error( $validation ) ) {
-			return;
-		}
-
+		/*
+		 * Important:
+		 * Keep peppol_endpoint_id as "scheme:identifier".
+		 * wpo_ips_edi_maybe_save_order_peppol_data() will split it internally
+		 * and save _peppol_endpoint_id + _peppol_endpoint_eas.
+		 */
 		$data = array(
 			'peppol_endpoint_id' => $result['endpoint_id'],
 		);
+
+		if ( ! empty( $result['eas'] ) ) {
+			$data['peppol_endpoint_eas'] = $result['eas'];
+		}
 
 		$customer_id = is_callable( array( $order, 'get_customer_id' ) )
 			? absint( $order->get_customer_id() )
@@ -770,6 +796,14 @@ class Peppol {
 		wpo_ips_edi_peppol_save_customer_identifiers( $customer_id, $data );
 
 		wpo_ips_edi_maybe_save_order_peppol_data( $order, $data );
+
+		wpo_ips_edi_log(
+			sprintf(
+				'Automatically derived and saved Peppol Endpoint ID for order #%d with EAS "%s".',
+				$order_id,
+				$result['eas']
+			)
+		);
 	}
 
 	/**
@@ -1127,7 +1161,9 @@ class Peppol {
 		}
 
 		// First attempt: full query (can be scheme:value, value, or name).
-		$data = $this->peppol_directory_request( $primary_query );
+		$data = $has_colon
+			? $this->peppol_directory_request_by_participant( $primary_query )
+			: $this->peppol_directory_request_by_query( $primary_query );
 
 		if ( is_wp_error( $data ) ) {
 			return $data;
@@ -1137,7 +1173,7 @@ class Peppol {
 
 		// Fallback: if we had "scheme:value" and got no matches, try "value" only.
 		if ( $has_colon && empty( $matches ) && '' !== $fallback_query ) {
-			$data = $this->peppol_directory_request( $fallback_query );
+			$data = $this->peppol_directory_request_by_query( $fallback_query );
 
 			if ( is_wp_error( $data ) ) {
 				return $data;
@@ -1199,20 +1235,17 @@ class Peppol {
 	}
 
 	/**
-	 * Perform a Peppol Directory request using the generic "q" parameter.
+	 * Perform a Peppol Directory request.
 	 *
-	 * @param string $query
+	 * @param array $query_args Query arguments.
 	 * @return array|\WP_Error
 	 */
-	private function peppol_directory_request( string $query ) {
+	private function peppol_directory_request( array $query_args ) {
 		$base_url = 'https://directory.peppol.eu/search/1.0/json';
 
-		$query_args = array(
-			'q'        => $query,
-			'beautify' => 'true',
-		);
+		$query_args['beautify'] = 'true';
 
-		$url = add_query_arg( $query_args, $base_url );
+		$url = $base_url . '?' . http_build_query( $query_args, '', '&', PHP_QUERY_RFC3986 );
 
 		$response = wp_remote_get(
 			$url,
@@ -1256,6 +1289,92 @@ class Peppol {
 		}
 
 		return $data;
+	}
+
+	/**
+	 * Perform a Peppol Directory request using the generic query parameter.
+	 *
+	 * @param string $query Query.
+	 * @return array|\WP_Error
+	 */
+	private function peppol_directory_request_by_query( string $query ) {
+		return $this->peppol_directory_request(
+			array(
+				'q' => trim( $query ),
+			)
+		);
+	}
+
+	/**
+	 * Perform a Peppol Directory request using the exact participant parameter.
+	 *
+	 * @param string $participant_id Participant ID.
+	 * @return array|\WP_Error
+	 */
+	private function peppol_directory_request_by_participant( string $participant_id ) {
+		$participant_id = trim( $participant_id );
+
+		if ( false === strpos( $participant_id, '::' ) ) {
+			$participant_id = 'iso6523-actorid-upis::' . $participant_id;
+		}
+
+		return $this->peppol_directory_request(
+			array(
+				'participant' => $participant_id,
+			)
+		);
+	}
+
+	/**
+	 * Find the first valid Peppol endpoint from VAT mappings.
+	 *
+	 * @param string $billing_country Billing country.
+	 * @param string $vat_number      VAT number.
+	 * @return array
+	 */
+	private function peppol_find_valid_endpoint_from_vat( string $billing_country, string $vat_number ): array {
+		$candidates = wpo_ips_edi_build_peppol_endpoint_candidates_from_vat( $billing_country, $vat_number );
+
+		foreach ( $candidates as $candidate ) {
+			if ( empty( $candidate['endpoint_id'] ) ) {
+				continue;
+			}
+
+			if ( $this->peppol_directory_participant_exists( (string) $candidate['endpoint_id'] ) ) {
+				return $candidate;
+			}
+		}
+
+		return array();
+	}
+
+	/**
+	 * Check whether a Peppol participant exists in the Directory.
+	 *
+	 * @param string $endpoint_id Endpoint ID.
+	 * @return bool
+	 */
+	private function peppol_directory_participant_exists( string $endpoint_id ): bool {
+		$data = $this->peppol_directory_request_by_participant( $endpoint_id );
+
+		if ( is_wp_error( $data ) ) {
+			return false;
+		}
+
+		$matches     = isset( $data['matches'] ) && is_array( $data['matches'] ) ? $data['matches'] : array();
+		$endpoint_id = wc_strtolower( trim( $endpoint_id ) );
+
+		foreach ( $matches as $match ) {
+			$value = isset( $match['participantID']['value'] )
+				? wc_strtolower( trim( (string) $match['participantID']['value'] ) )
+				: '';
+
+			if ( $value === $endpoint_id ) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**

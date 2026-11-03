@@ -3,6 +3,7 @@
 namespace LLAR\Core;
 
 use LLAR\Lib\CidrCheck;
+use LLAR\Core\Mail\Mailer;
 
 if ( !defined( 'ABSPATH' ) ) exit;
 
@@ -208,7 +209,9 @@ class Helpers {
 	public static function cloud_app_update_config( $new_app_config, $update_created_at = false ) {
 		if( !$new_app_config ) return false;
 
-		if( $active_app_config = Config::get( 'app_config' ) ) {
+		$previous_app_config = Config::get( 'app_config' );
+
+		if( $active_app_config = $previous_app_config ) {
 
 			foreach ( $active_app_config['settings'] as $key => $info ) {
 
@@ -230,6 +233,11 @@ class Helpers {
 			$new_app_config['created_at'] = time();
 
 		Config::update( 'app_config', $new_app_config );
+
+		// The /info payload may change with the app config — drop the cached
+		// exhausted flag for both the previous and the new app id.
+		LimitLoginAttempts::clear_mc_exhausted_cache( $previous_app_config );
+		LimitLoginAttempts::clear_mc_exhausted_cache( $new_app_config );
 	}
 
 	/**
@@ -417,25 +425,131 @@ class Helpers {
 		return round($num, 1) . $units[$i];
 	}
 
+	/**
+	 * Get current request URI from server globals.
+	 *
+	 * @return string
+	 */
+	public static function get_request_uri() {
+		return isset( $_SERVER['REQUEST_URI'] ) ? wp_unslash( $_SERVER['REQUEST_URI'] ) : '';
+	}
+
+	/**
+	 * Get current URL label from request URI.
+	 *
+	 * @return string
+	 */
+	public static function get_current_url_label() {
+		return preg_replace( '/^\/|\/$/', '', self::get_request_uri() );
+	}
+
+	/**
+	 * Get current URL with referer fallback.
+	 *
+	 * @return string
+	 */
+	public static function get_current_url() {
+		if ( isset( $_SERVER['HTTP_REFERER'] ) ) {
+			return wp_unslash( $_SERVER['HTTP_REFERER'] );
+		}
+
+		return get_site_url() . self::get_request_uri();
+	}
+
+	/**
+	 * Send HTML email with embedded LLAR logo using shared Mailer layout.
+	 *
+	 * @param string $to
+	 * @param string $subject
+	 * @param string $body Content-only HTML.
+	 *
+	 * @return bool
+	 */
 	public static function send_mail_with_logo( $to, $subject, $body ) {
 
 		add_action( 'phpmailer_init', array( 'LLAR\Core\Helpers', 'add_attachments_to_php_mailer' ) );
 
-		@wp_mail( $to, $subject, $body, array( 'content-type: text/html' ) );
+		$sent = Mailer::send(
+			$to,
+			$subject,
+			$body,
+			array( 'content-type: text/html' ),
+			array(),
+			true,
+			array(
+				'title'    => $subject,
+				'logo_cid' => 'logo',
+			)
+		);
 
 		remove_action( 'phpmailer_init', array( 'LLAR\Core\Helpers', 'add_attachments_to_php_mailer' ) );
+
+		return (bool) $sent;
 	}
 
 	public static function add_attachments_to_php_mailer( &$phpmailer ) {
-		$logo_path = LLA_PLUGIN_DIR . 'assets/img/logo.png';
+		if ( ! self::is_llar_phpmailer_message( $phpmailer ) ) {
+			return;
+		}
+
+		$logo_path = LLA_PLUGIN_DIR . 'assets/img/llar-logo-email.png';
 
 		if( file_exists( $logo_path ) ) {
 			$phpmailer->AddEmbeddedImage( $logo_path, 'logo' );
 		}
 	}
 
+	/**
+	 * Determine if PHPMailer instance belongs to LLAR mail.
+	 *
+	 * @param \PHPMailer\PHPMailer\PHPMailer|object $phpmailer PHPMailer instance.
+	 * @return bool
+	 */
+	private static function is_llar_phpmailer_message( $phpmailer ) {
+		if ( is_object( $phpmailer ) && method_exists( $phpmailer, 'getCustomHeaders' ) ) {
+			$headers = $phpmailer->getCustomHeaders();
+			if ( is_array( $headers ) ) {
+				foreach ( $headers as $header ) {
+					if ( ! is_array( $header ) || count( $header ) < 2 ) {
+						continue;
+					}
+					$name  = strtolower( (string) $header[0] );
+					$value = strtolower( trim( (string) $header[1] ) );
+					if ( 'x-llar-email' === $name && 'true' === $value ) {
+						return true;
+					}
+				}
+			}
+		}
+
+		// Fallback for SMTP plugins that drop custom headers.
+		return Mailer::is_runtime_send_active();
+	}
+
 	public static function wp_locale() {
 		return str_replace( '_', '-', get_locale() );
+	}
+
+	/**
+	 * Load and cache CSS for email layout injected into the <style> block.
+	 *
+	 * @return string
+	 */
+	public static function get_email_css_text() {
+		static $css_text = null;
+
+		if ( null !== $css_text ) {
+			return $css_text;
+		}
+
+		$css_path = LLA_PLUGIN_DIR . 'views/emails/email-layout.css';
+		if ( file_exists( $css_path ) && is_readable( $css_path ) ) {
+			$css_text = (string) file_get_contents( $css_path );
+		} else {
+			$css_text = '';
+		}
+
+		return $css_text;
 	}
 
 	/**
@@ -461,7 +575,7 @@ class Helpers {
 		return $after_domain;
 	}
 
-	
+
 	/**
 	 * Retrieves debug information for the Debug tab.
 	 *
@@ -526,7 +640,7 @@ class Helpers {
 					if ( '.' === $slug || '' === $slug ) {
 						$slug = basename( $plugin_file, '.php' );
 					}
-					
+
 
 					// If PluginURI points to WordPress.org, prefer slug from the URI.
 					if ( ! empty( $uri ) && preg_match( '#WordPress\.org/plugins/([^/]+)/?#i', $uri, $m ) ) {
@@ -579,6 +693,19 @@ class Helpers {
 			? sanitize_text_field( $plugin_data['Version'] )
 			: '';
 		Config::update( 'plugin_version', $version );
+	}
+
+
+	/**
+	 * Returns compatibility data for the Debug tab.
+	 *
+	 * Shows which LLAR features work with which third-party plugins.
+	 * Values reflect integration code and the readme "Compatible With" list.
+	 *
+	 * @return array
+	 */
+	public static function get_compatibility_data() {
+		return require LLA_PLUGIN_DIR . 'resources/compatibility-data.php';
 	}
 
 }

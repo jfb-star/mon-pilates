@@ -105,7 +105,7 @@ abstract class OrderDocumentMethods extends OrderDocument {
 		// Restore the original order if modified.
 		$this->order = $original_order;
 
-		return $address;
+		return $this->protect_from_document_decode( $address );
 	}
 	public function billing_address() {
 		echo wp_kses_post( $this->get_billing_address() );
@@ -216,7 +216,7 @@ abstract class OrderDocumentMethods extends OrderDocument {
 		// Restore the original order if modified.
 		$this->order = $original_order;
 
-		return $address;
+		return $this->protect_from_document_decode( $address );
 	}
 	public function shipping_address() {
 		echo wp_kses_post( $this->get_shipping_address() );
@@ -264,7 +264,7 @@ abstract class OrderDocumentMethods extends OrderDocument {
 			}
 		}
 
-		return apply_filters( 'wpo_wcpdf_billing_custom_field', $custom_field, $this );
+		return $this->protect_from_document_decode( apply_filters( 'wpo_wcpdf_billing_custom_field', $custom_field, $this ) );
 	}
 	public function custom_field( $field_name, $field_label = '', $display_empty = false ) {
 		$custom_field = $this->get_custom_field( $field_name );
@@ -470,7 +470,7 @@ abstract class OrderDocumentMethods extends OrderDocument {
 				$content     = apply_filters( 'wpo_wcpdf_order_note', $content, $note );
 				?>
 				<div class="<?php echo esc_attr( implode( ' ', $css_class ) ); ?>">
-					<?php echo wpo_wcpdf_sanitize_html_content( $content, 'notes' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+					<?php echo $this->protect_from_document_decode( wpo_wcpdf_sanitize_html_content( $content, 'notes' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 				</div>
 				<?php
 			}
@@ -627,7 +627,7 @@ abstract class OrderDocumentMethods extends OrderDocument {
 				$data['line_subtotal_tax'] = $this->format_price( $item['line_subtotal_tax'] );
 				$data['ex_price']          = $this->get_formatted_item_price( $item, 'total', 'excl' );
 				$data['price']             = $this->get_formatted_item_price( $item, 'total' );
-				$data['order_price']       = $this->order->get_formatted_line_subtotal( $item ); // formatted according to WC settings
+				$data['order_price']       = $this->get_formatted_order_item_price( $item );
 
 				// Calculate the single price with the same rules as the formatted line subtotal (!)
 				// = before discount
@@ -672,7 +672,7 @@ abstract class OrderDocumentMethods extends OrderDocument {
 				}
 
 				// Set item meta
-				$data['meta'] = wpo_ips_display_item_meta( $item, apply_filters( 'wpo_wcpdf_display_item_meta_args', array( 'echo' => false ), $this ) );
+				$data['meta'] = $this->protect_from_document_decode( wpo_ips_display_item_meta( $item, apply_filters( 'wpo_wcpdf_display_item_meta_args', array( 'echo' => false ), $this ) ) );
 
 				$data_list[ $item_id ] = apply_filters( 'wpo_wcpdf_order_item_data', $data, $this->order, $this->get_type() );
 			}
@@ -1202,7 +1202,7 @@ abstract class OrderDocumentMethods extends OrderDocument {
 			$shipping_notes = wp_strip_all_tags( $shipping_notes );
 		}
 
-		return apply_filters( 'wpo_wcpdf_shipping_notes', $shipping_notes, $this );
+		return $this->protect_from_document_decode( apply_filters( 'wpo_wcpdf_shipping_notes', $shipping_notes, $this ) );
 	}
 
 	/**
@@ -1251,6 +1251,31 @@ abstract class OrderDocumentMethods extends OrderDocument {
 		}
 
 		return $item_price;
+	}
+
+	/**
+	 * Gets the order item price formatted for display.
+	 *
+	 * Uses WooCommerce's formatted line subtotal when available, but falls back to
+	 * our own formatter if a third-party callback empties the WooCommerce value.
+	 *
+	 * @param mixed $item Order item.
+	 * @return string
+	 */
+	public function get_formatted_order_item_price( $item ): string {
+		$order_price = is_callable( array( $this->order, 'get_formatted_line_subtotal' ) )
+			? $this->order->get_formatted_line_subtotal( $item )
+			: '';
+
+		if ( '' !== trim( wp_strip_all_tags( (string) $order_price ) ) ) {
+			return (string) $order_price;
+		}
+
+		return $this->get_formatted_item_price(
+			$item,
+			'total',
+			get_option( 'woocommerce_tax_display_cart', 'excl' )
+		);
 	}
 
 	/**

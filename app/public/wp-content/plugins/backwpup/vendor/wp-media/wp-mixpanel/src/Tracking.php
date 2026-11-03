@@ -1,17 +1,17 @@
 <?php
 declare(strict_types=1);
 
-namespace WPMedia\Mixpanel;
+namespace WPMedia\BackWPup\Dependencies\WPMedia\Mixpanel;
 
-use WPMedia_Mixpanel;
+use BackWPup_WPMedia_Mixpanel as WPMedia_Mixpanel;
 
 class Tracking {
-	const HOST = 'mixpanel-tracking-proxy-prod.public-default.live2-k8s-cph3.ingress.k8s.g1i.one';
+	const HOST = 'api-eu.mixpanel.com';
 
 	/**
 	 * Mixpanel instance
 	 *
-	 * @var WPMedia_Mixpanel
+	 * @var BackWPup_WPMedia_Mixpanel
 	 */
 	private $mixpanel;
 

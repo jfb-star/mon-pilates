@@ -70,14 +70,14 @@
   position: relative;
 }
 
-.link__style_unlink:hover, .llar-label:hover, .link__style_color_inherit:hover {
-  color: inherit;
-}
-
-.link__style_unlink > a, .llar-label > a {
+.link__style_unlink > a {
   color: rgb(33, 49, 70);
   text-align: right;
   text-decoration: none;
+}
+
+.link__style_unlink:hover, .llar-label:hover, .link__style_color_inherit:hover {
+  color: inherit;
 }
 
 .link__style_color_inherit {
@@ -152,7 +152,7 @@ a.llar_turquoise:hover, #llar-setting-page-logs .description-page .description-s
 .dashicons-secondary, #llar-dashboard-page .section-title__new .llar-label .dashicons, #llar-setting-page .llar-settings-wrap .llar-form-table tr th .dashicons, #llar-setting-page-logs .llar-settings-wrap .llar-form-table tr th .dashicons, #llar-setting-page-logs__active .llar-settings-wrap .llar-form-table tr th .dashicons, #llar-setting-page-debug .llar-settings-wrap .llar-form-table tr th .dashicons, #llar-setting-page-premium .llar-settings-wrap .llar-form-table tr th .dashicons, #llar-setting-page-help .llar-settings-wrap .llar-form-table tr th .dashicons {
   margin-left: 8px;
   font-size: 170%;
-  line-height: inherit;
+  line-height: 1;
   position: relative;
   z-index: 1;
   color: #E8E9EC;
@@ -173,7 +173,7 @@ a.llar_turquoise:hover, #llar-setting-page-logs .description-page .description-s
   left: 50%;
   font-size: inherit;
   font-weight: inherit;
-  line-height: inherit;
+  line-height: 1;
   transform: translate(-50%, -50%);
 }
 
@@ -405,9 +405,6 @@ button.llar_button:focus, #llar-setting-page button.button:focus, .llar_button:f
 .limit-login-page-settings__logo_block > a {
   text-align: right;
 }
-.limit-login-page-settings__logo_block .link__style_unlink, .limit-login-page-settings__logo_block .llar-label {
-  margin-top: 21px;
-}
 
 .toplevel_page_limit-login-attempts #wpwrap {
   background-color: #F6FBFF;
@@ -418,6 +415,86 @@ button.llar_button:focus, #llar-setting-page button.button:focus, .llar_button:f
   font-style: normal;
   font-weight: 400;
   color: #2A2F40;
+}
+.toplevel_page_limit-login-attempts .dashicons {
+  line-height: 1;
+}
+.toplevel_page_limit-login-attempts .dashicons:before {
+  line-height: 1;
+}
+.toplevel_page_limit-login-attempts .button .dashicons,
+.toplevel_page_limit-login-attempts .button i.dashicons,
+.toplevel_page_limit-login-attempts button.button .dashicons,
+.toplevel_page_limit-login-attempts button.button i.dashicons,
+.toplevel_page_limit-login-attempts a.button .dashicons,
+.toplevel_page_limit-login-attempts a.button i.dashicons {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  vertical-align: middle;
+}
+.toplevel_page_limit-login-attempts .button .dashicons:before,
+.toplevel_page_limit-login-attempts .button i.dashicons:before,
+.toplevel_page_limit-login-attempts button.button .dashicons:before,
+.toplevel_page_limit-login-attempts button.button i.dashicons:before,
+.toplevel_page_limit-login-attempts a.button .dashicons:before,
+.toplevel_page_limit-login-attempts a.button i.dashicons:before {
+  line-height: 1;
+}
+.toplevel_page_limit-login-attempts .llar-table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin: 40px 0 5px;
+}
+.toplevel_page_limit-login-attempts .llar-table-header .title_page {
+  margin-top: 0;
+}
+.toplevel_page_limit-login-attempts .llar-table-header .title_page span {
+  color: #666D84;
+  font-size: 80%;
+  font-weight: 400;
+  margin-left: 10px;
+}
+.toplevel_page_limit-login-attempts .llar-table-header .right-link {
+  font-size: 16px;
+  line-height: 1.625;
+  margin-right: 5px;
+  text-align: center;
+}
+.toplevel_page_limit-login-attempts .llar-table-header .right-link .button,
+.toplevel_page_limit-login-attempts .llar-table-header .right-link button.button,
+.toplevel_page_limit-login-attempts .llar-table-header .right-link a.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+.toplevel_page_limit-login-attempts .llar-table-header .right-link .hint_tooltip-parent {
+  display: inline-flex;
+  align-items: center;
+  line-height: 1;
+}
+.toplevel_page_limit-login-attempts .llar-table-header .right-link .dashicons-image-rotate,
+.toplevel_page_limit-login-attempts .llar-table-header .right-link .dashicons-editor-help {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+  line-height: 1;
+  vertical-align: middle;
+}
+.toplevel_page_limit-login-attempts .llar-table-header .right-link .dashicons-image-rotate:before,
+.toplevel_page_limit-login-attempts .llar-table-header .right-link .dashicons-editor-help:before {
+  width: 16px;
+  height: 16px;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .limit-login-page-settings {
@@ -432,7 +509,7 @@ button.llar_button:focus, #llar-setting-page button.button:focus, .llar_button:f
   display: flex;
   flex-wrap: nowrap;
   justify-content: space-between;
-  align-items: baseline;
+  align-items: center;
   font-size: 18px;
   margin-right: 20px;
 }
@@ -443,6 +520,9 @@ button.llar_button:focus, #llar-setting-page button.button:focus, .llar_button:f
 .limit-login-page-settings__logo_block .info-box-icon img {
   width: 15px;
   vertical-align: middle;
+}
+.limit-login-page-settings__logo_block .link__style_unlink {
+  margin-top: 21px;
 }
 .limit-login-page-settings__logo {
   margin-top: 21px;
@@ -568,18 +648,11 @@ button.llar_button:focus, #llar-setting-page button.button:focus, .llar_button:f
 .limit-login-page-settings .llar-test-email-notification-loader .msg {
   margin-left: 5px;
 }
+.limit-login-page-settings .llar-test-email-notification-loader .msg.error {
+  color: #EC4652;
+}
 .limit-login-page-settings .llar-test-email-notification-loader .msg.success {
   color: #71c21b;
-}
-.limit-login-page-settings .llar-protect-notice {
-  font-size: 15px;
-  color: #848484;
-  margin-left: 10px;
-}
-.limit-login-page-settings .llar-protect-notice a {
-  color: #222222;
-  text-decoration: none;
-  border-bottom: 1px dashed;
 }
 .limit-login-page-settings .llar-toggle-setup-field {
   color: #2271b1;
@@ -806,7 +879,7 @@ button.llar_button:focus, #llar-setting-page button.button:focus, .llar_button:f
 #llar-setting-page .llar-settings-wrap .llar-form-table tr td a.unlink:hover, #llar-setting-page-logs .llar-settings-wrap .llar-form-table tr td a.unlink:hover, #llar-setting-page-logs__active .llar-settings-wrap .llar-form-table tr td a.unlink:hover, #llar-setting-page-debug .llar-settings-wrap .llar-form-table tr td a.unlink:hover, #llar-setting-page-premium .llar-settings-wrap .llar-form-table tr td a.unlink:hover, #llar-setting-page-help .llar-settings-wrap .llar-form-table tr td a.unlink:hover {
   border-bottom: unset;
 }
-#llar-setting-page .llar-settings-wrap .llar-form-table tr td .description-additional, #llar-setting-page-logs .llar-settings-wrap .llar-form-table tr td .description-additional, #llar-setting-page-logs__active .llar-settings-wrap .llar-form-table tr td .description-additional, #llar-setting-page-debug .llar-settings-wrap .llar-form-table tr td .description-additional, #llar-setting-page-premium .llar-settings-wrap .llar-form-table tr td .description-additional, #llar-setting-page-help .llar-settings-wrap .llar-form-table tr td .description-additional, #llar-setting-page .llar-settings-wrap .llar-form-table tr td .description-secondary, #llar-setting-page-logs .llar-settings-wrap .llar-form-table tr td .description-secondary, #llar-setting-page-logs__active .llar-settings-wrap .llar-form-table tr td .description-secondary, #llar-setting-page-debug .llar-settings-wrap .llar-form-table tr td .description-secondary, #llar-setting-page-premium .llar-settings-wrap .llar-form-table tr td .description-secondary, #llar-setting-page-help .llar-settings-wrap .llar-form-table tr td .description-secondary, #llar-setting-page .llar-settings-wrap .llar-form-table tr td .llar-protect-notice, #llar-setting-page-logs .llar-settings-wrap .llar-form-table tr td .llar-protect-notice, #llar-setting-page-logs__active .llar-settings-wrap .llar-form-table tr td .llar-protect-notice, #llar-setting-page-debug .llar-settings-wrap .llar-form-table tr td .llar-protect-notice, #llar-setting-page-premium .llar-settings-wrap .llar-form-table tr td .llar-protect-notice, #llar-setting-page-help .llar-settings-wrap .llar-form-table tr td .llar-protect-notice {
+#llar-setting-page .llar-settings-wrap .llar-form-table tr td .description-additional, #llar-setting-page-logs .llar-settings-wrap .llar-form-table tr td .description-additional, #llar-setting-page-logs__active .llar-settings-wrap .llar-form-table tr td .description-additional, #llar-setting-page-debug .llar-settings-wrap .llar-form-table tr td .description-additional, #llar-setting-page-premium .llar-settings-wrap .llar-form-table tr td .description-additional, #llar-setting-page-help .llar-settings-wrap .llar-form-table tr td .description-additional, #llar-setting-page .llar-settings-wrap .llar-form-table tr td .description-secondary, #llar-setting-page-logs .llar-settings-wrap .llar-form-table tr td .description-secondary, #llar-setting-page-logs__active .llar-settings-wrap .llar-form-table tr td .description-secondary, #llar-setting-page-debug .llar-settings-wrap .llar-form-table tr td .description-secondary, #llar-setting-page-premium .llar-settings-wrap .llar-form-table tr td .description-secondary, #llar-setting-page-help .llar-settings-wrap .llar-form-table tr td .description-secondary {
   font-size: 16px;
   line-height: inherit;
   color: #A4A8B7;
@@ -814,29 +887,23 @@ button.llar_button:focus, #llar-setting-page button.button:focus, .llar_button:f
   max-width: 740px;
 }
 @media screen and (max-width: 1599.5px) {
-  #llar-setting-page .llar-settings-wrap .llar-form-table tr td .description-additional, #llar-setting-page-logs .llar-settings-wrap .llar-form-table tr td .description-additional, #llar-setting-page-logs__active .llar-settings-wrap .llar-form-table tr td .description-additional, #llar-setting-page-debug .llar-settings-wrap .llar-form-table tr td .description-additional, #llar-setting-page-premium .llar-settings-wrap .llar-form-table tr td .description-additional, #llar-setting-page-help .llar-settings-wrap .llar-form-table tr td .description-additional, #llar-setting-page .llar-settings-wrap .llar-form-table tr td .description-secondary, #llar-setting-page-logs .llar-settings-wrap .llar-form-table tr td .description-secondary, #llar-setting-page-logs__active .llar-settings-wrap .llar-form-table tr td .description-secondary, #llar-setting-page-debug .llar-settings-wrap .llar-form-table tr td .description-secondary, #llar-setting-page-premium .llar-settings-wrap .llar-form-table tr td .description-secondary, #llar-setting-page-help .llar-settings-wrap .llar-form-table tr td .description-secondary, #llar-setting-page .llar-settings-wrap .llar-form-table tr td .llar-protect-notice, #llar-setting-page-logs .llar-settings-wrap .llar-form-table tr td .llar-protect-notice, #llar-setting-page-logs__active .llar-settings-wrap .llar-form-table tr td .llar-protect-notice, #llar-setting-page-debug .llar-settings-wrap .llar-form-table tr td .llar-protect-notice, #llar-setting-page-premium .llar-settings-wrap .llar-form-table tr td .llar-protect-notice, #llar-setting-page-help .llar-settings-wrap .llar-form-table tr td .llar-protect-notice {
+  #llar-setting-page .llar-settings-wrap .llar-form-table tr td .description-additional, #llar-setting-page-logs .llar-settings-wrap .llar-form-table tr td .description-additional, #llar-setting-page-logs__active .llar-settings-wrap .llar-form-table tr td .description-additional, #llar-setting-page-debug .llar-settings-wrap .llar-form-table tr td .description-additional, #llar-setting-page-premium .llar-settings-wrap .llar-form-table tr td .description-additional, #llar-setting-page-help .llar-settings-wrap .llar-form-table tr td .description-additional, #llar-setting-page .llar-settings-wrap .llar-form-table tr td .description-secondary, #llar-setting-page-logs .llar-settings-wrap .llar-form-table tr td .description-secondary, #llar-setting-page-logs__active .llar-settings-wrap .llar-form-table tr td .description-secondary, #llar-setting-page-debug .llar-settings-wrap .llar-form-table tr td .description-secondary, #llar-setting-page-premium .llar-settings-wrap .llar-form-table tr td .description-secondary, #llar-setting-page-help .llar-settings-wrap .llar-form-table tr td .description-secondary {
     font-size: 14px;
   }
 }
-#llar-setting-page .llar-settings-wrap .llar-form-table tr td .description-secondary, #llar-setting-page-logs .llar-settings-wrap .llar-form-table tr td .description-secondary, #llar-setting-page-logs__active .llar-settings-wrap .llar-form-table tr td .description-secondary, #llar-setting-page-debug .llar-settings-wrap .llar-form-table tr td .description-secondary, #llar-setting-page-premium .llar-settings-wrap .llar-form-table tr td .description-secondary, #llar-setting-page-help .llar-settings-wrap .llar-form-table tr td .description-secondary, #llar-setting-page .llar-settings-wrap .llar-form-table tr td .llar-protect-notice, #llar-setting-page-logs .llar-settings-wrap .llar-form-table tr td .llar-protect-notice, #llar-setting-page-logs__active .llar-settings-wrap .llar-form-table tr td .llar-protect-notice, #llar-setting-page-debug .llar-settings-wrap .llar-form-table tr td .llar-protect-notice, #llar-setting-page-premium .llar-settings-wrap .llar-form-table tr td .llar-protect-notice, #llar-setting-page-help .llar-settings-wrap .llar-form-table tr td .llar-protect-notice {
+#llar-setting-page .llar-settings-wrap .llar-form-table tr td .description-secondary, #llar-setting-page-logs .llar-settings-wrap .llar-form-table tr td .description-secondary, #llar-setting-page-logs__active .llar-settings-wrap .llar-form-table tr td .description-secondary, #llar-setting-page-debug .llar-settings-wrap .llar-form-table tr td .description-secondary, #llar-setting-page-premium .llar-settings-wrap .llar-form-table tr td .description-secondary, #llar-setting-page-help .llar-settings-wrap .llar-form-table tr td .description-secondary {
   color: #666D84;
-}
-#llar-setting-page .llar-settings-wrap .llar-form-table tr td .llar-protect-notice, #llar-setting-page-logs .llar-settings-wrap .llar-form-table tr td .llar-protect-notice, #llar-setting-page-logs__active .llar-settings-wrap .llar-form-table tr td .llar-protect-notice, #llar-setting-page-debug .llar-settings-wrap .llar-form-table tr td .llar-protect-notice, #llar-setting-page-premium .llar-settings-wrap .llar-form-table tr td .llar-protect-notice, #llar-setting-page-help .llar-settings-wrap .llar-form-table tr td .llar-protect-notice {
-  font-size: inherit;
-  color: inherit;
-}
-#llar-setting-page .llar-settings-wrap .llar-form-table tr td .llar-protect-notice a, #llar-setting-page-logs .llar-settings-wrap .llar-form-table tr td .llar-protect-notice a, #llar-setting-page-logs__active .llar-settings-wrap .llar-form-table tr td .llar-protect-notice a, #llar-setting-page-debug .llar-settings-wrap .llar-form-table tr td .llar-protect-notice a, #llar-setting-page-premium .llar-settings-wrap .llar-form-table tr td .llar-protect-notice a, #llar-setting-page-help .llar-settings-wrap .llar-form-table tr td .llar-protect-notice a {
-  text-decoration: none;
-  border-bottom: unset;
-}
-#llar-setting-page .llar-settings-wrap .llar-form-table tr td .llar-protect-notice a:hover, #llar-setting-page-logs .llar-settings-wrap .llar-form-table tr td .llar-protect-notice a:hover, #llar-setting-page-logs__active .llar-settings-wrap .llar-form-table tr td .llar-protect-notice a:hover, #llar-setting-page-debug .llar-settings-wrap .llar-form-table tr td .llar-protect-notice a:hover, #llar-setting-page-premium .llar-settings-wrap .llar-form-table tr td .llar-protect-notice a:hover, #llar-setting-page-help .llar-settings-wrap .llar-form-table tr td .llar-protect-notice a:hover {
-  border-bottom: 1px solid currentColor;
 }
 #llar-setting-page .add_block__under_table, #llar-setting-page-logs .add_block__under_table, #llar-setting-page-logs__active .add_block__under_table, #llar-setting-page-debug .add_block__under_table, #llar-setting-page-premium .add_block__under_table, #llar-setting-page-help .add_block__under_table {
   margin: 8px 0;
   padding: 24px 48px;
   background-color: #F6FBFF;
   border-radius: 20px;
+}
+#llar-setting-page .add_block__under_table .button.menu__item, #llar-setting-page-logs .add_block__under_table .button.menu__item, #llar-setting-page-logs__active .add_block__under_table .button.menu__item, #llar-setting-page-debug .add_block__under_table .button.menu__item, #llar-setting-page-premium .add_block__under_table .button.menu__item, #llar-setting-page-help .add_block__under_table .button.menu__item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 @media screen and (max-width: 1199.5px) {
   #llar-setting-page .add_block__under_table, #llar-setting-page-logs .add_block__under_table, #llar-setting-page-logs__active .add_block__under_table, #llar-setting-page-debug .add_block__under_table, #llar-setting-page-premium .add_block__under_table, #llar-setting-page-help .add_block__under_table {
@@ -1077,34 +1144,6 @@ button.llar_button:focus, #llar-setting-page button.button:focus, .llar_button:f
   border-bottom: unset;
 }
 
-#llar-setting-page-logs__active .llar-table-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin: 40px 0 5px;
-}
-#llar-setting-page-logs__active .llar-table-header .title_page {
-  margin-top: 0;
-}
-#llar-setting-page-logs__active .llar-table-header .title_page span {
-  color: #666D84;
-  font-size: 80%;
-  font-weight: 400;
-  margin-left: 10px;
-}
-#llar-setting-page-logs__active .llar-table-header .right-link {
-  font-size: 16px;
-  line-height: 1.625;
-  margin-right: 5px;
-  text-align: center;
-}
-#llar-setting-page-logs__active .llar-table-header .right-link .dashicons-image-rotate {
-  font-size: 16px;
-  vertical-align: middle;
-}
-#llar-setting-page-logs__active .llar-table-header .right-link .dashicons-editor-help {
-  vertical-align: middle;
-}
 #llar-setting-page-logs__active .llar-table-scroll-wrap {
   max-height: 400px;
   padding: 0 20px 30px;
@@ -1269,12 +1308,32 @@ button.llar_button:focus, #llar-setting-page button.button:focus, .llar_button:f
 #llar-setting-page-logs__active .llar-table-scroll-wrap .llar-form-table tbody tr td .button.llar-app-log-action-btn {
   min-width: 35px;
   text-align: center;
-  display: inline-block;
-  line-height: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
   cursor: pointer;
 }
-#llar-setting-page-logs__active .llar-table-scroll-wrap .llar-form-table tbody tr td .button.llar-app-log-action-btn i {
+#llar-setting-page-logs__active .llar-table-scroll-wrap .llar-form-table tbody tr td .button.llar-app-log-action-btn i,
+#llar-setting-page-logs__active .llar-table-scroll-wrap .llar-form-table tbody tr td .button.llar-app-log-action-btn .dashicons {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  font-size: 20px;
+  line-height: 1;
+  margin: 0;
   vertical-align: middle;
+}
+#llar-setting-page-logs__active .llar-table-scroll-wrap .llar-form-table tbody tr td .button.llar-app-log-action-btn i:before,
+#llar-setting-page-logs__active .llar-table-scroll-wrap .llar-form-table tbody tr td .button.llar-app-log-action-btn .dashicons:before {
+  width: 20px;
+  height: 20px;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 #llar-setting-page-logs__active .llar-table-scroll-wrap .llar-form-table tbody tr td .button.llar-app-log-action-btn:hover i {
   color: #3c8dbc;
@@ -1389,6 +1448,11 @@ button.llar_button:focus, #llar-setting-page button.button:focus, .llar_button:f
 #llar-setting-page-logs__active.limit-login-app-dashboard .llar-app-acl-rules .app-rules-col .llar-form-table tbody td select {
   min-width: 200px;
   margin-right: 0;
+  background: #FDFDFD url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%234ACAD8FF'%3e%3cpath d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e") no-repeat right 8px center;
+  background-size: 16px 16px;
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: 28px;
 }
 #llar-setting-page-logs__active.limit-login-app-dashboard .llar-app-acl-rules .app-rules-col .llar-form-table tbody td .button {
   min-width: 20px;
@@ -1427,9 +1491,35 @@ button.llar_button:focus, #llar-setting-page button.button:focus, .llar_button:f
   background-color: rgba(255, 150, 155, 0.1490196078);
 }
 #llar-setting-page-logs__active.limit-login-app-dashboard .llar-app-acl-rules .app-rules-col .llar-form-table tbody .llar-app-acl-remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  min-width: 30px;
+  min-height: 30px;
+  padding: 0;
+  line-height: 1;
   color: #EC4652;
   border-color: #EC4652;
   background-color: rgba(255, 150, 155, 0.1490196078);
+}
+#llar-setting-page-logs__active.limit-login-app-dashboard .llar-app-acl-rules .app-rules-col .llar-form-table tbody .llar-app-acl-remove .dashicons {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  font-size: 20px;
+  line-height: 1;
+  margin: 0;
+}
+#llar-setting-page-logs__active.limit-login-app-dashboard .llar-app-acl-rules .app-rules-col .llar-form-table tbody .llar-app-acl-remove .dashicons:before {
+  width: 20px;
+  height: 20px;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 #llar-setting-page-logs__active.limit-login-app-dashboard .llar-app-acl-rules .app-rules-col .llar-form-table .origin {
   float: right;
@@ -1731,17 +1821,46 @@ button.llar_button:focus, #llar-setting-page button.button:focus, .llar_button:f
   font-weight: 500;
 }
 .llar-table-app-login tbody.login-attempts tr td .hint_tooltip-parent .dashicons, #llar-setting-page-logs__active .llar-table-scroll-wrap tbody.login-attempts tr td .hint_tooltip-parent .dashicons, .llar-table-no_app-login tbody.login-attempts tr td .hint_tooltip-parent .dashicons {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  font-size: 18px;
+  line-height: 1;
+  margin: 0;
+  vertical-align: middle;
   color: #A4A8B7;
+}
+.llar-table-app-login tbody.login-attempts tr td .hint_tooltip-parent .dashicons:before, #llar-setting-page-logs__active .llar-table-scroll-wrap tbody.login-attempts tr td .hint_tooltip-parent .dashicons:before, .llar-table-no_app-login tbody.login-attempts tr td .hint_tooltip-parent .dashicons:before {
+  line-height: 1;
+  width: 18px;
+  height: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 @media screen and (max-width: 1599.5px) {
   .llar-table-app-login tbody.login-attempts tr td .hint_tooltip-parent .dashicons, #llar-setting-page-logs__active .llar-table-scroll-wrap tbody.login-attempts tr td .hint_tooltip-parent .dashicons, .llar-table-no_app-login tbody.login-attempts tr td .hint_tooltip-parent .dashicons {
-    line-height: unset;
+    line-height: 1;
     font-size: 14px;
+    width: 16px;
+    height: 16px;
+  }
+  .llar-table-app-login tbody.login-attempts tr td .hint_tooltip-parent .dashicons:before, #llar-setting-page-logs__active .llar-table-scroll-wrap tbody.login-attempts tr td .hint_tooltip-parent .dashicons:before, .llar-table-no_app-login tbody.login-attempts tr td .hint_tooltip-parent .dashicons:before {
+    width: 16px;
+    height: 16px;
   }
 }
 @media screen and (max-width: 767.5px) {
   .llar-table-app-login tbody.login-attempts tr td .hint_tooltip-parent .dashicons, #llar-setting-page-logs__active .llar-table-scroll-wrap tbody.login-attempts tr td .hint_tooltip-parent .dashicons, .llar-table-no_app-login tbody.login-attempts tr td .hint_tooltip-parent .dashicons {
     font-size: 12px;
+    width: 14px;
+    height: 14px;
+  }
+  .llar-table-app-login tbody.login-attempts tr td .hint_tooltip-parent .dashicons:before, #llar-setting-page-logs__active .llar-table-scroll-wrap tbody.login-attempts tr td .hint_tooltip-parent .dashicons:before, .llar-table-no_app-login tbody.login-attempts tr td .hint_tooltip-parent .dashicons:before {
+    width: 14px;
+    height: 14px;
   }
 }
 .llar-table-app-login tbody.login-attempts tr td .llar-log-country-flag, #llar-setting-page-logs__active .llar-table-scroll-wrap tbody.login-attempts tr td .llar-log-country-flag, .llar-table-no_app-login tbody.login-attempts tr td .llar-log-country-flag {
@@ -1787,24 +1906,58 @@ button.llar_button:focus, #llar-setting-page button.button:focus, .llar_button:f
   vertical-align: middle;
 }
 .llar-table-app-login tbody.login-attempts tr td .button.llar-add-login-open, #llar-setting-page-logs__active .llar-table-scroll-wrap tbody.login-attempts tr td .button.llar-add-login-open, .llar-table-no_app-login tbody.login-attempts tr td .button.llar-add-login-open {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   width: 30px;
   min-width: unset;
   min-height: 30px;
   padding: 0;
   text-align: center;
-  line-height: 20px;
+  line-height: 1;
   cursor: pointer;
   color: #A4A8B7;
   border-color: currentColor;
+}
+.llar-table-app-login tbody.login-attempts tr td .button.llar-add-login-open .dashicons, #llar-setting-page-logs__active .llar-table-scroll-wrap tbody.login-attempts tr td .button.llar-add-login-open .dashicons,
+.llar-table-app-login tbody.login-attempts tr td .button.llar-add-login-open i.dashicons, .llar-table-no_app-login tbody.login-attempts tr td .button.llar-add-login-open .dashicons,
+.llar-table-no_app-login tbody.login-attempts tr td .button.llar-add-login-open i.dashicons {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  font-size: 20px;
+  line-height: 1;
+  margin: 0;
+  vertical-align: unset;
+}
+.llar-table-app-login tbody.login-attempts tr td .button.llar-add-login-open .dashicons:before, #llar-setting-page-logs__active .llar-table-scroll-wrap tbody.login-attempts tr td .button.llar-add-login-open .dashicons:before,
+.llar-table-app-login tbody.login-attempts tr td .button.llar-add-login-open i.dashicons:before, .llar-table-no_app-login tbody.login-attempts tr td .button.llar-add-login-open .dashicons:before,
+.llar-table-no_app-login tbody.login-attempts tr td .button.llar-add-login-open i.dashicons:before {
+  line-height: 1;
+  width: 20px;
+  height: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 @media screen and (max-width: 767.5px) {
   .llar-table-app-login tbody.login-attempts tr td .button.llar-add-login-open, #llar-setting-page-logs__active .llar-table-scroll-wrap tbody.login-attempts tr td .button.llar-add-login-open, .llar-table-no_app-login tbody.login-attempts tr td .button.llar-add-login-open {
     width: 25px;
     min-height: 25px;
   }
-  .llar-table-app-login tbody.login-attempts tr td .button.llar-add-login-open .dashicons, #llar-setting-page-logs__active .llar-table-scroll-wrap tbody.login-attempts tr td .button.llar-add-login-open .dashicons, .llar-table-no_app-login tbody.login-attempts tr td .button.llar-add-login-open .dashicons {
+  .llar-table-app-login tbody.login-attempts tr td .button.llar-add-login-open .dashicons, #llar-setting-page-logs__active .llar-table-scroll-wrap tbody.login-attempts tr td .button.llar-add-login-open .dashicons,
+  .llar-table-app-login tbody.login-attempts tr td .button.llar-add-login-open i.dashicons, .llar-table-no_app-login tbody.login-attempts tr td .button.llar-add-login-open .dashicons,
+  .llar-table-no_app-login tbody.login-attempts tr td .button.llar-add-login-open i.dashicons {
+    width: 16px;
+    height: 16px;
     font-size: 14px;
+  }
+  .llar-table-app-login tbody.login-attempts tr td .button.llar-add-login-open .dashicons:before, #llar-setting-page-logs__active .llar-table-scroll-wrap tbody.login-attempts tr td .button.llar-add-login-open .dashicons:before,
+  .llar-table-app-login tbody.login-attempts tr td .button.llar-add-login-open i.dashicons:before, .llar-table-no_app-login tbody.login-attempts tr td .button.llar-add-login-open .dashicons:before,
+  .llar-table-no_app-login tbody.login-attempts tr td .button.llar-add-login-open i.dashicons:before {
+    width: 16px;
     height: 16px;
   }
 }
@@ -1817,6 +1970,8 @@ button.llar_button:focus, #llar-setting-page button.button:focus, .llar_button:f
 }
 .llar-table-app-login tbody.login-attempts tr td.button-open, #llar-setting-page-logs__active .llar-table-scroll-wrap tbody.login-attempts tr td.button-open, .llar-table-no_app-login tbody.login-attempts tr td.button-open {
   padding: 0 2px;
+  vertical-align: middle;
+  text-align: center;
 }
 .llar-table-app-login tbody.login-attempts tr td.cell-login, #llar-setting-page-logs__active .llar-table-scroll-wrap tbody.login-attempts tr td.cell-login, .llar-table-no_app-login tbody.login-attempts tr td.cell-login {
   max-width: 9ch;
@@ -2410,6 +2565,20 @@ button.llar_button:focus, #llar-setting-page button.button:focus, .llar_button:f
   margin-top: -3px;
 }
 
+/* Red dot when Micro Cloud requests are exhausted. Explicit color:
+   WP core paints .update-plugins with the admin color scheme (blue in
+   "modern") and has no marker styling for the admin bar. */
+#adminmenu li a span.llar-mc-exhausted-icon,
+#wpadminbar li span.llar-mc-exhausted-icon {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-left: 6px;
+  border-radius: 50%;
+  background-color: #d63638;
+  vertical-align: middle;
+}
+
 .llar-options-notice {
   display: block !important;
 }
@@ -2535,6 +2704,11 @@ button.llar_button:focus, #llar-setting-page button.button:focus, .llar_button:f
 }
 #llar-dashboard-page .section-title__new .llar-label.request {
   background-color: unset;
+}
+#llar-dashboard-page .section-title__new .llar-label.request .llar-usage-number__text {
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-underline-offset: 3px;
 }
 #llar-dashboard-page .section-content {
   margin-top: 16px;
@@ -2700,6 +2874,10 @@ button.llar_button:focus, #llar-setting-page button.button:focus, .llar_button:f
   font-size: 14px;
   line-height: 1.5;
 }
+#llar-dashboard-page .dashboard-section-1 .info-box-3 .section-content .list-unstyled li.star::before {
+  top: 0;
+  transform: none;
+}
 #llar-dashboard-page .dashboard-section-1 .info-box-3 .desc {
   color: #666D84;
   font-size: 16px;
@@ -2712,7 +2890,8 @@ button.llar_button:focus, #llar-setting-page button.button:focus, .llar_button:f
 }
 #llar-dashboard-page .dashboard-section-1 .info-box-3 .actions {
   position: relative;
-  width: fit-content;
+  width: 100%;
+  max-width: 320px;
   left: 50%;
   transform: translateX(-50%);
 }
@@ -2720,6 +2899,9 @@ button.llar_button:focus, #llar-setting-page button.button:focus, .llar_button:f
   display: flex;
   flex-direction: row;
   column-gap: 16px;
+}
+#llar-dashboard-page .dashboard-section-1 .info-box-3 .actions__buttons--centered {
+  justify-content: center;
 }
 #llar-dashboard-page .dashboard-section-1 .info-box-3 .actions__buttons a {
   text-transform: uppercase;
@@ -2742,6 +2924,23 @@ button.llar_button:focus, #llar-setting-page button.button:focus, .llar_button:f
   #llar-dashboard-page .dashboard-section-1 .info-box-3 .actions__buttons .menu__item {
     min-width: 160px;
   }
+}
+#llar-dashboard-page .dashboard-section-1 .info-box-3 .actions__buttons .menu__item.button_trial_cta {
+  min-width: 134px;
+  max-width: 160px;
+  padding: 5px 10px;
+  font-size: 14px;
+  line-height: 1.35;
+  transition: background-color 0.15s ease, box-shadow 0.15s ease;
+}
+@media screen and (max-width: 1599.5px) {
+  #llar-dashboard-page .dashboard-section-1 .info-box-3 .actions__buttons .menu__item.button_trial_cta {
+    min-width: 110px;
+  }
+}
+#llar-dashboard-page .dashboard-section-1 .info-box-3 .actions__buttons .menu__item.button_trial_cta:not(.llar-disabled):hover {
+  background: #F07200 !important;
+  box-shadow: 0 5px 10px 0 rgba(255, 124, 6, 0.4980392157);
 }
 #llar-dashboard-page .dashboard-section-1 .info-box-3 .actions__buttons .menu__item.button__transparent_orange {
   color: #FF7C06 !important;
@@ -3042,7 +3241,7 @@ button.llar_button:focus, #llar-setting-page button.button:focus, .llar_button:f
 }
 @media screen and (max-width: 1599.5px) {
   #llar-dashboard-page .dashboard-section-4 .hint_tooltip-parent .dashicons {
-    line-height: unset;
+    line-height: 1;
     font-size: 14px;
     width: 12px;
   }
@@ -3160,6 +3359,9 @@ button.llar_button:focus, #llar-setting-page button.button:focus, .llar_button:f
   margin: 5px 25px;
 }
 
+#llar-admin-dashboard-widgets .dashicons {
+  line-height: 1;
+}
 #llar-admin-dashboard-widgets .widget-title {
   padding-bottom: 15px;
   border-bottom: 1px solid #e4e4e4;
@@ -3310,12 +3512,49 @@ button.llar_button:focus, #llar-setting-page button.button:focus, .llar_button:f
 .toplevel_page_limit-login-attempts .jconfirm .jconfirm-box .button_block-horizon {
   display: flex;
   justify-content: center;
+  align-items: center;
   margin-top: 20px;
   gap: 10px;
 }
 .toplevel_page_limit-login-attempts .jconfirm .jconfirm-box .button_block-horizon .button {
   font-size: 18px;
   padding: 11px 60px;
+}
+.toplevel_page_limit-login-attempts .jconfirm .jconfirm-box .button_block-horizon--trial {
+  gap: 20px;
+}
+.toplevel_page_limit-login-attempts .jconfirm .jconfirm-box .button_block-horizon--trial .button--fit {
+  width: auto;
+  min-width: 0;
+  padding: 11px 22px;
+}
+.toplevel_page_limit-login-attempts .jconfirm .jconfirm-box .button_block-horizon--trial .button--fit .dashicons {
+  margin-left: 8px;
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+  line-height: 1;
+  vertical-align: middle;
+}
+.toplevel_page_limit-login-attempts .jconfirm .jconfirm-box .button_block-horizon--trial .llar-onboarding-skip {
+  width: auto;
+  min-width: 0;
+  padding: 0;
+  margin: 0;
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: #A4A8B7 !important;
+  font-size: 16px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+}
+.toplevel_page_limit-login-attempts .jconfirm .jconfirm-box .button_block-horizon--trial .llar-onboarding-skip:hover, .toplevel_page_limit-login-attempts .jconfirm .jconfirm-box .button_block-horizon--trial .llar-onboarding-skip:focus {
+  background: transparent !important;
+  box-shadow: none !important;
+  color: #666D84 !important;
+  outline: none;
 }
 .toplevel_page_limit-login-attempts .jconfirm .jconfirm-box .button_block-single {
   margin-top: 20px;
@@ -3479,6 +3718,9 @@ button.llar_button:focus, #llar-setting-page button.button:focus, .llar_button:f
   color: #EC4652;
   background-color: rgba(236, 70, 82, 0.1019607843);
 }
+.toplevel_page_limit-login-attempts .jconfirm .jconfirm-box .llar-onboarding-popup__content .card .llar-trial-email {
+  margin-top: 12px;
+}
 .toplevel_page_limit-login-attempts .jconfirm .jconfirm-box .llar-onboarding-popup__content .field-wrap {
   margin-top: 23px;
 }
@@ -3512,7 +3754,14 @@ button.llar_button:focus, #llar-setting-page button.button:focus, .llar_button:f
 }
 .toplevel_page_limit-login-attempts .jconfirm .jconfirm-box .llar-onboarding-popup__content .field-key .button .dashicons, .toplevel_page_limit-login-attempts .jconfirm .jconfirm-box .llar-onboarding-popup__content .field-email .button .dashicons {
   margin-left: 15px;
-  line-height: inherit;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+}
+.toplevel_page_limit-login-attempts .jconfirm .jconfirm-box .llar-onboarding-popup__content .field-key .button .dashicons:before, .toplevel_page_limit-login-attempts .jconfirm .jconfirm-box .llar-onboarding-popup__content .field-email .button .dashicons:before {
+  line-height: 1;
 }
 .toplevel_page_limit-login-attempts .jconfirm .jconfirm-box .llar-onboarding-popup__content .field-error {
   display: none;
@@ -3521,6 +3770,25 @@ button.llar_button:focus, #llar-setting-page button.button:focus, .llar_button:f
 }
 .toplevel_page_limit-login-attempts .jconfirm .jconfirm-box .llar-onboarding-popup__content .field-email .input_border {
   min-width: 100%;
+}
+.toplevel_page_limit-login-attempts .jconfirm .jconfirm-box .llar-onboarding-popup__content .field-email--inline {
+  display: flex;
+  align-items: center;
+  column-gap: 16px;
+  width: 100%;
+  text-align: left;
+}
+.toplevel_page_limit-login-attempts .jconfirm .jconfirm-box .llar-onboarding-popup__content .field-email--inline .field-email__label {
+  flex: 0 0 auto;
+  color: #2A2F40;
+  font-size: 16px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.toplevel_page_limit-login-attempts .jconfirm .jconfirm-box .llar-onboarding-popup__content .field-email--inline .input_border {
+  flex: 1 1 auto;
+  min-width: 0;
+  width: 100%;
 }
 .toplevel_page_limit-login-attempts .jconfirm .jconfirm-box .llar-onboarding-popup__content .field-desc, .toplevel_page_limit-login-attempts .jconfirm .jconfirm-box .llar-onboarding-popup__content .field-desc-add {
   color: #666D84;
@@ -3601,9 +3869,10 @@ button.llar_button:focus, #llar-setting-page button.button:focus, .llar_button:f
   margin-top: 10px;
   margin-left: 25px;
   text-align: left;
+  cursor: pointer;
 }
 .toplevel_page_limit-login-attempts .jconfirm .jconfirm-box .llar-onboarding-popup__content .field-checkbox input {
-  margin-top: 15px;
+  margin-top: 11px;
   margin-left: -25px;
   vertical-align: top;
 }
@@ -3751,17 +4020,29 @@ button.llar_button:focus, #llar-setting-page button.button:focus, .llar_button:f
   position: relative;
   vertical-align: middle;
 }
+#llar-setting-page-premium .llar-premium-page-promo .section-1 .text .links li a.gdpr-information-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
 #llar-setting-page-premium .llar-premium-page-promo .section-1 .text .links li a.gdpr-information-link:after {
   position: relative;
   font-size: inherit;
-  line-height: inherit;
+  line-height: 1;
   right: 0;
+  top: auto;
+  transform: none;
   vertical-align: middle;
   color: #A4A8B7;
 }
 #llar-setting-page-premium .llar-premium-page-promo .section-1 .action {
   margin-left: auto;
   text-align: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 9px;
 }
 #llar-setting-page-premium .llar-premium-page-promo .section-1 .action a.button {
   font-size: 16px;
@@ -3932,6 +4213,58 @@ button.llar_button:focus, #llar-setting-page button.button:focus, .llar_button:f
 #llar-setting-page-premium .llar-premium-plans-table .content .table_background tbody tr td.inner_fields {
   text-align: center;
 }
+#llar-setting-page-premium .llar-premium-plans-table .content .table_background tbody tr td.inner_fields .llar-plan-pricing {
+  text-align: left;
+  max-width: 260px;
+  margin: 0 auto;
+}
+#llar-setting-page-premium .llar-premium-plans-table .content .table_background tbody tr td.inner_fields .llar-plan-pricing__price-row {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+#llar-setting-page-premium .llar-premium-plans-table .content .table_background tbody tr td.inner_fields .llar-plan-pricing__price {
+  font-size: 22px;
+  font-weight: 600;
+  color: #2A2F40;
+  line-height: 1.2;
+}
+#llar-setting-page-premium .llar-premium-plans-table .content .table_background tbody tr td.inner_fields .llar-plan-pricing__price-old {
+  font-size: 14px;
+  color: #666D84;
+  text-decoration: line-through;
+}
+#llar-setting-page-premium .llar-premium-plans-table .content .table_background tbody tr td.inner_fields .llar-plan-pricing__billing {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+  font-size: 13px;
+  color: #666D84;
+}
+#llar-setting-page-premium .llar-premium-plans-table .content .table_background tbody tr td.inner_fields .llar-plan-pricing__save {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background-color: rgba(255, 124, 6, 0.12);
+  color: #FF7C06;
+  font-weight: 500;
+  font-size: 12px;
+}
+#llar-setting-page-premium .llar-premium-plans-table .content .table_background tbody tr td.inner_fields .llar-plan-pricing__list {
+  margin: 0;
+  padding-left: 18px;
+  color: #666D84;
+  font-size: 13px;
+  line-height: 1.45;
+  text-align: left;
+}
+#llar-setting-page-premium .llar-premium-plans-table .content .table_background tbody tr td.inner_fields .llar-plan-pricing__list li + li {
+  margin-top: 6px;
+}
 
 #llar-setting-page-help.llar-help-page {
   font-family: inherit;
@@ -4064,6 +4397,9 @@ button.llar_button:focus, #llar-setting-page button.button:focus, .llar_button:f
   text-align: center;
 }
 #llar-setting-page-help.llar-help-page .section-1 .block .actions .button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   text-transform: uppercase;
   font-size: 18px;
   line-height: 1.4;
@@ -4418,73 +4754,7 @@ button.llar_button:focus, #llar-setting-page button.button:focus, .llar_button:f
   background-color: #000;
   z-index: 10;
 }
-.jconfirm .jconfirm-content #llar-rescue-links-display {
-  max-width: 100%;
-  width: 100%;
-  overflow-x: hidden;
-}
-.jconfirm .jconfirm-content .llar-rescue-links-list {
-  margin: 10px 0 !important;
-  margin-left: 0 !important;
-  margin-right: 0 !important;
-  padding: 0 !important;
-  width: 100% !important;
-  max-width: 100% !important;
-  box-sizing: border-box !important;
-  text-align: left !important;
-  overflow-x: hidden !important;
-}
-.jconfirm .jconfirm-content .llar-rescue-links-list .llar-rescue-links-frame {
-  width: 100%;
-  max-width: 100%;
-  overflow: hidden;
-  box-sizing: border-box;
-  border: 1px solid #8c8f94;
-  border-radius: 4px;
-  background-color: #f6f7f7;
-  padding: 6px;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
-}
-.jconfirm .jconfirm-content .llar-rescue-links-list .llar-rescue-links-scroll {
-  display: block;
-  width: 100% !important;
-  max-width: 100% !important;
-  height: calc(7.5em + 84px) !important;
-  max-height: calc(7.5em + 84px) !important;
-  overflow-y: auto !important;
-  overflow-x: hidden !important;
-  margin: 0;
-  padding: 10px 12px;
-  font-size: 13px;
-  line-height: 1.5;
-  font-family: inherit;
-  background-color: #fff;
-  border: 1px solid #c3c4c7;
-  border-radius: 2px;
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.06);
-  box-sizing: border-box !important;
-  -webkit-overflow-scrolling: touch;
-}
-.jconfirm .jconfirm-content .llar-rescue-links-list .llar-rescue-links-scroll .llar-rescue-link-line {
-  display: block;
-  height: calc(1.5em + 8px) !important;
-  min-height: calc(1.5em + 8px) !important;
-  max-height: calc(1.5em + 8px) !important;
-  line-height: 1.5;
-  margin-bottom: 6px;
-  padding: 4px 0;
-  box-sizing: border-box;
-  overflow: hidden !important;
-  white-space: nowrap !important;
-  text-overflow: ellipsis !important;
-  word-break: normal;
-}
-.jconfirm .jconfirm-content .llar-rescue-links-list .llar-rescue-links-scroll .llar-rescue-link-line:last-child {
-  margin-bottom: 0;
-}
-.llar-admin .llar-mfa-roles-list {
-  margin-top: 12px;
-}
+
 .llar-admin .jconfirm .jconfirm-content .micro_cloud_modal__content {
   position: relative;
 }
@@ -4510,6 +4780,9 @@ button.llar_button:focus, #llar-setting-page button.button:focus, .llar_button:f
   opacity: 0.5;
   background-color: #000;
   z-index: 10;
+}
+.llar-admin .llar-mfa-roles-list {
+  margin-top: 12px;
 }
 .llar-admin .llar-mfa-roles-list .llar-mfa-role-item {
   margin-bottom: 8px;
@@ -4563,45 +4836,6 @@ button.llar_button:focus, #llar-setting-page button.button:focus, .llar_button:f
 .llar-admin #llar-mfa-rescue-popup-content .card-body .field-wrap .button_block-single {
   text-align: left !important;
 }
-.llar-admin .micro_cloud_modal__body #llar-rescue-links-display {
-  margin-top: 30px !important;
-  padding-top: 20px !important;
-  text-align: left !important;
-}
-.llar-admin .micro_cloud_modal__body #llar-rescue-links-display .field-title {
-  text-align: left !important;
-  margin-left: 0 !important;
-  margin-top: 0 !important;
-}
-.llar-admin .micro_cloud_modal__body #llar-rescue-links-display .field-desc, .llar-admin .micro_cloud_modal__body #llar-rescue-links-display .toplevel_page_limit-login-attempts .jconfirm .jconfirm-box .llar-onboarding-popup__content .field-desc-add, .toplevel_page_limit-login-attempts .jconfirm .jconfirm-box .llar-onboarding-popup__content .llar-admin .micro_cloud_modal__body #llar-rescue-links-display .field-desc-add {
-  text-align: left !important;
-  margin-left: 0 !important;
-  margin-top: 15px !important;
-}
-.llar-admin .micro_cloud_modal__body #llar-rescue-links-display .button_block-single {
-  text-align: left !important;
-}
-.llar-admin .micro_cloud_modal__body #llar-rescue-links-display .llar-rescue-copy-row {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 12px;
-  margin-bottom: 0;
-}
-.llar-admin .micro_cloud_modal__body #llar-rescue-links-display .llar-rescue-copy-row .llar-copy-rescue-links {
-  flex-shrink: 0;
-}
-.llar-admin .micro_cloud_modal__body #llar-rescue-links-display .llar-rescue-copy-row .llar-copy-feedback {
-  width: 100%;
-  font-size: 13px;
-  color: #4ACAD8;
-  opacity: 0;
-  transition: opacity 0.2s ease;
-}
-.llar-admin .micro_cloud_modal__body #llar-rescue-links-display .llar-rescue-copy-row .llar-copy-feedback.llar-copy-feedback-visible {
-  opacity: 1;
-}
 .llar-admin #llar-mfa-rescue-popup-content .llar-rescue-links-loading {
   position: absolute;
   top: 50%;
@@ -4640,6 +4874,45 @@ button.llar_button:focus, #llar-setting-page button.button:focus, .llar_button:f
   opacity: 0.5;
   background-color: #000;
   z-index: 10;
+}
+.llar-admin .micro_cloud_modal__body #llar-rescue-links-display {
+  margin-top: 30px !important;
+  padding-top: 20px !important;
+  text-align: left !important;
+}
+.llar-admin .micro_cloud_modal__body #llar-rescue-links-display .field-title {
+  text-align: left !important;
+  margin-left: 0 !important;
+  margin-top: 0 !important;
+}
+.llar-admin .micro_cloud_modal__body #llar-rescue-links-display .field-desc, .llar-admin .micro_cloud_modal__body #llar-rescue-links-display .toplevel_page_limit-login-attempts .jconfirm .jconfirm-box .llar-onboarding-popup__content .field-desc-add, .toplevel_page_limit-login-attempts .jconfirm .jconfirm-box .llar-onboarding-popup__content .llar-admin .micro_cloud_modal__body #llar-rescue-links-display .field-desc-add {
+  text-align: left !important;
+  margin-left: 0 !important;
+  margin-top: 15px !important;
+}
+.llar-admin .micro_cloud_modal__body #llar-rescue-links-display .button_block-single {
+  text-align: left !important;
+}
+.llar-admin .micro_cloud_modal__body #llar-rescue-links-display .llar-rescue-copy-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 12px;
+  margin-bottom: 0;
+}
+.llar-admin .micro_cloud_modal__body #llar-rescue-links-display .llar-rescue-copy-row .llar-copy-rescue-links {
+  flex-shrink: 0;
+}
+.llar-admin .micro_cloud_modal__body #llar-rescue-links-display .llar-rescue-copy-row .llar-copy-feedback {
+  width: 100%;
+  font-size: 13px;
+  color: #4ACAD8;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.llar-admin .micro_cloud_modal__body #llar-rescue-links-display .llar-rescue-copy-row .llar-copy-feedback.llar-copy-feedback-visible {
+  opacity: 1;
 }
 .llar-admin .micro_cloud_modal__body #llar-rescue-links-display .llar-rescue-error {
   margin: 0 0 12px;
@@ -4719,6 +4992,71 @@ button.llar_button:focus, #llar-setting-page button.button:focus, .llar_button:f
   margin-bottom: 0;
 }
 
+.jconfirm .jconfirm-content #llar-rescue-links-display {
+  max-width: 100%;
+  width: 100%;
+  overflow-x: hidden;
+}
+.jconfirm .jconfirm-content .llar-rescue-links-list {
+  margin: 10px 0 !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  padding: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  text-align: left !important;
+  overflow-x: hidden !important;
+}
+.jconfirm .jconfirm-content .llar-rescue-links-list .llar-rescue-links-frame {
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+  border: 1px solid #8c8f94;
+  border-radius: 4px;
+  background-color: #f6f7f7;
+  padding: 6px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+.jconfirm .jconfirm-content .llar-rescue-links-list .llar-rescue-links-scroll {
+  display: block;
+  width: 100% !important;
+  max-width: 100% !important;
+  height: calc(7.5em + 84px) !important;
+  max-height: calc(7.5em + 84px) !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  margin: 0;
+  padding: 10px 12px;
+  font-size: 13px;
+  line-height: 1.5;
+  font-family: inherit;
+  background-color: #fff;
+  border: 1px solid #c3c4c7;
+  border-radius: 2px;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.06);
+  box-sizing: border-box !important;
+  -webkit-overflow-scrolling: touch;
+}
+.jconfirm .jconfirm-content .llar-rescue-links-list .llar-rescue-links-scroll .llar-rescue-link-line {
+  display: block;
+  height: calc(1.5em + 8px) !important;
+  min-height: calc(1.5em + 8px) !important;
+  max-height: calc(1.5em + 8px) !important;
+  line-height: 1.5;
+  margin-bottom: 6px;
+  padding: 4px 0;
+  box-sizing: border-box;
+  overflow: hidden !important;
+  white-space: nowrap !important;
+  text-overflow: ellipsis !important;
+  word-break: normal;
+}
+.jconfirm .jconfirm-content .llar-rescue-links-list .llar-rescue-links-scroll .llar-rescue-link-line:last-child {
+  margin-bottom: 0;
+}
+
 .llar-rescue-close-btn--inactive {
   opacity: 0.65;
   cursor: pointer;
@@ -4743,4 +5081,75 @@ button.llar_button:focus, #llar-setting-page button.button:focus, .llar_button:f
 }
 .llar-mfa-action-alert .jconfirm-content-pane, .jconfirm-type-red .jconfirm-content-pane {
   padding: 15px !important;
+}
+
+.llar-trial-start-cta.llar-trial-start-cta,
+.add_block__title .button__transparent_orange {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+}
+
+.llar-compat-wrap .llar-compat-card {
+  background: #FDFDFD;
+  border-radius: 20px;
+  box-shadow: 4px 4px 18px 0 rgba(162, 180, 189, 0.2);
+  padding: 6px 24px;
+  margin-top: 15px;
+  overflow-x: auto;
+}
+.llar-compat-wrap .llar-compat-table {
+  width: 100%;
+  min-width: 660px;
+  border-collapse: collapse;
+  margin: 0;
+}
+.llar-compat-wrap .llar-compat-table th,
+.llar-compat-wrap .llar-compat-table td {
+  padding: 14px 10px;
+  text-align: left;
+  border-bottom: 1px solid #E9EDF2;
+  font-size: 14px;
+  color: #2A2F40;
+  vertical-align: middle;
+}
+.llar-compat-wrap .llar-compat-table thead th {
+  font-weight: 600;
+  white-space: nowrap;
+}
+.llar-compat-wrap .llar-compat-table tbody tr:last-child th,
+.llar-compat-wrap .llar-compat-table tbody tr:last-child td {
+  border-bottom: none;
+}
+.llar-compat-wrap .llar-compat-table th.llar-compat-plugin {
+  font-weight: 600;
+  white-space: nowrap;
+}
+.llar-compat-wrap .llar-compat-table td.llar-compat-cell {
+  text-align: center;
+  width: 90px;
+}
+.llar-compat-wrap .llar-compat-icon {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  vertical-align: middle;
+  cursor: help;
+}
+.llar-compat-wrap .llar-compat-icon.llar-compat-icon--both {
+  background: url(../img/icon-compat-both.svg) no-repeat center/contain;
+}
+.llar-compat-wrap .llar-compat-icon.llar-compat-icon--cloud {
+  background: url(../img/icon-compat-cloud.svg) no-repeat center/contain;
+}
+.llar-compat-wrap .llar-compat-legend {
+  margin-top: 12px;
+}
+.llar-compat-wrap .llar-compat-legend .llar-compat-icon {
+  margin: 0 6px 0 0;
+  cursor: default;
+}
+.llar-compat-wrap .llar-compat-legend .llar-compat-icon.llar-compat-icon--cloud {
+  margin-left: 18px;
 }

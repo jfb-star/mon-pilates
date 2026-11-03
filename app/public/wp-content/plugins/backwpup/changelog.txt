@@ -1,14 +1,97 @@
 == Changelog ==
+= 5.7.8 =
+Release date: October 14, 2026
+
+* Enhancement: Added a notice guiding MCP users to install the standalone MCP Adapter plugin, which is no longer bundled with BackWPup.
+* Fix: Fixed an issue where the restore files security warning reappeared after being dismissed.
+
+= 5.7.7 =
+Release date: October 5, 2026
+
+* Security fix: Prevented scheduled backup jobs from being triggered by unauthenticated requests. Credit: Duy Tran.
+* Security fix: Restore working directories now use unpredictable names, and abandoned restore files are automatically cleaned up. Credit: Philipp Doblhofer.
+* Security fix: Fixed a potential path traversal vulnerability when extracting ZIP archives during restore. Credit: Bhaveshkumar Parmar.
+* New feature: Added a secure OAuth sign-in option for connecting AI assistants to BackWPup through MCP.
+* Fix: Fixed an issue where ZIP backups resumed during archive creation could miss files.
+
+= 5.7.6 =
+Release date: September 7, 2026
+
+* Security fix: Restricted access to BackWPup debug information to users with Settings access.
+* Security fix: Restricted license activation and deactivation to users with Settings access.
+* Security fix: Restricted BackWPup redirects to trusted destinations to prevent unsafe off-site redirects.
+* Security fix: Fixed a potential Cross-Site Scripting (XSS) vulnerability in backup download error messages.
+* Fix: Fixed an issue that could cause duplicate entries in Tar/TarGz backups after an interrupted backup was resumed.
+
+= 5.7.5 =
+Release date: July 21, 2026
+
+* Fix: Resolved a Cross-Site Scripting (XSS) vulnerability on the Restore page.
+* Fix: Fixed an incorrect backup aborted notice and a page freeze when using the Backup Now button.
+* Fix: Fixed an issue affecting the "Don't show again" admin notice action.
+
+= 5.7.4 =
+Release date: July 6, 2026
+
+* New feature: Added a security notice that detects stale restore files and allows them to be deleted with one click.
+* Enhancement: Restore working directories are now automatically cleaned up after a successful restore.
+* Fix: Fixed inconsistent file counts in interrupted and resumed ZIP backups.
+* Fix: Resolved a fatal error caused by outdated `.htaccess` rules on Apache 2.4.
+
+= 5.7.3 =
+Release date: June 22, 2026
+
+* Enhancement: Added the backwpup_mcp_server_enabled filter to allow disabling MCP functionality.
+* Fix: MCP backup history now reports correct file sizes across all storage destinations.
+* Fix: Resolved a WooCommerce compatibility issue that could generate log errors.
+* Fix: Resolved PHP 8.1+ compatibility issues affecting MCP operations.
+
+= 5.7.2 =
+Release date: June 8, 2026
+
+* Fix: Resolved PHP namespace conflicts in bundled vendor libraries to prevent fatal errors caused by dependency collisions with other plugins for free versions.
+
+= 5.7.0 =
+Release date: June 8, 2026
+
+* New feature: Added MCP support, allowing AI assistants to manage backups, run jobs, monitor progress, cancel jobs, and access logs.
+
+= 5.6.11 =
+Release date: June 1, 2026
+
+* Fix: Addressed a Block Editor List View issue that caused some block names to appear blank.
+
+= 5.6.10 =
+Release date: May 28, 2026
+
+* Enhancement: Aligned backup history timestamps with WordPress timezone.
+* Enhancement: Improved FTP and SFTP failure clarity in backup logs.
+* Enhancement: Expanded Dropbox error mapping and failure reason coverage.
+* Enhancement: Added backup path visibility in logs.
+* Enhancement: Expanded Google Drive error mapping and failure reason coverage.
+* Enhancement: Added descriptive empty-state text when no backup is available.
+* Enhancement: Expanded OneDrive error mapping and failure reason coverage.
+* Enhancement: Expanded Microsoft Azure Blob Storage failure scenario coverage.
+* Enhancement: Added explicit feedback when authentication credentials are invalid.
+* Enhancement: Improved abort flow behavior and user feedback.
+* Enhancement: Improved overall UI and accessibility consistency across the plugin.
+* Fix: Fixed backup history pagination issues.
+* Fix: Prevented fatal TypeError in WXR export on PHP 8.4 with nullable meta values.
+* Fix: Fixed backup download behavior on mobile devices.
+* Fix: Fixed incomplete cron cleanup when changing or deleting job schedules.
+* Fix: Fixed backup creation flow that could stall on large sites.
+* Fix: Prevented WP Super Cache from being unnecessarily disabled during backup jobs.
+
 = 5.6.9 =
 Release date: April 27, 2026
 
 * Fix: Resolved memory limit errors during some database backups.
 * Fix: Prevented restore page from hanging in certain edge cases during archive processing.
 * Fix: Corrected failed backup status reporting for SugarSync when quota limits are reached.
-* Fix: Improved backup history by including storage name for failed backups.
-* Fix: Improved consistency of backup status in logs and history.
-* Fix: "View log" action is now available for successful backups.
-* Fix: Improved consistency and alignment of UI elements across the plugin.
+* Enhancement: Backup history now includes storage name for failed backups.
+* Enhancement: Improved consistency of backup status in logs and history.
+* Enhancement: "View log" action is now available for successful backups.
+* Enhancement: Improved consistency and alignment of UI elements across the plugin.
 * New feature: Added a filter for backup archive types.
 * Enhancement: Improved visibility and naming of in-product support tools.
 

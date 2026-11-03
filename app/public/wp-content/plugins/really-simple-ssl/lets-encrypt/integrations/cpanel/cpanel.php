@@ -143,7 +143,7 @@ class rsssl_cPanel
 			'You appear to be logging in from an unknown location',
 			'unrecognized IP address',
 		];
-		foreach($triggers as $key => $trigger ) {
+		foreach($triggers as $trigger ) {
 			if (strpos($raw,$trigger)!==false) {
 				return true;
 			}
@@ -162,7 +162,7 @@ class rsssl_cPanel
 			'input-field-login icon password',
 			'name="pass" id="pass"',
 		];
-		foreach($triggers as $key => $trigger ) {
+		foreach($triggers as $trigger ) {
 			if (strpos($raw,$trigger)!==false) {
 				return true;
 			}
@@ -237,10 +237,11 @@ class rsssl_cPanel
 
         // Make the call, and then terminate the cURL caller object.
         $curl_response = curl_exec($ch);
-	    if (curl_errno($ch)) {
-		    $error_msg = curl_error($ch);
-	    }
-        curl_close($ch);
+        if (PHP_VERSION_ID >= 80000) {
+            unset($ch);
+        } else {
+            curl_close($ch);
+        }
 
         //return output.
         return $curl_response;
@@ -288,10 +289,15 @@ class rsssl_cPanel
 		curl_setopt($curl, CURLOPT_POST, 1);
 
 		$response = curl_exec($curl);
-		curl_close($curl);
+		$error    = curl_error( $curl );
+		if (PHP_VERSION_ID >= 80000) {
+			unset($curl);
+		} else {
+			curl_close($curl);
+		}
 
 		if (false === $response) {
-			return new RSSSL_RESPONSE('error', 'stop', __("Unable to connect to cPanel", "really-simple-ssl").' '.curl_error($curl));
+			return new RSSSL_RESPONSE('error', 'stop', __("Unable to connect to cPanel", "really-simple-ssl").' '.$error);
 		}
 
 		if (true === stristr($response, '<html>')) {
