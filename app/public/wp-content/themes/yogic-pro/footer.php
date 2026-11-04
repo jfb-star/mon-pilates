@@ -113,6 +113,7 @@
 {
     "@context": "https://schema.org",
     "@type": ["SportsActivityLocation", "LocalBusiness"],
+    "@id": "https://mon-pilates.bzh/#localbusiness",
     "name": "Mon Pilates",
     "alternateName": ["Mon Pilates Larmor-Plage", "Mon Pilates à Larmor-Plage"],
     "description": "Studio de Pilates à Larmor-Plage face à l'océan, à 10 minutes de Lorient. Pilates Tapis en petit groupe (5 personnes max), Pilates Machine sur Reformer (3 personnes max) et cours privés sur appareils Reformer et Cadillac, en individuel ou en duo. Enseignante certifiée FPMP.",
