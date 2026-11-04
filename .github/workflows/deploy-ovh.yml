@@ -110,4 +110,7 @@ jobs:
         run: |
           ssh -i ~/.ssh/deploy_key -p 22 \
             ${{ secrets.OVH_USER }}@${{ secrets.OVH_HOST }} \
-            "rm -rf ~/${TARGET}/wp-content/cache/all/* 2>/dev/null; echo '${TARGET} cache cleared'"
+            "rm -rf ~/${TARGET}/wp-content/cache/all/* ~/${TARGET}/wp-content/cache/wpfc-minified/* 2>/dev/null; echo '${TARGET} cache cleared (pages + CSS/JS minifiés)'"
+          # wpfc-minified : WP Fastest Cache ne régénère pas ses CSS/JS minifiés
+          # quand un fichier du thème change ; sans ce vidage, un déploiement
+          # CSS/JS reste invisible jusqu'à une purge manuelle.
