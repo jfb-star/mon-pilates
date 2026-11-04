@@ -1,0 +1,658 @@
+/* =============================================================================
+   MON PILATES — Passe de finition design (novembre 2026)
+   Chargée en dernier (functions.php, priorité 999). Couche d'harmonisation :
+   un seul système de boutons, pastilles, cartes et titres cohérents.
+   Les !important sont nécessaires : une partie des blocs de la home est
+   stylée par des <style> inline stockés dans les options du thème.
+   ============================================================================= */
+
+:root {
+    --mpx-pink: #cf317c;
+    --mpx-pink-dark: #b4286a;
+    --mpx-pink-soft: rgba(207, 49, 124, 0.08);
+    --mpx-ink: #2c3e50;
+    --mpx-ocean: #7fa8b6;
+    --mpx-sage: #7fb069;
+    --mpx-radius-pill: 999px;
+    --mpx-btn-h: 52px;
+}
+
+/* -----------------------------------------------------------------------------
+   1. BOUTONS — base commune
+   ----------------------------------------------------------------------------- */
+.hero-btn,
+.btn-cours,
+.btn-google,
+.studio-cta-link a,
+.mp-btn,
+.mp-card-cta,
+.mp-card-buy-btn,
+.mp-category-cta,
+.mp-gift-cta,
+.mp-submit-btn,
+.mp-gift-hero__cta,
+.mp-gift-card__cta,
+.mp-gift-final__cta-primary,
+.mpgc-resend-button,
+a[href*="bsport.io/m/"][style],
+.entry-content .wp-block-button__link {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 10px !important;
+    min-height: var(--mpx-btn-h) !important;
+    padding: 14px 28px !important;
+    border-radius: var(--mpx-radius-pill) !important;
+    font-family: inherit !important;
+    font-size: 15px !important;
+    font-weight: 600 !important;
+    line-height: 1.25 !important;
+    letter-spacing: 0.01em !important;
+    text-transform: none !important;
+    text-align: center !important;
+    text-decoration: none !important;
+    text-shadow: none !important;
+    white-space: normal !important;
+    text-wrap: balance;
+    box-sizing: border-box !important;
+    cursor: pointer;
+    transition: background-color .2s ease, color .2s ease, border-color .2s ease, box-shadow .2s ease, transform .2s ease !important;
+}
+
+/* Les <br> insérés automatiquement par WordPress cassaient certains boutons sur 3 lignes */
+.hero-btn br,
+.btn-cours br,
+.btn-google br,
+.studio-cta-link a br,
+.mp-btn br,
+.mp-category-cta br {
+    display: none !important;
+}
+
+/* Icônes dans les boutons : taille fixe, centrées sur le texte */
+.hero-btn svg, .hero-btn i,
+.btn-cours svg, .btn-google svg, .btn-google img,
+.studio-cta-link a svg,
+.mp-btn svg,
+.mp-card-cta svg,
+.mp-category-cta svg,
+.mp-gift-cta svg,
+.mp-submit-btn svg,
+.mp-gift-hero__cta svg,
+.mp-gift-card__cta svg,
+.mp-gift-final__cta-primary svg {
+    width: 18px !important;
+    height: 18px !important;
+    flex: 0 0 18px !important;
+    margin: 0 !important;
+    position: static !important;
+    transform: none !important;
+}
+
+/* -----------------------------------------------------------------------------
+   2. BOUTON PRINCIPAL — rose plein (couleur d'action de la marque)
+   ----------------------------------------------------------------------------- */
+.hero-btn-primary,
+.btn-cours,
+.mp-btn-primary,
+.mp-btn--primary,
+.mp-hero-cta,
+.mp-card-cta,
+.mp-pricing-card-popular .mp-card-buy-btn,
+.mp-gift-cta,
+.mp-submit-btn,
+.mp-gift-hero__cta,
+.mp-gift-card__cta,
+.mp-gift-final__cta-primary,
+.mpgc-resend-button,
+a[href*="bsport.io/m/"][style],
+.entry-content .wp-block-button__link {
+    background: var(--mpx-pink) !important;
+    background-image: none !important;
+    color: #fff !important;
+    border: 1.5px solid var(--mpx-pink) !important;
+    box-shadow: 0 6px 18px rgba(207, 49, 124, 0.22) !important;
+}
+
+.hero-btn-primary:hover,
+.btn-cours:hover,
+.mp-btn-primary:hover,
+.mp-btn--primary:hover,
+.mp-hero-cta:hover,
+.mp-card-cta:hover,
+.mp-pricing-card-popular .mp-card-buy-btn:hover,
+.mp-gift-cta:hover,
+.mp-submit-btn:hover,
+.mp-gift-hero__cta:hover,
+.mp-gift-card__cta:hover,
+.mp-gift-final__cta-primary:hover,
+.mpgc-resend-button:hover,
+a[href*="bsport.io/m/"][style]:hover,
+.entry-content .wp-block-button__link:hover {
+    background: var(--mpx-pink-dark) !important;
+    border-color: var(--mpx-pink-dark) !important;
+    color: #fff !important;
+    transform: translateY(-1px);
+    box-shadow: 0 10px 24px rgba(207, 49, 124, 0.28) !important;
+}
+
+/* -----------------------------------------------------------------------------
+   3. BOUTON SECONDAIRE — contour rose
+   ----------------------------------------------------------------------------- */
+.mp-btn-secondary,
+.mp-btn-outline:not(.mp-hero-cta),
+.btn-google,
+.studio-cta-link a,
+.mp-category-cta,
+.mp-card-buy-btn {
+    background: transparent !important;
+    background-image: none !important;
+    color: var(--mpx-pink) !important;
+    border: 1.5px solid var(--mpx-pink) !important;
+    box-shadow: none !important;
+}
+
+.mp-btn-secondary:hover,
+.mp-btn-outline:not(.mp-hero-cta):hover,
+.btn-google:hover,
+.studio-cta-link a:hover,
+.mp-category-cta:hover,
+.mp-card-buy-btn:hover {
+    background: var(--mpx-pink-soft) !important;
+    color: var(--mpx-pink-dark) !important;
+    border-color: var(--mpx-pink-dark) !important;
+}
+
+/* Le bouton d'achat des cartes « mises en avant » reste plein (règle plus spécifique) */
+.mp-pricing-card-popular .mp-card-buy-btn {
+    color: #fff !important;
+}
+
+/* Bouton d'achat compact dans les cartes tarifs */
+.mp-card-buy-btn {
+    min-height: 44px !important;
+    padding: 10px 24px !important;
+    font-size: 14px !important;
+}
+
+/* -----------------------------------------------------------------------------
+   4. HERO (photo) — bouton secondaire clair, légende Nivo vide masquée
+   ----------------------------------------------------------------------------- */
+.hero-btn-secondary {
+    background: rgba(255, 255, 255, 0.12) !important;
+    color: #fff !important;
+    border: 1.5px solid rgba(255, 255, 255, 0.75) !important;
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+    box-shadow: none !important;
+}
+
+.hero-btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.95) !important;
+    color: var(--mpx-ink) !important;
+    border-color: #fff !important;
+}
+
+/* Légende du slider Nivo : vide, mais son fond « verre dépoli » apparaissait
+   derrière le titre au chargement de la page. */
+.nivo-caption,
+.slider-main .nivo-caption::before,
+.nivo-caption::before {
+    display: none !important;
+}
+
+.monpilates-hero-title {
+    letter-spacing: -0.01em !important;
+    text-shadow: 0 2px 18px rgba(0, 0, 0, 0.35) !important;
+    -webkit-text-stroke: 0 !important;
+}
+
+.monpilates-hero-subtitle {
+    text-shadow: 0 1px 10px rgba(0, 0, 0, 0.45) !important;
+    -webkit-text-stroke: 0 !important;
+}
+
+.monpilates-hero-buttons {
+    gap: 14px !important;
+}
+
+/* -----------------------------------------------------------------------------
+   5. HEADER — hauteurs alignées (44 px)
+   ----------------------------------------------------------------------------- */
+.mp-header .mp-cta,
+.mp-header .mp-cta-secondary {
+    min-height: 44px !important;
+    height: 44px !important;
+    align-items: center !important;
+    box-sizing: border-box !important;
+}
+
+.mp-header .mp-member-btn {
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px !important;
+}
+
+.mp-header .mp-cta {
+    background: var(--mpx-pink) !important;
+    background-image: none !important;
+}
+
+/* -----------------------------------------------------------------------------
+   6. TITRES — fin des contours noirs, hiérarchie homogène
+   ----------------------------------------------------------------------------- */
+h1, h2, h3 {
+    -webkit-text-stroke: 0;
+}
+
+.mp-hero-title,
+.mp-seance-title,
+.mp-tarifs-title,
+.mp-contact-title,
+.mp-gift-hero__title,
+.mp-legal-title,
+.page .entry-title {
+    font-size: clamp(30px, 2.4vw + 18px, 46px) !important;
+    font-weight: 700 !important;
+    line-height: 1.15 !important;
+    letter-spacing: -0.02em !important;
+    text-transform: none !important;
+    color: var(--mpx-ink) !important;
+    text-wrap: balance;
+}
+
+.menu_page h2,
+.mp-section-title,
+.mp-category-title,
+.pilates-section-title {
+    letter-spacing: -0.015em !important;
+    text-wrap: balance;
+}
+
+.menu_page h2 {
+    color: var(--mpx-ink) !important;
+}
+
+/* Intitulés en capitales du parcours : interligne trop serré (lignes collées) */
+.parcours-section h3 {
+    line-height: 1.35 !important;
+}
+
+/* Retours à la ligne forcés dans les textes de la home : ils laissaient des mots
+   orphelins (« ou en duo, », « séance, ») dès que la largeur changeait */
+.menu_page p br {
+    display: none;
+}
+
+/* Titre des cartes formules : tient sur une ligne à côté de l'icône */
+.course-card h3 {
+    font-size: clamp(22px, 1.2vw + 10px, 26px) !important;
+    line-height: 1.2 !important;
+}
+
+/* Paragraphes centrés : répartition équilibrée des lignes */
+.menu_page p,
+.mp-hero p,
+.mp-seance-hero p {
+    text-wrap: pretty;
+}
+
+/* -----------------------------------------------------------------------------
+   7. SECTIONS DE LA HOME — fond pleine largeur (fin des « coutures » verticales
+   et des bandes dégradées en haut des sections)
+   ----------------------------------------------------------------------------- */
+.menu_page .studio-section,
+.menu_page .courses-section,
+.menu_page .principes-section,
+.menu_page .parcours-section,
+.menu_page .temoignages-section,
+.menu_page .pilates-section {
+    background: transparent !important;
+    background-image: none !important;
+    box-shadow: none !important;
+}
+
+/* Ombre dégradée de 80 px en haut de chaque section : faisait une bande grise
+   plus étroite que l'écran au-dessus des titres */
+.menu_page::before,
+.menu_page .studio-section::before,
+.menu_page .courses-section::before,
+.menu_page .principes-section::before,
+.menu_page .parcours-section::before,
+.menu_page .temoignages-section::before,
+.menu_page .pilates-section::before {
+    background-image: none !important;
+    background: none !important;
+}
+
+/* Séparation discrète et pleine largeur entre les sections */
+.menu_page + .menu_page {
+    border-top: 1px solid rgba(44, 62, 80, 0.06);
+}
+
+/* -----------------------------------------------------------------------------
+   8. PASTILLES « Idéal pour » et puces
+   ----------------------------------------------------------------------------- */
+.ideal-tags {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    flex-direction: row !important;
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+    gap: 8px !important;
+}
+
+.ideal-tags br {
+    display: none !important;
+}
+
+.ideal-tag {
+    display: inline-flex !important;
+    align-items: center !important;
+    margin: 0 !important;
+    padding: 8px 14px !important;
+    border-radius: 16px !important;
+    font-size: 13px !important;
+    line-height: 1.35 !important;
+    max-width: 100% !important;
+}
+
+/* Pied de carte formule : ressemblait à un lien sans en être un */
+.course-card .card-location {
+    color: #8a99a6 !important;
+    font-size: 13px !important;
+    font-style: normal !important;
+    text-align: center !important;
+}
+
+/* -----------------------------------------------------------------------------
+   9. CARTES À BANDEAU DE COULEUR — barre nette au lieu d'un arc
+   (border-top épais + coins arrondis = croissant déformé)
+   ----------------------------------------------------------------------------- */
+.course-card {
+    border-top-width: 0 !important;
+}
+
+.course-card.machine::before {
+    background: var(--mpx-sage) !important;
+}
+
+.course-card.private::before {
+    display: none !important;
+}
+
+.mp-profile-card,
+.mp-snapshot-card-featured,
+.mp-duo-offer,
+.mp-profiles-grid .mp-profile-card {
+    border-top-width: 1px !important;
+    background-repeat: no-repeat !important;
+    background-position: top left !important;
+    background-size: 100% 3px !important;
+}
+
+.mp-profile-blue-light,
+.mp-profiles-grid .mp-profile-card,
+.mp-snapshot-card-featured,
+.mp-duo-offer {
+    border-top-color: rgba(127, 168, 182, 0.25) !important;
+    background-image: linear-gradient(var(--mpx-ocean), var(--mpx-ocean)) !important;
+}
+
+.mp-profile-card.mp-profile-rose-light,
+.mp-profile-card.mp-profile-warm-light,
+.mp-profiles-grid .mp-profile-card.mp-profile-rose-light,
+.mp-profiles-grid .mp-profile-card.mp-profile-warm-light {
+    border-top-color: rgba(207, 49, 124, 0.18) !important;
+    background-image: linear-gradient(var(--mpx-pink), var(--mpx-pink)) !important;
+}
+
+.mp-profile-card.mp-profile-sage-light,
+.mp-profiles-grid .mp-profile-card.mp-profile-sage-light {
+    border-top-color: rgba(127, 176, 105, 0.25) !important;
+    background-image: linear-gradient(var(--mpx-sage), var(--mpx-sage)) !important;
+}
+
+/* Cartes principes : le sous-titre passe sous le titre au lieu d'être tassé à côté */
+.principe-tagline {
+    display: block !important;
+    margin: 4px 0 0 !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    line-height: 1.4 !important;
+}
+
+/* -----------------------------------------------------------------------------
+   10. CITATIONS — un seul encadré, un seul guillemet
+   ----------------------------------------------------------------------------- */
+.parcours-quote blockquote {
+    background: none !important;
+    border: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+}
+
+.parcours-quote blockquote br {
+    display: none;
+}
+
+/* -----------------------------------------------------------------------------
+   11. TARIFS — badges qui touchaient le titre de la carte
+   ----------------------------------------------------------------------------- */
+.mp-pricing-card .mp-card-badge + .mp-card-header,
+.mp-pricing-card:has(> .mp-card-badge) .mp-card-header {
+    margin-top: 14px !important;
+}
+
+.mp-card-badge {
+    line-height: 1.2 !important;
+    padding: 6px 14px !important;
+}
+
+.mp-card-validity {
+    display: inline-flex !important;
+    align-items: center !important;
+    min-height: 32px !important;
+}
+
+/* -----------------------------------------------------------------------------
+   12. PAGES SÉANCES — badge du hero, double marge sous le header
+   ----------------------------------------------------------------------------- */
+.mp-hero-badge {
+    display: block !important;
+    text-align: center !important;
+    line-height: 1.6 !important;
+    text-wrap: balance;
+}
+
+.mp-hero-badge::before,
+.mp-hero-badge::after {
+    display: none !important;
+}
+
+/* body a déjà un padding-top sous le header fixe : la marge en plus créait une
+   bande blanche vide sous le header (60 px sur mobile, 85 px sur ordinateur) */
+.mp-seances-page {
+    margin-top: 0 !important;
+}
+
+/* Tarifs : encarts « Idéal pour » sur plusieurs lignes (formaient des ovales) */
+.mp-choose-for {
+    border-radius: 14px !important;
+    padding: 8px 14px !important;
+    line-height: 1.45 !important;
+}
+
+/* Cartes cadeaux : la page déclarait Playfair Display, jamais chargée → repli
+   sur Georgia (chiffres et titres en serif, seuls sur tout le site) */
+.mp-gift-hero__title,
+.mp-gift-section-title,
+.mp-gift-why__title,
+.mp-gift-private__title,
+.mp-gift-how__title,
+.mp-gift-how__number,
+.mp-gift-card__price,
+.mp-gift-private__price,
+[class*="mp-gift-card__title"],
+[class*="mp-gift-card__name"] {
+    font-family: inherit !important;
+}
+
+.mp-gift-section-title {
+    font-weight: 700 !important;
+    letter-spacing: -0.015em !important;
+    text-wrap: balance;
+}
+
+.mp-gift-card__price,
+.mp-gift-private__price {
+    font-weight: 700 !important;
+}
+
+.mp-gift-how__number {
+    font-weight: 600 !important;
+}
+
+.mpgc-resend-icon {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    color: var(--mpx-ocean);
+    font-size: 0 !important;
+}
+
+/* Numéros de téléphone : jamais coupés en fin de ligne */
+a[href^="tel:"] {
+    white-space: nowrap;
+}
+
+/* -----------------------------------------------------------------------------
+   12 bis. PAGES EN BLOCS GUTENBERG (ex. Pilates en entreprise) — elles héritaient
+   des styles bruts du thème : titres en graisse 300, interligne plus petit que le
+   texte (lignes qui se chevauchaient)
+   ----------------------------------------------------------------------------- */
+.entry-content h2.wp-block-heading,
+.entry-content h3.wp-block-heading {
+    font-weight: 700 !important;
+    line-height: 1.2 !important;
+    letter-spacing: -0.015em !important;
+    color: var(--mpx-ink) !important;
+    text-transform: none !important;
+    margin: 0 0 14px !important;
+    text-wrap: balance;
+}
+
+.entry-content h2.wp-block-heading {
+    font-size: clamp(24px, 1.4vw + 16px, 32px) !important;
+}
+
+.entry-content h3.wp-block-heading {
+    font-size: clamp(19px, 0.6vw + 15px, 22px) !important;
+}
+
+.entry-content p.has-large-font-size {
+    font-size: clamp(19px, 0.8vw + 15px, 23px) !important;
+    line-height: 1.45 !important;
+    font-weight: 500 !important;
+    color: #4a5a68 !important;
+    margin-bottom: 24px !important;
+}
+
+.entry-content .wp-block-separator {
+    border: 0 !important;
+    border-top: 1px solid rgba(44, 62, 80, 0.1) !important;
+    margin: 44px 0 !important;
+    width: 100% !important;
+    max-width: none !important;
+    opacity: 1 !important;
+    background: none !important;
+    height: 0 !important;
+}
+
+.entry-content .wp-block-list li {
+    margin-bottom: 8px;
+    line-height: 1.6;
+}
+
+.entry-content .wp-block-list li::marker {
+    color: var(--mpx-pink);
+}
+
+.entry-content .wp-block-buttons {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 12px !important;
+}
+
+.entry-content .wp-block-button.is-style-outline .wp-block-button__link {
+    background: transparent !important;
+    color: var(--mpx-pink) !important;
+    border: 1.5px solid var(--mpx-pink) !important;
+    box-shadow: none !important;
+}
+
+/* -----------------------------------------------------------------------------
+   13. MOBILE
+   ----------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+    .hero-btn,
+    .btn-cours,
+    .btn-google,
+    .studio-cta-link a,
+    .mp-btn,
+    .mp-card-cta,
+    .mp-category-cta,
+    .mp-gift-cta,
+    .mp-submit-btn,
+    .mp-gift-hero__cta,
+    .mp-gift-card__cta,
+    .mp-gift-final__cta-primary,
+    a[href*="bsport.io/m/"][style],
+    .entry-content .wp-block-button__link {
+        width: 100% !important;
+        max-width: 340px !important;
+        padding: 14px 22px !important;
+    }
+
+    .mp-card-buy-btn {
+        width: auto !important;
+    }
+
+    .monpilates-hero-slogan {
+        font-size: 11px !important;
+        letter-spacing: 1.6px !important;
+    }
+
+    .monpilates-hero-title {
+        font-size: 32px !important;
+        line-height: 1.15 !important;
+    }
+
+    .monpilates-hero-subtitle {
+        font-size: 15px !important;
+        line-height: 1.5 !important;
+    }
+
+    .mp-hero p br {
+        display: none;
+    }
+
+    /* Bouton d'appel flottant : plus discret, ne masque plus les boutons */
+    .floating-phone {
+        width: 52px !important;
+        height: 52px !important;
+        right: 16px !important;
+        bottom: calc(16px + env(safe-area-inset-bottom, 0px)) !important;
+        background: var(--mpx-pink) !important;
+        background-image: none !important;
+        box-shadow: 0 6px 18px rgba(207, 49, 124, 0.3) !important;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .hero-btn, .btn-cours, .mp-btn, .mp-card-cta, .mp-card-buy-btn, .mp-category-cta,
+    .mp-gift-cta, .mp-submit-btn, .mp-gift-hero__cta, .mp-gift-card__cta {
+        transition: none !important;
+    }
+}

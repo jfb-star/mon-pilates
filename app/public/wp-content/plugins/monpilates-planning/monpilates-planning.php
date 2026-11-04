@@ -67,7 +67,7 @@ class MonPilates_Planning {
             'monpilates-planning',
             plugin_dir_url(__FILE__) . 'assets/css/planning.css',
             [],
-            '1.0.0'
+            filemtime(plugin_dir_path(__FILE__) . 'assets/css/planning.css')
         );
 
         wp_enqueue_script(

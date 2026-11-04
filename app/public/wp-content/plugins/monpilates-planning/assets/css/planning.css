@@ -267,8 +267,22 @@ body:has(.monpilates-planning-section) #sitemain {
 }
 
 .mp-need-card__icon {
-    font-size: 2rem;
     flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+    color: var(--need-color, #5B8FA8);
+    background: rgba(127, 168, 182, 0.12);
+    background: color-mix(in srgb, var(--need-color, #5B8FA8) 14%, #fff);
+}
+
+.mp-need-card__icon svg,
+.mp-filter-banner__icon svg,
+.mp-date-current__label svg {
+    display: block;
 }
 
 .mp-need-card__content {
@@ -394,7 +408,8 @@ body:has(.monpilates-planning-section) #sitemain {
 }
 
 .mp-filter-banner__icon {
-    font-size: 1.25rem;
+    display: inline-flex;
+    color: var(--banner-color, #5B8FA8);
 }
 
 .mp-filter-banner__text {
@@ -498,7 +513,13 @@ body:has(.monpilates-planning-section) #sitemain {
 }
 
 .mp-date-current__label {
-    font-size: 1.2rem;
+    display: inline-flex;
+    color: #CF317C;
+}
+
+.mp-date-current__label svg {
+    width: 20px;
+    height: 20px;
 }
 
 .mp-date-current__date {

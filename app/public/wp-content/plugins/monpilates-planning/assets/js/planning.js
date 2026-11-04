@@ -25,7 +25,7 @@
     const NEEDS_MAP = {
         doux: {
             id: 'doux',
-            icon: '🌿',
+            icon: 'leaf',
             title: 'Je cherche de la douceur',
             subtitle: 'Fondamentaux, mobilité, dos sensible, reprise',
             keywords: ['doux', 'fondamentaux', 'senior', 'mobilité', 'adapté'],
@@ -35,7 +35,7 @@
         },
         prenatal: {
             id: 'prenatal',
-            icon: '🤰',
+            icon: 'heart',
             title: 'Je suis enceinte ou jeune maman',
             subtitle: 'Pilates pré & post-natal, adapté à votre corps',
             keywords: ['enceinte', 'prenatal', 'prénatal', 'post-natal', 'postnatal', 'maman', 'femme enceinte', 'grossesse', 'maternité', 'maternite'],
@@ -45,7 +45,7 @@
         },
         classique: {
             id: 'classique',
-            icon: '🔵',
+            icon: 'compass',
             title: 'Je veux découvrir ou pratiquer le Pilates',
             subtitle: 'Renforcement global, accessible même aux débutants',
             keywords: ['classique', 'tapis', 'collectif', 'mat', 'tous niveaux'],
@@ -56,7 +56,7 @@
         },
         avance: {
             id: 'avance',
-            icon: '🔴',
+            icon: 'trending',
             title: 'Je pratique déjà régulièrement',
             subtitle: 'Plus intense, pour pratiquants confirmés',
             keywords: ['avancé', 'intensif', 'confirmé'],
@@ -66,7 +66,7 @@
         },
         machine_groupe: {
             id: 'machine_groupe',
-            icon: '🏋️',
+            icon: 'users',
             title: 'Je veux travailler sur appareils en petit groupe',
             subtitle: 'Sur Reformer, tous niveaux ou doux, tarif accessible',
             // Mots qui ciblent "Pilates Machine Tous Niveaux" et "Pilates Machine
@@ -78,7 +78,7 @@
         },
         prive: {
             id: 'prive',
-            icon: '✨',
+            icon: 'star',
             title: 'Je veux un accompagnement individuel',
             subtitle: 'Cours privé sur appareils, séance 100% personnalisée',
             // Resserré : on enlève "machine" et "appareil" qui captaient aussi
@@ -87,9 +87,21 @@
             color: '#8B7355',
             isSpecial: true,
             ctaLabel: 'Découvrir les cours privés',
-            ctaUrl: '/cours-prives/'
+            ctaUrl: '/seances-individuelles/'
         }
     };
+
+    // Icônes au trait (style Lucide) — remplacent les emojis, rendus différemment selon les téléphones
+    const ICON_PATHS = {
+        leaf: '<path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>',
+        heart: '<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>',
+        compass: '<circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>',
+        trending: '<polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/>',
+        users: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
+        star: '<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>',
+        calendar: '<rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>'
+    };
+    const iconSvg = (name) => `<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICON_PATHS[name] || ''}</svg>`;
 
     // State
     let state = {
@@ -592,7 +604,7 @@
                             aria-pressed="${isActive}"
                             style="--need-color: ${need.color}"
                             ${!hasOffers ? 'disabled' : ''}>
-                        <span class="mp-need-card__icon">${need.icon}</span>
+                        <span class="mp-need-card__icon">${iconSvg(need.icon)}</span>
                         <span class="mp-need-card__content">
                             <span class="mp-need-card__title">${need.title}</span>
                             <span class="mp-need-card__subtitle">${need.subtitle}</span>
@@ -618,7 +630,7 @@
                             aria-pressed="${isActive}"
                             style="--need-color: ${need.color}"
                             ${!hasOffers ? 'disabled' : ''}>
-                        <span class="mp-need-card__icon">${need.icon}</span>
+                        <span class="mp-need-card__icon">${iconSvg(need.icon)}</span>
                         <span class="mp-need-card__content">
                             <span class="mp-need-card__title">${need.title}</span>
                             <span class="mp-need-card__subtitle">${need.subtitle}</span>
@@ -670,7 +682,7 @@
         return `
             <div class="mp-filter-banner" style="--banner-color: ${need.color}">
                 <div class="mp-filter-banner__content">
-                    <span class="mp-filter-banner__icon">${need.icon}</span>
+                    <span class="mp-filter-banner__icon">${iconSvg(need.icon)}</span>
                     <span class="mp-filter-banner__text">
                         Planning filtré : <strong>${displayText}</strong>
                     </span>
@@ -733,7 +745,7 @@
                         </svg>
                     </button>
                     <div class="mp-date-current">
-                        <span class="mp-date-current__label">📅</span>
+                        <span class="mp-date-current__label">${iconSvg('calendar')}</span>
                         <span class="mp-date-current__date">${formatDateLong(state.selectedDate)}</span>
                     </div>
                     <button type="button"

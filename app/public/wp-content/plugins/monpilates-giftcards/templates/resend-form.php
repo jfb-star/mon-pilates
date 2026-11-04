@@ -12,8 +12,8 @@ defined( 'ABSPATH' ) || exit;
 
 <div class="mpgc-resend-section">
     <div class="mpgc-resend-box">
-        <div class="mpgc-resend-icon">
-            📧
+        <div class="mpgc-resend-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
         </div>
         <h3 class="mpgc-resend-title">Vous n'avez pas reçu votre carte cadeau ?</h3>
         <p class="mpgc-resend-description">

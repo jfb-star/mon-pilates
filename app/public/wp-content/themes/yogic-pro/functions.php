@@ -304,6 +304,14 @@ function yogic_pro_scripts() {
 }
 add_action( 'wp_enqueue_scripts', 'yogic_pro_scripts' );
 
+// Passe de finition design (boutons, cartes, titres) : chargée après toutes les autres feuilles.
+add_action( 'wp_enqueue_scripts', function () {
+	$file = get_template_directory() . '/css/mp-polish.css';
+	if ( file_exists( $file ) ) {
+		wp_enqueue_style( 'mp-polish', get_template_directory_uri() . '/css/mp-polish.css', array(), filemtime( $file ) );
+	}
+}, 999 );
+
 function media_css_hook(){
 	
 	?>

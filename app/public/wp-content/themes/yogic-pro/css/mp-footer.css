@@ -184,13 +184,10 @@
     margin-top: 0;
 }
 
-/* Sous-pages indentées sous une catégorie */
-.mp-footer__category + li {
-    padding-left: 14px;
-}
-
-.mp-footer__category + li + li:not(.mp-footer__category) {
-    padding-left: 14px;
+/* Liens alignés sous leur catégorie (l'ancienne indentation ne touchait que
+   les deux premiers liens de chaque groupe : « Pilates Machine » ressortait) */
+.mp-footer__links li:not(.mp-footer__category) {
+    padding-left: 0;
 }
 
 /* ==========================================================================
