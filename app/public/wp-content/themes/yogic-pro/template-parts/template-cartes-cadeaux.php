@@ -365,11 +365,11 @@ get_header();
             ?>
             <div class="mpgc-resend-section">
                 <div class="mpgc-resend-box">
-                    <div class="mpgc-resend-icon">📧</div>
+                    <div class="mpgc-resend-icon" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg></div>
                     <h3 class="mpgc-resend-title">Vous n'avez pas reçu votre carte cadeau ?</h3>
                     <p class="mpgc-resend-description">
                         Contactez-nous directement au <a href="tel:+33699183216">06 99 18 32 16</a>
-                        ou par email à <a href="mailto:cetteviolettela@hotmail.fr">cetteviolettela@hotmail.fr</a>
+                        ou par email à <a href="mailto:contact@mon-pilates.bzh">contact@mon-pilates.bzh</a>
                     </p>
                 </div>
             </div>

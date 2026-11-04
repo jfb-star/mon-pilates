@@ -260,7 +260,7 @@ class MPGC_Emails {
                                 14 boulevard des Dunes, 56260 Larmor-Plage
                             </p>
                             <p style="color: rgba(255,255,255,0.7); font-size: 13px; margin: 0;">
-                                06 99 18 32 16 • cetteviolettela@hotmail.fr
+                                06 99 18 32 16 • contact@mon-pilates.bzh
                             </p>
                         </td>
                     </tr>
@@ -269,7 +269,7 @@ class MPGC_Emails {
 
                 <!-- Mention légale -->
                 <p style="text-align: center; color: #999; font-size: 12px; margin-top: 20px;">
-                    Cet email a été envoyé suite à votre achat sur monpilates.fr
+                    Cet email a été envoyé suite à votre achat sur mon-pilates.bzh
                 </p>
             </td>
         </tr>

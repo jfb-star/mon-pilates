@@ -656,3 +656,139 @@ a[href^="tel:"] {
         transition: none !important;
     }
 }
+
+/* -----------------------------------------------------------------------------
+   14. FINITIONS — logo, citation, infos pratiques, chapô, bandeau cookies
+   ----------------------------------------------------------------------------- */
+
+/* Logo : trait fin, on le rend plus net et plus grand sur fond blanc */
+body:not(.home) .mp-header .mp-logo__image,
+.mp-header[data-state="scrolled"] .mp-logo__image {
+    filter: contrast(1.35) saturate(1.15) drop-shadow(0 0 0.35px rgba(44, 62, 80, 0.85)) !important;
+}
+
+/* Citation du parcours : le guillemet passait par-dessus le texte */
+.parcours-quote blockquote::before {
+    content: "\201C" !important;
+    position: static !important;
+    transform: none !important;
+    display: block !important;
+    height: 26px;
+    margin: 0 auto 10px !important;
+    font-family: Georgia, "Times New Roman", serif !important;
+    font-size: 64px !important;
+    line-height: 1 !important;
+    opacity: 0.35 !important;
+}
+
+/* Infos pratiques du studio (Adresse / Ouverture / Cours) */
+.studio-info-content h3,
+.studio-info-content h4 {
+    margin: 0 0 2px !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.06em !important;
+    text-transform: uppercase !important;
+    color: var(--mpx-ocean) !important;
+}
+
+.studio-info-content p {
+    margin: 0 !important;
+    font-size: 15px !important;
+    font-weight: 500 !important;
+    line-height: 1.4 !important;
+    color: var(--mpx-ink) !important;
+}
+
+.studio-info-content {
+    text-align: left !important;
+}
+
+.studio-info-content p:empty {
+    display: none !important;
+}
+
+.studio-info-icon.studio-info-icon-svg {
+    box-sizing: border-box;
+    width: 40px !important;
+    height: 40px !important;
+    flex: 0 0 40px;
+    padding: 10px;
+    border-radius: 12px;
+    background: rgba(127, 168, 182, 0.12) !important;
+    box-shadow: none !important;
+}
+
+/* Chapô des pages de contenu (planning…) */
+.entry-content .mp-page-lead {
+    max-width: 640px;
+    margin: 4px 0 8px !important;
+    font-size: 17px !important;
+    line-height: 1.6 !important;
+    color: #5a6c7d !important;
+}
+
+/* Bandeau cookies : même boutons pilule que le site */
+.cmplz-cookiebanner .cmplz-btn {
+    min-height: 44px !important;
+    height: auto !important;
+    font-weight: 600 !important;
+    border-width: 1.5px !important;
+}
+
+.cmplz-cookiebanner .cmplz-message {
+    line-height: 1.5 !important;
+}
+
+@media (max-width: 768px) {
+    .mp-logo__image {
+        height: 58px !important;
+        max-height: 58px !important;
+    }
+
+    .studio-infos {
+        gap: 0 !important;
+        padding: 6px 20px !important;
+        background: #fff !important;
+        border: 1px solid #eef0f2;
+        border-radius: 16px !important;
+    }
+
+    .studio-info-item {
+        flex-direction: row !important;
+        align-items: center !important;
+        gap: 14px !important;
+        padding: 14px 0;
+        text-align: left !important;
+        border-bottom: 1px solid #eef0f2;
+    }
+
+    .studio-info-item:last-child,
+    .studio-info-item:not(:has(~ .studio-info-item)) {
+        border-bottom: 0;
+    }
+
+    .studio-info-content {
+        text-align: left !important;
+    }
+
+    .cmplz-cookiebanner {
+        padding: 14px 18px calc(14px + env(safe-area-inset-bottom, 0px)) !important;
+    }
+
+    .cmplz-cookiebanner .cmplz-buttons {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px !important;
+    }
+
+    .cmplz-cookiebanner .cmplz-buttons .cmplz-btn {
+        width: 100% !important;
+        margin: 0 !important;
+    }
+
+    .cmplz-cookiebanner .cmplz-buttons .cmplz-view-preferences,
+    .cmplz-cookiebanner .cmplz-buttons .cmplz-save-preferences {
+        grid-column: 1 / -1;
+    }
+}

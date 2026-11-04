@@ -27,15 +27,28 @@ body:has(.monpilates-planning-section) [class*="banner"]:not(.mp-filter-banner) 
 }
 
 /* Ajuster le padding-top de la page (compenser header fixe sans bannière) */
-body:has(.monpilates-planning-section) .content-area,
+/* Le .sitewrapper compense déjà le header fixe : seulement une respiration ici. */
+body:has(.monpilates-planning-section) .content-area {
+    padding-top: 24px;
+}
 body:has(.monpilates-planning-section) .site-main,
 body:has(.monpilates-planning-section) #sitemain {
-    padding-top: 100px;
+    padding-top: 0;
+}
+@media (min-width: 769px) {
+    body:has(.monpilates-planning-section) .content-area {
+        padding-top: 48px;
+    }
 }
 
 /* Section planning - reset des marges */
 .monpilates-planning-section {
     margin-top: 0;
+}
+@media (max-width: 768px) {
+    .monpilates-planning-section {
+        padding-top: 32px !important;
+    }
 }
 
 /* ===========================
@@ -379,6 +392,48 @@ body:has(.monpilates-planning-section) #sitemain {
 
 .mp-needs-grid--special {
     gap: var(--mp-space-sm);
+}
+
+/* Le thème met une bordure haute sur toute <section> : une seule ligne suffit */
+.monpilates-planning section {
+    border-top: 0;
+}
+.mp-needs-section {
+    padding-top: 0 !important;
+}
+
+/* Mobile : le texte prend toute la largeur, l'étiquette passe dessous */
+@media (max-width: 600px) {
+    .mp-need-card {
+        display: grid;
+        grid-template-columns: 44px minmax(0, 1fr);
+        grid-template-areas:
+            "icon content"
+            ".    count";
+        column-gap: 14px;
+        row-gap: 8px;
+        align-items: start;
+        padding: 18px;
+    }
+    .mp-need-card__icon { grid-area: icon; }
+    .mp-need-card__content { grid-area: content; }
+    .mp-need-card__count {
+        grid-area: count;
+        justify-self: start;
+        padding: 3px 10px;
+        background: color-mix(in srgb, var(--need-color, #5B8FA8) 10%, #fff);
+        color: color-mix(in srgb, var(--need-color, #5B8FA8) 75%, #2c3e50);
+        opacity: 1;
+    }
+    .mp-need-card__title {
+        font-size: 1.05rem;
+        line-height: 1.3;
+        text-wrap: balance;
+    }
+    .mp-need-card__subtitle {
+        font-size: 0.875rem;
+        line-height: 1.45;
+    }
 }
 
 /* ===========================
