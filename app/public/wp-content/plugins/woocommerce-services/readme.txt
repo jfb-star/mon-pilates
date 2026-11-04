@@ -7,7 +7,7 @@ Requires Plugins: woocommerce
 Tested up to: 7.1
 WC requires at least: 11.0
 WC tested up to: 11.2
-Stable tag: 3.7.4
+Stable tag: 3.7.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -69,6 +69,14 @@ This plugin relies on the following external services:
 2. Checking on the health of WooCommerce Tax
 
 == Changelog ==
+
+= 3.7.5 - 2026-11-03 =
+* Fix   - Stop taxing an item at another item's rate on orders that include a WooCommerce Subscriptions product, so the order charges the tax the checkout showed.
+* Fix   - When the tax service is down or slow, ask it once per page request instead of again each time the cart total updates, so checkout and phone order screens wait less during an outage.
+* Fix   - Charge shipping tax on a tax rate a lookup saves in place of a town's 0% "Manual Rate Nullified (Automated Taxes)" rate, for example when a special district tax starts, in states that tax shipping. The rate kept the 0% rate's Shipping setting, which is always off, so orders shipped to that town under-collected shipping tax.
+* Fix   - Keep the names of tax rates saved by automated taxes in the site's language when an order is recalculated by an admin who uses another language. The rates were renamed into the admin's language, and rates a later lookup no longer needed were not removed.
+* Fix   - Write one order note, not two or three, when an order edited through the REST API or the WooCommerce app has its tax updated. The note now says the tax rates already saved on the order were used, instead of the rates recorded when the order was placed, which is not true after an address change.
+* Fix   - Save the tax rates looked up for an order item under the item's own tax class. When a product had moved to another tax class after it was added to the order, recalculating or editing the order saved the rates under the product's new class, so other products in that class could be charged the wrong rate.
 
 = 3.7.4 - 2026-10-26 =
 * Add   - Let phone and manual order plugins get automated tax for carts they build in the dashboard, through the new woocommerce_services_calculate_admin_ajax_cart_tax filter. Before, these carts showed $0 tax for an address that had not been through checkout yet.
