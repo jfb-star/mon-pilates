@@ -4431,10 +4431,6 @@ a.cta-button:hover {
         width: 100%;
         max-width: 280px;
     }
-	
-	.mp-need-card {
-		display: inline;
-	}
 }
 
 body.admin-bar .mp-header-spacer {
