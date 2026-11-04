@@ -1935,8 +1935,9 @@ a.hero-btn i:only-child {
     display: block !important;
 }
 
-/* Bouton contact icon-only */
-a[href*="contact"].hero-btn-secondary:not(:has(span)),
+/* Bouton contact icon-only — uniquement via la classe dédiée : un sélecteur sur
+   l'URL (a[href*="contact"]) arrondissait aussi le bouton texte « Une question ?
+   Écrivez-moi » du hero dès qu'il pointait vers /contact/. */
 a[href*="contact"].hero-btn:empty,
 .hero-btn-contact-icon {
     width: 52px !important;
@@ -1952,7 +1953,6 @@ a[href*="contact"].hero-btn:empty,
     backdrop-filter: blur(4px) !important;
 }
 
-a[href*="contact"].hero-btn-secondary:not(:has(span)):hover,
 .hero-btn-contact-icon:hover {
     background: rgba(255, 255, 255, 0.95) !important;
     color: var(--primary-color) !important;
