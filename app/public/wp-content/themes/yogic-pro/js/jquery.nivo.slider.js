@@ -76,7 +76,7 @@
         // Set first background
         var sliderImg = $('<img/>').addClass('nivo-main-image');
         sliderImg.attr('src', vars.currentImage.attr('src')).show();
-	sliderImg.attr('alt', 'Mon Pilates - 21, rue de la source, 56270 Ploemeur');
+	sliderImg.attr('alt', vars.currentImage.attr('alt') || 'Studio Mon Pilates face à la mer, 14 boulevard des Dunes, Larmor-Plage');
         slider.append(sliderImg);
 
         // Detect Window Resize

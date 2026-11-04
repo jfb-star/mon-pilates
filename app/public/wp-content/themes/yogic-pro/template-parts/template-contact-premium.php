@@ -80,34 +80,40 @@ get_header();
                 <h2 class="mp-form-title">Envoyez-nous un message</h2>
 
                 <!-- Formulaire HTML custom sécurisé -->
-                <form class="mp-contact-form" method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
-                    <?php wp_nonce_field('mp_contact_form', 'mp_contact_nonce'); ?>
+                <form id="mp-contact-form" class="mp-contact-form" method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
                     <input type="hidden" name="action" value="mp_contact_submit">
+                    <input type="hidden" name="mp_elapsed" value="0">
+
+                    <?php /* Champ piège anti-robots : invisible pour les humains, ignoré par les lecteurs d'écran. */ ?>
+                    <div class="mp-hp" aria-hidden="true">
+                        <label for="mp_site_web">Ne pas remplir</label>
+                        <input type="text" id="mp_site_web" name="mp_site_web" tabindex="-1" autocomplete="off">
+                    </div>
 
                     <div class="mp-form-row mp-form-row-2col">
                         <div class="mp-form-field">
                             <label for="mp_prenom">Prénom <span class="required">*</span></label>
-                            <input type="text" id="mp_prenom" name="mp_prenom" required placeholder="Votre prénom">
+                            <input type="text" id="mp_prenom" name="mp_prenom" required maxlength="60" autocomplete="given-name" placeholder="Votre prénom">
                         </div>
                         <div class="mp-form-field">
                             <label for="mp_nom">Nom <span class="required">*</span></label>
-                            <input type="text" id="mp_nom" name="mp_nom" required placeholder="Votre nom">
+                            <input type="text" id="mp_nom" name="mp_nom" required maxlength="60" autocomplete="family-name" placeholder="Votre nom">
                         </div>
                     </div>
 
                     <div class="mp-form-field">
                         <label for="mp_email">Email <span class="required">*</span></label>
-                        <input type="email" id="mp_email" name="mp_email" required placeholder="votre@email.com">
+                        <input type="email" id="mp_email" name="mp_email" required maxlength="254" autocomplete="email" inputmode="email" placeholder="votre@email.com">
                     </div>
 
                     <div class="mp-form-field">
                         <label for="mp_telephone">Téléphone</label>
-                        <input type="tel" id="mp_telephone" name="mp_telephone" placeholder="Optionnel">
+                        <input type="tel" id="mp_telephone" name="mp_telephone" maxlength="30" autocomplete="tel" placeholder="Optionnel">
                     </div>
 
                     <div class="mp-form-field">
                         <label for="mp_message">Message <span class="required">*</span></label>
-                        <textarea id="mp_message" name="mp_message" rows="5" required placeholder="Comment pouvons-nous vous aider ?"></textarea>
+                        <textarea id="mp_message" name="mp_message" rows="5" required maxlength="5000" placeholder="Comment pouvons-nous vous aider ?"></textarea>
                     </div>
 
                     <div class="mp-form-field mp-form-rgpd">
@@ -133,12 +139,51 @@ get_header();
                     <div class="mp-form-success">
                         ✓ Merci ! Votre message a bien été envoyé. Nous vous répondrons rapidement.
                     </div>
+                    <?php elseif (isset($_GET['contact']) && $_GET['contact'] === 'invalid'): ?>
+                    <div class="mp-form-error" role="alert">
+                        Il manque une information : vérifiez votre prénom, votre nom, votre email, votre message et la case de consentement, puis renvoyez le formulaire.
+                    </div>
+                    <?php elseif (isset($_GET['contact']) && $_GET['contact'] === 'wait'): ?>
+                    <div class="mp-form-error" role="alert">
+                        Plusieurs messages viennent d'être envoyés depuis votre connexion. Merci de réessayer dans un quart d'heure, ou d'appeler le 06 99 18 32 16.
+                    </div>
                     <?php elseif (isset($_GET['contact']) && $_GET['contact'] === 'error'): ?>
-                    <div class="mp-form-error">
-                        Une erreur est survenue. Veuillez réessayer ou nous contacter par téléphone.
+                    <div class="mp-form-error" role="alert">
+                        Votre message n'a pas pu partir. Réessayez dans un instant, ou appelez le 06 99 18 32 16.
                     </div>
                     <?php endif; ?>
                 </form>
+                <script>
+                (function () {
+                    var form = document.getElementById('mp-contact-form');
+                    if (!form) { return; }
+                    var start = Date.now();
+                    var KEY = 'mp_contact_draft';
+                    var FIELDS = ['mp_prenom', 'mp_nom', 'mp_email', 'mp_telephone', 'mp_message'];
+                    var status = new URLSearchParams(location.search).get('contact');
+                    try {
+                        if (status === 'success') {
+                            sessionStorage.removeItem(KEY);
+                        } else if (status) {
+                            // Après une erreur, on remet ce que la personne avait tapé.
+                            var draft = JSON.parse(sessionStorage.getItem(KEY) || '{}');
+                            FIELDS.forEach(function (name) {
+                                if (draft[name] && form.elements[name] && !form.elements[name].value) {
+                                    form.elements[name].value = draft[name];
+                                }
+                            });
+                        }
+                    } catch (e) {}
+                    form.addEventListener('submit', function () {
+                        form.elements.mp_elapsed.value = String(Date.now() - start);
+                        try {
+                            var draft = {};
+                            FIELDS.forEach(function (name) { draft[name] = form.elements[name].value; });
+                            sessionStorage.setItem(KEY, JSON.stringify(draft));
+                        } catch (e) {}
+                    });
+                })();
+                </script>
             </div>
 
         </div>

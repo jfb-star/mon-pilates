@@ -28,16 +28,7 @@
 	exit;
 	}
 ?>
-	<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-EWPT46BDTM">
-</script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-EWPT46BDTM');
-</script>
+	<?php /* Google Analytics : injecté par mu-plugins/monpilates-consent.php, uniquement après consentement. */ ?>
 </head>
 
 <body id="top" <?php body_class(); ?>>

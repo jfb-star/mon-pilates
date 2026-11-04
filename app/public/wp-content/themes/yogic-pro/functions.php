@@ -873,30 +873,53 @@ add_action( 'init', function() {
 
 // Traitement du formulaire de contact
 function mp_handle_contact_form() {
-    // Vérifier le nonce
-    if (!isset($_POST['mp_contact_nonce']) || !wp_verify_nonce($_POST['mp_contact_nonce'], 'mp_contact_form')) {
-        wp_redirect(home_url('/contact/?contact=error'));
+    $back = function ($status) {
+        wp_safe_redirect(home_url('/contact/?contact=' . $status . '#mp-contact-form'));
         exit;
+    };
+
+    /*
+     * Anti-abus. Pas de nonce : la page /contact/ est servie depuis le cache
+     * WP Fastest Cache (sans expiration), un nonce figé dans le HTML expirait
+     * au bout de 24 h et faisait échouer tous les envois. On s'appuie sur :
+     *  - un champ piège invisible (les robots le remplissent),
+     *  - un délai minimum entre l'affichage et l'envoi (mesuré côté navigateur),
+     *  - une limite d'envois par adresse IP.
+     */
+    if (!empty($_POST['mp_site_web'])) {
+        $back('success'); // on ne signale rien au robot
+    }
+    $elapsed = isset($_POST['mp_elapsed']) ? (int) $_POST['mp_elapsed'] : 0;
+    if ($elapsed < 3000) {
+        $back('invalid');
     }
 
-    // Sanitize les données
-    $prenom = sanitize_text_field($_POST['mp_prenom'] ?? '');
-    $nom = sanitize_text_field($_POST['mp_nom'] ?? '');
-    $email = sanitize_email($_POST['mp_email'] ?? '');
-    $telephone = sanitize_text_field($_POST['mp_telephone'] ?? '');
-    $message = sanitize_textarea_field($_POST['mp_message'] ?? '');
-    $rgpd = isset($_POST['mp_rgpd']) ? true : false;
+    $ip      = sanitize_text_field(wp_unslash($_SERVER['REMOTE_ADDR'] ?? ''));
+    $rl_key  = 'mp_contact_rl_' . md5($ip);
+    $rl_hits = (int) get_transient($rl_key);
+    if ($rl_hits >= 3) {
+        $back('wait');
+    }
+
+    // Sanitize + longueurs maximales
+    $field = function ($key, $max, $textarea = false) {
+        $raw = wp_unslash($_POST[$key] ?? '');
+        $val = $textarea ? sanitize_textarea_field($raw) : sanitize_text_field($raw);
+        return mb_substr($val, 0, $max);
+    };
+    $prenom    = $field('mp_prenom', 60);
+    $nom       = $field('mp_nom', 60);
+    $email     = sanitize_email(mb_substr(wp_unslash($_POST['mp_email'] ?? ''), 0, 254));
+    $telephone = $field('mp_telephone', 30);
+    $message   = $field('mp_message', 5000, true);
+    $rgpd      = isset($_POST['mp_rgpd']);
 
     // Validation
-    if (empty($prenom) || empty($nom) || empty($email) || empty($message) || !$rgpd) {
-        wp_redirect(home_url('/contact/?contact=error'));
-        exit;
+    if ($prenom === '' || $nom === '' || $message === '' || !$rgpd || !is_email($email)) {
+        $back('invalid');
     }
 
-    if (!is_email($email)) {
-        wp_redirect(home_url('/contact/?contact=error'));
-        exit;
-    }
+    set_transient($rl_key, $rl_hits + 1, 15 * MINUTE_IN_SECONDS);
 
     // Préparer l'email
     $to = get_option('admin_email'); // Email de l'admin WordPress
@@ -913,7 +936,7 @@ function mp_handle_contact_form() {
     $body .= "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n";
     $body .= "Consentement RGPD : Oui\n";
     $body .= "Date : " . date_i18n('d/m/Y à H:i') . "\n";
-    $body .= "IP : " . sanitize_text_field( $_SERVER['REMOTE_ADDR'] ) . "\n";
+    $body .= "IP : " . $ip . "\n";
 
     // R4 : Nettoyer CRLF pour empêcher header injection dans Reply-To
     $safe_reply_name = str_replace( array( "\r", "\n", "\t" ), '', $prenom . ' ' . $nom );
@@ -927,9 +950,11 @@ function mp_handle_contact_form() {
     $sent = wp_mail($to, $subject, $body, $headers);
 
     if ($sent) {
-        // Email de confirmation au visiteur
+        // Email de confirmation au visiteur — texte fixe : aucune saisie n'y est
+        // recopiée, pour que le formulaire ne puisse pas servir à envoyer un
+        // message arbitraire à un tiers.
         $confirm_subject = 'Merci pour votre message - Mon Pilates';
-        $confirm_body = "Bonjour " . $prenom . ",\n\n";
+        $confirm_body = "Bonjour,\n\n";
         $confirm_body .= "Nous avons bien reçu votre message et nous vous en remercions.\n";
         $confirm_body .= "Nous vous répondrons dans les plus brefs délais.\n\n";
         $confirm_body .= "À très bientôt,\n";
@@ -946,11 +971,9 @@ function mp_handle_contact_form() {
 
         wp_mail($email, $confirm_subject, $confirm_body, $confirm_headers);
 
-        wp_redirect(home_url('/contact/?contact=success'));
-    } else {
-        wp_redirect(home_url('/contact/?contact=error'));
+        $back('success');
     }
-    exit;
+    $back('error');
 }
 add_action('admin_post_mp_contact_submit', 'mp_handle_contact_form');
 add_action('admin_post_nopriv_mp_contact_submit', 'mp_handle_contact_form');

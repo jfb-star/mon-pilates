@@ -402,7 +402,7 @@
 .mp-form-field textarea {
     width: 100%;
     padding: 15px 16px;                    /* Plus haut (était 14px) */
-    font-size: 0.95rem;
+    font-size: 1rem;                       /* 16px mini : en dessous, iOS zoome au focus */
     font-family: inherit;
     color: var(--mp-ink);
     background: var(--mp-soft);
@@ -410,6 +410,15 @@
     border-radius: var(--mp-radius-sm);
     outline: none;
     transition: border-color var(--mp-t), box-shadow var(--mp-t), background-color var(--mp-t);
+}
+
+/* Champ piège anti-robots (voir template-contact-premium.php) */
+.mp-hp {
+    position: absolute !important;
+    left: -10000px !important;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
 }
 
 .mp-form-field input::placeholder,
