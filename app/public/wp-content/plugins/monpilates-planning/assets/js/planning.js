@@ -15,7 +15,12 @@
     const config = window.monpilatesPlanning || {};
     const i18n = config.i18n || {};
 
-    // Needs mapping to activity keywords
+    // Les parcours tapis ne doivent jamais capter un cours sur appareil :
+    // "Pilates Machine Tous Niveaux" contient "tous niveaux" et
+    // "Pilates Machine Doux" contient "doux".
+    const MACHINE_EXCLUDE = ['machine', 'reformer'];
+
+    // Needs mapping to activity keywords (+ `exclude` : mots qui écartent une activité)
     // Ordre UX : douceur → maternité → découverte → confirmé → premium
     const NEEDS_MAP = {
         doux: {
@@ -24,6 +29,7 @@
             title: 'Je cherche de la douceur',
             subtitle: 'Fondamentaux, mobilité, dos sensible, reprise',
             keywords: ['doux', 'fondamentaux', 'senior', 'mobilité', 'adapté'],
+            exclude: MACHINE_EXCLUDE,
             color: '#7FB069',
             isSpecial: false
         },
@@ -43,6 +49,8 @@
             title: 'Je veux découvrir ou pratiquer le Pilates',
             subtitle: 'Renforcement global, accessible même aux débutants',
             keywords: ['classique', 'tapis', 'collectif', 'mat', 'tous niveaux'],
+            // "mat" attrapait aussi "Pilates Maternité"
+            exclude: [...MACHINE_EXCLUDE, 'maternit'],
             color: '#5B8FA8',
             isSpecial: false
         },
@@ -52,6 +60,7 @@
             title: 'Je pratique déjà régulièrement',
             subtitle: 'Plus intense, pour pratiquants confirmés',
             keywords: ['avancé', 'intensif', 'confirmé'],
+            exclude: MACHINE_EXCLUDE,
             color: '#D4726A',
             isSpecial: false
         },
@@ -59,10 +68,10 @@
             id: 'machine_groupe',
             icon: '🏋️',
             title: 'Je veux travailler sur appareils en petit groupe',
-            subtitle: 'Reformers & machines, dynamique collective, tarif accessible',
-            // Mots qui ciblent l'activité "Pilates Machine Petit Groupe" sans
-            // attraper l'activité "Cours privés" (qui contient aussi "machine"
-            // dans sa description). On match le libellé exact en priorité.
+            subtitle: 'Sur Reformer, tous niveaux ou doux, tarif accessible',
+            // Mots qui ciblent "Pilates Machine Tous Niveaux" et "Pilates Machine
+            // Doux" sans attraper l'activité "Cours privés" (qui contient aussi
+            // "machine" dans sa description). On match le libellé exact en priorité.
             keywords: ['pilates machine', 'machine petit groupe', 'machine groupe'],
             color: '#7FB069',
             isSpecial: false
@@ -285,6 +294,7 @@
      * between the website and the Bsport booking flow.
      */
     const ACTIVITY_COLORS = [
+        { match: ['machine doux'],            light: '#A9D6CF', dark: '#6FB0A6' }, // vert d'eau (avant "doux" et "machine")
         { match: ['doux', 'fondamentaux', 'senior'], light: '#A4C99A', dark: '#7FB069' }, // sage
         { match: ['avance', 'avancé'],        light: '#E89489', dark: '#D4726A' }, // corail
         { match: ['maternite', 'enceinte', 'prenatal', 'postnatal'], light: '#F0BFC9', dark: '#E8A4B8' }, // rose tendre
@@ -314,11 +324,13 @@
         if (!needId || !NEEDS_MAP[needId]) return [];
 
         const keywords = NEEDS_MAP[needId].keywords.map(normalizeText);
+        const exclude = (NEEDS_MAP[needId].exclude || []).map(normalizeText);
         const allActivities = getUniqueActivities();
 
         const matched = allActivities.filter(activity => {
             const actNorm = normalizeText(activity);
-            return keywords.some(kw => actNorm.includes(kw));
+            return keywords.some(kw => actNorm.includes(kw))
+                && !exclude.some(kw => actNorm.includes(kw));
         });
 
         log(`Need "${needId}" → keywords:`, keywords, '→ matched activities:', matched, '/ all:', allActivities);

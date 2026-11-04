@@ -94,7 +94,7 @@ get_header();
                                 <path d="M16 3.13a4 4 0 010 7.75"/>
                             </svg>
                         </div>
-                        <h3 class="mp-value-title">Un groupe de 4 maximum</h3>
+                        <h3 class="mp-value-title">Un groupe de 3 maximum</h3>
                         <p>Travailler sur Reformer demande une attention particulière à l'alignement. En limitant à 3 personnes — un format encore plus restreint que le tapis, une personne par Reformer — je peux passer auprès de chacun, ajuster les réglages et corriger en temps réel.</p>
                     </div>
 
@@ -117,6 +117,8 @@ get_header();
                 <h2 class="mp-section-title mp-section-title-centered">Ces séances sont faites pour vous si…</h2>
 
                 <p class="mp-direct-reassurance">Aucune expérience préalable du Reformer n'est nécessaire — on vous explique tout pas à pas.</p>
+
+                <p class="mp-direct-reassurance">Deux cours au planning : <strong>Pilates Machine Tous Niveaux</strong> et <strong>Pilates Machine Doux</strong>, pour une pratique sur Reformer tout en douceur.</p>
 
                 <div class="mp-profiles-grid mp-profiles-groupe">
                     <div class="mp-profile-card mp-profile-sage-light">
